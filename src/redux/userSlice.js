@@ -5,20 +5,18 @@ import * as api from '../lib/api';
 export const userSlice = createSlice({
 	name: 'user',
 	initialState: {
-		token: null,
 		data: null,
 		error: null,
 		loading: false,
 	},
 	reducers: {
 		logOut: state => {
-			state.token = null;
 			state.data = null;
 		},
 		gotData: (state, action) => {
-			state.token = action.payload.jwt;
-			state.data = action.payload.user;
-			state.error = action.payload.error;
+			const {error, user, jwt} = action.payload;
+			state.data = {...user, token: jwt};
+			state.error = error;
 			state.loading = false;
 		},
 		loading: state => {

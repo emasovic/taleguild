@@ -36,7 +36,7 @@ export default function NewStory() {
 							createStory({
 								title,
 								story,
-								image: image && image[0],
+								image: image && image[0].id,
 								user: user && user.id,
 							})
 						)

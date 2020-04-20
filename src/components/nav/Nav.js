@@ -37,10 +37,7 @@ export default function Navigation() {
 	const userLoggedIn = () => {
 		const {username} = user;
 		return (
-			<NavItem
-				className={CLASS + '-user'}
-				onClick={() => this.handleChange(true, 'isUserOpen')}
-			>
+			<NavItem className={CLASS + '-user'} onClick={() => this.handleChange(true, 'isUserOpen')}>
 				<NavLink href="#">
 					<span>{username}</span>
 					{/* <img src={avatar} alt="avatar" /> */}

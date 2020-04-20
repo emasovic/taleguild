@@ -36,7 +36,7 @@
 	"settings": {
 		"react": {
 			"pragma": "React",
-			"version": "16.5.0"
+			"version": "16.13.1"
 		}
 	},
 	"globals": {

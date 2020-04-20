@@ -16,11 +16,11 @@ export const getStories = (token, payload) => {
 	return http.get('stories');
 };
 
-export const uploadMedia = files => {
+export const uploadMedia = (token, files) => {
 	const formData = new FormData();
 	files.forEach((file, i) => {
-		formData.append(i, file);
+		formData.append('files', file);
 	});
 
-	return http.post('upload', null, formData);
+	return http.post('upload', {token}, formData);
 };

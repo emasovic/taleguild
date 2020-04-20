@@ -1,16 +1,20 @@
 import React, {useEffect, useState} from 'react';
 import {useDropzone} from 'react-dropzone';
+import {useSelector} from 'react-redux';
 
-import {uploadMedia} from '../../../lib/api';
+import {uploadMedia} from 'lib/api';
+
+import {selectUser} from 'redux/userSlice';
 
 import Image from '../image/Image';
 
-export default function Previews(props) {
+export default function ImageUploader(props) {
+	const user = useSelector(selectUser);
 	const [files, setFiles] = useState([]);
 	const {getRootProps, getInputProps} = useDropzone({
 		accept: 'image/*',
 		onDrop: acceptedFiles => {
-			uploadMedia(acceptedFiles)
+			uploadMedia(user.token, acceptedFiles)
 				.then(files => props.onUploaded(files))
 				.catch(err => console.log('err', err));
 			setFiles(

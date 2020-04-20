@@ -28,7 +28,7 @@ export const createStory = payload => (dispatch, getState) => {
 	const state = getState();
 	const {user} = state;
 
-	api.createStory(user.token, payload).then(res => dispatch(gotData(res)));
+	api.createStory(user.data.token, payload).then(res => dispatch(gotData(res)));
 };
 
 export const loadStories = () => dispatch => {
