@@ -1,0 +1,12 @@
+@import '../../../styles/variables.scss';
+
+.st-IconButton {
+	background: $button-gradient;
+	box-shadow: 0 15px 20px rgba(234, 168, 159, 0.2);
+	font-family: $font-ubuntu;
+	font-size: 14px;
+	min-height: 50px;
+	min-width: 100px;
+	border: none !important;
+	outline: none;;
+}

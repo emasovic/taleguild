@@ -1,0 +1,63 @@
+@import '../../../styles/variables.scss';
+
+.st-FloatingInput {
+	display: flex;
+	flex-flow: column-reverse;
+	margin-bottom: 0 !important;
+
+	.invalid-feedback {
+		display: block;
+	}
+
+	label, input {
+		transition: all 0.2s;
+		touch-action: manipulation;
+	}
+
+	input {
+		background: #F5F6F7 !important;
+		border: 1px solid #DFE5EA;
+		color: $color-gray;
+		box-sizing: border-box;
+		border-radius: 3px;
+		min-height: 50px;
+		font-size: 13px;
+	}
+
+	input:focus {
+		outline: 0;
+		border-bottom: 1px solid #666;
+	}
+
+	label {
+		color: $color-secondary;
+		letter-spacing: 0.05em;
+		margin-bottom: 0;
+	}
+
+	input:placeholder-shown + label {
+		cursor: text;
+		max-width: 66.66%;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		transform-origin: left bottom;
+		transform: translate(12px, 40px);
+	}
+
+	::-webkit-input-placeholder {
+		opacity: 0;
+		transition: inherit;
+	}
+
+	input:focus::-webkit-input-placeholder {
+		opacity: 1;
+	}
+
+	input:not(:placeholder-shown) + label,
+	input:focus + label {
+		font-size: 10px;
+		transform: translate(12px, 19px);
+		cursor: pointer;
+	}
+}
