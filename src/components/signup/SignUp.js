@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import FA from 'types/font_awesome';
 
-import {loginUser, selectUser} from '../../redux/userSlice';
+import {registerUser, selectUser} from '../../redux/userSlice';
 
 import FloatingInput from '../widgets/input/FloatingInput';
 import IconButton from '../widgets/button/IconButton';
@@ -12,18 +12,19 @@ import Billboard from 'components/widgets/billboard/Billboard';
 
 import background from '../../images/cover.png';
 
-import './Login.scss';
+import './SignUp.scss';
 
-const CLASS = 'st-Login';
+const CLASS = 'st-SignUp';
 
-export default function Login(props) {
-	const [identifier, setIdentifier] = useState('');
+export default function SignUp(props) {
+	const [username, setUsername] = useState('');
+	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const dispatch = useDispatch();
 	// const user = useSelector(selectUser);
 	const submit = e => {
 		e.preventDefault();
-		dispatch(loginUser({identifier, password}));
+		dispatch(registerUser({username, email, password}));
 	};
 
 	const {open, onClose} = props;
@@ -36,10 +37,15 @@ export default function Login(props) {
 
 				<Form onSubmit={e => submit(e)}>
 					<FloatingInput
+						placeholder="Username"
+						value={username}
+						onChange={val => setUsername(val)}
+					/>
+					<FloatingInput
 						placeholder="Email Address "
-						value={identifier}
+						value={email}
 						type="email"
-						onChange={val => setIdentifier(val)}
+						onChange={val => setEmail(val)}
 					/>
 
 					<FloatingInput
@@ -48,7 +54,7 @@ export default function Login(props) {
 						type="password"
 						onChange={val => setPassword(val)}
 					/>
-					<IconButton>Login</IconButton>
+					<IconButton>Sign Up</IconButton>
 				</Form>
 			</ModalBody>
 		</Modal>

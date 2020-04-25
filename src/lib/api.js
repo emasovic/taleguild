@@ -4,6 +4,10 @@ export const loginUser = payload => {
 	return http.post('auth/local', null, payload);
 };
 
+export const registerUser = payload => {
+	return http.post('auth/local/register', null, payload);
+};
+
 export const getUserInfo = token => {
 	return http.get('users/me', {token});
 };

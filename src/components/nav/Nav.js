@@ -1,7 +1,7 @@
 import React, {useState, Fragment} from 'react';
 
 import {useDispatch} from 'react-redux';
-import {logOut} from '../../redux/userSlice';
+import {logOutUser} from '../../redux/userSlice';
 
 import {
 	Navbar,
@@ -20,8 +20,7 @@ import {ReactComponent as Burger} from 'images/icons/burger.svg';
 import {ReactComponent as Logo} from 'images/logo.svg';
 import {selectUser} from '../../redux/userSlice';
 
-
-// import SignUp from '../signup/SignUp';
+import SignUp from '../signup/SignUp';
 // import UserProfile from '../user/UserProfile';
 import Login from '../login/Login';
 
@@ -32,7 +31,6 @@ import './Nav.scss';
 const CLASS = 'st-Nav';
 
 export default function Navigation() {
-
 	const dispatch = useDispatch();
 
 	const [isLoginOpen, setIsLoginOpen] = useState(false);
@@ -47,7 +45,7 @@ export default function Navigation() {
 					<NavLink href="#">Login</NavLink>
 				</NavItem>
 				<span>OR</span>
-				<NavItem className={CLASS + '-login'} onClick={() => setIsLoginOpen(true)}>
+				<NavItem className={CLASS + '-login'} onClick={() => setIsRegisterOpen(true)}>
 					<NavLink href="#">Register</NavLink>
 				</NavItem>
 			</Fragment>
@@ -79,7 +77,7 @@ export default function Navigation() {
 							<DropdownItem tag="a" href="/blah">
 								Settings
 							</DropdownItem>
-							<DropdownItem tag="a" onClick={() => dispatch(logOut())}>
+							<DropdownItem tag="a" onClick={() => dispatch(logOutUser())}>
 								Logout
 							</DropdownItem>
 						</DropdownMenu>
@@ -105,13 +103,9 @@ export default function Navigation() {
 				</NavbarBrand>
 				<Nav>{user ? userLoggedIn() : userLoggedOut()}</Nav>
 			</Navbar>
-			{/* {isRegisterOpen && (
-				<SignUp
-					open={isRegisterOpen}
-					onClose={() => this.handleChange(false, 'isRegisterOpen')}
-					onSuccess={this.handleRegisterSuccess}
-				/>
-			)} */}
+			{isRegisterOpen && (
+				<SignUp open={isRegisterOpen} onClose={() => setIsRegisterOpen(false)} />
+			)}
 			{isLoginOpen && (
 				<Login
 					open={isLoginOpen}

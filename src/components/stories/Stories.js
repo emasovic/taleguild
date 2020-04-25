@@ -9,6 +9,8 @@ import StoryItem from './StoryItem';
 import Categories from './Categories';
 import Input from 'components/widgets/input/Input';
 
+const CLASS = 'st-Stories';
+
 export default function Stories() {
 	const dispatch = useDispatch();
 	const stories = useSelector(selectStories);
@@ -35,8 +37,8 @@ export default function Stories() {
 	);
 
 	return (
-		<div className="st-Stories">
-			<div className="st-filterBox">
+		<div className={CLASS}>
+			<div className={CLASS + '-filterBox'}>
 				<Categories />
 				<div className="st-filter">
 					<Input />

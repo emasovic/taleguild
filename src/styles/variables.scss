@@ -8,11 +8,15 @@ $flower-thumbnail-height-xs: 230px;
 
 $box-background-primary: #F9F9F9;
 
-// $button-gradient: linear-gradient(270deg, #ECBCB3 0%, #EAA79E 100%);
+$color-primary: #377d5c;
+$color-secondary: #6d6d6d;
+$gray: #9fabad;
+$gray-lighter: lighten($gray, 20%);
+$gray-darker: darken($gray, 20%);
+
 $button-gradient: linear-gradient(270deg, #377D5C 0%, #377D5C 100%);
-$button-primary: #DF9186;
 $color-secondary: #949EA0;
-$color-gray: #334144;
+
 $font-ubuntu: 'Ubuntu', sans-serif;
 
 $spacing-s: 30px;

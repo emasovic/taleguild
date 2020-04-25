@@ -1,29 +1,40 @@
 @import '../../styles/variables.scss';
 
 .st-Stories {
-    background: $box-background-primary;
-    width: 100%;
-    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 4px;
-    margin-top: 40px;
-    .st-filterBox, .row{
-        margin: 20px auto;
-        display: flex
-    }
-    .st-filterBox{
-        border-bottom: 1px solid rgba(0,0,0,0.3);
-        width: calc(90% - 50px);
-        padding-top: 80px;
-    }
-    .st-filter{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 50%;
-    }
-    .row{
-        flex-wrap: wrap;
-        width: 90%;
+	background: $box-background-primary;
+	width: 100%;
+	box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
+	border-radius: 4px;
+	margin-top: 40px;
 
-    }
+	&-filterBox {
+		display: flex;
+
+		.row {
+		}
+	}
+
+	.st-filterBox,
+	.row {
+		margin: 20px auto;
+		display: flex;
+	}
+
+	.st-filterBox {
+		border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+		width: calc(90% - 50px);
+		padding-top: 80px;
+	}
+
+	.st-filter {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 50%;
+	}
+
+	.row {
+		flex-wrap: wrap;
+		width: 90%;
+	}
 }

@@ -2,9 +2,9 @@ import React from 'react';
 
 import ReactQuill from 'react-quill';
 
-import './TextEditorViewer.less';
+import './TextViewer.scss';
 
-const CLASS = 'sv-TextEditorViewer';
+const CLASS = 'st-TextViewer';
 
 function TextViewer(value) {
 	return (

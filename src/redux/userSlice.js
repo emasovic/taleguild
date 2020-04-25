@@ -37,6 +37,16 @@ export const loginUser = payload => dispatch => {
 	});
 };
 
+export const registerUser = payload => dispatch => {
+	dispatch(loading());
+	api.registerUser(payload).then(res => {
+		if (!res.error) {
+			localStorage.setItem('token', res.jwt);
+		}
+		dispatch(gotData(res));
+	});
+};
+
 export const logOutUser = () => dispatch => {
 	localStorage.removeItem('token');
 	dispatch(logOut());

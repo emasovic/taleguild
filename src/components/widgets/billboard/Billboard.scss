@@ -1,0 +1,12 @@
+.st-Billboard {
+	position: relative;
+	width: 320px;
+	height: 400px;
+
+	.st-Image {
+		position: absolute;
+		object-fit: cover;
+		width: 100%;
+		height: 100%;
+	}
+}

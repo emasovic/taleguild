@@ -1,6 +1,8 @@
 {
-  "plugins": ["stylelint-prettier"],
-  "rules": {
+	"extends": [
+        "./node_modules/prettier-stylelint/config.js"
+    ],
+	"rules": {
 		"string-no-newline": true,
 		"unit-no-unknown": true,
 		"property-no-unknown": true,

@@ -1,12 +1,49 @@
 @import '../../../styles/variables.scss';
 
 .st-IconButton {
-	background: $button-gradient;
-	box-shadow: 0 15px 20px rgba(234, 168, 159, 0.2);
-	font-family: $font-ubuntu;
-	font-size: 14px;
-	min-height: 50px;
-	min-width: 100px;
-	border: none !important;
-	outline: none;;
+	border-radius: 2px;
+	color: #fff;
+	font-weight: bold;
+	min-width: 120px;
+	min-height: 40px;
+	outline: none !important;
+	box-shadow: none !important;
+
+	&-link {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	&-with-content {
+		display: unset;
+		background: none;
+		color: #000;
+		min-width: 20px;
+		min-height: 20px;
+		width: max-content;
+		border: none !important;
+		padding: 5px;
+
+		.fa {
+			margin: 0 5px;
+		}
+
+		&:hover {
+			color: #000;
+			border-radius: 2px;
+			background: $gray;
+		}
+
+		&:active:focus {
+			color: #000;
+			border-radius: 2px;
+			background: $gray;
+		}
+
+		&:focus {
+			color: #000;
+			background: none;
+		}
+	}
 }

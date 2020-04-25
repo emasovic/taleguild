@@ -11,8 +11,8 @@
 	}
 
 	input {
-		min-height: 20px; //promenio sam ovo privremeno bilo je 60px sto mi je veliko a nisam video da jos negde koristimo takav input!!! 
-		border-radius: 6px; 
+		min-height: 20px; //promenio sam ovo privremeno bilo je 60px sto mi je veliko a nisam video da jos negde koristimo takav input!!!
+		border-radius: 6px;
 		@media (max-width: $tablet-width) {
 			min-height: 50px;
 		}
@@ -20,14 +20,14 @@
 
 	.form-control {
 		font-family: $font-ubuntu;
-		box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.05);
+		box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
 		font-size: 18px;
 		line-height: 18px;
 
 		@media (max-width: $tablet-width) {
 			font-size: 14px;
 		}
-	
+
 		&::placeholder {
 			color: $color-secondary;
 		}
@@ -39,7 +39,7 @@
 		right: 0;
 		background: transparent !important;
 		border: none !important;
-		color: $button-primary !important;
+		color: $color-primary !important;
 		box-shadow: none !important;
 		padding: 25px;
 		font-size: 18px;

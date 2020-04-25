@@ -7,15 +7,18 @@
 	background-color: $box-background-primary;
 	border: 1px solid rgba(0, 0, 0, 0.15);
 	box-sizing: border-box;
-	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+	box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 	border-radius: 3px;
+
 	@media (max-width: $tablet-width) {
 		display: none;
 	}
-	.dropdown-menu{
+
+	.dropdown-menu {
 		margin-left: -45px;
 		margin-top: 10px;
 	}
+
 	.navbar {
 		height: 100%;
 		align-content: center;
@@ -24,18 +27,21 @@
 	.nav {
 		align-items: center;
 	}
-	.navbar-brand{
+
+	.navbar-brand {
 		justify-content: center;
 		display: flex;
 		align-items: center;
-		h1{
+
+		h1 {
 			margin-left: -5px;
 			font-weight: 900 !important;
 			text-align: center;
-			color: #5B5B5B;
-			text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+			color: #5b5b5b;
+			text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 		}
-		span{
+
+		span {
 			color: #055425;
 		}
 	}
@@ -47,8 +53,7 @@
 			text-decoration: none;
 			font-weight: 500;
 		}
-
-	}	
+	}
 
 	.fs-Button {
 		min-height: 40px;
@@ -72,7 +77,7 @@
 
 	&-login {
 		.nav-link {
-			color: $button-primary !important;
+			color: $color-primary !important;
 		}
 	}
 }

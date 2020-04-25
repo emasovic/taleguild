@@ -12,7 +12,7 @@
 		"eslint:recommended",
 		"plugin:react/recommended",
 		"react-app",
-		"plugin:prettier/recommended"
+		"prettier"
 	],
 	"parser": "babel-eslint",
 	"parserOptions": {
@@ -28,7 +28,6 @@
 	"plugins": [
 		"import",
 		"flowtype",
-		"prettier",
 		"jsx-a11y",
 		"react",
 		"react-hooks"
@@ -36,7 +35,7 @@
 	"settings": {
 		"react": {
 			"pragma": "React",
-			"version": "16.13.1"
+			"version": "16.5.0"
 		}
 	},
 	"globals": {

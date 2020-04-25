@@ -1,6 +1,9 @@
 import React, {useState} from 'react';
 import {Nav, NavItem, NavLink} from 'reactstrap';
+
 import './Categories.scss';
+
+const CLASS = '-'
 
 const fakeCategory = [
 	{title: 'Sve', id: 'sve'},
