@@ -18,7 +18,7 @@ export default function NewStory() {
 	const user = useSelector(selectUser);
 
 	const [title, setTitle] = useState('');
-	const [story, setStory] = useState('');
+	const [text, setText] = useState('');
 	const [image, setImage] = useState(null);
 	return (
 		<div className={CLASS}>
@@ -27,7 +27,7 @@ export default function NewStory() {
 				<ImageUploader onUploaded={setImage} multiple={false} />
 			</div>
 			<div className={CLASS + '-editor'}>
-				<TextEditor onChange={setStory} value={story} />
+				<TextEditor onChange={setText} value={text} />
 			</div>
 			<div className={CLASS + '-button'}>
 				<IconButton
@@ -35,7 +35,7 @@ export default function NewStory() {
 						dispatch(
 							createStory({
 								title,
-								story,
+								text,
 								image: image && image[0].id,
 								user: user && user.id,
 							})
