@@ -11,9 +11,8 @@
 	}
 
 	input {
-		min-height: 70px;
-		border-radius: 3px;
-
+		min-height: 20px; //promenio sam ovo privremeno bilo je 60px sto mi je veliko a nisam video da jos negde koristimo takav input!!! 
+		border-radius: 6px; 
 		@media (max-width: $tablet-width) {
 			min-height: 50px;
 		}

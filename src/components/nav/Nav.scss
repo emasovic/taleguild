@@ -1,16 +1,43 @@
 @import '../../styles/variables.scss';
 
 .st-Nav {
+	width: 100%;
+	height: 44px;
+	margin-top: 25px;
+	background-color: $box-background-primary;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	box-sizing: border-box;
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+	border-radius: 3px;
 	@media (max-width: $tablet-width) {
 		display: none;
 	}
-
+	.dropdown-menu{
+		margin-left: -45px;
+		margin-top: 10px;
+	}
 	.navbar {
-		padding: $spacing-s $spacing-xs;
+		height: 100%;
+		align-content: center;
 	}
 
 	.nav {
 		align-items: center;
+	}
+	.navbar-brand{
+		justify-content: center;
+		display: flex;
+		align-items: center;
+		h1{
+			margin-left: -5px;
+			font-weight: 900 !important;
+			text-align: center;
+			color: #5B5B5B;
+			text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+		}
+		span{
+			color: #055425;
+		}
 	}
 
 	.nav-item {
@@ -20,7 +47,8 @@
 			text-decoration: none;
 			font-weight: 500;
 		}
-	}
+
+	}	
 
 	.fs-Button {
 		min-height: 40px;

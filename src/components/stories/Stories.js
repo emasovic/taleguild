@@ -1,15 +1,51 @@
 import React, {useEffect} from 'react';
+import {Row, Col} from 'reactstrap';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {loadStories, selectStories} from '../../redux/storySlice';
 
+import './Stories.scss';
+import StoryItem from './StoryItem';
+import Categories from './Categories';
+import Input from 'components/widgets/input/Input';
+
 export default function Stories() {
 	const dispatch = useDispatch();
-	const stoires = useSelector(selectStories);
+	const stories = useSelector(selectStories);
+	const path = 'https://pricajmi.herokuapp.com';
 
 	useEffect(() => {
 		dispatch(loadStories());
 	}, []);
-	console.log('>>>>>>>>>>>>>....', stoires);
-	return <div></div>;
+	console.log('>>>>>>>>>>>>>....', stories);
+
+	const renderStories = stories ? (
+		stories.map(item => (
+			<StoryItem
+				src={path + item.image.url}
+				title={item.title}
+				text={item.text}
+				key={item.id}
+				creator={item.user.username}
+				createdDate={item.created_at}
+			/>
+		))
+	) : (
+		<h1>Nema nista</h1>
+	);
+
+	return (
+		<div className="st-Stories">
+			<div className="st-filterBox">
+				<Categories />
+				<div className="st-filter">
+					<Input />
+				</div>
+			</div>
+			<Row>
+				{renderStories} {renderStories} {renderStories} {renderStories} {renderStories}{' '}
+				{renderStories}
+			</Row>
+		</div>
+	);
 }

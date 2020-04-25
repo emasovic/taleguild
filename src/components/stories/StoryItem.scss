@@ -1,0 +1,47 @@
+.col{
+    margin: 10px;
+    min-width: 350px;
+    .card{
+        background: #F9F9F9;
+        box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 4px;
+    }
+    .st-ImgTextTop{
+        position: relative; 
+        width: 100%;
+        height: 40px; 
+        background: rgba(0,0,0,0.5);
+        border-radius: 4px 4px 0px 0px;
+    }
+    .st-readMoreBtn{
+        font-weight: 600;
+        padding-left: 25px;
+        padding-right: 25px;
+        width: 100%;
+    }
+    .st-ImgTextBottom{
+        width: 100%;
+        height: 40px;
+        background: rgba(0,0,0,0.5);
+        margin-top: -40px;
+        padding-left: 20px;
+        p{
+            font-weight: 900;
+            font-size: 14px;
+            color: #EFEFEF;
+            margin-bottom: -8px;
+            margin-top: 2px;
+        }
+        span{
+            font-style: italic;
+            font-weight: 300;
+            font-size: 10px;
+            color: #EFEFEF;
+        }
+    }
+    img{
+        width: 100%;
+        height: 250px;
+        border-radius: 4px 4px 0px 0px;
+    }
+}

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Input, Button, FormGroup, FormFeedback} from 'reactstrap';
-import FontAwesome from 'react-fontawesome';
+// import FontAwesome from 'react-fontawesome';
 
 import './Input.scss';
 
@@ -42,11 +42,11 @@ export default class TextInputWithIcon extends Component {
 					{...props}
 				/>
 				{invalid && <FormFeedback>{errorMessage}</FormFeedback>}
-				{icon && (
+				{/* {icon && (
 					<Button onClick={onIconClick}>
 						<FontAwesome name={icon} onClick={onIconClick} />
 					</Button>
-				)}
+				)} */}
 			</FormGroup>
 		);
 	}

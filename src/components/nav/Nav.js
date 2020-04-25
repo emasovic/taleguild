@@ -1,10 +1,25 @@
 import React, {useState, Fragment} from 'react';
-import {Navbar, Nav, NavbarBrand, NavItem, NavLink} from 'reactstrap';
+
+import {useDispatch} from 'react-redux';
+import {logOut} from '../../redux/userSlice';
+
+import {
+	Navbar,
+	Nav,
+	NavbarBrand,
+	NavItem,
+	DropdownToggle,
+	NavLink,
+	DropdownMenu,
+	DropdownItem,
+	UncontrolledDropdown,
+} from 'reactstrap';
 import {useSelector} from 'react-redux';
 
-import logo from '../../images/logo.svg';
-
+import {ReactComponent as Burger} from 'images/icons/burger.svg';
+import {ReactComponent as Logo} from 'images/logo.svg';
 import {selectUser} from '../../redux/userSlice';
+
 
 // import SignUp from '../signup/SignUp';
 // import UserProfile from '../user/UserProfile';
@@ -17,7 +32,13 @@ import './Nav.scss';
 const CLASS = 'st-Nav';
 
 export default function Navigation() {
+
+	const dispatch = useDispatch();
+
 	const [isLoginOpen, setIsLoginOpen] = useState(false);
+	const [isRegisterOpen, setIsRegisterOpen] = useState(false);
+	const [isDropDownOpen, setIsDropDownOpen] = useState(false);
+
 	const user = useSelector(selectUser);
 	const userLoggedOut = () => {
 		return (
@@ -25,10 +46,9 @@ export default function Navigation() {
 				<NavItem className={CLASS + '-login'} onClick={() => setIsLoginOpen(true)}>
 					<NavLink href="#">Login</NavLink>
 				</NavItem>
-				<NavItem>
-					<IconButton onClick={() => this.handleChange(true, 'isRegisterOpen')}>
-						New Account
-					</IconButton>
+				<span>OR</span>
+				<NavItem className={CLASS + '-login'} onClick={() => setIsLoginOpen(true)}>
+					<NavLink href="#">Register</NavLink>
 				</NavItem>
 			</Fragment>
 		);
@@ -37,32 +57,53 @@ export default function Navigation() {
 	const userLoggedIn = () => {
 		const {username} = user;
 		return (
-			<NavItem className={CLASS + '-user'} onClick={() => this.handleChange(true, 'isUserOpen')}>
-				<NavLink href="#">
-					<span>{username}</span>
+			<>
+				<NavItem>
+					<NavLink href="/story/new">Napisite pricu</NavLink>
+				</NavItem>
+				<NavItem>
+					<NavLink href="#">Sacuvane</NavLink>
+				</NavItem>
+				<NavItem>
+					<NavLink href="#">Poslednje vidjeno</NavLink>
+				</NavItem>
+				<NavItem className={CLASS + '-user'}>
+					<UncontrolledDropdown setActiveFromChild>
+						<DropdownToggle tag="a" className="nav-link" caret>
+							{username}
+						</DropdownToggle>
+						<DropdownMenu>
+							<DropdownItem tag="a" href="/blah">
+								Profile
+							</DropdownItem>
+							<DropdownItem tag="a" href="/blah">
+								Settings
+							</DropdownItem>
+							<DropdownItem tag="a" onClick={() => dispatch(logOut())}>
+								Logout
+							</DropdownItem>
+						</DropdownMenu>
+					</UncontrolledDropdown>
 					{/* <img src={avatar} alt="avatar" /> */}
-				</NavLink>
-			</NavItem>
+				</NavItem>
+			</>
 		);
 	};
 	return (
 		<div className={CLASS}>
 			<Navbar>
-				<NavbarBrand href="/">
-					<img src={logo} className="App-logo" alt="logo" />
-				</NavbarBrand>
 				<Nav>
 					<NavItem>
-						<NavLink href="/story/new">Create Story</NavLink>
+						<Burger />
 					</NavItem>
-					<NavItem>
-						<NavLink href="#">Latest Sightings</NavLink>
-					</NavItem>
-					<NavItem>
-						<NavLink href="#">Favorites</NavLink>
-					</NavItem>
-					{user ? userLoggedIn() : userLoggedOut()}
 				</Nav>
+				<NavbarBrand href="/">
+					<Logo />
+					<h1>
+						Pricaj<span>Mi</span>
+					</h1>
+				</NavbarBrand>
+				<Nav>{user ? userLoggedIn() : userLoggedOut()}</Nav>
 			</Navbar>
 			{/* {isRegisterOpen && (
 				<SignUp

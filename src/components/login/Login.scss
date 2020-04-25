@@ -6,32 +6,38 @@
 	justify-content: center;
 
 	.modal {
+		width: 617px;
 		&-header {
 			justify-content: center;
 			border-bottom: none;
-			padding: 30px 30px 0;
+			float: right;
+			height: 10px;
+			width: 100px;
+			align-self: flex-end;
 		}
-
 		.close {
 			position: absolute;
 			right: 14px;
-			top: 0;
+			top: 0px;
 			margin: 0;
 			outline: none;
 		}
+	
 	}
 
 	&-body {
-		min-width: 440px;
-		padding: 30px;
-
+		display: flex;
+		flex-direction: row;
 		@media (max-width: $tablet-width) {
 			min-width: unset;
-
 			.fs-Button {
 				margin-top: 10px;
 				width: 100%;
 			}
 		}
+
+	}
+	.modalFlex{
+		display: flex;
 	}
 }

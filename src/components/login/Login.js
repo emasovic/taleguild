@@ -9,6 +9,7 @@ import FloatingInput from '../widgets/input/FloatingInput';
 import IconButton from '../widgets/button/IconButton';
 
 import './Login.scss';
+import LoginCover from 'components/widgets/LoginCover';
 
 const CLASS = 'st-Login';
 
@@ -26,24 +27,27 @@ export default function Login(props) {
 
 	return (
 		<Modal returnFocusAfterClose={true} isOpen={open} modalClassName={CLASS}>
-			<ModalHeader toggle={onClose}>Welcome Back</ModalHeader>
+			<ModalHeader toggle={onClose}></ModalHeader>
 			<ModalBody>
-				<Form onSubmit={e => submit(e)}>
-					<FloatingInput
-						placeholder="Email Address "
-						value={identifier}
-						type="email"
-						onChange={val => setIdentifier(val)}
-					/>
+				<div className="modalFlex">
+					<LoginCover />
+					<Form onSubmit={e => submit(e)}>
+						<FloatingInput
+							placeholder="Email Address "
+							value={identifier}
+							type="email"
+							onChange={val => setIdentifier(val)}
+						/>
 
-					<FloatingInput
-						placeholder="Password"
-						value={password}
-						type="password"
-						onChange={val => setPassword(val)}
-					/>
-					<IconButton>Login to your Account</IconButton>
-				</Form>
+						<FloatingInput
+							placeholder="Password"
+							value={password}
+							type="password"
+							onChange={val => setPassword(val)}
+						/>
+						<IconButton>Login to your Account</IconButton>
+					</Form>
+				</div>
 			</ModalBody>
 		</Modal>
 	);
