@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Modal, ModalBody, ModalHeader, Form} from 'reactstrap';
+import {Modal, ModalBody, Form} from 'reactstrap';
 import {useDispatch, useSelector} from 'react-redux';
 
 import FA from 'types/font_awesome';
@@ -20,7 +20,9 @@ export default function Login(props) {
 	const [identifier, setIdentifier] = useState('');
 	const [password, setPassword] = useState('');
 	const dispatch = useDispatch();
-	// const user = useSelector(selectUser);
+	const user = useSelector(selectUser);
+	const {error} = user;
+
 	const submit = e => {
 		e.preventDefault();
 		dispatch(loginUser({identifier, password}));
@@ -47,6 +49,8 @@ export default function Login(props) {
 						value={password}
 						type="password"
 						onChange={val => setPassword(val)}
+						errorMessage={error}
+						invalid={!!error}
 					/>
 					<IconButton>Login</IconButton>
 				</Form>

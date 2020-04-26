@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Modal, ModalBody, ModalHeader, Form} from 'reactstrap';
+import {Modal, ModalBody, Form} from 'reactstrap';
 import {useDispatch, useSelector} from 'react-redux';
 
 import FA from 'types/font_awesome';
@@ -21,7 +21,9 @@ export default function SignUp(props) {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const dispatch = useDispatch();
-	// const user = useSelector(selectUser);
+	const user = useSelector(selectUser);
+	const {error} = user;
+
 	const submit = e => {
 		e.preventDefault();
 		dispatch(registerUser({username, email, password}));
@@ -53,6 +55,8 @@ export default function SignUp(props) {
 						value={password}
 						type="password"
 						onChange={val => setPassword(val)}
+						invalid={!!error}
+						errorMessage={error}
 					/>
 					<IconButton>Sign Up</IconButton>
 				</Form>

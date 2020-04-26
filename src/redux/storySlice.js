@@ -36,6 +36,6 @@ export const loadStories = () => dispatch => {
 	api.getStories().then(res => dispatch(gotData(res)));
 };
 
-export const selectStories = state => state.stories.data;
+export const selectStories = state => state.stories;
 
 export default storySlice.reducer;

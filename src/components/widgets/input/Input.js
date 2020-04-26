@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Input, Button, FormGroup, FormFeedback} from 'reactstrap';
+import {Input, FormGroup, FormFeedback} from 'reactstrap';
 // import FontAwesome from 'react-fontawesome';
 
 import './Input.scss';

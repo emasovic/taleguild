@@ -16,6 +16,7 @@ const CLASS = 'st-NewStory';
 export default function NewStory() {
 	const dispatch = useDispatch();
 	const user = useSelector(selectUser);
+	const {data} = user;
 
 	const [title, setTitle] = useState('');
 	const [text, setText] = useState('');
@@ -37,7 +38,7 @@ export default function NewStory() {
 								title,
 								text,
 								image: image && image[0].id,
-								user: user && user.id,
+								user: data && data.id,
 							})
 						)
 					}

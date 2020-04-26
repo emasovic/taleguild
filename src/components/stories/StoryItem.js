@@ -1,52 +1,52 @@
 import React from 'react';
-import {Col, Card, CardImg, CardBody, CardText, ButtonGroup} from 'reactstrap';
+import propTypes from 'prop-types';
+import moment from 'moment';
+
+import {ButtonGroup} from 'reactstrap';
 
 import FA from '../../types/font_awesome';
 import {COLOR} from '../../types/button';
 
 import IconButton from 'components/widgets/button/IconButton';
-
-import testBg from 'images/testBackground.jpg';
+import Image from 'components/widgets/image/Image';
 
 import './StoryItem.scss';
 
-export default function StoryItem({src, text, title, creator, createdDate}) {
+const CLASS = 'st-StoryItem';
+
+export default function StoryItem({src, text, title, categories, creator, createdDate}) {
+	const renderCategories = categories.length
+		? categories.map((item, key) => <span key={key}>{item.display_name}</span>)
+		: null;
 	return (
-		<Col>
-			<Card>
-				<div className="st-ImgTextTop"></div>
-				<CardImg
-					top
-					width="100%"
-					src={testBg}
-					alt="Card image cap"
-					style={{marginTop: -40}}
-				/>
-				<div className="st-ImgTextBottom">
+		<div className={CLASS}>
+			<div className={CLASS + '-cover'}>
+				<Image src={src} alt="cover" />
+				<div className={CLASS + '-cover-categories'}>{renderCategories}</div>
+				<div className={CLASS + '-cover-author'}>
 					<p>{title}</p>
-					<span>{creator + ' ' + createdDate}</span>
+					<span>{creator + ' ' + moment(createdDate).format('DD.MM.YYYY')}</span>
 				</div>
+			</div>
 
-				<CardBody style={{width: '100%'}}>
-					<CardText>
-						{text} Lorem Ipsum is simply dummy text of the printing and typesetting
-						industry. Lorem Ipsum has been the industry's standard dummy text ever since
-						the 1500s, when an unknown printer took a galley of type and scrambled it to
-						make a type specimen book. It has survived not only five centuries, but also
-						the leap
-					</CardText>
-				</CardBody>
-				<div
-					className="st-CardFooter"
-					style={{borderTop: '1px solid rgba(0,0,0,0.2)', display: 'flex', padding: 5}}
-				>
-					<ButtonGroup size="sm" style={{}}>
-						<IconButton color={COLOR.secondary} icon={FA.heart} />
-					</ButtonGroup>
+			<div className={CLASS + '-description'}>{text}</div>
+			<div className={CLASS + '-footer'}>
+				<ButtonGroup size="sm">
+					<IconButton outline color={COLOR.secondary} icon={FA.heart} />
+					<IconButton outline color={COLOR.secondary} icon={FA.comment} />
+					<IconButton outline color={COLOR.secondary} icon={FA.share} />
+				</ButtonGroup>
 
-					<IconButton color={COLOR.primary}>Citaj</IconButton>
-				</div>
-			</Card>
-		</Col>
+				<IconButton outline>Citaj</IconButton>
+			</div>
+		</div>
 	);
 }
+
+StoryItem.propTypes = {
+	src: propTypes.string,
+	text: propTypes.string,
+	title: propTypes.string,
+	creator: propTypes.string,
+	createdDate: propTypes.string,
+};

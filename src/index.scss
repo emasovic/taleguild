@@ -1,15 +1,12 @@
 body {
-	// margin: 0;
-	// font-family: 'Montserrat', sans-serif;
 	display: flex;
 	min-height: 100vh;
-	background-image: url('images/testBackground.jpg');
-	background-position: center;
+	background: url('images/testBackground.jpg') center center no-repeat;
 }
 
 #root {
-	width: 90%;
 	height: 100vh;
-	// max-width: 1220px;
+	max-width: 1366px;
+	width: 100%;
 	margin: 0 auto;
 }

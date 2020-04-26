@@ -5,36 +5,16 @@
 	width: 100%;
 	box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
 	border-radius: 4px;
-	margin-top: 40px;
+	margin: 40px 0;
+	padding: 20px;
 
-	&-filterBox {
+	&-header {
 		display: flex;
-
-		.row {
-		}
+		justify-content: space-between;
 	}
 
-	.st-filterBox,
-	.row {
-		margin: 20px auto;
+	&-lastest {
 		display: flex;
-	}
-
-	.st-filterBox {
-		border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-		width: calc(90% - 50px);
-		padding-top: 80px;
-	}
-
-	.st-filter {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		width: 50%;
-	}
-
-	.row {
 		flex-wrap: wrap;
-		width: 90%;
 	}
 }

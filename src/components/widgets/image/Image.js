@@ -7,6 +7,9 @@ import './Image.scss';
 const CLASS = 'st-Image';
 
 export default function Image(props) {
+	if (!props.src) {
+		return <div className={CLASS + '-fallback'} />;
+	}
 	return <img {...props} alt={props.alt} className={CLASS} />;
 }
 

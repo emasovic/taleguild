@@ -64,6 +64,6 @@ export const getUser = () => dispatch => {
 	}
 };
 
-export const selectUser = state => state.user.data;
+export const selectUser = state => state.user;
 
 export default userSlice.reducer;

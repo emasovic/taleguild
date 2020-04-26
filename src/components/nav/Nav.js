@@ -1,4 +1,4 @@
-import React, {useState, Fragment} from 'react';
+import React, {useState, useEffect, Fragment} from 'react';
 
 import {useDispatch} from 'react-redux';
 import {logOutUser} from '../../redux/userSlice';
@@ -14,6 +14,9 @@ import {
 	DropdownItem,
 	UncontrolledDropdown,
 } from 'reactstrap';
+
+import {COLOR} from 'types/button';
+
 import {useSelector} from 'react-redux';
 
 import {ReactComponent as Burger} from 'images/icons/burger.svg';
@@ -21,7 +24,6 @@ import {ReactComponent as Logo} from 'images/logo.svg';
 import {selectUser} from '../../redux/userSlice';
 
 import SignUp from '../signup/SignUp';
-// import UserProfile from '../user/UserProfile';
 import Login from '../login/Login';
 
 import IconButton from '../widgets/button/IconButton';
@@ -35,25 +37,38 @@ export default function Navigation() {
 
 	const [isLoginOpen, setIsLoginOpen] = useState(false);
 	const [isRegisterOpen, setIsRegisterOpen] = useState(false);
-	const [isDropDownOpen, setIsDropDownOpen] = useState(false);
+	// const [isDropDownOpen, setIsDropDownOpen] = useState(false);
 
 	const user = useSelector(selectUser);
+	const {data} = user;
+	const token = data && data.token;
+
+	useEffect(() => {
+		if (token) {
+			setIsLoginOpen(false);
+			setIsRegisterOpen(false);
+		}
+	}, [token]);
+
 	const userLoggedOut = () => {
 		return (
 			<Fragment>
 				<NavItem className={CLASS + '-login'} onClick={() => setIsLoginOpen(true)}>
-					<NavLink href="#">Login</NavLink>
+					<NavLink href="#">
+						<IconButton>Prijava</IconButton>
+					</NavLink>
 				</NavItem>
-				<span>OR</span>
 				<NavItem className={CLASS + '-login'} onClick={() => setIsRegisterOpen(true)}>
-					<NavLink href="#">Register</NavLink>
+					<NavLink href="#">
+						<IconButton color={COLOR.secondary}>Registracija</IconButton>
+					</NavLink>
 				</NavItem>
 			</Fragment>
 		);
 	};
 
 	const userLoggedIn = () => {
-		const {username} = user;
+		const {username} = data;
 		return (
 			<>
 				<NavItem>
@@ -82,7 +97,6 @@ export default function Navigation() {
 							</DropdownItem>
 						</DropdownMenu>
 					</UncontrolledDropdown>
-					{/* <img src={avatar} alt="avatar" /> */}
 				</NavItem>
 			</>
 		);
@@ -101,7 +115,7 @@ export default function Navigation() {
 						Pricaj<span>Mi</span>
 					</h1>
 				</NavbarBrand>
-				<Nav>{user ? userLoggedIn() : userLoggedOut()}</Nav>
+				<Nav>{data && data.token ? userLoggedIn() : userLoggedOut()}</Nav>
 			</Navbar>
 			{isRegisterOpen && (
 				<SignUp open={isRegisterOpen} onClose={() => setIsRegisterOpen(false)} />
@@ -113,12 +127,6 @@ export default function Navigation() {
 					// onSuccess={this.handleLoginSuccess}
 				/>
 			)}
-			{/* {user && isUserOpen && (
-				<UserProfile
-					open={isUserOpen}
-					onClose={() => this.handleChange(false, 'isUserOpen')}
-				/>
-			)} */}
 		</div>
 	);
 }

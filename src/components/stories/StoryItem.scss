@@ -1,54 +1,66 @@
-.col {
-	margin: 10px;
-	min-width: 350px;
+@import '../../styles/variables.scss';
 
-	.card {
-		background: #f9f9f9;
-		box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
-		border-radius: 4px;
-	}
+.st-StoryItem {
+	width: 280px;
+	min-height: 300px;
+	margin: 0 20px 20px 0;
+	border-radius: 4px 4px 0 0;
+	border: 1px solid $gray-lighter;
+	display: flex;
+	flex-direction: column;
 
-	.st-ImgTextTop {
+	&-cover {
 		position: relative;
-		width: 100%;
-		height: 40px;
-		background: rgba(0, 0, 0, 0.5);
-		border-radius: 4px 4px 0 0;
-	}
-
-	.st-readMoreBtn {
-		font-weight: 600;
-		padding-left: 25px;
-		padding-right: 25px;
-		width: 100%;
-	}
-
-	.st-ImgTextBottom {
-		width: 100%;
-		height: 40px;
-		background: rgba(0, 0, 0, 0.5);
-		margin-top: -40px;
-		padding-left: 20px;
-
-		p {
-			font-weight: 900;
-			font-size: 14px;
-			color: #efefef;
-			margin-bottom: -8px;
-			margin-top: 2px;
-		}
-
-		span {
-			font-style: italic;
-			font-weight: 300;
-			font-size: 10px;
-			color: #efefef;
-		}
-	}
-
-	img {
-		width: 100%;
 		height: 250px;
-		border-radius: 4px 4px 0 0;
+
+		.st-Image {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+
+			&-fallback {
+				border: none;
+			}
+		}
+
+		&-categories {
+			position: absolute;
+			top: 0;
+			font-size: 14px;
+			font-style: italic;
+			background: rgba(255, 255, 255, 0.5);
+			width: 100%;
+			padding: 5px;
+
+			span {
+				margin-left: 5px;
+			}
+		}
+
+		&-author {
+			position: absolute;
+			bottom: 0;
+			font-size: 14px;
+			background: rgba(255, 255, 255, 0.5);
+			width: 100%;
+			padding: 5px;
+		}
+	}
+
+	&-description {
+		min-height: 70px;
+		padding: 10px;
+		border-top: 1px solid $gray-lighter;
+		border-bottom: 1px solid $gray-lighter;
+	}
+
+	&-footer {
+		width: 100%;
+		padding: 10px;
+		min-height: 40px;
+
+		.btn-group {
+			margin-right: 10px;
+		}
 	}
 }

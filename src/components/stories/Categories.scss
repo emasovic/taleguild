@@ -1,6 +1,4 @@
-.ct-Categories {
-	width: 50%;
-
+.st-Categories {
 	span {
 		color: #377d5c;
 		font-weight: 700;
@@ -28,11 +26,11 @@
 			}
 		}
 
-		.ct-ItemActive {
+		&-itemActive {
 			color: #6d6d6d;
 		}
 
-		.ct-Item {
+		&-item {
 			color: #b6b6b6;
 		}
 	}

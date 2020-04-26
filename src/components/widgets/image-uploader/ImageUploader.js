@@ -10,11 +10,12 @@ import Image from '../image/Image';
 
 export default function ImageUploader(props) {
 	const user = useSelector(selectUser);
+	const {data} = user;
 	const [files, setFiles] = useState([]);
 	const {getRootProps, getInputProps} = useDropzone({
 		accept: 'image/*',
 		onDrop: acceptedFiles => {
-			uploadMedia(user.token, acceptedFiles)
+			uploadMedia(data && data.token, acceptedFiles)
 				.then(files => props.onUploaded(files))
 				.catch(err => console.log('err', err));
 			setFiles(

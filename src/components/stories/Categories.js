@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
-import {Nav, NavItem, NavLink} from 'reactstrap';
+import {Nav, NavItem} from 'reactstrap';
 
 import './Categories.scss';
 
-const CLASS = '-'
+const CLASS = 'st-Categories';
 
 const fakeCategory = [
 	{title: 'Sve', id: 'sve'},
@@ -16,15 +16,16 @@ const fakeCategory = [
 
 export default function Categories() {
 	const [activeCategory, setActiveCategory] = useState('sve');
-	const CLASS = 'ct-';
 	return (
-		<div className={`${CLASS}Categories`}>
+		<div className={CLASS}>
 			<span>Kategorije</span>
 			<Nav>
 				{fakeCategory.map(item => (
 					<NavItem key={item.id}>
 						<p
-							className={activeCategory === item.id ? `${CLASS}ItemActive` : `${CLASS}Item`}
+							className={
+								activeCategory === item.id ? `${CLASS}itemActive` : `${CLASS}-item`
+							}
 							onClick={() => setActiveCategory(item.id)}
 						>
 							{item.title}
