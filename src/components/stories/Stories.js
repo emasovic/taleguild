@@ -15,8 +15,6 @@ import './Stories.scss';
 
 const CLASS = 'st-Stories';
 
-const CLASS = 'st-Stories';
-
 export default function Stories() {
 	const dispatch = useDispatch();
 	const stories = useSelector(selectStories);
