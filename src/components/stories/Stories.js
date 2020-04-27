@@ -1,7 +1,5 @@
 import React, {useEffect} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-
-import ENV from 'env';
+import {useDispatch, useSelector, shallowEqual} from 'react-redux';
 
 import {loadStories, selectStories} from '../../redux/storySlice';
 
@@ -17,8 +15,13 @@ const CLASS = 'st-Stories';
 
 export default function Stories() {
 	const dispatch = useDispatch();
-	const stories = useSelector(selectStories);
-	const {loading, data} = stories;
+	const {data, loading} = useSelector(
+		state => ({
+			data: selectStories(state),
+			loading: state.stories.loading,
+		}),
+		shallowEqual
+	);
 
 	useEffect(() => {
 		dispatch(loadStories());
@@ -27,7 +30,8 @@ export default function Stories() {
 	const renderStories = data ? (
 		data.map(item => (
 			<StoryItem
-				src={item.image && ENV.api.url + item.image.url}
+				id={item.id}
+				image={item.image}
 				title={item.title}
 				text={item.text}
 				key={item.id}

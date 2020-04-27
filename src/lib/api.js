@@ -16,8 +16,12 @@ export const createStory = (token, payload) => {
 	return http.post('stories', {token}, payload);
 };
 
-export const getStories = (token, payload) => {
+export const getStories = () => {
 	return http.get('stories');
+};
+
+export const getStory = id => {
+	return http.get('stories/' + id);
 };
 
 export const uploadMedia = (token, files) => {

@@ -1,4 +1,4 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createSlice, createSelector} from '@reduxjs/toolkit';
 
 import * as api from '../lib/api';
 
@@ -11,7 +11,7 @@ export const storySlice = createSlice({
 	},
 	reducers: {
 		gotData: (state, action) => {
-			state.data = action.payload;
+			state.data = helper(action.payload);
 			state.error = action.payload.error;
 			state.loading = false;
 		},
@@ -20,6 +20,12 @@ export const storySlice = createSlice({
 		},
 	},
 });
+
+const helper = arr =>
+	arr.reduce((map, obj) => {
+		map[obj.id] = obj;
+		return map;
+	}, {});
 
 export const {logOut, hasError, gotData, loading} = storySlice.actions;
 
@@ -36,6 +42,19 @@ export const loadStories = () => dispatch => {
 	api.getStories().then(res => dispatch(gotData(res)));
 };
 
-export const selectStories = state => state.stories;
+export const loadStory = id => dispatch => {
+	dispatch(loading());
+	api.getStory(id).then(res => dispatch(gotData([res])));
+};
+
+//SELECTORS
+
+const stories = state => state.stories.data;
+
+export const selectStories = createSelector([stories], res =>
+	res ? Object.values(res).map(item => item) : null
+);
+
+export const selectStory = (state, id) => state.stories.data && state.stories.data[id];
 
 export default storySlice.reducer;

@@ -6,7 +6,7 @@ import './TextViewer.scss';
 
 const CLASS = 'st-TextViewer';
 
-function TextViewer(value) {
+function TextViewer({value}) {
 	return (
 		<div className={CLASS}>
 			<div className="text-editor">

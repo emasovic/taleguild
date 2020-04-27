@@ -1,6 +1,7 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import moment from 'moment';
+import {Link} from 'react-router-dom';
 
 import {ButtonGroup} from 'reactstrap';
 
@@ -14,14 +15,14 @@ import './StoryItem.scss';
 
 const CLASS = 'st-StoryItem';
 
-export default function StoryItem({src, text, title, categories, creator, createdDate}) {
+export default function StoryItem({id, image, text, title, categories, creator, createdDate}) {
 	const renderCategories = categories.length
 		? categories.map((item, key) => <span key={key}>{item.display_name}</span>)
 		: null;
 	return (
-		<div className={CLASS}>
+		<Link to={`/story/${id}`} className={CLASS}>
 			<div className={CLASS + '-cover'}>
-				<Image src={src} alt="cover" />
+				<Image image={image} alt="cover" />
 				<div className={CLASS + '-cover-categories'}>{renderCategories}</div>
 				<div className={CLASS + '-cover-author'}>
 					<p>{title}</p>
@@ -39,7 +40,7 @@ export default function StoryItem({src, text, title, categories, creator, create
 
 				<IconButton outline>Citaj</IconButton>
 			</div>
-		</div>
+		</Link>
 	);
 }
 
