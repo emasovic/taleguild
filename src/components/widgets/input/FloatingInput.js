@@ -1,4 +1,5 @@
 import React from 'react';
+import propTypes from 'prop-types';
 import {Input, Label, FormGroup, FormFeedback} from 'reactstrap';
 
 import './FloatingInput.scss';
@@ -6,7 +7,7 @@ import './FloatingInput.scss';
 const CLASS = 'st-FloatingInput';
 
 export default function FloatingInput(props) {
-	const {onChange, onIconClick, value, placeholder, invalid, errorMessage, label, ...rest} = props;
+	const {onChange, value, placeholder, invalid, errorMessage, label, ...rest} = props;
 	return (
 		<FormGroup className={CLASS}>
 			{invalid && <FormFeedback>{errorMessage}</FormFeedback>}
@@ -23,3 +24,15 @@ export default function FloatingInput(props) {
 		</FormGroup>
 	);
 }
+
+FloatingInput.propTypes = {
+	onChange: propTypes.func,
+	value: propTypes.string,
+	placeholder: propTypes.string,
+	label: propTypes.string,
+	errorMessage: propTypes.string,
+};
+
+FloatingInput.defaultProps = {
+	onChange: () => {},
+};

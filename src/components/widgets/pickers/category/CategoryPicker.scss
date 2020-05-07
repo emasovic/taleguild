@@ -1,0 +1,14 @@
+@import '../../../../styles/variables.scss';
+
+.st-CategoryPicker {
+	min-width: 200px;
+
+	> div {
+		background: $gray-lighter !important;
+		border: 1px solid $gray;
+		color: $gray;
+		border-radius: 3px;
+		min-height: 50px;
+		font-size: 14px;
+	}
+}

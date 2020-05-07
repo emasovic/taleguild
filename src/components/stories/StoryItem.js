@@ -38,7 +38,7 @@ export default function StoryItem({id, image, text, title, categories, creator, 
 					<IconButton outline color={COLOR.secondary} icon={FA.share} />
 				</ButtonGroup>
 
-				<IconButton outline>Citaj</IconButton>
+				<IconButton outline>Čitaj</IconButton>
 			</div>
 		</Link>
 	);

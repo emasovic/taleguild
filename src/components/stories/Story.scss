@@ -14,7 +14,7 @@
 	}
 
 	.st-TextViewer {
-		padding: 20px;
+		padding: 20px 0;
 	}
 
 	&-fullscreen {
@@ -63,6 +63,8 @@
 	}
 
 	&-comments {
+		margin-top: 10px;
+
 		&-comment {
 			margin: 10px 0;
 		}

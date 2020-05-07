@@ -3,7 +3,7 @@
 .st-FloatingInput {
 	display: flex;
 	flex-flow: column-reverse;
-	margin-bottom: 0 !important;
+	height: 50px;
 
 	.invalid-feedback {
 		display: block;
@@ -18,14 +18,13 @@
 	label {
 		color: $color-secondary;
 		letter-spacing: 0.05em;
-		margin-bottom: 0;
+		margin-bottom: -18px;
 	}
 
 	input {
-		background: #f5f6f7 !important;
-		border: 1px solid #dfe5ea;
+		background: $gray-lighter !important;
+		border: 1px solid $gray;
 		color: $gray;
-		box-sizing: border-box;
 		border-radius: 3px;
 		min-height: 50px;
 		font-size: 14px;
@@ -37,19 +36,19 @@
 
 		&:placeholder-shown + label {
 			cursor: text;
-			font-size: 10px;
+			font-size: 14px;
 			// max-width: 66.66%;
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
 			transform-origin: left bottom;
-			transform: translate(12px, 34px);
+			transform: translate(12px, 16px);
 		}
 
 		&:not(:placeholder-shown) + label,
 		input:focus + label {
 			font-size: 10px;
-			transform: translate(12px, 19px);
+			transform: translate(12px, 0);
 			cursor: pointer;
 		}
 	}

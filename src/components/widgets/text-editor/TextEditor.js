@@ -2,37 +2,35 @@ import React from 'react';
 
 import ReactQuill from 'react-quill';
 
-import 'react-quill/dist/quill.snow.css';
-
 import './TextEditor.scss';
 
 const CLASS = 'st-TextEditor';
 
-// const {Quill} = ReactQuill;
+const {Quill} = ReactQuill;
 
-// let Size;
-// const SIZES_WHITELIST = [
-// 	'8px',
-// 	'9px',
-// 	'10px',
-// 	'11px',
-// 	'12px',
-// 	'14px',
-// 	'16px',
-// 	'18px',
-// 	'20px',
-// 	'24px',
-// 	'30px',
-// 	'36px',
-// 	'48px',
-// 	'60px',
-// 	'72px',
-// 	'96px',
-// ];
+let Size;
+const SIZES_WHITELIST = [
+	'8px',
+	'9px',
+	'10px',
+	'11px',
+	'12px',
+	'14px',
+	'16px',
+	'18px',
+	'20px',
+	'24px',
+	'30px',
+	'36px',
+	'48px',
+	'60px',
+	'72px',
+	'96px',
+];
 
-// Size = Quill.import('attributors/style/size');
-// Size.whitelist = SIZES_WHITELIST;
-// Quill.register(Size, true);
+Size = Quill.import('attributors/style/size');
+Size.whitelist = SIZES_WHITELIST;
+Quill.register(Size, true);
 
 export default function TextEditor(props) {
 	const {value, onChange} = props;

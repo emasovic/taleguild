@@ -4,9 +4,10 @@ import {Input} from 'reactstrap';
 import Fullscreen from 'react-full-screen';
 
 import FA from 'types/font_awesome';
+import {editStory} from 'lib/routes';
 
-import {loadStory, selectStory} from 'redux/storySlice';
-import {selectUser} from 'redux/userSlice';
+import {loadStory, selectStory, createComment} from 'redux/story';
+import {selectUser} from 'redux/user';
 
 import TextViewer from 'components/widgets/text-editor/TextViewer';
 import Loader from 'components/widgets/loader/Loader';
@@ -34,6 +35,11 @@ export default function Story(props) {
 	const [isFull, setIsFull] = useState(false);
 	const [comment, setComment] = useState('');
 
+	const createNewComment = () => {
+		dispatch(createComment({user: data.id, story: story.id, comment}));
+		setComment('');
+	};
+
 	useEffect(() => {
 		dispatch(loadStory(params.id));
 	}, [dispatch, params.id]);
@@ -51,6 +57,9 @@ export default function Story(props) {
 	return (
 		<div className={CLASS}>
 			<div className={`${CLASS}-fullscreen`}>
+				{data && user.id === data.id && (
+					<IconButton icon={FA.pencil} href={editStory(story.id)} />
+				)}
 				<IconButton icon={FA.arrows_alt} onClick={() => setIsFull(true)} />
 			</div>
 
@@ -71,6 +80,7 @@ export default function Story(props) {
 					? comments.map((item, key) => {
 							return (
 								<div key={key} className={`${CLASS}-comments-comment`}>
+									<span>{item.user.username}</span>
 									<Input type="textarea" value={item.comment} disabled />
 								</div>
 							);
@@ -86,7 +96,7 @@ export default function Story(props) {
 							placeholder="Komentar ..."
 							onChange={e => setComment(e.target.value)}
 						/>
-						<IconButton>Postavite komentar</IconButton>
+						<IconButton onClick={createNewComment}>Postavite komentar</IconButton>
 					</div>
 				)}
 			</div>

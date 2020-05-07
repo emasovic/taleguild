@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import FA from 'types/font_awesome';
 
-import {loginUser, selectUser} from '../../redux/userSlice';
+import {loginUser, selectUser} from '../../redux/user';
 
 import FloatingInput from '../widgets/input/FloatingInput';
 import IconButton from '../widgets/button/IconButton';

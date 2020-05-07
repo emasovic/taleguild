@@ -1,7 +1,7 @@
 import React, {useState, useEffect, Fragment} from 'react';
 
 import {useDispatch} from 'react-redux';
-import {logOutUser} from '../../redux/userSlice';
+import {logOutUser} from '../../redux/user';
 
 import {
 	Navbar,
@@ -12,23 +12,26 @@ import {
 	NavLink,
 	DropdownMenu,
 	DropdownItem,
-	UncontrolledDropdown,
+	Dropdown,
+	Badge,
 } from 'reactstrap';
 
 import {COLOR} from 'types/button';
 
 import {useSelector} from 'react-redux';
 
-import {ReactComponent as Burger} from 'images/icons/burger.svg';
+// import {ReactComponent as Burger} from 'images/icons/burger.svg';
 import {ReactComponent as Logo} from 'images/logo.svg';
-import {selectUser} from '../../redux/userSlice';
+import {selectUser} from '../../redux/user';
 
 import SignUp from '../signup/SignUp';
 import Login from '../login/Login';
 
+import Loader from 'components/widgets/loader/Loader';
 import IconButton from '../widgets/button/IconButton';
 
 import './Nav.scss';
+import Image from 'components/widgets/image/Image';
 
 const CLASS = 'st-Nav';
 
@@ -37,10 +40,12 @@ export default function Navigation() {
 
 	const [isLoginOpen, setIsLoginOpen] = useState(false);
 	const [isRegisterOpen, setIsRegisterOpen] = useState(false);
-	// const [isDropDownOpen, setIsDropDownOpen] = useState(false);
+	const [dropdownOpen, setDropdownOpen] = useState(false);
+
+	const toggle = () => setDropdownOpen(prevState => !prevState);
 
 	const user = useSelector(selectUser);
-	const {data} = user;
+	const {data, loading} = user;
 	const token = data && data.token;
 
 	useEffect(() => {
@@ -68,35 +73,39 @@ export default function Navigation() {
 	};
 
 	const userLoggedIn = () => {
-		const {username} = data;
+		const {username, avatar} = data;
 		return (
 			<>
-				<NavItem>
+				{/* <NavItem>
 					<NavLink href="/story/new">Napisite pricu</NavLink>
-				</NavItem>
-				<NavItem>
+				</NavItem> */}
+				{/* <NavItem>
 					<NavLink href="#">Sacuvane</NavLink>
 				</NavItem>
 				<NavItem>
 					<NavLink href="#">Poslednje vidjeno</NavLink>
-				</NavItem>
+				</NavItem> */}
 				<NavItem className={CLASS + '-user'}>
-					<UncontrolledDropdown setActiveFromChild>
-						<DropdownToggle tag="a" className="nav-link" caret>
+					<Dropdown isOpen={dropdownOpen} toggle={toggle}>
+						<DropdownToggle outline caret>
+							{avatar ? (
+								<Image image={avatar} />
+							) : (
+								<Badge>{username.slice(0, 1)}</Badge>
+							)}
 							{username}
 						</DropdownToggle>
 						<DropdownMenu>
-							<DropdownItem tag="a" href="/blah">
-								Profile
+							<DropdownItem href={`/user/${data.id}`}>Profil</DropdownItem>
+							<DropdownItem href={`/user/${data.id}/stories`}>
+								Moje priče
 							</DropdownItem>
-							<DropdownItem tag="a" href="/blah">
-								Settings
-							</DropdownItem>
-							<DropdownItem tag="a" onClick={() => dispatch(logOutUser())}>
-								Logout
+							<DropdownItem href="/story/new">Nova priča</DropdownItem>
+							<DropdownItem onClick={() => dispatch(logOutUser())}>
+								Odjavi se
 							</DropdownItem>
 						</DropdownMenu>
-					</UncontrolledDropdown>
+					</Dropdown>
 				</NavItem>
 			</>
 		);
@@ -104,29 +113,25 @@ export default function Navigation() {
 	return (
 		<div className={CLASS}>
 			<Navbar>
-				<Nav>
+				{/* <Nav>
 					<NavItem>
 						<Burger />
 					</NavItem>
-				</Nav>
+				</Nav> */}
 				<NavbarBrand href="/">
 					<Logo />
-					<h1>
-						Pricaj<span>Mi</span>
-					</h1>
+					<h2>
+						Pričaj<span>Mi</span>
+					</h2>
 				</NavbarBrand>
-				<Nav>{data && data.token ? userLoggedIn() : userLoggedOut()}</Nav>
+				<Nav>
+					{loading ? <Loader /> : data && data.token ? userLoggedIn() : userLoggedOut()}
+				</Nav>
 			</Navbar>
 			{isRegisterOpen && (
 				<SignUp open={isRegisterOpen} onClose={() => setIsRegisterOpen(false)} />
 			)}
-			{isLoginOpen && (
-				<Login
-					open={isLoginOpen}
-					onClose={() => setIsLoginOpen(false)}
-					// onSuccess={this.handleLoginSuccess}
-				/>
-			)}
+			{isLoginOpen && <Login open={isLoginOpen} onClose={() => setIsLoginOpen(false)} />}
 		</div>
 	);
 }

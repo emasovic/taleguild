@@ -1,10 +1,16 @@
-import {configureStore} from '@reduxjs/toolkit';
-import userReducer from './userSlice';
-import storyReducer from './storySlice';
+import {configureStore, applyMiddleware} from '@reduxjs/toolkit';
+import user from './user';
+import stories from './story';
+import toast from './toast';
 
-export default configureStore({
-	reducer: {
-		user: userReducer,
-		stories: storyReducer,
+const hehe = console.log('hehe');
+export default configureStore(
+	{
+		reducer: {
+			user,
+			stories,
+			toast,
+		},
 	},
-});
+	applyMiddleware(hehe)
+);

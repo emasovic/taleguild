@@ -1,38 +1,62 @@
 import React, {useState} from 'react';
 import {Nav, NavItem} from 'reactstrap';
+import {useDispatch} from 'react-redux';
+
+import {useLoadCategories} from 'hooks/categories';
+import {loadStories} from 'redux/story';
+
+import Loader from 'components/widgets/loader/Loader';
 
 import './Categories.scss';
 
 const CLASS = 'st-Categories';
 
-const fakeCategory = [
-	{title: 'Sve', id: 'sve'},
-	{title: 'Poezija', id: 'poezija'},
-	{title: 'Kriminalisticki', id: 'kriminalisticki'},
-	{title: 'Epska fantastika', id: 'ef'},
-	{title: 'Naucna fantastika', id: 'nf'},
-	{title: 'Kratke Price', id: 'kratke'},
-];
-
 export default function Categories() {
-	const [activeCategory, setActiveCategory] = useState('sve');
+	const dispatch = useDispatch();
+	const [{data, isLoading}] = useLoadCategories();
+	const [activeCategory, setActiveCategory] = useState('all');
+
+	const getStoriesByCategoryId = categoryId => {
+		dispatch(loadStories({categories: categoryId}));
+		setActiveCategory(categoryId);
+	};
+
+	const getAllCategories = () => {
+		dispatch(loadStories());
+		setActiveCategory('all');
+	};
 	return (
 		<div className={CLASS}>
 			<span>Kategorije</span>
-			<Nav>
-				{fakeCategory.map(item => (
-					<NavItem key={item.id}>
+			{isLoading ? (
+				<Loader />
+			) : (
+				<Nav>
+					<NavItem onClick={getAllCategories}>
 						<p
 							className={
-								activeCategory === item.id ? `${CLASS}itemActive` : `${CLASS}-item`
+								activeCategory === 'all' ? `${CLASS}-itemActive` : `${CLASS}-item`
 							}
-							onClick={() => setActiveCategory(item.id)}
 						>
-							{item.title}
+							Sve
 						</p>
 					</NavItem>
-				))}
-			</Nav>
+					{data.map(item => (
+						<NavItem key={item.id}>
+							<p
+								className={
+									activeCategory === item.id
+										? `${CLASS}-itemActive`
+										: `${CLASS}-item`
+								}
+								onClick={() => getStoriesByCategoryId(item.id)}
+							>
+								{item.display_name}
+							</p>
+						</NavItem>
+					))}
+				</Nav>
+			)}
 		</div>
 	);
 }

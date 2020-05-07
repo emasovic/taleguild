@@ -3,7 +3,7 @@
 .st-StoryItem {
 	width: 280px;
 	min-height: 300px;
-	margin: 0 20px 20px 0;
+	margin: 20px;
 	border-radius: 4px 4px 0 0;
 	border: 1px solid $gray-lighter;
 	display: flex;
@@ -25,7 +25,8 @@
 				opacity: 0.5;
 			}
 
-			.st-StoryItem-cover-categories, .st-StoryItem-cover-author {
+			.st-StoryItem-cover-categories,
+			.st-StoryItem-cover-author {
 				visibility: visible;
 			}
 		}
@@ -84,6 +85,10 @@
 
 		.btn-group {
 			margin-right: 10px;
+
+			.btn {
+				border-radius: 2px !important;
+			}
 		}
 	}
 }

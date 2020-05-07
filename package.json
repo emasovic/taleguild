@@ -9,7 +9,11 @@
     "@testing-library/user-event": "^7.1.2",
     "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
+    "draft-js": "^0.11.5",
+    "draft-js-plugins-editor": "^3.0.0",
+    "draft-js-static-toolbar-plugin": "^3.0.1",
     "font-awesome": "^4.7.0",
+    "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "node-sass": "^4.13.1",
     "react": "^16.13.1",
@@ -22,13 +26,15 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
     "react-select": "^3.1.0",
-    "reactstrap": "^8.4.1"
+    "reactstrap": "^8.4.1",
+    "source-map-explorer": "^2.4.2"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
     "format": "prettier --write \"**/*.+(js)\"",
     "stylelint-check": "stylelint-config-prettier-check"
   },

@@ -7,6 +7,7 @@ import store from './redux/store';
 import * as serviceWorker from './serviceWorker';
 
 import App from './App';
+import Toasts from './Toasts';
 
 import './styles/bootstrap.scss';
 import './index.scss';
@@ -15,6 +16,7 @@ ReactDOM.render(
 	<React.StrictMode>
 		<Provider store={store}>
 			<App />
+			<Toasts />
 		</Provider>
 	</React.StrictMode>,
 	document.getElementById('root')

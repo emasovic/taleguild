@@ -14,35 +14,30 @@
 		display: none;
 	}
 
-	.dropdown-menu {
-		margin-left: -45px;
-		margin-top: 10px;
-	}
-
 	.navbar {
 		height: 100%;
 		align-content: center;
-	}
 
-	.nav {
-		align-items: center;
-	}
+		&-brand {
+			justify-content: center;
+			display: flex;
+			align-items: center;
 
-	.navbar-brand {
-		justify-content: center;
-		display: flex;
-		align-items: center;
+			h2 {
+				margin: 0;
+				font-weight: bold;
+				text-align: center;
+				color: $color-secondary;
+				text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+			}
 
-		h1 {
-			margin-left: -5px;
-			font-weight: 900 !important;
-			text-align: center;
-			color: #5b5b5b;
-			text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+			span {
+				color: $color-primary;
+			}
 		}
 
-		span {
-			color: #055425;
+		.nav {
+			align-items: center;
 		}
 	}
 
@@ -55,22 +50,30 @@
 		}
 	}
 
-	.fs-Button {
-		min-height: 40px;
-		border-radius: 50px !important;
-	}
-
 	&-user {
-		.nav-link {
-			display: flex;
-			align-items: center;
-			text-transform: capitalize;
+		.dropdown {
+			&-toggle {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				background: none !important;
+				border: none;
 
-			img {
-				width: 40px;
-				height: 40px;
-				border-radius: 50%;
-				margin-left: 20px;
+				.st-Image,
+				.badge {
+					width: 40px;
+					height: 40px;
+					border-radius: 50%;
+					margin-right: 15px;
+				}
+
+				.badge {
+					font-size: 20px;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					text-transform: uppercase;
+				}
 			}
 		}
 	}
