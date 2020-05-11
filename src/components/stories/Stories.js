@@ -16,7 +16,7 @@ import './Stories.scss';
 
 const CLASS = 'st-Stories';
 
-export default function Stories({params, displayCategoies}) {
+export default function Stories({criteria, editMode, displayCategoies}) {
 	const dispatch = useDispatch();
 	const {data, loading, pages} = useSelector(
 		state => ({
@@ -30,8 +30,10 @@ export default function Stories({params, displayCategoies}) {
 	const [count, setCount] = useState(0);
 	const [shouldCount, setShouldCount] = useState(true);
 
+	criteria._start = count;
+
 	const _searchStory = name => {
-		dispatch(loadStories({title_contains: name, ...params}));
+		dispatch(loadStories({title_contains: name, ...criteria}));
 	};
 
 	const searchStory = debounce(_searchStory, 500);
@@ -42,13 +44,8 @@ export default function Stories({params, displayCategoies}) {
 	};
 
 	useEffect(() => {
-		dispatch(
-			loadStories(
-				{_start: count, _limit: 12, _sort: 'created_at:DESC', ...params},
-				shouldCount
-			)
-		);
-	}, [dispatch, count, shouldCount, params]);
+		dispatch(loadStories(criteria, shouldCount));
+	}, [dispatch, count, shouldCount, criteria]);
 
 	const renderStories =
 		data && data.length ? (
@@ -60,8 +57,11 @@ export default function Stories({params, displayCategoies}) {
 					text={item.description}
 					key={item.id}
 					categories={item.categories}
-					creator={item.user.username}
+					likes={item.likes}
+					comments={item.comments}
+					creator={item.user && item.user.username}
 					createdDate={item.created_at}
+					editMode={editMode}
 				/>
 			))
 		) : (
@@ -85,11 +85,11 @@ export default function Stories({params, displayCategoies}) {
 }
 
 Stories.propTypes = {
-	params: propTypes.object,
+	criteria: propTypes.object,
 	displayCategoies: propTypes.bool,
 };
 
 Stories.defaultProps = {
-	params: {},
+	criteria: {_start: 0, _limit: 12, _sort: 'created_at:DESC', published: true},
 	displayCategoies: true,
 };

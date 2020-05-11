@@ -21,6 +21,14 @@
 		display: flex;
 		justify-content: flex-end;
 		margin: 10px 0;
+
+		.st-IconButton {
+			margin-right: 10px;
+
+			&:last-child {
+				margin-right: 0;
+			}
+		}
 	}
 
 	&-header {

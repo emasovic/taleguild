@@ -57,7 +57,7 @@ export default function UserProfile() {
 				<FloatingInput value={firstName} placeholder="Ime" onChange={setFirstName} />
 				<FloatingInput value={email} placeholder="Email adresa" onChange={setEmail} />
 			</div>
-			<Uploader onUploaded={setAvatar} previewImage={avatar} />
+			<Uploader onUploaded={setAvatar} files={[avatar]} onRemove={() => setAvatar(null)} />
 
 			<IconButton onClick={update}>Sačuvaj</IconButton>
 		</div>

@@ -16,13 +16,13 @@
 	}
 
 	&-with-content {
-		display: unset;
+		// display: unset;
 		background: none;
 		color: #000;
 		min-width: 20px;
 		min-height: 20px;
 		width: max-content;
-		border: none !important;
+		// border: none !important;
 		padding: 5px;
 
 		.fa {

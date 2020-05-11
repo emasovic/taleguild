@@ -57,15 +57,18 @@ export const logOutUser = () => dispatch => {
 
 export const getUser = () => async dispatch => {
 	const token = localStorage.getItem('token');
-	if (token) {
-		dispatch(loadingStart());
-		const res = await api.getUserInfo(token);
-		if (res.error) {
-			dispatch(loadingEnd());
-			return localStorage.removeItem('token');
-		}
-		dispatch(gotData({user: res, jwt: token}));
+
+	if (!token) {
+		return null;
 	}
+
+	dispatch(loadingStart());
+	const res = await api.getUserInfo(token);
+	if (res.error) {
+		dispatch(loadingEnd());
+		return localStorage.removeItem('token');
+	}
+	dispatch(gotData({user: res, jwt: token}));
 };
 
 export const updateUser = (token, payload) => async dispatch => {

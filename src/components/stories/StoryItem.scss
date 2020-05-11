@@ -8,6 +8,7 @@
 	border: 1px solid $gray-lighter;
 	display: flex;
 	flex-direction: column;
+	text-decoration: none !important;
 	color: #000 !important;
 
 	&-cover {
@@ -82,12 +83,22 @@
 		width: 100%;
 		padding: 10px;
 		min-height: 40px;
+		display: flex;
+		justify-content: space-between;
 
 		.btn-group {
 			margin-right: 10px;
 
 			.btn {
 				border-radius: 2px !important;
+				min-width: 50px;
+				margin-right: 5px;
+
+				&-outline {
+					&-secondary {
+						border: none;
+					}
+				}
 			}
 		}
 	}

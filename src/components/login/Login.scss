@@ -5,6 +5,14 @@
 	align-items: center;
 	justify-content: center;
 
+	&-modalControl {
+		cursor: pointer;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+
 	.modal {
 		min-width: 620px;
 

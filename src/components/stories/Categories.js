@@ -17,7 +17,7 @@ export default function Categories() {
 	const [activeCategory, setActiveCategory] = useState('all');
 
 	const getStoriesByCategoryId = categoryId => {
-		dispatch(loadStories({categories: categoryId}));
+		dispatch(loadStories({categories: categoryId, published: true}));
 		setActiveCategory(categoryId);
 	};
 
@@ -41,20 +41,22 @@ export default function Categories() {
 							Sve
 						</p>
 					</NavItem>
-					{data.map(item => (
-						<NavItem key={item.id}>
-							<p
-								className={
-									activeCategory === item.id
-										? `${CLASS}-itemActive`
-										: `${CLASS}-item`
-								}
-								onClick={() => getStoriesByCategoryId(item.id)}
-							>
-								{item.display_name}
-							</p>
-						</NavItem>
-					))}
+					{data.length
+						? data.map(item => (
+								<NavItem key={item.id}>
+									<p
+										className={
+											activeCategory === item.id
+												? `${CLASS}-itemActive`
+												: `${CLASS}-item`
+										}
+										onClick={() => getStoriesByCategoryId(item.id)}
+									>
+										{item.display_name}
+									</p>
+								</NavItem>
+						  ))
+						: null}
 				</Nav>
 			)}
 		</div>

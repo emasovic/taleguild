@@ -6,32 +6,6 @@ import './TextEditor.scss';
 
 const CLASS = 'st-TextEditor';
 
-const {Quill} = ReactQuill;
-
-let Size;
-const SIZES_WHITELIST = [
-	'8px',
-	'9px',
-	'10px',
-	'11px',
-	'12px',
-	'14px',
-	'16px',
-	'18px',
-	'20px',
-	'24px',
-	'30px',
-	'36px',
-	'48px',
-	'60px',
-	'72px',
-	'96px',
-];
-
-Size = Quill.import('attributors/style/size');
-Size.whitelist = SIZES_WHITELIST;
-Quill.register(Size, true);
-
 export default function TextEditor(props) {
 	const {value, onChange} = props;
 	return (
@@ -52,9 +26,9 @@ TextEditor.modules = {
 	toolbar: {
 		container: [
 			[{header: []}],
-			[{font: []}],
+			// [{font: []}],
 			// [{size: SIZES_WHITELIST}],
-			['bold', 'italic', 'underline', {color: []}, {background: []}], // toggled buttons
+			['bold', 'italic', 'underline', {color: []}], // toggled buttons
 			[{align: []}],
 			[{list: 'ordered'}, {list: 'bullet'}],
 			[{indent: '-1'}, {indent: '+1'}], // outdent/indent
@@ -83,8 +57,8 @@ TextEditor.formats = [
 	'bullet',
 	'indent',
 	'link',
-	'image',
-	'video',
+	// 'image',
+	// 'video',
 	'color',
 	'align',
 	'background',

@@ -30,6 +30,10 @@ export const updateStory = (token, payload) => {
 	return http.put('stories/' + payload.id, {token}, payload);
 };
 
+export const deleteStory = (token, id) => {
+	return http.del('stories/' + id, {token});
+};
+
 export const getStories = filter => {
 	return http.get('stories', filter);
 };
@@ -52,6 +56,12 @@ export const getCategories = filter => {
 
 export const createComment = (token, payload) => {
 	return http.post('comments', {token}, payload);
+};
+
+/******************      LIKES        ***********************/
+
+export const createLike = (token, payload) => {
+	return http.post('likes', {token}, payload);
 };
 
 /******************      MEDIA        ***********************/

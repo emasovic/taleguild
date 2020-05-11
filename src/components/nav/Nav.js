@@ -48,6 +48,11 @@ export default function Navigation() {
 	const {data, loading} = user;
 	const token = data && data.token;
 
+	const openModal = () => {
+		setIsLoginOpen(!isLoginOpen);
+		setIsRegisterOpen(!isRegisterOpen);
+	};
+
 	useEffect(() => {
 		if (token) {
 			setIsLoginOpen(false);
@@ -76,15 +81,6 @@ export default function Navigation() {
 		const {username, avatar} = data;
 		return (
 			<>
-				{/* <NavItem>
-					<NavLink href="/story/new">Napisite pricu</NavLink>
-				</NavItem> */}
-				{/* <NavItem>
-					<NavLink href="#">Sacuvane</NavLink>
-				</NavItem>
-				<NavItem>
-					<NavLink href="#">Poslednje vidjeno</NavLink>
-				</NavItem> */}
 				<NavItem className={CLASS + '-user'}>
 					<Dropdown isOpen={dropdownOpen} toggle={toggle}>
 						<DropdownToggle outline caret>
@@ -113,11 +109,6 @@ export default function Navigation() {
 	return (
 		<div className={CLASS}>
 			<Navbar>
-				{/* <Nav>
-					<NavItem>
-						<Burger />
-					</NavItem>
-				</Nav> */}
 				<NavbarBrand href="/">
 					<Logo />
 					<h2>
@@ -129,9 +120,15 @@ export default function Navigation() {
 				</Nav>
 			</Navbar>
 			{isRegisterOpen && (
-				<SignUp open={isRegisterOpen} onClose={() => setIsRegisterOpen(false)} />
+				<SignUp
+					open={isRegisterOpen}
+					onChange={openModal}
+					onClose={() => setIsRegisterOpen(false)}
+				/>
 			)}
-			{isLoginOpen && <Login open={isLoginOpen} onClose={() => setIsLoginOpen(false)} />}
+			{isLoginOpen && (
+				<Login open={isLoginOpen} onChange={openModal} onClose={() => setIsLoginOpen(false)} />
+			)}
 		</div>
 	);
 }

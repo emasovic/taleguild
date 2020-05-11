@@ -28,7 +28,7 @@ export default function Login(props) {
 		dispatch(loginUser({identifier, password}));
 	};
 
-	const {open, onClose} = props;
+	const {open, onClose, onChange} = props;
 
 	return (
 		<Modal returnFocusAfterClose={true} isOpen={open} modalClassName={CLASS}>
@@ -53,6 +53,9 @@ export default function Login(props) {
 						invalid={!!error}
 					/>
 					<IconButton>Login</IconButton>
+					<div className={CLASS + '-modalControl'} onClick={onChange}>
+						Nemate nalog? Registrujte se.
+					</div>
 				</Form>
 			</ModalBody>
 		</Modal>

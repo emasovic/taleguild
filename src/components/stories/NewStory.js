@@ -9,7 +9,7 @@ import {selectUser} from '../../redux/user';
 import FloatingInput from '../widgets/input/FloatingInput';
 import TextEditor from '../widgets/text-editor/TextEditor';
 import IconButton from '../widgets/button/IconButton';
-import ImageUploader from '../widgets/uploader/Uploader';
+import Uploader from '../widgets/uploader/Uploader';
 import CategoryPicker from 'components/widgets/pickers/category/CategoryPicker';
 
 import './NewStory.scss';
@@ -33,6 +33,7 @@ export default function NewStory({story}) {
 			id: story && story.id,
 			title,
 			text,
+			published: true,
 			image: image && image.id,
 			user: data && data.id,
 			description,
@@ -64,7 +65,7 @@ export default function NewStory({story}) {
 				/>
 			</div>
 			<div className={CLASS + '-uploader'}>
-				<ImageUploader onUploaded={setImage} previewImage={image} />
+				<Uploader onUploaded={setImage} onRemove={() => setImage(null)} files={image} />
 			</div>
 
 			<div className={CLASS + '-editor'}>
@@ -77,6 +78,7 @@ export default function NewStory({story}) {
 				placeholder="Opis price ..."
 				onChange={e => setDescription(e.target.value)}
 			/>
+			<Input type="checkbox" />
 			<div className={CLASS + '-button'}>
 				<IconButton onClick={create}>Sačuvaj</IconButton>
 			</div>

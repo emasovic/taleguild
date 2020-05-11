@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import propTypes from 'prop-types';
 import {useDropzone} from 'react-dropzone';
 import {useSelector, useDispatch} from 'react-redux';
@@ -21,15 +21,15 @@ const CLASS = 'st-Uploader';
 export default function Uploader({
 	acceptedTypes,
 	onUploaded,
-	previewImage,
-	label,
+	onRemove,
+	uploadlabel,
 	buttonLabel,
 	multiple,
+	files,
 }) {
 	const user = useSelector(selectUser);
 	const dispatch = useDispatch();
 	const {data} = user;
-	const [files, setFiles] = useState([]);
 	const {getRootProps, getInputProps} = useDropzone({
 		multiple,
 		accept: acceptedTypes,
@@ -37,46 +37,24 @@ export default function Uploader({
 			uploadMedia(data && data.token, acceptedFiles)
 				.then(files => onUploaded(multiple ? files : files[0]))
 				.catch(err => dispatch(addToast({...Toast.error(err)})));
-			setFiles(
-				acceptedFiles.map(file =>
-					Object.assign(file, {
-						preview: URL.createObjectURL(file),
-					})
-				)
-			);
 		},
 	});
 
-	const removeFile = index => {
-		const filtered = files.filter((item, key) => key !== index);
-		onUploaded(null);
-		setFiles(filtered);
-	};
+	files = files ? (Array.isArray(files) ? files : [files]) : null;
 
-	const thumbs = files.map((file, index) => (
-		<div key={file.name} className={CLASS + '-thumbs-item'}>
-			<Image src={file.preview} alt={file.name} />
-			<IconButton icon={FA.remove} onClick={() => removeFile(index)} />
-		</div>
-	));
-
-	useEffect(
-		() => () => {
-			// Make sure to revoke the data uris to avoid memory leaks
-			files.forEach(file => URL.revokeObjectURL(file.preview));
-		},
-		[files]
-	);
+	const thumbs =
+		files && files.length
+			? files.map((file, index) => (
+					<div key={index} className={CLASS + '-thumbs-item'}>
+						<Image image={file} />
+						<IconButton icon={FA.remove} onClick={() => onRemove(index)} />
+					</div>
+			  ))
+			: null;
 
 	return (
 		<div className={CLASS}>
-			<div className={CLASS + '-thumbs'}>{thumbs.length ? thumbs : <span>{label}</span>}</div>
-			{previewImage && !files.length ? (
-				<div className={CLASS + '-preview'}>
-					<Image image={previewImage} />
-					<IconButton icon={FA.remove} onClick={() => onUploaded(null)} />
-				</div>
-			) : null}
+			<div className={CLASS + '-thumbs'}>{thumbs ? thumbs : <span>{uploadlabel}</span>}</div>
 			<div {...getRootProps({className: CLASS + '-dropzone'})}>
 				<input {...getInputProps()} />
 				<IconButton>{buttonLabel}</IconButton>
@@ -88,15 +66,16 @@ export default function Uploader({
 Uploader.propTypes = {
 	acceptedTypes: propTypes.string,
 	onUploaded: propTypes.func,
-	previewImage: propTypes.object,
-	label: propTypes.string,
+	onRemove: propTypes.func,
+	files: propTypes.oneOfType([propTypes.object, propTypes.array]),
+	uploadlabel: propTypes.string,
 	buttonLabel: propTypes.string,
 	multiple: propTypes.bool,
 };
 
 Uploader.defaultProps = {
 	acceptedTypes: 'image/*',
-	label: 'Dodajte sadržaj',
+	uploadlabel: 'Dodajte sadržaj',
 	buttonLabel: 'Dodaj',
 	multiple: false,
 };

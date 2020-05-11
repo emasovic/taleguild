@@ -11,11 +11,16 @@
 	&-header {
 		display: flex;
 		justify-content: space-between;
+		padding: 0 20px;
 	}
 
 	&-lastest {
 		display: flex;
 		flex-flow: row wrap;
+
+		h2 {
+			padding: 0 20px;
+		}
 		// justify-content: space-between;
 
 		// &:after {

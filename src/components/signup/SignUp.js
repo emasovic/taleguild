@@ -29,7 +29,7 @@ export default function SignUp(props) {
 		dispatch(registerUser({username, email, password}));
 	};
 
-	const {open, onClose} = props;
+	const {open, onClose, onChange} = props;
 
 	return (
 		<Modal returnFocusAfterClose={true} isOpen={open} modalClassName={CLASS}>
@@ -59,6 +59,9 @@ export default function SignUp(props) {
 						errorMessage={error}
 					/>
 					<IconButton>Sign Up</IconButton>
+					<div className={CLASS + '-modalControl'} onClick={onChange}>
+						Imate nalog? Ulogujte se.
+					</div>
 				</Form>
 			</ModalBody>
 		</Modal>

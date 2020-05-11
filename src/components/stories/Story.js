@@ -1,12 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector, shallowEqual} from 'react-redux';
 import {Input} from 'reactstrap';
+import {useParams, useHistory} from 'react-router-dom';
 import Fullscreen from 'react-full-screen';
 
-import FA from 'types/font_awesome';
 import {editStory} from 'lib/routes';
 
-import {loadStory, selectStory, createComment} from 'redux/story';
+import FA from 'types/font_awesome';
+import {COLOR} from 'types/button';
+
+import {loadStory, selectStory, deleteStory, createComment} from 'redux/story';
 import {selectUser} from 'redux/user';
 
 import TextViewer from 'components/widgets/text-editor/TextViewer';
@@ -18,12 +21,13 @@ import './Story.scss';
 
 const CLASS = 'st-Story';
 
-export default function Story(props) {
-	const {params} = props.match;
+export default function Story({previewStory}) {
+	const {id} = useParams();
+	const history = useHistory();
 	const dispatch = useDispatch();
 	const {story, loading, loggedUser} = useSelector(
 		state => ({
-			story: selectStory(state, params.id),
+			story: selectStory(state, id),
 			loading: state.stories.loading,
 			loggedUser: selectUser(state),
 		}),
@@ -41,8 +45,8 @@ export default function Story(props) {
 	};
 
 	useEffect(() => {
-		dispatch(loadStory(params.id));
-	}, [dispatch, params.id]);
+		dispatch(loadStory(id));
+	}, [dispatch, id]);
 
 	if (loading || !story) {
 		return (
@@ -58,9 +62,20 @@ export default function Story(props) {
 		<div className={CLASS}>
 			<div className={`${CLASS}-fullscreen`}>
 				{data && user.id === data.id && (
-					<IconButton icon={FA.pencil} href={editStory(story.id)} />
+					<>
+						<IconButton icon={FA.pencil} href={editStory(story.id)} />
+						<IconButton
+							icon={FA.trash}
+							color={COLOR.danger}
+							onClick={() => dispatch(deleteStory(story.id, history))}
+						/>
+					</>
 				)}
-				<IconButton icon={FA.arrows_alt} onClick={() => setIsFull(true)} />
+				<IconButton
+					icon={FA.arrows_alt}
+					color={COLOR.secondary}
+					onClick={() => setIsFull(true)}
+				/>
 			</div>
 
 			<Fullscreen enabled={isFull} onChange={isFull => setIsFull(isFull)}>
