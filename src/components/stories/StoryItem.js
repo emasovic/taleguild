@@ -3,7 +3,7 @@ import propTypes from 'prop-types';
 import moment from 'moment';
 import {Link, useHistory} from 'react-router-dom';
 import {ButtonGroup} from 'reactstrap';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {editStory} from 'lib/routes';
 
@@ -16,6 +16,7 @@ import IconButton from 'components/widgets/button/IconButton';
 import Image from 'components/widgets/image/Image';
 
 import './StoryItem.scss';
+import {selectUser} from 'redux/user';
 
 const CLASS = 'st-StoryItem';
 
@@ -34,6 +35,8 @@ export default function StoryItem({
 	const dispatch = useDispatch();
 	const history = useHistory();
 
+	const {data} = useSelector(selectUser);
+
 	const goToEdit = e => {
 		e.preventDefault();
 		history.push(editStory(id));
@@ -43,6 +46,13 @@ export default function StoryItem({
 		categories && categories.length
 			? categories.map((item, key) => <span key={key}>{item.display_name}</span>)
 			: null;
+
+	let liked = false;
+
+	if (data) {
+		liked = likes.find(l => l.user === data.id);
+	}
+
 	return (
 		<Link to={`/story/${id}`} className={CLASS}>
 			<div className={CLASS + '-cover'}>
@@ -69,7 +79,12 @@ export default function StoryItem({
 						</>
 					) : (
 						<>
-							<IconButton outline color={COLOR.secondary} icon={FA.heart}>
+							<IconButton
+								outline
+								active={!!liked}
+								color={COLOR.secondary}
+								icon={FA.heart}
+							>
 								{likes.length}
 							</IconButton>
 							<IconButton outline color={COLOR.secondary} icon={FA.comment}>

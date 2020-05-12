@@ -94,8 +94,15 @@
 				min-width: 50px;
 				margin-right: 5px;
 
+				&.active {
+					.fa {
+						color: #ff0000;
+					}
+				}
+
 				&-outline {
 					&-secondary {
+						background: transparent !important;
 						border: none;
 					}
 				}

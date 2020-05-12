@@ -64,6 +64,10 @@ export const createLike = (token, payload) => {
 	return http.post('likes', {token}, payload);
 };
 
+export const deleteLike = (token, id) => {
+	return http.del('likes/' + id, {token});
+};
+
 /******************      MEDIA        ***********************/
 
 export const uploadMedia = (token, files) => {

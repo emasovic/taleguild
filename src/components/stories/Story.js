@@ -9,7 +9,7 @@ import {editStory} from 'lib/routes';
 import FA from 'types/font_awesome';
 import {COLOR} from 'types/button';
 
-import {loadStory, selectStory, deleteStory, createComment} from 'redux/story';
+import {loadStory, selectStory, deleteStory, createComment, createOrDeleteLike} from 'redux/story';
 import {selectUser} from 'redux/user';
 
 import TextViewer from 'components/widgets/text-editor/TextViewer';
@@ -56,7 +56,13 @@ export default function Story({previewStory}) {
 		);
 	}
 
-	const {image, user, comments} = story;
+	const {image, user, comments, likes} = story;
+
+	let liked = false;
+
+	if (data) {
+		liked = likes.find(l => l.user === data.id);
+	}
 
 	return (
 		<div className={CLASS}>
@@ -85,6 +91,21 @@ export default function Story({previewStory}) {
 						<h3>{story.title}</h3>
 						<span>{user.username}</span>
 					</div>
+				</div>
+
+				<div className={`${CLASS}-actions`}>
+					<IconButton
+						outline
+						active={!!liked}
+						color={COLOR.secondary}
+						icon={FA.heart}
+						onClick={() => dispatch(createOrDeleteLike(liked, data.id, story.id))}
+					>
+						{likes.length}
+					</IconButton>
+					<IconButton outline color={COLOR.secondary} icon={FA.comment}>
+						{comments.length}
+					</IconButton>
 				</div>
 
 				<TextViewer value={story.text} />

@@ -25,10 +25,22 @@ export const storySlice = createSlice({
 			state.loading = false;
 		},
 		gotComment: (state, action) => {
-			const {story_id, ...rest} = action.payload;
-			state.data[story_id] = {
-				...state.data[story_id],
-				comments: [...state.data[story_id].comments, {...rest}],
+			const {storyId, ...rest} = action.payload;
+			state.data[storyId].comments.push({...rest});
+			state.loading = false;
+			state.error = action.payload.error;
+		},
+		gotLike: (state, action) => {
+			const {storyId, ...rest} = action.payload;
+			state.data[storyId].likes.push({...rest});
+			state.loading = false;
+			state.error = action.payload.error;
+		},
+		removeLike: (state, action) => {
+			const {storyId, likeId} = action.payload;
+			state.data[storyId] = {
+				...state.data[storyId],
+				likes: state.data[storyId].likes.filter(l => l.id !== likeId),
 			};
 			state.loading = false;
 			state.error = action.payload.error;
@@ -60,6 +72,8 @@ export const {
 	removeStory,
 	gotComment,
 	gotPages,
+	gotLike,
+	removeLike,
 } = storySlice.actions;
 
 export const createOrUpdateStory = (payload, history) => async (dispatch, getState) => {
@@ -126,8 +140,30 @@ export const createComment = payload => async (dispatch, getState) => {
 		dispatch(loadingEnd());
 		return dispatch(newToast({...Toast.error('Došlo je do greške!')}));
 	}
-	dispatch(gotComment({story_id: payload.story, ...res}));
+	dispatch(gotComment({storyId: payload.story, ...res}));
 	dispatch(newToast({...Toast.success('Uspešno ste postavili komentar.')}));
+};
+
+export const createOrDeleteLike = (like, userId, storyId) => async (dispatch, getState) => {
+	dispatch(loadingStart());
+
+	const state = getState();
+	const {user} = state;
+
+	const res = like
+		? await api.deleteLike(user.data.token, like.id)
+		: await api.createLike(user.data.token, {user: userId, story: storyId});
+
+	if (res.error) {
+		dispatch(loadingEnd());
+		return dispatch(newToast({...Toast.error('Došlo je do greške!')}));
+	}
+
+	if (res.id) {
+		return dispatch(gotLike({storyId, ...res, story: storyId, user: userId}));
+	}
+
+	return dispatch(removeLike({storyId: storyId, likeId: like.id}));
 };
 
 //SELECTORS

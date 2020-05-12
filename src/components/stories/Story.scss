@@ -70,6 +70,22 @@
 		}
 	}
 
+	&-actions {
+		margin-top: 20px;
+
+		.st-IconButton {
+			&.active {
+				.fa {
+					color: #ff0000;
+				}
+			}
+
+			&:first-child {
+				margin-right: 10px;
+			}
+		}
+	}
+
 	&-comments {
 		margin-top: 10px;
 
