@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
 import {Input, FormGroup, FormFeedback} from 'reactstrap';
-// import FontAwesome from 'react-fontawesome';
 
 import './Input.scss';
 
-const CLASS = 'fs-Input';
+const CLASS = 'st-Input';
 
 export default class TextInputWithIcon extends Component {
 	static defaultProps = {

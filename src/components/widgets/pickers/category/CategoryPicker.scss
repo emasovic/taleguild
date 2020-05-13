@@ -11,4 +11,12 @@
 		min-height: 50px;
 		font-size: 14px;
 	}
+
+	.css-1pahdxg-control {
+		box-shadow: 0 0 0 1px $color-primary;
+
+		&:hover {
+			border-color: $color-primary;
+		}
+	}
 }

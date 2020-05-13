@@ -20,6 +20,7 @@ export default function UserProfile() {
 	const [username, setUsername] = useState('');
 	const [email, setEmail] = useState('');
 	const [firstName, setFirstName] = useState('');
+	const [lastName, setLastName] = useState('');
 
 	const update = () => {
 		dispatch(
@@ -28,6 +29,7 @@ export default function UserProfile() {
 				username,
 				email,
 				first_name: firstName,
+				last_name: lastName,
 				avatar: avatar && avatar.id,
 			})
 		);
@@ -39,6 +41,7 @@ export default function UserProfile() {
 			setAvatar(data.avatar);
 			setUsername(data.username);
 			setFirstName(data.first_name || '');
+			setFirstName(data.last_name || '');
 		}
 	}, [data]);
 
@@ -49,13 +52,19 @@ export default function UserProfile() {
 	return (
 		<div className={CLASS}>
 			<div className={CLASS + '-info'}>
-				<FloatingInput
-					value={username}
-					placeholder="Korisničko ime"
-					onChange={setUsername}
-				/>
-				<FloatingInput value={firstName} placeholder="Ime" onChange={setFirstName} />
-				<FloatingInput value={email} placeholder="Email adresa" onChange={setEmail} />
+				<div>
+					<FloatingInput
+						value={username}
+						placeholder="Korisničko ime"
+						onChange={setUsername}
+					/>
+
+					<FloatingInput value={email} placeholder="Email adresa" onChange={setEmail} />
+				</div>
+				<div>
+					<FloatingInput value={firstName} placeholder="Ime" onChange={setFirstName} />
+					<FloatingInput value={lastName} placeholder="Prezime" onChange={setLastName} />
+				</div>
 			</div>
 			<Uploader onUploaded={setAvatar} files={[avatar]} onRemove={() => setAvatar(null)} />
 

@@ -15,6 +15,15 @@
 	&-info {
 		display: flex;
 		align-items: center;
+		flex-direction: column;
+
+		> div {
+			display: flex;
+
+			@media (max-width: $tablet-width) {
+				flex-direction: column;
+			}
+		}
 
 		.st-FloatingInput {
 			margin-right: 15px;

@@ -12,6 +12,10 @@
 		background: #fff;
 		padding: 20px;
 		overflow: auto;
+
+		@media (max-width: $tablet-width) {
+			padding: 10px;
+		}
 	}
 
 	.st-TextViewer {

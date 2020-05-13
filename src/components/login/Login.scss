@@ -65,10 +65,10 @@
 
 			@media (max-width: $tablet-width) {
 				min-width: unset;
+				min-height: 500px;
 
-				.st-Button {
-					margin-top: 10px;
-					width: 100%;
+				.st-Billboard {
+					display: none;
 				}
 			}
 		}

@@ -18,6 +18,16 @@
 			margin-right: 15px;
 			margin-bottom: 0;
 		}
+
+		@media (max-width: $tablet-width) {
+			flex-direction: column;
+
+			.st-CategoryPicker,
+			.st-FloatingInput {
+				width: 100%;
+				margin: 10px 0;
+			}
+		}
 	}
 
 	&-uploader {

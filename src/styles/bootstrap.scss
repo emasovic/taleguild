@@ -3,5 +3,10 @@
 $primary: $color-primary;
 $secondary: $color-secondary;
 
-
 @import '~bootstrap/scss/bootstrap.scss';
+
+.form-control {
+	&:focus {
+		border-color: $color-primary;
+	}
+}
