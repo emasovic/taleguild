@@ -6,11 +6,12 @@ import {Input} from 'reactstrap';
 import {createOrUpdateStory} from '../../redux/story';
 import {selectUser} from '../../redux/user';
 
+import CategoryPicker from 'components/widgets/pickers/category/CategoryPicker';
+import Checkbox from 'components/widgets/checkbox/Checkbox';
 import FloatingInput from '../widgets/input/FloatingInput';
 import TextEditor from '../widgets/text-editor/TextEditor';
 import IconButton from '../widgets/button/IconButton';
 import Uploader from '../widgets/uploader/Uploader';
-import CategoryPicker from 'components/widgets/pickers/category/CategoryPicker';
 
 import './NewStory.scss';
 
@@ -27,13 +28,14 @@ export default function NewStory({story}) {
 	const [description, setDescription] = useState('');
 	const [category, setCategory] = useState([]);
 	const [image, setImage] = useState(null);
+	const [published, setPublished] = useState(false);
 
 	const create = () => {
 		const payload = {
 			id: story && story.id,
 			title,
 			text,
-			published: true,
+			published,
 			image: image && image.id,
 			user: data && data.id,
 			description,
@@ -47,9 +49,10 @@ export default function NewStory({story}) {
 		if (story) {
 			setTitle(story.title);
 			setText(story.text);
-			setDescription(story.description);
+			setDescription(story.description || '');
 			setCategory(story.categories.map(item => ({label: item.name, value: item.id})));
 			setImage(story.image);
+			setPublished(story.published);
 		}
 	}, [story]);
 
@@ -78,7 +81,13 @@ export default function NewStory({story}) {
 				placeholder="Opis price ..."
 				onChange={e => setDescription(e.target.value)}
 			/>
-			<Input type="checkbox" />
+
+			<Checkbox
+				label="Objavljena"
+				checked={published}
+				onChange={(checked) => setPublished(checked)}
+			/>
+
 			<div className={CLASS + '-button'}>
 				<IconButton onClick={create}>Sačuvaj</IconButton>
 			</div>

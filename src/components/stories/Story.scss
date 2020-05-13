@@ -11,13 +11,14 @@
 	.fullscreen {
 		background: #fff;
 		padding: 20px;
+		overflow: auto;
 	}
 
 	.st-TextViewer {
 		padding: 20px 0;
 	}
 
-	&-fullscreen {
+	&-userActions {
 		display: flex;
 		justify-content: flex-end;
 		margin: 10px 0;

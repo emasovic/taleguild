@@ -78,7 +78,7 @@ export default function Stories({criteria, editMode, displayCategoies}) {
 			</div>
 			<div className={CLASS + '-lastest'}>{loading ? <Loader /> : renderStories}</div>
 			<div className={CLASS + '-pagination'}>
-				{pages && <Pages pages={pages} onClick={handleCount} />}
+				{!!pages && <Pages pages={pages} onClick={handleCount} />}
 			</div>
 		</div>
 	);

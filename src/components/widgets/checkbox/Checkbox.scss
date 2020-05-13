@@ -1,0 +1,14 @@
+@import '../../../styles/variables.scss';
+
+.st-Checkbox {
+	margin: 20px 0;
+
+	label {
+		&:before,
+		&:after {
+			top: 0;
+			width: 20px;
+			height: 20px;
+		}
+	}
+}

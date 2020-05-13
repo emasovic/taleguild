@@ -114,7 +114,9 @@ export const loadStories = (params, count) => async dispatch => {
 	dispatch(loadingStart());
 	const res = await api.getStories(params);
 	if (count) {
-		const res = await api.countStories(params && {user: params.user});
+		const res = await api.countStories(
+			params && {user: params.user, published: params.published}
+		);
 		dispatch(gotPages(Math.ceil(res / 12)));
 	}
 	return dispatch(gotData(res));

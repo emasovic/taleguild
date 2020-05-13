@@ -11,12 +11,12 @@ import FA from '../../types/font_awesome';
 import {COLOR} from '../../types/button';
 
 import {deleteStory} from 'redux/story';
+import {selectUser} from 'redux/user';
 
 import IconButton from 'components/widgets/button/IconButton';
 import Image from 'components/widgets/image/Image';
 
 import './StoryItem.scss';
-import {selectUser} from 'redux/user';
 
 const CLASS = 'st-StoryItem';
 

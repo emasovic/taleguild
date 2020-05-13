@@ -11,20 +11,17 @@ import './Categories.scss';
 
 const CLASS = 'st-Categories';
 
+
 export default function Categories() {
 	const dispatch = useDispatch();
 	const [{data, isLoading}] = useLoadCategories();
-	const [activeCategory, setActiveCategory] = useState('all');
+	const [activeCategory, setActiveCategory] = useState(null);
 
 	const getStoriesByCategoryId = categoryId => {
 		dispatch(loadStories({categories: categoryId, published: true}));
 		setActiveCategory(categoryId);
 	};
 
-	const getAllCategories = () => {
-		dispatch(loadStories());
-		setActiveCategory('all');
-	};
 	return (
 		<div className={CLASS}>
 			<span>Kategorije</span>
@@ -32,10 +29,10 @@ export default function Categories() {
 				<Loader />
 			) : (
 				<Nav>
-					<NavItem onClick={getAllCategories}>
+					<NavItem onClick={() => getStoriesByCategoryId(undefined)}>
 						<p
 							className={
-								activeCategory === 'all' ? `${CLASS}-itemActive` : `${CLASS}-item`
+								!activeCategory ? `${CLASS}-itemActive` : `${CLASS}-item`
 							}
 						>
 							Sve

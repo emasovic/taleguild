@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {useDispatch, useSelector, shallowEqual} from 'react-redux';
 import {Input} from 'reactstrap';
 import {useParams, useHistory} from 'react-router-dom';
@@ -38,11 +38,19 @@ export default function Story({previewStory}) {
 
 	const [isFull, setIsFull] = useState(false);
 	const [comment, setComment] = useState('');
+	const commentsRef = useRef(null);
 
 	const createNewComment = () => {
 		dispatch(createComment({user: data.id, story: story.id, comment}));
 		setComment('');
 	};
+
+	const scrollToRef = ref =>
+		ref &&
+		ref.current.scrollIntoView({
+			behavior: 'smooth',
+			block: 'start',
+		});
 
 	useEffect(() => {
 		dispatch(loadStory(id));
@@ -60,13 +68,15 @@ export default function Story({previewStory}) {
 
 	let liked = false;
 
+	const disabled = !!data;
+
 	if (data) {
 		liked = likes.find(l => l.user === data.id);
 	}
 
 	return (
 		<div className={CLASS}>
-			<div className={`${CLASS}-fullscreen`}>
+			<div className={`${CLASS}-userActions`}>
 				{data && user.id === data.id && (
 					<>
 						<IconButton icon={FA.pencil} href={editStory(story.id)} />
@@ -93,38 +103,38 @@ export default function Story({previewStory}) {
 					</div>
 				</div>
 
-				<div className={`${CLASS}-actions`}>
-					<IconButton
-						outline
-						active={!!liked}
-						color={COLOR.secondary}
-						icon={FA.heart}
-						onClick={() => dispatch(createOrDeleteLike(liked, data.id, story.id))}
-					>
-						{likes.length}
-					</IconButton>
-					<IconButton outline color={COLOR.secondary} icon={FA.comment}>
-						{comments.length}
-					</IconButton>
-				</div>
+				{!isFull && (
+					<div className={`${CLASS}-actions`}>
+						<IconButton
+							outline
+							active={!!liked}
+							disabled={!disabled}
+							color={COLOR.secondary}
+							icon={FA.heart}
+							onClick={() =>
+								dispatch(createOrDeleteLike(liked, data && data.id, story.id))
+							}
+						>
+							{likes.length}
+						</IconButton>
+						<IconButton
+							outline
+							color={COLOR.secondary}
+							onClick={() => scrollToRef(commentsRef)}
+							disabled={!disabled}
+							icon={FA.comment}
+						>
+							{comments.length}
+						</IconButton>
+					</div>
+				)}
 
 				<TextViewer value={story.text} />
 			</Fullscreen>
 
 			<div className={`${CLASS}-comments`}>
-				{comments.length
-					? comments.map((item, key) => {
-							return (
-								<div key={key} className={`${CLASS}-comments-comment`}>
-									<span>{item.user.username}</span>
-									<Input type="textarea" value={item.comment} disabled />
-								</div>
-							);
-					  })
-					: null}
-
 				{data && (
-					<div className={`${CLASS}-comments-newComment`}>
+					<div className={`${CLASS}-comments-newComment`} ref={commentsRef}>
 						<Input
 							rows={5}
 							type="textarea"
@@ -135,6 +145,16 @@ export default function Story({previewStory}) {
 						<IconButton onClick={createNewComment}>Postavite komentar</IconButton>
 					</div>
 				)}
+				{comments.length
+					? comments.map((item, key) => {
+							return (
+								<div key={key} className={`${CLASS}-comments-comment`}>
+									<span>{item.user.username}</span>
+									<Input type="textarea" value={item.comment} disabled />
+								</div>
+							);
+					  })
+					: null}
 			</div>
 		</div>
 	);
