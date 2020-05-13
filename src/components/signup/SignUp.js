@@ -13,6 +13,7 @@ import Billboard from 'components/widgets/billboard/Billboard';
 import background from '../../images/cover.png';
 
 import './SignUp.scss';
+import {Link} from 'react-router-dom';
 
 const CLASS = 'st-SignUp';
 
@@ -59,9 +60,7 @@ export default function SignUp(props) {
 						errorMessage={error}
 					/>
 					<IconButton>Sign Up</IconButton>
-					<div className={CLASS + '-modalControl'} onClick={onChange}>
-						Imate nalog? Ulogujte se.
-					</div>
+					<Link onClick={onChange}>Imate nalog? Ulogujte se.</Link>
 				</Form>
 			</ModalBody>
 		</Modal>

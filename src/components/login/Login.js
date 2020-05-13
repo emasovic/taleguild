@@ -1,8 +1,11 @@
 import React, {useState} from 'react';
 import {Modal, ModalBody, Form} from 'reactstrap';
 import {useDispatch, useSelector} from 'react-redux';
+import {Link} from 'react-router-dom';
 
 import FA from 'types/font_awesome';
+
+import {FORGOT_PASSWORD} from 'lib/routes';
 
 import {loginUser, selectUser} from '../../redux/user';
 
@@ -53,9 +56,12 @@ export default function Login(props) {
 						invalid={!!error}
 					/>
 					<IconButton>Login</IconButton>
-					<div className={CLASS + '-modalControl'} onClick={onChange}>
+					<Link to="#" onClick={onChange}>
 						Nemate nalog? Registrujte se.
-					</div>
+					</Link>
+					<Link to={FORGOT_PASSWORD} onClick={onClose}>
+						Zaboravili ste lozinku? Kliknite ovde.
+					</Link>
 				</Form>
 			</ModalBody>
 		</Modal>

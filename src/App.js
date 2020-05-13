@@ -16,6 +16,9 @@ import EditStory from 'components/stories/EditStory';
 import UserProfile from 'components/user/UserProfile';
 import MyStories from 'components/user/MyStories';
 
+import ForgotPassword from 'components/login/ForgotPassword';
+import ResetPassword from 'components/login/ResetPassword';
+
 import PrivateRoute from 'PrivateRoute';
 import NotFound from 'NotFound';
 
@@ -36,6 +39,8 @@ function App() {
 				<Route path={routes.STORY_ID} component={Story} />
 				<PrivateRoute path={routes.USER_STORIES} component={MyStories} />
 				<PrivateRoute path={routes.USER_ID} component={UserProfile} />
+				<Route path={routes.FORGOT_PASSWORD} component={ForgotPassword} />
+				<Route path={routes.RESET_PASSWORD} component={ResetPassword} />
 				<Route path="*" component={NotFound} />
 			</Switch>
 		</Router>

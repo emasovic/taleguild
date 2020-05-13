@@ -1,6 +1,8 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 import * as api from '../lib/api';
+import {HOME} from 'lib/routes';
+
 import {newToast} from './toast';
 import {Toast} from 'types/toast';
 
@@ -80,6 +82,36 @@ export const updateUser = (token, payload) => async dispatch => {
 	}
 	dispatch(newToast({...Toast.success('Uspešno ste izmenili podatke!')}));
 	dispatch(gotData({user: res, jwt: token}));
+};
+
+export const forgotPassword = payload => async dispatch => {
+	const res = await api.forgotPassword(payload);
+	if (res.error) {
+		if (Array.isArray(res.error)) {
+			return dispatch(newToast({...Toast.error('Došlo je do greške!')}));
+		}
+		return dispatch(newToast({...Toast.error(res.error)}));
+	}
+	dispatch(
+		newToast({...Toast.success('Uskoro ćete dobiti mail sa linkom sa resetovanje šifre!')})
+	);
+};
+
+export const resetPassword = (payload, history) => async dispatch => {
+	if (payload.password !== payload.passwordConfirmation) {
+		return dispatch(newToast({...Toast.error('Šifre se ne poklapaju!')}));
+	}
+	dispatch(loadingStart());
+	const res = await api.resetPassword(payload);
+
+	if (res.error) {
+		dispatch(loadingEnd());
+		return dispatch(newToast({...Toast.error(res.error)}));
+	}
+	localStorage.setItem('token', res.jwt);
+	dispatch(gotData(res));
+	history.push(HOME);
+	dispatch(newToast({...Toast.success('Uspešno ste resetovali šifru!')}));
 };
 
 export const selectUser = state => state.user;

@@ -14,3 +14,6 @@ export const USER_STORIES = USER_ID + '/stories';
 
 export const goToUser = id => USER + `/${id}`;
 export const goToUserStories = id => USER + `/${id}/stories`;
+
+export const FORGOT_PASSWORD = '/forgot-password';
+export const RESET_PASSWORD = '/reset-password';
