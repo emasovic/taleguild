@@ -24,7 +24,7 @@ export default function Login(props) {
 	const [password, setPassword] = useState('');
 	const dispatch = useDispatch();
 	const user = useSelector(selectUser);
-	const {error} = user;
+	const {error, loading} = user;
 
 	const submit = e => {
 		e.preventDefault();
@@ -55,7 +55,7 @@ export default function Login(props) {
 						errorMessage={error}
 						invalid={!!error}
 					/>
-					<IconButton>Login</IconButton>
+					<IconButton loading={loading}>Login</IconButton>
 					<Link to="#" onClick={onChange}>
 						Nemate nalog? Registrujte se.
 					</Link>

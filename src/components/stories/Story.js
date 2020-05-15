@@ -56,7 +56,7 @@ export default function Story({previewStory}) {
 		dispatch(loadStory(id));
 	}, [dispatch, id]);
 
-	if (loading || !story) {
+	if (!story) {
 		return (
 			<div className={CLASS}>
 				<Loader />
@@ -142,7 +142,7 @@ export default function Story({previewStory}) {
 							placeholder="Komentar ..."
 							onChange={e => setComment(e.target.value)}
 						/>
-						<IconButton onClick={createNewComment}>Postavite komentar</IconButton>
+						<IconButton loading={loading} onClick={createNewComment}>Postavite komentar</IconButton>
 					</div>
 				)}
 				{comments.length

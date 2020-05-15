@@ -37,7 +37,15 @@ export default function Toasts() {
 					<ToastHeader icon={v.type} toggle={() => dispatch(removeToast(v.id))}>
 						{v.title}
 					</ToastHeader>
-					<ToastBody>{v.text}</ToastBody>
+					<ToastBody>
+						{Array.isArray(v.text)
+							? v.text.map((item, key) => (
+									<span key={key}>
+										{item} <br />
+									</span>
+							  ))
+							: v.text}
+					</ToastBody>
 				</Toast>
 			))}
 		</div>

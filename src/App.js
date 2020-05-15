@@ -34,11 +34,11 @@ function App() {
 			<Nav />
 			<Switch>
 				<Route exact path={routes.HOME} component={Stories} />
-				<Route path={routes.NEW_STORY} component={NewStory} />
-				<Route path={routes.EDIT_STORY} component={EditStory} />
+				<PrivateRoute path={routes.NEW_STORY} component={NewStory} />
+				<PrivateRoute path={routes.EDIT_STORY} component={EditStory} />
 				<Route path={routes.STORY_ID} component={Story} />
 				<PrivateRoute path={routes.USER_STORIES} component={MyStories} />
-				<PrivateRoute path={routes.USER_ID} component={UserProfile} />
+				<PrivateRoute path={routes.USER} component={UserProfile} />
 				<Route path={routes.FORGOT_PASSWORD} component={ForgotPassword} />
 				<Route path={routes.RESET_PASSWORD} component={ResetPassword} />
 				<Route path="*" component={NotFound} />

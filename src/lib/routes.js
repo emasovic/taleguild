@@ -8,9 +8,8 @@ export const EDIT_STORY = STORY_ID + '/edit';
 export const goToStory = id => STORY + `/${id}`;
 export const editStory = id => STORY + `/${id}/edit`;
 
-const USER = '/user';
-export const USER_ID = USER + '/:id';
-export const USER_STORIES = USER_ID + '/stories';
+export const USER = '/user';
+export const USER_STORIES = USER + '/stories';
 
 export const goToUser = id => USER + `/${id}`;
 export const goToUserStories = id => USER + `/${id}/stories`;

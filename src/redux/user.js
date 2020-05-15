@@ -37,18 +37,25 @@ export const {logOut, hasError, gotData, loadingStart, loadingEnd} = userSlice.a
 export const loginUser = payload => async dispatch => {
 	dispatch(loadingStart());
 	const res = await api.loginUser(payload);
-	if (!res.error) {
-		localStorage.setItem('token', res.jwt);
+	if (res.error) {
+		dispatch(loadingEnd());
+		return dispatch(newToast({...Toast.error(res.error)}));
 	}
+	localStorage.setItem('token', res.jwt);
 	dispatch(gotData(res));
 };
 
 export const registerUser = payload => async dispatch => {
 	dispatch(loadingStart());
 	const res = await api.registerUser(payload);
-	if (!res.error) {
-		localStorage.setItem('token', res.jwt);
+
+	if (res.error) {
+		dispatch(loadingEnd());
+		return dispatch(newToast({...Toast.error(res.error)}));
 	}
+
+	localStorage.setItem('token', res.jwt);
+
 	dispatch(gotData(res));
 };
 

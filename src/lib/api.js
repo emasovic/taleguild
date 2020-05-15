@@ -24,22 +24,22 @@ export const getUserInfo = token => {
 	return http.get('users/me', {token});
 };
 
-export const updateUser = (token, payload) => {
-	return http.put('/users/' + payload.id, {token}, payload);
+export const updateUser = payload => {
+	return http.put('/users/' + payload.id, null, payload);
 };
 
 /******************      STORIES        ***********************/
 
-export const createStory = (token, payload) => {
-	return http.post('stories', {token}, payload);
+export const createStory = payload => {
+	return http.post('stories', null, payload);
 };
 
-export const updateStory = (token, payload) => {
-	return http.put('stories/' + payload.id, {token}, payload);
+export const updateStory = payload => {
+	return http.put('stories/' + payload.id, null, payload);
 };
 
-export const deleteStory = (token, id) => {
-	return http.del('stories/' + id, {token});
+export const deleteStory = id => {
+	return http.del('stories/' + id);
 };
 
 export const getStories = filter => {
@@ -62,27 +62,27 @@ export const getCategories = filter => {
 
 /******************      COMMENTS        ***********************/
 
-export const createComment = (token, payload) => {
-	return http.post('comments', {token}, payload);
+export const createComment = payload => {
+	return http.post('comments', null, payload);
 };
 
 /******************      LIKES        ***********************/
 
-export const createLike = (token, payload) => {
-	return http.post('likes', {token}, payload);
+export const createLike = payload => {
+	return http.post('likes', null, payload);
 };
 
-export const deleteLike = (token, id) => {
-	return http.del('likes/' + id, {token});
+export const deleteLike = id => {
+	return http.del('likes/' + id);
 };
 
 /******************      MEDIA        ***********************/
 
-export const uploadMedia = (token, files) => {
+export const uploadMedia = files => {
 	const formData = new FormData();
 	files.forEach((file, i) => {
 		formData.append('files', file);
 	});
 
-	return http.post('upload', {token}, formData);
+	return http.post('upload', null, formData);
 };

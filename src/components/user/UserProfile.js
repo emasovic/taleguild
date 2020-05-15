@@ -13,7 +13,7 @@ import './UserProfile.scss';
 const CLASS = 'st-UserProfile';
 
 export default function UserProfile() {
-	const {data} = useSelector(selectUser);
+	const {data, loading} = useSelector(selectUser);
 	const dispatch = useDispatch();
 
 	const [avatar, setAvatar] = useState(null);
@@ -24,7 +24,7 @@ export default function UserProfile() {
 
 	const update = () => {
 		dispatch(
-			updateUser(data.token, {
+			updateUser({
 				id: data.id,
 				username,
 				email,
@@ -68,7 +68,9 @@ export default function UserProfile() {
 			</div>
 			<Uploader onUploaded={setAvatar} files={[avatar]} onRemove={() => setAvatar(null)} />
 
-			<IconButton onClick={update}>Sačuvaj</IconButton>
+			<IconButton onClick={update} loading={loading}>
+				Sačuvaj
+			</IconButton>
 		</div>
 	);
 }

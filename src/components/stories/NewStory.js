@@ -3,8 +3,11 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 import {Input} from 'reactstrap';
 
+import {Toast} from 'types/toast';
+
 import {createOrUpdateStory} from '../../redux/story';
 import {selectUser} from '../../redux/user';
+import {addToast} from 'redux/toast';
 
 import CategoryPicker from 'components/widgets/pickers/category/CategoryPicker';
 import Checkbox from 'components/widgets/checkbox/Checkbox';
@@ -21,7 +24,7 @@ export default function NewStory({story}) {
 	const dispatch = useDispatch();
 	const history = useHistory();
 	const user = useSelector(selectUser);
-	const {data} = user;
+	const {data, loading} = user;
 
 	const [title, setTitle] = useState('');
 	const [text, setText] = useState('');
@@ -30,19 +33,36 @@ export default function NewStory({story}) {
 	const [image, setImage] = useState(null);
 	const [published, setPublished] = useState(false);
 
-	const create = () => {
-		const payload = {
-			id: story && story.id,
-			title,
-			text,
-			published,
-			image: image && image.id,
-			user: data && data.id,
-			description,
-			categories: category.length && category.map(item => item.value),
-		};
+	const validate = () => {
+		const errors = [];
 
-		dispatch(createOrUpdateStory(payload, history));
+		title.length <= 3 && errors.push('Title too short! \n');
+		!category.length && errors.push('You must select category!');
+		text.length <= 3 && errors.push('Story too short! \n');
+		description.length <= 3 && errors.push('Description too short! \n');
+
+		if (errors.length) {
+			return dispatch(addToast(Toast.error(errors)));
+		}
+
+		return true;
+	};
+
+	const create = () => {
+		if (validate()) {
+			const payload = {
+				id: story && story.id,
+				title,
+				text,
+				published,
+				image: image && image.id,
+				user: data && data.id,
+				description,
+				categories: category.length && category.map(item => item.value),
+			};
+
+			dispatch(createOrUpdateStory(payload, history));
+		}
 	};
 
 	useEffect(() => {
@@ -85,11 +105,13 @@ export default function NewStory({story}) {
 			<Checkbox
 				label="Objavljena"
 				checked={published}
-				onChange={(checked) => setPublished(checked)}
+				onChange={checked => setPublished(checked)}
 			/>
 
 			<div className={CLASS + '-button'}>
-				<IconButton onClick={create}>Sačuvaj</IconButton>
+				<IconButton loading={loading} onClick={create}>
+					Sačuvaj
+				</IconButton>
 			</div>
 		</div>
 	);

@@ -1,16 +1,35 @@
-import React from 'react';
-import {Route} from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {Route, Redirect} from 'react-router-dom';
 import {useSelector} from 'react-redux';
+
+import {HOME} from 'lib/routes';
+
+import {selectUser} from 'redux/user';
 
 import Loader from 'components/widgets/loader/Loader';
 
-export default function PrivateRoute({component: Component, ...rest}) {
-	const data = useSelector(state => state.user.data);
+const PrivateRoute = ({component: Component, ...rest}) => {
+	const user = useSelector(selectUser);
+	const [isAuthenticated, setIsAuthenticated] = useState(null);
+	useEffect(() => {
+		let token = localStorage.getItem('token');
+		if (token) {
+			setIsAuthenticated(true);
+		} else {
+			setIsAuthenticated(false);
+		}
+	}, [user]);
+
+	if (isAuthenticated === null) {
+		return <Loader />;
+	}
 
 	return (
 		<Route
 			{...rest}
-			render={props => (data && data.id ? <Component {...props} /> : <Loader />)}
+			render={props => (!isAuthenticated ? <Redirect to={HOME} /> : <Component {...props} />)}
 		/>
 	);
-}
+};
+
+export default PrivateRoute;

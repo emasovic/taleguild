@@ -1,18 +1,20 @@
 import React from 'react';
-import {useParams} from 'react-router-dom';
+import {useSelector} from 'react-redux';
+
+import {selectUser} from 'redux/user';
 
 import Stories from 'components/stories/Stories';
 
 const CLASS = 'st-MyStories';
 
 export default function MyStories() {
-	const {id} = useParams();
+	const {data} = useSelector(selectUser);
 
 	const criteria = {
 		_start: 0,
 		_limit: 12,
 		_sort: 'created_at:DESC',
-		user: id,
+		user: data && data.id,
 	};
 	return (
 		<div className={CLASS}>

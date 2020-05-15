@@ -4,13 +4,10 @@
 	display: flex !important;
 	align-items: center;
 	justify-content: center;
+	backdrop-filter: blur(10px);
 
-	&-modalControl {
-		cursor: pointer;
-
-		&:hover {
-			text-decoration: underline;
-		}
+	a {
+		font-size: 13px;
 	}
 
 	.modal {

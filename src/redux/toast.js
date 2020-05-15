@@ -31,7 +31,7 @@ export const addToast = (toast, type, title) => dispatch => {
 	if (typeof toast === 'string') {
 		toast = new Toast(toast, type, title);
 	}
-	dispatch(newToast(toast));
+	dispatch(newToast({...toast}));
 };
 
 export const removeToast = id => dispatch => {

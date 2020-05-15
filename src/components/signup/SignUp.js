@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Modal, ModalBody, Form} from 'reactstrap';
 import {useDispatch, useSelector} from 'react-redux';
+import {Link} from 'react-router-dom';
 
 import FA from 'types/font_awesome';
 
@@ -13,7 +14,6 @@ import Billboard from 'components/widgets/billboard/Billboard';
 import background from '../../images/cover.png';
 
 import './SignUp.scss';
-import {Link} from 'react-router-dom';
 
 const CLASS = 'st-SignUp';
 
@@ -21,9 +21,11 @@ export default function SignUp(props) {
 	const [username, setUsername] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
+	const [repeatPassword, setRepeatPassword] = useState('');
+
 	const dispatch = useDispatch();
 	const user = useSelector(selectUser);
-	const {error} = user;
+	const {error, loading} = user;
 
 	const submit = e => {
 		e.preventDefault();
@@ -59,8 +61,18 @@ export default function SignUp(props) {
 						invalid={!!error}
 						errorMessage={error}
 					/>
-					<IconButton>Sign Up</IconButton>
-					<Link onClick={onChange}>Imate nalog? Ulogujte se.</Link>
+					<FloatingInput
+						placeholder="Password"
+						value={repeatPassword}
+						type="password"
+						onChange={val => setRepeatPassword(val)}
+						invalid={!!error}
+						errorMessage={error}
+					/>
+					<IconButton loading={loading}>Sign Up</IconButton>
+					<Link to="#" onClick={onChange}>
+						Imate nalog? Ulogujte se.
+					</Link>
 				</Form>
 			</ModalBody>
 		</Modal>

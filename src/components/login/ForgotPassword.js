@@ -8,6 +8,8 @@ import {forgotPassword} from 'redux/user';
 import FloatingInput from 'components/widgets/input/FloatingInput';
 import IconButton from 'components/widgets/button/IconButton';
 
+import './Password.scss';
+
 const CLASS = 'st-Password';
 
 export default function ForgotPassword() {

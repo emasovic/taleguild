@@ -25,7 +25,7 @@ const DEFAULT_TOAST_TITLES = {
 const DEFAULT_TOAST_DURATIONS = {
 	success: 10 * 1000,
 	warning: 10 * 1000,
-	danger: 0, // Indefinite
+	danger: 10 * 1000, // 0 for Indefinite
 	info: 10 * 1000,
 };
 

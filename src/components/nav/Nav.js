@@ -1,7 +1,5 @@
 import React, {useState, useEffect, Fragment} from 'react';
-
-import {useDispatch} from 'react-redux';
-import {logOutUser} from '../../redux/user';
+import {useSelector, useDispatch} from 'react-redux';
 
 import {
 	Navbar,
@@ -17,21 +15,21 @@ import {
 } from 'reactstrap';
 
 import {COLOR} from 'types/button';
+import {USER_STORIES, USER} from 'lib/routes';
 
-import {useSelector} from 'react-redux';
-
-// import {ReactComponent as Burger} from 'images/icons/burger.svg';
-import {ReactComponent as Logo} from 'images/logo.svg';
 import {selectUser} from '../../redux/user';
+import {logOutUser} from '../../redux/user';
+
+import {ReactComponent as Logo} from 'images/logo.svg';
 
 import SignUp from '../signup/SignUp';
 import Login from '../login/Login';
 
 import Loader from 'components/widgets/loader/Loader';
 import IconButton from '../widgets/button/IconButton';
+import Image from 'components/widgets/image/Image';
 
 import './Nav.scss';
-import Image from 'components/widgets/image/Image';
 
 const CLASS = 'st-Nav';
 
@@ -92,10 +90,8 @@ export default function Navigation() {
 							{username}
 						</DropdownToggle>
 						<DropdownMenu>
-							<DropdownItem href={`/user/${data.id}`}>Profil</DropdownItem>
-							<DropdownItem href={`/user/${data.id}/stories`}>
-								Moje priče
-							</DropdownItem>
+							<DropdownItem href={USER}>Profil</DropdownItem>
+							<DropdownItem href={USER_STORIES}>Moje priče</DropdownItem>
 							<DropdownItem href="/story/new">Nova priča</DropdownItem>
 							<DropdownItem onClick={() => dispatch(logOutUser())}>
 								Odjavi se
@@ -127,7 +123,11 @@ export default function Navigation() {
 				/>
 			)}
 			{isLoginOpen && (
-				<Login open={isLoginOpen} onChange={openModal} onClose={() => setIsLoginOpen(false)} />
+				<Login
+					open={isLoginOpen}
+					onChange={openModal}
+					onClose={() => setIsLoginOpen(false)}
+				/>
 			)}
 		</div>
 	);
