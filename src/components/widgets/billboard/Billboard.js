@@ -3,7 +3,7 @@ import propTypes from 'prop-types';
 
 import Image from '../image/Image';
 
-import background from 'images/cover.png';
+import background from 'images/signup-cover.jpg';
 
 import './Billboard.scss';
 

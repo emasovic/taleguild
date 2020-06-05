@@ -1,44 +1,54 @@
 @import '../../styles/variables.scss';
 
 .st-Stories {
-	background: $box-background-primary;
-	width: 100%;
-	box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
-	border-radius: 4px;
-	margin: 40px 0;
-	padding: 20px;
+	.st-Loader {
+		min-height: 400px;
+		min-width: $story-preview-width-desktop;
+	}
 
 	&-header {
+		width: 100%;
 		display: flex;
-		justify-content: space-between;
-		padding: 0 20px;
+		flex-wrap: nowrap !important;
+		overflow: auto;
+		max-width: $story-preview-width-desktop;
+		margin: 0 auto;
 
-		@media (max-width: $tablet-width) {
-			flex-direction: column-reverse;
+		.nav-link {
+			color: $color-grey-light;
+			font-weight: 600;
+			cursor: pointer;
+			font-size: 14px;
+			padding: 0;
+			margin-right: 15px;
 
-			.st-Input {
-				min-width: unset;
+			&:hover {
+				color: $color-secondary-black;
+			}
+
+			&.active {
+				color: $color-secondary-black;
+				border-bottom: 4px dotted $color-primary;
 			}
 		}
 	}
 
 	&-lastest {
 		display: flex;
-		flex-flow: row wrap;
+		flex-direction: column;
+		align-items: center;
 
 		@media (max-width: $tablet-width) {
 			justify-content: center;
 		}
 
 		h2 {
-			padding: 0 20px;
+			margin: 12px 0;
+			min-width: 480px;
+			text-align: center;
+			// font-family: $font-merriweather;
+			color: $color-grey-cream;
 		}
-		// justify-content: space-between;
-
-		// &:after {
-		// 	content: '';
-		// 	flex: auto;
-		// }
 	}
 
 	&-pagination {

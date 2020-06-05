@@ -11,23 +11,25 @@ import {
 	DropdownMenu,
 	DropdownItem,
 	Dropdown,
-	Badge,
 } from 'reactstrap';
+import {useHistory} from 'react-router-dom';
 
 import {COLOR} from 'types/button';
-import {USER_STORIES, USER} from 'lib/routes';
+import {USER_STORIES_SAVED, USER_SETTINGS, USER_STORIES_DRAFTS} from 'lib/routes';
 
-import {selectUser} from '../../redux/user';
-import {logOutUser} from '../../redux/user';
+import {selectUser, logOutUser} from '../../redux/user';
+import {newStory} from 'redux/story';
 
 import {ReactComponent as Logo} from 'images/logo.svg';
 
 import SignUp from '../signup/SignUp';
 import Login from '../login/Login';
 
+import StoryPicker from 'components/widgets/pickers/story/StoryPicker';
+
+import UserAvatar from 'components/user/UserAvatar';
 import Loader from 'components/widgets/loader/Loader';
 import IconButton from '../widgets/button/IconButton';
-import Image from 'components/widgets/image/Image';
 
 import './Nav.scss';
 
@@ -35,6 +37,7 @@ const CLASS = 'st-Nav';
 
 export default function Navigation() {
 	const dispatch = useDispatch();
+	const history = useHistory();
 
 	const [isLoginOpen, setIsLoginOpen] = useState(false);
 	const [isRegisterOpen, setIsRegisterOpen] = useState(false);
@@ -51,6 +54,10 @@ export default function Navigation() {
 		setIsRegisterOpen(!isRegisterOpen);
 	};
 
+	const handleNewStory = () => {
+		dispatch(newStory({user: data && data.id, published: false}, history));
+	};
+
 	useEffect(() => {
 		if (token) {
 			setIsLoginOpen(false);
@@ -63,12 +70,12 @@ export default function Navigation() {
 			<Fragment>
 				<NavItem className={CLASS + '-login'} onClick={() => setIsLoginOpen(true)}>
 					<NavLink href="#">
-						<IconButton>Prijava</IconButton>
+						<IconButton color={COLOR.secondary}>Sign in</IconButton>
 					</NavLink>
 				</NavItem>
 				<NavItem className={CLASS + '-login'} onClick={() => setIsRegisterOpen(true)}>
 					<NavLink href="#">
-						<IconButton color={COLOR.secondary}>Registracija</IconButton>
+						<IconButton color={COLOR.secondary}>Sign up</IconButton>
 					</NavLink>
 				</NavItem>
 			</Fragment>
@@ -76,25 +83,22 @@ export default function Navigation() {
 	};
 
 	const userLoggedIn = () => {
-		const {username, avatar} = data;
 		return (
 			<>
 				<NavItem className={CLASS + '-user'}>
+					<NavLink onClick={handleNewStory}>
+						<IconButton color={COLOR.secondary}>New story</IconButton>
+					</NavLink>
 					<Dropdown isOpen={dropdownOpen} toggle={toggle}>
 						<DropdownToggle outline caret>
-							{avatar ? (
-								<Image image={avatar} />
-							) : (
-								<Badge>{username.slice(0, 1)}</Badge>
-							)}
-							{username}
+							<UserAvatar user={data} />
 						</DropdownToggle>
 						<DropdownMenu>
-							<DropdownItem href={USER}>Profil</DropdownItem>
-							<DropdownItem href={USER_STORIES}>Moje priče</DropdownItem>
-							<DropdownItem href="/story/new">Nova priča</DropdownItem>
+							<DropdownItem href={USER_SETTINGS}>Profile</DropdownItem>
+							<DropdownItem href={USER_STORIES_DRAFTS}>Drafts</DropdownItem>
+							<DropdownItem href={USER_STORIES_SAVED}>Saved stories</DropdownItem>
 							<DropdownItem onClick={() => dispatch(logOutUser())}>
-								Odjavi se
+								Logout
 							</DropdownItem>
 						</DropdownMenu>
 					</Dropdown>
@@ -103,14 +107,14 @@ export default function Navigation() {
 		);
 	};
 	return (
-		<div className={CLASS}>
-			<Navbar>
+		<>
+			<Navbar className={CLASS}>
 				<NavbarBrand href="/">
 					<Logo />
-					<h2>
-						Pričaj<span>Mi</span>
-					</h2>
 				</NavbarBrand>
+
+				<StoryPicker placeholder="Search for stories" />
+
 				<Nav>
 					{loading ? <Loader /> : data && data.token ? userLoggedIn() : userLoggedOut()}
 				</Nav>
@@ -129,6 +133,6 @@ export default function Navigation() {
 					onClose={() => setIsLoginOpen(false)}
 				/>
 			)}
-		</div>
+		</>
 	);
 }

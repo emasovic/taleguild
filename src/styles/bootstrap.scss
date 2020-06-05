@@ -1,7 +1,7 @@
 @import './variables.scss';
 
 $primary: $color-primary;
-$secondary: $color-secondary;
+$secondary: $color-primary-light;
 
 @import '~bootstrap/scss/bootstrap.scss';
 
@@ -9,4 +9,24 @@ $secondary: $color-secondary;
 	&:focus {
 		border-color: $color-primary;
 	}
+}
+
+.btn {
+	font-weight: bold;
+
+	&-primary {
+		color: #fff;
+	}
+
+	&-secondary {
+		color: $color-primary-dark;
+	}
+}
+
+input,
+button,
+select,
+optgroup,
+textarea {
+	font-family: $font-lato;
 }

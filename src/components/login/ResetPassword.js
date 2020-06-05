@@ -25,13 +25,14 @@ export default function ResetPassword() {
 				onChange={setPassword}
 				value={password}
 				type="password"
-				placeholder="Unesite novu šifru"
+				label="Password"
+				placeholder="Enter new password"
 			/>
 			<FloatingInput
 				onChange={setPasswordConfirmation}
 				value={passwordConfirmation}
-				type="password"
-				placeholder="Ponovite šifru"
+				label="Repeat password"
+				placeholder="Repeat password"
 			/>
 			<IconButton
 				onClick={() =>
@@ -43,7 +44,7 @@ export default function ResetPassword() {
 					)
 				}
 			>
-				Resetuj
+				Reset password
 			</IconButton>
 		</div>
 	);

@@ -1,9 +1,7 @@
 import React, {useState} from 'react';
-import {Modal, ModalBody, Form} from 'reactstrap';
+import {Modal, ModalBody, Form, ModalHeader} from 'reactstrap';
 import {useDispatch, useSelector} from 'react-redux';
 import {Link} from 'react-router-dom';
-
-import FA from 'types/font_awesome';
 
 import {FORGOT_PASSWORD} from 'lib/routes';
 
@@ -13,7 +11,7 @@ import FloatingInput from '../widgets/input/FloatingInput';
 import IconButton from '../widgets/button/IconButton';
 import Billboard from 'components/widgets/billboard/Billboard';
 
-import background from '../../images/cover.png';
+// import background from '../../images/cover.png';
 
 import './Login.scss';
 
@@ -35,32 +33,33 @@ export default function Login(props) {
 
 	return (
 		<Modal returnFocusAfterClose={true} isOpen={open} modalClassName={CLASS}>
+			<ModalHeader toggle={onClose} />
 			<ModalBody>
-				<IconButton outline icon={FA.close} onClick={onClose} />
-				<Billboard src={background} />
+				<Billboard />
 
 				<Form onSubmit={e => submit(e)}>
+					<h4>Welcome Back</h4>
 					<FloatingInput
-						placeholder="Email Address "
+						label="Enter your email or password"
 						value={identifier}
-						type="email"
+						type="text"
 						onChange={val => setIdentifier(val)}
 					/>
 
 					<FloatingInput
-						placeholder="Password"
+						label="Enter password"
 						value={password}
 						type="password"
 						onChange={val => setPassword(val)}
 						errorMessage={error}
 						invalid={!!error}
 					/>
-					<IconButton loading={loading}>Login</IconButton>
-					<Link to="#" onClick={onChange}>
-						Nemate nalog? Registrujte se.
-					</Link>
 					<Link to={FORGOT_PASSWORD} onClick={onClose}>
-						Zaboravili ste lozinku? Kliknite ovde.
+						Forgot password?
+					</Link>
+					<IconButton loading={loading}>Sign in</IconButton>
+					<Link to="#" onClick={onChange}>
+						Don’t have an account? Sign up now.
 					</Link>
 				</Form>
 			</ModalBody>

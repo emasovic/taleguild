@@ -17,13 +17,18 @@ export default function ForgotPassword() {
 	const [email, setEmail] = useState('');
 	return (
 		<div className={CLASS}>
-			<FloatingInput onChange={setEmail} value={email} placeholder="Unesite email" />
+			<FloatingInput
+				onChange={setEmail}
+				value={email}
+				label="Email address"
+				placeholder="Enter your email"
+			/>
 			<IconButton
 				onClick={() =>
 					dispatch(forgotPassword({email, url: `localhost:3000/${RESET_PASSWORD}`}))
 				}
 			>
-				Pošalji
+				Send
 			</IconButton>
 		</div>
 	);

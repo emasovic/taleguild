@@ -1,28 +1,31 @@
-import React from 'react';
+import React, {useCallback, useMemo} from 'react';
+import {Slate, Editable, withReact} from 'slate-react';
+import {createEditor} from 'slate';
+import {withHistory} from 'slate-history';
 
-import ReactQuill from 'react-quill';
+import Element from './widgets/Element';
+import Leaf from './widgets/Leaf';
 
 import './TextViewer.scss';
 
 const CLASS = 'st-TextViewer';
 
-function TextViewer({value}) {
+export default function TextViewer({value}) {
+	const renderElement = useCallback(props => <Element {...props} />, []);
+	const renderLeaf = useCallback(props => <Leaf {...props} />, []);
+	const editor = useMemo(() => withHistory(withReact(createEditor())), []);
+
 	return (
-		<div className={CLASS}>
-			<div className="text-editor">
-				<ReactQuill
-					value={value}
-					readOnly={true}
-					modules={TextViewer.modules}
-					preserveWhitespace={true}
-				/>
-			</div>
-		</div>
+		<Slate editor={editor} value={value} onChange={() => {}}>
+			<Editable
+				readOnly
+				className={CLASS}
+				renderElement={renderElement}
+				renderLeaf={renderLeaf}
+				placeholder="Behind the seven seas…"
+				spellCheck
+				autoFocus
+			/>
+		</Slate>
 	);
 }
-
-TextViewer.modules = {
-	toolbar: false,
-};
-
-export default TextViewer;

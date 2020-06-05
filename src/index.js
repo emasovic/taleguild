@@ -9,6 +9,8 @@ import * as serviceWorker from './serviceWorker';
 import App from './App';
 import Toasts from './Toasts';
 
+import 'types/font_awesome';
+
 import './styles/bootstrap.scss';
 import './index.scss';
 

@@ -1,76 +1,44 @@
-import React, {useState, useEffect} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
+import React, {useEffect} from 'react';
+import {useDispatch, useSelector, shallowEqual} from 'react-redux';
+import {useParams} from 'react-router-dom';
 
-import {selectUser, updateUser} from 'redux/user';
+import {DEFAULT_CRITERIA} from 'types/story';
 
-import IconButton from 'components/widgets/button/IconButton';
-import FloatingInput from 'components/widgets/input/FloatingInput';
-import Uploader from 'components/widgets/uploader/Uploader';
+import {selectUser, loadUser} from 'redux/users';
+
+import Stories from 'components/stories/Stories';
 import Loader from 'components/widgets/loader/Loader';
+import UserAvatar from './UserAvatar';
 
 import './UserProfile.scss';
 
 const CLASS = 'st-UserProfile';
 
 export default function UserProfile() {
-	const {data, loading} = useSelector(selectUser);
+	const params = useParams();
 	const dispatch = useDispatch();
-
-	const [avatar, setAvatar] = useState(null);
-	const [username, setUsername] = useState('');
-	const [email, setEmail] = useState('');
-	const [firstName, setFirstName] = useState('');
-	const [lastName, setLastName] = useState('');
-
-	const update = () => {
-		dispatch(
-			updateUser({
-				id: data.id,
-				username,
-				email,
-				first_name: firstName,
-				last_name: lastName,
-				avatar: avatar && avatar.id,
-			})
-		);
-	};
+	const {user} = useSelector(
+		state => ({
+			user: selectUser(state, params.id),
+		}),
+		shallowEqual
+	);
 
 	useEffect(() => {
-		if (data) {
-			setEmail(data.email);
-			setAvatar(data.avatar);
-			setUsername(data.username);
-			setFirstName(data.first_name || '');
-			setFirstName(data.last_name || '');
-		}
-	}, [data]);
+		dispatch(loadUser(params.id));
+	}, [dispatch, params.id]);
 
-	if (!data) {
-		return <Loader />;
-	}
+	if (!user) return <Loader />;
+	const {display_name, username, description} = user;
 
 	return (
 		<div className={CLASS}>
-			<div className={CLASS + '-info'}>
-				<div>
-					<FloatingInput
-						value={username}
-						placeholder="Korisničko ime"
-						onChange={setUsername}
-					/>
-
-					<FloatingInput value={email} placeholder="Email adresa" onChange={setEmail} />
-				</div>
-				<div>
-					<FloatingInput value={firstName} placeholder="Ime" onChange={setFirstName} />
-					<FloatingInput value={lastName} placeholder="Prezime" onChange={setLastName} />
-				</div>
+			<div className={CLASS + '-user'}>
+				<UserAvatar user={user} />
+				<span>{display_name || username}</span>
+				<span>{description}</span>
 			</div>
-			<Uploader onUploaded={setAvatar} files={[avatar]} onRemove={() => setAvatar(null)} />
-
-			<IconButton onClick={update} loading={loading}>
-				Sačuvaj
-			</IconButton>
+			<Stories criteria={{'user.id': user && user.id, ...DEFAULT_CRITERIA}} />
 		</div>
 	);
 }

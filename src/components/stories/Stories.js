@@ -1,22 +1,27 @@
 import React, {useEffect, useState} from 'react';
+import {NavItem, NavLink, Nav} from 'reactstrap';
 import {useDispatch, useSelector, shallowEqual} from 'react-redux';
-import debounce from 'lodash/debounce';
 import propTypes from 'prop-types';
+import moment from 'moment';
 
 import {loadStories, selectStories} from '../../redux/story';
 
-import Input from 'components/widgets/input/Input';
 import Loader from 'components/widgets/loader/Loader';
 import Pages from 'components/widgets/pagination/Pagination';
 
 import StoryItem from './StoryItem';
-import Categories from './Categories';
 
 import './Stories.scss';
+import {DEFAULT_CRITERIA} from 'types/story';
 
 const CLASS = 'st-Stories';
 
-export default function Stories({criteria, editMode, displayCategoies}) {
+const SORT = {
+	recent: 'recent',
+	popular: 'popular',
+};
+
+export default function Stories({criteria}) {
 	const dispatch = useDispatch();
 	const {data, loading, pages} = useSelector(
 		state => ({
@@ -29,14 +34,13 @@ export default function Stories({criteria, editMode, displayCategoies}) {
 
 	const [count, setCount] = useState(0);
 	const [shouldCount, setShouldCount] = useState(true);
+	const [storyCriteria, setStoryCriteria] = useState(null);
+	const [activeSort, setActiveSort] = useState(SORT.recent);
 
-	criteria._start = count;
-
-	const _searchStory = name => {
-		dispatch(loadStories({title_contains: name, ...criteria}));
+	const sortStories = (sort, criteria) => {
+		setActiveSort(sort);
+		setStoryCriteria(criteria);
 	};
-
-	const searchStory = debounce(_searchStory, 500);
 
 	const handleCount = page => {
 		setCount(page * 12);
@@ -44,38 +48,60 @@ export default function Stories({criteria, editMode, displayCategoies}) {
 	};
 
 	useEffect(() => {
-		dispatch(loadStories(criteria, shouldCount));
-	}, [dispatch, count, shouldCount, criteria]);
+		if (criteria) {
+			criteria._start = count;
+			setStoryCriteria(criteria);
+		}
+	}, [count, criteria]);
+
+	useEffect(() => {
+		if (storyCriteria) {
+			dispatch(loadStories(storyCriteria, shouldCount));
+		}
+	}, [dispatch, shouldCount, storyCriteria]);
 
 	const renderStories =
 		data && data.length ? (
-			data.map(item => (
-				<StoryItem
-					id={item.id}
-					image={item.image}
-					title={item.title}
-					text={item.description}
-					key={item.id}
-					categories={item.categories}
-					likes={item.likes}
-					comments={item.comments}
-					creator={item.user && item.user.username}
-					createdDate={item.created_at}
-					editMode={editMode}
-				/>
-			))
+			data.map(item => {
+				return (
+					<StoryItem
+						id={item.id}
+						image={item.image}
+						title={item.title}
+						description={item.description}
+						key={item.id}
+						categories={item.categories}
+						likes={item.likes}
+						comments={item.comments}
+						author={item.user}
+						createdDate={item.created_at}
+						savedBy={item.saved_by}
+					/>
+				);
+			})
 		) : (
-			<h2>Nema pronadjenih rezultata</h2>
+			<h2>No stories found</h2>
 		);
 
 	return (
 		<div className={CLASS}>
-			<div className={CLASS + '-header'}>
-				{displayCategoies && <Categories />}
-				<div className={CLASS + '-header-filter'}>
-					<Input onChange={val => searchStory(val)} placeholder="Unesite ime priče..." />
-				</div>
-			</div>
+			<Nav className={CLASS + '-header'}>
+				<NavItem href="#" onClick={() => sortStories(SORT.recent, criteria)}>
+					<NavLink active={activeSort === SORT.recent}>Recent stories</NavLink>
+				</NavItem>
+				<NavItem
+					href="#"
+					onClick={() =>
+						sortStories(SORT.popular, {
+							...storyCriteria,
+							_sort: 'likes_count:DESC',
+							created_at_gte: moment().subtract(10, 'days'),
+						})
+					}
+				>
+					<NavLink active={activeSort === SORT.popular}>Popular stories</NavLink>
+				</NavItem>
+			</Nav>
 			<div className={CLASS + '-lastest'}>{loading ? <Loader /> : renderStories}</div>
 			<div className={CLASS + '-pagination'}>
 				{!!pages && <Pages pages={pages} onClick={handleCount} />}
@@ -86,10 +112,8 @@ export default function Stories({criteria, editMode, displayCategoies}) {
 
 Stories.propTypes = {
 	criteria: propTypes.object,
-	displayCategoies: propTypes.bool,
 };
 
 Stories.defaultProps = {
-	criteria: {_start: 0, _limit: 12, _sort: 'created_at:DESC', published: true},
-	displayCategoies: true,
+	criteria: DEFAULT_CRITERIA,
 };

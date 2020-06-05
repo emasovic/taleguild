@@ -1,0 +1,9 @@
+@import '../../../styles/variables.scss';
+
+.st-StoryDropdownButton {
+	.st-DropdownButton {
+		> button {
+			box-shadow: none !important;
+		}
+	}
+}

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import FontAwesome from 'react-fontawesome';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import classnames from 'classnames';
 import {Button} from 'reactstrap';
 
@@ -11,7 +11,7 @@ import './IconButton.scss';
 const CLASS = 'st-IconButton';
 
 export const toFa = (icon, spin, ...rest) => {
-	return <FontAwesome key={icon} name={icon} spin={spin} {...rest} />;
+	return <FontAwesomeIcon key={icon} icon={icon} spin={spin} {...rest} />;
 };
 
 const IconButton = ({
@@ -34,11 +34,7 @@ const IconButton = ({
 		icon = toFa(icon, spin);
 	}
 
-	className = classnames(
-		CLASS,
-		!children && CLASS + '-with-content',
-		className
-	);
+	className = classnames(CLASS, !children && CLASS + '-with-content', className);
 
 	if (typeof children !== 'object') {
 		// wrap string or number
@@ -54,7 +50,7 @@ const IconButton = ({
 };
 
 IconButton.propTypes = {
-	icon: PropTypes.string,
+	icon: PropTypes.object,
 	className: PropTypes.string,
 	direction: PropTypes.string,
 	isDropdown: PropTypes.bool,

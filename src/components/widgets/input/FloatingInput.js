@@ -10,17 +10,15 @@ export default function FloatingInput(props) {
 	const {onChange, value, placeholder, invalid, errorMessage, label, ...rest} = props;
 	return (
 		<FormGroup className={CLASS}>
-			{invalid && <FormFeedback>{errorMessage}</FormFeedback>}
+			<Label>{label}</Label>
 			<Input
-				name={placeholder}
-				id={placeholder}
-				placeholder=" "
+				placeholder={placeholder}
 				value={value}
 				onChange={e => onChange(e.target.value)}
 				invalid={invalid}
 				{...rest}
 			/>
-			<Label for={placeholder}>{placeholder}</Label>
+			{invalid && <FormFeedback>{errorMessage}</FormFeedback>}
 		</FormGroup>
 	);
 }

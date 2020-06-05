@@ -8,13 +8,15 @@ import {getUser} from './redux/user';
 
 import Nav from 'components/nav/Nav';
 
-import Stories from 'components/stories/Stories';
-import NewStory from 'components/stories/NewStory';
+import Home from 'components/Home';
+
 import Story from 'components/stories/Story';
-import EditStory from 'components/stories/EditStory';
+import StoryWriter from 'components/stories/StoryWriter';
 
 import UserProfile from 'components/user/UserProfile';
-import MyStories from 'components/user/MyStories';
+import UserSettings from 'components/user/UserSettings';
+import DraftStoriesPage from 'components/user/pages/DraftStoriesPage';
+import SavedStoriesPage from 'components/user/pages/SavedStoriesPage';
 
 import ForgotPassword from 'components/login/ForgotPassword';
 import ResetPassword from 'components/login/ResetPassword';
@@ -33,12 +35,13 @@ function App() {
 		<Router>
 			<Nav />
 			<Switch>
-				<Route exact path={routes.HOME} component={Stories} />
-				<PrivateRoute path={routes.NEW_STORY} component={NewStory} />
-				<PrivateRoute path={routes.EDIT_STORY} component={EditStory} />
+				<Route exact path={routes.HOME} component={Home} />
+				<PrivateRoute path={routes.WRITE_STORY} component={StoryWriter} />
 				<Route path={routes.STORY_ID} component={Story} />
-				<PrivateRoute path={routes.USER_STORIES} component={MyStories} />
-				<PrivateRoute path={routes.USER} component={UserProfile} />
+				<PrivateRoute path={routes.USER_STORIES_SAVED} component={SavedStoriesPage} />
+				<PrivateRoute path={routes.USER_STORIES_DRAFTS} component={DraftStoriesPage} />
+				<PrivateRoute path={routes.USER_SETTINGS} component={UserSettings} />
+				<Route path={routes.USER_ID} component={UserProfile} />
 				<Route path={routes.FORGOT_PASSWORD} component={ForgotPassword} />
 				<Route path={routes.RESET_PASSWORD} component={ResetPassword} />
 				<Route path="*" component={NotFound} />

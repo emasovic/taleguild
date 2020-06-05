@@ -5,7 +5,7 @@ import './Pagination.scss';
 
 const CLASS = 'st-Pagination';
 
-const Pages = ({onClick, pages}) => {
+const Pages = ({onClick, pages, prefix}) => {
 	const [currentPage, setCurrentPage] = useState(1);
 
 	const handleChange = page => {
@@ -27,7 +27,9 @@ const Pages = ({onClick, pages}) => {
 			{pages.map((item, key) => {
 				return (
 					<PaginationItem key={key} active={currentPage === item}>
-						<PaginationLink onClick={() => handleChange(item)}>{item}</PaginationLink>
+						<PaginationLink onClick={() => handleChange(item)}>
+							{prefix ? `${prefix} ${item}` : item}
+						</PaginationLink>
 					</PaginationItem>
 				);
 			})}

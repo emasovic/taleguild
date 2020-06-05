@@ -1,23 +1,57 @@
-$tablet-width: 768px;
+$box-background-primary: #f9f9f9;
 
-$flower-thumbnail-width: 280px;
-$flower-thumbnail-height: 350px;
-
-$flower-thumbnail-width-xs: 185px;
-$flower-thumbnail-height-xs: 230px;
-
-$box-background-primary: #F9F9F9;
-
-$color-primary: #055425;
-$color-secondary: #5b5b5b;
 $gray: #9fabad;
 $gray-lighter: lighten($gray, 20%);
 $gray-darker: darken($gray, 20%);
 
-$button-gradient: linear-gradient(270deg, #377D5C 0%, #377D5C 100%);
-$color-secondary: #949EA0;
+$box-shadow-light: 2px 2px 12px rgba(35, 31, 26, 0.08);
 
-$font-ubuntu: 'Ubuntu', sans-serif;
+//
+$story-preview-width-desktop: 480px;
+$story-preview-width-mobile: 320px;
+$story-preview-height: 480px;
+$story-preview-shadow: $box-shadow-light;
 
-$spacing-s: 30px;
-$spacing-xs: 16px;
+//COLORS
+
+$color-primary: #b57e40;
+$color-primary-dark: #885f30;
+$color-primary-cream: #daba95;
+$color-primary-light: #faf5f0;
+
+$color-secondary-green: #22d3bb;
+$color-secondary-green-dark: #11695e;
+$color-secondary-green-cream: #84ebdd;
+$color-secondary-green-light: #d3f8f3;
+
+$color-secondary-red: #ea3e55;
+$color-secondary-red-dark: #6e0c19;
+$color-secondary-red-cream: #f17e8e;
+$color-secondary-red-light: #fad1d7;
+
+$color-secondary-yellow: #f0c519;
+$color-secondary-yellow-dark: #c99f2c;
+$color-secondary-yellow-cream: #f6dd79;
+$color-secondary-yellow-light: #fcf3cf;
+
+$color-background-white-grey: #f6f5f4;
+$color-grey-border: #e9e6e2;
+$color-grey-lighter: #cdc7c1;
+$color-grey-light: #aba49c;
+$color-grey-medium: #847b71;
+$color-grey-cream: #635c54;
+$color-grey-cream-dark: #433e37;
+$color-grey-black: #2f2922;
+
+$color-secondary-black: #231f1a;
+
+//FONTS
+
+$font-lato: 'Lato', sans-serif;
+$font-merriweather: 'Merriweather', serif;
+
+//BREAKPOINTS
+
+$tablet-width: 768px;
+$breakpoint-m: 768px;
+$breakpoint-sm: 576px;

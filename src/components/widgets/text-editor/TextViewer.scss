@@ -1,32 +1,5 @@
+@import '../../../styles/variables.scss';
+
 .st-TextViewer {
-	max-height: 100%;
-	// overflow-y: auto;
-
-	.text-editor {
-		min-width: 100%;
-		word-break: break-word;
-
-		.quill {
-			> pre {
-				background: transparent;
-				padding: 0;
-				color: #000;
-			}
-
-			.ql-container {
-				border: none;
-				overflow: hidden;
-				font-size: 14px;
-
-				.ql-editor {
-					padding: 0;
-					overflow: hidden;
-
-					p, span {
-						word-break: break-word;
-					}
-				}
-			}
-		}
-	}
+	font-family: $font-merriweather;
 }

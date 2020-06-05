@@ -18,8 +18,8 @@ export const userSlice = createSlice({
 			state.data = null;
 		},
 		gotData: (state, action) => {
-			const {error, user, jwt} = action.payload;
-			state.data = {...user, token: jwt};
+			const {error, jwt, ...rest} = action.payload;
+			state.data = {...rest, token: jwt};
 			state.error = error;
 			state.loading = false;
 		},
@@ -41,8 +41,12 @@ export const loginUser = payload => async dispatch => {
 		dispatch(loadingEnd());
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
+	const {jwt, user} = res;
+	const {saved_stories, ...rest} = user;
+
 	localStorage.setItem('token', res.jwt);
-	dispatch(gotData(res));
+
+	dispatch(gotData({jwt, ...rest}));
 };
 
 export const registerUser = payload => async dispatch => {
@@ -54,9 +58,11 @@ export const registerUser = payload => async dispatch => {
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
 
-	localStorage.setItem('token', res.jwt);
+	const {jwt, user} = res;
+	const {saved_stories, ...rest} = user;
 
-	dispatch(gotData(res));
+	localStorage.setItem('token', res.jwt);
+	dispatch(gotData({jwt, ...rest}));
 };
 
 export const logOutUser = () => dispatch => {
@@ -77,7 +83,9 @@ export const getUser = () => async dispatch => {
 		dispatch(loadingEnd());
 		return localStorage.removeItem('token');
 	}
-	dispatch(gotData({user: res, jwt: token}));
+
+	// dispatch(savedStoriesData(saved_stories));
+	dispatch(gotData({...res, jwt: token}));
 };
 
 export const updateUser = (token, payload) => async dispatch => {
@@ -87,26 +95,26 @@ export const updateUser = (token, payload) => async dispatch => {
 		dispatch(loadingEnd());
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
-	dispatch(newToast({...Toast.success('Uspešno ste izmenili podatke!')}));
-	dispatch(gotData({user: res, jwt: token}));
+	dispatch(newToast({...Toast.success('Successfully updated user settings!')}));
+	dispatch(gotData({...res, jwt: token}));
 };
 
 export const forgotPassword = payload => async dispatch => {
 	const res = await api.forgotPassword(payload);
 	if (res.error) {
 		if (Array.isArray(res.error)) {
-			return dispatch(newToast({...Toast.error('Došlo je do greške!')}));
+			return dispatch(newToast({...Toast.error(res.error[0].message)}));
 		}
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
 	dispatch(
-		newToast({...Toast.success('Uskoro ćete dobiti mail sa linkom sa resetovanje šifre!')})
+		newToast({...Toast.success('Soon you will get email with reset link!')})
 	);
 };
 
 export const resetPassword = (payload, history) => async dispatch => {
 	if (payload.password !== payload.passwordConfirmation) {
-		return dispatch(newToast({...Toast.error('Šifre se ne poklapaju!')}));
+		return dispatch(newToast({...Toast.error('Passwords doesnt match!')}));
 	}
 	dispatch(loadingStart());
 	const res = await api.resetPassword(payload);
@@ -118,7 +126,7 @@ export const resetPassword = (payload, history) => async dispatch => {
 	localStorage.setItem('token', res.jwt);
 	dispatch(gotData(res));
 	history.push(HOME);
-	dispatch(newToast({...Toast.success('Uspešno ste resetovali šifru!')}));
+	dispatch(newToast({...Toast.success('Password successfully reset!')}));
 };
 
 export const selectUser = state => state.user;

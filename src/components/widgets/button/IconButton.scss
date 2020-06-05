@@ -1,13 +1,13 @@
 @import '../../../styles/variables.scss';
 
 .st-IconButton {
-	border-radius: 2px;
+	border-radius: 4px !important;
 	color: #fff;
 	font-weight: bold;
 	min-width: 120px;
 	min-height: 40px;
 	outline: none !important;
-	box-shadow: none !important;
+	box-shadow: $box-shadow-light;
 
 	&-link {
 		display: flex;

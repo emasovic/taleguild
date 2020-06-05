@@ -1,60 +1,47 @@
 @import '../../styles/variables.scss';
 
 .st-Nav {
-	width: 100%;
+	align-content: center;
 	height: 60px;
-	margin-top: 25px;
-	background-color: $box-background-primary;
-	border: 1px solid rgba(0, 0, 0, 0.15);
-	box-sizing: border-box;
-	box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-	border-radius: 3px;
+	padding: 0 !important;
+	margin: 24px 0;
 
-	.navbar {
-		height: 100%;
-		align-content: center;
+	@media (max-width: $tablet-width) {
+		display: flex;
+		flex-direction: column;
+		padding: 0;
+		flex-wrap: nowrap;
+	}
 
-		@media (max-width: $tablet-width) {
-			display: flex;
-			flex-direction: column;
-			padding: 0;
-			flex-wrap: nowrap;
-		}
+	.navbar-brand {
+		flex: 1 1 0;
+		margin-right: 0;
+	}
 
-		&-brand {
-			justify-content: center;
-			display: flex;
-			align-items: center;
+	.st-StoryPicker {
+		flex: 1 1 0;
+	}
 
-			h2 {
-				margin: 0;
-				font-weight: bold;
-				text-align: center;
-				color: $color-secondary;
-				text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-			}
-
-			span {
-				color: $color-primary;
-			}
-		}
-
-		.nav {
-			align-items: center;
-			flex-wrap: nowrap;
-		}
+	.nav {
+		align-items: center;
+		flex-wrap: nowrap;
+		flex: 1 1 0;
+		justify-content: flex-end;
 	}
 
 	.nav-item {
 		.nav-link {
 			font-size: 14px;
-			color: $color-secondary;
+			color: $color-grey-light;
 			text-decoration: none;
 			font-weight: 500;
 		}
 	}
 
 	&-user {
+		display: flex;
+		align-items: center;
+
 		.dropdown {
 			&-toggle {
 				display: flex;

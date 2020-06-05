@@ -1,0 +1,38 @@
+@import '../../styles/variables.scss';
+
+.st-StoryWriter {
+	max-width: 640px;
+	margin: 0 auto;
+
+	.st-FloatingInput {
+		input {
+			border: none;
+			outline: none;
+			font-size: 24px;
+			box-shadow: none;
+			padding: 0;
+			font-family: $font-merriweather;
+			color: $color-grey-black;
+		}
+	}
+
+	.st-DropdownButton {
+		> button {
+			background: $color-primary-light;
+			box-shadow: $box-shadow-light;
+		}
+	}
+
+	&-publish {
+		display: flex;
+		justify-content: space-between;
+		margin-bottom: 20px;
+	}
+
+	.st-TextEditor {
+		.public-DraftEditorPlaceholder-inner {
+			font-size: 16px;
+			color: $color-grey-lighter;
+		}
+	}
+}

@@ -1,12 +1,71 @@
 @import '../../styles/variables.scss';
 
 .st-Story {
-	background: $box-background-primary;
 	width: 100%;
-	box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
-	border-radius: 4px;
-	margin: 40px 0;
-	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	max-width: 640px;
+	margin: 0 auto;
+
+	.st-StoryItem {
+		width: 640px;
+		border: none;
+		box-shadow: none;
+
+		&-author,
+		&-description,
+		&-footer {
+			padding-left: 0;
+			padding-right: 0;
+		}
+
+		.st-DropdownButton {
+			right: 0;
+		}
+	}
+
+	.st-Pagination {
+		width: 100%;
+		overflow-x: auto;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin: 20px 0;
+		min-height: 50px;
+
+		.pagination {
+			margin: 0;
+		}
+
+		.page {
+			&-item {
+				.page-link {
+					background-color: #fff !important;
+					border-radius: 6px;
+					padding: 10px 20px;
+					border: 1px solid $color-grey-border;
+					color: $color-grey-light;
+					margin: 0 6px;
+					min-width: 90px;
+					min-height: 40px;
+
+					&:first-child,
+					&:last-child {
+						min-width: unset;
+					}
+				}
+
+				&.active {
+					.page-link {
+						border: 1px solid $color-grey-border;
+						box-shadow: $box-shadow-light;
+						color: $color-grey-medium;
+					}
+				}
+			}
+		}
+	}
 
 	.fullscreen {
 		background: #fff;
@@ -15,98 +74,6 @@
 
 		@media (max-width: $tablet-width) {
 			padding: 10px;
-		}
-	}
-
-	.st-TextViewer {
-		padding: 20px 0;
-	}
-
-	&-userActions {
-		display: flex;
-		justify-content: flex-end;
-		margin: 10px 0;
-
-		.st-IconButton {
-			margin-right: 10px;
-
-			&:last-child {
-				margin-right: 0;
-			}
-		}
-	}
-
-	&-header {
-		display: flex;
-		position: relative;
-		height: 250px;
-
-		&:before {
-			content: '';
-			background: #000;
-			opacity: 0.3;
-			position: absolute;
-			width: 100%;
-			height: 100%;
-		}
-
-		.st-Image {
-			width: 100%;
-			height: 100%;
-			object-fit: cover;
-		}
-
-		&-author {
-			position: absolute;
-			bottom: 30px;
-			left: 30px;
-			z-index: 2;
-
-			h3 {
-				color: $gray-lighter;
-			}
-
-			span {
-				color: #fff;
-				font-style: italic;
-				font-weight: bold;
-				text-transform: capitalize;
-			}
-		}
-	}
-
-	&-actions {
-		margin-top: 20px;
-
-		.st-IconButton {
-			&.active {
-				.fa {
-					color: #ff0000;
-				}
-			}
-
-			&:first-child {
-				margin-right: 10px;
-			}
-		}
-	}
-
-	&-comments {
-		margin-top: 10px;
-
-		&-comment {
-			margin: 10px 0;
-		}
-
-		&-newComment {
-			margin: 10px 0;
-			display: flex;
-			flex-direction: column;
-			align-items: flex-end;
-
-			.st-IconButton {
-				margin-top: 10px;
-			}
 		}
 	}
 }

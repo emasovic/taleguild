@@ -1,17 +1,19 @@
 import React, {useState} from 'react';
-import {Modal, ModalBody, Form} from 'reactstrap';
+import {Modal, ModalBody, Form, ModalHeader} from 'reactstrap';
 import {useDispatch, useSelector} from 'react-redux';
 import {Link} from 'react-router-dom';
 
-import FA from 'types/font_awesome';
+import {Toast} from 'types/toast';
+
+import {emailRegExp} from 'lib/util';
 
 import {registerUser, selectUser} from '../../redux/user';
+import {addToast} from 'redux/toast';
 
 import FloatingInput from '../widgets/input/FloatingInput';
 import IconButton from '../widgets/button/IconButton';
+import Checkbox from 'components/widgets/checkbox/Checkbox';
 import Billboard from 'components/widgets/billboard/Billboard';
-
-import background from '../../images/cover.png';
 
 import './SignUp.scss';
 
@@ -21,57 +23,80 @@ export default function SignUp(props) {
 	const [username, setUsername] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const [repeatPassword, setRepeatPassword] = useState('');
+	// const [repeatPassword, setRepeatPassword] = useState('');
+	const [accepted, setAccepted] = useState(false);
 
 	const dispatch = useDispatch();
 	const user = useSelector(selectUser);
 	const {error, loading} = user;
 
+	const validate = () => {
+		const errors = [];
+
+		!accepted && errors.push('You didnt accepted terms and conditions! \n');
+		// password !== repeatPassword && errors.push('Passwords dont match!');
+		!emailRegExp.test(email) && errors.push('Invalid email! \n');
+
+		if (errors.length) {
+			return dispatch(addToast(Toast.error(errors)));
+		}
+
+		return true;
+	};
+
 	const submit = e => {
 		e.preventDefault();
-		dispatch(registerUser({username, email, password}));
+		if (validate()) {
+			dispatch(registerUser({username, email, password, accepted}));
+		}
 	};
 
 	const {open, onClose, onChange} = props;
 
 	return (
 		<Modal returnFocusAfterClose={true} isOpen={open} modalClassName={CLASS}>
+			<ModalHeader toggle={onClose} />
 			<ModalBody>
-				<IconButton outline icon={FA.close} onClick={onClose} />
-				<Billboard src={background} />
+				<Billboard />
 
 				<Form onSubmit={e => submit(e)}>
+					<h4>Join our guild of writers and storytellers</h4>
 					<FloatingInput
-						placeholder="Username"
+						label="Username"
 						value={username}
 						onChange={val => setUsername(val)}
 					/>
 					<FloatingInput
-						placeholder="Email Address "
+						label="Email Address "
 						value={email}
 						type="email"
 						onChange={val => setEmail(val)}
 					/>
 
 					<FloatingInput
-						placeholder="Password"
+						label="Password"
 						value={password}
 						type="password"
 						onChange={val => setPassword(val)}
 						invalid={!!error}
 						errorMessage={error}
 					/>
-					<FloatingInput
-						placeholder="Password"
+					{/* <FloatingInput
+						label="Repeat Password"
 						value={repeatPassword}
 						type="password"
 						onChange={val => setRepeatPassword(val)}
 						invalid={!!error}
 						errorMessage={error}
+					/> */}
+					<Checkbox
+						label="I agree to Terms of Service and Privacy Policy"
+						checked={accepted}
+						onChange={checked => setAccepted(checked)}
 					/>
 					<IconButton loading={loading}>Sign Up</IconButton>
 					<Link to="#" onClick={onChange}>
-						Imate nalog? Ulogujte se.
+						Already have an account? Sign in now.
 					</Link>
 				</Form>
 			</ModalBody>
