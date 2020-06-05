@@ -171,7 +171,7 @@ export default function StoryWriter() {
 					type="textarea"
 					value={description}
 					placeholder="Type description of your story here..."
-					onChange={e => setDescription(e.target.value)}
+					onChange={val => setDescription(val)}
 				/>
 				<Uploader
 					onUploaded={setImage}

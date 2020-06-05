@@ -16,6 +16,16 @@
 		}
 	}
 
+	.st-Uploader {
+		&-thumbs {
+			&-item {
+				.st-Image {
+					height: 200px;
+				}
+			}
+		}
+	}
+
 	.st-DropdownButton {
 		> button {
 			background: $color-primary-light;
