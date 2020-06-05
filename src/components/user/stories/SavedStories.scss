@@ -1,0 +1,17 @@
+@import '../../../styles/variables.scss';
+
+.st-SavedStories {
+	display: flex;
+	flex-direction: column;
+
+	> span {
+		font-weight: 600;
+		text-transform: uppercase;
+		color: $color-grey-cream;
+	}
+
+	&-pagination {
+		display: flex;
+		justify-content: center;
+	}
+}

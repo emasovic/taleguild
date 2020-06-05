@@ -1,0 +1,83 @@
+@import '../../../styles/variables.scss';
+
+.st-Uploader {
+	display: flex;
+	flex-direction: column;
+	max-height: 400px;
+	border: 1px dashed $color-grey-border;
+	box-shadow: $box-shadow-light;
+	border-radius: 8px;
+	padding: 20px;
+	justify-content: space-between;
+	min-width: 400px;
+
+	@media (max-width: $breakpoint-sm) {
+		min-width: unset;
+	}
+
+	&-dropzone {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		outline: none;
+		height: 100%;
+
+		> span {
+			font-size: 18px;
+			color: $color-primary;
+			outline: none;
+
+			&:last-child {
+				font-size: 14px;
+				color: $color-grey-light;
+			}
+		}
+	}
+
+	&-thumbs {
+		margin-bottom: 10px;
+		width: 100%;
+
+		// span {
+		// 	display: flex;
+		// 	justify-content: center;
+		// 	align-items: center;
+		// }
+
+		&-item {
+			position: relative;
+
+			.st-Image {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+			}
+
+			.st-IconButton {
+				position: absolute;
+				right: 10px;
+				top: 10px;
+			}
+		}
+	}
+
+	&-preview {
+		position: relative;
+		margin-bottom: 10px;
+		width: 100%;
+
+		.st-Image {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+
+		.st-IconButton {
+			position: absolute;
+			right: 10px;
+			top: 10px;
+		}
+	}
+}

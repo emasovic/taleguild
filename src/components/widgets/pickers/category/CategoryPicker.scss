@@ -1,0 +1,38 @@
+@import '../../../../styles/variables.scss';
+
+.st-CategoryPicker {
+	min-width: 200px;
+	display: flex;
+	flex-flow: column;
+	min-height: 50px;
+
+	label {
+		color: $color-grey-medium;
+		font-size: 14px;
+		margin-bottom: 4px;
+	}
+
+	.st-CategoryPicker__option {
+		cursor: pointer;
+
+		&:hover,
+		&--is-focused {
+			background-color: $color-primary-light;
+		}
+	}
+
+	.st-CategoryPicker__control {
+		height: 36px;
+		cursor: pointer;
+
+		&--menu-is-open,
+		&--is-focused {
+			box-shadow: 0 0 0 1px $color-primary;
+			border-color: $color-primary;
+		}
+
+		&:hover {
+			border-color: $color-primary;
+		}
+	}
+}

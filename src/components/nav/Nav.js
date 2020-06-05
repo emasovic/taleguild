@@ -1,15 +1,34 @@
-import React, {useState, Fragment} from 'react';
-import {Navbar, Nav, NavbarBrand, NavItem, NavLink} from 'reactstrap';
-import {useSelector} from 'react-redux';
+import React, {useState, useEffect, Fragment} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
 
-import logo from '../../images/logo.svg';
+import {
+	Navbar,
+	Nav,
+	NavbarBrand,
+	NavItem,
+	DropdownToggle,
+	NavLink,
+	DropdownMenu,
+	DropdownItem,
+	Dropdown,
+} from 'reactstrap';
+import {useHistory} from 'react-router-dom';
 
-import {selectUser} from '../../redux/userSlice';
+import {COLOR} from 'types/button';
+import {USER_STORIES_SAVED, USER_SETTINGS, USER_STORIES_DRAFTS} from 'lib/routes';
 
-// import SignUp from '../signup/SignUp';
-// import UserProfile from '../user/UserProfile';
+import {selectUser, logOutUser} from '../../redux/user';
+import {newStory} from 'redux/story';
+
+import {ReactComponent as Logo} from 'images/logo.svg';
+
+import SignUp from '../signup/SignUp';
 import Login from '../login/Login';
 
+import StoryPicker from 'components/widgets/pickers/story/StoryPicker';
+
+import UserAvatar from 'components/user/UserAvatar';
+import Loader from 'components/widgets/loader/Loader';
 import IconButton from '../widgets/button/IconButton';
 
 import './Nav.scss';
@@ -17,73 +36,103 @@ import './Nav.scss';
 const CLASS = 'st-Nav';
 
 export default function Navigation() {
+	const dispatch = useDispatch();
+	const history = useHistory();
+
 	const [isLoginOpen, setIsLoginOpen] = useState(false);
+	const [isRegisterOpen, setIsRegisterOpen] = useState(false);
+	const [dropdownOpen, setDropdownOpen] = useState(false);
+
+	const toggle = () => setDropdownOpen(prevState => !prevState);
+
 	const user = useSelector(selectUser);
+	const {data, loading} = user;
+	const token = data && data.token;
+
+	const openModal = () => {
+		setIsLoginOpen(!isLoginOpen);
+		setIsRegisterOpen(!isRegisterOpen);
+	};
+
+	const handleNewStory = () => {
+		dispatch(newStory({user: data && data.id, published: false}, history));
+	};
+
+	useEffect(() => {
+		if (token) {
+			setIsLoginOpen(false);
+			setIsRegisterOpen(false);
+		}
+	}, [token]);
+
 	const userLoggedOut = () => {
 		return (
 			<Fragment>
 				<NavItem className={CLASS + '-login'} onClick={() => setIsLoginOpen(true)}>
-					<NavLink href="#">Login</NavLink>
+					<NavLink href="#">
+						<IconButton color={COLOR.secondary}>Sign in</IconButton>
+					</NavLink>
 				</NavItem>
-				<NavItem>
-					<IconButton onClick={() => this.handleChange(true, 'isRegisterOpen')}>
-						New Account
-					</IconButton>
+				<NavItem className={CLASS + '-login'} onClick={() => setIsRegisterOpen(true)}>
+					<NavLink href="#">
+						<IconButton color={COLOR.secondary}>Sign up</IconButton>
+					</NavLink>
 				</NavItem>
 			</Fragment>
 		);
 	};
 
 	const userLoggedIn = () => {
-		const {username} = user;
 		return (
-			<NavItem className={CLASS + '-user'} onClick={() => this.handleChange(true, 'isUserOpen')}>
-				<NavLink href="#">
-					<span>{username}</span>
-					{/* <img src={avatar} alt="avatar" /> */}
-				</NavLink>
-			</NavItem>
+			<>
+				<NavItem className={CLASS + '-user'}>
+					<NavLink onClick={handleNewStory}>
+						<IconButton color={COLOR.secondary}>New story</IconButton>
+					</NavLink>
+					<Dropdown isOpen={dropdownOpen} toggle={toggle}>
+						<DropdownToggle outline caret>
+							<UserAvatar user={data} />
+						</DropdownToggle>
+						<DropdownMenu>
+							<DropdownItem href={USER_SETTINGS}>Profile</DropdownItem>
+							<DropdownItem href={USER_STORIES_DRAFTS}>Drafts</DropdownItem>
+							<DropdownItem href={USER_STORIES_SAVED}>Saved stories</DropdownItem>
+							<DropdownItem onClick={() => dispatch(logOutUser())}>
+								Logout
+							</DropdownItem>
+						</DropdownMenu>
+					</Dropdown>
+				</NavItem>
+			</>
 		);
 	};
 	return (
-		<div className={CLASS}>
-			<Navbar>
+		<>
+			<Navbar className={CLASS}>
 				<NavbarBrand href="/">
-					<img src={logo} className="App-logo" alt="logo" />
+					<Logo />
 				</NavbarBrand>
+
+				<StoryPicker placeholder="Search for stories" />
+
 				<Nav>
-					<NavItem>
-						<NavLink href="/story/new">Create Story</NavLink>
-					</NavItem>
-					<NavItem>
-						<NavLink href="#">Latest Sightings</NavLink>
-					</NavItem>
-					<NavItem>
-						<NavLink href="#">Favorites</NavLink>
-					</NavItem>
-					{user ? userLoggedIn() : userLoggedOut()}
+					{loading ? <Loader /> : data && data.token ? userLoggedIn() : userLoggedOut()}
 				</Nav>
 			</Navbar>
-			{/* {isRegisterOpen && (
+			{isRegisterOpen && (
 				<SignUp
 					open={isRegisterOpen}
-					onClose={() => this.handleChange(false, 'isRegisterOpen')}
-					onSuccess={this.handleRegisterSuccess}
+					onChange={openModal}
+					onClose={() => setIsRegisterOpen(false)}
 				/>
-			)} */}
+			)}
 			{isLoginOpen && (
 				<Login
 					open={isLoginOpen}
+					onChange={openModal}
 					onClose={() => setIsLoginOpen(false)}
-					// onSuccess={this.handleLoginSuccess}
 				/>
 			)}
-			{/* {user && isUserOpen && (
-				<UserProfile
-					open={isUserOpen}
-					onClose={() => this.handleChange(false, 'isUserOpen')}
-				/>
-			)} */}
-		</div>
+		</>
 	);
 }

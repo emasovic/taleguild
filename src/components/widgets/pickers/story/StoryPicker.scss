@@ -1,0 +1,60 @@
+@import '../../../../styles/variables.scss';
+
+.st-StoryPicker {
+	min-width: 400px;
+
+	@media (max-width: $breakpoint-m) {
+		min-width: 200px;
+	}
+
+	&-option {
+		display: flex;
+		padding: 10px 5px;
+		background-color: #fff !important;
+		cursor: pointer !important;
+
+		a {
+			display: flex;
+			width: 100%;
+			align-items: center;
+		}
+
+		&:hover,
+		&:active {
+			background: $color-primary-light !important;
+			text-decoration: none;
+		}
+
+		span {
+			font-family: $font-merriweather;
+			color: $color-grey-medium;
+			font-weight: bold;
+			font-size: 14px;
+		}
+
+		.st-Image {
+			width: 48px;
+			height: 36px;
+			margin-right: 12px;
+			border-radius: 4px;
+			object-fit: cover;
+		}
+	}
+
+	.st-StoryPicker__control {
+		flex-direction: row-reverse;
+
+		&--menu-is-open {
+			box-shadow: 0 0 0 1px $color-primary;
+			border-color: $color-primary;
+		}
+
+		&:hover {
+			border-color: $color-primary;
+		}
+	}
+
+	.st-StoryPicker__indicators {
+		flex-direction: row-reverse;
+	}
+}

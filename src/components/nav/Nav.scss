@@ -1,50 +1,78 @@
 @import '../../styles/variables.scss';
 
 .st-Nav {
+	align-content: center;
+	height: 60px;
+	padding: 0 !important;
+	margin: 24px 0;
+
 	@media (max-width: $tablet-width) {
-		display: none;
+		display: flex;
+		flex-direction: column;
+		padding: 0;
+		flex-wrap: nowrap;
 	}
 
-	.navbar {
-		padding: $spacing-s $spacing-xs;
+	.navbar-brand {
+		flex: 1 1 0;
+		margin-right: 0;
+	}
+
+	.st-StoryPicker {
+		flex: 1 1 0;
 	}
 
 	.nav {
 		align-items: center;
+		flex-wrap: nowrap;
+		flex: 1 1 0;
+		justify-content: flex-end;
 	}
 
 	.nav-item {
 		.nav-link {
 			font-size: 14px;
-			color: $color-secondary;
+			color: $color-grey-light;
 			text-decoration: none;
 			font-weight: 500;
 		}
 	}
 
-	.fs-Button {
-		min-height: 40px;
-		border-radius: 50px !important;
-	}
-
 	&-user {
-		.nav-link {
-			display: flex;
-			align-items: center;
-			text-transform: capitalize;
+		display: flex;
+		align-items: center;
 
-			img {
-				width: 40px;
-				height: 40px;
-				border-radius: 50%;
-				margin-left: 20px;
+		.dropdown {
+			&-toggle {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				background: none !important;
+				border: none;
+
+				.st-Image,
+				.badge {
+					width: 40px;
+					height: 40px;
+					border-radius: 50%;
+					margin-right: 15px;
+					object-fit: cover;
+				}
+
+				.badge {
+					font-size: 20px;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					text-transform: uppercase;
+				}
 			}
 		}
 	}
 
 	&-login {
 		.nav-link {
-			color: $button-primary !important;
+			color: $color-primary !important;
 		}
 	}
 }

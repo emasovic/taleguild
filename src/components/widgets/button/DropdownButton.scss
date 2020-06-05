@@ -1,0 +1,28 @@
+@import '../../../styles/variables.scss';
+
+.st-DropdownButton {
+	> button {
+		border: none;
+		outline: none !important;
+		box-shadow: none;
+		color: $color-grey-cream;
+	}
+
+	.dropdown {
+		&-menu {
+			padding: 0;
+			min-width: 300px;
+		}
+
+		&-divider {
+			margin: 0;
+		}
+
+		&-item {
+			outline: none;
+			font-weight: bold;
+			color: $color-grey-black;
+			padding: 15px;
+		}
+	}
+}

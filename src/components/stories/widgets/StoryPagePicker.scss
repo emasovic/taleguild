@@ -1,0 +1,47 @@
+@import '../../../styles/variables.scss';
+
+.st-StoryPagePicker {
+	min-width: 220px;
+	height: 36px;
+
+	&__option {
+		background-color: #fff !important;
+		color: $color-grey-black !important;
+		padding: 16px;
+		border-bottom: 1px solid $color-grey-border;
+
+		.st-IconButton {
+			width: 100%;
+		}
+
+		&:hover {
+			font-weight: bold;
+			cursor: pointer;
+		}
+	}
+
+	&__control {
+		border: none !important;
+		box-shadow: none !important;
+		flex-direction: row-reverse;
+		outline: none;
+		cursor: pointer !important;
+		background-color: $color-primary-light !important;
+
+		// &--menu-is-open {
+		// 	background-color: $color-primary-light !important;
+		// }
+	}
+
+	&__single-value {
+		color: $color-primary-dark !important;
+	}
+
+	&__indicator {
+		color: $color-primary-dark !important;
+
+		&-separator {
+			display: none;
+		}
+	}
+}

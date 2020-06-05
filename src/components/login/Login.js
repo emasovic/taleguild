@@ -1,12 +1,17 @@
 import React, {useState} from 'react';
-import {Modal, ModalBody, ModalHeader, Form} from 'reactstrap';
-
+import {Modal, ModalBody, Form, ModalHeader} from 'reactstrap';
 import {useDispatch, useSelector} from 'react-redux';
+import {Link} from 'react-router-dom';
 
-import {loginUser, logOut, selectUser} from '../../redux/userSlice';
+import {FORGOT_PASSWORD} from 'lib/routes';
+
+import {loginUser, selectUser} from '../../redux/user';
 
 import FloatingInput from '../widgets/input/FloatingInput';
 import IconButton from '../widgets/button/IconButton';
+import Billboard from 'components/widgets/billboard/Billboard';
+
+// import background from '../../images/cover.png';
 
 import './Login.scss';
 
@@ -16,33 +21,46 @@ export default function Login(props) {
 	const [identifier, setIdentifier] = useState('');
 	const [password, setPassword] = useState('');
 	const dispatch = useDispatch();
-	// const user = useSelector(selectUser);
+	const user = useSelector(selectUser);
+	const {error, loading} = user;
+
 	const submit = e => {
 		e.preventDefault();
 		dispatch(loginUser({identifier, password}));
 	};
 
-	const {open, onClose} = props;
+	const {open, onClose, onChange} = props;
 
 	return (
 		<Modal returnFocusAfterClose={true} isOpen={open} modalClassName={CLASS}>
-			<ModalHeader toggle={onClose}>Welcome Back</ModalHeader>
+			<ModalHeader toggle={onClose} />
 			<ModalBody>
+				<Billboard />
+
 				<Form onSubmit={e => submit(e)}>
+					<h4>Welcome Back</h4>
 					<FloatingInput
-						placeholder="Email Address "
+						label="Enter your email or password"
 						value={identifier}
-						type="email"
+						type="text"
 						onChange={val => setIdentifier(val)}
 					/>
 
 					<FloatingInput
-						placeholder="Password"
+						label="Enter password"
 						value={password}
 						type="password"
 						onChange={val => setPassword(val)}
+						errorMessage={error}
+						invalid={!!error}
 					/>
-					<IconButton>Login to your Account</IconButton>
+					<Link to={FORGOT_PASSWORD} onClick={onClose}>
+						Forgot password?
+					</Link>
+					<IconButton loading={loading}>Sign in</IconButton>
+					<Link to="#" onClick={onChange}>
+						Don’t have an account? Sign up now.
+					</Link>
 				</Form>
 			</ModalBody>
 		</Modal>

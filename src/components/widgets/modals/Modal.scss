@@ -1,0 +1,42 @@
+@import '../../../styles/variables.scss';
+
+.st-Modal {
+	display: flex !important;
+	align-items: center;
+	justify-content: center;
+	backdrop-filter: blur(10px);
+
+	.modal {
+		&-title {
+			font-family: $font-merriweather;
+			color: $color-grey-black;
+			font-weight: bold;
+			font-size: 14px;
+		}
+
+		&-content {
+			min-width: 500px;
+		}
+
+		&-header {
+			display: flex;
+			align-items: center;
+			border-bottom: 1px solid $color-grey-border;
+
+			.close {
+				outline: none;
+			}
+		}
+
+		// &-body {
+
+		// }
+
+		&-footer {
+			border-top: 1px solid $color-grey-border;
+			display: flex;
+			align-items: center;
+			justify-content: flex-end;
+		}
+	}
+}

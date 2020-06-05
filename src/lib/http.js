@@ -5,33 +5,6 @@ import ENV from '../env';
 
 import {detectIE} from './util';
 
-// export const usePost = opts => {
-// 	if (!opts.url) {
-// 		throw new Error('url is required');
-// 	}
-// 	const [res, setRes] = useState({data: null, error: null, isLoading: false});
-// 	// const [error, setError]
-// 	// You POST method here
-// 	const callAPI = useCallback(() => {
-// 		setRes(prevState => ({...prevState, isLoading: true}));
-// 		axios
-// 			.post(url, {
-// 				...data,
-// 				headers: {
-// 					Authorization:
-// 						'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNTg3MTk5NTE1LCJleHAiOjE1ODk3OTE1MTV9.8sXn2oR2Jx0hvN-9c3w7qxsdfFob3CPeesA4F0t6Huk',
-// 				},
-// 			})
-// 			.then(res => {
-// 				setRes({data: res.data, isLoading: false, error: null});
-// 			})
-// 			.catch(error => {
-// 				setRes({data: null, isLoading: false, error});
-// 			});
-// 	}, [url, data, headers]);
-// 	return [res, callAPI];
-// };
-
 export const getHeaders = (method, onlyAuth = false) => {
 	let headers = {};
 	if (onlyAuth) {
@@ -62,8 +35,8 @@ export const request = opts => {
 	const headers = opts.headers;
 	opts.headers = getHeaders(opts.method);
 
-	if (opts && opts.params && opts.params.token) {
-		opts.headers['Authorization'] = `Bearer ${opts.params.token}`;
+	if (localStorage.getItem('token')) {
+		opts.headers['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
 	}
 
 	if (headers) {

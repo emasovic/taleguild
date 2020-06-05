@@ -1,0 +1,25 @@
+@import '../../../styles/variables.scss';
+
+.st-Categories {
+	width: 100%;
+	display: flex;
+	flex-wrap: nowrap !important;
+	overflow: auto;
+
+	.nav-link {
+		color: $color-grey-light;
+		font-weight: 600;
+		text-transform: uppercase;
+		cursor: pointer;
+		font-size: 14px;
+		padding-left: 0;
+
+		&:hover {
+			color: $color-secondary-black;
+		}
+
+		&.active {
+			color: $color-secondary-black;
+		}
+	}
+}

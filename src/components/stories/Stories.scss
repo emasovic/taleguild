@@ -1,3 +1,59 @@
+@import '../../styles/variables.scss';
+
 .st-Stories {
-    
+	.st-Loader {
+		min-height: 400px;
+		min-width: $story-preview-width-desktop;
+	}
+
+	&-header {
+		width: 100%;
+		display: flex;
+		flex-wrap: nowrap !important;
+		overflow: auto;
+		max-width: $story-preview-width-desktop;
+		margin: 0 auto;
+
+		.nav-link {
+			color: $color-grey-light;
+			font-weight: 600;
+			cursor: pointer;
+			font-size: 14px;
+			padding: 0;
+			margin-right: 15px;
+
+			&:hover {
+				color: $color-secondary-black;
+			}
+
+			&.active {
+				color: $color-secondary-black;
+				border-bottom: 4px dotted $color-primary;
+			}
+		}
+	}
+
+	&-lastest {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+
+		@media (max-width: $tablet-width) {
+			justify-content: center;
+		}
+
+		h2 {
+			margin: 12px 0;
+			min-width: 480px;
+			text-align: center;
+			// font-family: $font-merriweather;
+			color: $color-grey-cream;
+		}
+	}
+
+	&-pagination {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
 }

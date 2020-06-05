@@ -1,0 +1,248 @@
+@import '../../styles/variables.scss';
+
+.st-StoryItem {
+	width: $story-preview-width-desktop;
+	min-height: $story-preview-height;
+	background: #fff;
+	margin: 12px 0 0;
+	border-radius: 6px;
+	border: 1px solid $color-grey-border;
+	box-shadow: 2px 2px 12px rgba(35, 31, 26, 0.08);
+	display: flex;
+	flex-direction: column;
+	text-decoration: none !important;
+	color: #000 !important;
+	position: relative;
+
+	.st-DropdownButton {
+		position: absolute;
+		right: 10px;
+		top: 20px;
+	}
+
+	&:last-child {
+		margin-bottom: 12px;
+	}
+
+	@media (max-width: $tablet-width) {
+		width: $story-preview-width-mobile;
+	}
+
+	&-author {
+		display: flex;
+		align-items: center;
+		padding: 15px;
+
+		&-info {
+			display: flex;
+			flex-direction: column;
+
+			span {
+				color: $color-grey-light;
+
+				&:first-child {
+					font-weight: bold;
+					font-family: $font-merriweather;
+					color: $color-grey-black;
+				}
+			}
+		}
+	}
+
+	&-description {
+		// min-height: 70px;
+		padding: 0 15px 15px;
+		// flex-grow: 1;
+	}
+
+	&-cover {
+		height: 250px;
+
+		.st-Image {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+
+			&-fallback {
+				border: none;
+			}
+		}
+	}
+
+	&-footer {
+		width: 100%;
+		padding: 15px;
+		min-height: 40px;
+		display: flex;
+		flex-direction: column;
+		margin-bottom: 8px;
+
+		&-title {
+			display: flex;
+			flex-direction: column;
+
+			span {
+				color: $color-grey-medium;
+
+				&:first-child {
+					color: $color-grey-black;
+					font-size: 18px;
+					font-family: $font-merriweather;
+					font-weight: bold;
+					line-height: 22px;
+				}
+			}
+		}
+
+		&-actions {
+			display: flex;
+			justify-content: space-between;
+			margin: 8px 0;
+
+			.st-IconButton {
+				border: none;
+				box-shadow: none !important;
+				background: none !important;
+				font-size: 24px;
+				padding: 0;
+				color: $color-grey-light;
+
+				&:first-child {
+					margin-right: 24px;
+
+					&:hover {
+						color: $color-secondary-red !important;
+					}
+
+					&.active {
+						color: $color-secondary-red !important;
+						background: none !important;
+					}
+				}
+
+				&:last-child {
+					&:hover {
+						color: $color-secondary-yellow-dark !important;
+					}
+
+					&.active {
+						color: $color-secondary-yellow-dark !important;
+						background: none !important;
+					}
+				}
+			}
+		}
+
+		&-stats {
+			display: flex;
+			justify-content: space-between;
+			color: $color-grey-medium;
+			cursor: pointer;
+			margin: 8px 0;
+
+			&-left {
+				span {
+					&:first-child {
+						margin-right: 24px;
+					}
+				}
+			}
+		}
+	}
+
+	&-likes {
+		display: flex;
+		flex-direction: column;
+
+		&-item {
+			display: flex;
+			align-items: center;
+			margin: 15px 0;
+
+			span {
+				font-weight: bold;
+				font-family: $font-merriweather;
+				color: $color-grey-black;
+			}
+		}
+	}
+
+	&-comments {
+		display: flex;
+		flex-direction: column;
+
+		&-posted {
+			max-height: 500px;
+			overflow: auto;
+
+			&-item {
+				display: flex;
+				align-items: center;
+				margin: 15px 0;
+				text-decoration: none !important;
+
+				&-user {
+					display: flex;
+					flex-direction: column;
+					text-align: left;
+					width: 100%;
+					position: relative;
+
+					&-info {
+						span {
+							&:first-child {
+								font-weight: bold;
+								font-family: $font-merriweather;
+								color: $color-grey-black;
+								margin-right: 8px;
+							}
+
+							&:last-child {
+								font-size: 14px;
+								color: $color-grey-light;
+							}
+						}
+					}
+
+					.st-IconButton {
+						position: absolute;
+						right: 5px;
+						font-size: 12px;
+						background: none;
+						border: none;
+						box-shadow: none;
+					}
+
+					span {
+						font-size: 14px;
+						color: $color-grey-black;
+					}
+				}
+			}
+		}
+
+		&-new {
+			display: flex;
+			align-items: center;
+			box-shadow: $box-shadow-light;
+			padding: 10px;
+
+			&-comment {
+				display: flex;
+				align-items: center;
+
+				.st-FloatingInput {
+					margin-bottom: 0;
+				}
+
+				.st-IconButton {
+					background: transparent !important;
+					outline: none;
+					box-shadow: none !important;
+					border: none;
+					color: $color-primary;
+				}
+			}
+		}
+	}
+}

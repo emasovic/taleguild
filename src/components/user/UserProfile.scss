@@ -1,0 +1,39 @@
+@import '../../styles/variables.scss';
+
+.st-UserProfile {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	&-user {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		margin-bottom: 36px;
+
+		span {
+			font-family: $font-merriweather;
+			font-weight: bold;
+			color: $color-grey-black;
+			font-size: 18px;
+
+			&:last-child {
+				color: $color-grey-medium;
+				font-size: 14px;
+				font-weight: normal;
+				font-family: $font-lato;
+			}
+		}
+
+		.st-UserAvatar {
+			.st-Image,
+			.badge {
+				font-size: 30px;
+				width: 100px;
+				height: 100px;
+				margin-right: 0;
+				margin-bottom: 16px;
+			}
+		}
+	}
+}

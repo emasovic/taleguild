@@ -1,143 +1,44 @@
 @import '../../../styles/variables.scss';
 
-@import '~react-quill/dist/quill.snow.css';
-
 .st-TextEditor {
-	max-width: 100%;
-	min-width: 100%;
+	font-family: $font-merriweather;
 
-	.quill {
-		.ql-snow .ql-picker.ql-expanded .ql-picker-options {
-			z-index: 5;
+	&-menu {
+		padding: 5px;
+		position: absolute;
+		z-index: 1;
+		top: -10000px;
+		left: -10000px;
+		margin-top: -6px;
+		opacity: 0;
+		background-color: #fff;
+		border: 1px solid $color-grey-border;
+		box-shadow: $box-shadow-light;
+		border-radius: 4px;
+		transition: opacity 0.75s;
+
+		&:before {
+			content: '';
+			position: absolute;
+			width: 10px;
+			height: 10px;
+			background: #fff;
+			bottom: -4px;
+			left: 76px;
+			transform: rotate(45deg);
 		}
 
-		> pre {
-			background: transparent;
-			padding: 0;
-			color: #000;
-		}
+		.st-IconButton {
+			background: transparent !important;
+			border: none !important;
+			box-shadow: none !important;
+			color: $color-grey-medium;
+			font-weight: normal;
 
-		.ql-editor {
-			min-height: 200px;
-
-			p {
-				word-break: break-word;
-			}
-
-			ul > li:before {
-				font-size: 20px;
-			}
-
-			ol li:before {
-				font-size: 20px;
+			&:hover,
+			&.active {
+				color: $color-grey-black !important;
 			}
 		}
-
-		.ql-snow .ql-picker.ql-size {
-			.ql-picker-label[data-value='8px'], .ql-picker-item[data-value='8px'] {
-				&:before {
-					content: '8px';
-				}
-			}
-
-			.ql-picker-label[data-value='9px'], .ql-picker-item[data-value='9px'] {
-				&:before {
-					content: '9px';
-				}
-			}
-
-			.ql-picker-label[data-value='10px'], .ql-picker-item[data-value='10px'] {
-				&:before {
-					content: '10px';
-				}
-			}
-
-			.ql-picker-label[data-value='11px'], .ql-picker-item[data-value='11px'] {
-				&:before {
-					content: '11px';
-				}
-			}
-
-			.ql-picker-label[data-value='12px'], .ql-picker-item[data-value='12px'] {
-				&:before {
-					content: '12px';
-				}
-			}
-
-			.ql-picker-label[data-value='14px'], .ql-picker-item[data-value='14px'] {
-				&:before {
-					content: '14px';
-				}
-			}
-
-			.ql-picker-label[data-value='16px'], .ql-picker-item[data-value='16px'] {
-				&:before {
-					content: '16px';
-				}
-			}
-
-			.ql-picker-label[data-value='18px'], .ql-picker-item[data-value='18px'] {
-				&:before {
-					content: '18px';
-				}
-			}
-
-			.ql-picker-label[data-value='20px'], .ql-picker-item[data-value='20px'] {
-				&:before {
-					content: '20px';
-				}
-			}
-
-			.ql-picker-label[data-value='24px'], .ql-picker-item[data-value='24px'] {
-				&:before {
-					content: '24px';
-				}
-			}
-
-			.ql-picker-label[data-value='30px'], .ql-picker-item[data-value='30px'] {
-				&:before {
-					content: '30px';
-				}
-			}
-
-			.ql-picker-label[data-value='36px'], .ql-picker-item[data-value='36px'] {
-				&:before {
-					content: '36px';
-				}
-			}
-
-			.ql-picker-label[data-value='48px'], .ql-picker-item[data-value='48px'] {
-				&:before {
-					content: '48px';
-				}
-			}
-
-			.ql-picker-label[data-value='60px'], .ql-picker-item[data-value='60px'] {
-				&:before {
-					content: '60px';
-				}
-			}
-
-			.ql-picker-label[data-value='72px'], .ql-picker-item[data-value='72px'] {
-				&:before {
-					content: '72px';
-				}
-			}
-
-			.ql-picker-label[data-value='96px'], .ql-picker-item[data-value='96px'] {
-				&:before {
-					content: '96px';
-				}
-			}
-		}
-
-		.ql-container {
-			min-height: 500px;
-		}
-	}
-
-	.ql-formats {
-		margin-bottom: 10px;
-		// border: 1px solid $border-color;
 	}
 }
