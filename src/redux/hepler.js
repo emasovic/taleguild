@@ -1,9 +1,12 @@
-export const hepler = arr =>
-	arr &&
-	arr.reduce((map, obj) => {
-		map[obj.id] = obj;
-		return map;
-	}, {});
+export const hepler = arr => {
+	const obj = {};
+
+	arr.forEach(item => {
+		obj[item.id] = item;
+	});
+
+	return obj;
+};
 
 export const gotDataHelper = (state, data) => {
 	if (!Array.isArray(data)) {
@@ -13,9 +16,7 @@ export const gotDataHelper = (state, data) => {
 	data = hepler(data);
 
 	if (!state) {
-		return {
-			...data,
-		};
+		return {...data};
 	}
 
 	return {

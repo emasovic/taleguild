@@ -22,7 +22,6 @@ export default function TextViewer({value}) {
 				className={CLASS}
 				renderElement={renderElement}
 				renderLeaf={renderLeaf}
-				placeholder="Behind the seven seas…"
 				spellCheck
 				autoFocus
 			/>

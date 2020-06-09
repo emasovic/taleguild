@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Modal, ModalBody, ModalHeader, ModalFooter} from 'reactstrap';
+import classnames from 'classnames';
 
 import {COLOR} from 'types/button';
 
@@ -18,6 +19,7 @@ export default function ConfirmModal({
 	renderFooter,
 	cancelLabel,
 	confirmLabel,
+	className,
 	isOpen,
 }) {
 	const handleConfirm = () => {
@@ -55,12 +57,14 @@ export default function ConfirmModal({
 		);
 	};
 
+	const classNames = className ? classnames(CLASS, className) : CLASS;
+
 	return (
 		<Modal
 			returnFocusAfterClose={true}
 			toggle={handleCancel}
 			isOpen={isOpen}
-			modalClassName={CLASS}
+			modalClassName={classNames}
 		>
 			{renderModalHeader()}
 			{renderModalBody()}

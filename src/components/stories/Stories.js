@@ -3,6 +3,9 @@ import {NavItem, NavLink, Nav} from 'reactstrap';
 import {useDispatch, useSelector, shallowEqual} from 'react-redux';
 import propTypes from 'prop-types';
 import moment from 'moment';
+import orderBy from 'lodash/orderBy';
+
+import {DEFAULT_CRITERIA} from 'types/story';
 
 import {loadStories, selectStories} from '../../redux/story';
 
@@ -12,20 +15,19 @@ import Pages from 'components/widgets/pagination/Pagination';
 import StoryItem from './StoryItem';
 
 import './Stories.scss';
-import {DEFAULT_CRITERIA} from 'types/story';
 
 const CLASS = 'st-Stories';
 
 const SORT = {
-	recent: 'recent',
-	popular: 'popular',
+	recent: 'created_at',
+	popular: 'likes_count',
 };
 
 export default function Stories({criteria}) {
 	const dispatch = useDispatch();
-	const {data, loading, pages} = useSelector(
+	const {stories, loading, pages} = useSelector(
 		state => ({
-			data: selectStories(state),
+			stories: selectStories(state),
 			pages: state.stories.pages,
 			loading: state.stories.loading,
 		}),
@@ -61,8 +63,8 @@ export default function Stories({criteria}) {
 	}, [dispatch, shouldCount, storyCriteria]);
 
 	const renderStories =
-		data && data.length ? (
-			data.map(item => {
+		stories && stories.length ? (
+			orderBy(stories, [activeSort], ['desc']).map(item => {
 				return (
 					<StoryItem
 						id={item.id}
@@ -73,6 +75,7 @@ export default function Stories({criteria}) {
 						categories={item.categories}
 						likes={item.likes}
 						comments={item.comments}
+						storypages={item.storypages}
 						author={item.user}
 						createdDate={item.created_at}
 						savedBy={item.saved_by}

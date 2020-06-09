@@ -3,9 +3,10 @@ import user from './user';
 import users from './users';
 import stories from './story';
 import toast from './toast';
+import drafts from './draft_stories';
 import saved_stories from './saved_stories';
 import user_stories from './user_stories';
-import drafts from './draft_stories';
+import story_pages from './story_pages';
 
 export default configureStore({
 	reducer: {
@@ -13,8 +14,9 @@ export default configureStore({
 		users,
 		stories,
 		drafts,
+		toast,
+		story_pages,
 		user_stories,
 		saved_stories,
-		toast,
 	},
 });

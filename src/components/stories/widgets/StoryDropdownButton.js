@@ -30,10 +30,18 @@ export default function StoryDropdownButton({story}) {
 		</span>
 	);
 
+	if (!story) {
+		return null;
+	}
+
+	const {storypages} = story;
+
+	const pageId = storypages && storypages.length ? storypages[0].id : null;
+
 	return (
 		<div className={CLASS}>
 			<DropdownButton>
-				<DropdownItem href={editStory(story.id)}>Edit</DropdownItem>
+				<DropdownItem href={editStory(story.id, pageId)}>Edit</DropdownItem>
 				<DropdownItem divider />
 				<DropdownItem onClick={toggleModal}>Delete</DropdownItem>
 			</DropdownButton>

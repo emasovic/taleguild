@@ -11,7 +11,7 @@ import Nav from 'components/nav/Nav';
 import Home from 'components/Home';
 
 import Story from 'components/stories/Story';
-import StoryWriter from 'components/stories/StoryWriter';
+import Writter from 'components/stories/writter/Writter';
 
 import UserProfile from 'components/user/UserProfile';
 import UserSettings from 'components/user/UserSettings';
@@ -23,6 +23,7 @@ import ResetPassword from 'components/login/ResetPassword';
 
 import PrivateRoute from 'PrivateRoute';
 import NotFound from 'NotFound';
+
 
 function App() {
 	const dispatch = useDispatch();
@@ -36,7 +37,7 @@ function App() {
 			<Nav />
 			<Switch>
 				<Route exact path={routes.HOME} component={Home} />
-				<PrivateRoute path={routes.WRITE_STORY} component={StoryWriter} />
+				<PrivateRoute path={routes.WRITE_STORY} component={Writter} />
 				<Route path={routes.STORY_ID} component={Story} />
 				<PrivateRoute path={routes.USER_STORIES_SAVED} component={SavedStoriesPage} />
 				<PrivateRoute path={routes.USER_STORIES_DRAFTS} component={DraftStoriesPage} />

@@ -1,9 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector, shallowEqual} from 'react-redux';
 
-import {useParams, Redirect} from 'react-router-dom';
-
-import {HOME} from 'lib/routes';
+import {useParams} from 'react-router-dom';
 
 import {loadStory, selectStory} from 'redux/story';
 import {selectUser} from 'redux/user';
@@ -17,7 +15,7 @@ import './Story.scss';
 
 const CLASS = 'st-Story';
 
-export default function Story({previewStory}) {
+export default function Story() {
 	const {id} = useParams();
 
 	const dispatch = useDispatch();
@@ -44,12 +42,14 @@ export default function Story({previewStory}) {
 		);
 	}
 
-	if (!story.published) {
-		return <Redirect to={HOME} />;
-	}
+	// if (!story.published) {
+	// 	return <Redirect to={HOME} />;
+	// }
 
 	let {storypages} = story;
-	storypages = storypages.map(item => ({...item, text: JSON.parse(item.text)}));
+	storypages = storypages && storypages.length
+		? storypages.map(item => ({...item, text: JSON.parse(item.text)}))
+		: [];
 
 	return (
 		<div className={CLASS}>
@@ -62,6 +62,7 @@ export default function Story({previewStory}) {
 				categories={story.categories}
 				likes={story.likes}
 				comments={story.comments}
+				storypages={story.storypages}
 				author={story.user}
 				createdDate={story.created_at}
 				savedBy={story.saved_by}

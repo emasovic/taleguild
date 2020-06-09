@@ -34,6 +34,7 @@ export default function StoryItem({
 	comments,
 	author,
 	createdDate,
+	storypages,
 	savedBy,
 }) {
 	const dispatch = useDispatch();
@@ -203,7 +204,9 @@ export default function StoryItem({
 	const favouriteIcon = favourite ? FA.solid_bookmark : FA.bookmark;
 	return (
 		<div className={CLASS}>
-			{data && author.id === data.id && <StoryDropdownButton story={{id, title}} />}
+			{data && author.id === data.id && (
+				<StoryDropdownButton story={{id, title, storypages}} />
+			)}
 			<Link to={goToUser(author.id)} className={CLASS + '-author'}>
 				<UserAvatar user={author} />
 				<div className={CLASS + '-author-info'}>
@@ -296,6 +299,7 @@ StoryItem.propTypes = {
 	categories: propTypes.array,
 	likes: propTypes.array,
 	comments: propTypes.array,
+	storypages: propTypes.array,
 	editMode: propTypes.bool,
 	description: propTypes.string,
 	title: propTypes.string,

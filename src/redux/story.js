@@ -79,7 +79,12 @@ export const storySlice = createSlice({
 		},
 		gotStoryPage: (state, action) => {
 			const {storyId, ...rest} = action.payload;
-			state.data[storyId].storypages.filter(item => item.id !== action.payload.id);
+			state.data[storyId] = {
+				...state.data[storyId],
+				storypages: state.data[storyId].storypages.filter(
+					item => item.id !== action.payload.id
+				),
+			};
 			state.data[storyId].storypages.push({...rest});
 		},
 		removeStoryPage: (state, action) => {
@@ -250,11 +255,12 @@ export const createOrUpdateStoryPage = (payload, history) => async (dispatch, ge
 	}
 
 	if (!payload.id) {
-		dispatch(gotStoryPage({storyId: payload.story, ...res}));
 		history.push(editStory(payload.story, res.id));
 
 		dispatch(newToast({...Toast.success('Successfully created story page.')}));
 	}
+
+	dispatch(gotStoryPage({storyId: payload.story, ...res}));
 
 	dispatch(opEnd());
 };
@@ -278,10 +284,7 @@ export const deleteStoryPage = (storyId, pageId) => async (dispatch, getState) =
 const stories = state => state.stories.data;
 
 export const selectStories = createSelector([stories], res =>
-	res
-		? Object.values(res).map(item => item)
-		: // .sort((a, b) => b.id - a.id)
-		  null
+	res ? Object.values(res).map(item => item) : null
 );
 
 export const selectStory = (state, id) => state.stories.data && state.stories.data[id];

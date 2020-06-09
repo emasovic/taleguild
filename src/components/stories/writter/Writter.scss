@@ -1,0 +1,81 @@
+@import '../../../styles/variables.scss';
+
+.st-Writter {
+	max-width: 640px;
+	margin: 0 auto;
+
+	&-header {
+		.st-FloatingInput {
+			input {
+				border: none;
+				outline: none;
+				font-size: 24px;
+				box-shadow: none;
+				padding: 0;
+				font-family: $font-merriweather;
+				color: $color-grey-black;
+			}
+		}
+
+		.st-Uploader {
+			&-thumbs {
+				&-item {
+					.st-Image {
+						height: 200px;
+					}
+				}
+			}
+		}
+
+		.st-DropdownButton {
+			> button {
+				background: $color-primary-light;
+				box-shadow: $box-shadow-light;
+			}
+
+			.dropdown {
+				&-item {
+					&:first-child {
+						color: $color-grey-black;
+					}
+					color: $color-secondary-red;
+				}
+			}
+		}
+
+		&-publish {
+			display: flex;
+			justify-content: space-between;
+			margin-bottom: 20px;
+		}
+
+		&-previewModal {
+			.modal {
+				&-dialog {
+					max-width: 700px;
+
+					.st-StoryItem {
+						.st-StoryDropdownButton {
+							display: none;
+						}
+
+						&-footer {
+							&-actions {
+								display: none;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	.st-TextEditor {
+		margin-bottom: 200px;
+
+		.public-DraftEditorPlaceholder-inner {
+			font-size: 16px;
+			color: $color-grey-lighter;
+		}
+	}
+}
