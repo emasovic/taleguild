@@ -20,9 +20,9 @@ export default function Home() {
 				<Categories />
 			</div>
 			<div className={CLASS + '-main'}>
-				{data ? <StoryTabs /> : <div />}
+				{data ? <StoryTabs /> : <div className={CLASS + '-main-holder'} />}
 				<Stories />
-				<div />
+				<div className={CLASS + '-main-holder'} />
 			</div>
 		</div>
 	);

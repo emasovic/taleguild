@@ -69,7 +69,7 @@
 				}
 			}
 
-			@media (max-width: $tablet-width) {
+			@media (max-width: $breakpoint-m) {
 				min-width: unset;
 				min-height: 500px;
 

@@ -26,8 +26,8 @@ import StoryItem from '../StoryItem';
 export default function Header({
 	className,
 	pages,
+	op,
 	selectedPage,
-	currentEditing,
 	onSelectedPage,
 	onPageRemove,
 	onStoryPage,
@@ -37,16 +37,17 @@ export default function Header({
 	const dispatch = useDispatch();
 	const params = useParams();
 
-	const {story, user, op} = useSelector(
+	const {story, user} = useSelector(
 		state => ({
 			story: selectStory(state, params.id),
 			user: selectUser(state),
-			op: state.stories.op,
 		}),
 		shallowEqual
 	);
 
 	const {data} = user;
+
+	const currentEditing = pages[selectedPage];
 
 	const [title, setTitle] = useState('');
 	const [description, setDescription] = useState('');
@@ -65,6 +66,7 @@ export default function Header({
 		!category.length && errors.push('You must select category!');
 		category.length > 2 && errors.push('You can select maximum 2 categories!');
 		description.length <= 3 && errors.push('Description too short! \n');
+		description.length >= 200 && errors.push('Description too long! \n');
 
 		if (errors.length) {
 			return dispatch(addToast(Toast.error(errors)));
@@ -185,40 +187,45 @@ export default function Header({
 				onChange={val => setTitle(val)}
 			/>
 			<div className={className + '-header-publish'}>
-				<StoryPagePicker
-					pages={pages}
-					onChange={val => onSelectedPage(val.index)}
-					onNewPageClick={() => onStoryPage(undefined)}
-					value={selectedPage}
-				/>
-				<IconButton
-					icon={FA.solid_eye}
-					disabled={op === STORY_OP.saving_storypage}
-					onClick={togglePreviewStoryModal}
-					color={COLOR.secondary}
-				/>
-				<DropdownButton>
-					<DropdownItem
-						disabled={op === STORY_OP.saving_storypage}
-						onClick={() => onStoryPage(currentEditing.id, currentEditing.text)}
-					>
-						Update page
-					</DropdownItem>
-					<DropdownItem divider />
-					<DropdownItem
-						disabled={op === STORY_OP.saving_storypage}
-						onClick={toggleDeleteStoryPageModal}
-					>
-						Delete page
-					</DropdownItem>
-					<DropdownItem divider />
-					<DropdownItem
-						disabled={op === STORY_OP.saving_storypage}
-						onClick={toggleDeleteStoryModal}
-					>
-						Delete story
-					</DropdownItem>
-				</DropdownButton>
+				<div className={className + '-header-publish-actions'}>
+					<StoryPagePicker
+						pages={pages}
+						onChange={val => onSelectedPage(val.index)}
+						onNewPageClick={() => onStoryPage(undefined)}
+						value={selectedPage}
+					/>
+					<div className={className + '-header-publish-actions-buttons'}>
+						<IconButton
+							icon={FA.solid_eye}
+							disabled={op === STORY_OP.saving_storypage}
+							onClick={togglePreviewStoryModal}
+							color={COLOR.secondary}
+						/>
+						<DropdownButton>
+							<DropdownItem
+								disabled={op === STORY_OP.saving_storypage}
+								onClick={() => onStoryPage(currentEditing.id, currentEditing.text)}
+							>
+								Update page
+							</DropdownItem>
+							<DropdownItem divider />
+							<DropdownItem
+								disabled={op === STORY_OP.saving_storypage || pages.length === 1}
+								onClick={toggleDeleteStoryPageModal}
+							>
+								Delete page
+							</DropdownItem>
+							<DropdownItem divider />
+							<DropdownItem
+								disabled={op === STORY_OP.saving_storypage}
+								onClick={toggleDeleteStoryModal}
+							>
+								Delete story
+							</DropdownItem>
+						</DropdownButton>
+					</div>
+				</div>
+
 				<div>
 					<IconButton
 						color={COLOR.secondary}

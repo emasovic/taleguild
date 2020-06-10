@@ -1,14 +1,12 @@
-$box-background-primary: #f9f9f9;
-
-$gray: #9fabad;
-$gray-lighter: lighten($gray, 20%);
-$gray-darker: darken($gray, 20%);
+//BOX-SHADOW
 
 $box-shadow-light: 2px 2px 12px rgba(35, 31, 26, 0.08);
 
-//
-$story-preview-width-desktop: 480px;
-$story-preview-width-mobile: 320px;
+//STORY
+
+$story-preview-width-large: 640px;
+$story-preview-width-medium: 480px;
+$story-preview-width-small: 320px;
 $story-preview-height: 480px;
 $story-preview-shadow: $box-shadow-light;
 
@@ -18,6 +16,8 @@ $color-primary: #b57e40;
 $color-primary-dark: #885f30;
 $color-primary-cream: #daba95;
 $color-primary-light: #faf5f0;
+
+$color-secondary-black: #231f1a;
 
 $color-secondary-green: #22d3bb;
 $color-secondary-green-dark: #11695e;
@@ -43,8 +43,6 @@ $color-grey-cream: #635c54;
 $color-grey-cream-dark: #433e37;
 $color-grey-black: #2f2922;
 
-$color-secondary-black: #231f1a;
-
 //FONTS
 
 $font-lato: 'Lato', sans-serif;
@@ -52,6 +50,5 @@ $font-merriweather: 'Merriweather', serif;
 
 //BREAKPOINTS
 
-$tablet-width: 768px;
 $breakpoint-m: 768px;
 $breakpoint-sm: 576px;

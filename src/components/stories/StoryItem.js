@@ -6,12 +6,14 @@ import {useDispatch, useSelector, shallowEqual} from 'react-redux';
 
 import {goToUser} from 'lib/routes';
 
-import FA from '../../types/font_awesome';
-import {COLOR} from '../../types/button';
+import FA from 'types/font_awesome';
+import {COLOR} from 'types/button';
+import {Toast} from 'types/toast';
 
 import {createOrDeleteLike, createOrDeleteComment} from 'redux/story';
 import {selectUser} from 'redux/user';
 import {createOrDeleteSavedStory} from 'redux/saved_stories';
+import {addToast} from 'redux/toast';
 
 import IconButton from 'components/widgets/button/IconButton';
 import Image from 'components/widgets/image/Image';
@@ -56,6 +58,11 @@ export default function StoryItem({
 
 	const handleComment = (e, commentId) => {
 		e.preventDefault();
+		if (comment.length >= 200) {
+			return dispatch(
+				addToast({...Toast.error('Comment needs to be less than 200 characters.')})
+			);
+		}
 		dispatch(createOrDeleteComment({user: data.id, story: id, comment, id: commentId}));
 		setComment('');
 	};
@@ -120,6 +127,7 @@ export default function StoryItem({
 						<div className={CLASS + '-comments-new-comment'}>
 							<FloatingInput
 								// rows={1}
+								maxLength={200}
 								type="textarea"
 								value={comment}
 								placeholder="Write a comment..."

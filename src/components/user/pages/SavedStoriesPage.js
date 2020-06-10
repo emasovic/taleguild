@@ -19,7 +19,7 @@ export default function SavedStoriesPage() {
 			</div>
 
 			<SavedStories />
-			<div />
+			<div className={CLASS + '-holder'}/>
 		</div>
 	);
 }

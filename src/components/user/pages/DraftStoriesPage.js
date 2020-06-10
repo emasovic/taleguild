@@ -19,7 +19,7 @@ export default function DraftStoriesPage() {
 			</div>
 			<DraftStories />
 
-			<div />
+			<div className={CLASS + '-holder'}/>
 		</div>
 	);
 }

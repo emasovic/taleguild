@@ -1,17 +1,7 @@
 import React, {useState, useEffect, Fragment} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 
-import {
-	Navbar,
-	Nav,
-	NavbarBrand,
-	NavItem,
-	DropdownToggle,
-	NavLink,
-	DropdownMenu,
-	DropdownItem,
-	Dropdown,
-} from 'reactstrap';
+import {Navbar, Nav, NavbarBrand, NavItem, NavLink, DropdownItem} from 'reactstrap';
 import {useHistory} from 'react-router-dom';
 
 import {COLOR} from 'types/button';
@@ -26,6 +16,7 @@ import SignUp from '../signup/SignUp';
 import Login from '../login/Login';
 
 import StoryPicker from 'components/widgets/pickers/story/StoryPicker';
+import DropdownButton from 'components/widgets/button/DropdownButton';
 
 import UserAvatar from 'components/user/UserAvatar';
 import Loader from 'components/widgets/loader/Loader';
@@ -41,9 +32,6 @@ export default function Navigation() {
 
 	const [isLoginOpen, setIsLoginOpen] = useState(false);
 	const [isRegisterOpen, setIsRegisterOpen] = useState(false);
-	const [dropdownOpen, setDropdownOpen] = useState(false);
-
-	const toggle = () => setDropdownOpen(prevState => !prevState);
 
 	const user = useSelector(selectUser);
 	const {data, loading} = user;
@@ -89,19 +77,13 @@ export default function Navigation() {
 					<NavLink onClick={handleNewStory}>
 						<IconButton color={COLOR.secondary}>New story</IconButton>
 					</NavLink>
-					<Dropdown isOpen={dropdownOpen} toggle={toggle}>
-						<DropdownToggle outline caret>
-							<UserAvatar user={data} />
-						</DropdownToggle>
-						<DropdownMenu>
-							<DropdownItem href={USER_SETTINGS}>Profile</DropdownItem>
-							<DropdownItem href={USER_STORIES_DRAFTS}>Drafts</DropdownItem>
-							<DropdownItem href={USER_STORIES_SAVED}>Saved stories</DropdownItem>
-							<DropdownItem onClick={() => dispatch(logOutUser())}>
-								Logout
-							</DropdownItem>
-						</DropdownMenu>
-					</Dropdown>
+					<DropdownButton toggleItem={<UserAvatar user={data} />}>
+						<DropdownItem onClick={handleNewStory}>New story</DropdownItem>
+						<DropdownItem href={USER_SETTINGS}>Profile settings</DropdownItem>
+						<DropdownItem href={USER_STORIES_DRAFTS}>Drafts</DropdownItem>
+						<DropdownItem href={USER_STORIES_SAVED}>Saved stories</DropdownItem>
+						<DropdownItem onClick={() => dispatch(logOutUser())}>Logout</DropdownItem>
+					</DropdownButton>
 				</NavItem>
 			</>
 		);

@@ -3,7 +3,7 @@
 .st-Stories {
 	.st-Loader {
 		min-height: 400px;
-		min-width: $story-preview-width-desktop;
+		min-width: $story-preview-width-medium;
 	}
 
 	&-header {
@@ -11,8 +11,12 @@
 		display: flex;
 		flex-wrap: nowrap !important;
 		overflow: auto;
-		max-width: $story-preview-width-desktop;
+		max-width: $story-preview-width-medium;
 		margin: 0 auto;
+
+		@media (max-width: $breakpoint-sm) {
+			max-width: $story-preview-width-small;
+		}
 
 		.nav-link {
 			color: $color-grey-light;
@@ -38,7 +42,7 @@
 		flex-direction: column;
 		align-items: center;
 
-		@media (max-width: $tablet-width) {
+		@media (max-width: $breakpoint-m) {
 			justify-content: center;
 		}
 

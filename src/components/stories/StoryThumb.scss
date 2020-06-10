@@ -6,10 +6,11 @@
 	border: 1px solid $color-grey-border;
 	border-radius: 6px;
 	margin: 8px 0;
-	height: 120px;
-	min-width: 300px;
-	max-width: 512px;
+	min-height: 120px;
+	min-width: $story-preview-width-small;
+	max-width: $story-preview-width-medium;
 	cursor: pointer;
+	flex: 1 1;
 
 	&:hover {
 		text-decoration: none;
@@ -43,6 +44,7 @@
 		&-description {
 			display: flex;
 			flex-direction: column;
+			word-break: break-word;
 
 			> span {
 				color: $color-grey-medium;
@@ -64,12 +66,6 @@
 
 			span {
 				color: $color-grey-medium;
-			}
-
-			.st-UserAvatar {
-				.st-Image {
-					margin-right: 0;
-				}
 			}
 		}
 	}

@@ -15,7 +15,11 @@
 		}
 
 		&-content {
-			min-width: 500px;
+			min-width: $story-preview-width-medium;
+
+			@media (max-width: $breakpoint-sm) {
+				min-width: $story-preview-width-small;
+			}
 		}
 
 		&-header {

@@ -7,8 +7,21 @@
 		flex: 1 1;
 	}
 
+	@media (max-width: $breakpoint-m) {
+		&-drafts,
+		&-holder {
+			display: none;
+		}
+
+		.st-SavedStories {
+			align-items: center;
+		}
+	}
+
 	&-drafts {
 		.st-DraftStories {
+			margin-right: 16px;
+
 			> span {
 				color: $color-grey-black;
 				font-weight: 600;
@@ -38,6 +51,14 @@
 						margin-right: 12px;
 						border-radius: 4px;
 						object-fit: cover;
+
+						&-fallback {
+							width: 48px;
+							height: 36px;
+							margin-right: 12px;
+							border-radius: 4px;
+							object-fit: cover;
+						}
 					}
 				}
 

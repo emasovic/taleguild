@@ -1,16 +1,38 @@
+@import 'styles/variables.scss';
+
 .st-Home {
 	display: flex;
 	flex-direction: column;
 
 	&-header {
 		margin-bottom: 12px;
+
+		@media (max-width: $breakpoint-m) {
+			max-width: $story-preview-width-medium;
+			margin: 0 auto;
+		}
+
+		@media (max-width: $breakpoint-sm) {
+			max-width: $story-preview-width-small;
+			margin: 0 auto;
+		}
 	}
 
 	&-main {
 		display: flex;
 
+		@media (max-width: $breakpoint-m) {
+			justify-content: center;
+		}
+
 		> div {
 			flex: 1 1;
+		}
+
+		&-holder, .st-StoryTabs {
+			@media (max-width: $breakpoint-m) {
+				display: none;
+			}
 		}
 
 		.st-Stories {

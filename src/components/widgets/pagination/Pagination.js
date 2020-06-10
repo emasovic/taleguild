@@ -16,7 +16,8 @@ const Pages = ({onClick, pages, prefix}) => {
 		return null;
 	}
 
-	pages = Array.from(Array(pages), (n, index) => index + 1);
+	const pagesNumber = Array.from(Array(pages), (n, index) => index + 1).slice(currentPage - 1, currentPage + 1);
+	console.log(currentPage);
 	const prevPage = currentPage === 1 ? currentPage : currentPage - 1;
 	const nextPage = currentPage === pages.length ? currentPage : currentPage + 1;
 	return (
@@ -24,7 +25,7 @@ const Pages = ({onClick, pages, prefix}) => {
 			<PaginationItem>
 				<PaginationLink previous onClick={() => handleChange(prevPage)} />
 			</PaginationItem>
-			{pages.map((item, key) => {
+			{pagesNumber.map((item, key) => {
 				return (
 					<PaginationItem key={key} active={currentPage === item}>
 						<PaginationLink onClick={() => handleChange(item)}>

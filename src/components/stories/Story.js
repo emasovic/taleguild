@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector, shallowEqual} from 'react-redux';
+import orderBy from 'lodash/orderBy';
 
 import {useParams} from 'react-router-dom';
 
@@ -47,9 +48,14 @@ export default function Story() {
 	// }
 
 	let {storypages} = story;
-	storypages = storypages && storypages.length
-		? storypages.map(item => ({...item, text: JSON.parse(item.text)}))
-		: [];
+	storypages =
+		storypages && storypages.length
+			? orderBy(
+					storypages.map(item => ({...item, text: JSON.parse(item.text)})),
+					['created_at'],
+					['asc']
+			  )
+			: [];
 
 	return (
 		<div className={CLASS}>
@@ -73,6 +79,7 @@ export default function Story() {
 			{storypages && (
 				<Pages onClick={setActivePage} prefix="Page" pages={storypages.length} />
 			)}
+			<div className={CLASS + '-pages'}>{storypages.length} pages total</div>
 		</div>
 	);
 }

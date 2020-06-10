@@ -6,20 +6,29 @@
 	padding: 0 !important;
 	margin: 24px 0;
 
-	@media (max-width: $tablet-width) {
+	@media (max-width: $breakpoint-m) {
 		display: flex;
 		flex-direction: column;
 		padding: 0;
-		flex-wrap: nowrap;
+		flex-wrap: nowrap !important;
+		height: auto;
 	}
 
 	.navbar-brand {
 		flex: 1 1 0;
 		margin-right: 0;
+
+		@media (max-width: $breakpoint-sm) {
+			order: 2;
+		}
 	}
 
 	.st-StoryPicker {
 		flex: 1 1 0;
+
+		@media (max-width: $breakpoint-sm) {
+			order: 1;
+		}
 	}
 
 	.nav {
@@ -27,6 +36,10 @@
 		flex-wrap: nowrap;
 		flex: 1 1 0;
 		justify-content: flex-end;
+
+		@media (max-width: $breakpoint-sm) {
+			order: 3;
+		}
 	}
 
 	.nav-item {
@@ -42,7 +55,23 @@
 		display: flex;
 		align-items: center;
 
+		@media (max-width: $breakpoint-sm) {
+			.nav-link {
+				display: none;
+			}
+		}
+
 		.dropdown {
+			&-item {
+				&:first-child {
+					display: none;
+
+					@media (max-width: $breakpoint-sm) {
+						display: block;
+					}
+				}
+			}
+
 			&-toggle {
 				display: flex;
 				justify-content: center;
