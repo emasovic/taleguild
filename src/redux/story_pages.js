@@ -110,11 +110,11 @@ export const deleteStoryPage = (storyId, pageId, history) => async (dispatch, ge
 
 	dispatch(removeStoryPage(pageId));
 
-	const {saved_stories} = getState();
+	const {story_pages} = getState();
 
-	const page = saved_stories[Object.keys(saved_stories)[0]];
+	const page = Object.keys(story_pages.data)[0];
 
-	history.push(editStory(storyId, page && page.id));
+	page && history.push(editStory(storyId, page));
 
 	return dispatch(newToast({...Toast.success('Successfully removed page!')}));
 };

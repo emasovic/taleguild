@@ -158,6 +158,15 @@
 		}
 	}
 
+	&-likes,
+	&-comments {
+		.st-UserAvatar {
+			.st-Image {
+				margin-right: 16px;
+			}
+		}
+	}
+
 	&-likes {
 		display: flex;
 		flex-direction: column;
