@@ -25,7 +25,8 @@ export const storyPageSlice = createSlice({
 	},
 	reducers: {
 		gotData: (state, action) => {
-			state.data = gotDataHelper(state.data, action.payload);
+			const {data, invalidate} = action.payload;
+			state.data = gotDataHelper(state.data, data, invalidate);
 			state.loading = false;
 			state.op = null;
 		},
@@ -70,10 +71,10 @@ export const loadStoryPages = id => async dispatch => {
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
 	if (res[0] && res[0].story) {
-		dispatch(storyGotData([res[0].story]));
+		dispatch(storyGotData({data: res[0].story}));
 	}
 
-	dispatch(gotData(res));
+	dispatch(gotData({data: res, invalidate: true}));
 };
 
 export const createOrUpdateStoryPage = (payload, history) => async (dispatch, getState) => {
@@ -93,7 +94,7 @@ export const createOrUpdateStoryPage = (payload, history) => async (dispatch, ge
 		dispatch(newToast({...Toast.success('Successfully created story page.')}));
 	}
 
-	dispatch(gotData({storyId: payload.story, ...res}));
+	dispatch(gotData({data: res}));
 
 	dispatch(opEnd());
 };

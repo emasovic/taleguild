@@ -9,7 +9,7 @@ import {selectUser} from 'redux/user';
 import StoryThumb from 'components/stories/StoryThumb';
 
 import Loader from 'components/widgets/loader/Loader';
-import Pages from 'components/widgets/pagination/Pagination';
+import IconButton from 'components/widgets/button/IconButton';
 
 import './SavedStories.scss';
 
@@ -26,12 +26,14 @@ export default function SavedStories() {
 		}),
 		shallowEqual
 	);
-	const [count, setCount] = useState(0);
+
+	const [currentPage, setCurrentPage] = useState(1);
 	const [shouldCount, setShouldCount] = useState(true);
 	const [criteria, setCriteria] = useState();
 
-	const handleCount = page => {
-		setCount(page * 12);
+	const handleCount = () => {
+		setCriteria({...criteria, _start: currentPage * 10});
+		setCurrentPage(currentPage + 1);
 		shouldCount && setShouldCount(false);
 	};
 
@@ -39,9 +41,9 @@ export default function SavedStories() {
 
 	useEffect(() => {
 		if (data) {
-			setCriteria({...DEFAULT_CRITERIA, _start: count, published: undefined, user: data.id});
+			setCriteria({...DEFAULT_CRITERIA, published: undefined, user: data.id});
 		}
-	}, [dispatch, data, count, shouldCount]);
+	}, [data]);
 
 	useEffect(() => {
 		if (criteria) {
@@ -49,30 +51,39 @@ export default function SavedStories() {
 		}
 	}, [dispatch, shouldCount, criteria]);
 
-	if (loading) {
-		return <Loader />;
-	}
+	const stories =
+		savedStories && savedStories.length ? (
+			savedStories.map(item => {
+				const {story} = item;
+				if (!story) {
+					return null;
+				}
+				return (
+					<StoryThumb
+						id={story.id}
+						image={story.image}
+						title={story.title}
+						description={story.description}
+						key={item.id}
+						author={story.user}
+						createdDate={story.created_at}
+					/>
+				);
+			})
+		) : (
+			<span>No stories found</span>
+		);
+
 	return (
 		<div className={CLASS}>
 			<span>Saved stories</span>
-			{savedStories && savedStories.length
-				? savedStories.map(item => {
-						const {story} = item;
-						return (
-							<StoryThumb
-								id={story.id}
-								image={story.image}
-								title={story.title}
-								description={story.description}
-								key={item.id}
-								author={story.user}
-								createdDate={story.created_at}
-							/>
-						);
-				  })
-				: null}
+			{loading ? <Loader /> : stories}
 			<div className={CLASS + '-pagination'}>
-				{!!pages && <Pages pages={pages} onClick={handleCount} />}
+				{pages > currentPage && (
+					<IconButton onClick={handleCount} loading={loading}>
+						Load More
+					</IconButton>
+				)}
 			</div>
 		</div>
 	);

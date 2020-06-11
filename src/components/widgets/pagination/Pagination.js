@@ -11,13 +11,18 @@ const Pages = ({onClick, pages, prefix}) => {
 	const handleChange = page => {
 		onClick(page - 1);
 		setCurrentPage(page);
+		window.scrollTo(0, 200);
 	};
-	if (!pages) {
+
+	if (!pages || pages < 2) {
 		return null;
 	}
 
-	const pagesNumber = Array.from(Array(pages), (n, index) => index + 1).slice(currentPage - 1, currentPage + 1);
-	console.log(currentPage);
+	const pagesNumber = Array.from(Array(pages), (n, index) => index + 1).slice(
+		currentPage - 1,
+		currentPage + 1
+	);
+
 	const prevPage = currentPage === 1 ? currentPage : currentPage - 1;
 	const nextPage = currentPage === pages.length ? currentPage : currentPage + 1;
 	return (
@@ -34,7 +39,7 @@ const Pages = ({onClick, pages, prefix}) => {
 					</PaginationItem>
 				);
 			})}
-			<PaginationItem>
+			<PaginationItem disabled={currentPage === pages}>
 				<PaginationLink next onClick={() => handleChange(nextPage)} />
 			</PaginationItem>
 		</Pagination>

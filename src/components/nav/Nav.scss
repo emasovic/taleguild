@@ -62,16 +62,6 @@
 		}
 
 		.dropdown {
-			&-item {
-				&:first-child {
-					display: none;
-
-					@media (max-width: $breakpoint-sm) {
-						display: block;
-					}
-				}
-			}
-
 			&-toggle {
 				display: flex;
 				justify-content: center;

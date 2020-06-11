@@ -17,11 +17,8 @@ export const savedStorySlice = createSlice({
 	},
 	reducers: {
 		gotData: (state, action) => {
-			state.data = gotDataHelper(state.data, action.payload);
-			state.loading = false;
-		},
-		gotSavedStory: (state, action) => {
-			state.data = gotDataHelper(state.data, action.payload);
+			const {data, invalidate} = action.payload;
+			state.data = gotDataHelper(state.data, data, invalidate);
 			state.loading = false;
 		},
 		removeSavedStory: (state, action) => {
@@ -45,7 +42,6 @@ export const {
 	hasError,
 	gotPages,
 	gotData,
-	gotSavedStory,
 	removeSavedStory,
 	loadingStart,
 	loadingEnd,
@@ -60,17 +56,18 @@ export const loadSavedStories = (params, count) => async dispatch => {
 	}
 
 	if (count) {
-		const res = await api.countStories(
-			params && {user: params.user, published: params.published}
-		);
+		const countParams = {...params, _start: undefined, _limit: undefined};
+
+		const res = await api.countSavedStories(countParams);
+
 		if (res.error) {
 			dispatch(loadingEnd());
 			return dispatch(newToast({...Toast.error(res.error)}));
 		}
-		dispatch(gotPages(Math.ceil(res / 12)));
+		dispatch(gotPages(Math.ceil(res / 10)));
 	}
 
-	return dispatch(gotData(res));
+	return dispatch(gotData({data: res}));
 };
 
 export const createOrDeleteSavedStory = (favourite, userId, storyId) => async (
@@ -89,7 +86,7 @@ export const createOrDeleteSavedStory = (favourite, userId, storyId) => async (
 	}
 
 	if (res.id) {
-		dispatch(gotSavedStory(res));
+		dispatch(gotData({data: res}));
 		return dispatch(gotSaved({...res, storyId}));
 	}
 	dispatch(removeSaved({storyId, savedId: favourite.id}));

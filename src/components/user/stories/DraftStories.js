@@ -6,11 +6,12 @@ import {DEFAULT_CRITERIA} from 'types/story';
 import {selectUser} from 'redux/user';
 import {selectStories, loadStories} from 'redux/draft_stories';
 
-import Loader from 'components/widgets/loader/Loader';
 import StoryThumb from 'components/stories/StoryThumb';
 
+import Loader from 'components/widgets/loader/Loader';
+import IconButton from 'components/widgets/button/IconButton';
+
 import './DraftStories.scss';
-import Pages from 'components/widgets/pagination/Pagination';
 
 const CLASS = 'st-DraftStories';
 
@@ -27,12 +28,13 @@ export default function DraftStories() {
 	);
 	const {data} = loggedInUser;
 
-	const [count, setCount] = useState(0);
+	const [currentPage, setCurrentPage] = useState(1);
 	const [shouldCount, setShouldCount] = useState(true);
 	const [criteria, setCriteria] = useState();
 
-	const handleCount = page => {
-		setCount(page * 12);
+	const handleCount = () => {
+		setCriteria({...criteria, _start: currentPage * 10});
+		setCurrentPage(currentPage + 1);
 		shouldCount && setShouldCount(false);
 	};
 
@@ -40,12 +42,12 @@ export default function DraftStories() {
 		if (data) {
 			setCriteria({
 				...DEFAULT_CRITERIA,
-				_start: count,
+
 				published: false,
 				'user.id': data && data.id,
 			});
 		}
-	}, [data, count]);
+	}, [data]);
 
 	useEffect(() => {
 		if (criteria) {
@@ -53,28 +55,34 @@ export default function DraftStories() {
 		}
 	}, [dispatch, shouldCount, criteria]);
 
-	if (loading) return <Loader />;
+	const drafts =
+		stories && stories.length
+			? stories.map(item => {
+					return (
+						<StoryThumb
+							id={item.id}
+							image={item.image}
+							title={item.title || 'Untitled'}
+							description={item.description}
+							key={item.id}
+							// author={item.user}
+							createdDate={item.created_at}
+						/>
+					);
+			  })
+			: <span>No stories found</span>;
 
 	return (
 		<div className={CLASS}>
 			<span>Drafts</span>
-			{stories && stories.length
-				? stories.map(item => {
-						return (
-							<StoryThumb
-								id={item.id}
-								image={item.image}
-								title={item.title}
-								description={item.description}
-								key={item.id}
-								// author={item.user}
-								createdDate={item.created_at}
-							/>
-						);
-				  })
-				: null}
+			{loading ? <Loader /> : drafts}
+
 			<div className={CLASS + '-pagination'}>
-				{!!pages && <Pages pages={pages} onClick={handleCount} />}
+				{pages > currentPage && (
+					<IconButton onClick={handleCount} loading={loading}>
+						Load More
+					</IconButton>
+				)}
 			</div>
 		</div>
 	);

@@ -35,11 +35,11 @@ export default function Header({
 	onCreateOrUpdateStory,
 }) {
 	const dispatch = useDispatch();
-	const params = useParams();
+	const {id} = useParams();
 
 	const {story, user} = useSelector(
 		state => ({
-			story: selectStory(state, params.id),
+			story: selectStory(state, id),
 			user: selectUser(state),
 		}),
 		shallowEqual
@@ -162,12 +162,6 @@ export default function Header({
 	useEffect(() => {
 		if (story) {
 			setTitle(story.title || '');
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
-
-	useEffect(() => {
-		if (story) {
 			setDescription(story.description || '');
 			setCategory(story.categories.map(item => ({label: item.name, value: item.id})));
 			setImage(story.image);
@@ -201,7 +195,7 @@ export default function Header({
 							onClick={togglePreviewStoryModal}
 							color={COLOR.secondary}
 						/>
-						<DropdownButton>
+						<DropdownButton outline={false}>
 							<DropdownItem
 								disabled={op === STORY_OP.saving_storypage}
 								onClick={() => onStoryPage(currentEditing.id, currentEditing.text)}

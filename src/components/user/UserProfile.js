@@ -38,7 +38,7 @@ export default function UserProfile() {
 				<span>{display_name || username}</span>
 				<span>{description}</span>
 			</div>
-			<Stories criteria={{'user.id': user && user.id, ...DEFAULT_CRITERIA}} />
+			<Stories criteria={{...DEFAULT_CRITERIA, 'user.id': user && user.id}} filter={{user}} />
 		</div>
 	);
 }

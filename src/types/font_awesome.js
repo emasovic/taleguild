@@ -16,6 +16,7 @@ import {
 	faUnderline as solidUnderLine,
 	faHeading as solidHeading,
 	faEye as solidEye,
+	faImage as solidImage,
 } from '@fortawesome/free-solid-svg-icons';
 
 import {faHeart, faComment, faBookmark} from '@fortawesome/free-regular-svg-icons';
@@ -30,6 +31,7 @@ const FA = {
 	bookmark: faBookmark,
 
 	//SOLID ICONS
+	solid_image: solidImage,
 	solid_eye: solidEye,
 	solid_italic: solidItalic,
 	solid_underline: solidUnderLine,

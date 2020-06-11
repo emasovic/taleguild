@@ -1,7 +1,6 @@
 import {createSlice, createSelector} from '@reduxjs/toolkit';
 
 import * as api from '../lib/api';
-import {goToStory} from '../lib/routes';
 
 import {Toast} from 'types/toast';
 import {newToast} from './toast';
@@ -17,7 +16,8 @@ export const myStorySlice = createSlice({
 	},
 	reducers: {
 		gotData: (state, action) => {
-			state.data = gotDataHelper(state.data, action.payload);
+			const {data, invalidate} = action.payload;
+			state.data = gotDataHelper(state.data, data, invalidate);
 			state.loading = false;
 		},
 		removeStory: (state, action) => {
@@ -38,63 +38,24 @@ export const myStorySlice = createSlice({
 
 export const {loadingStart, loadingEnd, gotData, gotPages, removeStory} = myStorySlice.actions;
 
-export const createOrUpdateStory = (payload, history) => async (dispatch, getState) => {
-	dispatch(loadingStart());
-
-	const res = payload.id ? await api.updateStory(payload) : await api.createStory(payload);
-	if (res.error) {
-		dispatch(loadingEnd());
-		return dispatch(newToast({...Toast.error('Došlo je do greške!')}));
-	}
-	dispatch(gotData([res]));
-	const message = payload.id ? 'Uspešno ste izmenili priču.' : 'Uspešno ste kreirali priču.';
-	history.push(goToStory(res.id));
-	dispatch(newToast({...Toast.success(message)}));
-};
-
-export const deleteStory = (storyId, history) => async (dispatch, getState) => {
-	dispatch(loadingStart());
-
-	const res = await api.deleteStory(storyId);
-	if (res.error) {
-		dispatch(loadingEnd());
-		return dispatch(newToast({...Toast.error('Došlo je do greške!')}));
-	}
-	dispatch(removeStory(storyId));
-	// history.push(USER_STORIES);
-	dispatch(newToast({...Toast.success('Uspešno ste obrisali priču.')}));
-};
-
-export const loadStories = (params, count) => async dispatch => {
+export const loadStories = (params, count, invalidate) => async dispatch => {
 	dispatch(loadingStart());
 	const res = await api.getStories(params);
 	if (res.error) {
 		dispatch(loadingEnd());
-		return dispatch(newToast({...Toast.error('Došlo je do greške!')}));
+		return dispatch(newToast({...Toast.error(res.error)}));
 	}
 	if (count) {
-		const res = await api.countStories(
-			params && {user: params.user, published: params.published}
-		);
+		const countParams = {...params, _start: undefined, _limit: undefined};
+
+		const res = await api.countStories(countParams);
 		if (res.error) {
 			dispatch(loadingEnd());
-			return dispatch(newToast({...Toast.error('Došlo je do greške!')}));
+			return dispatch(newToast({...Toast.error(res.error)}));
 		}
-		dispatch(gotPages(Math.ceil(res / 12)));
+		dispatch(gotPages(Math.ceil(res / 10)));
 	}
-	return dispatch(gotData(res));
-};
-
-export const loadStory = id => async dispatch => {
-	dispatch(loadingStart());
-
-	const res = await api.getStory(id);
-
-	if (res.error) {
-		dispatch(loadingEnd());
-		dispatch(newToast({...Toast.error(res.error)}));
-	}
-	dispatch(gotData([res]));
+	return dispatch(gotData({data: res}));
 };
 
 //SELECTORS

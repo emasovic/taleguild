@@ -10,7 +10,7 @@ import {DEFAULT_CRITERIA} from 'types/story';
 import {loadStories, selectStories} from '../../redux/story';
 
 import Loader from 'components/widgets/loader/Loader';
-import Pages from 'components/widgets/pagination/Pagination';
+import IconButton from 'components/widgets/button/IconButton';
 
 import StoryItem from './StoryItem';
 
@@ -23,7 +23,7 @@ const SORT = {
 	popular: 'likes_count',
 };
 
-export default function Stories({criteria}) {
+export default function Stories({criteria, filter}) {
 	const dispatch = useDispatch();
 	const {stories, loading, pages} = useSelector(
 		state => ({
@@ -34,7 +34,7 @@ export default function Stories({criteria}) {
 		shallowEqual
 	);
 
-	const [count, setCount] = useState(0);
+	const [currentPage, setCurrentPage] = useState(1);
 	const [shouldCount, setShouldCount] = useState(true);
 	const [storyCriteria, setStoryCriteria] = useState(null);
 	const [activeSort, setActiveSort] = useState(SORT.recent);
@@ -44,23 +44,23 @@ export default function Stories({criteria}) {
 		setStoryCriteria(criteria);
 	};
 
-	const handleCount = page => {
-		setCount(page * 12);
+	const handleCount = () => {
+		setStoryCriteria({...storyCriteria, _start: currentPage * 10});
+		setCurrentPage(currentPage + 1);
 		shouldCount && setShouldCount(false);
 	};
 
 	useEffect(() => {
 		if (criteria) {
-			criteria._start = count;
 			setStoryCriteria(criteria);
 		}
-	}, [count, criteria]);
+	}, [criteria]);
 
 	useEffect(() => {
 		if (storyCriteria) {
-			dispatch(loadStories(storyCriteria, shouldCount));
+			dispatch(loadStories(storyCriteria, shouldCount, false, filter));
 		}
-	}, [dispatch, shouldCount, storyCriteria]);
+	}, [dispatch, storyCriteria, shouldCount, filter]);
 
 	const renderStories =
 		stories && stories.length ? (
@@ -107,7 +107,11 @@ export default function Stories({criteria}) {
 			</Nav>
 			<div className={CLASS + '-lastest'}>{loading ? <Loader /> : renderStories}</div>
 			<div className={CLASS + '-pagination'}>
-				{!!pages && <Pages pages={pages} onClick={handleCount} />}
+				{pages > currentPage && (
+					<IconButton onClick={handleCount} loading={loading}>
+						Load More
+					</IconButton>
+				)}
 			</div>
 		</div>
 	);

@@ -19,7 +19,11 @@ export default function Categories() {
 	const [activeCategory, setActiveCategory] = useState(null);
 
 	const getStoriesByCategoryId = categoryId => {
-		dispatch(loadStories({...DEFAULT_CRITERIA, categories: categoryId}));
+		const filter = categoryId
+			? {categories: [data.find(item => item.id === categoryId)]}
+			: undefined;
+
+		dispatch(loadStories({...DEFAULT_CRITERIA, categories: categoryId}, null, null, filter));
 		setActiveCategory(categoryId);
 	};
 
@@ -31,7 +35,7 @@ export default function Categories() {
 				<>
 					<NavItem onClick={() => getStoriesByCategoryId(undefined)}>
 						<NavLink href="#" active={!activeCategory}>
-							Sve
+							All
 						</NavLink>
 					</NavItem>
 					{data.length

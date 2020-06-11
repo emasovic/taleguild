@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import {ColorExtractor} from 'react-color-extractor';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 import ENV from 'env';
+
+import FA from 'types/font_awesome';
 
 import './Image.scss';
 
@@ -14,7 +16,11 @@ export default function Image({src, image, alt, ...rest}) {
 	}
 
 	if (!src) {
-		return <div className={CLASS + '-fallback'} />;
+		return (
+			<div className={CLASS + '-fallback'}>
+				<FontAwesomeIcon icon={FA.solid_image} />
+			</div>
+		);
 	}
 
 	return <img src={src} alt={alt} className={CLASS} {...rest} />;

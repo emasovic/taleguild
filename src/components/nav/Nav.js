@@ -5,7 +5,7 @@ import {Navbar, Nav, NavbarBrand, NavItem, NavLink, DropdownItem} from 'reactstr
 import {useHistory} from 'react-router-dom';
 
 import {COLOR} from 'types/button';
-import {USER_STORIES_SAVED, USER_SETTINGS, USER_STORIES_DRAFTS} from 'lib/routes';
+import {USER_STORIES_SAVED, USER_SETTINGS, USER_STORIES_DRAFTS, goToUser} from 'lib/routes';
 
 import {selectUser, logOutUser} from '../../redux/user';
 import {newStory} from 'redux/story';
@@ -78,10 +78,10 @@ export default function Navigation() {
 						<IconButton color={COLOR.secondary}>New story</IconButton>
 					</NavLink>
 					<DropdownButton toggleItem={<UserAvatar user={data} />}>
-						<DropdownItem onClick={handleNewStory}>New story</DropdownItem>
-						<DropdownItem href={USER_SETTINGS}>Profile settings</DropdownItem>
+						<DropdownItem href={goToUser(data && data.id)}>My profile</DropdownItem>
 						<DropdownItem href={USER_STORIES_DRAFTS}>Drafts</DropdownItem>
 						<DropdownItem href={USER_STORIES_SAVED}>Saved stories</DropdownItem>
+						<DropdownItem href={USER_SETTINGS}>Account settings</DropdownItem>
 						<DropdownItem onClick={() => dispatch(logOutUser())}>Logout</DropdownItem>
 					</DropdownButton>
 				</NavItem>

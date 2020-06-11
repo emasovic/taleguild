@@ -12,6 +12,10 @@
 
 		.st-IconButton {
 			width: 100%;
+
+			svg {
+				margin-right: 5px;
+			}
 		}
 
 		&:hover {
