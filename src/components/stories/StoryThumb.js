@@ -18,7 +18,7 @@ export default function StoryThumb({id, image, description, title, author, creat
 		e.preventDefault();
 		history.push(goToUser(author && author.id));
 	};
-
+	description = description && description.length > 66 ? description.slice(0, 66) + '...' : description;
 	return (
 		<Link to={goToStory(id)} className={CLASS}>
 			<div className={CLASS + '-cover'}>
