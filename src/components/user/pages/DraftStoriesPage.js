@@ -14,12 +14,12 @@ export default function DraftStoriesPage() {
 	return (
 		<div className={CLASS}>
 			<div className={CLASS + '-saved'}>
-				<SavedStories />
+				<SavedStories shouldLoadMore={false} />
 				<Link to={USER_STORIES_SAVED}>View all</Link>
 			</div>
 			<DraftStories />
 
-			<div className={CLASS + '-holder'}/>
+			<div className={CLASS + '-holder'} />
 		</div>
 	);
 }

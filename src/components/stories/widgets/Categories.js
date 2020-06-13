@@ -23,7 +23,7 @@ export default function Categories() {
 			? {categories: [data.find(item => item.id === categoryId)]}
 			: undefined;
 
-		dispatch(loadStories({...DEFAULT_CRITERIA, categories: categoryId}, null, null, filter));
+		dispatch(loadStories({...DEFAULT_CRITERIA, categories: categoryId}, true, filter));
 		setActiveCategory(categoryId);
 	};
 

@@ -56,7 +56,7 @@ export default function StoryTabs() {
 					</NavLink>
 				</NavItem>
 			</Nav>
-			<Component />
+			<Component shoudLoadMore={false} />
 			<Link to={GO_TO[activeTab] || goToUser(data && data.id)}>View all</Link>
 		</div>
 	);

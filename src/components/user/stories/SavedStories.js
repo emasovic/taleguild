@@ -1,7 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import {useSelector, shallowEqual, useDispatch} from 'react-redux';
+import propTypes from 'prop-types';
 
-import {DEFAULT_CRITERIA} from 'types/story';
+import {DEFAULT_CRITERIA, STORY_OP} from 'types/story';
 
 import {selectUserSavedStories, loadSavedStories} from 'redux/saved_stories';
 import {selectUser} from 'redux/user';
@@ -9,35 +10,34 @@ import {selectUser} from 'redux/user';
 import StoryThumb from 'components/stories/StoryThumb';
 
 import Loader from 'components/widgets/loader/Loader';
-import IconButton from 'components/widgets/button/IconButton';
+import LoadMore from 'components/widgets/loadmore/LoadMore';
 
 import './SavedStories.scss';
 
 const CLASS = 'st-SavedStories';
 
-export default function SavedStories() {
+export default function SavedStories({shoudLoadMore}) {
 	const dispatch = useDispatch();
-	const {savedStories, user, pages, loading} = useSelector(
+	const {savedStories, user, pages, op} = useSelector(
 		state => ({
 			savedStories: selectUserSavedStories(state),
-			loading: state.saved_stories.loading,
+			op: state.saved_stories.op,
 			pages: state.saved_stories.pages,
 			user: selectUser(state),
 		}),
 		shallowEqual
 	);
 
+	const {data} = user;
+
 	const [currentPage, setCurrentPage] = useState(1);
-	const [shouldCount, setShouldCount] = useState(true);
 	const [criteria, setCriteria] = useState();
 
-	const handleCount = () => {
-		setCriteria({...criteria, _start: currentPage * 10});
+	const handleCount = useCallback(() => {
+		const storyCriteria = {...criteria, _start: currentPage * 10};
+		dispatch(loadSavedStories(storyCriteria, false, null, STORY_OP.load_more));
 		setCurrentPage(currentPage + 1);
-		shouldCount && setShouldCount(false);
-	};
-
-	const {data} = user;
+	}, [dispatch, currentPage, criteria]);
 
 	useEffect(() => {
 		if (data) {
@@ -47,9 +47,9 @@ export default function SavedStories() {
 
 	useEffect(() => {
 		if (criteria) {
-			dispatch(loadSavedStories(criteria, shouldCount));
+			dispatch(loadSavedStories(criteria, true));
 		}
-	}, [dispatch, shouldCount, criteria]);
+	}, [dispatch, criteria]);
 
 	const stories =
 		savedStories && savedStories.length ? (
@@ -75,16 +75,23 @@ export default function SavedStories() {
 		);
 
 	return (
-		<div className={CLASS}>
+		<LoadMore
+			id="saved"
+			onLoadMore={handleCount}
+			shouldLoad={pages > currentPage && shoudLoadMore}
+			loading={op === STORY_OP.load_more}
+			className={CLASS}
+		>
 			<span>Saved stories</span>
-			{loading ? <Loader /> : stories}
-			<div className={CLASS + '-pagination'}>
-				{pages > currentPage && (
-					<IconButton onClick={handleCount} loading={loading}>
-						Load More
-					</IconButton>
-				)}
-			</div>
-		</div>
+			{op === STORY_OP.loading ? <Loader /> : stories}
+		</LoadMore>
 	);
 }
+
+SavedStories.propTypes = {
+	shoudLoadMore: propTypes.bool,
+};
+
+SavedStories.defaultProps = {
+	shoudLoadMore: true,
+};

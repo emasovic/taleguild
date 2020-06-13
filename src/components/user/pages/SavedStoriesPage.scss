@@ -7,14 +7,28 @@
 		flex: 1 1;
 	}
 
+	.st-SavedStories {
+		@media (max-width: $breakpoint-m) {
+			align-items: center;
+		}
+
+		.st-StoryThumb {
+			&-cover {
+				.st-Image {
+					&-fallback {
+						border-left: none;
+						border-top: none;
+						border-bottom: none;
+					}
+				}
+			}
+		}
+	}
+
 	@media (max-width: $breakpoint-m) {
 		&-drafts,
 		&-holder {
 			display: none;
-		}
-
-		.st-SavedStories {
-			align-items: center;
 		}
 	}
 

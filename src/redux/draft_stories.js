@@ -2,7 +2,9 @@ import {createSlice, createSelector} from '@reduxjs/toolkit';
 
 import * as api from '../lib/api';
 
+import {STORY_OP} from 'types/story';
 import {Toast} from 'types/toast';
+
 import {newToast} from './toast';
 import {gotDataHelper} from './hepler';
 
@@ -12,6 +14,7 @@ export const draftSlice = createSlice({
 		data: null,
 		error: null,
 		loading: false,
+		op: null,
 		pages: null,
 	},
 	reducers: {
@@ -19,6 +22,7 @@ export const draftSlice = createSlice({
 			const {data, invalidate} = action.payload;
 			state.data = gotDataHelper(state.data, data, invalidate);
 			state.loading = false;
+			state.op = null;
 		},
 		removeStory: (state, action) => {
 			delete state.data[action.payload];
@@ -33,17 +37,31 @@ export const draftSlice = createSlice({
 		loadingEnd: state => {
 			state.loading = false;
 		},
+		opStart: (state, action) => {
+			state.op = action.payload;
+		},
+		opEnd: state => {
+			state.op = null;
+		},
 	},
 });
 
-export const {loadingStart, loadingEnd, gotData, gotPages, removeStory} = draftSlice.actions;
+export const {
+	loadingStart,
+	loadingEnd,
+	opStart,
+	opEnd,
+	gotData,
+	gotPages,
+	removeStory,
+} = draftSlice.actions;
 
-export const loadStories = (params, count) => async dispatch => {
-	dispatch(loadingStart());
+export const loadStories = (params, count, op = STORY_OP.loading) => async dispatch => {
+	dispatch(opStart(op));
 	const res = await api.getStories(params);
 	if (res.error) {
 		dispatch(loadingEnd());
-		return dispatch(newToast({...Toast.error('Došlo je do greške!')}));
+		return dispatch(newToast({...Toast.error(res.error)}));
 	}
 	if (count) {
 		const countParams = {...params, _start: undefined, _limit: undefined};
@@ -51,7 +69,7 @@ export const loadStories = (params, count) => async dispatch => {
 		const res = await api.countStories(countParams);
 		if (res.error) {
 			dispatch(loadingEnd());
-			return dispatch(newToast({...Toast.error('Došlo je do greške!')}));
+			return dispatch(newToast({...Toast.error(res.error)}));
 		}
 		dispatch(gotPages(Math.ceil(res / 10)));
 	}

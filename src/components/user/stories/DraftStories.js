@@ -1,89 +1,93 @@
-import React, {useState, useEffect} from 'react';
-import {useSelector, useDispatch, shallowEqual} from 'react-redux';
+import React, {useEffect, useState, useCallback} from 'react';
+import {useSelector, shallowEqual, useDispatch} from 'react-redux';
+import propTypes from 'prop-types';
 
-import {DEFAULT_CRITERIA} from 'types/story';
+import {DEFAULT_CRITERIA, STORY_OP} from 'types/story';
 
-import {selectUser} from 'redux/user';
 import {selectStories, loadStories} from 'redux/draft_stories';
+import {selectUser} from 'redux/user';
 
 import StoryThumb from 'components/stories/StoryThumb';
 
 import Loader from 'components/widgets/loader/Loader';
-import IconButton from 'components/widgets/button/IconButton';
+import LoadMore from 'components/widgets/loadmore/LoadMore';
 
 import './DraftStories.scss';
 
 const CLASS = 'st-DraftStories';
 
-export default function DraftStories() {
+export default function DraftStories({shoudLoadMore}) {
 	const dispatch = useDispatch();
-	const {stories, loading, pages, loggedInUser} = useSelector(
+	const {drafts, user, pages, op} = useSelector(
 		state => ({
-			loggedInUser: selectUser(state),
-			stories: selectStories(state),
+			drafts: selectStories(state),
+			op: state.drafts.op,
 			pages: state.drafts.pages,
-			loading: state.drafts.loading,
+			user: selectUser(state),
 		}),
 		shallowEqual
 	);
-	const {data} = loggedInUser;
+
+	const {data} = user;
 
 	const [currentPage, setCurrentPage] = useState(1);
-	const [shouldCount, setShouldCount] = useState(true);
 	const [criteria, setCriteria] = useState();
 
-	const handleCount = () => {
-		setCriteria({...criteria, _start: currentPage * 10});
+	const handleCount = useCallback(() => {
+		const storyCriteria = {...criteria, _start: currentPage * 10};
+		dispatch(loadStories(storyCriteria, false, null, STORY_OP.load_more));
 		setCurrentPage(currentPage + 1);
-		shouldCount && setShouldCount(false);
-	};
+	}, [dispatch, currentPage, criteria]);
 
 	useEffect(() => {
 		if (data) {
-			setCriteria({
-				...DEFAULT_CRITERIA,
-
-				published: false,
-				'user.id': data && data.id,
-			});
+			setCriteria({...DEFAULT_CRITERIA, published: false, user: data.id});
 		}
 	}, [data]);
 
 	useEffect(() => {
 		if (criteria) {
-			dispatch(loadStories(criteria, shouldCount));
+			dispatch(loadStories(criteria, true));
 		}
-	}, [dispatch, shouldCount, criteria]);
+	}, [dispatch, criteria]);
 
-	const drafts =
-		stories && stories.length
-			? stories.map(item => {
-					return (
-						<StoryThumb
-							id={item.id}
-							image={item.image}
-							title={item.title || 'Untitled'}
-							description={item.description}
-							key={item.id}
-							// author={item.user}
-							createdDate={item.created_at}
-						/>
-					);
-			  })
-			: <span>No stories found</span>;
+	const stories =
+		drafts && drafts.length ? (
+			drafts.map(item => {
+				return (
+					<StoryThumb
+						id={item.id}
+						image={item.image}
+						title={item.title}
+						description={item.description}
+						key={item.id}
+						// author={item.user}
+						createdDate={item.created_at}
+					/>
+				);
+			})
+		) : (
+			<span>No stories found</span>
+		);
 
 	return (
-		<div className={CLASS}>
+		<LoadMore
+			id="drafts"
+			onLoadMore={handleCount}
+			shouldLoad={pages > currentPage && shoudLoadMore}
+			loading={op === STORY_OP.load_more}
+			className={CLASS}
+		>
 			<span>Drafts</span>
-			{loading ? <Loader /> : drafts}
-
-			<div className={CLASS + '-pagination'}>
-				{pages > currentPage && (
-					<IconButton onClick={handleCount} loading={loading}>
-						Load More
-					</IconButton>
-				)}
-			</div>
-		</div>
+			{op === STORY_OP.loading ? <Loader /> : stories}
+		</LoadMore>
 	);
 }
+
+DraftStories.propTypes = {
+	shoudLoadMore: propTypes.bool,
+};
+
+DraftStories.defaultProps = {
+	shoudLoadMore: true,
+};

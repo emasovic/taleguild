@@ -9,3 +9,16 @@ export const STORY_COMPONENTS = {
 	thumb: StoryThumb,
 	item: StoryItem,
 };
+
+export const STORY_OP = {
+	loading: 'loading',
+	load_more: 'load_more',
+	saving_comment: 'saving_comment',
+	saving_like: 'saving_like',
+	saving_saved: 'saving_saved',
+	saving_storypage: 'saving_storypage',
+	deleting_comment: 'deleting_comment',
+	deleting_like: 'deleting_like',
+	deleting_saved: 'deleting_saved',
+	deleting_storypage: 'deleting_storypage',
+};

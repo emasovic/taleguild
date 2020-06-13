@@ -5,10 +5,10 @@ import {DropdownItem} from 'reactstrap';
 
 import {Toast} from 'types/toast';
 import {COLOR} from 'types/button';
-
+import {STORY_OP} from 'types/story';
 import FA from 'types/font_awesome';
 
-import {STORY_OP, selectStory} from 'redux/story';
+import {selectStory} from 'redux/story';
 import {selectUser} from 'redux/user';
 import {addToast} from 'redux/toast';
 

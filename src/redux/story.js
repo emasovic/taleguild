@@ -5,20 +5,9 @@ import * as api from '../lib/api';
 import {goToStory, editStory} from '../lib/routes';
 
 import {Toast} from 'types/toast';
-import {DEFAULT_STORYPAGE_DATA} from 'types/story';
+import {DEFAULT_STORYPAGE_DATA, STORY_OP} from 'types/story';
 import {newToast} from './toast';
 import {gotDataHelper} from './hepler';
-
-export const STORY_OP = {
-	saving_comment: 'saving_comment',
-	saving_like: 'saving_like',
-	saving_saved: 'saving_saved',
-	saving_storypage: 'saving_storypage',
-	deleting_comment: 'deleting_comment',
-	deleting_like: 'deleting_like',
-	deleting_saved: 'deleting_saved',
-	deleting_storypage: 'deleting_storypage',
-};
 
 export const storySlice = createSlice({
 	name: 'stories',
@@ -167,8 +156,14 @@ export const deleteStory = (storyId, history) => async (dispatch, getState) => {
 	dispatch(newToast({...Toast.success('Successfully deleted story.')}));
 };
 
-export const loadStories = (params, count, invalidate, filter) => async dispatch => {
-	dispatch(loadingStart());
+export const loadStories = (
+	params,
+	count,
+	filter,
+	op = STORY_OP.loading,
+	invalidate
+) => async dispatch => {
+	dispatch(opStart(op));
 	const res = await api.getStories(params);
 	if (res.error) {
 		dispatch(loadingEnd());
@@ -179,7 +174,7 @@ export const loadStories = (params, count, invalidate, filter) => async dispatch
 
 		const res = await api.countStories(countParams);
 		if (res.error) {
-			dispatch(loadingEnd());
+			dispatch(opEnd());
 			return dispatch(newToast({...Toast.error(res.error)}));
 		}
 		dispatch(gotPages(Math.ceil(res / 10)));
