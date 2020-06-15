@@ -27,6 +27,7 @@ export default function Header({
 	className,
 	pages,
 	op,
+	currentEditing,
 	selectedPage,
 	onSelectedPage,
 	onPageRemove,
@@ -46,8 +47,6 @@ export default function Header({
 	);
 
 	const {data} = user;
-
-	const currentEditing = pages[selectedPage];
 
 	const [title, setTitle] = useState('');
 	const [description, setDescription] = useState('');

@@ -5,12 +5,17 @@ import {useDebounce} from 'hooks/debounce';
 import TextEditor from 'components/widgets/text-editor/TextEditor';
 import Loader from 'components/widgets/loader/Loader';
 
-export default function Writter({className, onStoryPage, storyPages, selectedPage}) {
+export default function Writter({
+	className,
+	onCurrentChanged,
+	currentEditing,
+	onStoryPage,
+	storyPages,
+	selectedPage,
+}) {
 	const editorRef = useRef(null);
 
 	const [pages, setPages] = useState([]);
-
-	let currentEditing = pages[selectedPage];
 
 	const text = currentEditing && JSON.stringify(currentEditing.text);
 
@@ -32,12 +37,13 @@ export default function Writter({className, onStoryPage, storyPages, selectedPag
 	};
 
 	const handleEditPage = val => {
-		currentEditing = {
+		const currnet = {
 			...currentEditing,
 			text: val,
 		};
 		let updatedPages = [...pages];
-		updatedPages[selectedPage] = currentEditing;
+		updatedPages[selectedPage] = currnet;
+		onCurrentChanged(currnet);
 		setPages(updatedPages);
 	};
 

@@ -35,6 +35,7 @@ export default function StoryWritter() {
 	);
 
 	const [selectedPage, setSelectedPage] = useState(0);
+	const [current, handleCurrent] = useState(null);
 
 	const handleCreateOrUpdateStory = useCallback(
 		payload => {
@@ -75,6 +76,7 @@ export default function StoryWritter() {
 		if (pages && pages.length) {
 			let index = pages.findIndex(item => item.id === Number(pageId));
 			index = index < 0 ? 0 : index;
+			handleCurrent(pages[index]);
 			setSelectedPage(index);
 		}
 	}, [pages, pageId]);
@@ -88,6 +90,7 @@ export default function StoryWritter() {
 			<Header
 				className={CLASS}
 				pages={pages}
+				currentEditing={current}
 				selectedPage={selectedPage}
 				onSelectedPage={setSelectedPage}
 				onPageRemove={handleRemovePage}
@@ -95,14 +98,16 @@ export default function StoryWritter() {
 				onStoryRemove={handleRemoveStory}
 				onCreateOrUpdateStory={handleCreateOrUpdateStory}
 			/>
+			{op && <span>Saving...</span>}
 			<Writter
 				className={CLASS}
+				currentEditing={current}
+				onCurrentChanged={handleCurrent}
 				onStoryPage={handleStoryPage}
 				storyPages={pages}
 				selectedPage={selectedPage}
 				op={op}
 			/>
-			{op && <span>Saving...</span>}
 		</div>
 	);
 }

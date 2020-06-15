@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {useDispatch, useSelector, shallowEqual} from 'react-redux';
 import orderBy from 'lodash/orderBy';
 
@@ -18,7 +18,7 @@ const CLASS = 'st-Story';
 
 export default function Story() {
 	const {id} = useParams();
-
+	const viewerRef = useRef(null);
 	const dispatch = useDispatch();
 	const {story} = useSelector(
 		state => ({
@@ -30,6 +30,11 @@ export default function Story() {
 	);
 
 	const [activePage, setActivePage] = useState(0);
+
+	const handleActivePage = page => {
+		setActivePage(page);
+		viewerRef.current && viewerRef.current.scrollIntoView();
+	};
 
 	useEffect(() => {
 		dispatch(loadStory(id));
@@ -74,10 +79,14 @@ export default function Story() {
 				savedBy={story.saved_by}
 			/>
 
-			{storypages[activePage] && <TextViewer value={storypages[activePage].text} />}
+			{storypages[activePage] && (
+				<div className={CLASS + '-viewer'} ref={viewerRef}>
+					<TextViewer value={storypages[activePage].text} />
+				</div>
+			)}
 
 			{storypages && (
-				<Pages onClick={setActivePage} prefix="Page" pages={storypages.length} />
+				<Pages onClick={handleActivePage} prefix="Page" pages={storypages.length} />
 			)}
 			<div className={CLASS + '-pages'}>{storypages.length} pages total</div>
 		</div>

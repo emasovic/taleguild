@@ -11,17 +11,19 @@ const Pages = ({onClick, pages, prefix}) => {
 	const handleChange = page => {
 		onClick(page - 1);
 		setCurrentPage(page);
-		window.scrollTo(0, 200);
 	};
 
 	if (!pages || pages < 2) {
 		return null;
 	}
 
-	const pagesNumber = Array.from(Array(pages), (n, index) => index + 1).slice(
-		currentPage - 1,
-		currentPage + 1
-	);
+	const pagesNumber =
+		currentPage === pages
+			? Array.from(Array(pages), (n, index) => index + 1).slice(currentPage - 2, currentPage)
+			: Array.from(Array(pages), (n, index) => index + 1).slice(
+					currentPage - 1,
+					currentPage + 1
+			  );
 
 	const prevPage = currentPage === 1 ? currentPage : currentPage - 1;
 	const nextPage = currentPage === pages.length ? currentPage : currentPage + 1;
