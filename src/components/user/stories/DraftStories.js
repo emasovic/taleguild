@@ -16,7 +16,7 @@ import './DraftStories.scss';
 
 const CLASS = 'st-DraftStories';
 
-export default function DraftStories({shoudLoadMore}) {
+export default function DraftStories({shouldLoadMore}) {
 	const dispatch = useDispatch();
 	const {drafts, user, pages, op} = useSelector(
 		state => ({
@@ -74,7 +74,7 @@ export default function DraftStories({shoudLoadMore}) {
 		<LoadMore
 			id="drafts"
 			onLoadMore={handleCount}
-			shouldLoad={pages > currentPage && shoudLoadMore}
+			shouldLoad={pages > currentPage && shouldLoadMore}
 			loading={op === STORY_OP.load_more}
 			className={CLASS}
 		>
@@ -85,9 +85,9 @@ export default function DraftStories({shoudLoadMore}) {
 }
 
 DraftStories.propTypes = {
-	shoudLoadMore: propTypes.bool,
+	shouldLoadMore: propTypes.bool,
 };
 
 DraftStories.defaultProps = {
-	shoudLoadMore: true,
+	shouldLoadMore: true,
 };

@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {DropdownItem} from 'reactstrap';
 import {useDispatch} from 'react-redux';
+import {useHistory} from 'react-router-dom';
 
 import {editStory} from 'lib/routes';
 
@@ -15,11 +16,12 @@ const CLASS = 'st-StoryDropdownButton';
 
 export default function StoryDropdownButton({story}) {
 	const dispatch = useDispatch();
+	const history = useHistory();
 
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const handleDeleteStory = () => {
-		dispatch(deleteStory(story.id));
+		dispatch(deleteStory(story.id, history));
 	};
 
 	const toggleModal = () => setIsModalOpen(prevState => !prevState);

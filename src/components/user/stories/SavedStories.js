@@ -16,7 +16,7 @@ import './SavedStories.scss';
 
 const CLASS = 'st-SavedStories';
 
-export default function SavedStories({shoudLoadMore}) {
+export default function SavedStories({shouldLoadMore}) {
 	const dispatch = useDispatch();
 	const {savedStories, user, pages, op} = useSelector(
 		state => ({
@@ -78,7 +78,7 @@ export default function SavedStories({shoudLoadMore}) {
 		<LoadMore
 			id="saved"
 			onLoadMore={handleCount}
-			shouldLoad={pages > currentPage && shoudLoadMore}
+			shouldLoad={pages > currentPage && shouldLoadMore}
 			loading={op === STORY_OP.load_more}
 			className={CLASS}
 		>
@@ -89,9 +89,9 @@ export default function SavedStories({shoudLoadMore}) {
 }
 
 SavedStories.propTypes = {
-	shoudLoadMore: propTypes.bool,
+	shouldLoadMore: propTypes.bool,
 };
 
 SavedStories.defaultProps = {
-	shoudLoadMore: true,
+	shouldLoadMore: true,
 };

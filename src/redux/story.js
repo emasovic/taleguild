@@ -2,7 +2,7 @@ import {createSlice, createSelector} from '@reduxjs/toolkit';
 import filter from 'lodash/filter';
 
 import * as api from '../lib/api';
-import {goToStory, editStory} from '../lib/routes';
+import {goToStory, editStory, DELETED_STORY} from '../lib/routes';
 
 import {Toast} from 'types/toast';
 import {DEFAULT_STORYPAGE_DATA, STORY_OP} from 'types/story';
@@ -154,6 +154,7 @@ export const deleteStory = (storyId, history) => async (dispatch, getState) => {
 	}
 	dispatch(removeStory(storyId));
 	dispatch(newToast({...Toast.success('Successfully deleted story.')}));
+	history.push(DELETED_STORY);
 };
 
 export const loadStories = (
