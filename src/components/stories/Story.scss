@@ -22,6 +22,11 @@
 
 			.st-Image {
 				border-radius: 12px;
+
+				&-fallback {
+					border-radius: 12px;
+					border: 1px solid $color-grey-border;
+				}
 			}
 		}
 

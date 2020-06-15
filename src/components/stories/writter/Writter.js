@@ -16,9 +16,20 @@ export default function Writter({className, onStoryPage, storyPages, selectedPag
 
 	const debouncedSearchTerm = useDebounce(text, 3000);
 
-	// const scrollToBottom = () => {
-	// 	editorRef.current && editorRef.current.scrollIntoView({block: 'end', behavior: 'smooth'});
-	// };
+	const scrollToBottom = () => {
+		const domSelection = window.getSelection();
+
+		if (domSelection.anchorOffset) {
+			const domRange = domSelection.getRangeAt(0);
+			const rect = domRange.getBoundingClientRect();
+
+			window.scrollTo({
+				top: rect.top + window.pageYOffset - 100,
+				left: 0,
+				behavior: 'smooth',
+			});
+		}
+	};
 
 	const handleEditPage = val => {
 		currentEditing = {
@@ -43,15 +54,17 @@ export default function Writter({className, onStoryPage, storyPages, selectedPag
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [debouncedSearchTerm]);
 
-	// useEffect(scrollToBottom, [text]);
-
 	if (!storyPages || !currentEditing) {
 		return <Loader />;
 	}
 
 	return (
 		<div className={className + '-writter'} ref={editorRef}>
-			<TextEditor value={currentEditing.text} onChange={handleEditPage} />
+			<TextEditor
+				value={currentEditing.text}
+				onChange={handleEditPage}
+				onKeyDown={scrollToBottom}
+			/>
 		</div>
 	);
 }

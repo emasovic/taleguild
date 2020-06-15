@@ -39,25 +39,27 @@ export default function StoryTabs() {
 	const Component = COMPONENTS[activeTab];
 	return (
 		<div className={CLASS}>
-			<Nav>
-				<NavItem onClick={() => setActiveTab(STORY_TABS.my_stories)}>
-					<NavLink href="#" active={activeTab === STORY_TABS.my_stories}>
-						My stories
-					</NavLink>
-				</NavItem>
-				<NavItem onClick={() => setActiveTab(STORY_TABS.saved_stories)}>
-					<NavLink href="#" active={activeTab === STORY_TABS.saved_stories}>
-						Saved stories
-					</NavLink>
-				</NavItem>
-				<NavItem onClick={() => setActiveTab(STORY_TABS.draft_stories)}>
-					<NavLink href="#" active={activeTab === STORY_TABS.draft_stories}>
-						Drafts
-					</NavLink>
-				</NavItem>
-			</Nav>
-			<Component shoudLoadMore={false} />
-			<Link to={GO_TO[activeTab] || goToUser(data && data.id)}>View all</Link>
+			<div className={CLASS + '-tabs'}>
+				<Nav>
+					<NavItem onClick={() => setActiveTab(STORY_TABS.my_stories)}>
+						<NavLink href="#" active={activeTab === STORY_TABS.my_stories}>
+							My stories
+						</NavLink>
+					</NavItem>
+					<NavItem onClick={() => setActiveTab(STORY_TABS.saved_stories)}>
+						<NavLink href="#" active={activeTab === STORY_TABS.saved_stories}>
+							Saved stories
+						</NavLink>
+					</NavItem>
+					<NavItem onClick={() => setActiveTab(STORY_TABS.draft_stories)}>
+						<NavLink href="#" active={activeTab === STORY_TABS.draft_stories}>
+							Drafts
+						</NavLink>
+					</NavItem>
+				</Nav>
+				<Component shoudLoadMore={false} />
+				<Link to={GO_TO[activeTab] || goToUser(data && data.id)}>View all</Link>
+			</div>
 		</div>
 	);
 }
