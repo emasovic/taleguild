@@ -64,8 +64,8 @@ export default function StoryWritter() {
 	}, [pageId, dispatch, storyId, history]);
 
 	const handleRemoveStory = useCallback(() => {
-		dispatch(deleteStory(storyId));
-	}, [dispatch, storyId]);
+		dispatch(deleteStory(storyId, history));
+	}, [dispatch, storyId, history]);
 
 	useEffect(() => {
 		dispatch(loadStoryPages(storyId));
