@@ -29,7 +29,7 @@ export default function Writter({
 			const rect = domRange.getBoundingClientRect();
 
 			window.scrollTo({
-				top: rect.top + window.pageYOffset - 100,
+				top: rect.top + window.pageYOffset - 200,
 				left: 0,
 				behavior: 'smooth',
 			});

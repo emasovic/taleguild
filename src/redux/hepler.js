@@ -8,20 +8,30 @@ export const hepler = arr => {
 	return obj;
 };
 
-export const gotDataHelper = (state, data, invalidate) => {
-
-	if(!data) {
+export const gotDataHelper = (state, data, invalidate, key) => {
+	if (!data) {
 		return null;
 	}
-	
+
+	if (!state) {
+		state = {};
+	}
+
 	if (!Array.isArray(data)) {
 		data = [data];
 	}
 
 	data = hepler(data);
 
-	if (!state || invalidate) {
+	if (invalidate) {
 		return {...data};
+	}
+
+	if (key) {
+		return {
+			...state,
+			[key]: {...state[key], ...data},
+		};
 	}
 
 	return {

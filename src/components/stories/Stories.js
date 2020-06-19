@@ -10,11 +10,11 @@ import {DEFAULT_CRITERIA, STORY_OP} from 'types/story';
 import {loadStories, selectStories} from '../../redux/story';
 
 import Loader from 'components/widgets/loader/Loader';
+import LoadMore from 'components/widgets/loadmore/LoadMore';
 
 import StoryItem from './StoryItem';
 
 import './Stories.scss';
-import LoadMore from 'components/widgets/loadmore/LoadMore';
 
 const CLASS = 'st-Stories';
 

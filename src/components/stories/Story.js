@@ -31,13 +31,16 @@ export default function Story() {
 
 	const [activePage, setActivePage] = useState(0);
 
+	const scrollToStory = () => window.scrollTo(0, 0);
+
 	const handleActivePage = page => {
 		setActivePage(page);
-		viewerRef.current && viewerRef.current.scrollIntoView();
+		scrollToStory();
 	};
 
 	useEffect(() => {
 		dispatch(loadStory(id));
+		scrollToStory();
 	}, [dispatch, id]);
 
 	if (!story) {
@@ -63,7 +66,7 @@ export default function Story() {
 			: [];
 
 	return (
-		<div className={CLASS}>
+		<div className={CLASS} ref={viewerRef}>
 			<StoryItem
 				id={story.id}
 				image={story.image}
@@ -79,11 +82,7 @@ export default function Story() {
 				savedBy={story.saved_by}
 			/>
 
-			{storypages[activePage] && (
-				<div className={CLASS + '-viewer'} ref={viewerRef}>
-					<TextViewer value={storypages[activePage].text} />
-				</div>
-			)}
+			{storypages[activePage] && <TextViewer value={storypages[activePage].text} />}
 
 			{storypages && (
 				<Pages onClick={handleActivePage} prefix="Page" pages={storypages.length} />

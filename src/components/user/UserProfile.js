@@ -8,37 +8,35 @@ import {selectUser, loadUser} from 'redux/users';
 
 import Stories from 'components/stories/Stories';
 import Loader from 'components/widgets/loader/Loader';
-import UserAvatar from './UserAvatar';
+
+import UserProfileInfo from './UserProfileInfo';
 
 import './UserProfile.scss';
 
 const CLASS = 'st-UserProfile';
 
 export default function UserProfile() {
-	const params = useParams();
+	const {id} = useParams();
+
 	const dispatch = useDispatch();
+
 	const {user} = useSelector(
 		state => ({
-			user: selectUser(state, params.id),
+			user: selectUser(state, id),
 		}),
 		shallowEqual
 	);
 
 	useEffect(() => {
-		dispatch(loadUser(params.id));
-	}, [dispatch, params.id]);
+		dispatch(loadUser(id));
+	}, [dispatch, id]);
 
 	if (!user) return <Loader />;
-	const {display_name, username, description} = user;
 
 	return (
 		<div className={CLASS}>
-			<div className={CLASS + '-user'}>
-				<UserAvatar user={user} />
-				<span>{display_name || username}</span>
-				<span>{description}</span>
-			</div>
-			<Stories criteria={{...DEFAULT_CRITERIA, 'user.id': user && user.id}} filter={{user}} />
+			<UserProfileInfo user={user} className={CLASS} />
+			<Stories criteria={{...DEFAULT_CRITERIA, user: user && user.id}} filter={{user}} />
 		</div>
 	);
 }

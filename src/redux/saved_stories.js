@@ -106,11 +106,7 @@ export const createOrDeleteSavedStory = (favourite, userId, storyId) => async (
 const savedStories = state => state.saved_stories.data;
 
 export const selectUserSavedStories = createSelector([savedStories], res =>
-	res
-		? Object.values(res)
-				.map(item => item)
-				.sort((a, b) => b.id - a.id)
-		: null
+	res ? Object.values(res).map(item => item) : null
 );
 
 export default savedStorySlice.reducer;

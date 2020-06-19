@@ -93,13 +93,7 @@
 		color: $color-grey-light;
 	}
 
-	.fullscreen {
-		background: #fff;
-		padding: 20px;
-		overflow: auto;
-
-		@media (max-width: $breakpoint-m) {
-			padding: 10px;
-		}
+	.st-TextViewer {
+		width: 100%;
 	}
 }

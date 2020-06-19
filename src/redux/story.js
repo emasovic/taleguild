@@ -17,6 +17,7 @@ export const storySlice = createSlice({
 		loading: false,
 		filter: null,
 		op: null,
+		total: null,
 		pages: null,
 	},
 	reducers: {
@@ -74,7 +75,8 @@ export const storySlice = createSlice({
 			state.filter = action.payload;
 		},
 		gotPages: (state, action) => {
-			state.pages = action.payload;
+			state.pages = Math.ceil(action.payload / 10);
+			state.total = action.payload;
 		},
 		opStart: (state, action) => {
 			state.op = action.payload;
@@ -178,7 +180,7 @@ export const loadStories = (
 			dispatch(opEnd());
 			return dispatch(newToast({...Toast.error(res.error)}));
 		}
-		dispatch(gotPages(Math.ceil(res / 10)));
+		dispatch(gotPages(res));
 	}
 
 	return dispatch(gotData({data: res, invalidate, filter}));

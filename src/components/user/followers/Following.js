@@ -1,0 +1,111 @@
+import React, {useEffect, useState, useCallback} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
+import {Link} from 'react-router-dom';
+
+import {goToUser} from 'lib/routes';
+
+import {COLOR} from 'types/button';
+
+import {selectFollowing, loadFollowing, createOrDeleteFollowing} from 'redux/following';
+import {selectUser} from 'redux/user';
+
+import ConfirmModal from 'components/widgets/modals/Modal';
+import LoadMoreModal from 'components/widgets/loadmore/LoadMoreModal';
+import IconButton from 'components/widgets/button/IconButton';
+
+import UserAvatar from '../UserAvatar';
+
+import './Followers.scss';
+
+const CLASS = 'st-Followers';
+
+export default function Following({id}) {
+	const dispatch = useDispatch();
+	const {following, total, loading, user, pages} = useSelector(state => ({
+		following: selectFollowing(state, id),
+		user: selectUser(state),
+		loading: state.following.loading,
+		pages: state.following.pages,
+		total: state.following.total,
+	}));
+
+	const {data} = user;
+
+	const [isOpen, setIsOpen] = useState(false);
+	const [currentPage, setCurrentPage] = useState(1);
+
+	const renderContent = () => {
+		return (
+			<LoadMoreModal
+				className={CLASS + '-followers'}
+				onLoadMore={handleCount}
+				loading={loading}
+				shouldLoad={pages > currentPage}
+				id="following"
+			>
+				{following.length ? (
+					following.map((item, key) => {
+						const {follower, user} = item;
+
+						return (
+							<Link
+								to={goToUser(user.id)}
+								key={key}
+								className={CLASS + '-followers-item'}
+							>
+								<UserAvatar user={user} />
+								<span>{user.display_name || user.username}</span>
+								{data && data.id === follower.id && (
+									<IconButton
+										color={COLOR.secondary}
+										onClick={e => handleFollow(e, item)}
+									>
+										Unfollow
+									</IconButton>
+								)}
+							</Link>
+						);
+					})
+				) : (
+					<p>No following</p>
+				)}
+			</LoadMoreModal>
+		);
+	};
+
+	const handleFollow = (e, follower) => {
+		e.preventDefault();
+		dispatch(createOrDeleteFollowing(follower, id, data && data.id));
+	};
+
+	const handleCount = useCallback(() => {
+		dispatch(loadFollowing({follower: id, _start: currentPage * 10, _limit: 10}, false));
+		setCurrentPage(currentPage + 1);
+	}, [dispatch, currentPage, id]);
+
+	useEffect(() => {
+		if (id) {
+			dispatch(loadFollowing({follower: id, _start: 0, _limit: 10}, true));
+		}
+	}, [dispatch, id]);
+
+	return (
+		<div className={CLASS}>
+			<div className={CLASS + '-info'} onClick={() => setIsOpen(true)}>
+				<span>{total}</span>
+				<span>Following</span>
+			</div>
+
+			{isOpen && (
+				<ConfirmModal
+					isOpen={isOpen}
+					className={CLASS}
+					title="Following"
+					renderFooter={false}
+					content={renderContent()}
+					onClose={() => setIsOpen(false)}
+				/>
+			)}
+		</div>
+	);
+}

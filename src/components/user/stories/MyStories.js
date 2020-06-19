@@ -38,7 +38,7 @@ export default function MyStories({Component}) {
 
 	useEffect(() => {
 		if (data) {
-			setCriteria({...DEFAULT_CRITERIA, 'user.id': data && data.id});
+			setCriteria({...DEFAULT_CRITERIA, 'user': data && data.id});
 		}
 	}, [data]);
 

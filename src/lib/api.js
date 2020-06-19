@@ -130,6 +130,24 @@ export const deleteLike = (id, storyId) => {
 	return http.del('likes/' + id, {story: storyId});
 };
 
+/******************      FOLLOWERS        ***********************/
+
+export const getFollowers = filter => {
+	return http.get('followers', filter);
+};
+
+export const countFollowers = filter => {
+	return http.get('followers/count', filter);
+};
+
+export const createFollower = payload => {
+	return http.post('followers', null, payload);
+};
+
+export const deleteFollower = id => {
+	return http.del('followers/' + id);
+};
+
 /******************      MEDIA        ***********************/
 
 export const uploadMedia = files => {
