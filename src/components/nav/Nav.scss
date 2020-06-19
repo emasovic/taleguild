@@ -5,6 +5,10 @@
 	height: 60px;
 	padding: 0 !important;
 	margin: 24px 0;
+	background: #fff;
+	position: sticky !important;
+	z-index: 1;
+	top: 0;
 
 	@media (max-width: $breakpoint-m) {
 		display: flex;

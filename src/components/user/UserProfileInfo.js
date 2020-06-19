@@ -41,9 +41,27 @@ export default function UserProfileInfo({user, className}) {
 	const {display_name, username, description} = user;
 	const label = follower ? 'Unfollow' : 'Follow';
 
-	if (storiesLoading) {
-		return <Loader />;
-	}
+	const info = (
+		<>
+			<div className={className + '-user-info-stats'}>
+				<div className={className + '-user-info-stats-stories'}>
+					<span>{total}</span>
+					<span>Stories</span>
+				</div>
+				<Followers id={id} />
+				<FollowedBy id={id} />
+			</div>
+			{data && Number(id) !== data.id && (
+				<IconButton
+					color={COLOR.secondary}
+					disabled={followersLoading}
+					onClick={handleFollow}
+				>
+					{label}
+				</IconButton>
+			)}
+		</>
+	);
 
 	return (
 		<div className={className + '-user'}>
@@ -54,23 +72,7 @@ export default function UserProfileInfo({user, className}) {
 					<span>{description}</span>
 				</div>
 
-				<div className={className + '-user-info-stats'}>
-					<div className={className + '-user-info-stats-stories'}>
-						<span>{total}</span>
-						<span>Stories</span>
-					</div>
-					<Followers id={id} />
-					<FollowedBy id={id} />
-				</div>
-				{data && Number(id) !== data.id && (
-					<IconButton
-						color={COLOR.secondary}
-						disabled={followersLoading}
-						onClick={handleFollow}
-					>
-						{label}
-					</IconButton>
-				)}
+				{storiesLoading ? <Loader /> : info}
 			</div>
 		</div>
 	);

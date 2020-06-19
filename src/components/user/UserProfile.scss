@@ -10,6 +10,7 @@
 		display: flex;
 		align-items: center;
 		margin-bottom: 36px;
+		min-height: 150px;
 		max-width: $story-preview-width-medium;
 
 		@media (max-width: $breakpoint-sm) {
@@ -46,6 +47,10 @@
 
 				> div {
 					margin-right: 32px;
+
+					@media (max-width: $breakpoint-sm) {
+						margin-right: 16px;
+					}
 
 					&:last-child {
 						margin-right: 0;

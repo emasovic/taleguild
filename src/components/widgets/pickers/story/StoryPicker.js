@@ -68,6 +68,7 @@ export default function StoryPicker({...props}) {
 		<AsyncSelect
 			className={CLASS}
 			classNamePrefix={CLASS}
+			noOptionsMessage={() => 'No stories found'}
 			components={{Option, DropdownIndicator}}
 			loadOptions={searchStory}
 			cacheOptions

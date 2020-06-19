@@ -45,7 +45,7 @@
 	.st-StoryPicker__control {
 		flex-direction: row-reverse;
 
-		&--menu-is-open {
+		&--menu-is-open, &--is-focused {
 			box-shadow: 0 0 0 1px $color-primary;
 			border-color: $color-primary;
 		}

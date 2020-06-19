@@ -159,13 +159,11 @@ export const deleteStory = (storyId, history) => async (dispatch, getState) => {
 	history.push(DELETED_STORY);
 };
 
-export const loadStories = (
-	params,
-	count,
-	filter,
-	op = STORY_OP.loading,
-	invalidate
-) => async dispatch => {
+export const loadStories = (params, count, filter, op = STORY_OP.loading, invalidate) => async (
+	dispatch,
+	getState,
+	history
+) => {
 	dispatch(opStart(op));
 	const res = await api.getStories(params);
 	if (res.error) {

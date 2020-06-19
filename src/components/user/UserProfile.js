@@ -36,7 +36,7 @@ export default function UserProfile() {
 	return (
 		<div className={CLASS}>
 			<UserProfileInfo user={user} className={CLASS} />
-			<Stories criteria={{...DEFAULT_CRITERIA, user: user && user.id}} filter={{user}} />
+			<Stories criteria={{...DEFAULT_CRITERIA, user: user && user.id}} />
 		</div>
 	);
 }

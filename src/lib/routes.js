@@ -1,5 +1,7 @@
 export const HOME = '/';
 
+export const toQuery = query => HOME + '?' + query;
+
 const STORY = '/story';
 export const NEW_STORY = STORY + '/new';
 export const STORY_ID = STORY + '/:id';

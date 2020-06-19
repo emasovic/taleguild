@@ -1,13 +1,14 @@
 import React, {useEffect, useState, memo, useCallback} from 'react';
 import {NavItem, NavLink, Nav} from 'reactstrap';
 import {useDispatch, useSelector, shallowEqual} from 'react-redux';
+import {useHistory, useLocation} from 'react-router-dom';
 import propTypes from 'prop-types';
-import moment from 'moment';
 import orderBy from 'lodash/orderBy';
 
 import {DEFAULT_CRITERIA, STORY_OP} from 'types/story';
 
 import {loadStories, selectStories} from '../../redux/story';
+import {navigateToQuery} from 'redux/application';
 
 import Loader from 'components/widgets/loader/Loader';
 import LoadMore from 'components/widgets/loadmore/LoadMore';
@@ -25,6 +26,8 @@ const SORT = {
 
 function Stories({criteria, filter}) {
 	const dispatch = useDispatch();
+	const history = useHistory();
+	const location = useLocation();
 	const {stories, op, pages} = useSelector(
 		state => ({
 			stories: selectStories(state),
@@ -38,9 +41,12 @@ function Stories({criteria, filter}) {
 	const [storyCriteria, setStoryCriteria] = useState(null);
 	const [activeSort, setActiveSort] = useState(SORT.recent);
 
-	const sortStories = (sort, criteria) => {
+	const categoryId = new URLSearchParams(useLocation().search).get('categories');
+	const sortBy = new URLSearchParams(useLocation().search).get('_sort');
+
+	const sortStories = sort => {
 		setActiveSort(sort);
-		setStoryCriteria(criteria);
+		dispatch(navigateToQuery({_sort: sort}, location, history));
 	};
 
 	const handleCount = useCallback(() => {
@@ -57,9 +63,24 @@ function Stories({criteria, filter}) {
 
 	useEffect(() => {
 		if (storyCriteria) {
-			dispatch(loadStories(storyCriteria, true, filter));
+			const _sort = sortBy && `${sortBy}:DESC`;
+			dispatch(
+				loadStories(
+					{...storyCriteria, categories: categoryId, _sort},
+					true,
+					filter,
+					undefined,
+					true
+				)
+			);
 		}
-	}, [dispatch, storyCriteria, filter]);
+	}, [categoryId, sortBy, storyCriteria, dispatch, filter]);
+
+	useEffect(() => {
+		if (sortBy) {
+			setActiveSort(sortBy);
+		}
+	}, [sortBy, storyCriteria]);
 
 	const renderStories =
 		stories && stories.length ? (
@@ -97,16 +118,7 @@ function Stories({criteria, filter}) {
 				<NavItem href="#" onClick={() => sortStories(SORT.recent, criteria)}>
 					<NavLink active={activeSort === SORT.recent}>Recent stories</NavLink>
 				</NavItem>
-				<NavItem
-					href="#"
-					onClick={() =>
-						sortStories(SORT.popular, {
-							...storyCriteria,
-							_sort: 'likes_count:DESC',
-							created_at_gte: moment().subtract(10, 'days'),
-						})
-					}
-				>
+				<NavItem href="#" onClick={() => sortStories(SORT.popular)}>
 					<NavLink active={activeSort === SORT.popular}>Popular stories</NavLink>
 				</NavItem>
 			</Nav>
