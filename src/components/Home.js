@@ -4,7 +4,7 @@ import {shallowEqual, useSelector, useDispatch} from 'react-redux';
 import {DEFAULT_CRITERIA} from 'types/story';
 
 import {selectUser} from 'redux/user';
-import {loadFollowers, selectFollowers} from 'redux/followers';
+import {selectFollowing, loadFollowing} from 'redux/following';
 
 import Loader from './widgets/loader/Loader';
 
@@ -12,28 +12,30 @@ import Explore from './Explore';
 
 export default function Home() {
 	const dispatch = useDispatch();
-	const {userId, followers} = useSelector(state => {
+	const {userId, following, loading} = useSelector(state => {
 		const {data} = selectUser(state);
 		const userId = data && data.id;
 
 		return {
-			followers: selectFollowers(state, userId),
+			following: selectFollowing(state, userId),
+			loading: state.following.loading,
 			userId,
 		};
 	}, shallowEqual);
 
 	useEffect(() => {
 		if (userId) {
-			dispatch(loadFollowers({follower: userId}));
+			dispatch(loadFollowing({follower: userId}));
 		}
 	}, [dispatch, userId]);
 
-	if (!userId) {
+	if (!userId || loading) {
 		return <Loader />;
 	}
 
-	const userIds = followers && followers.length ? followers.map(item => item.follower.id) : [];
-	const criteria = {...DEFAULT_CRITERIA, user_in: userIds};
+	const userIds = following && following.length ? following.map(item => item.user.id) : [];
+
+	const criteria = {...DEFAULT_CRITERIA, user_in: [...userIds, userId]};
 
 	return <Explore criteria={criteria} />;
 }
