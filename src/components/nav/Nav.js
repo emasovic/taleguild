@@ -1,16 +1,25 @@
 import React, {useState, useEffect, Fragment} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
-import {Navbar, Nav, NavbarBrand, NavItem, NavLink, DropdownItem} from 'reactstrap';
-import {useHistory} from 'react-router-dom';
+import {Navbar, Nav, NavItem, NavLink, DropdownItem} from 'reactstrap';
+import {useHistory, useLocation} from 'react-router-dom';
 
+import FA from 'types/font_awesome';
 import {COLOR} from 'types/button';
-import {USER_STORIES_SAVED, USER_SETTINGS, USER_STORIES_DRAFTS, goToUser} from 'lib/routes';
+import {
+	USER_STORIES_SAVED,
+	USER_SETTINGS,
+	USER_STORIES_DRAFTS,
+	goToUser,
+	HOME,
+	EXPLORE,
+} from 'lib/routes';
 
 import {selectUser, logOutUser} from '../../redux/user';
 import {newStory} from 'redux/story';
 
-import {ReactComponent as Logo} from 'images/logo.svg';
+import {ReactComponent as Logo} from 'images/taleguild-logo.svg';
 
 import SignUp from '../signup/SignUp';
 import Login from '../login/Login';
@@ -29,6 +38,7 @@ const CLASS = 'st-Nav';
 export default function Navigation() {
 	const dispatch = useDispatch();
 	const history = useHistory();
+	const location = useLocation();
 
 	const [isLoginOpen, setIsLoginOpen] = useState(false);
 	const [isRegisterOpen, setIsRegisterOpen] = useState(false);
@@ -91,13 +101,31 @@ export default function Navigation() {
 	return (
 		<>
 			<Navbar className={CLASS}>
-				<NavbarBrand href="/">
-					<Logo />
-				</NavbarBrand>
+				<Nav className={CLASS + '-feed'}>
+					<NavItem>
+						<NavLink href={HOME}>
+							<Logo width="30" height="30" />
+						</NavLink>
+					</NavItem>
+					<NavItem>
+						<NavLink href={HOME} active={location.pathname === HOME}>
+							<FontAwesomeIcon icon={FA.solid_home} />
+							Home
+						</NavLink>
+					</NavItem>
+					{data && (
+						<NavItem>
+							<NavLink href={EXPLORE} active={location.pathname === EXPLORE}>
+								<FontAwesomeIcon icon={FA.solid_compass} />
+								Explore
+							</NavLink>
+						</NavItem>
+					)}
+				</Nav>
 
 				<StoryPicker placeholder="Search for stories" />
 
-				<Nav>
+				<Nav className={CLASS + '-status'}>
 					{loading ? <Loader /> : data && data.token ? userLoggedIn() : userLoggedOut()}
 				</Nav>
 			</Navbar>

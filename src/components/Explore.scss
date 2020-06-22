@@ -1,6 +1,6 @@
 @import 'styles/variables.scss';
 
-.st-Home {
+.st-Explore {
 	display: flex;
 	flex-direction: column;
 
@@ -25,11 +25,15 @@
 			justify-content: center;
 		}
 
-		> div {
+		.st-Stories,
+		.st-StoryTabs,
+		.st-Categories,
+		&-holder {
 			flex: 1 1;
 		}
 
-		&-holder, .st-StoryTabs {
+		&-holder,
+		.st-StoryTabs {
 			@media (max-width: $breakpoint-m) {
 				display: none;
 			}

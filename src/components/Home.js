@@ -1,29 +1,39 @@
-import React from 'react';
-import {useSelector} from 'react-redux';
+import React, {useEffect} from 'react';
+import {shallowEqual, useSelector, useDispatch} from 'react-redux';
+
+import {DEFAULT_CRITERIA} from 'types/story';
 
 import {selectUser} from 'redux/user';
+import {loadFollowers, selectFollowers} from 'redux/followers';
 
-import Categories from './stories/widgets/Categories';
-import Stories from './stories/Stories';
-import StoryTabs from './stories/StoryTabs';
+import Loader from './widgets/loader/Loader';
 
-import './Home.scss';
-
-const CLASS = 'st-Home';
+import Explore from './Explore';
 
 export default function Home() {
-	const {data} = useSelector(selectUser);
+	const dispatch = useDispatch();
+	const {userId, followers} = useSelector(state => {
+		const {data} = selectUser(state);
+		const userId = data && data.id;
 
-	return (
-		<div className={CLASS}>
-			<div className={CLASS + '-header'}>
-				<Categories />
-			</div>
-			<div className={CLASS + '-main'}>
-				{data ? <StoryTabs /> : <div className={CLASS + '-main-holder'} />}
-				<Stories />
-				<div className={CLASS + '-main-holder'} />
-			</div>
-		</div>
-	);
+		return {
+			followers: selectFollowers(state, userId),
+			userId,
+		};
+	}, shallowEqual);
+
+	useEffect(() => {
+		if (userId) {
+			dispatch(loadFollowers({follower: userId}));
+		}
+	}, [dispatch, userId]);
+
+	if (!userId) {
+		return <Loader />;
+	}
+
+	const userIds = followers && followers.length ? followers.map(item => item.follower.id) : [];
+	const criteria = {...DEFAULT_CRITERIA, user_in: userIds};
+
+	return <Explore criteria={criteria} />;
 }

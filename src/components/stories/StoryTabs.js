@@ -37,6 +37,11 @@ export default function StoryTabs() {
 	const [activeTab, setActiveTab] = useState(STORY_TABS.my_stories);
 	const {data} = useSelector(selectUser);
 	const Component = COMPONENTS[activeTab];
+
+	if (!data) {
+		return null;
+	}
+
 	return (
 		<div className={CLASS}>
 			<div className={CLASS + '-tabs'}>
@@ -57,7 +62,7 @@ export default function StoryTabs() {
 						</NavLink>
 					</NavItem>
 				</Nav>
-				<Component shoudLoadMore={false} />
+				<Component shouldLoadMore={false} />
 				<Link to={GO_TO[activeTab] || goToUser(data && data.id)}>View all</Link>
 			</div>
 		</div>

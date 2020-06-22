@@ -18,15 +18,6 @@
 		height: auto;
 	}
 
-	.navbar-brand {
-		flex: 1 1 0;
-		margin-right: 0;
-
-		@media (max-width: $breakpoint-sm) {
-			order: 2;
-		}
-	}
-
 	.st-StoryPicker {
 		flex: 1 1 0;
 
@@ -39,6 +30,9 @@
 		align-items: center;
 		flex-wrap: nowrap;
 		flex: 1 1 0;
+	}
+
+	&-status {
 		justify-content: flex-end;
 
 		@media (max-width: $breakpoint-sm) {
@@ -46,14 +40,41 @@
 		}
 	}
 
-	.nav-item {
-		.nav-link {
-			font-size: 14px;
-			color: $color-grey-light;
-			text-decoration: none;
-			font-weight: 500;
+	&-feed {
+		justify-content: flex-start;
+
+		.nav-item {
+			.nav-link {
+				font-size: 16px;
+				color: $color-grey-light;
+				text-decoration: none;
+				font-weight: bold;
+				padding: 0;
+				margin-right: 36px;
+
+				&.active {
+					color: $color-primary;
+				}
+
+				.fa {
+					&-home,
+					&-compass {
+						font-size: 20px;
+						margin-right: 10px;
+					}
+				}
+			}
 		}
 	}
+
+	// .nav-item {
+	// 	.nav-link {
+	// 		font-size: 14px;
+	// 		color: $color-grey-light;
+	// 		text-decoration: none;
+	// 		font-weight: 500;
+	// 	}
+	// }
 
 	&-user {
 		display: flex;

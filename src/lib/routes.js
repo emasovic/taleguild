@@ -1,6 +1,6 @@
 export const HOME = '/';
 
-export const toQuery = query => HOME + '?' + query;
+export const EXPLORE = '/explore';
 
 const STORY = '/story';
 export const NEW_STORY = STORY + '/new';

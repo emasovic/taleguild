@@ -6,6 +6,7 @@ import * as routes from 'lib/routes';
 import Nav from 'components/nav/Nav';
 
 import Home from 'components/Home';
+import Explore from 'components/Explore';
 
 import Story from 'components/stories/Story';
 import StoryWritter from 'components/stories/writter/StoryWritter';
@@ -27,6 +28,7 @@ const Routes = () => (
 		<Nav />
 		<Switch>
 			<Route exact path={routes.HOME} component={Home} />
+			<PrivateRoute path={routes.EXPLORE} component={Explore} />
 			<PrivateRoute path={routes.WRITE_STORY} component={StoryWritter} />
 			<PrivateRoute path={routes.DELETED_STORY} component={DeletedStory} />
 			<Route path={routes.STORY_ID} component={Story} />

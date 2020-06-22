@@ -31,6 +31,7 @@ export default function Categories() {
 
 	return (
 		<Nav className={CLASS}>
+			<span>Categories</span>
 			{isLoading ? (
 				<Loader />
 			) : (
