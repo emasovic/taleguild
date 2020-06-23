@@ -3,11 +3,10 @@
 .st-StoryTabs {
 	display: flex;
 	flex-direction: column;
+	position: sticky;
+	top: 80px;
 
 	&-tabs {
-		position: sticky;
-		top: 80px;
-
 		.nav {
 			margin-bottom: 12px;
 		}
@@ -99,7 +98,8 @@
 
 		> a {
 			&:last-child {
-				text-align: center;
+				display: flex;
+				justify-content: center;
 			}
 		}
 	}

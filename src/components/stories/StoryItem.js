@@ -242,7 +242,11 @@ export default function StoryItem({
 								icon={likeIcon}
 								onClick={e => handleLike(e, liked, id)}
 							/>
-							<IconButton outline icon={FA.comment} />
+							<IconButton
+								outline
+								icon={FA.comment}
+								onClick={() => setIsCommentsOpen(true)}
+							/>
 						</div>
 						<IconButton
 							outline

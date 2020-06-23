@@ -7,11 +7,12 @@ const CLASS = 'st-LoadMore';
 
 export default function LoadMore({children, shouldLoad, onLoadMore, loading, className, id}) {
 	const isBottom = el => {
-		return el && el.getBoundingClientRect().bottom <= window.innerHeight;
+		return el && el.getBoundingClientRect().bottom - 100 <= window.innerHeight;
 	};
 
 	const trackScrolling = () => {
 		const wrappedElement = document.getElementById(id);
+
 		if (isBottom(wrappedElement) && shouldLoad) {
 			onLoadMore();
 		}

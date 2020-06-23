@@ -27,8 +27,8 @@ const Routes = () => (
 	<Router>
 		<Nav />
 		<Switch>
-			<Route exact path={routes.HOME} component={Home} />
-			<PrivateRoute path={routes.EXPLORE} component={Explore} />
+			<Route exact path={routes.HOME} component={Explore} />
+			<PrivateRoute path={routes.FEED} component={Home} />
 			<PrivateRoute path={routes.WRITE_STORY} component={StoryWritter} />
 			<PrivateRoute path={routes.DELETED_STORY} component={DeletedStory} />
 			<Route path={routes.STORY_ID} component={Story} />

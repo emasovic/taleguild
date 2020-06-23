@@ -13,7 +13,7 @@ import {
 	USER_STORIES_DRAFTS,
 	goToUser,
 	HOME,
-	EXPLORE,
+	FEED,
 } from 'lib/routes';
 
 import {selectUser, logOutUser} from '../../redux/user';
@@ -63,6 +63,8 @@ export default function Navigation() {
 		}
 	}, [token]);
 
+	if (loading) return <Loader />;
+
 	const userLoggedOut = () => {
 		return (
 			<Fragment>
@@ -107,26 +109,29 @@ export default function Navigation() {
 							<Logo width="30" height="30" />
 						</NavLink>
 					</NavItem>
-					<NavItem>
-						<NavLink href={HOME} active={location.pathname === HOME}>
-							<FontAwesomeIcon icon={FA.solid_home} />
-							Home
-						</NavLink>
-					</NavItem>
 					{data && (
-						<NavItem>
-							<NavLink href={EXPLORE} active={location.pathname === EXPLORE}>
-								<FontAwesomeIcon icon={FA.solid_compass} />
-								Explore
-							</NavLink>
-						</NavItem>
+						<>
+							<NavItem>
+								<NavLink href={FEED} active={location.pathname === FEED}>
+									<FontAwesomeIcon icon={FA.solid_home} />
+									Feed
+								</NavLink>
+							</NavItem>
+
+							<NavItem>
+								<NavLink href={HOME} active={location.pathname === HOME}>
+									<FontAwesomeIcon icon={FA.solid_compass} />
+									Explore
+								</NavLink>
+							</NavItem>
+						</>
 					)}
 				</Nav>
 
 				<StoryPicker placeholder="Search for stories" />
 
 				<Nav className={CLASS + '-status'}>
-					{loading ? <Loader /> : data && data.token ? userLoggedIn() : userLoggedOut()}
+					{data && data.token ? userLoggedIn() : userLoggedOut()}
 				</Nav>
 			</Navbar>
 			{isRegisterOpen && (

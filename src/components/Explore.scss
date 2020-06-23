@@ -23,6 +23,16 @@
 
 		@media (max-width: $breakpoint-m) {
 			justify-content: center;
+			flex-direction: column;
+
+			.st-Categories {
+				flex-direction: row;
+				overflow: auto;
+
+				> span {
+					display: none;
+				}
+			}
 		}
 
 		.st-Stories,
@@ -32,10 +42,11 @@
 			flex: 1 1;
 		}
 
-		&-holder,
-		.st-StoryTabs {
+		&-holder {
 			@media (max-width: $breakpoint-m) {
-				display: none;
+				&:last-child {
+					display: none;
+				}
 			}
 		}
 

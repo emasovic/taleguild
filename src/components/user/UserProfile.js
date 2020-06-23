@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {useDispatch, useSelector, shallowEqual} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useParams} from 'react-router-dom';
 
 import {DEFAULT_CRITERIA} from 'types/story';
@@ -20,12 +20,7 @@ export default function UserProfile() {
 
 	const dispatch = useDispatch();
 
-	const {user} = useSelector(
-		state => ({
-			user: selectUser(state, id),
-		}),
-		shallowEqual
-	);
+	const user = useSelector(state => selectUser(state, id));
 
 	useEffect(() => {
 		dispatch(loadUser(id));

@@ -1,6 +1,6 @@
 export const HOME = '/';
 
-export const EXPLORE = '/explore';
+export const FEED = '/feed';
 
 const STORY = '/story';
 export const NEW_STORY = STORY + '/new';

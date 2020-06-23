@@ -17,7 +17,9 @@ export default function Explore({criteria}) {
 				</div>
 
 				<Stories criteria={criteria} />
-				<StoryTabs />
+				<div className={CLASS + '-main-holder'}>
+					<StoryTabs />
+				</div>
 			</div>
 		</div>
 	);
