@@ -63,7 +63,13 @@ export default function Navigation() {
 		}
 	}, [token]);
 
-	if (loading) return <Loader />;
+	if (loading) {
+		return (
+			<div className={CLASS}>
+				<Loader />
+			</div>
+		);
+	}
 
 	const userLoggedOut = () => {
 		return (

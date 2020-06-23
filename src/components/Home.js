@@ -29,7 +29,7 @@ export default function Home() {
 		}
 	}, [dispatch, userId]);
 
-	if (!userId || loading) {
+	if (!userId || loading || !following) {
 		return <Loader />;
 	}
 

@@ -1,5 +1,7 @@
 import React from 'react';
 
+import {DEFAULT_CRITERIA} from 'types/story';
+
 import Categories from './stories/widgets/Categories';
 import Stories from './stories/Stories';
 import StoryTabs from './stories/StoryTabs';
@@ -24,3 +26,7 @@ export default function Explore({criteria}) {
 		</div>
 	);
 }
+
+Explore.defaultProps = {
+	criteria: DEFAULT_CRITERIA,
+};

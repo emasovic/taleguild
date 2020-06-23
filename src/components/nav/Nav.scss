@@ -10,6 +10,10 @@
 	z-index: 1;
 	top: 0;
 
+	.st-Loader {
+		height: 100vh;
+	}
+
 	@media (max-width: $breakpoint-m) {
 		display: flex;
 		flex-direction: column;

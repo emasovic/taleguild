@@ -38,7 +38,6 @@ function Stories({criteria, filter}) {
 	);
 
 	const [currentPage, setCurrentPage] = useState(1);
-	const [storyCriteria, setStoryCriteria] = useState(null);
 	const [activeSort, setActiveSort] = useState(SORT.recent);
 
 	const categoryId = new URLSearchParams(useLocation().search).get('categories');
@@ -50,23 +49,18 @@ function Stories({criteria, filter}) {
 	};
 
 	const handleCount = useCallback(() => {
-		const criteria = {...storyCriteria, _start: currentPage * 10};
-		dispatch(loadStories(criteria, false, null, STORY_OP.load_more));
+		const loadMoreCriteria = {...criteria, _start: currentPage * 10};
+		dispatch(loadStories(loadMoreCriteria, false, null, STORY_OP.load_more));
 		setCurrentPage(currentPage + 1);
-	}, [dispatch, currentPage, storyCriteria]);
+	}, [dispatch, currentPage, criteria]);
+
 
 	useEffect(() => {
 		if (criteria) {
-			setStoryCriteria(criteria);
-		}
-	}, [criteria]);
-
-	useEffect(() => {
-		if (storyCriteria) {
-			const _sort = sortBy && `${sortBy}:DESC`;
+			const _sort = sortBy ? `${sortBy}:DESC` : criteria._sort;
 			dispatch(
 				loadStories(
-					{...storyCriteria, categories: categoryId, _sort},
+					{...criteria, categories: categoryId, _sort},
 					true,
 					filter,
 					undefined,
@@ -74,13 +68,13 @@ function Stories({criteria, filter}) {
 				)
 			);
 		}
-	}, [categoryId, sortBy, storyCriteria, dispatch, filter]);
+	}, [categoryId, sortBy, criteria, dispatch, filter]);
 
 	useEffect(() => {
 		if (sortBy) {
 			setActiveSort(sortBy);
 		}
-	}, [sortBy, storyCriteria]);
+	}, [sortBy]);
 
 	const renderStories =
 		stories && stories.length ? (
