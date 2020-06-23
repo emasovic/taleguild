@@ -31,8 +31,12 @@ export default function UserProfileInfo({user, className}) {
 
 	const {data} = loggedUser;
 
-	const follower =
-		followers && followers.length && followers.find(item => item.follower.id === data.id);
+	let follower = null;
+
+	if (data) {
+		follower =
+			followers && followers.length && followers.find(item => item.follower.id === data.id);
+	}
 
 	const handleFollow = () => {
 		dispatch(createOrDeleteFollower(follower, id, data && data.id));
