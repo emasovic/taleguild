@@ -142,19 +142,19 @@ export const resetPassword = (payload, history) => async dispatch => {
 	dispatch(newToast({...Toast.success('Password successfully reset!')}));
 };
 
-export const confirmEmail = (token, history) => async dispatch => {
-	dispatch(loadingStart());
-	const res = await api.confirmEmail(token);
+// export const confirmEmail = (token, history) => async dispatch => {
+// 	dispatch(loadingStart());
+// 	const res = await api.confirmEmail(token);
 
-	if (res.error) {
-		dispatch(loadingEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
-	}
-	localStorage.setItem('token', res.jwt);
-	dispatch(gotData(res));
-	// history.push(HOME);
-	dispatch(newToast({...Toast.success('You email has been confirmed successfully!')}));
-};
+// 	if (res.error) {
+// 		dispatch(loadingEnd());
+// 		return dispatch(newToast({...Toast.error(res.error)}));
+// 	}
+// 	localStorage.setItem('token', res.jwt);
+// 	dispatch(gotData(res));
+// 	// history.push(HOME);
+// 	dispatch(newToast({...Toast.success('You email has been confirmed successfully!')}));
+// };
 
 export const selectUser = state => state.user;
 
