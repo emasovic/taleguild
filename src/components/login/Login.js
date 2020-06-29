@@ -40,7 +40,7 @@ export default function Login(props) {
 				<Form onSubmit={e => submit(e)}>
 					<h4>Welcome Back</h4>
 					<FloatingInput
-						label="Enter your email or password"
+						label="Enter your email or username"
 						value={identifier}
 						type="text"
 						onChange={val => setIdentifier(val)}

@@ -210,6 +210,9 @@ export default function StoryItem({
 
 	const likeIcon = liked ? FA.solid_heart : FA.heart;
 	const favouriteIcon = favourite ? FA.solid_bookmark : FA.bookmark;
+
+	image = image ? image.formats.medium : image;
+
 	return (
 		<div className={CLASS}>
 			{data && author.id === data.id && (

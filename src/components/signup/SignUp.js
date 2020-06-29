@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
 import {Modal, ModalBody, Form, ModalHeader} from 'reactstrap';
 import {useDispatch, useSelector} from 'react-redux';
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 
 import {Toast} from 'types/toast';
 
 import {emailRegExp} from 'lib/util';
 
-import {registerUser, selectUser} from '../../redux/user';
+import {registerUser} from '../../redux/user';
 import {addToast} from 'redux/toast';
 
 import FloatingInput from '../widgets/input/FloatingInput';
@@ -20,6 +20,8 @@ import './SignUp.scss';
 const CLASS = 'st-SignUp';
 
 export default function SignUp(props) {
+	const history = useHistory();
+
 	const [username, setUsername] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
@@ -27,8 +29,7 @@ export default function SignUp(props) {
 	const [accepted, setAccepted] = useState(false);
 
 	const dispatch = useDispatch();
-	const user = useSelector(selectUser);
-	const {error, loading} = user;
+	const op = useSelector(state => state.user.op);
 
 	const validate = () => {
 		const errors = [];
@@ -47,7 +48,7 @@ export default function SignUp(props) {
 	const submit = e => {
 		e.preventDefault();
 		if (validate()) {
-			dispatch(registerUser({username, email, password, accepted}));
+			dispatch(registerUser({username, email, password}, history));
 		}
 	};
 
@@ -78,8 +79,8 @@ export default function SignUp(props) {
 						value={password}
 						type="password"
 						onChange={val => setPassword(val)}
-						invalid={!!error}
-						errorMessage={error}
+						// invalid={!!error}
+						// errorMessage={error}
 					/>
 					{/* <FloatingInput
 						label="Repeat Password"
@@ -94,7 +95,7 @@ export default function SignUp(props) {
 						checked={accepted}
 						onChange={checked => setAccepted(checked)}
 					/>
-					<IconButton loading={loading}>Sign Up</IconButton>
+					<IconButton loading={op}>Sign Up</IconButton>
 					<Link to="#" onClick={onChange}>
 						Already have an account? Sign in now.
 					</Link>

@@ -12,6 +12,8 @@ import './Password.scss';
 
 const CLASS = 'st-Password';
 
+const API = 'https://taleguild.com';
+
 export default function ForgotPassword() {
 	const dispatch = useDispatch();
 	const [email, setEmail] = useState('');
@@ -24,9 +26,7 @@ export default function ForgotPassword() {
 				placeholder="Enter your email"
 			/>
 			<IconButton
-				onClick={() =>
-					dispatch(forgotPassword({email, url: `localhost:3000/${RESET_PASSWORD}`}))
-				}
+				onClick={() => dispatch(forgotPassword({email, url: API + RESET_PASSWORD}))}
 			>
 				Send
 			</IconButton>

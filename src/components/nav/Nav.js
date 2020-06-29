@@ -63,13 +63,13 @@ export default function Navigation() {
 		}
 	}, [token]);
 
-	if (loading) {
-		return (
-			<div className={CLASS}>
-				<Loader />
-			</div>
-		);
-	}
+	// if (loading) {
+	// 	return (
+	// 		<div className={CLASS}>
+	// 			<Loader />
+	// 		</div>
+	// 	);
+	// }
 
 	const userLoggedOut = () => {
 		return (
@@ -106,8 +106,9 @@ export default function Navigation() {
 			</>
 		);
 	};
-	return (
-		<>
+
+	const renderNavBar = () => {
+		return (
 			<Navbar className={CLASS}>
 				<Nav className={CLASS + '-feed'}>
 					<NavItem>
@@ -140,6 +141,17 @@ export default function Navigation() {
 					{data && data.token ? userLoggedIn() : userLoggedOut()}
 				</Nav>
 			</Navbar>
+		);
+	};
+	return (
+		<>
+			{loading ? (
+				<div className={CLASS}>
+					<Loader />
+				</div>
+			) : (
+				renderNavBar()
+			)}
 			{isRegisterOpen && (
 				<SignUp
 					open={isRegisterOpen}

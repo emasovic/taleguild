@@ -64,7 +64,7 @@ export const {
 export const loadStoryPages = id => async dispatch => {
 	dispatch(loadingStart());
 
-	const res = await api.getStoryPages({'story.id': id});
+	const res = await api.getStoryPages({story: id});
 
 	if (res.error) {
 		dispatch(loadingEnd());

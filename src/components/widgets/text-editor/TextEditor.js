@@ -17,7 +17,7 @@ export default function TextEditor({value, onChange, onKeyDown}) {
 	const editor = useMemo(() => withHistory(withReact(createEditor())), []);
 
 	return (
-		<Slate editor={editor} value={value} onChange={value => onChange(value)}>
+		<Slate editor={editor} value={value} onChange={onChange}>
 			<HoveringToolbar className={CLASS} />
 			<Editable
 				onKeyDown={onKeyDown}
