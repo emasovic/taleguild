@@ -13,11 +13,11 @@ export default function UserAvatar({user}) {
 		return null;
 	}
 	const {avatar, username} = user;
-	const {formats} = avatar;
+	const image = avatar ? avatar.formats.thumbnail : null;
 	return (
 		<div className={CLASS}>
 			{avatar ? (
-				<Image image={formats.thumbnail} />
+				<Image image={image} />
 			) : (
 				<Badge>{username && username.slice(0, 1)}</Badge>
 			)}
