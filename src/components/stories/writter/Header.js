@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector, shallowEqual} from 'react-redux';
-import {useParams} from 'react-router-dom';
+// import {useParams} from 'react-router-dom';
 import {DropdownItem} from 'reactstrap';
 
 import {Toast} from 'types/toast';
@@ -8,7 +8,7 @@ import {COLOR} from 'types/button';
 import {STORY_OP} from 'types/story';
 import FA from 'types/font_awesome';
 
-import {selectStory} from 'redux/story';
+// import {selectStory} from 'redux/story';
 import {selectUser} from 'redux/user';
 import {addToast} from 'redux/toast';
 
@@ -58,7 +58,8 @@ export default function Header({
 	const [isDeleteStoryPageOpen, setIsDeleteStoryPageOpen] = useState(false);
 	const [isPreviewStoryOpen, setIsPreviewStoryOpen] = useState(false);
 
-	const debouncedSearchTerm = useDebounce(title, 3000);
+	const text = story && !story.published && title;
+	const debouncedSearchTerm = useDebounce(text, 3000);
 
 	const validate = () => {
 		const errors = [];
