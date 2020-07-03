@@ -1,16 +1,20 @@
-import React, {useEffect} from 'react';
-import {useDispatch} from 'react-redux';
-
-import {getUser} from './redux/user';
+import React from 'react';
+import {useSelector} from 'react-redux';
 
 import Routes from './Routes';
 
-function App() {
-	const dispatch = useDispatch();
+import Loader from 'components/widgets/loader/Loader';
 
-	useEffect(() => {
-		dispatch(getUser());
-	}, [dispatch]);
+import './App.scss';
+
+// const CLASS = 'st-App';
+
+function App() {
+	const loading = useSelector(state => state.user.loading);
+
+	if (loading) {
+		return <Loader />;
+	}
 
 	return <Routes />;
 }

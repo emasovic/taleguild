@@ -19,7 +19,8 @@ export const userSlice = createSlice({
 			const {error, jwt, ...rest} = action.payload;
 			state.data = {...rest, token: jwt};
 			state.error = error;
-			state.loading = false;
+			state.loading = null;
+			state.op = null;
 		},
 		opStart: state => {
 			state.op = true;
@@ -42,10 +43,10 @@ export const userSlice = createSlice({
 export const {logOut, opStart, opEnd, gotData, loadingStart, loadingEnd} = userSlice.actions;
 
 export const loginUser = payload => async dispatch => {
-	dispatch(loadingStart());
+	dispatch(opStart());
 	const res = await api.loginUser(payload);
 	if (res.error) {
-		dispatch(loadingEnd());
+		dispatch(opEnd());
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
 	const {jwt, user} = res;

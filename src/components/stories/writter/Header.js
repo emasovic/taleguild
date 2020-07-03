@@ -22,6 +22,7 @@ import Loader from 'components/widgets/loader/Loader';
 
 import StoryPagePicker from '../widgets/StoryPagePicker';
 import StoryItem from '../StoryItem';
+import {useDebounce} from 'hooks/debounce';
 
 export default function Header({
 	className,
@@ -34,13 +35,12 @@ export default function Header({
 	onStoryPage,
 	onStoryRemove,
 	onCreateOrUpdateStory,
+	story,
 }) {
 	const dispatch = useDispatch();
-	const {id} = useParams();
 
-	const {story, user} = useSelector(
+	const {user} = useSelector(
 		state => ({
-			story: selectStory(state, id),
 			user: selectUser(state),
 		}),
 		shallowEqual
@@ -57,6 +57,8 @@ export default function Header({
 	const [isDeleteStoryOpen, setIsDeleteStoryOpen] = useState(false);
 	const [isDeleteStoryPageOpen, setIsDeleteStoryPageOpen] = useState(false);
 	const [isPreviewStoryOpen, setIsPreviewStoryOpen] = useState(false);
+
+	const debouncedSearchTerm = useDebounce(title, 3000);
 
 	const validate = () => {
 		const errors = [];
@@ -98,6 +100,13 @@ export default function Header({
 		toggleDeleteStoryPageModal();
 		onPageRemove();
 	};
+
+	useEffect(() => {
+		if (debouncedSearchTerm) {
+			onCreateOrUpdateStory({id: story && story.id, title}, false);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [debouncedSearchTerm]);
 
 	const renderPreviewContent = () => {
 		return (

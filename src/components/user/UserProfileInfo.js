@@ -8,7 +8,7 @@ import {selectUser as selectLoggedUser} from 'redux/user';
 import {selectFollowers, createOrDeleteFollower} from 'redux/followers';
 
 import IconButton from 'components/widgets/button/IconButton';
-import Loader from 'components/widgets/loader/Loader';
+// import Loader from 'components/widgets/loader/Loader';
 
 import Followers from './followers/Followers';
 import FollowedBy from './followers/Following';
@@ -67,6 +67,10 @@ export default function UserProfileInfo({user, className}) {
 		</>
 	);
 
+	if (storiesLoading) {
+		return null;
+	}
+
 	return (
 		<div className={className + '-user'}>
 			<UserAvatar user={user} />
@@ -76,7 +80,7 @@ export default function UserProfileInfo({user, className}) {
 					<span>{description}</span>
 				</div>
 
-				{storiesLoading ? <Loader /> : info}
+				{info}
 			</div>
 		</div>
 	);

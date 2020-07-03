@@ -1,7 +1,6 @@
 export default {
 	api: {
-		url: 'http://localhost:1337',
+		url: 'https://api.taleguild.com',
 		// url: 'http://dcoders.rs:1338/',
 	},
 };
-

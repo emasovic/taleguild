@@ -54,7 +54,6 @@ function Stories({criteria, filter}) {
 		setCurrentPage(currentPage + 1);
 	}, [dispatch, currentPage, criteria]);
 
-
 	useEffect(() => {
 		if (criteria) {
 			const _sort = sortBy ? `${sortBy}:DESC` : criteria._sort;
@@ -100,6 +99,14 @@ function Stories({criteria, filter}) {
 			<h2>No stories found</h2>
 		);
 
+	if (op === STORY_OP.loading) {
+		return (
+			<div className={CLASS}>
+				<Loader />
+			</div>
+		);
+	}
+
 	return (
 		<LoadMore
 			id="stories"
@@ -116,9 +123,7 @@ function Stories({criteria, filter}) {
 					<NavLink active={activeSort === SORT.popular}>Popular stories</NavLink>
 				</NavItem>
 			</Nav>
-			<div className={CLASS + '-lastest'}>
-				{op === STORY_OP.loading ? <Loader /> : renderStories}
-			</div>
+			<div className={CLASS + '-lastest'}>{renderStories}</div>
 		</LoadMore>
 	);
 }

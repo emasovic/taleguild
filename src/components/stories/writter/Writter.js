@@ -12,12 +12,13 @@ export default function Writter({
 	onStoryPage,
 	storyPages,
 	selectedPage,
+	story,
 }) {
 	const editorRef = useRef(null);
 
 	const [pages, setPages] = useState([]);
 
-	const text = currentEditing && JSON.stringify(currentEditing.text);
+	const text = story && !story.published && currentEditing && JSON.stringify(currentEditing.text);
 
 	const debouncedSearchTerm = useDebounce(text, 3000);
 

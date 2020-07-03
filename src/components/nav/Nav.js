@@ -28,7 +28,6 @@ import StoryPicker from 'components/widgets/pickers/story/StoryPicker';
 import DropdownButton from 'components/widgets/button/DropdownButton';
 
 import UserAvatar from 'components/user/UserAvatar';
-import Loader from 'components/widgets/loader/Loader';
 import IconButton from '../widgets/button/IconButton';
 
 import './Nav.scss';
@@ -44,7 +43,7 @@ export default function Navigation() {
 	const [isRegisterOpen, setIsRegisterOpen] = useState(false);
 
 	const user = useSelector(selectUser);
-	const {data, loading} = user;
+	const {data} = user;
 	const token = data && data.token;
 
 	const openModal = () => {
@@ -62,14 +61,6 @@ export default function Navigation() {
 			setIsRegisterOpen(false);
 		}
 	}, [token]);
-
-	// if (loading) {
-	// 	return (
-	// 		<div className={CLASS}>
-	// 			<Loader />
-	// 		</div>
-	// 	);
-	// }
 
 	const userLoggedOut = () => {
 		return (
@@ -145,13 +136,7 @@ export default function Navigation() {
 	};
 	return (
 		<>
-			{loading ? (
-				<div className={CLASS}>
-					<Loader />
-				</div>
-			) : (
-				renderNavBar()
-			)}
+			{renderNavBar()}
 			{isRegisterOpen && (
 				<SignUp
 					open={isRegisterOpen}

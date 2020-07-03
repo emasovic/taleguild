@@ -132,7 +132,10 @@ export const newStory = (payload, history) => async (dispatch, getState) => {
 	// dispatch(newToast({...Toast.success(message)}));
 };
 
-export const createOrUpdateStory = (payload, history) => async (dispatch, getState) => {
+export const createOrUpdateStory = (payload, history, shouldChange = true) => async (
+	dispatch,
+	getState
+) => {
 	dispatch(loadingStart());
 
 	const res = payload.id ? await api.updateStory(payload) : await api.createStory(payload);
@@ -142,8 +145,10 @@ export const createOrUpdateStory = (payload, history) => async (dispatch, getSta
 	}
 	dispatch(gotData({data: res}));
 	const message = payload.id ? 'Successfully updated story.' : 'Successfully created story.';
-	history.push(goToStory(res.id));
-	dispatch(newToast({...Toast.success(message)}));
+	if (shouldChange) {
+		history.push(goToStory(res.id));
+		dispatch(newToast({...Toast.success(message)}));
+	}
 };
 
 export const deleteStory = (storyId, history) => async (dispatch, getState) => {

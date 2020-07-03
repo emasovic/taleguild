@@ -10,7 +10,7 @@ import {
 	createOrUpdateStoryPage,
 	selectStoryPages,
 } from 'redux/story_pages';
-import {createOrUpdateStory, deleteStory} from 'redux/story';
+import {createOrUpdateStory, deleteStory, selectStory} from 'redux/story';
 
 import Loader from 'components/widgets/loader/Loader';
 
@@ -26,9 +26,10 @@ export default function StoryWritter() {
 	const history = useHistory();
 	const {id: storyId, pageId} = useParams();
 
-	const {pages, op} = useSelector(
+	const {pages, story, op} = useSelector(
 		state => ({
 			pages: selectStoryPages(state),
+			story: selectStory(state, storyId),
 			op: state.story_pages.op,
 		}),
 		shallowEqual
@@ -38,8 +39,8 @@ export default function StoryWritter() {
 	const [current, handleCurrent] = useState(null);
 
 	const handleCreateOrUpdateStory = useCallback(
-		payload => {
-			dispatch(createOrUpdateStory(payload, history));
+		(payload, shouldChange) => {
+			dispatch(createOrUpdateStory(payload, history, shouldChange));
 		},
 		[dispatch, history]
 	);
@@ -90,6 +91,7 @@ export default function StoryWritter() {
 			<Header
 				className={CLASS}
 				pages={pages}
+				story={story}
 				currentEditing={current}
 				selectedPage={selectedPage}
 				onSelectedPage={setSelectedPage}
@@ -105,6 +107,7 @@ export default function StoryWritter() {
 				onCurrentChanged={handleCurrent}
 				onStoryPage={handleStoryPage}
 				storyPages={pages}
+				story={story}
 				selectedPage={selectedPage}
 				op={op}
 			/>
