@@ -1,5 +1,6 @@
 import React, {useEffect, useState, useRef} from 'react';
 import {useDispatch, useSelector, shallowEqual} from 'react-redux';
+import {Helmet} from 'react-helmet';
 import orderBy from 'lodash/orderBy';
 import {useParams} from 'react-router-dom';
 
@@ -71,6 +72,23 @@ export default function Story() {
 
 	return (
 		<div className={CLASS} ref={viewerRef}>
+			<Helmet>
+				<title>{story.title}</title>
+				<meta property="og:description" content={story.description} />
+				<meta property="og:description" content={story.description} />
+				<meta
+					property="og:image"
+					content="https://image.shutterstock.com/image-photo/butterfly-grass-on-meadow-night-260nw-1111729556.jpg"
+				/>
+				<meta
+					property="og:image:secure_url"
+					content="https://image.shutterstock.com/image-photo/butterfly-grass-on-meadow-night-260nw-1111729556.jpg"
+				/>
+				<meta property="og:image:type" content="image/jpeg" />
+				<meta property="og:image:width" content="50" />
+				<meta property="og:image:height" content="50" />
+				<meta property="og:image:alt" content="A shiny red apple with a bite taken out" />
+			</Helmet>
 			<StoryItem
 				id={story.id}
 				image={story.image}
