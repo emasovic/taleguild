@@ -5,6 +5,7 @@ import {HOME} from 'lib/routes';
 
 import {newToast} from './toast';
 import {Toast} from 'types/toast';
+import {USER_OP} from 'types/user';
 
 export const userSlice = createSlice({
 	name: 'user',
@@ -22,8 +23,8 @@ export const userSlice = createSlice({
 			state.loading = null;
 			state.op = null;
 		},
-		opStart: state => {
-			state.op = true;
+		opStart: (state, action) => {
+			state.op = action.payload || true;
 		},
 		opEnd: state => {
 			state.op = null;
@@ -43,7 +44,7 @@ export const userSlice = createSlice({
 export const {logOut, opStart, opEnd, gotData, loadingStart, loadingEnd} = userSlice.actions;
 
 export const loginUser = payload => async dispatch => {
-	dispatch(opStart());
+	dispatch(opStart(USER_OP.login));
 	const res = await api.loginUser(payload);
 	if (res.error) {
 		dispatch(opEnd());
@@ -58,7 +59,7 @@ export const loginUser = payload => async dispatch => {
 };
 
 export const registerUser = (payload, history) => async dispatch => {
-	dispatch(opStart());
+	dispatch(opStart(USER_OP.registring));
 	const res = await api.registerUser(payload);
 
 	if (res.error) {
@@ -114,8 +115,10 @@ export const updateUser = (token, payload) => async dispatch => {
 };
 
 export const forgotPassword = payload => async dispatch => {
+	dispatch(opStart(USER_OP.forgot_password));
 	const res = await api.forgotPassword(payload);
 	if (res.error) {
+		dispatch(opEnd());
 		if (Array.isArray(res.error)) {
 			return dispatch(
 				newToast({...Toast.error(res.error[0].messages[0].message || 'Bad request')})
@@ -123,6 +126,7 @@ export const forgotPassword = payload => async dispatch => {
 		}
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
+	dispatch(opEnd());
 	dispatch(newToast({...Toast.success('Soon you will get email with reset link!')}));
 };
 
@@ -130,11 +134,11 @@ export const resetPassword = (payload, history) => async dispatch => {
 	if (payload.password !== payload.passwordConfirmation) {
 		return dispatch(newToast({...Toast.error('Passwords doesn`t match!')}));
 	}
-	dispatch(loadingStart());
+	dispatch(opStart(USER_OP.reset_password));
 	const res = await api.resetPassword(payload);
 
 	if (res.error) {
-		dispatch(loadingEnd());
+		dispatch(opEnd());
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
 	localStorage.setItem('token', res.jwt);
