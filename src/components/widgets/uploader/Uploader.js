@@ -7,6 +7,7 @@ import {uploadMedia} from 'lib/api';
 
 import FA from 'types/font_awesome';
 import {Toast} from 'types/toast';
+import {COLOR} from 'types/button';
 
 import {addToast} from 'redux/toast';
 
@@ -49,7 +50,11 @@ export default function Uploader({
 				? files.map((file, index) => (
 						<div key={index} className={CLASS + '-thumbs-item'}>
 							<Image image={file} />
-							<IconButton icon={FA.solid_times} onClick={() => onRemove(index)} />
+							<IconButton
+								icon={FA.solid_times}
+								color={COLOR.secondary}
+								onClick={() => onRemove(index)}
+							/>
 						</div>
 				  ))
 				: null}

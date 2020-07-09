@@ -37,6 +37,13 @@
 		// }
 	}
 
+	&__menu {
+		&-list {
+			overflow-x: hidden;
+			padding-bottom: 0 !important;
+		}
+	}
+
 	&__single-value {
 		color: $color-primary-dark !important;
 	}

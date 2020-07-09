@@ -62,6 +62,7 @@ export default function SavedStories({shouldLoadMore}) {
 					<StoryThumb
 						id={story.id}
 						image={story.image}
+						formats={item.image && item.image.formats}
 						title={story.title}
 						description={story.description}
 						key={item.id}

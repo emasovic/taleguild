@@ -30,6 +30,9 @@ const Pages = ({onClick, pages, prefix}) => {
 	return (
 		<Pagination className={CLASS}>
 			<PaginationItem>
+				<PaginationLink first onClick={() => handleChange(1)} />
+			</PaginationItem>
+			<PaginationItem>
 				<PaginationLink previous onClick={() => handleChange(prevPage)} />
 			</PaginationItem>
 			{pagesNumber.map((item, key) => {
@@ -43,6 +46,9 @@ const Pages = ({onClick, pages, prefix}) => {
 			})}
 			<PaginationItem disabled={currentPage === pages}>
 				<PaginationLink next onClick={() => handleChange(nextPage)} />
+			</PaginationItem>
+			<PaginationItem disabled={currentPage === pages}>
+				<PaginationLink last onClick={() => handleChange(pages)} />
 			</PaginationItem>
 		</Pagination>
 	);

@@ -93,15 +93,19 @@
 			flex-direction: column;
 
 			span {
-				color: $color-grey-medium;
+				color: $color-grey-black;
+				font-size: 18px;
+				font-family: $font-merriweather;
+				font-weight: bold;
+				line-height: 22px;
+			}
+		}
 
-				&:first-child {
-					color: $color-grey-black;
-					font-size: 18px;
-					font-family: $font-merriweather;
-					font-weight: bold;
-					line-height: 22px;
-				}
+		&-categories {
+			span {
+				color: $color-grey-medium;
+				margin-right: 6px;
+				cursor: pointer;
 			}
 		}
 

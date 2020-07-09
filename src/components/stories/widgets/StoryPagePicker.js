@@ -59,6 +59,7 @@ export default function StoryPagePicker({onChange, value, pages, onNewPageClick,
 			value={options[value]}
 			className={CLASS}
 			classNamePrefix={CLASS}
+			isSearchable={false}
 			{...rest}
 		/>
 	);

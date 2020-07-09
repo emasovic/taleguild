@@ -58,7 +58,8 @@ export default function DraftStories({shouldLoadMore}) {
 					<StoryThumb
 						id={item.id}
 						image={item.image}
-						title={item.title}
+						formats={item.image && item.image.formats}
+						title={item.title || 'Untitled'}
 						description={item.description}
 						key={item.id}
 						// author={item.user}

@@ -2,6 +2,8 @@ import React from 'react';
 import {Badge} from 'reactstrap';
 import propTypes from 'prop-types';
 
+import {MEDIA_SIZE} from 'types/media';
+
 import Image from 'components/widgets/image/Image';
 
 import './UserAvatar.scss';
@@ -13,11 +15,15 @@ export default function UserAvatar({user}) {
 		return null;
 	}
 	const {avatar, username} = user;
-	const image = avatar ? avatar.formats.thumbnail : null;
+
 	return (
 		<div className={CLASS}>
 			{avatar ? (
-				<Image image={image} />
+				<Image
+					image={avatar}
+					formats={avatar && avatar.formats}
+					size={MEDIA_SIZE.thumbnail}
+				/>
 			) : (
 				<Badge>{username && username.slice(0, 1)}</Badge>
 			)}

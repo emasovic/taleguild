@@ -21,16 +21,16 @@ import {
 	faCompass as solidCompass,
 } from '@fortawesome/free-solid-svg-icons';
 
-import {faHeart, faComment, faBookmark} from '@fortawesome/free-regular-svg-icons';
+import {faHeart, faComment, faBookmark, faCompass} from '@fortawesome/free-regular-svg-icons';
 
 import {library} from '@fortawesome/fontawesome-svg-core';
 
 const FA = {
 	//REGULAR ICONS
-
 	comment: faComment,
 	heart: faHeart,
 	bookmark: faBookmark,
+	compass: faCompass,
 
 	//SOLID ICONS
 	solid_home: solidHome,

@@ -1,16 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 import ENV from 'env';
 
-import FA from 'types/font_awesome';
+import Icon from '../icon/Icon';
 
 import './Image.scss';
 
 const CLASS = 'st-Image';
 
-export default function Image({src, image, alt, ...rest}) {
+export default function Image({src, image, alt, formats, size, ...rest}) {
+	if (formats && formats[size]) {
+		image = formats[size];
+	}
+
 	if (image) {
 		src = ENV.api.url + image.url;
 	}
@@ -18,7 +21,7 @@ export default function Image({src, image, alt, ...rest}) {
 	if (!src) {
 		return (
 			<div className={CLASS + '-fallback'}>
-				<FontAwesomeIcon icon={FA.solid_image} />
+				<Icon />
 			</div>
 		);
 	}
@@ -32,7 +35,9 @@ Image.propTypes = {
 	width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 	height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 	alt: PropTypes.string,
-	getColors: PropTypes.func,
+	formats: PropTypes.object,
+	size: PropTypes.string,
+	// getColors: PropTypes.func,
 };
 
 Image.defaultProps = {

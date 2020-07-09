@@ -53,6 +53,8 @@ export default function StoryDropdownButton({story}) {
 					isOpen={isModalOpen}
 					renderFooter
 					title="Delete"
+					cancelLabel="Cancel"
+					confirmLabel="Delete"
 					content={renderContent()}
 					onClose={toggleModal}
 					onSubmit={handleDeleteStory}

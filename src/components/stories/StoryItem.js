@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import propTypes from 'prop-types';
 import moment from 'moment';
-import {Link} from 'react-router-dom';
+import {Link, useHistory, useLocation} from 'react-router-dom';
 import {useDispatch, useSelector, shallowEqual} from 'react-redux';
 
 import {goToUser} from 'lib/routes';
@@ -14,13 +14,14 @@ import {createOrDeleteLike, createOrDeleteComment} from 'redux/story';
 import {selectUser} from 'redux/user';
 import {createOrDeleteSavedStory} from 'redux/saved_stories';
 import {addToast} from 'redux/toast';
+import {navigateToQuery} from 'redux/application';
 
 import IconButton from 'components/widgets/button/IconButton';
 import Image from 'components/widgets/image/Image';
 import UserAvatar from 'components/user/UserAvatar';
 import ConfirmModal from 'components/widgets/modals/Modal';
-import FloatingInput from 'components/widgets/input/FloatingInput';
 import StoryDropdownButton from './widgets/StoryDropdownButton';
+import TextArea from 'components/widgets/textarea/TextArea';
 
 import './StoryItem.scss';
 
@@ -29,6 +30,8 @@ const CLASS = 'st-StoryItem';
 export default function StoryItem({
 	id,
 	image,
+	formats,
+	size,
 	description,
 	title,
 	categories,
@@ -40,6 +43,8 @@ export default function StoryItem({
 	savedBy,
 }) {
 	const dispatch = useDispatch();
+	const history = useHistory();
+	const location = useLocation();
 	const {loggedUser, op} = useSelector(
 		state => ({
 			loading: state.stories.loading,
@@ -84,6 +89,10 @@ export default function StoryItem({
 		dispatch(createOrDeleteSavedStory(favourite, data && data.id, storyId));
 	};
 
+	const getStoriesByCategoryId = categoryId => {
+		dispatch(navigateToQuery({categories: categoryId}, location, history));
+	};
+
 	const renderCommentsContent = () => {
 		return (
 			<div className={CLASS + '-comments'}>
@@ -125,10 +134,7 @@ export default function StoryItem({
 					<div className={CLASS + '-comments-new'}>
 						<UserAvatar user={data} />
 						<div className={CLASS + '-comments-new-comment'}>
-							<FloatingInput
-								// rows={1}
-								maxLength={200}
-								type="textarea"
+							<TextArea
 								value={comment}
 								placeholder="Write a comment..."
 								onChange={val => setComment(val)}
@@ -197,7 +203,13 @@ export default function StoryItem({
 
 	const renderCategories =
 		categories && categories.length
-			? categories.map(item => item.display_name).join(' | ')
+			? categories.map((item, key) => {
+					return (
+						<span key={key} onClick={() => getStoriesByCategoryId(item.id)}>
+							{item.display_name}
+						</span>
+					);
+			  })
 			: null;
 
 	let liked = false;
@@ -210,8 +222,6 @@ export default function StoryItem({
 
 	const likeIcon = liked ? FA.solid_heart : FA.heart;
 	const favouriteIcon = favourite ? FA.solid_bookmark : FA.bookmark;
-
-	image = image ? image.formats.medium : image;
 
 	return (
 		<div className={CLASS}>
@@ -227,15 +237,14 @@ export default function StoryItem({
 			</Link>
 			<div className={CLASS + '-description'}>{description}</div>
 			<Link to={`/story/${id}`} className={CLASS + '-cover'}>
-				<Image image={image} alt="cover" />
+				<Image image={image} formats={formats} size={size} alt="cover" />
 			</Link>
 
 			<div className={CLASS + '-footer'}>
 				<div className={CLASS + '-footer-title'}>
 					<span>{title}</span>
-					<span>{renderCategories}</span>
 				</div>
-
+				<div className={CLASS + '-footer-categories'}>{renderCategories}</div>
 				{data && (
 					<div className={CLASS + '-footer-actions'}>
 						<div className={CLASS + '-footer-actions-left'}>
@@ -315,7 +324,8 @@ StoryItem.propTypes = {
 	likes: propTypes.array,
 	comments: propTypes.array,
 	storypages: propTypes.array,
-	editMode: propTypes.bool,
+	formats: propTypes.object,
+	size: propTypes.string,
 	description: propTypes.string,
 	title: propTypes.string,
 	createdDate: propTypes.string,

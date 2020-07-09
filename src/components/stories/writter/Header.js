@@ -66,7 +66,7 @@ export default function Header({
 
 		title.length <= 3 && errors.push('Title too short! \n');
 		!category.length && errors.push('You must select category!');
-		category.length > 2 && errors.push('You can select maximum 2 categories!');
+		category.length > 3 && errors.push('You can select maximum 3 categories!');
 		description.length <= 3 && errors.push('Description too short! \n');
 		description.length >= 200 && errors.push('Description too long! \n');
 

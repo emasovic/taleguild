@@ -84,9 +84,7 @@ export default function Story() {
 
 			{storypages[activePage] && <TextViewer value={storypages[activePage].text} />}
 
-			{storypages && (
-				<Pages onClick={handleActivePage} prefix="Page" pages={storypages.length} />
-			)}
+			{storypages && <Pages onClick={handleActivePage} pages={storypages.length} />}
 			<div className={CLASS + '-pages'}>{storypages.length} pages total</div>
 		</div>
 	);

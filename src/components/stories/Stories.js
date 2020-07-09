@@ -6,6 +6,7 @@ import propTypes from 'prop-types';
 import orderBy from 'lodash/orderBy';
 
 import {DEFAULT_CRITERIA, STORY_OP} from 'types/story';
+import {MEDIA_SIZE} from 'types/media';
 
 import {loadStories, selectStories} from '../../redux/story';
 import {navigateToQuery} from 'redux/application';
@@ -82,6 +83,8 @@ function Stories({criteria, filter}) {
 					<StoryItem
 						id={item.id}
 						image={item.image}
+						size={MEDIA_SIZE.small}
+						formats={item.image && item.image.formats}
 						title={item.title}
 						description={item.description}
 						key={item.id}
