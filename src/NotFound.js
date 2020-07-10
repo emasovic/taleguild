@@ -2,6 +2,8 @@ import React from 'react';
 
 import {HOME} from 'lib/routes';
 
+import {TYPOGRAPHY_MERRI} from 'types/typography';
+
 import IconButton from 'components/widgets/button/IconButton';
 
 import {ReactComponent as Trees} from 'images/trees.svg';
@@ -19,7 +21,7 @@ export default function NotFound() {
 
 			<div className={CLASS + '-error'}>
 				<span>404</span>
-				<span>You got lost in the woods.</span>
+				<span className={TYPOGRAPHY_MERRI.heading_h1_black_bold}>You got lost in the woods.</span>
 				<span>
 					Don’t worry, our wizard will tell you path where you can find what you are
 					looking for.

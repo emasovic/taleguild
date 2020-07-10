@@ -68,6 +68,11 @@ export default function StoryItem({
 				addToast({...Toast.error('Comment needs to be less than 200 characters.')})
 			);
 		}
+		if (comment.trim().length <= 2) {
+			return dispatch(
+				addToast({...Toast.error('Comment needs to be more than 2 characters.')})
+			);
+		}
 		dispatch(createOrDeleteComment({user: data.id, story: id, comment, id: commentId}));
 		setComment('');
 	};

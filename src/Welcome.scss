@@ -1,0 +1,23 @@
+@import 'styles/variables.scss';
+
+.st-Welcome {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: calc(100% - 200px);
+
+	svg {
+		margin-bottom: 36px;
+	}
+
+	.placeholder-grey-medium {
+		margin-top: 16px;
+		max-width: 356px;
+		text-align: center;
+	}
+
+	.st-IconButton {
+		margin-top: 36px;
+	}
+}

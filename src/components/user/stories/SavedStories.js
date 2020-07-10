@@ -2,12 +2,14 @@ import React, {useEffect, useState, useCallback} from 'react';
 import {useSelector, shallowEqual, useDispatch} from 'react-redux';
 import propTypes from 'prop-types';
 
-import {DEFAULT_CRITERIA, STORY_OP} from 'types/story';
+import {DEFAULT_CRITERIA, STORY_OP, STORY_COMPONENTS} from 'types/story';
 
-import {selectUserSavedStories, loadSavedStories} from 'redux/saved_stories';
+import {
+	selectUserSavedStories,
+	loadSavedStories,
+	createOrDeleteSavedStory,
+} from 'redux/saved_stories';
 import {selectUser} from 'redux/user';
-
-import StoryThumb from 'components/stories/StoryThumb';
 
 import Loader from 'components/widgets/loader/Loader';
 import LoadMore from 'components/widgets/loadmore/LoadMore';
@@ -16,7 +18,7 @@ import './SavedStories.scss';
 
 const CLASS = 'st-SavedStories';
 
-export default function SavedStories({shouldLoadMore}) {
+export default function SavedStories({shouldLoadMore, Component}) {
 	const dispatch = useDispatch();
 	const {savedStories, user, pages, op} = useSelector(
 		state => ({
@@ -39,6 +41,13 @@ export default function SavedStories({shouldLoadMore}) {
 		setCurrentPage(currentPage + 1);
 	}, [dispatch, currentPage, criteria]);
 
+	const handleDeleteStory = useCallback(
+		(storyId, favouriteId) => {
+			dispatch(createOrDeleteSavedStory({id: favouriteId}, null, storyId));
+		},
+		[dispatch]
+	);
+
 	useEffect(() => {
 		if (data) {
 			setCriteria({...DEFAULT_CRITERIA, published: undefined, user: data.id});
@@ -58,9 +67,11 @@ export default function SavedStories({shouldLoadMore}) {
 				if (!story) {
 					return null;
 				}
+
 				return (
-					<StoryThumb
+					<Component
 						id={story.id}
+						favouriteId={item.id}
 						image={story.image}
 						formats={item.image && item.image.formats}
 						title={story.title}
@@ -68,6 +79,7 @@ export default function SavedStories({shouldLoadMore}) {
 						key={item.id}
 						author={story.user}
 						createdDate={story.created_at}
+						onDeleteStory={handleDeleteStory}
 					/>
 				);
 			})
@@ -95,4 +107,5 @@ SavedStories.propTypes = {
 
 SavedStories.defaultProps = {
 	shouldLoadMore: true,
+	Component: STORY_COMPONENTS.thumb,
 };

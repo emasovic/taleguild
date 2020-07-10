@@ -76,6 +76,18 @@ export const loadStories = (params, count, op = STORY_OP.loading) => async dispa
 	return dispatch(gotData({data: res}));
 };
 
+export const deleteStory = (storyId, history) => async (dispatch, getState) => {
+	dispatch(loadingStart());
+
+	const res = await api.deleteStory(storyId);
+	if (res.error) {
+		dispatch(loadingEnd());
+		return dispatch(newToast({...Toast.error(res.error)}));
+	}
+	dispatch(removeStory(storyId));
+	dispatch(newToast({...Toast.success('Successfully deleted story.')}));
+};
+
 //SELECTORS
 
 const stories = state => state.drafts.data;

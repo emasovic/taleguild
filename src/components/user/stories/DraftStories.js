@@ -2,12 +2,10 @@ import React, {useEffect, useState, useCallback} from 'react';
 import {useSelector, shallowEqual, useDispatch} from 'react-redux';
 import propTypes from 'prop-types';
 
-import {DEFAULT_CRITERIA, STORY_OP} from 'types/story';
+import {DEFAULT_CRITERIA, STORY_OP, STORY_COMPONENTS} from 'types/story';
 
-import {selectStories, loadStories} from 'redux/draft_stories';
+import {selectStories, loadStories, deleteStory} from 'redux/draft_stories';
 import {selectUser} from 'redux/user';
-
-import StoryThumb from 'components/stories/StoryThumb';
 
 import Loader from 'components/widgets/loader/Loader';
 import LoadMore from 'components/widgets/loadmore/LoadMore';
@@ -16,7 +14,7 @@ import './DraftStories.scss';
 
 const CLASS = 'st-DraftStories';
 
-export default function DraftStories({shouldLoadMore}) {
+export default function DraftStories({shouldLoadMore, Component}) {
 	const dispatch = useDispatch();
 	const {drafts, user, pages, op} = useSelector(
 		state => ({
@@ -39,6 +37,13 @@ export default function DraftStories({shouldLoadMore}) {
 		setCurrentPage(currentPage + 1);
 	}, [dispatch, currentPage, criteria]);
 
+	const handleDeleteStory = useCallback(
+		storyId => {
+			dispatch(deleteStory(storyId));
+		},
+		[dispatch]
+	);
+
 	useEffect(() => {
 		if (data) {
 			setCriteria({...DEFAULT_CRITERIA, published: false, user: data.id});
@@ -55,15 +60,16 @@ export default function DraftStories({shouldLoadMore}) {
 		drafts && drafts.length ? (
 			drafts.map(item => {
 				return (
-					<StoryThumb
+					<Component
 						id={item.id}
 						image={item.image}
 						formats={item.image && item.image.formats}
 						title={item.title || 'Untitled'}
 						description={item.description}
 						key={item.id}
-						// author={item.user}
+						onDeleteStory={handleDeleteStory}
 						createdDate={item.created_at}
+						// author={item.user}
 					/>
 				);
 			})
@@ -91,4 +97,5 @@ DraftStories.propTypes = {
 
 DraftStories.defaultProps = {
 	shouldLoadMore: true,
+	Component: STORY_COMPONENTS.thumb,
 };

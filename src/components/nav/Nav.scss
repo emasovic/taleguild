@@ -115,6 +115,15 @@
 					text-transform: uppercase;
 				}
 			}
+
+			> button {
+				padding: 5px;
+				border-radius: 50%;
+
+				&:focus {
+					box-shadow: none;
+				}
+			}
 		}
 	}
 

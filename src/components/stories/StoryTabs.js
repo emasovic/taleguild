@@ -5,6 +5,8 @@ import {useSelector} from 'react-redux';
 
 import {USER_STORIES_SAVED, goToUser, USER_STORIES_DRAFTS} from 'lib/routes';
 
+import {STORY_COMPONENTS} from 'types/story';
+
 import {selectUser} from 'redux/user';
 
 import MyStories from 'components/user/stories/MyStories';
@@ -62,7 +64,7 @@ export default function StoryTabs() {
 						</NavLink>
 					</NavItem>
 				</Nav>
-				<Component shouldLoadMore={false} />
+				<Component shouldLoadMore={false} Component={STORY_COMPONENTS.list} />
 				<Link to={GO_TO[activeTab] || goToUser(data && data.id)}>View all</Link>
 			</div>
 		</div>

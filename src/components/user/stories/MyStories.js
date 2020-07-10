@@ -88,5 +88,5 @@ export default function MyStories({Component}) {
 }
 
 MyStories.defaultProps = {
-	Component: STORY_COMPONENTS.thumb,
+	Component: STORY_COMPONENTS.list,
 };

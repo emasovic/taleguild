@@ -8,6 +8,7 @@ import {goToStory, goToUser} from 'lib/routes';
 import {MEDIA_SIZE} from 'types/media';
 
 import Image from 'components/widgets/image/Image';
+import StoryDropdownButton from './widgets/StoryDropdownButton';
 import UserAvatar from 'components/user/UserAvatar';
 
 import './StoryThumb.scss';
@@ -23,6 +24,8 @@ export default function StoryThumb({
 	title,
 	author,
 	createdDate,
+	favouriteId,
+	onDeleteStory,
 }) {
 	const history = useHistory();
 
@@ -33,11 +36,13 @@ export default function StoryThumb({
 	description =
 		description && description.length > 66 ? description.slice(0, 66) + '...' : description;
 	image = image ? image.formats.thumbnail : image;
+
 	return (
-		<Link to={goToStory(id)} className={CLASS}>
-			<div className={CLASS + '-cover'}>
+		<div className={CLASS}>
+			<StoryDropdownButton story={{id, favouriteId, title}} onDeleteStory={onDeleteStory} />
+			<Link to={goToStory(id)} className={CLASS + '-cover'}>
 				<Image image={image} formats={formats} size={size} />
-			</div>
+			</Link>
 			<div className={CLASS + '-details'}>
 				<div className={CLASS + '-details-description'}>
 					<span>{title}</span>
@@ -53,7 +58,7 @@ export default function StoryThumb({
 					)}
 				</div>
 			</div>
-		</Link>
+		</div>
 	);
 }
 

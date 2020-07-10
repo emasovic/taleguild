@@ -1,0 +1,44 @@
+@import '../../styles/variables.scss';
+
+.st-StoryListItem {
+	display: flex;
+	align-items: center;
+	min-width: $story-preview-width-small;
+	max-width: $story-preview-width-medium;
+	padding: 10px 5px;
+	border-radius: 6px;
+	margin: 0;
+	cursor: pointer;
+
+	&:hover,
+	&:active {
+		background: $color-primary-light;
+	}
+
+	&-cover {
+		.st-Image {
+			width: 48px;
+			height: 36px;
+			margin-right: 12px;
+			border-radius: 4px;
+			object-fit: cover;
+
+			&-fallback {
+				width: 48px;
+				height: 36px;
+				margin-right: 12px;
+				border-radius: 4px;
+				object-fit: cover;
+			}
+		}
+	}
+
+	&-description {
+		span {
+			font-family: $font-merriweather;
+			color: $color-grey-medium;
+			font-weight: bold;
+			font-size: 14px;
+		}
+	}
+}

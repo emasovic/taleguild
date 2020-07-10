@@ -35,65 +35,6 @@
 			> span {
 				display: none;
 			}
-
-			.st-StoryThumb {
-				min-height: unset;
-				padding: 10px 5px;
-				margin: 0;
-				height: auto;
-				border: none;
-
-				&:hover,
-				&:active {
-					background: $color-primary-light;
-				}
-
-				&-cover {
-					.st-Image {
-						width: 48px;
-						height: 36px;
-						margin-right: 12px;
-						border-radius: 4px;
-						object-fit: cover;
-
-						&-fallback {
-							width: 48px;
-							height: 36px;
-							margin-right: 12px;
-							border-radius: 4px;
-							object-fit: cover;
-						}
-					}
-				}
-
-				&-details {
-					padding: 0;
-					justify-content: center;
-
-					&-description {
-						> span {
-							&:first-child {
-								font-family: $font-merriweather;
-								color: $color-grey-medium;
-								font-weight: bold;
-								font-size: 14px;
-							}
-
-							&:last-child {
-								display: none;
-							}
-						}
-					}
-
-					&-created {
-						display: none;
-					}
-				}
-			}
-
-			&-pagination {
-				display: none;
-			}
 		}
 
 		> a {

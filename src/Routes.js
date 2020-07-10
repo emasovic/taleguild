@@ -22,6 +22,7 @@ import ResetPassword from 'components/login/ResetPassword';
 import PrivateRoute from 'PrivateRoute';
 import NotFound from 'NotFound';
 import DeletedStory from 'DeletedStory';
+import Welcome from 'Welcome';
 
 const Routes = () => (
 	<Router>
@@ -38,6 +39,7 @@ const Routes = () => (
 			<Route path={routes.USER_ID} component={UserProfile} />
 			<Route path={routes.FORGOT_PASSWORD} component={ForgotPassword} />
 			<Route path={routes.RESET_PASSWORD} component={ResetPassword} />
+			<Route path={routes.WELCOME} component={Welcome} />
 			<Route path="*" component={NotFound} />
 		</Switch>
 	</Router>
