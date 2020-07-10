@@ -6,7 +6,7 @@
 	background: #fff;
 	margin: 12px 0 0;
 	border-radius: 6px;
-	border: 1px solid $color-grey-border;
+	border: 1px solid $color-background-white-grey;
 	box-shadow: 2px 2px 12px rgba(35, 31, 26, 0.08);
 	display: flex;
 	flex-direction: column;
@@ -250,7 +250,6 @@
 		&-new {
 			display: flex;
 			align-items: center;
-			box-shadow: $box-shadow-light;
 			padding: 10px;
 
 			&-comment {
@@ -259,6 +258,8 @@
 
 				.st-FloatingInput {
 					margin-bottom: 0;
+					height: 40px;
+					//border: 1px solid $color-grey-border;
 				}
 
 				.st-IconButton {
