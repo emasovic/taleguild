@@ -27,7 +27,7 @@
 			&-description {
 				display: flex;
 				flex-direction: column;
-				margin-bottom: 24px;
+				margin-bottom: 16px;
 
 				span {
 					font-family: $font-merriweather;
@@ -49,7 +49,7 @@
 				margin-bottom: 24px;
 
 				> div {
-					margin-right: 32px;
+					margin-right: 16px;
 
 					@media (max-width: $breakpoint-sm) {
 						margin-right: 16px;
@@ -63,7 +63,8 @@
 				&-stories {
 					display: flex;
 					flex-direction: column;
-					align-items: center;
+					align-items: left;
+					padding: 8px 12px;
 
 					span {
 						font-weight: bold;
@@ -84,10 +85,10 @@
 		.st-UserAvatar {
 			.st-Image,
 			.badge {
-				font-size: 30px;
-				width: 100px;
-				height: 100px;
-				margin-right: 24px;
+				font-size: 36px;
+				width: 120px;
+				height: 120px;
+				margin-right: 36px;
 			}
 		}
 	}

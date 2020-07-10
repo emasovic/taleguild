@@ -1,3 +1,5 @@
+@import '../../styles/variables.scss';
+
 .st-UserAvatar {
 	.st-Image,
 	.badge {
@@ -9,10 +11,14 @@
 	}
 
 	.badge {
-		font-size: 20px;
+		font-family: $font-merriweather;
+		font-size: 18px;
+		font-weight: 600;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		text-transform: uppercase;
+		color: $color-white;
+		background-color: $color-primary;
 	}
 }

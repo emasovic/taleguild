@@ -12,6 +12,7 @@
 		width: $story-preview-width-large;
 		border: none;
 		box-shadow: none;
+		background-color: $color-background;
 
 		@media (max-width: $breakpoint-sm) {
 			width: $story-preview-width-small;

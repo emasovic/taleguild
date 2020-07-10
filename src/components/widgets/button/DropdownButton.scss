@@ -6,6 +6,10 @@
 		outline: none !important;
 		box-shadow: none;
 		color: $color-grey-cream;
+
+		&:hover {
+			background-color: $color-white;
+		}
 	}
 
 	.dropdown {

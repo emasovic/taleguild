@@ -64,11 +64,13 @@ export default function SignUp(props) {
 					<h4>Join our guild of writers and storytellers</h4>
 					<FloatingInput
 						label="Username"
+						placeholder="Enter your username here"
 						value={username}
 						onChange={val => setUsername(val)}
 					/>
 					<FloatingInput
 						label="Email Address "
+						placeholder="Enter your email address here"
 						value={email}
 						type="email"
 						onChange={val => setEmail(val)}
@@ -76,6 +78,7 @@ export default function SignUp(props) {
 
 					<FloatingInput
 						label="Password"
+						placeholder="you@example.com"
 						value={password}
 						type="password"
 						onChange={val => setPassword(val)}
