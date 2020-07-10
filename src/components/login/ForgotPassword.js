@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {RESET_PASSWORD} from 'lib/routes';
+
+import {USER_OP} from 'types/user';
 
 import {forgotPassword} from 'redux/user';
 
@@ -12,9 +14,13 @@ import './Password.scss';
 
 const CLASS = 'st-Password';
 
+const API = 'https://taleguild.com';
+
 export default function ForgotPassword() {
 	const dispatch = useDispatch();
+	const op = useSelector(state => state.user.op);
 	const [email, setEmail] = useState('');
+
 	return (
 		<div className={CLASS}>
 			<FloatingInput
@@ -24,9 +30,8 @@ export default function ForgotPassword() {
 				placeholder="Enter your email"
 			/>
 			<IconButton
-				onClick={() =>
-					dispatch(forgotPassword({email, url: `localhost:3000/${RESET_PASSWORD}`}))
-				}
+				onClick={() => dispatch(forgotPassword({email, url: API + RESET_PASSWORD}))}
+				loading={op === USER_OP.forgot_password}
 			>
 				Send
 			</IconButton>

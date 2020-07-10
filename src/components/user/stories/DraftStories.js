@@ -1,81 +1,101 @@
-import React, {useState, useEffect} from 'react';
-import {useSelector, useDispatch, shallowEqual} from 'react-redux';
+import React, {useEffect, useState, useCallback} from 'react';
+import {useSelector, shallowEqual, useDispatch} from 'react-redux';
+import propTypes from 'prop-types';
 
-import {DEFAULT_CRITERIA} from 'types/story';
+import {DEFAULT_CRITERIA, STORY_OP, STORY_COMPONENTS} from 'types/story';
 
+import {selectStories, loadStories, deleteStory} from 'redux/draft_stories';
 import {selectUser} from 'redux/user';
-import {selectStories, loadStories} from 'redux/draft_stories';
 
 import Loader from 'components/widgets/loader/Loader';
-import StoryThumb from 'components/stories/StoryThumb';
+import LoadMore from 'components/widgets/loadmore/LoadMore';
 
 import './DraftStories.scss';
-import Pages from 'components/widgets/pagination/Pagination';
 
 const CLASS = 'st-DraftStories';
 
-export default function DraftStories() {
+export default function DraftStories({shouldLoadMore, Component}) {
 	const dispatch = useDispatch();
-	const {stories, loading, pages, loggedInUser} = useSelector(
+	const {drafts, user, pages, op} = useSelector(
 		state => ({
-			loggedInUser: selectUser(state),
-			stories: selectStories(state),
+			drafts: selectStories(state),
+			op: state.drafts.op,
 			pages: state.drafts.pages,
-			loading: state.drafts.loading,
+			user: selectUser(state),
 		}),
 		shallowEqual
 	);
-	const {data} = loggedInUser;
 
-	const [count, setCount] = useState(0);
-	const [shouldCount, setShouldCount] = useState(true);
+	const {data} = user;
+
+	const [currentPage, setCurrentPage] = useState(1);
 	const [criteria, setCriteria] = useState();
 
-	const handleCount = page => {
-		setCount(page * 12);
-		shouldCount && setShouldCount(false);
-	};
+	const handleCount = useCallback(() => {
+		const storyCriteria = {...criteria, _start: currentPage * 10};
+		dispatch(loadStories(storyCriteria, false, null, STORY_OP.load_more));
+		setCurrentPage(currentPage + 1);
+	}, [dispatch, currentPage, criteria]);
+
+	const handleDeleteStory = useCallback(
+		storyId => {
+			dispatch(deleteStory(storyId));
+		},
+		[dispatch]
+	);
 
 	useEffect(() => {
 		if (data) {
-			setCriteria({
-				...DEFAULT_CRITERIA,
-				_start: count,
-				published: false,
-				'user.id': data && data.id,
-			});
+			setCriteria({...DEFAULT_CRITERIA, published: false, user: data.id});
 		}
-	}, [data, count]);
+	}, [data]);
 
 	useEffect(() => {
 		if (criteria) {
-			dispatch(loadStories(criteria, shouldCount));
+			dispatch(loadStories(criteria, true));
 		}
-	}, [dispatch, shouldCount, criteria]);
+	}, [dispatch, criteria]);
 
-	if (loading) return <Loader />;
+	const stories =
+		drafts && drafts.length ? (
+			drafts.map(item => {
+				return (
+					<Component
+						id={item.id}
+						image={item.image}
+						formats={item.image && item.image.formats}
+						title={item.title || 'Untitled'}
+						description={item.description}
+						key={item.id}
+						onDeleteStory={handleDeleteStory}
+						createdDate={item.created_at}
+						// author={item.user}
+					/>
+				);
+			})
+		) : (
+			<span>No stories found</span>
+		);
 
 	return (
-		<div className={CLASS}>
+		<LoadMore
+			id="drafts"
+			onLoadMore={handleCount}
+			shouldLoad={pages > currentPage && shouldLoadMore}
+			loading={op === STORY_OP.load_more}
+			className={CLASS}
+		>
 			<span>Drafts</span>
-			{stories && stories.length
-				? stories.map(item => {
-						return (
-							<StoryThumb
-								id={item.id}
-								image={item.image}
-								title={item.title}
-								description={item.description}
-								key={item.id}
-								// author={item.user}
-								createdDate={item.created_at}
-							/>
-						);
-				  })
-				: null}
-			<div className={CLASS + '-pagination'}>
-				{!!pages && <Pages pages={pages} onClick={handleCount} />}
-			</div>
-		</div>
+			{op === STORY_OP.loading ? <Loader /> : stories}
+		</LoadMore>
 	);
 }
+
+DraftStories.propTypes = {
+	shouldLoadMore: propTypes.bool,
+};
+
+DraftStories.defaultProps = {
+	shouldLoadMore: true,
+	Component: STORY_COMPONENTS.thumb,
+};

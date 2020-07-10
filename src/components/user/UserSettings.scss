@@ -1,3 +1,5 @@
+@import '../../styles/variables.scss';
+
 .st-UserSettings {
 	display: flex;
 	flex-direction: column;
@@ -5,6 +7,10 @@
 	margin-bottom: 20px;
 
 	.st-Uploader {
+		@media (max-width: $breakpoint-m) {
+			width: $story-preview-width-small;
+		}
+
 		&-thumbs {
 			display: flex;
 			justify-content: center;
@@ -20,6 +26,10 @@
 
 	&-info {
 		min-width: 400px;
+
+		@media (max-width: $breakpoint-m) {
+			min-width: $story-preview-width-small;
+		}
 
 		.st-IconButton {
 			width: 100%;

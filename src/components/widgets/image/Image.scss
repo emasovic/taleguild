@@ -7,15 +7,8 @@
 		align-items: center;
 		justify-content: center;
 		background-color: transparent;
-		border: 1px solid $gray-lighter;
+		border: 1px solid $color-grey-border;
 		width: 100%;
 		height: 100%;
-
-		&:before {
-			font-family: 'FontAwesome';
-			position: absolute;
-			content: '\f03e';
-			font-size: 20px;
-		}
 	}
 }

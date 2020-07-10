@@ -1,8 +1,8 @@
 @import '../../../styles/variables.scss';
 
 .st-IconButton {
-	border-radius: 4px !important;
-	color: #fff;
+	border-radius: 6px !important;
+	color: $color-white;
 	font-weight: bold;
 	min-width: 120px;
 	min-height: 40px;
@@ -24,26 +24,5 @@
 		width: max-content;
 		// border: none !important;
 		padding: 5px;
-
-		.fa {
-			margin: 0 5px;
-		}
-
-		&:hover {
-			color: #000;
-			border-radius: 2px;
-			background: $gray;
-		}
-
-		&:active:focus {
-			color: #000;
-			border-radius: 2px;
-			background: $gray;
-		}
-
-		&:focus {
-			color: #000;
-			background: none;
-		}
 	}
 }

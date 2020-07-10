@@ -1,20 +1,36 @@
-export const hepler = arr =>
-	arr &&
-	arr.reduce((map, obj) => {
-		map[obj.id] = obj;
-		return map;
-	}, {});
+export const hepler = arr => {
+	const obj = {};
 
-export const gotDataHelper = (state, data) => {
+	arr.forEach(item => {
+		obj[item.id] = item;
+	});
+
+	return obj;
+};
+
+export const gotDataHelper = (state, data, invalidate, key) => {
+	if (!data) {
+		return null;
+	}
+
+	if (!state) {
+		state = {};
+	}
+
 	if (!Array.isArray(data)) {
 		data = [data];
 	}
 
 	data = hepler(data);
 
-	if (!state) {
+	if (invalidate) {
+		return {...data};
+	}
+
+	if (key) {
 		return {
-			...data,
+			...state,
+			[key]: {...state[key], ...data},
 		};
 	}
 

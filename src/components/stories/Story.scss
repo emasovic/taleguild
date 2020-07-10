@@ -5,13 +5,32 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	max-width: 640px;
+	max-width: $story-preview-width-large;
 	margin: 0 auto;
 
 	.st-StoryItem {
-		width: 640px;
+		width: $story-preview-width-large;
 		border: none;
 		box-shadow: none;
+		background-color: $color-background;
+
+		@media (max-width: $breakpoint-sm) {
+			width: $story-preview-width-small;
+		}
+
+		&-cover {
+			height: 384px;
+
+			.st-Image {
+				border-radius: 12px;
+				height: 384px;
+
+				&-fallback {
+					border-radius: 12px;
+					border: 1px solid $color-grey-border;
+				}
+			}
+		}
 
 		&-author,
 		&-description,
@@ -50,6 +69,10 @@
 					min-width: 90px;
 					min-height: 40px;
 
+					&:focus {
+						box-shadow: none;
+					}
+
 					&:first-child,
 					&:last-child {
 						min-width: unset;
@@ -67,13 +90,12 @@
 		}
 	}
 
-	.fullscreen {
-		background: #fff;
-		padding: 20px;
-		overflow: auto;
+	&-pages {
+		margin-bottom: 20px;
+		color: $color-grey-light;
+	}
 
-		@media (max-width: $tablet-width) {
-			padding: 10px;
-		}
+	.st-TextViewer {
+		width: 100%;
 	}
 }

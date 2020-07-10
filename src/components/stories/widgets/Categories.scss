@@ -4,18 +4,28 @@
 	width: 100%;
 	display: flex;
 	flex-wrap: nowrap !important;
-	overflow: auto;
+	flex-direction: column;
+	position: sticky;
+	top: 80px;
+
+	> span {
+		font-size: 14px;
+		color: $color-grey-light;
+		font-weight: 600;
+		padding-left: 16px;
+	}
 
 	.nav-link {
-		color: $color-grey-light;
+		color: $color-grey-medium;
 		font-weight: 600;
 		text-transform: uppercase;
 		cursor: pointer;
 		font-size: 14px;
-		padding-left: 0;
+		padding-left: 16px;
 
 		&:hover {
 			color: $color-secondary-black;
+			background-color: $color-white;
 		}
 
 		&.active {

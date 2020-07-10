@@ -1,67 +1,46 @@
 @import 'styles/variables.scss';
 
 .st-NotFound {
-	margin: 40px 0;
-	background: $box-background-primary;
-	padding: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: calc(100% - 200px);
+
+	@media (max-width: $breakpoint-sm) {
+		flex-direction: column;
+	}
+
+	&-trees {
+		flex: 1 1 0;
+		display: flex;
+		justify-content: center;
+	}
 
 	&-error {
-		width: 100%;
-		text-align: center;
-		line-height: 1.4;
+		flex: 1 1 0;
+		display: flex;
+		flex-direction: column;
 
-		h2 {
-			font-size: 22px;
-			font-weight: 700;
-			margin: 0;
-			text-transform: uppercase;
-			color: #232323;
-			margin-bottom: 20px;
+		@media (max-width: $breakpoint-sm) {
+			align-items: center;
 		}
 
-		&-404 {
-			height: 190px;
+		> span {
+			margin-bottom: 36px;
 
-			h1 {
-				font-size: 146px;
-				font-weight: 700;
-				margin: 0;
-				color: #232323;
+			&:first-child {
+				font-family: $font-merriweather;
+				font-weight: 900;
+				font-size: 48px;
+				color: $color-primary-dark;
 
-				@media (max-width: $tablet-width) {
-					font-size: 80px;
+				@media (max-width: $breakpoint-sm) {
+					font-size: 32px;
 				}
+			}
 
-				span {
-					display: inline-block;
-					width: 120px;
-					height: 120px;
-					background-image: url('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/160/mozilla/36/pensive-face_1f614.png');
-					background-size: cover;
-					animation-name: floating;
-					animation-duration: 4s;
-					animation-iteration-count: infinite;
-					animation-timing-function: ease-in-out;
-
-					@media (max-width: $tablet-width) {
-						width: 80px;
-						height: 80px;
-					}
-
-					@keyframes floating {
-						from {
-							transform: scale(1.4) translate(0, 0);
-						}
-
-						50% {
-							transform: scale(1.4) translate(0, 15px);
-						}
-
-						to {
-							transform: scale(1.4) translate(0, 0);
-						}
-					}
-				}
+			&:nth-child(3) {
+				color: $color-grey-medium;
 			}
 		}
 	}

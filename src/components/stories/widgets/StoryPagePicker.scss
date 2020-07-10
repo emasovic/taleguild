@@ -12,6 +12,10 @@
 
 		.st-IconButton {
 			width: 100%;
+
+			svg {
+				margin-right: 5px;
+			}
 		}
 
 		&:hover {
@@ -21,24 +25,32 @@
 	}
 
 	&__control {
-		border: none !important;
+		border: 1px solid $color-grey-border !important;
 		box-shadow: none !important;
 		flex-direction: row-reverse;
 		outline: none;
 		cursor: pointer !important;
-		background-color: $color-primary-light !important;
+		background-color: $color-background !important;
+		padding: 0 6px;
 
 		// &--menu-is-open {
 		// 	background-color: $color-primary-light !important;
 		// }
 	}
 
+	&__menu {
+		&-list {
+			overflow-x: hidden;
+			padding-bottom: 0 !important;
+		}
+	}
+
 	&__single-value {
-		color: $color-primary-dark !important;
+		color: $color-grey-light !important;
 	}
 
 	&__indicator {
-		color: $color-primary-dark !important;
+		color: $color-grey-light !important;
 
 		&-separator {
 			display: none;

@@ -3,96 +3,45 @@
 .st-StoryTabs {
 	display: flex;
 	flex-direction: column;
+	position: sticky;
+	top: 80px;
 
-	.nav {
-		margin-bottom: 18px;
-	}
-
-	.nav-link {
-		color: $color-grey-light;
-		font-weight: 600;
-		cursor: pointer;
-		font-size: 14px;
-		padding: 0 15px 0 0;
-
-		&:hover {
-			color: $color-secondary-black;
+	&-tabs {
+		.nav {
+			margin-bottom: 12px;
 		}
 
-		&.active {
-			color: $color-secondary-black;
-		}
-	}
+		.nav-link {
+			color: $color-grey-light;
+			font-weight: 600;
+			cursor: pointer;
+			font-size: 14px;
+			padding: 0;
+			margin-right: 15px;
 
-	.st-SavedStories,
-	.st-DraftStories,
-	.st-MyStories {
-		> span {
-			display: none;
-		}
-
-		.st-StoryThumb {
-			min-height: unset;
-			padding: 10px 5px;
-			margin: 0;
-			height: auto;
-			border: none;
-
-			&:hover,
-			&:active {
-				background: $color-primary-light;
+			&:hover {
+				color: $color-secondary-black;
 			}
 
-			&-cover {
-				.st-Image {
-					width: 48px;
-					height: 36px;
-					margin-right: 12px;
-					border-radius: 4px;
-					object-fit: cover;
-
-					&-fallback {
-						width: 48px;
-						height: 36px;
-						margin-right: 12px;
-						border-radius: 4px;
-						object-fit: cover;
-					}
-				}
-			}
-
-			&-details {
-				padding: 0;
-
-				&-description {
-					> span {
-						&:first-child {
-							font-family: $font-merriweather;
-							color: $color-grey-medium;
-							font-weight: bold;
-							font-size: 14px;
-						}
-
-						&:last-child {
-							display: none;
-						}
-					}
-				}
-
-				&-created {
-					display: none;
-				}
+			&.active {
+				color: $color-secondary-black;
+				border-bottom: 4px dotted $color-primary;
 			}
 		}
 
-		&-pagination {
-			display: none;
+		.st-SavedStories,
+		.st-DraftStories,
+		.st-MyStories {
+			> span {
+				display: none;
+			}
 		}
-	}
 
-	> a {
-		&:last-child {
-			text-align: center;
+		> a {
+			&:last-child {
+				display: flex;
+				justify-content: center;
+			}
 		}
 	}
 }

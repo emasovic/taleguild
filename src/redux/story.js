@@ -1,23 +1,13 @@
 import {createSlice, createSelector} from '@reduxjs/toolkit';
+import filter from 'lodash/filter';
 
 import * as api from '../lib/api';
-import {goToStory, editStory} from '../lib/routes';
+import {goToStory, editStory, DELETED_STORY} from '../lib/routes';
 
 import {Toast} from 'types/toast';
-import {DEFAULT_STORYPAGE_DATA} from 'types/story';
+import {DEFAULT_STORYPAGE_DATA, STORY_OP} from 'types/story';
 import {newToast} from './toast';
-import {hepler} from './hepler';
-
-export const STORY_OP = {
-	saving_comment: 'saving_comment',
-	saving_like: 'saving_like',
-	saving_saved: 'saving_saved',
-	saving_storypage: 'saving_storypage',
-	deleting_comment: 'deleting_comment',
-	deleting_like: 'deleting_like',
-	deleting_saved: 'deleting_saved',
-	deleting_storypage: 'deleting_storypage',
-};
+import {gotDataHelper} from './hepler';
 
 export const storySlice = createSlice({
 	name: 'stories',
@@ -25,14 +15,18 @@ export const storySlice = createSlice({
 		data: null,
 		error: null,
 		loading: false,
+		filter: null,
 		op: null,
+		total: null,
 		pages: null,
 	},
 	reducers: {
 		gotData: (state, action) => {
-			state.data = hepler(action.payload);
+			const {data, invalidate, filter} = action.payload;
+			state.data = gotDataHelper(state.data, data, invalidate);
 			state.loading = false;
 			state.op = null;
+			state.filter = filter;
 		},
 		removeStory: (state, action) => {
 			delete state.data[action.payload];
@@ -77,21 +71,12 @@ export const storySlice = createSlice({
 			};
 			state.op = null;
 		},
-		gotStoryPage: (state, action) => {
-			const {storyId, ...rest} = action.payload;
-			state.data[storyId].storypages.filter(item => item.id !== action.payload.id);
-			state.data[storyId].storypages.push({...rest});
-		},
-		removeStoryPage: (state, action) => {
-			const {storyId, pageId} = action.payload;
-			state.data[storyId] = {
-				...state.data[storyId],
-				storypages: state.data[storyId].storypages.filter(p => p.id !== pageId),
-			};
-			state.op = null;
+		setFilter: (state, action) => {
+			state.filter = action.payload;
 		},
 		gotPages: (state, action) => {
-			state.pages = action.payload;
+			state.pages = Math.ceil(action.payload / 10);
+			state.total = action.payload;
 		},
 		opStart: (state, action) => {
 			state.op = action.payload;
@@ -113,13 +98,13 @@ export const {
 	opStart,
 	opEnd,
 	loadingEnd,
+	setFilter,
 	gotData,
-	gotStoryPage,
-	gotComment,
-	gotPages,
-	gotLike,
 	gotSaved,
-	removeStoryPage,
+	gotPages,
+	gotComment,
+	gotLike,
+	gotFilter,
 	removeStory,
 	removeSaved,
 	removeComment,
@@ -141,13 +126,16 @@ export const newStory = (payload, history) => async (dispatch, getState) => {
 		dispatch(loadingEnd());
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
-	dispatch(gotData([res]));
+	dispatch(gotData({data: res}));
 	// const message = payload.id ? 'Successfully updated story.' : 'Successfully created story.';
 	history.push(editStory(res.id, page.id));
 	// dispatch(newToast({...Toast.success(message)}));
 };
 
-export const createOrUpdateStory = (payload, history) => async (dispatch, getState) => {
+export const createOrUpdateStory = (payload, history, shouldChange = true) => async (
+	dispatch,
+	getState
+) => {
 	dispatch(loadingStart());
 
 	const res = payload.id ? await api.updateStory(payload) : await api.createStory(payload);
@@ -155,10 +143,12 @@ export const createOrUpdateStory = (payload, history) => async (dispatch, getSta
 		dispatch(loadingEnd());
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
-	dispatch(gotData([res]));
+	dispatch(gotData({data: res}));
 	const message = payload.id ? 'Successfully updated story.' : 'Successfully created story.';
-	history.push(goToStory(res.id));
-	dispatch(newToast({...Toast.success(message)}));
+	if (shouldChange) {
+		history.push(goToStory(res.id));
+		dispatch(newToast({...Toast.success(message)}));
+	}
 };
 
 export const deleteStory = (storyId, history) => async (dispatch, getState) => {
@@ -171,26 +161,32 @@ export const deleteStory = (storyId, history) => async (dispatch, getState) => {
 	}
 	dispatch(removeStory(storyId));
 	dispatch(newToast({...Toast.success('Successfully deleted story.')}));
+	history.push(DELETED_STORY);
 };
 
-export const loadStories = (params, count) => async dispatch => {
-	dispatch(loadingStart());
+export const loadStories = (params, count, filter, op = STORY_OP.loading, invalidate) => async (
+	dispatch,
+	getState,
+	history
+) => {
+	dispatch(opStart(op));
 	const res = await api.getStories(params);
 	if (res.error) {
 		dispatch(loadingEnd());
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
 	if (count) {
-		const res = await api.countStories(
-			params && {user: params.user, published: params.published}
-		);
+		const countParams = {...params, _start: undefined, _limit: undefined};
+
+		const res = await api.countStories(countParams);
 		if (res.error) {
-			dispatch(loadingEnd());
+			dispatch(opEnd());
 			return dispatch(newToast({...Toast.error(res.error)}));
 		}
-		dispatch(gotPages(Math.ceil(res / 12)));
+		dispatch(gotPages(res));
 	}
-	return dispatch(gotData(res));
+
+	return dispatch(gotData({data: res, invalidate, filter}));
 };
 
 export const loadStory = id => async dispatch => {
@@ -202,7 +198,7 @@ export const loadStory = id => async dispatch => {
 		dispatch(loadingEnd());
 		dispatch(newToast({...Toast.error(res.error)}));
 	}
-	dispatch(gotData([res]));
+	dispatch(gotData({data: res}));
 };
 
 export const createOrDeleteComment = payload => async (dispatch, getState) => {
@@ -238,50 +234,18 @@ export const createOrDeleteLike = (like, userId, storyId) => async (dispatch, ge
 	return dispatch(removeLike({storyId, likeId: like.id}));
 };
 
-export const createOrUpdateStoryPage = (payload, history) => async (dispatch, getState) => {
-	dispatch(opStart(STORY_OP.saving_storypage));
-
-	const res = payload.id
-		? await api.updateStoryPage(payload)
-		: await api.createStoryPage(payload);
-	if (res.error) {
-		dispatch(opEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
-	}
-
-	if (!payload.id) {
-		dispatch(gotStoryPage({storyId: payload.story, ...res}));
-		history.push(editStory(payload.story, res.id));
-
-		dispatch(newToast({...Toast.success('Successfully created story page.')}));
-	}
-
-	dispatch(opEnd());
-};
-
-export const deleteStoryPage = (storyId, pageId) => async (dispatch, getState) => {
-	dispatch(opStart(STORY_OP.deleting_storypage));
-
-	const res = await api.deleteStoryPage(pageId);
-
-	if (res.error) {
-		dispatch(opEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
-	}
-
-	dispatch(removeStoryPage({storyId, pageId}));
-	return dispatch(newToast({...Toast.success('Successfully removed page!')}));
-};
-
 //SELECTORS
 
 const stories = state => state.stories.data;
 
-export const selectStories = createSelector([stories], res =>
-	res
-		? Object.values(res).map(item => item)
-		: // .sort((a, b) => b.id - a.id)
-		  null
+const filterBy = state => state.stories.filter;
+
+const storySelector = createSelector([stories], res =>
+	res ? Object.values(res).map(item => item) : null
+);
+
+export const selectStories = createSelector(storySelector, filterBy, (stories, filterBy) =>
+	!stories ? null : filterBy ? filter(stories, filterBy) : stories
 );
 
 export const selectStory = (state, id) => state.stories.data && state.stories.data[id];

@@ -2,4 +2,15 @@
 
 .st-Pagination {
 	margin: 0;
+
+	@media (max-width: $breakpoint-sm) {
+		.pagination {
+			.page-item {
+				&:first-child,
+				&:last-child {
+					display: none;
+				}
+			}
+		}
+	}
 }

@@ -12,19 +12,30 @@ const Pages = ({onClick, pages, prefix}) => {
 		onClick(page - 1);
 		setCurrentPage(page);
 	};
-	if (!pages) {
+
+	if (!pages || pages < 2) {
 		return null;
 	}
 
-	pages = Array.from(Array(pages), (n, index) => index + 1);
+	const pagesNumber =
+		currentPage === pages
+			? Array.from(Array(pages), (n, index) => index + 1).slice(currentPage - 2, currentPage)
+			: Array.from(Array(pages), (n, index) => index + 1).slice(
+					currentPage - 1,
+					currentPage + 1
+			  );
+
 	const prevPage = currentPage === 1 ? currentPage : currentPage - 1;
 	const nextPage = currentPage === pages.length ? currentPage : currentPage + 1;
 	return (
 		<Pagination className={CLASS}>
 			<PaginationItem>
+				<PaginationLink first onClick={() => handleChange(1)} />
+			</PaginationItem>
+			<PaginationItem>
 				<PaginationLink previous onClick={() => handleChange(prevPage)} />
 			</PaginationItem>
-			{pages.map((item, key) => {
+			{pagesNumber.map((item, key) => {
 				return (
 					<PaginationItem key={key} active={currentPage === item}>
 						<PaginationLink onClick={() => handleChange(item)}>
@@ -33,8 +44,11 @@ const Pages = ({onClick, pages, prefix}) => {
 					</PaginationItem>
 				);
 			})}
-			<PaginationItem>
+			<PaginationItem disabled={currentPage === pages}>
 				<PaginationLink next onClick={() => handleChange(nextPage)} />
+			</PaginationItem>
+			<PaginationItem disabled={currentPage === pages}>
+				<PaginationLink last onClick={() => handleChange(pages)} />
 			</PaginationItem>
 		</Pagination>
 	);

@@ -6,10 +6,18 @@
 	border: 1px solid $color-grey-border;
 	border-radius: 6px;
 	margin: 8px 0;
-	height: 120px;
-	min-width: 300px;
-	max-width: 512px;
+	height: 144px;
+	min-width: $story-preview-width-small;
+	max-width: $story-preview-width-medium;
 	cursor: pointer;
+	position: relative;
+	// flex: 1 1;
+
+	.st-StoryDropdownButton {
+		position: absolute;
+		top: 5px;
+		right: 5px;
+	}
 
 	&:hover {
 		text-decoration: none;
@@ -27,7 +35,7 @@
 
 			&-fallback {
 				width: 120px;
-				border: none;
+				// border: none;
 			}
 		}
 	}
@@ -43,6 +51,9 @@
 		&-description {
 			display: flex;
 			flex-direction: column;
+			word-break: break-word;
+			max-height: 100px;
+			overflow: hidden;
 
 			> span {
 				color: $color-grey-medium;
@@ -64,12 +75,6 @@
 
 			span {
 				color: $color-grey-medium;
-			}
-
-			.st-UserAvatar {
-				.st-Image {
-					margin-right: 0;
-				}
 			}
 		}
 	}

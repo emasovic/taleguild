@@ -1,24 +1,27 @@
 import React, {useState} from 'react';
 import propTypes from 'prop-types';
 import moment from 'moment';
-import {Link} from 'react-router-dom';
+import {Link, useHistory, useLocation} from 'react-router-dom';
 import {useDispatch, useSelector, shallowEqual} from 'react-redux';
 
 import {goToUser} from 'lib/routes';
 
-import FA from '../../types/font_awesome';
-import {COLOR} from '../../types/button';
+import FA from 'types/font_awesome';
+import {COLOR} from 'types/button';
+import {Toast} from 'types/toast';
 
 import {createOrDeleteLike, createOrDeleteComment} from 'redux/story';
 import {selectUser} from 'redux/user';
 import {createOrDeleteSavedStory} from 'redux/saved_stories';
+import {addToast} from 'redux/toast';
+import {navigateToQuery} from 'redux/application';
 
 import IconButton from 'components/widgets/button/IconButton';
 import Image from 'components/widgets/image/Image';
 import UserAvatar from 'components/user/UserAvatar';
 import ConfirmModal from 'components/widgets/modals/Modal';
-import FloatingInput from 'components/widgets/input/FloatingInput';
 import StoryDropdownButton from './widgets/StoryDropdownButton';
+import TextArea from 'components/widgets/textarea/TextArea';
 
 import './StoryItem.scss';
 
@@ -27,6 +30,8 @@ const CLASS = 'st-StoryItem';
 export default function StoryItem({
 	id,
 	image,
+	formats,
+	size,
 	description,
 	title,
 	categories,
@@ -34,9 +39,12 @@ export default function StoryItem({
 	comments,
 	author,
 	createdDate,
+	storypages,
 	savedBy,
 }) {
 	const dispatch = useDispatch();
+	const history = useHistory();
+	const location = useLocation();
 	const {loggedUser, op} = useSelector(
 		state => ({
 			loading: state.stories.loading,
@@ -55,6 +63,16 @@ export default function StoryItem({
 
 	const handleComment = (e, commentId) => {
 		e.preventDefault();
+		if (comment.length >= 200) {
+			return dispatch(
+				addToast({...Toast.error('Comment needs to be less than 200 characters.')})
+			);
+		}
+		if (comment.trim().length <= 2) {
+			return dispatch(
+				addToast({...Toast.error('Comment needs to be more than 2 characters.')})
+			);
+		}
 		dispatch(createOrDeleteComment({user: data.id, story: id, comment, id: commentId}));
 		setComment('');
 	};
@@ -74,6 +92,10 @@ export default function StoryItem({
 		}
 		e.preventDefault();
 		dispatch(createOrDeleteSavedStory(favourite, data && data.id, storyId));
+	};
+
+	const getStoriesByCategoryId = categoryId => {
+		dispatch(navigateToQuery({categories: categoryId}, location, history));
 	};
 
 	const renderCommentsContent = () => {
@@ -117,9 +139,7 @@ export default function StoryItem({
 					<div className={CLASS + '-comments-new'}>
 						<UserAvatar user={data} />
 						<div className={CLASS + '-comments-new-comment'}>
-							<FloatingInput
-								// rows={1}
-								type="textarea"
+							<TextArea
 								value={comment}
 								placeholder="Write a comment..."
 								onChange={val => setComment(val)}
@@ -188,7 +208,13 @@ export default function StoryItem({
 
 	const renderCategories =
 		categories && categories.length
-			? categories.map(item => item.display_name).join(' | ')
+			? categories.map((item, key) => {
+					return (
+						<span key={key} onClick={() => getStoriesByCategoryId(item.id)}>
+							{item.display_name}
+						</span>
+					);
+			  })
 			: null;
 
 	let liked = false;
@@ -201,9 +227,12 @@ export default function StoryItem({
 
 	const likeIcon = liked ? FA.solid_heart : FA.heart;
 	const favouriteIcon = favourite ? FA.solid_bookmark : FA.bookmark;
+
 	return (
 		<div className={CLASS}>
-			{data && author.id === data.id && <StoryDropdownButton story={{id, title}} />}
+			{data && author.id === data.id && (
+				<StoryDropdownButton story={{id, title, storypages}} />
+			)}
 			<Link to={goToUser(author.id)} className={CLASS + '-author'}>
 				<UserAvatar user={author} />
 				<div className={CLASS + '-author-info'}>
@@ -213,15 +242,14 @@ export default function StoryItem({
 			</Link>
 			<div className={CLASS + '-description'}>{description}</div>
 			<Link to={`/story/${id}`} className={CLASS + '-cover'}>
-				<Image image={image} alt="cover" />
+				<Image image={image} formats={formats} size={size} alt="cover" />
 			</Link>
 
 			<div className={CLASS + '-footer'}>
 				<div className={CLASS + '-footer-title'}>
 					<span>{title}</span>
-					<span>{renderCategories}</span>
 				</div>
-
+				<div className={CLASS + '-footer-categories'}>{renderCategories}</div>
 				{data && (
 					<div className={CLASS + '-footer-actions'}>
 						<div className={CLASS + '-footer-actions-left'}>
@@ -231,7 +259,11 @@ export default function StoryItem({
 								icon={likeIcon}
 								onClick={e => handleLike(e, liked, id)}
 							/>
-							<IconButton outline icon={FA.comment} />
+							<IconButton
+								outline
+								icon={FA.comment}
+								onClick={() => setIsCommentsOpen(true)}
+							/>
 						</div>
 						<IconButton
 							outline
@@ -296,7 +328,9 @@ StoryItem.propTypes = {
 	categories: propTypes.array,
 	likes: propTypes.array,
 	comments: propTypes.array,
-	editMode: propTypes.bool,
+	storypages: propTypes.array,
+	formats: propTypes.object,
+	size: propTypes.string,
 	description: propTypes.string,
 	title: propTypes.string,
 	createdDate: propTypes.string,

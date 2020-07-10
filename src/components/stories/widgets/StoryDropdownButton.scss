@@ -5,5 +5,13 @@
 		> button {
 			box-shadow: none !important;
 		}
+
+		.dropdown {
+			&-item {
+				&:last-child {
+					color: $color-secondary-red;
+				}
+			}
+		}
 	}
 }

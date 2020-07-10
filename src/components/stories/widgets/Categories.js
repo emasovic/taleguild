@@ -1,11 +1,10 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Nav, NavItem, NavLink} from 'reactstrap';
+import {useHistory, useLocation} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 
-import {DEFAULT_CRITERIA} from 'types/story';
-
+import {navigateToQuery} from 'redux/application';
 import {useLoadCategories} from 'hooks/categories';
-import {loadStories} from 'redux/story';
 
 import Loader from 'components/widgets/loader/Loader';
 
@@ -14,24 +13,32 @@ import './Categories.scss';
 const CLASS = 'st-Categories';
 
 export default function Categories() {
+	const history = useHistory();
+	const location = useLocation();
 	const dispatch = useDispatch();
 	const [{data, isLoading}] = useLoadCategories();
 	const [activeCategory, setActiveCategory] = useState(null);
 
+	const category = new URLSearchParams(useLocation().search).get('categories');
+
 	const getStoriesByCategoryId = categoryId => {
-		dispatch(loadStories({...DEFAULT_CRITERIA, categories: categoryId}));
-		setActiveCategory(categoryId);
+		dispatch(navigateToQuery({categories: categoryId}, location, history));
 	};
+
+	useEffect(() => {
+		setActiveCategory(Number(category));
+	}, [category]);
 
 	return (
 		<Nav className={CLASS}>
+			<span>Categories</span>
 			{isLoading ? (
 				<Loader />
 			) : (
 				<>
 					<NavItem onClick={() => getStoriesByCategoryId(undefined)}>
 						<NavLink href="#" active={!activeCategory}>
-							Sve
+							All
 						</NavLink>
 					</NavItem>
 					{data.length

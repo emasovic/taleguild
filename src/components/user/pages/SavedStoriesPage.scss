@@ -7,8 +7,37 @@
 		flex: 1 1;
 	}
 
+	.st-SavedStories {
+		@media (max-width: $breakpoint-m) {
+			align-items: center;
+		}
+
+		.st-StoryThumb {
+			background-color: $color-white;
+
+			&-cover {
+				.st-Image {
+					&-fallback {
+						border-left: none;
+						border-top: none;
+						border-bottom: none;
+					}
+				}
+			}
+		}
+	}
+
+	@media (max-width: $breakpoint-m) {
+		&-drafts,
+		&-holder {
+			display: none;
+		}
+	}
+
 	&-drafts {
 		.st-DraftStories {
+			margin-right: 16px;
+
 			> span {
 				color: $color-grey-black;
 				font-weight: 600;
@@ -17,56 +46,6 @@
 				padding: 0 15px 0 0;
 				margin-bottom: 12px;
 				text-transform: capitalize;
-			}
-
-			.st-StoryThumb {
-				min-height: unset;
-				padding: 10px 5px;
-				margin: 0;
-				height: auto;
-				border: none;
-
-				&:hover,
-				&:active {
-					background: $color-primary-light;
-				}
-
-				&-cover {
-					.st-Image {
-						width: 48px;
-						height: 36px;
-						margin-right: 12px;
-						border-radius: 4px;
-						object-fit: cover;
-					}
-				}
-
-				&-details {
-					padding: 0;
-
-					&-description {
-						> span {
-							&:first-child {
-								font-family: $font-merriweather;
-								color: $color-grey-medium;
-								font-weight: bold;
-								font-size: 14px;
-							}
-
-							&:last-child {
-								display: none;
-							}
-						}
-					}
-
-					&-created {
-						display: none;
-					}
-				}
-			}
-
-			&-pagination {
-				display: none;
 			}
 		}
 

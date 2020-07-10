@@ -22,7 +22,7 @@ export default function Login(props) {
 	const [password, setPassword] = useState('');
 	const dispatch = useDispatch();
 	const user = useSelector(selectUser);
-	const {error, loading} = user;
+	const {error, op} = user;
 
 	const submit = e => {
 		e.preventDefault();
@@ -40,7 +40,8 @@ export default function Login(props) {
 				<Form onSubmit={e => submit(e)}>
 					<h4>Welcome Back</h4>
 					<FloatingInput
-						label="Enter your email or password"
+						label="Email or username"
+						placeholder="Enter your email or username"
 						value={identifier}
 						type="text"
 						onChange={val => setIdentifier(val)}
@@ -48,6 +49,7 @@ export default function Login(props) {
 
 					<FloatingInput
 						label="Enter password"
+						placeholder="you@example.com"
 						value={password}
 						type="password"
 						onChange={val => setPassword(val)}
@@ -57,7 +59,7 @@ export default function Login(props) {
 					<Link to={FORGOT_PASSWORD} onClick={onClose}>
 						Forgot password?
 					</Link>
-					<IconButton loading={loading}>Sign in</IconButton>
+					<IconButton loading={op}>Sign in</IconButton>
 					<Link to="#" onClick={onChange}>
 						Don’t have an account? Sign up now.
 					</Link>

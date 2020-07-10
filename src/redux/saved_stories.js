@@ -2,9 +2,11 @@ import {createSlice, createSelector} from '@reduxjs/toolkit';
 
 import * as api from '../lib/api';
 
+import {STORY_OP} from 'types/story';
+import {Toast} from 'types/toast';
+
 import {newToast} from './toast';
 import {gotSaved, removeSaved} from './story';
-import {Toast} from 'types/toast';
 import {gotDataHelper} from './hepler';
 
 export const savedStorySlice = createSlice({
@@ -17,11 +19,9 @@ export const savedStorySlice = createSlice({
 	},
 	reducers: {
 		gotData: (state, action) => {
-			state.data = gotDataHelper(state.data, action.payload);
-			state.loading = false;
-		},
-		gotSavedStory: (state, action) => {
-			state.data = gotDataHelper(state.data, action.payload);
+			const {data, invalidate} = action.payload;
+			state.data = gotDataHelper(state.data, data, invalidate);
+			state.op = null;
 			state.loading = false;
 		},
 		removeSavedStory: (state, action) => {
@@ -37,40 +37,47 @@ export const savedStorySlice = createSlice({
 		loadingEnd: state => {
 			state.loading = false;
 		},
+		opStart: (state, action) => {
+			state.op = action.payload;
+		},
+		opEnd: state => {
+			state.op = null;
+		},
 	},
 });
 
 export const {
-	logOut,
+	opStart,
+	opEnd,
 	hasError,
 	gotPages,
 	gotData,
-	gotSavedStory,
 	removeSavedStory,
 	loadingStart,
 	loadingEnd,
 } = savedStorySlice.actions;
 
-export const loadSavedStories = (params, count) => async dispatch => {
-	dispatch(loadingStart());
+export const loadSavedStories = (params, count, op = STORY_OP.loading) => async dispatch => {
+	dispatch(opStart(op));
 	const res = await api.getSavedStories(params);
 	if (res.error) {
-		dispatch(loadingEnd());
-		return dispatch(newToast({...Toast.error('Došlo je do greške!')}));
+		dispatch(opEnd());
+		return dispatch(newToast({...Toast.error(res.error)}));
 	}
 
 	if (count) {
-		const res = await api.countStories(
-			params && {user: params.user, published: params.published}
-		);
+		const countParams = {...params, _start: undefined, _limit: undefined};
+
+		const res = await api.countSavedStories(countParams);
+
 		if (res.error) {
-			dispatch(loadingEnd());
+			dispatch(opEnd());
 			return dispatch(newToast({...Toast.error(res.error)}));
 		}
-		dispatch(gotPages(Math.ceil(res / 12)));
+		dispatch(gotPages(Math.ceil(res / 10)));
 	}
 
-	return dispatch(gotData(res));
+	return dispatch(gotData({data: res}));
 };
 
 export const createOrDeleteSavedStory = (favourite, userId, storyId) => async (
@@ -89,7 +96,7 @@ export const createOrDeleteSavedStory = (favourite, userId, storyId) => async (
 	}
 
 	if (res.id) {
-		dispatch(gotSavedStory(res));
+		dispatch(gotData({data: res}));
 		return dispatch(gotSaved({...res, storyId}));
 	}
 	dispatch(removeSaved({storyId, savedId: favourite.id}));
@@ -99,11 +106,7 @@ export const createOrDeleteSavedStory = (favourite, userId, storyId) => async (
 const savedStories = state => state.saved_stories.data;
 
 export const selectUserSavedStories = createSelector([savedStories], res =>
-	res
-		? Object.values(res)
-				.map(item => item)
-				.sort((a, b) => b.id - a.id)
-		: null
+	res ? Object.values(res).map(item => item) : null
 );
 
 export default savedStorySlice.reducer;

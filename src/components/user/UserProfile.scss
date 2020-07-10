@@ -6,33 +6,89 @@
 	align-items: center;
 
 	&-user {
+		width: 100%;
 		display: flex;
-		flex-direction: column;
-		align-items: center;
 		margin-bottom: 36px;
+		min-height: 150px;
+		max-width: $story-preview-width-medium;
 
-		span {
-			font-family: $font-merriweather;
-			font-weight: bold;
-			color: $color-grey-black;
-			font-size: 18px;
+		@media (max-width: $breakpoint-sm) {
+			max-width: $story-preview-width-small;
+		}
 
-			&:last-child {
-				color: $color-grey-medium;
-				font-size: 14px;
-				font-weight: normal;
-				font-family: $font-lato;
+		.st-Loader {
+			justify-content: center;
+		}
+
+		&-info {
+			display: flex;
+			flex-direction: column;
+
+			&-description {
+				display: flex;
+				flex-direction: column;
+				margin-bottom: 16px;
+
+				span {
+					font-family: $font-merriweather;
+					font-weight: bold;
+					color: $color-grey-black;
+					font-size: 18px;
+
+					&:last-child {
+						color: $color-grey-medium;
+						font-size: 14px;
+						font-weight: normal;
+						font-family: $font-lato;
+					}
+				}
+			}
+
+			&-stats {
+				display: flex;
+				margin-bottom: 24px;
+
+				> div {
+					margin-right: 16px;
+
+					@media (max-width: $breakpoint-sm) {
+						margin-right: 16px;
+					}
+
+					&:last-child {
+						margin-right: 0;
+					}
+				}
+
+				&-stories {
+					display: flex;
+					flex-direction: column;
+					align-items: left;
+					padding: 8px 12px;
+
+					span {
+						font-weight: bold;
+						color: $color-grey-black;
+						font-size: 18px;
+
+						&:last-child {
+							color: $color-grey-medium;
+							font-size: 14px;
+							font-weight: normal;
+							font-family: $font-lato;
+						}
+					}
+				}
 			}
 		}
 
 		.st-UserAvatar {
 			.st-Image,
 			.badge {
-				font-size: 30px;
-				width: 100px;
-				height: 100px;
-				margin-right: 0;
-				margin-bottom: 16px;
+				font-size: 36px;
+				width: 120px;
+				height: 120px;
+				margin-right: 36px;
 			}
 		}
 	}

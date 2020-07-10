@@ -5,42 +5,95 @@
 	height: 60px;
 	padding: 0 !important;
 	margin: 24px 0;
+	background: $color-background;
+	position: sticky !important;
+	z-index: 1;
+	top: 0;
 
-	@media (max-width: $tablet-width) {
+	.st-Loader {
+		height: 100vh;
+	}
+
+	@media (max-width: $breakpoint-m) {
 		display: flex;
 		flex-direction: column;
 		padding: 0;
-		flex-wrap: nowrap;
-	}
-
-	.navbar-brand {
-		flex: 1 1 0;
-		margin-right: 0;
+		flex-wrap: nowrap !important;
+		height: auto;
 	}
 
 	.st-StoryPicker {
 		flex: 1 1 0;
+
+		@media (max-width: $breakpoint-sm) {
+			order: 1;
+		}
 	}
 
 	.nav {
 		align-items: center;
 		flex-wrap: nowrap;
 		flex: 1 1 0;
-		justify-content: flex-end;
 	}
 
-	.nav-item {
-		.nav-link {
-			font-size: 14px;
-			color: $color-grey-light;
-			text-decoration: none;
-			font-weight: 500;
+	&-status {
+		justify-content: flex-end;
+
+		@media (max-width: $breakpoint-sm) {
+			order: 3;
 		}
 	}
+
+	&-feed {
+		justify-content: flex-start;
+
+		.nav-item {
+			.nav-link {
+				font-size: 16px;
+				color: $color-grey-light;
+				text-decoration: none;
+				font-weight: bold;
+				padding: 8px 12px;
+				margin-right: 36px;
+				border-radius: 6px;
+
+				&:hover {
+					background-color: $color-white;
+				}
+
+				&.active {
+					color: $color-primary;
+				}
+
+				.fa {
+					&-home,
+					&-compass {
+						font-size: 20px;
+						margin-right: 10px;
+					}
+				}
+			}
+		}
+	}
+
+	// .nav-item {
+	// 	.nav-link {
+	// 		font-size: 14px;
+	// 		color: $color-grey-light;
+	// 		text-decoration: none;
+	// 		font-weight: 500;
+	// 	}
+	// }
 
 	&-user {
 		display: flex;
 		align-items: center;
+
+		@media (max-width: $breakpoint-sm) {
+			.nav-link {
+				display: none;
+			}
+		}
 
 		.dropdown {
 			&-toggle {
@@ -65,6 +118,15 @@
 					justify-content: center;
 					align-items: center;
 					text-transform: uppercase;
+				}
+			}
+
+			> button {
+				padding: 5px;
+				border-radius: 50%;
+
+				&:focus {
+					box-shadow: none;
 				}
 			}
 		}

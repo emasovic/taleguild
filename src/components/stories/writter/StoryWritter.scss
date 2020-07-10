@@ -1,0 +1,126 @@
+@import '../../../styles/variables.scss';
+
+.st-StoryWritter {
+	display: flex;
+	flex-direction: column;
+	max-width: 640px;
+	margin: 0 auto;
+
+	@media (max-width: $breakpoint-sm) {
+		padding: 10px;
+	}
+
+	&-header {
+		.st-FloatingInput {
+			input {
+				border: none;
+				outline: none;
+				font-size: 24px;
+				box-shadow: none;
+				padding: 0;
+				font-family: $font-merriweather;
+				color: $color-grey-black;
+				background-color: $color-background;
+
+				&::placeholder {
+					font-size: 24px;
+				}
+			}
+		}
+
+		.st-Uploader {
+			&-thumbs {
+				&-item {
+					.st-Image {
+						height: 200px;
+					}
+				}
+			}
+		}
+
+		.st-DropdownButton {
+			> button {
+				// background: $color-primary-light;
+				box-shadow: $box-shadow-light;
+			}
+
+			.dropdown {
+				&-item {
+					&:first-child {
+						color: $color-grey-black;
+					}
+					color: $color-secondary-red;
+
+					&:disabled {
+						color: $color-grey-lighter;
+						cursor: not-allowed;
+					}
+				}
+			}
+		}
+
+		&-publish {
+			display: flex;
+			justify-content: space-between;
+			margin-bottom: 20px;
+
+			@media (max-width: $breakpoint-sm) {
+				flex-direction: column;
+				align-items: center;
+			}
+
+			&-actions {
+				display: flex;
+
+				@media (max-width: $breakpoint-sm) {
+					margin-bottom: 16px;
+					justify-content: center;
+				}
+
+				.st-StoryPagePicker,
+				.st-IconButton {
+					margin-right: 16px;
+				}
+
+				&-buttons {
+					display: flex;
+				}
+			}
+		}
+
+		&-previewModal {
+			.modal {
+				&-dialog {
+					max-width: 700px;
+
+					.st-StoryItem {
+						.st-StoryDropdownButton {
+							display: none;
+						}
+
+						&-footer {
+							&-actions {
+								display: none;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	&-writter {
+		padding-bottom: 200px;
+		font-size: 18px;
+		line-height: 28px;
+
+		&-editor {
+			.st-TextEditor {
+				.public-DraftEditorPlaceholder-inner {
+					font-size: 16px;
+					color: $color-grey-lighter;
+				}
+			}
+		}
+	}
+}

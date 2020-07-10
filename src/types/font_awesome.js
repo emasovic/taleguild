@@ -16,20 +16,26 @@ import {
 	faUnderline as solidUnderLine,
 	faHeading as solidHeading,
 	faEye as solidEye,
+	faImage as solidImage,
+	faHome as solidHome,
+	faCompass as solidCompass,
 } from '@fortawesome/free-solid-svg-icons';
 
-import {faHeart, faComment, faBookmark} from '@fortawesome/free-regular-svg-icons';
+import {faHeart, faComment, faBookmark, faCompass} from '@fortawesome/free-regular-svg-icons';
 
 import {library} from '@fortawesome/fontawesome-svg-core';
 
 const FA = {
 	//REGULAR ICONS
-
 	comment: faComment,
 	heart: faHeart,
 	bookmark: faBookmark,
+	compass: faCompass,
 
 	//SOLID ICONS
+	solid_home: solidHome,
+	solid_compass: solidCompass,
+	solid_image: solidImage,
 	solid_eye: solidEye,
 	solid_italic: solidItalic,
 	solid_underline: solidUnderLine,

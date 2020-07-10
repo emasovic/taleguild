@@ -16,6 +16,7 @@
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "node-sass": "^4.13.1",
+    "query-string": "^6.13.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-dropzone": "^10.2.2",
@@ -26,9 +27,9 @@
     "react-scripts": "3.4.1",
     "react-select": "^3.1.0",
     "reactstrap": "^8.4.1",
-    "slate": "^0.58.3",
-    "slate-history": "^0.58.3",
-    "slate-react": "^0.58.3",
+    "slate": "^0.58.4",
+    "slate-history": "^0.58.4",
+    "slate-react": "^0.58.4",
     "source-map-explorer": "^2.4.2"
   },
   "scripts": {

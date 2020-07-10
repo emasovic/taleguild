@@ -1,78 +1,97 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, memo, useCallback} from 'react';
 import {NavItem, NavLink, Nav} from 'reactstrap';
 import {useDispatch, useSelector, shallowEqual} from 'react-redux';
+import {useHistory, useLocation} from 'react-router-dom';
 import propTypes from 'prop-types';
-import moment from 'moment';
+import orderBy from 'lodash/orderBy';
+
+import {DEFAULT_CRITERIA, STORY_OP} from 'types/story';
+import {MEDIA_SIZE} from 'types/media';
 
 import {loadStories, selectStories} from '../../redux/story';
+import {navigateToQuery} from 'redux/application';
 
 import Loader from 'components/widgets/loader/Loader';
-import Pages from 'components/widgets/pagination/Pagination';
+import LoadMore from 'components/widgets/loadmore/LoadMore';
 
 import StoryItem from './StoryItem';
 
 import './Stories.scss';
-import {DEFAULT_CRITERIA} from 'types/story';
 
 const CLASS = 'st-Stories';
 
 const SORT = {
-	recent: 'recent',
-	popular: 'popular',
+	recent: 'created_at',
+	popular: 'likes_count',
 };
 
-export default function Stories({criteria}) {
+function Stories({criteria, filter}) {
 	const dispatch = useDispatch();
-	const {data, loading, pages} = useSelector(
+	const history = useHistory();
+	const location = useLocation();
+	const {stories, op, pages} = useSelector(
 		state => ({
-			data: selectStories(state),
+			stories: selectStories(state),
 			pages: state.stories.pages,
-			loading: state.stories.loading,
+			op: state.stories.op,
 		}),
 		shallowEqual
 	);
 
-	const [count, setCount] = useState(0);
-	const [shouldCount, setShouldCount] = useState(true);
-	const [storyCriteria, setStoryCriteria] = useState(null);
+	const [currentPage, setCurrentPage] = useState(1);
 	const [activeSort, setActiveSort] = useState(SORT.recent);
 
-	const sortStories = (sort, criteria) => {
+	const categoryId = new URLSearchParams(useLocation().search).get('categories');
+	const sortBy = new URLSearchParams(useLocation().search).get('_sort');
+
+	const sortStories = sort => {
 		setActiveSort(sort);
-		setStoryCriteria(criteria);
+		dispatch(navigateToQuery({_sort: sort}, location, history));
 	};
 
-	const handleCount = page => {
-		setCount(page * 12);
-		shouldCount && setShouldCount(false);
-	};
+	const handleCount = useCallback(() => {
+		const loadMoreCriteria = {...criteria, _start: currentPage * 10};
+		dispatch(loadStories(loadMoreCriteria, false, null, STORY_OP.load_more));
+		setCurrentPage(currentPage + 1);
+	}, [dispatch, currentPage, criteria]);
 
 	useEffect(() => {
 		if (criteria) {
-			criteria._start = count;
-			setStoryCriteria(criteria);
+			const _sort = sortBy ? `${sortBy}:DESC` : criteria._sort;
+			dispatch(
+				loadStories(
+					{...criteria, categories: categoryId, _sort},
+					true,
+					filter,
+					undefined,
+					true
+				)
+			);
 		}
-	}, [count, criteria]);
+	}, [categoryId, sortBy, criteria, dispatch, filter]);
 
 	useEffect(() => {
-		if (storyCriteria) {
-			dispatch(loadStories(storyCriteria, shouldCount));
+		if (sortBy) {
+			setActiveSort(sortBy);
 		}
-	}, [dispatch, shouldCount, storyCriteria]);
+	}, [sortBy]);
 
 	const renderStories =
-		data && data.length ? (
-			data.map(item => {
+		stories && stories.length ? (
+			orderBy(stories, [activeSort], ['desc']).map(item => {
 				return (
 					<StoryItem
 						id={item.id}
 						image={item.image}
+						size={MEDIA_SIZE.small}
+						formats={item.image && item.image.formats}
 						title={item.title}
 						description={item.description}
 						key={item.id}
 						categories={item.categories}
 						likes={item.likes}
 						comments={item.comments}
+						storypages={item.storypages}
 						author={item.user}
 						createdDate={item.created_at}
 						savedBy={item.saved_by}
@@ -83,37 +102,44 @@ export default function Stories({criteria}) {
 			<h2>No stories found</h2>
 		);
 
+	if (op === STORY_OP.loading) {
+		return (
+			<div className={CLASS}>
+				<Loader />
+			</div>
+		);
+	}
+
 	return (
-		<div className={CLASS}>
+		<LoadMore
+			id="stories"
+			className={CLASS}
+			onLoadMore={handleCount}
+			shouldLoad={pages > currentPage}
+			loading={op === STORY_OP.load_more}
+		>
 			<Nav className={CLASS + '-header'}>
 				<NavItem href="#" onClick={() => sortStories(SORT.recent, criteria)}>
 					<NavLink active={activeSort === SORT.recent}>Recent stories</NavLink>
 				</NavItem>
-				<NavItem
-					href="#"
-					onClick={() =>
-						sortStories(SORT.popular, {
-							...storyCriteria,
-							_sort: 'likes_count:DESC',
-							created_at_gte: moment().subtract(10, 'days'),
-						})
-					}
-				>
+				<NavItem href="#" onClick={() => sortStories(SORT.popular)}>
 					<NavLink active={activeSort === SORT.popular}>Popular stories</NavLink>
 				</NavItem>
 			</Nav>
-			<div className={CLASS + '-lastest'}>{loading ? <Loader /> : renderStories}</div>
-			<div className={CLASS + '-pagination'}>
-				{!!pages && <Pages pages={pages} onClick={handleCount} />}
-			</div>
-		</div>
+			<div className={CLASS + '-lastest'}>{renderStories}</div>
+		</LoadMore>
 	);
 }
 
 Stories.propTypes = {
 	criteria: propTypes.object,
+	filter: propTypes.object,
 };
 
 Stories.defaultProps = {
 	criteria: DEFAULT_CRITERIA,
 };
+
+const MemoizedStories = memo(Stories);
+
+export default MemoizedStories;

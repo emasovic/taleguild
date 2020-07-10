@@ -11,21 +11,16 @@ import './TextEditor.scss';
 
 const CLASS = 'st-TextEditor';
 
-export default function TextEditor({value, onChange}) {
+export default function TextEditor({value, onChange, onKeyDown}) {
 	const renderElement = useCallback(props => <Element {...props} />, []);
 	const renderLeaf = useCallback(props => <Leaf {...props} />, []);
 	const editor = useMemo(() => withHistory(withReact(createEditor())), []);
 
 	return (
-		<Slate
-			editor={editor}
-			contentEditable={false}
-			value={value}
-			onChange={value => onChange(value)}
-		>
+		<Slate editor={editor} value={value} onChange={onChange}>
 			<HoveringToolbar className={CLASS} />
 			<Editable
-				contentEditable={false}
+				onKeyDown={onKeyDown}
 				className={CLASS}
 				renderElement={renderElement}
 				renderLeaf={renderLeaf}
@@ -36,3 +31,8 @@ export default function TextEditor({value, onChange}) {
 		</Slate>
 	);
 }
+
+TextEditor.defaultProps = {
+	onChange: () => {},
+	onKeyDown: () => {},
+};

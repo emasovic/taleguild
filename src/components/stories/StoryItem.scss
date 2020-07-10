@@ -1,12 +1,12 @@
 @import '../../styles/variables.scss';
 
 .st-StoryItem {
-	width: $story-preview-width-desktop;
+	width: $story-preview-width-medium;
 	min-height: $story-preview-height;
 	background: #fff;
 	margin: 12px 0 0;
 	border-radius: 6px;
-	border: 1px solid $color-grey-border;
+	border: 1px solid $color-background-white-grey;
 	box-shadow: 2px 2px 12px rgba(35, 31, 26, 0.08);
 	display: flex;
 	flex-direction: column;
@@ -24,14 +24,21 @@
 		margin-bottom: 12px;
 	}
 
-	@media (max-width: $tablet-width) {
-		width: $story-preview-width-mobile;
+	@media (max-width: $breakpoint-sm) {
+		width: $story-preview-width-small;
 	}
 
 	&-author {
 		display: flex;
 		align-items: center;
 		padding: 15px;
+
+		.st-UserAvatar {
+			.st-Image,
+			.badge {
+				margin-right: 16px;
+			}
+		}
 
 		&-info {
 			display: flex;
@@ -50,6 +57,7 @@
 	}
 
 	&-description {
+		word-break: break-word;
 		// min-height: 70px;
 		padding: 0 15px 15px;
 		// flex-grow: 1;
@@ -60,11 +68,14 @@
 
 		.st-Image {
 			width: 100%;
-			height: 100%;
+			height: 250px;
 			object-fit: cover;
 
 			&-fallback {
-				border: none;
+				object-fit: cover;
+				border-left: none;
+				border-right: none;
+				font-size: 24px;
 			}
 		}
 	}
@@ -82,15 +93,19 @@
 			flex-direction: column;
 
 			span {
-				color: $color-grey-medium;
+				color: $color-grey-black;
+				font-size: 18px;
+				font-family: $font-merriweather;
+				font-weight: bold;
+				line-height: 22px;
+			}
+		}
 
-				&:first-child {
-					color: $color-grey-black;
-					font-size: 18px;
-					font-family: $font-merriweather;
-					font-weight: bold;
-					line-height: 22px;
-				}
+		&-categories {
+			span {
+				color: $color-grey-medium;
+				margin-right: 6px;
+				cursor: pointer;
 			}
 		}
 
@@ -150,6 +165,16 @@
 		}
 	}
 
+	&-likes,
+	&-comments {
+		.st-UserAvatar {
+			.st-Image,
+			.badge {
+				margin-right: 16px;
+			}
+		}
+	}
+
 	&-likes {
 		display: flex;
 		flex-direction: column;
@@ -174,6 +199,7 @@
 		&-posted {
 			max-height: 500px;
 			overflow: auto;
+			word-break: break-word;
 
 			&-item {
 				display: flex;
@@ -224,7 +250,6 @@
 		&-new {
 			display: flex;
 			align-items: center;
-			box-shadow: $box-shadow-light;
 			padding: 10px;
 
 			&-comment {
@@ -233,6 +258,8 @@
 
 				.st-FloatingInput {
 					margin-bottom: 0;
+					height: 40px;
+					//border: 1px solid $color-grey-border;
 				}
 
 				.st-IconButton {

@@ -1,6 +1,7 @@
-import React, {useState} from 'react';
+import React, {useState, useCallback} from 'react';
 import {DropdownItem} from 'reactstrap';
 import {useDispatch} from 'react-redux';
+import {useHistory} from 'react-router-dom';
 
 import {editStory} from 'lib/routes';
 
@@ -13,28 +14,50 @@ import './StoryDropdownButton.scss';
 
 const CLASS = 'st-StoryDropdownButton';
 
-export default function StoryDropdownButton({story}) {
+export default function StoryDropdownButton({story, onDeleteStory}) {
 	const dispatch = useDispatch();
+	const history = useHistory();
 
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const handleDeleteStory = () => {
-		dispatch(deleteStory(story.id));
+		if (onDeleteStory) {
+			return onDeleteStory(story.id, story.favouriteId);
+		}
+
+		return _handleDeleteStory();
 	};
+
+	const _handleDeleteStory = useCallback(() => {
+		dispatch(deleteStory(story.id, history));
+	}, [dispatch, story, history]);
 
 	const toggleModal = () => setIsModalOpen(prevState => !prevState);
 
 	const renderContent = () => (
 		<span>
-			Are you sure you want to delete <strong>{story.title}</strong>?
+			Are you sure you want to delete <strong>{story.title || 'Untitled'}</strong>?
 		</span>
 	);
+
+	if (!story) {
+		return null;
+	}
+
+	const {storypages} = story;
+
+	const pageId = storypages && storypages.length ? storypages[0].id : null;
 
 	return (
 		<div className={CLASS}>
 			<DropdownButton>
-				<DropdownItem href={editStory(story.id)}>Edit</DropdownItem>
-				<DropdownItem divider />
+				{pageId && (
+					<>
+						<DropdownItem href={editStory(story.id, pageId)}>Edit</DropdownItem>{' '}
+						<DropdownItem divider />
+					</>
+				)}
+
 				<DropdownItem onClick={toggleModal}>Delete</DropdownItem>
 			</DropdownButton>
 
@@ -43,6 +66,8 @@ export default function StoryDropdownButton({story}) {
 					isOpen={isModalOpen}
 					renderFooter
 					title="Delete"
+					cancelLabel="Cancel"
+					confirmLabel="Delete"
 					content={renderContent()}
 					onClose={toggleModal}
 					onSubmit={handleDeleteStory}

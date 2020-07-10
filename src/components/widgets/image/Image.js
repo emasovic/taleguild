@@ -1,20 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import {ColorExtractor} from 'react-color-extractor';
 
 import ENV from 'env';
+
+import Icon from '../icon/Icon';
 
 import './Image.scss';
 
 const CLASS = 'st-Image';
 
-export default function Image({src, image, alt, ...rest}) {
+export default function Image({src, image, alt, formats, size, ...rest}) {
+	if (formats && formats[size]) {
+		image = formats[size];
+	}
+
 	if (image) {
 		src = ENV.api.url + image.url;
 	}
 
 	if (!src) {
-		return <div className={CLASS + '-fallback'} />;
+		return (
+			<div className={CLASS + '-fallback'}>
+				<Icon />
+			</div>
+		);
 	}
 
 	return <img src={src} alt={alt} className={CLASS} {...rest} />;
@@ -26,7 +35,9 @@ Image.propTypes = {
 	width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 	height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 	alt: PropTypes.string,
-	getColors: PropTypes.func,
+	formats: PropTypes.object,
+	size: PropTypes.string,
+	// getColors: PropTypes.func,
 };
 
 Image.defaultProps = {

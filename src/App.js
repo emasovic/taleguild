@@ -1,53 +1,22 @@
-import React, {useEffect} from 'react';
-import {Route, BrowserRouter as Router, Switch} from 'react-router-dom';
-import {useDispatch} from 'react-redux';
+import React from 'react';
+import {useSelector} from 'react-redux';
 
-import * as routes from 'lib/routes';
+import Routes from './Routes';
 
-import {getUser} from './redux/user';
+import Loader from 'components/widgets/loader/Loader';
 
-import Nav from 'components/nav/Nav';
+import './App.scss';
 
-import Home from 'components/Home';
-
-import Story from 'components/stories/Story';
-import StoryWriter from 'components/stories/StoryWriter';
-
-import UserProfile from 'components/user/UserProfile';
-import UserSettings from 'components/user/UserSettings';
-import DraftStoriesPage from 'components/user/pages/DraftStoriesPage';
-import SavedStoriesPage from 'components/user/pages/SavedStoriesPage';
-
-import ForgotPassword from 'components/login/ForgotPassword';
-import ResetPassword from 'components/login/ResetPassword';
-
-import PrivateRoute from 'PrivateRoute';
-import NotFound from 'NotFound';
+// const CLASS = 'st-App';
 
 function App() {
-	const dispatch = useDispatch();
+	const loading = useSelector(state => state.user.loading);
 
-	useEffect(() => {
-		dispatch(getUser());
-	}, [dispatch]);
+	if (loading) {
+		return <Loader />;
+	}
 
-	return (
-		<Router>
-			<Nav />
-			<Switch>
-				<Route exact path={routes.HOME} component={Home} />
-				<PrivateRoute path={routes.WRITE_STORY} component={StoryWriter} />
-				<Route path={routes.STORY_ID} component={Story} />
-				<PrivateRoute path={routes.USER_STORIES_SAVED} component={SavedStoriesPage} />
-				<PrivateRoute path={routes.USER_STORIES_DRAFTS} component={DraftStoriesPage} />
-				<PrivateRoute path={routes.USER_SETTINGS} component={UserSettings} />
-				<Route path={routes.USER_ID} component={UserProfile} />
-				<Route path={routes.FORGOT_PASSWORD} component={ForgotPassword} />
-				<Route path={routes.RESET_PASSWORD} component={ResetPassword} />
-				<Route path="*" component={NotFound} />
-			</Switch>
-		</Router>
-	);
+	return <Routes />;
 }
 
 export default App;

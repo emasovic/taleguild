@@ -26,7 +26,7 @@ const IconButton = ({
 	...props
 }) => {
 	if (loading) {
-		icon = FA.cog;
+		icon = FA.solid_cog;
 		disabled = spin = true;
 	}
 

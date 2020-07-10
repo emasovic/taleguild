@@ -15,7 +15,13 @@
 		}
 
 		&-content {
-			min-width: 500px;
+			min-width: $story-preview-width-medium;
+			border-radius: 6px;
+			border: 1px solid $color-grey-border;
+
+			@media (max-width: $breakpoint-sm) {
+				min-width: $story-preview-width-small;
+			}
 		}
 
 		&-header {

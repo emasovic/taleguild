@@ -9,7 +9,7 @@ import './DropdownButton.scss';
 
 const CLASS = 'st-DropdownButton';
 
-export default function DropdownButton({children, icon, color, ...props}) {
+export default function DropdownButton({children, icon, outline, color, toggleItem, ...props}) {
 	const [dropdownOpen, setDropdownOpen] = useState(false);
 
 	const toggle = () => setDropdownOpen(prevState => !prevState);
@@ -17,8 +17,8 @@ export default function DropdownButton({children, icon, color, ...props}) {
 	return (
 		<>
 			<Dropdown className={CLASS} isOpen={dropdownOpen} toggle={toggle} {...props}>
-				<DropdownToggle outline color={color}>
-					<FontAwesomeIcon icon={icon} />
+				<DropdownToggle outline={outline} color={color}>
+					{toggleItem || <FontAwesomeIcon icon={icon} />}
 				</DropdownToggle>
 				<DropdownMenu right>{children}</DropdownMenu>
 			</Dropdown>
@@ -29,4 +29,5 @@ export default function DropdownButton({children, icon, color, ...props}) {
 DropdownButton.defaultProps = {
 	color: COLOR.secondary,
 	icon: FA.soild_elipsis_h,
+	outline: true,
 };

@@ -1,5 +1,7 @@
 export const HOME = '/';
 
+export const FEED = '/feed';
+
 const STORY = '/story';
 export const NEW_STORY = STORY + '/new';
 export const STORY_ID = STORY + '/:id';
@@ -19,6 +21,9 @@ export const goToUserStories = id => USER + `/${id}/stories`;
 
 export const FORGOT_PASSWORD = '/forgot-password';
 export const RESET_PASSWORD = '/reset-password';
+export const WELCOME = '/welcome';
 
 export const REGISTER = '/register';
 export const LOGIN = '/login';
+
+export const DELETED_STORY = '/deleted-story';

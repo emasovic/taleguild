@@ -5,11 +5,14 @@ body {
 	display: flex;
 	min-height: 100vh;
 	font-family: 'Lato', serif;
+	overflow-y: scroll;
+	background-color: #fafaf9;
 }
 
 #root {
-	height: 100vh;
+	min-height: 100vh;
 	max-width: 1366px;
 	width: 100%;
+	padding: 0 20px;
 	margin: 0 auto;
 }

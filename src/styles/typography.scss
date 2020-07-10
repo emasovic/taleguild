@@ -1,0 +1,53 @@
+@import './variables.scss';
+
+//MERRIWEATHER
+
+.merriweather-black {
+	font-family: $font-merriweather;
+	color: $color-secondary-black;
+}
+
+.merriweather-black-bold {
+	@extend .merriweather-black;
+	font-weight: 900;
+}
+
+.heading-h1-black-bold {
+	@extend .merriweather-black-bold;
+	font-size: 32px;
+
+	@media (max-width: $breakpoint-sm) {
+		font-size: 18px;
+	}
+}
+
+.heading-h2-black-bold {
+	@extend .merriweather-black-bold;
+	font-size: 24px;
+}
+
+.heading-h3-black-bold {
+	@extend .merriweather-black-bold;
+	font-size: 22px;
+}
+
+.heading-h4-black-bold {
+	@extend .merriweather-black-bold;
+	font-size: 18px;
+}
+
+.placeholder-18-black {
+	@extend .merriweather-black;
+	font-size: 18px;
+}
+
+.placeholder-16-black {
+	@extend .merriweather-black;
+	font-size: 16px;
+}
+
+//LATO
+
+.placeholder-grey-medium {
+	color: $color-grey-medium;
+}

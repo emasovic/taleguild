@@ -1,15 +1,25 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import {Input, Label, FormGroup, FormFeedback} from 'reactstrap';
+import classnames from 'classnames';
 
 import './FloatingInput.scss';
 
 const CLASS = 'st-FloatingInput';
 
-export default function FloatingInput(props) {
-	const {onChange, value, placeholder, invalid, errorMessage, label, ...rest} = props;
+export default function FloatingInput({
+	onChange,
+	value,
+	placeholder,
+	invalid,
+	errorMessage,
+	label,
+	className,
+	...rest
+}) {
+	const classNames = className ? classnames(CLASS, className) : CLASS;
 	return (
-		<FormGroup className={CLASS}>
+		<FormGroup className={classNames}>
 			<Label>{label}</Label>
 			<Input
 				placeholder={placeholder}

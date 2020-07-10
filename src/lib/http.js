@@ -1,5 +1,6 @@
 // import {useState, useCallback} from 'react';
 import axios from 'axios';
+import queryString from 'query-string';
 
 import ENV from '../env';
 
@@ -45,6 +46,11 @@ export const request = opts => {
 			...headers,
 		};
 	}
+
+	opts.paramsSerializer = params => {
+		Object.keys(params).forEach(key => params[key] === null && delete params[key]);
+		return queryString.stringify(params);
+	};
 
 	return axios(opts)
 		.then(res => {
