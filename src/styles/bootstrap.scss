@@ -29,7 +29,7 @@ $secondary: $color-primary-light;
 		&:hover {
 			background-color: $color-white;
 			color: $color-primary-dark;
-			border: none;
+			border: 1px solid transparent;
 		}
 
 		&:focus {
