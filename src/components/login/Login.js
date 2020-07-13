@@ -32,7 +32,7 @@ export default function Login(props) {
 	const {open, onClose, onChange} = props;
 
 	return (
-		<Modal returnFocusAfterClose={true} isOpen={open} modalClassName={CLASS}>
+		<Modal returnFocusAfterClose={true} isOpen={open} toggle={onClose} modalClassName={CLASS}>
 			<ModalHeader toggle={onClose} />
 			<ModalBody>
 				<Billboard />
@@ -41,7 +41,7 @@ export default function Login(props) {
 					<h4>Welcome Back</h4>
 					<FloatingInput
 						label="Email or username"
-						placeholder="Enter your email or username"
+						// placeholder="Enter your email or username"
 						value={identifier}
 						type="text"
 						onChange={val => setIdentifier(val)}
@@ -49,7 +49,7 @@ export default function Login(props) {
 
 					<FloatingInput
 						label="Enter password"
-						placeholder="you@example.com"
+						// placeholder="you@example.com"
 						value={password}
 						type="password"
 						onChange={val => setPassword(val)}

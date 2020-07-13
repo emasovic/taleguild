@@ -27,11 +27,11 @@
 		cursor: pointer;
 		font-size: 14px;
 		padding-left: 16px;
-		width: max-content;
 
 		@media (max-width: $breakpoint-sm) {
 			padding-left: 0;
 			padding-right: 16px;
+			width: max-content;
 		}
 
 		&:hover {

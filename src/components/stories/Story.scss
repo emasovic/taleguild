@@ -64,14 +64,18 @@
 		.page {
 			&-item {
 				.page-link {
-					background-color: #fff !important;
+					background-color: #fff;
 					border-radius: 6px;
 					padding: 10px 20px;
 					border: 1px solid $color-grey-border;
-					color: $color-grey-light;
+					color: $color-grey-medium;
 					margin: 0 6px;
 					min-width: 90px;
 					min-height: 40px;
+
+					&:hover {
+						background-color: $color-primary-cream;
+					}
 
 					&:focus {
 						box-shadow: none;
