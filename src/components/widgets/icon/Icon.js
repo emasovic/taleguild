@@ -16,7 +16,7 @@ export default function Icon({icon}) {
 		const width = current && current.offsetWidth;
 		const height = current && current.offsetHeight;
 		const size = width >= height ? width / 10 : height / 10;
-		const iconSize = Math.ceil(size / 10) * 10;
+		const iconSize = Math.ceil(size / 10) * 22;
 
 		setIconSize(iconSize);
 	};

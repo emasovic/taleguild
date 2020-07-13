@@ -19,7 +19,7 @@
 		}
 
 		&:hover {
-			font-weight: bold;
+			text-decoration: underline;
 			cursor: pointer;
 		}
 	}
@@ -33,9 +33,9 @@
 		background-color: $color-background !important;
 		padding: 0 6px;
 
-		// &--menu-is-open {
-		// 	background-color: $color-primary-light !important;
-		// }
+		&--menu-is-open {
+			background-color: #fff !important;
+		}
 	}
 
 	&__menu {

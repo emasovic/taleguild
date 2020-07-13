@@ -21,8 +21,6 @@ const IconButton = ({
 	spin,
 	loading,
 	disabled,
-	secondary,
-	danger,
 	...props
 }) => {
 	if (loading) {
@@ -52,19 +50,13 @@ const IconButton = ({
 IconButton.propTypes = {
 	icon: PropTypes.object,
 	className: PropTypes.string,
-	direction: PropTypes.string,
-	isDropdown: PropTypes.bool,
 	spin: PropTypes.bool,
 	loading: PropTypes.bool,
 	disabled: PropTypes.bool,
-	danger: PropTypes.bool,
 	active: PropTypes.bool,
-	block: PropTypes.bool,
-	secondary: PropTypes.bool,
 	onClick: PropTypes.func,
 	href: PropTypes.string,
 	type: PropTypes.oneOf(['button', 'reset', 'submit']),
-	label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
 };
 
 IconButton.defaultProps = {

@@ -8,6 +8,11 @@
 	position: sticky;
 	top: 80px;
 
+	@media (max-width: $breakpoint-sm) {
+		max-width: $story-preview-width-small;
+		margin: 0 auto;
+	}
+
 	> span {
 		font-size: 14px;
 		color: $color-grey-light;
@@ -22,6 +27,12 @@
 		cursor: pointer;
 		font-size: 14px;
 		padding-left: 16px;
+		width: max-content;
+
+		@media (max-width: $breakpoint-sm) {
+			padding-left: 0;
+			padding-right: 16px;
+		}
 
 		&:hover {
 			color: $color-secondary-black;

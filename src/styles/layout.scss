@@ -1,0 +1,19 @@
+body {
+	display: flex;
+	min-height: 100vh;
+	font-family: $font-lato;
+	overflow-y: scroll;
+	background-color: $color-background;
+}
+
+#root {
+	min-height: 100vh;
+	max-width: 1366px;
+	width: 100%;
+	padding: 0 20px;
+	margin: 0 auto;
+
+	@media (max-width: $breakpoint-sm) {
+		padding: 0;
+	}
+}

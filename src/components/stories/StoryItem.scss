@@ -104,8 +104,12 @@
 		&-categories {
 			span {
 				color: $color-grey-medium;
-				margin-right: 6px;
+				margin-right: 16px;
 				cursor: pointer;
+
+				&:hover {
+					text-decoration: underline;
+				}
 			}
 		}
 
@@ -153,7 +157,13 @@
 			justify-content: space-between;
 			color: $color-grey-medium;
 			cursor: pointer;
-			margin: 8px 0;
+			// margin: 8px 0;
+
+			span {
+				&:hover {
+					text-decoration: underline;
+				}
+			}
 
 			&-left {
 				span {
@@ -235,8 +245,12 @@
 						right: 5px;
 						font-size: 12px;
 						background: none;
-						border: none;
+						// border: 1px solid transparent;
 						box-shadow: none;
+
+						&:hover {
+							box-shadow: $box-shadow-light;
+						}
 					}
 
 					span {

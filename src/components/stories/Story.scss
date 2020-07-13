@@ -8,6 +8,10 @@
 	max-width: $story-preview-width-large;
 	margin: 0 auto;
 
+	@media (max-width: $breakpoint-sm) {
+		width: $story-preview-width-small;
+	}
+
 	.st-StoryItem {
 		width: $story-preview-width-large;
 		border: none;

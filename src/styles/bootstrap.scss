@@ -21,15 +21,30 @@ $secondary: $color-primary-light;
 
 	&-primary {
 		color: $color-white;
+		border: none;
+
+		&:hover {
+			background-color: $color-primary-dark;
+		}
+
+		&:active:not(:disabled):not(.disabled):active {
+			box-shadow: none;
+		}
 	}
 
 	&-secondary {
 		color: $color-primary-dark;
+		border: none;
 
 		&:hover {
 			background-color: $color-white;
 			color: $color-primary-dark;
-			border: 1px solid transparent;
+		}
+
+		&:active:not(:disabled):not(.disabled):active {
+			background-color: $color-white;
+			color: $color-primary-dark;
+			box-shadow: none;
 		}
 
 		&:focus {

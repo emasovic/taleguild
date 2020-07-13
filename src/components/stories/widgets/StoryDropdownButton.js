@@ -53,7 +53,7 @@ export default function StoryDropdownButton({story, onDeleteStory}) {
 			<DropdownButton>
 				{pageId && (
 					<>
-						<DropdownItem href={editStory(story.id, pageId)}>Edit</DropdownItem>{' '}
+						<DropdownItem href={editStory(story.id, pageId)}>Edit</DropdownItem>
 						<DropdownItem divider />
 					</>
 				)}

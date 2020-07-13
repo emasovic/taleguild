@@ -2,10 +2,11 @@
 
 .st-DropdownButton {
 	> button {
-		border: 1px solid transparent;
+		// border: 1px solid transparent;
 		outline: none !important;
 		box-shadow: none;
 		color: $color-grey-cream;
+		border-color: transparent;
 
 		&:hover {
 			background-color: $color-white;
@@ -27,6 +28,21 @@
 			font-weight: bold;
 			color: $color-grey-black;
 			padding: 15px;
+
+			&:hover {
+				background-color: $color-background-white-grey;
+				color: $color-grey-black;
+			}
+
+			&:active {
+				background-color: $color-grey-border;
+				color: $color-grey-black;
+			}
+
+			&:disabled {
+				color: $color-grey-border !important;
+				cursor: not-allowed;
+			}
 		}
 	}
 }

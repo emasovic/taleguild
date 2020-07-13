@@ -12,8 +12,6 @@ import Toasts from './Toasts';
 
 import 'types/font_awesome';
 
-import './styles/bootstrap.scss';
-import './styles/typography.scss';
 import './index.scss';
 
 store.dispatch(getUser());

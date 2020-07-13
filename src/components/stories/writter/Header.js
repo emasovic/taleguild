@@ -201,10 +201,11 @@ export default function Header({
 						<IconButton
 							icon={FA.solid_eye}
 							disabled={op === STORY_OP.saving_storypage}
+							outline
 							onClick={togglePreviewStoryModal}
 							color={COLOR.secondary}
 						/>
-						<DropdownButton outline={false}>
+						<DropdownButton outline={true}>
 							<DropdownItem
 								disabled={op === STORY_OP.saving_storypage}
 								onClick={() => onStoryPage(currentEditing.id, currentEditing.text)}
