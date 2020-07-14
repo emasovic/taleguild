@@ -140,6 +140,7 @@ export default function StoryItem({
 						<UserAvatar user={data} />
 						<div className={CLASS + '-comments-new-comment'}>
 							<TextArea
+								cols={34}
 								value={comment}
 								placeholder="Write a comment..."
 								onChange={val => setComment(val)}
