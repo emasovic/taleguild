@@ -26,7 +26,7 @@ export const savedStorySlice = createSlice({
 			state.loading = null;
 		},
 		removeSavedStory: (state, action) => {
-			delete state.data[action.payload];
+			state.data && delete state.data[action.payload];
 			state.op = null;
 			state.loading = null;
 		},

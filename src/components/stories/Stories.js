@@ -17,6 +17,7 @@ import LoadMore from 'components/widgets/loadmore/LoadMore';
 import StoryItem from './StoryItem';
 
 import './Stories.scss';
+import NoStories from './NoStories';
 
 const CLASS = 'st-Stories';
 
@@ -99,7 +100,7 @@ function Stories({criteria, filter}) {
 				);
 			})
 		) : (
-			<h2>No stories found</h2>
+			<NoStories />
 		);
 
 	if (op === STORY_OP.loading) {

@@ -28,6 +28,8 @@
 	}
 
 	@media (max-width: $breakpoint-m) {
+		// padding: 0 10px;
+
 		&-drafts,
 		&-holder {
 			display: none;
@@ -46,6 +48,10 @@
 				padding: 0 15px 0 0;
 				margin-bottom: 12px;
 				text-transform: capitalize;
+			}
+
+			.st-NoStories {
+				display: none;
 			}
 		}
 

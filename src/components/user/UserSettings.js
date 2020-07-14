@@ -7,6 +7,7 @@ import IconButton from 'components/widgets/button/IconButton';
 import FloatingInput from 'components/widgets/input/FloatingInput';
 import Uploader from 'components/widgets/uploader/Uploader';
 import Loader from 'components/widgets/loader/Loader';
+import TextArea from 'components/widgets/textarea/TextArea';
 
 import './UserSettings.scss';
 
@@ -60,7 +61,7 @@ export default function UserSettings() {
 			<div className={CLASS + '-info'}>
 				<FloatingInput value={displayName} label="Display name" onChange={setDisplayName} />
 
-				<FloatingInput value={description} label="Description" onChange={setDescription} />
+				<TextArea value={description} label="Description" onChange={setDescription} />
 
 				<FloatingInput value={username} label="Username" onChange={setUsername} />
 

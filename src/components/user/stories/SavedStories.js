@@ -13,6 +13,7 @@ import {selectUser} from 'redux/user';
 
 import Loader from 'components/widgets/loader/Loader';
 import LoadMore from 'components/widgets/loadmore/LoadMore';
+import NoStories from 'components/stories/NoStories';
 
 import './SavedStories.scss';
 
@@ -84,7 +85,7 @@ export default function SavedStories({shouldLoadMore, Component}) {
 				);
 			})
 		) : (
-			<span>No stories found</span>
+			<NoStories />
 		);
 
 	return (

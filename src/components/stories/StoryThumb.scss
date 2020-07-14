@@ -7,8 +7,8 @@
 	border-radius: 6px;
 	margin: 8px 0;
 	height: 120px;
-	min-width: $story-preview-width-small;
-	max-width: $story-preview-width-medium;
+	// min-width: $story-preview-width-small;
+	width: $story-preview-width-medium;
 	cursor: pointer;
 	position: relative;
 	// flex: 1 1;
@@ -19,10 +19,14 @@
 		right: 5px;
 	}
 
+	@media (max-width: $breakpoint-sm) {
+		width: $story-preview-width-small;
+	}
+
 	&:hover {
 		text-decoration: none;
 		box-shadow: $box-shadow-light;
-		transition: all .2s ease-in;
+		transition: all 0.2s ease-in;
 	}
 
 	&-cover {

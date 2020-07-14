@@ -1,7 +1,6 @@
 import React, {useEffect, useState, useRef} from 'react';
 import {useDispatch, useSelector, shallowEqual} from 'react-redux';
 import orderBy from 'lodash/orderBy';
-
 import {useParams} from 'react-router-dom';
 
 import {loadStory, selectStory} from 'redux/story';
@@ -11,6 +10,7 @@ import TextViewer from 'components/widgets/text-editor/TextViewer';
 import Loader from 'components/widgets/loader/Loader';
 import Pages from 'components/widgets/pagination/Pagination';
 import StoryItem from './StoryItem';
+import NotFound from 'NotFound';
 
 import './Story.scss';
 
@@ -20,7 +20,7 @@ export default function Story() {
 	const {id} = useParams();
 	const viewerRef = useRef(null);
 	const dispatch = useDispatch();
-	const {story} = useSelector(
+	const {story, loggedUser} = useSelector(
 		state => ({
 			story: selectStory(state, id),
 
@@ -28,6 +28,10 @@ export default function Story() {
 		}),
 		shallowEqual
 	);
+
+	const {data} = loggedUser;
+
+	const loggedUserId = data && data.id;
 
 	const [activePage, setActivePage] = useState(0);
 
@@ -51,9 +55,9 @@ export default function Story() {
 		);
 	}
 
-	// if (!story.published) {
-	// 	return <Redirect to={HOME} />;
-	// }
+	if (!story.published && story.user.id !== loggedUserId) {
+		return <NotFound />;
+	}
 
 	let {storypages} = story;
 	storypages =

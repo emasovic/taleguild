@@ -18,6 +18,20 @@
 		position: absolute;
 		right: 10px;
 		top: 20px;
+
+		@media (max-width: $breakpoint-sm) {
+			.dropdown {
+				&-divider {
+					display: none;
+				}
+
+				&-item {
+					&:first-child {
+						display: none;
+					}
+				}
+			}
+		}
 	}
 
 	&:last-child {

@@ -8,6 +8,7 @@ import {selectStories, loadStories} from 'redux/user_stories';
 
 import Loader from 'components/widgets/loader/Loader';
 import IconButton from 'components/widgets/button/IconButton';
+import NoStories from 'components/stories/NoStories';
 
 import './MyStories.scss';
 
@@ -69,7 +70,7 @@ export default function MyStories({Component}) {
 				);
 			})
 		) : (
-			<span>No stories found</span>
+			<NoStories />
 		);
 
 	return (

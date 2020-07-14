@@ -14,7 +14,7 @@
 
 		.st-StoryThumb {
 			background-color: $color-white;
-			
+
 			&-cover {
 				.st-Image {
 					&-fallback {
@@ -46,6 +46,10 @@
 				padding: 0 15px 0 0;
 				margin-bottom: 12px;
 				text-transform: capitalize;
+			}
+
+			.st-NoStories {
+				display: none;
 			}
 		}
 

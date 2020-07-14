@@ -25,6 +25,24 @@
 	@media (max-width: $breakpoint-sm) {
 		max-width: $story-preview-width-small;
 		margin: 0 auto;
+
+		&:before,
+		&:after {
+			content: '';
+			top: 0;
+			background: $color-background;
+			position: absolute;
+			width: 10px;
+			height: 100%;
+		}
+
+		&:before {
+			left: -10px;
+		}
+
+		&:after {
+			right: -10px;
+		}
 	}
 
 	.st-StoryPicker {
@@ -57,7 +75,7 @@
 		justify-content: flex-start;
 
 		@media (max-width: $breakpoint-sm) {
-			flex-basis: 70% !important;
+			width: calc(100% - 98px);
 			justify-content: space-between;
 		}
 
@@ -71,13 +89,17 @@
 				margin-right: 36px;
 				border-radius: 6px;
 
-				@media (max-width: $breakpoint-sm) {
-					margin-right: 0;
-					padding: 0;
+				@media (max-width: $breakpoint-m) {
+					margin-right: 24px;
 
 					span {
 						display: none;
 					}
+				}
+
+				@media (max-width: $breakpoint-sm) {
+					margin-right: 0;
+					padding: 0;
 				}
 
 				&:hover {
@@ -129,7 +151,7 @@
 
 				@media (max-width: $breakpoint-sm) {
 					border: none;
-					padding: 0;
+					padding: 10px 0;
 					background-color: transparent;
 				}
 

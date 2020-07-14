@@ -4,6 +4,10 @@
 	.st-Loader {
 		min-height: 400px;
 		min-width: $story-preview-width-medium;
+
+		@media (max-width: $breakpoint-sm) {
+			min-width: $story-preview-width-small;
+		}
 	}
 
 	&-header {

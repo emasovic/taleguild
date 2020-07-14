@@ -65,10 +65,14 @@ export const storySlice = createSlice({
 		},
 		removeSaved: (state, action) => {
 			const {storyId, savedId} = action.payload;
-			state.data[storyId] = {
-				...state.data[storyId],
-				saved_by: state.data[storyId].saved_by.filter(l => l.id !== savedId),
-			};
+
+			if (state.data) {
+				state.data[storyId] = {
+					...state.data[storyId],
+					saved_by: state.data[storyId].saved_by.filter(l => l.id !== savedId),
+				};
+			}
+
 			state.op = null;
 		},
 		setFilter: (state, action) => {
