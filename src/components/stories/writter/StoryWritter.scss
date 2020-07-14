@@ -39,9 +39,18 @@
 		}
 
 		.st-DropdownButton {
-			> button {
-				// background: $color-primary-light;
-				box-shadow: $box-shadow-light;
+			.btn {
+				background-color: $color-background;
+				border-color: $color-grey-border;
+				color: $color-grey-light;
+				box-shadow: none;
+
+				&:hover,
+				&:active:not(:disabled):not(.disabled):active {
+					background-color: #fff;
+					color: $color-grey-light;
+					border-color: $color-grey-border;
+				}
 			}
 
 			.dropdown {
@@ -80,6 +89,22 @@
 				.st-StoryPagePicker,
 				.st-IconButton {
 					margin-right: 16px;
+				}
+
+				.st-IconButton {
+					&-with-content {
+						background-color: $color-background;
+						border-color: $color-grey-border;
+						color: $color-grey-light;
+						box-shadow: none;
+
+						&:hover,
+						&:active {
+							background-color: #fff !important;
+							color: $color-grey-light !important;
+							border-color: $color-grey-border !important;
+						}
+					}
 				}
 
 				&-buttons {

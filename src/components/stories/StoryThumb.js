@@ -46,7 +46,7 @@ export default function StoryThumb({
 			<div className={CLASS + '-details'}>
 				<div className={CLASS + '-details-description'}>
 					<span>{title}</span>
-					<span>{description}</span>
+					{/* <span>{description}</span> */}
 				</div>
 
 				<div className={CLASS + '-details-created'}>

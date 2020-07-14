@@ -68,7 +68,7 @@ export default function StoryItem({
 				addToast({...Toast.error('Comment needs to be less than 200 characters.')})
 			);
 		}
-		if (comment.trim().length <= 2) {
+		if (comment.trim().length <= 2 && !commentId) {
 			return dispatch(
 				addToast({...Toast.error('Comment needs to be more than 2 characters.')})
 			);
@@ -246,9 +246,9 @@ export default function StoryItem({
 			</Link>
 
 			<div className={CLASS + '-footer'}>
-				<div className={CLASS + '-footer-title'}>
+				<Link to={`/story/${id}`} className={CLASS + '-footer-title'}>
 					<span>{title}</span>
-				</div>
+				</Link>
 				<div className={CLASS + '-footer-categories'}>{renderCategories}</div>
 				{data && (
 					<div className={CLASS + '-footer-actions'}>

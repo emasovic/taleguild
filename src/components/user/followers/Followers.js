@@ -59,7 +59,7 @@ export default function Followers({id}) {
 										color={COLOR.secondary}
 										onClick={e => handleFollow(e, item)}
 									>
-										Delete
+										Remove
 									</IconButton>
 								)}
 							</Link>
