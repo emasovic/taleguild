@@ -92,7 +92,7 @@ export const createOrDeleteSavedStory = (favourite, userId, storyId) => async (
 
 	if (res.error) {
 		dispatch(loadingEnd());
-		return dispatch(newToast({...Toast.error('Došlo je do greške!')}));
+		return dispatch(newToast({...Toast.error(res.error)}));
 	}
 
 	if (res.id) {
