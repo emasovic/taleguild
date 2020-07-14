@@ -14,14 +14,14 @@ const CLASS = 'st-StoryListItem';
 
 export default function StoryListItem({id, formats, size, image, title}) {
 	return (
-		<div className={CLASS}>
-			<Link to={goToStory(id)} className={CLASS + '-cover'}>
+		<Link to={goToStory(id)} className={CLASS}>
+			<div className={CLASS + '-cover'}>
 				<Image image={image} formats={formats} size={size} />
-			</Link>
+			</div>
 			<div className={CLASS + '-description'}>
 				<span>{title}</span>
 			</div>
-		</div>
+		</Link>
 	);
 }
 
