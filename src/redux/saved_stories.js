@@ -15,6 +15,7 @@ export const savedStorySlice = createSlice({
 		data: null,
 		error: null,
 		pages: null,
+		op: null,
 		loading: false,
 	},
 	reducers: {
