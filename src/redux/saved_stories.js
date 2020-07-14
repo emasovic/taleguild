@@ -22,11 +22,12 @@ export const savedStorySlice = createSlice({
 			const {data, invalidate} = action.payload;
 			state.data = gotDataHelper(state.data, data, invalidate);
 			state.op = null;
-			state.loading = false;
+			state.loading = null;
 		},
 		removeSavedStory: (state, action) => {
 			delete state.data[action.payload];
-			state.loading = false;
+			state.op = null;
+			state.loading = null;
 		},
 		gotPages: (state, action) => {
 			state.pages = action.payload;
@@ -35,7 +36,7 @@ export const savedStorySlice = createSlice({
 			state.loading = true;
 		},
 		loadingEnd: state => {
-			state.loading = false;
+			state.loading = null;
 		},
 		opStart: (state, action) => {
 			state.op = action.payload;
@@ -84,14 +85,14 @@ export const createOrDeleteSavedStory = (favourite, userId, storyId) => async (
 	dispatch,
 	getState
 ) => {
-	dispatch(loadingStart());
+	dispatch(opStart(STORY_OP.loading));
 
 	const res = favourite
 		? await api.deleteSavedStory(favourite.id)
 		: await api.createSavedStory({user: userId, story: storyId});
 
 	if (res.error) {
-		dispatch(loadingEnd());
+		dispatch(opEnd());
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
 

@@ -112,14 +112,14 @@ export default function Navigation() {
 							<NavItem>
 								<NavLink href={FEED} active={location.pathname === FEED}>
 									<FontAwesomeIcon icon={FA.solid_home} />
-									Feed
+									<span>Feed</span>
 								</NavLink>
 							</NavItem>
 
 							<NavItem>
 								<NavLink href={HOME} active={location.pathname === HOME}>
 									<FontAwesomeIcon icon={FA.compass} />
-									Explore
+									<span>Explore</span>
 								</NavLink>
 							</NavItem>
 						</>

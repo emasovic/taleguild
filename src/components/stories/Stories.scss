@@ -52,6 +52,10 @@
 			text-align: center;
 			// font-family: $font-merriweather;
 			color: $color-grey-cream;
+
+			@media (max-width: $breakpoint-m) {
+				min-width: $story-preview-width-small;
+			}
 		}
 	}
 

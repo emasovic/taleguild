@@ -76,7 +76,7 @@ export const loadStories = (params, count, op = STORY_OP.loading) => async dispa
 	return dispatch(gotData({data: res}));
 };
 
-export const deleteStory = (storyId, history) => async (dispatch, getState) => {
+export const deleteStory = (storyId) => async dispatch => {
 	dispatch(loadingStart());
 
 	const res = await api.deleteStory(storyId);
