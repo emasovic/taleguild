@@ -251,29 +251,31 @@ export default function StoryItem({
 					<span>{title}</span>
 				</Link>
 				<div className={CLASS + '-footer-categories'}>{renderCategories}</div>
-				{data && (
-					<div className={CLASS + '-footer-actions'}>
-						<div className={CLASS + '-footer-actions-left'}>
+				<div className={CLASS + '-footer-actions'}>
+					{data && (
+						<>
+							<div className={CLASS + '-footer-actions-left'}>
+								<IconButton
+									outline
+									active={!!liked}
+									icon={likeIcon}
+									onClick={e => handleLike(e, liked, id)}
+								/>
+								<IconButton
+									outline
+									icon={FA.comment}
+									onClick={() => setIsCommentsOpen(true)}
+								/>
+							</div>
 							<IconButton
 								outline
-								active={!!liked}
-								icon={likeIcon}
-								onClick={e => handleLike(e, liked, id)}
+								active={!!favourite}
+								icon={favouriteIcon}
+								onClick={e => handleFavourite(e, favourite, id)}
 							/>
-							<IconButton
-								outline
-								icon={FA.comment}
-								onClick={() => setIsCommentsOpen(true)}
-							/>
-						</div>
-						<IconButton
-							outline
-							active={!!favourite}
-							icon={favouriteIcon}
-							onClick={e => handleFavourite(e, favourite, id)}
-						/>
-					</div>
-				)}
+						</>
+					)}
+				</div>
 
 				<div className={CLASS + '-footer-stats'}>
 					<div className={CLASS + '-footer-stats-left'}>
