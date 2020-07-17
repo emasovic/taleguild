@@ -77,6 +77,13 @@ export default function Story() {
 				<title>{story.title}</title>
 				<meta name="description" content={story.description} />
 				<link rel="apple-touch-icon" href={ENV.api.url + story.image.url} />
+
+				<meta property="og:image" content={ENV.api.url + story.image.url} />
+				<meta property="og:image:secure_url" content={ENV.api.url + story.image.url} />
+
+				<meta property="og:image:width" content="50" />
+				<meta property="og:image:height" content="50" />
+				<meta property="og:image:alt" content="A shiny red apple with a bite taken out" />
 			</Helmet>
 			<StoryItem
 				id={story.id}
