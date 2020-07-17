@@ -1,6 +1,6 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
-import {Helmet} from 'react-helmet';
+// import {Helmet} from 'react-helmet';
 
 import Routes from './Routes';
 
@@ -17,15 +17,7 @@ function App() {
 		return <Loader />;
 	}
 
-	return (
-		<>
-			<Helmet>
-				<title>taleguild</title>
-				<meta name="description" content="Story universe" />
-			</Helmet>
-			<Routes />
-		</>
-	);
+	return <Routes />;
 }
 
 export default App;
