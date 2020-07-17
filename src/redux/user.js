@@ -108,6 +108,11 @@ export const updateUser = (token, payload) => async dispatch => {
 	const res = await api.updateUser(token, payload);
 	if (res.error) {
 		dispatch(loadingEnd());
+		if (Array.isArray(res.error)) {
+			return dispatch(
+				newToast({...Toast.error(res.error[0].messages[0].message || 'Bad request')})
+			);
+		}
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
 	dispatch(newToast({...Toast.success('Successfully updated user settings!')}));
