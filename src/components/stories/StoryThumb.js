@@ -26,6 +26,7 @@ export default function StoryThumb({
 	createdDate,
 	favouriteId,
 	onDeleteStory,
+	storypages,
 }) {
 	const history = useHistory();
 
@@ -39,7 +40,10 @@ export default function StoryThumb({
 
 	return (
 		<div className={CLASS}>
-			<StoryDropdownButton story={{id, favouriteId, title}} onDeleteStory={onDeleteStory} />
+			<StoryDropdownButton
+				story={{id, favouriteId, title, storypages}}
+				onDeleteStory={onDeleteStory}
+			/>
 			<Link to={goToStory(id)} className={CLASS + '-cover'}>
 				<Image image={image} formats={formats} size={size} />
 			</Link>
@@ -71,6 +75,7 @@ StoryThumb.propTypes = {
 	title: propTypes.string,
 	createdDate: propTypes.string,
 	author: propTypes.object,
+	storypages: propTypes.array,
 };
 
 StoryThumb.defaultProps = {

@@ -52,7 +52,7 @@ export default function Header({
 	const [description, setDescription] = useState('');
 	const [category, setCategory] = useState([]);
 	const [image, setImage] = useState(null);
-	// const [published, setPublished] = useState(false);
+	const [published, setPublished] = useState(false);
 	const [isPublishStoryOpen, setIsPublishStoryOpen] = useState(false);
 	const [isDeleteStoryOpen, setIsDeleteStoryOpen] = useState(false);
 	const [isDeleteStoryPageOpen, setIsDeleteStoryPageOpen] = useState(false);
@@ -174,9 +174,15 @@ export default function Header({
 			setDescription(story.description || '');
 			setCategory(story.categories.map(item => ({label: item.name, value: item.id})));
 			setImage(story.image);
-			// setPublished(story.published || false);
+			setPublished(story.published || false);
 		}
 	}, [story]);
+
+	useEffect(() => {
+		if (published) {
+			onCreateOrUpdateStory({id: story && story.id, published: false}, false);
+		}
+	}, [onCreateOrUpdateStory, story, published]);
 
 	if (!story) {
 		return <Loader />;

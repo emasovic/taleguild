@@ -70,6 +70,7 @@ export default function DraftStories({shouldLoadMore, Component}) {
 						key={item.id}
 						onDeleteStory={handleDeleteStory}
 						createdDate={item.created_at}
+						storypages={item.storypages}
 						// author={item.user}
 					/>
 				);
