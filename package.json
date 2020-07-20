@@ -43,6 +43,9 @@
     "format": "prettier --write \"**/*.+(js)\"",
     "stylelint-check": "stylelint-config-prettier-check"
   },
+  "reactSnap": {
+    "inlineCss": true
+  },
   "eslintConfig": {
     "extends": "react-app"
   },
