@@ -1,5 +1,7 @@
 import React from 'react';
-import {Route, BrowserRouter as Router, Switch} from 'react-router-dom';
+import {Route, Router, Switch} from 'react-router-dom';
+import {createBrowserHistory} from 'history';
+import ReactGA from 'react-ga';
 
 import * as routes from 'lib/routes';
 
@@ -24,8 +26,15 @@ import NotFound from 'NotFound';
 import DeletedStory from 'DeletedStory';
 import Welcome from 'Welcome';
 
+const history = createBrowserHistory();
+
+history.listen(location => {
+	ReactGA.set({page: location.pathname});
+	ReactGA.pageview(location.pathname);
+});
+
 const Routes = () => (
-	<Router>
+	<Router history={history}>
 		<Nav />
 		<Switch>
 			<Route exact path={routes.HOME} component={Explore} />
