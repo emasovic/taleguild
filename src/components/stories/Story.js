@@ -4,6 +4,8 @@ import {Helmet} from 'react-helmet';
 import orderBy from 'lodash/orderBy';
 import {useParams} from 'react-router-dom';
 
+import ENV from 'env';
+
 import {loadStory, selectStory} from 'redux/story';
 import {selectUser} from 'redux/user';
 
@@ -14,9 +16,10 @@ import StoryItem from './StoryItem';
 import NotFound from 'NotFound';
 
 import './Story.scss';
-import ENV from 'env';
 
 const CLASS = 'st-Story';
+
+const URL = 'https://api.taleguild.com';
 
 export default function Story() {
 	const {id} = useParams();
@@ -75,15 +78,23 @@ export default function Story() {
 		<div className={CLASS} ref={viewerRef}>
 			<Helmet>
 				<title>{story.title}</title>
+				<meta name="title" content={story.title} />
 				<meta name="description" content={story.description} />
-				<link rel="apple-touch-icon" href={ENV.api.url + story.image.url} />
+				{story.image && (
+					<link rel="apple-touch-icon" href={ENV.api.url + story.image.url} />
+				)}
 
-				<meta property="og:image" content={ENV.api.url + story.image.url} />
-				<meta property="og:image:secure_url" content={ENV.api.url + story.image.url} />
+				<meta property="og:title" content={story.title} />
+				<meta property="og:description" content={story.description} />
+				{story.image && (
+					<meta property="og:image" content={ENV.api.url + story.image.url} />
+				)}
 
-				<meta property="og:image:width" content="50" />
-				<meta property="og:image:height" content="50" />
-				<meta property="og:image:alt" content="A shiny red apple with a bite taken out" />
+				<meta property="twitter:title" content={story.title} />
+				<meta property="twitter:description" content={story.description} />
+				{story.image && (
+					<meta property="twitter:image" content={ENV.api.url + story.image.url} />
+				)}
 			</Helmet>
 			<StoryItem
 				id={story.id}
