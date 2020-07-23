@@ -168,4 +168,6 @@ export const resetPassword = (payload, history) => async dispatch => {
 
 export const selectUser = state => state.user;
 
+export const loggedUserId = state => state.user.data && state.user.data.id;
+
 export default userSlice.reducer;

@@ -3,7 +3,7 @@ import {shallowEqual, useSelector, useDispatch} from 'react-redux';
 
 import {DEFAULT_CRITERIA} from 'types/story';
 
-import {selectUser} from 'redux/user';
+import {loggedUserId} from 'redux/user';
 import {selectFollowing, loadFollowing} from 'redux/following';
 
 import Loader from './widgets/loader/Loader';
@@ -13,9 +13,7 @@ import Explore from './Explore';
 export default function Home() {
 	const dispatch = useDispatch();
 	const {userId, following, loading} = useSelector(state => {
-		const {data} = selectUser(state);
-		const userId = data && data.id;
-
+		const userId = loggedUserId(state);
 		return {
 			following: selectFollowing(state, userId),
 			loading: state.following.loading,

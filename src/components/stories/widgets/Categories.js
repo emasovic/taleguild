@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import {Nav, NavItem, NavLink} from 'reactstrap';
 import {useHistory, useLocation} from 'react-router-dom';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {navigateToQuery} from 'redux/application';
-import {useLoadCategories} from 'hooks/categories';
+import {selectCategories} from 'redux/categories';
 
 import Loader from 'components/widgets/loader/Loader';
 
@@ -16,7 +16,10 @@ export default function Categories() {
 	const history = useHistory();
 	const location = useLocation();
 	const dispatch = useDispatch();
-	const [{data, isLoading}] = useLoadCategories();
+	const {categories, loading} = useSelector(state => ({
+		loading: state.categories.loading,
+		categories: selectCategories(state),
+	}));
 	const [activeCategory, setActiveCategory] = useState(null);
 
 	const category = new URLSearchParams(useLocation().search).get('categories');
@@ -32,7 +35,7 @@ export default function Categories() {
 	return (
 		<Nav className={CLASS}>
 			<span>Categories</span>
-			{isLoading ? (
+			{loading ? (
 				<Loader />
 			) : (
 				<>
@@ -41,8 +44,8 @@ export default function Categories() {
 							All
 						</NavLink>
 					</NavItem>
-					{data.length
-						? data.map((item, key) => {
+					{categories.length
+						? categories.map((item, key) => {
 								return (
 									<NavItem
 										key={key}

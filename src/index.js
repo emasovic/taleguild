@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 
 import store from './redux/store';
-import {getUser} from 'redux/user';
+import {initialize} from 'redux/application';
 
 import * as serviceWorker from './serviceWorker';
 
@@ -14,7 +14,7 @@ import 'types/font_awesome';
 
 import './index.scss';
 
-store.dispatch(getUser());
+store.dispatch(initialize());
 
 ReactDOM.render(
 	<React.StrictMode>

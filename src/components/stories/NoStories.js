@@ -12,7 +12,7 @@ export default function NoStories() {
 	return (
 		<div className={CLASS}>
 			<EmptyState />
-			<span className={TYPOGRAPHY_MERRI.heading_h1_black_bold}>
+			<span className={TYPOGRAPHY_MERRI.heading_h2_black_bold}>
 				There are no stories here yet.
 			</span>
 		</div>

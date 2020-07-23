@@ -91,6 +91,7 @@ export default function StoryWritter() {
 			<Header
 				className={CLASS}
 				pages={pages}
+				op={op}
 				story={story}
 				currentEditing={current}
 				selectedPage={selectedPage}
@@ -100,7 +101,7 @@ export default function StoryWritter() {
 				onStoryRemove={handleRemoveStory}
 				onCreateOrUpdateStory={handleCreateOrUpdateStory}
 			/>
-			{op && <span>Saving...</span>}
+
 			<Writter
 				className={CLASS}
 				currentEditing={current}
