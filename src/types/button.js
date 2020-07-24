@@ -7,3 +7,8 @@ export const COLOR = {
 	danger: 'danger',
 	link: 'link',
 };
+
+export const BRAND = {
+	facebook: 'facebook',
+	google: 'google',
+};

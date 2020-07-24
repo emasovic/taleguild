@@ -9,6 +9,10 @@
 	outline: none !important;
 	box-shadow: $box-shadow-light;
 
+	svg {
+		margin-right: 8px;
+	}
+
 	&-link {
 		display: flex;
 		justify-content: center;
@@ -24,5 +28,9 @@
 		width: max-content;
 		// border: none !important;
 		padding: 5px;
+
+		svg {
+			margin-right: 0;
+		}
 	}
 }

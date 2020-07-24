@@ -5,13 +5,14 @@ import {Link} from 'react-router-dom';
 
 import {FORGOT_PASSWORD} from 'lib/routes';
 
+import {COLOR, BRAND} from 'types/button';
+
 import {loginUser, selectUser} from '../../redux/user';
 
 import FloatingInput from '../widgets/input/FloatingInput';
 import IconButton from '../widgets/button/IconButton';
+import BrandButton from 'components/widgets/button/BrandButton';
 import Billboard from 'components/widgets/billboard/Billboard';
-
-// import background from '../../images/cover.png';
 
 import './Login.scss';
 
@@ -56,10 +57,21 @@ export default function Login(props) {
 						errorMessage={error}
 						invalid={!!error}
 					/>
+
 					<Link to={FORGOT_PASSWORD} onClick={onClose}>
 						Forgot password?
 					</Link>
+
 					<IconButton loading={op}>Sign in</IconButton>
+
+					<BrandButton loading={op} color={COLOR.secondary} brand={BRAND.google}>
+						Sign in with Google
+					</BrandButton>
+
+					<BrandButton loading={op} color={COLOR.secondary} brand={BRAND.facebook}>
+						Sign in with Facebook
+					</BrandButton>
+
 					<Link to="#" onClick={onChange}>
 						Don’t have an account? Sign up now.
 					</Link>

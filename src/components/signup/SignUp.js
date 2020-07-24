@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Link, useHistory} from 'react-router-dom';
 
 import {Toast} from 'types/toast';
+import {COLOR, BRAND} from 'types/button';
 
 import {emailRegExp} from 'lib/util';
 
@@ -12,6 +13,7 @@ import {addToast} from 'redux/toast';
 
 import FloatingInput from '../widgets/input/FloatingInput';
 import IconButton from '../widgets/button/IconButton';
+import BrandButton from 'components/widgets/button/BrandButton';
 import Checkbox from 'components/widgets/checkbox/Checkbox';
 import Billboard from 'components/widgets/billboard/Billboard';
 
@@ -99,6 +101,14 @@ export default function SignUp(props) {
 						onChange={checked => setAccepted(checked)}
 					/>
 					<IconButton loading={op}>Sign Up</IconButton>
+
+					<BrandButton loading={op} color={COLOR.secondary} brand={BRAND.google}>
+						Sign up with Google
+					</BrandButton>
+
+					<BrandButton loading={op} color={COLOR.secondary} brand={BRAND.facebook}>
+						Sign up with Facebook
+					</BrandButton>
 					<Link to="#" onClick={onChange}>
 						Already have an account? Sign in now.
 					</Link>

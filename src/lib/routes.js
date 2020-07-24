@@ -26,4 +26,6 @@ export const WELCOME = '/welcome';
 export const REGISTER = '/register';
 export const LOGIN = '/login';
 
+export const PROVIDER_LOGIN = '/connect/:provider';
+
 export const DELETED_STORY = '/deleted-story';
