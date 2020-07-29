@@ -102,6 +102,8 @@ export default function SignUp(props) {
 					/>
 					<IconButton loading={op}>Sign Up</IconButton>
 
+					<span className={CLASS + '-divider'}>OR</span>
+
 					<BrandButton loading={op} color={COLOR.secondary} brand={BRAND.google}>
 						Sign up with Google
 					</BrandButton>
@@ -112,6 +114,22 @@ export default function SignUp(props) {
 					<Link to="#" onClick={onChange}>
 						Already have an account? Sign in now.
 					</Link>
+					<div className={CLASS + '-terms'}>
+						<a
+							href="https://join.taleguild.com/terms-of-service"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							Terms of Service
+						</a>
+						<a
+							href="https://join.taleguild.com/privacy-policy"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							Privacy Policy
+						</a>
+					</div>
 				</Form>
 			</ModalBody>
 		</Modal>

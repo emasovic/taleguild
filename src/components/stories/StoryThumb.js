@@ -20,7 +20,7 @@ export default function StoryThumb({
 	image,
 	formats,
 	size,
-	description,
+	// description,
 	title,
 	author,
 	createdDate,
@@ -34,19 +34,18 @@ export default function StoryThumb({
 		e.preventDefault();
 		history.push(goToUser(author && author.id));
 	};
-	description =
-		description && description.length > 66 ? description.slice(0, 66) + '...' : description;
+	title = title && title.length > 36 ? title.slice(0, 36) + '...' : title;
 	image = image ? image.formats.thumbnail : image;
 
 	return (
-		<div className={CLASS}>
+		<Link to={goToStory(id)} className={CLASS}>
 			<StoryDropdownButton
 				story={{id, favouriteId, title, storypages}}
 				onDeleteStory={onDeleteStory}
 			/>
-			<Link to={goToStory(id)} className={CLASS + '-cover'}>
+			<div to={goToStory(id)} className={CLASS + '-cover'}>
 				<Image image={image} formats={formats} size={size} />
-			</Link>
+			</div>
 			<div className={CLASS + '-details'}>
 				<div className={CLASS + '-details-description'}>
 					<span>{title}</span>
@@ -62,7 +61,7 @@ export default function StoryThumb({
 					)}
 				</div>
 			</div>
-		</div>
+		</Link>
 	);
 }
 

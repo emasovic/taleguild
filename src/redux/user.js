@@ -153,7 +153,7 @@ export const resetPassword = (payload, history) => async dispatch => {
 };
 
 export const providerLogin = (provider, token, history) => async dispatch => {
-	dispatch(opStart(USER_OP.login));
+	dispatch(opStart(USER_OP.provider_login));
 	const res = await api.loginProvider(provider, token);
 
 	if (res.error) {

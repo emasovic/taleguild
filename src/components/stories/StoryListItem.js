@@ -13,6 +13,7 @@ import './StoryListItem.scss';
 const CLASS = 'st-StoryListItem';
 
 export default function StoryListItem({id, formats, size, image, title}) {
+	title = title && title.length > 36 ? title.slice(0, 36) + '...' : title;
 	return (
 		<Link to={goToStory(id)} className={CLASS}>
 			<div className={CLASS + '-cover'}>

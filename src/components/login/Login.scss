@@ -6,6 +6,11 @@
 	justify-content: center;
 	backdrop-filter: blur(10px);
 
+	&-divider {
+		text-align: center;
+		color: $color-grey-medium;
+	}
+
 	.modal {
 		&-dialog {
 			max-width: unset;

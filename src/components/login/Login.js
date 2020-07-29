@@ -64,6 +64,8 @@ export default function Login(props) {
 
 					<IconButton loading={op}>Sign in</IconButton>
 
+					<span className={CLASS + '-divider'}>OR</span>
+
 					<BrandButton loading={op} color={COLOR.secondary} brand={BRAND.google}>
 						Sign in with Google
 					</BrandButton>

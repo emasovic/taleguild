@@ -6,6 +6,18 @@
 	justify-content: center;
 	backdrop-filter: blur(10px);
 
+	&-divider {
+		text-align: center;
+		color: $color-grey-medium;
+	}
+
+	&-terms {
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+		margin: 12px 0;
+	}
+
 	.modal {
 		&-dialog {
 			max-width: unset;
