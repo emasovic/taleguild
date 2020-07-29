@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useCallback} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector, useDispatch, shallowEqual} from 'react-redux';
 import {Link} from 'react-router-dom';
 
 import {goToUser} from 'lib/routes';
@@ -21,13 +21,16 @@ const CLASS = 'st-Followers';
 
 export default function Followers({id}) {
 	const dispatch = useDispatch();
-	const {followers, total, loading, user, pages} = useSelector(state => ({
-		followers: selectFollowers(state, id),
-		user: selectUser(state),
-		loading: state.followers.loading,
-		pages: state.followers.pages,
-		total: state.followers.total,
-	}));
+	const {followers, total, loading, user, pages} = useSelector(
+		state => ({
+			followers: selectFollowers(state, id),
+			user: selectUser(state),
+			loading: state.followers.loading,
+			pages: state.followers.pages,
+			total: state.followers.total,
+		}),
+		shallowEqual
+	);
 
 	const {data} = user;
 

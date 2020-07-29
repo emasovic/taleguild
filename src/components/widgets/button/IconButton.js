@@ -14,15 +14,7 @@ export const toFa = (icon, spin, ...rest) => {
 	return <FontAwesomeIcon key={icon} icon={icon} spin={spin} {...rest} />;
 };
 
-const IconButton = ({
-	icon,
-	className,
-	children,
-	spin,
-	loading,
-	disabled,
-	...props
-}) => {
+const IconButton = ({icon, className, children, spin, loading, disabled, href, ...props}) => {
 	if (loading) {
 		icon = FA.solid_cog;
 		disabled = spin = true;
@@ -32,7 +24,12 @@ const IconButton = ({
 		icon = toFa(icon, spin);
 	}
 
-	className = classnames(CLASS, !children && CLASS + '-with-content', className);
+	className = classnames(
+		CLASS,
+		!children && CLASS + '-with-content',
+		href && CLASS + '-link',
+		className
+	);
 
 	if (typeof children !== 'object') {
 		// wrap string or number
@@ -40,7 +37,7 @@ const IconButton = ({
 	}
 
 	return (
-		<Button className={className} disabled={disabled || loading} {...props}>
+		<Button className={className} disabled={disabled || loading} href={href} {...props}>
 			{icon ? icon : null}
 			{children}
 		</Button>

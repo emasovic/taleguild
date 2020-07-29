@@ -3,12 +3,12 @@ import {useLocation, useHistory} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {resetPassword} from 'redux/user';
+import {USER_OP} from 'types/user';
 
 import FloatingInput from 'components/widgets/input/FloatingInput';
 import IconButton from 'components/widgets/button/IconButton';
 
 import './Password.scss';
-import {USER_OP} from 'types/user';
 
 const CLASS = 'st-Password';
 

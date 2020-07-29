@@ -116,7 +116,7 @@
 						font-size: 20px;
 						margin-right: 10px;
 
-						@media (max-width: $breakpoint-sm) {
+						@media (max-width: $breakpoint-m) {
 							margin-right: 0;
 						}
 					}
@@ -124,15 +124,6 @@
 			}
 		}
 	}
-
-	// .nav-item {
-	// 	.nav-link {
-	// 		font-size: 14px;
-	// 		color: $color-grey-light;
-	// 		text-decoration: none;
-	// 		font-weight: 500;
-	// 	}
-	// }
 
 	&-user {
 		display: flex;

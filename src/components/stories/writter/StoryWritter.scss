@@ -87,7 +87,7 @@
 				}
 
 				.st-StoryPagePicker,
-				.st-IconButton {
+				.st-IconButton, .st-DropdownButton {
 					margin-right: 16px;
 				}
 
@@ -109,6 +109,13 @@
 
 				&-buttons {
 					display: flex;
+					align-items: center;
+
+					> span {
+						&:last-child {
+							color: $color-secondary-green;
+						}
+					}
 				}
 			}
 		}

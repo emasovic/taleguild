@@ -18,6 +18,7 @@ import SavedStoriesPage from 'components/user/pages/SavedStoriesPage';
 
 import ForgotPassword from 'components/login/ForgotPassword';
 import ResetPassword from 'components/login/ResetPassword';
+import ProviderLogin from 'components/login/ProviderLogin';
 
 import PrivateRoute from 'PrivateRoute';
 import NotFound from 'NotFound';
@@ -39,6 +40,7 @@ const Routes = () => (
 			<Route path={routes.USER_ID} component={UserProfile} />
 			<Route path={routes.FORGOT_PASSWORD} component={ForgotPassword} />
 			<Route path={routes.RESET_PASSWORD} component={ResetPassword} />
+			<Route path={routes.PROVIDER_LOGIN} component={ProviderLogin} />
 			<Route path={routes.WELCOME} component={Welcome} />
 			<Route path="*" component={NotFound} />
 		</Switch>

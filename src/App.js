@@ -10,9 +10,9 @@ import './App.scss';
 // const CLASS = 'st-App';
 
 function App() {
-	const loading = useSelector(state => state.user.loading);
+	const initialized = useSelector(state => state.application.initialized);
 
-	if (loading) {
+	if (!initialized) {
 		return <Loader />;
 	}
 

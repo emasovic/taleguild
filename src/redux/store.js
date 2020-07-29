@@ -9,9 +9,12 @@ import user_stories from './user_stories';
 import story_pages from './story_pages';
 import followers from './followers';
 import following from './following';
+import categories from './categories';
+import application from './application';
 
 export default configureStore({
 	reducer: {
+		application,
 		user,
 		users,
 		followers,
@@ -19,6 +22,7 @@ export default configureStore({
 		stories,
 		drafts,
 		toast,
+		categories,
 		story_pages,
 		user_stories,
 		saved_stories,

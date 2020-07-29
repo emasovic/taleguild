@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 import * as api from '../lib/api';
-import {HOME} from 'lib/routes';
+import {HOME, WELCOME} from 'lib/routes';
 
 import {newToast} from './toast';
 import {Toast} from 'types/toast';
@@ -152,20 +152,30 @@ export const resetPassword = (payload, history) => async dispatch => {
 	dispatch(newToast({...Toast.success('Password successfully reset!')}));
 };
 
-// export const confirmEmail = (token, history) => async dispatch => {
-// 	dispatch(loadingStart());
-// 	const res = await api.confirmEmail(token);
+export const providerLogin = (provider, token, history) => async dispatch => {
+	dispatch(opStart(USER_OP.provider_login));
+	const res = await api.loginProvider(provider, token);
 
-// 	if (res.error) {
-// 		dispatch(loadingEnd());
-// 		return dispatch(newToast({...Toast.error(res.error)}));
-// 	}
-// 	localStorage.setItem('token', res.jwt);
-// 	dispatch(gotData(res));
-// 	// history.push(HOME);
-// 	dispatch(newToast({...Toast.success('You email has been confirmed successfully!')}));
-// };
+	if (res.error) {
+		dispatch(opEnd());
+		if (Array.isArray(res.error)) {
+			return dispatch(
+				newToast({...Toast.error(res.error[0].messages[0].message || 'Bad request')})
+			);
+		}
+		return dispatch(newToast({...Toast.error(res.error.detail || res.error)}));
+	}
+	const {jwt, user} = res;
+	const {saved_stories, ...rest} = user;
+
+	localStorage.setItem('token', res.jwt);
+
+	dispatch(gotData({jwt, ...rest}));
+	history.push(WELCOME);
+};
 
 export const selectUser = state => state.user;
+
+export const loggedUserId = state => state.user.data && state.user.data.id;
 
 export default userSlice.reducer;

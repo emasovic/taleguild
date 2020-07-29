@@ -23,9 +23,15 @@ import {
 
 import {faHeart, faComment, faBookmark, faCompass} from '@fortawesome/free-regular-svg-icons';
 
+import {faFacebookF, faGoogle} from '@fortawesome/free-brands-svg-icons';
+
 import {library} from '@fortawesome/fontawesome-svg-core';
 
 const FA = {
+	//BRAND ICONS
+	brand_facebook_f: faFacebookF,
+	brand_google: faGoogle,
+
 	//REGULAR ICONS
 	comment: faComment,
 	heart: faHeart,

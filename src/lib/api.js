@@ -6,6 +6,10 @@ export const loginUser = payload => {
 	return http.post('auth/local', null, payload);
 };
 
+export const loginProvider = (provider, token) => {
+	return http.get(`auth/${provider}/callback${token}`, null);
+};
+
 export const registerUser = payload => {
 	return http.post('auth/local/register', null, payload);
 };

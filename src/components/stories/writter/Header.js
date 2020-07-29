@@ -233,6 +233,7 @@ export default function Header({
 								Delete story
 							</DropdownItem>
 						</DropdownButton>
+						{op === STORY_OP.saving_storypage && <span>Saving...</span>}
 					</div>
 				</div>
 
