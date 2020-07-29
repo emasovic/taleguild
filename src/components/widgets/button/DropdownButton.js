@@ -12,10 +12,7 @@ const CLASS = 'st-DropdownButton';
 export default function DropdownButton({children, icon, outline, color, toggleItem, ...props}) {
 	const [dropdownOpen, setDropdownOpen] = useState(false);
 
-	const toggle = e => {
-		e.preventDefault();
-		setDropdownOpen(prevState => !prevState);
-	};
+	const toggle = () => setDropdownOpen(prevState => !prevState);
 
 	return (
 		<>

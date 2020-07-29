@@ -5,7 +5,7 @@ import propTypes from 'prop-types';
 import {DEFAULT_CRITERIA, STORY_OP, STORY_COMPONENTS} from 'types/story';
 
 import {selectStories, loadStories, deleteStory} from 'redux/draft_stories';
-import {selectUser} from 'redux/user';
+import {loggedUserId} from 'redux/user';
 
 import NoStories from 'components/stories/NoStories';
 import Loader from 'components/widgets/loader/Loader';
@@ -17,17 +17,15 @@ const CLASS = 'st-DraftStories';
 
 export default function DraftStories({shouldLoadMore, Component}) {
 	const dispatch = useDispatch();
-	const {drafts, user, pages, op} = useSelector(
+	const {drafts, userId, pages, op} = useSelector(
 		state => ({
 			drafts: selectStories(state),
 			op: state.drafts.op,
 			pages: state.drafts.pages,
-			user: selectUser(state),
+			userId: loggedUserId(state),
 		}),
 		shallowEqual
 	);
-
-	const {data} = user;
 
 	const [currentPage, setCurrentPage] = useState(1);
 	const [criteria, setCriteria] = useState();
@@ -46,10 +44,10 @@ export default function DraftStories({shouldLoadMore, Component}) {
 	);
 
 	useEffect(() => {
-		if (data) {
-			setCriteria({...DEFAULT_CRITERIA, published: false, user: data.id});
+		if (userId) {
+			setCriteria({...DEFAULT_CRITERIA, published: false, user: userId});
 		}
-	}, [data]);
+	}, [userId]);
 
 	useEffect(() => {
 		if (criteria) {

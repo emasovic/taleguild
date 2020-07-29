@@ -38,30 +38,32 @@ export default function StoryThumb({
 	image = image ? image.formats.thumbnail : image;
 
 	return (
-		<Link to={goToStory(id)} className={CLASS}>
+		<div to={goToStory(id)} className={CLASS}>
 			<StoryDropdownButton
 				story={{id, favouriteId, title, storypages}}
 				onDeleteStory={onDeleteStory}
 			/>
-			<div to={goToStory(id)} className={CLASS + '-cover'}>
-				<Image image={image} formats={formats} size={size} />
-			</div>
-			<div className={CLASS + '-details'}>
-				<div className={CLASS + '-details-description'}>
-					<span>{title}</span>
-					{/* <span>{description}</span> */}
+			<Link to={goToStory(id)} className={CLASS}>
+				<div className={CLASS + '-cover'}>
+					<Image image={image} formats={formats} size={size} />
 				</div>
+				<div className={CLASS + '-details'}>
+					<div className={CLASS + '-details-description'}>
+						<span>{title}</span>
+						{/* <span>{description}</span> */}
+					</div>
 
-				<div className={CLASS + '-details-created'}>
-					<span>{moment(createdDate).fromNow()}</span>
-					{author && (
-						<div onClick={handleGoToUser}>
-							<UserAvatar user={author} />
-						</div>
-					)}
+					<div className={CLASS + '-details-created'}>
+						<span>{moment(createdDate).fromNow()}</span>
+						{author && (
+							<div onClick={handleGoToUser}>
+								<UserAvatar user={author} />
+							</div>
+						)}
+					</div>
 				</div>
-			</div>
-		</Link>
+			</Link>
+		</div>
 	);
 }
 

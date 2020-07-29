@@ -9,7 +9,7 @@ import {
 	loadSavedStories,
 	createOrDeleteSavedStory,
 } from 'redux/saved_stories';
-import {selectUser} from 'redux/user';
+import {loggedUserId} from 'redux/user';
 
 import Loader from 'components/widgets/loader/Loader';
 import LoadMore from 'components/widgets/loadmore/LoadMore';
@@ -21,17 +21,15 @@ const CLASS = 'st-SavedStories';
 
 export default function SavedStories({shouldLoadMore, Component}) {
 	const dispatch = useDispatch();
-	const {savedStories, user, pages, op} = useSelector(
+	const {savedStories, userId, pages, op} = useSelector(
 		state => ({
 			savedStories: selectUserSavedStories(state),
 			op: state.saved_stories.op,
 			pages: state.saved_stories.pages,
-			user: selectUser(state),
+			userId: loggedUserId(state),
 		}),
 		shallowEqual
 	);
-
-	const {data} = user;
 
 	const [currentPage, setCurrentPage] = useState(1);
 	const [criteria, setCriteria] = useState();
@@ -50,10 +48,10 @@ export default function SavedStories({shouldLoadMore, Component}) {
 	);
 
 	useEffect(() => {
-		if (data) {
-			setCriteria({...DEFAULT_CRITERIA, published: undefined, user: data.id});
+		if (userId) {
+			setCriteria({...DEFAULT_CRITERIA, published: undefined, user: userId});
 		}
-	}, [data]);
+	}, [userId]);
 
 	useEffect(() => {
 		if (criteria) {
