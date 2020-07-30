@@ -1,8 +1,11 @@
 import {createSlice} from '@reduxjs/toolkit';
 import queryString from 'query-string';
 
+import {Toast} from 'types/toast';
+
 import {getUser} from './user';
 import {loadCategories} from './categories';
+import {newToast} from './toast';
 
 export const applicationSlice = createSlice({
 	name: 'application',
@@ -34,9 +37,10 @@ export const navigateToQuery = (queryOb, location, history) => (dispatch, getSta
 };
 
 export const initialize = () => dispatch => {
-	dispatch(loadCategories());
-	dispatch(getUser());
-	dispatch(initialized());
+	const promises = [dispatch(loadCategories()), dispatch(getUser())];
+	return Promise.all(promises)
+		.then(() => dispatch(initialized()))
+		.catch(err => dispatch(newToast({...Toast.error(err)})));
 };
 
 export default applicationSlice.reducer;
