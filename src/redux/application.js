@@ -37,9 +37,10 @@ export const navigateToQuery = (queryOb, location, history) => (dispatch, getSta
 };
 
 export const initialize = () => dispatch => {
+	dispatch(loadingStart());
 	const promises = [dispatch(loadCategories()), dispatch(getUser())];
 	return Promise.all(promises)
-		.then(() => dispatch(initialized()))
+		.then(() => dispatch(loadingEnd()))
 		.catch(err => dispatch(newToast({...Toast.error(err)})));
 };
 
