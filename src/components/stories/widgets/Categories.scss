@@ -1,4 +1,5 @@
 @import '../../../styles/variables.scss';
+@import  '../../../styles//scrollbar.scss';
 
 .st-Categories {
 	width: 100%;
@@ -7,11 +8,13 @@
 	flex-direction: column;
 	position: sticky;
 	top: 80px;
-	height: 100vh;
-	overflow: auto;
+	height: calc(100vh - 100px);
+	overflow-y: hidden;
 
-	@media (max-width: $breakpoint-m) {
-		height: auto;
+	@include scrollbars(6px, $color-grey-lighter, $color-grey-border);
+
+	&:hover {
+		overflow-y: auto;
 	}
 
 	@media (max-width: $breakpoint-sm) {
