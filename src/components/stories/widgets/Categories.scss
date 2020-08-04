@@ -7,6 +7,12 @@
 	flex-direction: column;
 	position: sticky;
 	top: 80px;
+	height: 100vh;
+	overflow: auto;
+
+	@media (max-width: $breakpoint-m) {
+		height: auto;
+	}
 
 	@media (max-width: $breakpoint-sm) {
 		max-width: $story-preview-width-small;
