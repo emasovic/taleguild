@@ -8,7 +8,7 @@ import {goToStory, goToUser} from 'lib/routes';
 import {MEDIA_SIZE} from 'types/media';
 
 import Image from 'components/widgets/image/Image';
-import StoryDropdownButton from './widgets/StoryDropdownButton';
+import StoryDropdownButton from './widgets/dropdown-button/StoryDropdownButton';
 import UserAvatar from 'components/user/UserAvatar';
 
 import './StoryThumb.scss';

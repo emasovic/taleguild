@@ -2,13 +2,16 @@
 	// For Google Chrome
 	&::-webkit-scrollbar {
 		width: $size;
-        height: $size;
+		height: $size;
 
+		@media (max-width: $breakpoint-m) {
+			display: none;
+		}
 	}
 
 	&::-webkit-scrollbar-thumb {
-        background: $foreground-color;
-        border-radius: 6px;
+		background: $foreground-color;
+		border-radius: 6px;
 	}
 
 	&::-webkit-scrollbar-track {

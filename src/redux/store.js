@@ -10,6 +10,7 @@ import story_pages from './story_pages';
 import followers from './followers';
 import following from './following';
 import categories from './categories';
+import languages from './languages';
 import application from './application';
 
 export default configureStore({
@@ -22,6 +23,7 @@ export default configureStore({
 		stories,
 		drafts,
 		toast,
+		languages,
 		categories,
 		story_pages,
 		user_stories,

@@ -1,12 +1,14 @@
-@import '../../styles/variables.scss';
+@import 'styles/variables.scss';
 
-.st-StoryTabs {
+.st-SideBar {
 	display: flex;
 	flex-direction: column;
 
 	&-tabs {
-		.nav {
-			margin-bottom: 12px;
+		margin: 0 16px;
+
+		@media (max-width: $breakpoint-m) {
+			margin: 0;
 		}
 
 		.nav-link {
@@ -26,23 +28,20 @@
 				border-bottom: 4px dotted $color-primary;
 			}
 		}
+	}
 
-		.st-SavedStories,
-		.st-DraftStories,
-		.st-MyStories {
-			> span {
-				display: none;
-			}
-
-			.st-NoStories {
-				display: none;
-			}
+	.st-Categories,
+	.st-Languages {
+		> span {
+			display: none;
 		}
 
-		> a {
-			&:last-child {
-				display: flex;
-				justify-content: center;
+		@media (max-width: $breakpoint-m) {
+			flex-direction: row;
+			overflow: auto;
+
+			> span {
+				display: none;
 			}
 		}
 	}

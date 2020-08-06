@@ -1,6 +1,6 @@
 @import 'styles/variables.scss';
 
-.st-CategoryPicker {
+.st-LanguagePicker {
 	min-width: 200px;
 	display: flex;
 	flex-flow: column;
@@ -12,7 +12,7 @@
 		margin-bottom: 4px;
 	}
 
-	.st-CategoryPicker__option {
+	.st-LanguagePicker__option {
 		cursor: pointer;
 
 		&:hover,
@@ -21,7 +21,7 @@
 		}
 	}
 
-	.st-CategoryPicker__control {
+	.st-LanguagePicker__control {
 		height: 36px;
 		cursor: pointer;
 

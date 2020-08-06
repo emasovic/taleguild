@@ -20,7 +20,7 @@ import IconButton from 'components/widgets/button/IconButton';
 import Image from 'components/widgets/image/Image';
 import UserAvatar from 'components/user/UserAvatar';
 import ConfirmModal from 'components/widgets/modals/Modal';
-import StoryDropdownButton from './widgets/StoryDropdownButton';
+import StoryDropdownButton from './widgets/dropdown-button/StoryDropdownButton';
 import TextArea from 'components/widgets/textarea/TextArea';
 
 import './StoryItem.scss';

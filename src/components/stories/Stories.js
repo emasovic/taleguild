@@ -15,9 +15,9 @@ import Loader from 'components/widgets/loader/Loader';
 import LoadMore from 'components/widgets/loadmore/LoadMore';
 
 import StoryItem from './StoryItem';
+import NoStories from './NoStories';
 
 import './Stories.scss';
-import NoStories from './NoStories';
 
 const CLASS = 'st-Stories';
 
@@ -43,6 +43,7 @@ function Stories({criteria, filter}) {
 	const [activeSort, setActiveSort] = useState(SORT.recent);
 
 	const categoryId = new URLSearchParams(useLocation().search).get('categories');
+	const languageId = new URLSearchParams(useLocation().search).get('language');
 	const sortBy = new URLSearchParams(useLocation().search).get('_sort');
 
 	const sortStories = sort => {
@@ -61,7 +62,7 @@ function Stories({criteria, filter}) {
 			const _sort = sortBy ? `${sortBy}:DESC` : criteria._sort;
 			dispatch(
 				loadStories(
-					{...criteria, categories: categoryId, _sort},
+					{...criteria, categories: categoryId, language: languageId, _sort},
 					true,
 					filter,
 					undefined,
@@ -69,7 +70,7 @@ function Stories({criteria, filter}) {
 				)
 			);
 		}
-	}, [categoryId, sortBy, criteria, dispatch, filter]);
+	}, [categoryId, languageId, sortBy, criteria, dispatch, filter]);
 
 	useEffect(() => {
 		if (sortBy) {

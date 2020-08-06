@@ -114,6 +114,12 @@ export const getCategories = filter => {
 	return http.get('categories', filter);
 };
 
+/******************      LANGUAGES        ***********************/
+
+export const getLanguages = filter => {
+	return http.get('languages', filter);
+};
+
 /******************      COMMENTS        ***********************/
 
 export const createComment = payload => {

@@ -1,0 +1,60 @@
+@import 'styles/variables.scss';
+@import 'styles//scrollbar.scss';
+
+.st-Categories {
+	width: 100%;
+	display: flex;
+	flex-wrap: nowrap !important;
+	flex-direction: column;
+	position: sticky;
+	top: 80px;
+	height: calc(100vh - 100px);
+	overflow-y: hidden;
+
+	@include scrollbars(6px, $color-grey-lighter, $color-grey-border);
+
+	&:hover {
+		overflow-y: auto;
+	}
+
+	@media (max-width: $breakpoint-m) {
+		height: auto;
+	}
+
+	@media (max-width: $breakpoint-sm) {
+		max-width: $story-preview-width-small;
+		margin: 0 auto;
+	}
+
+	> span {
+		font-size: 14px;
+		color: $color-grey-light;
+		font-weight: 600;
+		padding-left: 16px;
+	}
+
+	.nav-link {
+		color: $color-grey-medium;
+		font-weight: 600;
+		text-transform: uppercase;
+		cursor: pointer;
+		font-size: 14px;
+		padding-left: 16px;
+
+		@media (max-width: $breakpoint-m) {
+			padding-left: 0;
+			padding-right: 16px;
+			width: max-content;
+		}
+
+		&:hover {
+			color: $color-secondary-black;
+			background-color: $color-white;
+		}
+
+		&.active {
+			color: $color-secondary-black;
+			background-color: transparent;
+		}
+	}
+}

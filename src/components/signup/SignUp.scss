@@ -28,6 +28,12 @@
 			}
 		}
 
+		&-content {
+			@media (max-width: $breakpoint-sm) {
+				transform: scale(0.7);
+			}
+		}
+
 		&-header {
 			border-bottom: none;
 			position: absolute;

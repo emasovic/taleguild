@@ -5,6 +5,7 @@ import {Toast} from 'types/toast';
 
 import {getUser} from './user';
 import {loadCategories} from './categories';
+import {loadLanguages} from './languages';
 import {newToast} from './toast';
 
 export const applicationSlice = createSlice({
@@ -38,7 +39,7 @@ export const navigateToQuery = (queryOb, location, history) => (dispatch, getSta
 
 export const initialize = () => dispatch => {
 	dispatch(loadingStart());
-	const promises = [dispatch(loadCategories()), dispatch(getUser())];
+	const promises = [dispatch(getUser()), dispatch(loadCategories()), dispatch(loadLanguages())];
 	return Promise.all(promises)
 		.then(() => dispatch(loadingEnd()))
 		.catch(err => dispatch(newToast({...Toast.error(err)})));

@@ -2,7 +2,8 @@ import React from 'react';
 
 import {DEFAULT_CRITERIA} from 'types/story';
 
-import Categories from './stories/widgets/Categories';
+import SideBar from './stories/SideBar';
+
 import Stories from './stories/Stories';
 import StoryTabs from './stories/StoryTabs';
 
@@ -15,7 +16,7 @@ export default function Explore({criteria}) {
 		<div className={CLASS}>
 			<div className={CLASS + '-main'}>
 				<div className={CLASS + '-main-holder'}>
-					<Categories />
+					<SideBar />
 				</div>
 
 				<Stories criteria={criteria} />

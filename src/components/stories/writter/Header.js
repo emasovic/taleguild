@@ -20,9 +20,10 @@ import Uploader from 'components/widgets/uploader/Uploader';
 import ConfirmModal from 'components/widgets/modals/Modal';
 import Loader from 'components/widgets/loader/Loader';
 
-import StoryPagePicker from '../widgets/StoryPagePicker';
+import StoryPagePicker from '../widgets/page-picker/StoryPagePicker';
 import StoryItem from '../StoryItem';
 import {useDebounce} from 'hooks/debounce';
+import LanguagePicker from 'components/widgets/pickers/language/LanguagePicker';
 
 export default function Header({
 	className,
@@ -50,7 +51,8 @@ export default function Header({
 
 	const [title, setTitle] = useState('');
 	const [description, setDescription] = useState('');
-	const [category, setCategory] = useState([]);
+	const [categories, setCategories] = useState([]);
+	const [language, setLanguage] = useState(null);
 	const [image, setImage] = useState(null);
 	const [published, setPublished] = useState(false);
 	const [isPublishStoryOpen, setIsPublishStoryOpen] = useState(false);
@@ -64,11 +66,12 @@ export default function Header({
 	const validate = () => {
 		const errors = [];
 
-		title.length <= 3 && errors.push('Title too short! \n');
-		!category.length && errors.push('You must select category!');
-		category.length > 3 && errors.push('You can select maximum 3 categories!');
-		description.length <= 3 && errors.push('Description too short! \n');
-		description.length >= 200 && errors.push('Description too long! \n');
+		title.length <= 3 && errors.push('Title too short. \n');
+		!categories.length && errors.push('You didnt pick category.');
+		categories.length > 3 && errors.push('You can pick maximum 3 categories.');
+		!language && errors.push('You didnt pick language.');
+		description.length <= 3 && errors.push('Description too short. \n');
+		description.length >= 200 && errors.push('Description too long. \n');
 
 		if (errors.length) {
 			return dispatch(addToast(Toast.error(errors)));
@@ -86,7 +89,8 @@ export default function Header({
 				image: image && image.id,
 				user: data && data.id,
 				description,
-				categories: category.length && category.map(item => item.value),
+				categories: categories.length && categories.map(item => item.value),
+				language: language && language.value,
 			};
 			onCreateOrUpdateStory(payload);
 		}
@@ -147,8 +151,14 @@ export default function Header({
 					placeholder="Pick categories"
 					label="Categories"
 					isMulti
-					onChange={setCategory}
-					value={category}
+					onChange={setCategories}
+					value={categories}
+				/>
+				<LanguagePicker
+					placeholder="Pick language"
+					label="Language"
+					onChange={setLanguage}
+					value={language}
 				/>
 				<FloatingInput
 					rows={5}
@@ -172,7 +182,7 @@ export default function Header({
 		if (story) {
 			setTitle(story.title || '');
 			setDescription(story.description || '');
-			setCategory(story.categories.map(item => ({label: item.name, value: item.id})));
+			setCategories(story.categories.map(item => ({label: item.name, value: item.id})));
 			setImage(story.image);
 			setPublished(story.published || false);
 		}

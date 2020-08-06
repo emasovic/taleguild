@@ -24,22 +24,20 @@
 		@media (max-width: $breakpoint-m) {
 			justify-content: center;
 			flex-direction: column;
-
-			.st-Categories {
-				flex-direction: row;
-				overflow: auto;
-
-				> span {
-					display: none;
-				}
-			}
 		}
 
 		.st-Stories,
 		.st-StoryTabs,
-		.st-Categories,
+		.st-SideBar,
 		&-holder {
 			flex: 1 1;
+			position: sticky;
+			top: 80px;
+
+			@media (max-width: $breakpoint-m) {
+				position: relative;
+				top: 0;
+			}
 		}
 
 		&-holder {
