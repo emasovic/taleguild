@@ -185,6 +185,7 @@ export default function Header({
 			setCategories(story.categories.map(item => ({label: item.name, value: item.id})));
 			setImage(story.image);
 			setPublished(story.published || false);
+			story.language && setLanguage({value: story.language.id, label: story.language.name});
 		}
 	}, [story]);
 

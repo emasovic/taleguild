@@ -77,6 +77,14 @@ export default function Navigation() {
 	const userLoggedIn = () => {
 		return (
 			<NavItem className={CLASS + '-status-signedIn'}>
+				<IconButton
+					href="https://www.buymeacoffee.com/taleguildstory"
+					target="_blank"
+					icon={FA.solid_coffee}
+					color={COLOR.secondary}
+				>
+					Buy us a coffee
+				</IconButton>
 				<IconButton onClick={handleNewStory}>New story</IconButton>
 
 				<DropdownButton toggleItem={<UserAvatar user={data} />}>
@@ -121,14 +129,6 @@ export default function Navigation() {
 				<StoryPicker placeholder="Search for stories" />
 
 				<Nav className={CLASS + '-status'}>
-					<IconButton
-						href="https://www.buymeacoffee.com/taleguildstory"
-						target="_blank"
-						icon={FA.solid_coffee}
-						color={COLOR.secondary}
-					>
-						Buy us a coffee
-					</IconButton>
 					{data && data.token ? userLoggedIn() : userLoggedOut()}
 				</Nav>
 			</Navbar>
