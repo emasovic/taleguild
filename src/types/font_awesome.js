@@ -19,6 +19,7 @@ import {
 	faImage as solidImage,
 	faHome as solidHome,
 	faCompass as solidCompass,
+	faCoffee as solidCoffee,
 } from '@fortawesome/free-solid-svg-icons';
 
 import {faHeart, faComment, faBookmark, faCompass} from '@fortawesome/free-regular-svg-icons';
@@ -39,6 +40,7 @@ const FA = {
 	compass: faCompass,
 
 	//SOLID ICONS
+	solid_coffee: solidCoffee,
 	solid_home: solidHome,
 	solid_compass: solidCompass,
 	solid_image: solidImage,

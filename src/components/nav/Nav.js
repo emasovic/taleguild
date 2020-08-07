@@ -1,4 +1,4 @@
-import React, {useState, useEffect, Fragment} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
@@ -64,37 +64,29 @@ export default function Navigation() {
 
 	const userLoggedOut = () => {
 		return (
-			<Fragment>
-				<NavItem className={CLASS + '-login'} onClick={() => setIsLoginOpen(true)}>
-					<NavLink href="#">
-						<IconButton color={COLOR.secondary}>Sign in</IconButton>
-					</NavLink>
-				</NavItem>
-				<NavItem className={CLASS + '-login'} onClick={() => setIsRegisterOpen(true)}>
-					<NavLink href="#">
-						<IconButton color={COLOR.secondary}>Sign up</IconButton>
-					</NavLink>
-				</NavItem>
-			</Fragment>
+			<NavItem className={CLASS + '-status-signedOut'}>
+				<IconButton color={COLOR.secondary} onClick={() => setIsLoginOpen(true)}>
+					Sign in
+				</IconButton>
+
+				<IconButton onClick={() => setIsRegisterOpen(true)}>Sign up</IconButton>
+			</NavItem>
 		);
 	};
 
 	const userLoggedIn = () => {
 		return (
-			<>
-				<NavItem className={CLASS + '-user'}>
-					<NavLink onClick={handleNewStory}>
-						<IconButton color={COLOR.secondary}>New story</IconButton>
-					</NavLink>
-					<DropdownButton toggleItem={<UserAvatar user={data} />}>
-						<DropdownItem href={goToUser(data && data.id)}>My profile</DropdownItem>
-						<DropdownItem href={USER_STORIES_DRAFTS}>Drafts</DropdownItem>
-						<DropdownItem href={USER_STORIES_SAVED}>Saved stories</DropdownItem>
-						<DropdownItem href={USER_SETTINGS}>Account settings</DropdownItem>
-						<DropdownItem onClick={() => dispatch(logOutUser())}>Logout</DropdownItem>
-					</DropdownButton>
-				</NavItem>
-			</>
+			<NavItem className={CLASS + '-status-signedIn'}>
+				<IconButton onClick={handleNewStory}>New story</IconButton>
+
+				<DropdownButton toggleItem={<UserAvatar user={data} />}>
+					<DropdownItem href={goToUser(data && data.id)}>My profile</DropdownItem>
+					<DropdownItem href={USER_STORIES_DRAFTS}>Drafts</DropdownItem>
+					<DropdownItem href={USER_STORIES_SAVED}>Saved stories</DropdownItem>
+					<DropdownItem href={USER_SETTINGS}>Account settings</DropdownItem>
+					<DropdownItem onClick={() => dispatch(logOutUser())}>Logout</DropdownItem>
+				</DropdownButton>
+			</NavItem>
 		);
 	};
 
@@ -129,6 +121,14 @@ export default function Navigation() {
 				<StoryPicker placeholder="Search for stories" />
 
 				<Nav className={CLASS + '-status'}>
+					<IconButton
+						href="https://www.buymeacoffee.com/taleguildstory"
+						target="_blank"
+						icon={FA.solid_coffee}
+						color={COLOR.secondary}
+					>
+						Buy us a coffee
+					</IconButton>
 					{data && data.token ? userLoggedIn() : userLoggedOut()}
 				</Nav>
 			</Navbar>

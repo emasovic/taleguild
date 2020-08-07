@@ -66,8 +66,59 @@
 	&-status {
 		justify-content: flex-end;
 
+		.st-IconButton {
+			margin-right: 12px;
+
+			&:last-child {
+				margin-right: 0;
+			}
+		}
+
+		@media (max-width: $breakpoint-m) {
+			.st-IconButton-link {
+				display: none !important;
+			}
+		}
+
 		@media (max-width: $breakpoint-sm) {
 			order: 3;
+		}
+
+		&-signedOut {
+			display: flex;
+			align-items: center;
+
+			@media (max-width: $breakpoint-sm) {
+				padding: 10px 0;
+			}
+		}
+
+		&-signedIn {
+			display: flex;
+			align-items: center;
+
+			@media (max-width: $breakpoint-sm) {
+				.st-IconButton {
+					display: none;
+				}
+			}
+
+			.st-DropdownButton {
+				> button {
+					padding: 0;
+					border-radius: 50%;
+
+					@media (max-width: $breakpoint-sm) {
+						border: none;
+						padding: 10px 0;
+						background-color: transparent;
+					}
+
+					&:focus {
+						box-shadow: none;
+					}
+				}
+			}
 		}
 	}
 
@@ -122,40 +173,6 @@
 					}
 				}
 			}
-		}
-	}
-
-	&-user {
-		display: flex;
-		align-items: center;
-
-		@media (max-width: $breakpoint-sm) {
-			.nav-link {
-				display: none;
-			}
-		}
-
-		.st-DropdownButton {
-			> button {
-				padding: 5px;
-				border-radius: 50%;
-
-				@media (max-width: $breakpoint-sm) {
-					border: none;
-					padding: 10px 0;
-					background-color: transparent;
-				}
-
-				&:focus {
-					box-shadow: none;
-				}
-			}
-		}
-	}
-
-	&-login {
-		.nav-link {
-			color: $color-primary !important;
 		}
 	}
 }
