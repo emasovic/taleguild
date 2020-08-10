@@ -1,4 +1,5 @@
-@import '../../styles/variables.scss';
+@import 'styles/variables.scss';
+@import 'styles/themes/mixins.scss';
 
 .st-SignUp {
 	display: flex !important;
@@ -50,6 +51,7 @@
 			flex-direction: row;
 			padding: 0;
 			flex-grow: 1;
+			@include theme-aware('background-color', 'modal-background');
 
 			.st-Billboard {
 				height: auto;
@@ -71,8 +73,8 @@
 					font-family: $font-merriweather;
 					font-weight: 900;
 					font-size: 24px;
-					color: $color-secondary-black;
 					margin-bottom: 24px;
+					@include theme-aware('color', 'modal-title-color');
 				}
 
 				a {

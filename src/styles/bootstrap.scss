@@ -1,4 +1,5 @@
 @import './variables.scss';
+@import './themes/mixins.scss';
 
 $primary: $color-primary;
 $secondary: $color-primary-light;
@@ -33,8 +34,9 @@ $secondary: $color-primary-light;
 	}
 
 	&-secondary {
-		color: $color-primary-dark;
 		border: none;
+		@include theme-aware('background-color', 'button-secondary-background');
+		@include theme-aware('color', 'button-secondary-color');
 
 		&:hover {
 			background-color: $color-white;

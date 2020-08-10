@@ -1,4 +1,5 @@
-@import '../../../styles/variables.scss';
+@import 'styles/variables.scss';
+@import 'styles/themes/mixins.scss';
 
 .st-DropdownButton {
 	> button {
@@ -9,7 +10,8 @@
 		border-color: transparent;
 
 		&:hover {
-			background-color: $color-white;
+			@include theme-aware('background-color', 'story-pagepicker-background-hover');
+			@include theme-aware('border-color', 'story-pagepicker-background-hover');
 		}
 	}
 
@@ -21,13 +23,15 @@
 
 		&-divider {
 			margin: 0;
+			@include theme-aware('border-top', 'story-pagepicker-border');
 		}
 
 		&-item {
 			outline: none;
 			font-weight: bold;
-			color: $color-grey-black;
 			padding: 15px;
+			@include theme-aware('color', 'story-pagepicker-color');
+			@include theme-aware('background-color', 'story-pagepicker-background');
 
 			&:hover {
 				background-color: $color-background-white-grey;

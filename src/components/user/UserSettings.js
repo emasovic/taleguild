@@ -10,6 +10,7 @@ import Loader from 'components/widgets/loader/Loader';
 import TextArea from 'components/widgets/textarea/TextArea';
 
 import './UserSettings.scss';
+import ThemePicker from 'components/widgets/pickers/theme/ThemePicker';
 
 const CLASS = 'st-UserSettings';
 
@@ -66,6 +67,8 @@ export default function UserSettings() {
 				<FloatingInput value={username} label="Username" onChange={setUsername} />
 
 				<FloatingInput value={email} label="Email address" onChange={setEmail} />
+
+				<ThemePicker />
 
 				<IconButton onClick={update} loading={loading}>
 					Save changes

@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 
+import {THEMES} from 'types/themes';
+
 import store from './redux/store';
 import {initialize} from 'redux/application';
 
@@ -12,9 +14,12 @@ import Toasts from './Toasts';
 
 import 'types/font_awesome';
 
-import './index.scss';
+import 'styles/index.scss';
+
+const theme = localStorage.getItem('theme') || THEMES.light;
 
 store.dispatch(initialize());
+document.documentElement.classList.add(`theme-${theme}`);
 
 ReactDOM.render(
 	<React.StrictMode>

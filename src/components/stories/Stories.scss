@@ -1,4 +1,5 @@
-@import '../../styles/variables.scss';
+@import 'styles/variables.scss';
+@import 'styles/mixins/tab-links.scss';
 
 .st-Stories {
 	min-width: $story-preview-width-medium;
@@ -29,21 +30,7 @@
 		}
 
 		.nav-link {
-			color: $color-grey-light;
-			font-weight: 600;
-			cursor: pointer;
-			font-size: 14px;
-			padding: 0;
-			margin-right: 15px;
-
-			&:hover {
-				color: $color-secondary-black;
-			}
-
-			&.active {
-				color: $color-secondary-black;
-				border-bottom: 4px dotted $color-primary;
-			}
+			@include tab-link;
 		}
 	}
 

@@ -1,4 +1,5 @@
-@import '../../styles/variables.scss';
+@import 'styles/variables.scss';
+@import 'styles/themes/mixins.scss';
 
 .st-StoryListItem {
 	display: flex;
@@ -12,7 +13,7 @@
 
 	&:hover,
 	&:active {
-		background: $color-white;
+		@include theme-aware('background', 'story-list-background-hover');
 		text-decoration: none;
 	}
 
@@ -36,8 +37,8 @@
 
 	&-description {
 		span {
+			@include theme-aware('color', 'story-list-title-color');
 			font-family: $font-merriweather;
-			color: $color-grey-medium;
 			font-weight: bold;
 			font-size: 14px;
 		}

@@ -1,0 +1,46 @@
+@import 'styles/themes/mixins.scss';
+
+@mixin tab-link {
+	font-weight: 600;
+	cursor: pointer;
+	font-size: 14px;
+	padding: 0;
+	margin-right: 15px;
+
+	@include theme-aware('color', 'sidebar-link-color');
+
+	&:hover {
+		@include theme-aware('color', 'sidebar-link-color-hover');
+	}
+
+	&.active {
+		@include theme-aware('color', 'sidebar-link-color-active');
+		border-bottom: 4px dotted $color-primary;
+	}
+}
+
+@mixin sidebar-link {
+	color: $color-grey-medium;
+	font-weight: 600;
+	text-transform: uppercase;
+	cursor: pointer;
+	font-size: 14px;
+	padding-left: 16px;
+	@include theme-aware('color', 'sidebar-link-color');
+
+	@media (max-width: $breakpoint-m) {
+		padding-left: 0;
+		padding-right: 16px;
+		width: max-content;
+	}
+
+	&:hover {
+		@include theme-aware('color', 'sidebar-link-color-hover');
+		@include theme-aware('background-color', 'sidebar-link-background-hover');
+	}
+
+	&.active {
+		@include theme-aware('color', 'sidebar-link-color-active');
+		@include theme-aware('background-color', 'sidebar-link-background-active');
+	}
+}

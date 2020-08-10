@@ -1,14 +1,15 @@
 @import 'styles/variables.scss';
+@import 'styles/themes/mixins.scss';
 
 .st-StoryPagePicker {
 	min-width: 220px;
 	height: 36px;
 
 	&__option {
-		background-color: #fff !important;
-		color: $color-grey-black !important;
+		@include theme-aware('background-color', 'story-pagepicker-background');
+		@include theme-aware('color', 'story-pagepicker-color');
+		@include theme-aware('border-bottom', 'story-pagepicker-border');
 		padding: 16px;
-		border-bottom: 1px solid $color-grey-border;
 
 		.st-IconButton {
 			width: 100%;
@@ -21,20 +22,26 @@
 	}
 
 	&__control {
-		border: 1px solid $color-grey-border !important;
 		box-shadow: none !important;
 		flex-direction: row-reverse;
 		outline: none;
 		cursor: pointer !important;
-		background-color: $color-background !important;
 		padding: 0 6px;
+		@include theme-aware('border-color', 'story-pagepicker-background');
+		@include theme-aware('background-color', 'story-pagepicker-background');
+
+		&:hover {
+			@include theme-aware('border-color', 'story-pagepicker-background');
+		}
 
 		&--menu-is-open {
-			background-color: #fff !important;
+			@include theme-aware('background-color', 'story-pagepicker-background');
 		}
 	}
 
 	&__menu {
+		@include theme-aware('background-color', 'story-pagepicker-background');
+
 		&-list {
 			overflow-x: hidden;
 			padding-bottom: 0 !important;

@@ -1,5 +1,6 @@
 @import 'styles/variables.scss';
 @import 'styles//scrollbar.scss';
+@import 'styles/mixins/tab-links.scss';
 
 .st-Categories {
 	width: 100%;
@@ -34,27 +35,6 @@
 	}
 
 	.nav-link {
-		color: $color-grey-medium;
-		font-weight: 600;
-		text-transform: uppercase;
-		cursor: pointer;
-		font-size: 14px;
-		padding-left: 16px;
-
-		@media (max-width: $breakpoint-m) {
-			padding-left: 0;
-			padding-right: 16px;
-			width: max-content;
-		}
-
-		&:hover {
-			color: $color-secondary-black;
-			background-color: $color-white;
-		}
-
-		&.active {
-			color: $color-secondary-black;
-			background-color: transparent;
-		}
+		@include sidebar-link;
 	}
 }
