@@ -1,33 +1,31 @@
 import React from 'react';
-import Select from 'react-select';
 import propTypes from 'prop-types';
-import {Label, FormGroup} from 'reactstrap';
 import {useSelector} from 'react-redux';
 
 import {selectLanguages} from 'redux/languages';
 
-import './LanguagePicker.scss';
+import DefaultPicker from '../default/DefaultPicker';
 
-const CLASS = 'st-LanguagePicker';
+// import './LanguagePicker.scss';
+
+// const CLASS = 'st-LanguagePicker';
 
 export default function LanguagePicker({onChange, value, label, ...rest}) {
 	const {languages, loading} = useSelector(state => ({
 		loading: state.categories.loading,
 		languages: selectLanguages(state),
 	}));
+	console.log(value)
 	const options = languages.map(item => ({value: item.id, label: item.name}));
 	return (
-		<FormGroup className={CLASS}>
-			<Label>{label}</Label>
-			<Select
-				onChange={val => onChange(val)}
-				options={options}
-				value={value}
-				classNamePrefix={CLASS}
-				loading={loading}
-				{...rest}
-			/>
-		</FormGroup>
+		<DefaultPicker
+			label={label}
+			onChange={onChange}
+			options={options}
+			value={value}
+			loading={loading}
+			{...rest}
+		/>
 	);
 }
 

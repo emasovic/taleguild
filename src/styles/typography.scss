@@ -1,10 +1,11 @@
 @import './variables.scss';
+@import './themes/mixins.scss';
 
 //MERRIWEATHER
 
 .merriweather-black {
 	font-family: $font-merriweather;
-	color: $color-secondary-black;
+	@include theme-aware('color', 'merriweather-h1');
 }
 
 .merriweather-black-bold {

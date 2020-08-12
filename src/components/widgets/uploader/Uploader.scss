@@ -1,14 +1,15 @@
-@import '../../../styles/variables.scss';
+@import 'styles/variables.scss';
+@import 'styles/themes/mixins.scss';
 
 .st-Uploader {
 	display: flex;
 	flex-direction: column;
 	max-height: 400px;
-	border: 1px dashed $color-grey-border;
 	border-radius: 8px;
 	padding: 20px;
 	justify-content: space-between;
 	min-width: 400px;
+	@include theme-aware('border', 'uploader-border');
 
 	@media (max-width: $breakpoint-sm) {
 		min-width: unset;

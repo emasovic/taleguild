@@ -1,4 +1,5 @@
-@import '../../styles/variables.scss';
+@import 'styles/variables.scss';
+@import 'styles/themes/mixins.scss';
 
 .st-Story {
 	width: 100%;
@@ -16,7 +17,7 @@
 		width: $story-preview-width-large;
 		border: none;
 		box-shadow: none;
-		background-color: $color-background;
+		background-color: transparent;
 
 		@media (max-width: $breakpoint-sm) {
 			width: $story-preview-width-small;
@@ -30,8 +31,9 @@
 				height: 384px;
 
 				&-fallback {
-					border-radius: 12px;
-					border: 1px solid $color-grey-border;
+					.st-Icon {
+						border-radius: 12px;
+					}
 				}
 			}
 		}
@@ -64,17 +66,20 @@
 		.page {
 			&-item {
 				.page-link {
-					background-color: #fff;
 					border-radius: 6px;
 					padding: 10px 20px;
-					border: 1px solid $color-grey-border;
-					color: $color-grey-medium;
 					margin: 0 6px;
 					min-width: 90px;
 					min-height: 40px;
+					@include theme-aware('background-color', 'story-pagination-background');
+					@include theme-aware('border', 'story-pagination-border');
+					@include theme-aware('color', 'story-pagination-color');
 
 					&:hover {
-						background-color: $color-primary-cream;
+						@include theme-aware(
+							'background-color',
+							'story-pagination-background-hover'
+						);
 					}
 
 					&:focus {
@@ -89,9 +94,9 @@
 
 				&.active {
 					.page-link {
-						border: 1px solid $color-grey-border;
+						@include theme-aware('border', 'story-pagination-border-active');
+						@include theme-aware('color', 'story-pagination-color');
 						box-shadow: $box-shadow-light;
-						color: $color-grey-medium;
 					}
 				}
 			}

@@ -1,4 +1,5 @@
 @import 'styles/variables.scss';
+@import 'styles/themes/mixins.scss';
 
 .st-NotFound {
 	display: flex;
@@ -14,6 +15,26 @@
 		flex: 1 1 0;
 		display: flex;
 		justify-content: center;
+
+		svg {
+			g {
+				path {
+					@include theme-aware('fill', 'tree-svg-first-path');
+				}
+
+				&:nth-child(2) {
+					path {
+						@include theme-aware('fill', 'tree-svg-second-path');
+					}
+				}
+
+				&:first-child {
+					path {
+						@include theme-aware('fill', 'tree-svg-last-path');
+					}
+				}
+			}
+		}
 	}
 
 	&-error {
@@ -42,6 +63,10 @@
 			&:nth-child(3) {
 				color: $color-grey-medium;
 			}
+		}
+
+		&-button {
+			display: flex;
 		}
 	}
 }

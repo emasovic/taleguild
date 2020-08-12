@@ -44,26 +44,21 @@
 				color: $color-grey-light;
 				box-shadow: none;
 				@include theme-aware('background-color', 'story-pagepicker-background');
-				@include theme-aware('border-color', 'story-pagepicker-background');
+				@include theme-aware('border', 'story-pagepicker-button-border');
 
 				&:hover,
 				&:active:not(:disabled):not(.disabled):active {
 					@include theme-aware('background-color', 'story-pagepicker-background-hover');
-					@include theme-aware('border-color', 'story-pagepicker-background-hover');
+					@include theme-aware('border', 'story-pagepicker-button-border');
 					color: $color-grey-light;
 				}
 			}
 
 			.dropdown {
 				&-item {
-					&:first-child {
-						color: $color-grey-black;
-					}
-					color: $color-secondary-red;
-
-					&:disabled {
-						color: $color-grey-lighter;
-						cursor: not-allowed;
+					&:nth-child(3),
+					&:last-child {
+						color: $color-secondary-red;
 					}
 				}
 			}
@@ -98,12 +93,15 @@
 						color: $color-grey-light;
 						box-shadow: none;
 						@include theme-aware('background-color', 'story-pagepicker-background');
-						@include theme-aware('border-color', 'story-pagepicker-background');
+						@include theme-aware('border', 'story-pagepicker-button-border');
 
 						&:hover,
 						&:active {
-							@include theme-aware('background-color', 'story-pagepicker-background-hover');
-							@include theme-aware('border-color', 'story-pagepicker-background-hover');
+							@include theme-aware(
+								'background-color',
+								'story-pagepicker-background-hover'
+							);
+							@include theme-aware('border', 'story-pagepicker-button-border');
 							color: $color-grey-light !important;
 						}
 					}

@@ -44,7 +44,7 @@
 			}
 
 			&:disabled {
-				color: $color-grey-border !important;
+				@include theme-aware('color', 'story-pagepicker-color-disabled');
 				cursor: not-allowed;
 			}
 		}

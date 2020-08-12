@@ -1,17 +1,17 @@
-@import '../../styles/variables.scss';
+@import 'styles/variables.scss';
+@import 'styles/themes/mixins.scss';
 
 .st-StoryThumb {
 	display: flex;
 	align-items: center;
-	border: 1px solid $color-grey-border;
 	border-radius: 6px;
 	margin: 8px 0;
 	height: 120px;
-	// min-width: $story-preview-width-small;
 	width: $story-preview-width-medium;
 	cursor: pointer;
 	position: relative;
-	// flex: 1 1;
+	@include theme-aware('border', 'story-item-border');
+	@include theme-aware('background', 'story-item-background');
 
 	.st-StoryDropdownButton {
 		position: absolute;
@@ -42,6 +42,11 @@
 
 			&-fallback {
 				width: 120px;
+
+				.st-Icon {
+					border-top-left-radius: 6px;
+					border-bottom-left-radius: 6px;
+				}
 				// border: none;
 			}
 		}
@@ -63,13 +68,13 @@
 			// overflow: hidden;
 
 			> span {
-				color: $color-grey-medium;
+				@include theme-aware('color', 'story-item-created-color');
 
 				&:first-child {
 					font-family: $font-merriweather;
 					font-weight: bold;
 					font-size: 16px;
-					color: $color-grey-black;
+					@include theme-aware('color', 'story-item-username-color');
 				}
 			}
 		}

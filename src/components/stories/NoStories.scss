@@ -1,7 +1,14 @@
 @import '../../styles/variables.scss';
+@import 'styles/themes/mixins.scss';
 
 .st-NoStories {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+
+	svg {
+		path {
+			@include theme-aware('fill', 'scroll-svg');
+		}
+	}
 }

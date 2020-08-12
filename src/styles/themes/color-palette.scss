@@ -3,6 +3,7 @@ $themes: (
 		body-background: $color-background,
 
 		story-item-background: $color-white,
+		story-item-border: 1px solid $color-grey-border,
 		story-item-username-color: $color-grey-black,
 		story-item-title-color: $color-grey-black,
 		story-item-description-color: $color-secondary-black,
@@ -10,33 +11,74 @@ $themes: (
 		story-item-categories-color: $color-grey-medium,
 		story-item-stats-color:  $color-grey-medium,
 
+		story-pagination-background: $color-white,
+		story-pagination-background-hover: $color-primary-cream,
+		story-pagination-border: 1px solid $color-grey-border,
+		story-pagination-border-active: 1px solid $color-grey-lighter,
+		story-pagination-color: $color-grey-medium,
+
 		story-list-background-hover: $color-white,
 		story-list-title-color: $color-grey-medium,
+
+		saved-story-title: $color-grey-cream,
+		saved-story-color: $color-grey-black,
 
 		writter-title-color: $color-grey-black,
 		writter-title-background: $color-background,
 
 		story-pagepicker-background: $color-background,
 		story-pagepicker-color: $color-grey-black,
+		story-pagepicker-color-disabled: $color-grey-border,
 		story-pagepicker-border: 1px solid $color-grey-border,
+		story-pagepicker-button-border: 1px solid $color-grey-border,
 		story-pagepicker-background-hover: $color-white,
 
 		button-secondary-background: $color-primary-light,
 		button-secondary-color: $color-primary-dark,
 
 		modal-background: $color-white,
-		modal-title-color: $color-secondary-black,
+		modal-title-color: $color-grey-black,
+		modal-border: 1px solid $color-grey-border,
+		modal-footer-color: $color-background-white-grey,
 
 		sidebar-link-color: $color-grey-medium,
 		sidebar-link-color-hover: $color-secondary-black,
 		sidebar-link-background-hover: $color-white,
 		sidebar-link-color-active: $color-secondary-black,
 		sidebar-link-background-active: transparent,
+
+		editor-toolbar-background: $color-white,
+		editor-toolbar-border: 1px solid $color-grey-border,
+		editor-toolbar-color: $color-grey-medium,
+
+		viewer-color: $color-secondary-black,
+
+		icon-background: $color-grey-border,
+
+		user-info-title: $color-grey-black,
+		user-info-description: $color-grey-medium,
+
+		uploader-border: 1px dashed $color-grey-border,
+
+		default-picker-label: $color-grey-medium,
+		default-picker-item: $color-grey-black,
+		default-picker-option-background: $color-primary-cream,
+		default-picker-option-background-hover: $color-primary-light,
+		default-picker-option-color: $color-grey-light,
+
+		merriweather-h1: $color-secondary-black,
+
+		scroll-svg: $color-grey-lighter,
+		tree-svg-first-path: $color-grey-lighter,
+		tree-svg-second-path: $color-white,
+		tree-svg-last-path: $color-grey-border,
+
 	),
 	dark: (
 		body-background: $color-secondary-black-light,
 
 		story-item-background: $color-secondary-black-lighter,
+		story-item-border: none,
 		story-item-username-color: $color-grey-border,
 		story-item-title-color: $color-grey-border,
 		story-item-description-color: $color-grey-border,
@@ -44,27 +86,66 @@ $themes: (
 		story-item-categories-color: $color-grey-light,
 		story-item-stats-color:  $color-grey-lighter,
 
+		story-pagination-background: $color-secondary-black-lighter,
+		story-pagination-background-hover: $color-secondary-black-medium,
+		story-pagination-border: 1px solid transparent,
+		story-pagination-border-active: 1px solid $color-secondary-black,
+		story-pagination-color:  $color-grey-lighter,
+
 		story-list-background-hover: $color-secondary-black-medium,
 		story-list-title-color: $color-grey-light,
+
+		saved-story-title: $color-grey-light,
+		saved-story-color: $color-grey-medium,
 
 		writter-title-color: $color-grey-light,
 		writter-title-background: $color-secondary-black-light,
 
 		story-pagepicker-background: $color-secondary-black-cream,
 		story-pagepicker-color: $color-grey-light,
+		story-pagepicker-color-disabled: $color-grey-medium,
 		story-pagepicker-border: 1px solid $color-secondary-black,
+		story-pagepicker-button-border: 1px solid transparent,
 		story-pagepicker-background-hover: $color-secondary-black-medium,
 
 		button-secondary-background: $color-grey-cream-dark,
 		button-secondary-color: $color-primary-cream,
 
 		modal-background: $color-secondary-black-light,
+		modal-border: 1px solid $color-secondary-black-lighter,
 		modal-title-color: $color-grey-border,
+		modal-footer-color: $color-secondary-black-lighter,
 
 		sidebar-link-color: $color-grey-light,
 		sidebar-link-color-hover: $color-white,
 		sidebar-link-background-hover: $color-secondary-black-medium,
 		sidebar-link-color-active: $color-white,
 		sidebar-link-background-active: transparent,
+
+		editor-toolbar-background: $color-secondary-black-lighter,
+		editor-toolbar-border: 1px solid transparent,
+		editor-toolbar-color: $color-grey-light,
+
+		viewer-color: $color-grey-border,
+
+		icon-background: $color-secondary-black-cream,
+
+		user-info-title: $color-grey-border,
+		user-info-description: $color-grey-light,
+
+		uploader-border: 1px dashed $color-grey-light,
+
+		default-picker-label: $color-grey-light,
+		default-picker-item: $color-grey-border,
+		default-picker-option-background: $color-secondary-black-light,
+		default-picker-option-background-hover: $color-secondary-black-medium,
+		default-picker-option-color: $color-grey-border,
+
+		merriweather-h1: $color-grey-border,
+
+		scroll-svg: $color-secondary-black-lighter,
+		tree-svg-first-path: $color-grey-cream-dark,
+		tree-svg-second-path: $color-secondary-black-lighter,
+		tree-svg-last-path: $color-secondary-black,
 	),
 );

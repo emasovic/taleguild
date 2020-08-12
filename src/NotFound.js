@@ -26,7 +26,7 @@ export default function NotFound() {
 					Don’t worry, our wizard will tell you path where you can find what you are
 					looking for.
 				</span>
-				<div>
+				<div className={CLASS + '-error-button'}>
 					<IconButton href={HOME}>Back to guild</IconButton>
 				</div>
 			</div>

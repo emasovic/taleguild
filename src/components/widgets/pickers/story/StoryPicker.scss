@@ -8,10 +8,10 @@
 		min-width: 200px;
 	}
 
-	&-option {
+	.st-StoryPicker__option {
 		display: flex;
 		padding: 10px 5px;
-		background-color: #fff !important;
+		@include theme-aware('background-color', 'default-picker-option-background-hover');
 		cursor: pointer !important;
 
 		a {
@@ -22,7 +22,7 @@
 
 		&:hover,
 		&:active {
-			background: $color-primary-light !important;
+			@include theme-aware('background-color', 'default-picker-option-background');
 			text-decoration: none;
 		}
 
@@ -43,13 +43,24 @@
 		}
 	}
 
+	.st-StoryPicker__menu {
+		@include theme-aware('background', 'story-item-background');
+
+		&-notice {
+			&--no-options {
+				@include theme-aware('background', 'story-item-background');
+			}
+		}
+	}
+
 	.st-StoryPicker__control {
 		flex-direction: row-reverse;
-		@include theme-aware('background', 'story-item-background');
-		@include theme-aware('border-color', 'story-item-background');
 		cursor: initial;
+		@include theme-aware('background', 'story-item-background');
+		@include theme-aware('border', 'story-item-border');
 
-		&--menu-is-open, &--is-focused {
+		&--menu-is-open,
+		&--is-focused {
 			box-shadow: 0 0 0 1px $color-primary;
 			border-color: $color-primary;
 		}
@@ -61,6 +72,12 @@
 
 	.st-StoryPicker__input {
 		@include theme-aware('color', 'story-item-username-color');
+	}
+
+	.st-StoryPicker__indicator {
+		&-separator {
+			display: none;
+		}
 	}
 
 	.st-StoryPicker__indicators {

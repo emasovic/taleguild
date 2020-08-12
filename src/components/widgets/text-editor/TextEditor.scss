@@ -1,4 +1,5 @@
-@import '../../../styles/variables.scss';
+@import 'styles/variables.scss';
+@import 'styles/themes/mixins.scss';
 
 .st-TextEditor {
 	font-family: $font-merriweather;
@@ -12,29 +13,29 @@
 		left: -10000px;
 		margin-top: -6px;
 		opacity: 0;
-		background-color: #fff;
-		border: 1px solid $color-grey-border;
 		box-shadow: $box-shadow-light;
 		border-radius: 4px;
 		transition: opacity 0.75s;
+		@include theme-aware('border', 'editor-toolbar-border');
+		@include theme-aware('background-color', 'editor-toolbar-background');
 
 		&:before {
 			content: '';
 			position: absolute;
 			width: 10px;
 			height: 10px;
-			background: #fff;
 			bottom: -4px;
 			left: 76px;
 			transform: rotate(45deg);
+			@include theme-aware('background-color', 'editor-toolbar-background');
 		}
 
 		.st-IconButton {
 			background: transparent !important;
 			border: none !important;
 			box-shadow: none !important;
-			color: $color-grey-medium;
 			font-weight: normal;
+			@include theme-aware('color', 'editor-toolbar-color');
 
 			&:hover,
 			&.active {

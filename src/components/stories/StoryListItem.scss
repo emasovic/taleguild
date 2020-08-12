@@ -29,8 +29,12 @@
 				width: 48px;
 				height: 36px;
 				margin-right: 12px;
-				border-radius: 4px;
 				object-fit: cover;
+				border: none;
+
+				.st-Icon {
+					border-radius: 4px;
+				}
 			}
 		}
 	}

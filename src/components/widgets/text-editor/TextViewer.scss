@@ -1,7 +1,9 @@
-@import '../../../styles/variables.scss';
+@import 'styles/variables.scss';
+@import 'styles/themes/mixins.scss';
 
 .st-TextViewer {
 	font-family: $font-merriweather;
 	font-size: 18px;
 	line-height: 28px;
+	@include theme-aware('color', 'viewer-color');
 }

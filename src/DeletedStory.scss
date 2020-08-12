@@ -50,6 +50,8 @@
 		}
 
 		&-buttons {
+			display: flex;
+
 			.st-IconButton {
 				&:first-child {
 					margin-right: 16px;

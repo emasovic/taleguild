@@ -1,4 +1,5 @@
-@import '../../styles/variables.scss';
+@import 'styles/variables.scss';
+@import 'styles/themes/mixins.scss';
 
 .st-UserProfile {
 	display: flex;
@@ -38,14 +39,14 @@
 				span {
 					font-family: $font-merriweather;
 					font-weight: bold;
-					color: $color-grey-black;
 					font-size: 18px;
+					@include theme-aware('color', 'user-info-title');
 
 					&:last-child {
-						color: $color-grey-medium;
 						font-size: 14px;
 						font-weight: normal;
 						font-family: $font-lato;
+						@include theme-aware('color', 'user-info-description');
 					}
 				}
 			}
@@ -74,14 +75,14 @@
 
 					span {
 						font-weight: bold;
-						color: $color-grey-black;
 						font-size: 18px;
+						@include theme-aware('color', 'user-info-title');
 
 						&:last-child {
-							color: $color-grey-medium;
 							font-size: 14px;
 							font-weight: normal;
 							font-family: $font-lato;
+							color: $color-grey-medium;
 						}
 					}
 				}

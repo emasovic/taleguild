@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 
+import {THEMES} from 'types/themes';
+
 import {selectUser, updateUser} from 'redux/user';
 
 import IconButton from 'components/widgets/button/IconButton';
@@ -8,9 +10,9 @@ import FloatingInput from 'components/widgets/input/FloatingInput';
 import Uploader from 'components/widgets/uploader/Uploader';
 import Loader from 'components/widgets/loader/Loader';
 import TextArea from 'components/widgets/textarea/TextArea';
+import ThemePicker from 'components/widgets/pickers/theme/ThemePicker';
 
 import './UserSettings.scss';
-import ThemePicker from 'components/widgets/pickers/theme/ThemePicker';
 
 const CLASS = 'st-UserSettings';
 
@@ -23,14 +25,17 @@ export default function UserSettings() {
 	const [email, setEmail] = useState('');
 	const [displayName, setDisplayName] = useState('');
 	const [description, setDescription] = useState('');
+	const [theme, setTheme] = useState(null);
 
 	const update = () => {
+		localStorage.setItem('theme', theme);
 		dispatch(
 			updateUser({
 				id: data.id,
 				username,
 				email,
 				description,
+				theme,
 				display_name: displayName,
 				avatar: avatar && avatar.id,
 			})
@@ -39,11 +44,13 @@ export default function UserSettings() {
 
 	useEffect(() => {
 		if (data) {
+			const theme = localStorage.getItem('theme') || THEMES.light;
 			setEmail(data.email);
 			setAvatar(data.avatar);
 			setUsername(data.username);
 			setDescription(data.description || '');
 			setDisplayName(data.display_name || '');
+			setTheme(theme);
 		}
 	}, [data]);
 
@@ -68,7 +75,7 @@ export default function UserSettings() {
 
 				<FloatingInput value={email} label="Email address" onChange={setEmail} />
 
-				<ThemePicker />
+				<ThemePicker value={theme} onChange={setTheme} />
 
 				<IconButton onClick={update} loading={loading}>
 					Save changes

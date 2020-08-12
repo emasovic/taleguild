@@ -27,11 +27,11 @@
 		outline: none;
 		cursor: pointer !important;
 		padding: 0 6px;
-		@include theme-aware('border-color', 'story-pagepicker-background');
+		@include theme-aware('border', 'story-pagepicker-button-border');
 		@include theme-aware('background-color', 'story-pagepicker-background');
 
 		&:hover {
-			@include theme-aware('border-color', 'story-pagepicker-background');
+			@include theme-aware('border', 'story-pagepicker-button-border');
 		}
 
 		&--menu-is-open {

@@ -23,7 +23,7 @@ export default function StoryPicker({...props}) {
 	const Option = props => {
 		const {data} = props;
 		return (
-			<components.Option className={CLASS + '-option'} {...props}>
+			<components.Option {...props}>
 				<Link to={goToStory(data.value)}>
 					<Image image={data.image} />
 					<span>{data.label}</span>

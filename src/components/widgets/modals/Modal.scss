@@ -1,4 +1,5 @@
-@import '../../../styles/variables.scss';
+@import 'styles/variables.scss';
+@import 'styles/themes/mixins.scss';
 
 .st-Modal {
 	display: flex !important;
@@ -9,15 +10,16 @@
 	.modal {
 		&-title {
 			font-family: $font-merriweather;
-			color: $color-grey-black;
 			font-weight: bold;
 			font-size: 14px;
+			@include theme-aware('color', 'modal-title-color');
 		}
 
 		&-content {
 			min-width: $story-preview-width-medium;
 			border-radius: 6px;
-			border: 1px solid $color-grey-border;
+			border: none;
+			@include theme-aware('background', 'modal-background');
 
 			@media (max-width: $breakpoint-sm) {
 				min-width: $story-preview-width-small;
@@ -27,10 +29,11 @@
 		&-header {
 			display: flex;
 			align-items: center;
-			border-bottom: 1px solid $color-grey-border;
+			@include theme-aware('border-bottom', 'modal-border');
 
 			.close {
 				outline: none;
+				@include theme-aware('color', 'modal-title-color');
 			}
 		}
 
@@ -39,11 +42,11 @@
 		// }
 
 		&-footer {
-			border-top: 1px solid $color-grey-border;
 			display: flex;
 			align-items: center;
 			justify-content: flex-end;
-			background: $color-background-white-grey;
+			@include theme-aware('border', 'modal-border');
+			@include theme-aware('background', 'modal-footer-color');
 		}
 	}
 }
