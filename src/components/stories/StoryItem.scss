@@ -190,6 +190,8 @@
 
 	&-likes,
 	&-comments {
+		@include theme-aware('color', 'story-item-username-color');
+
 		.st-UserAvatar {
 			.st-Image,
 			.badge {
@@ -210,7 +212,7 @@
 			span {
 				font-weight: bold;
 				font-family: $font-merriweather;
-				color: $color-grey-black;
+				@include theme-aware('color', 'story-item-username-color');
 			}
 		}
 	}
@@ -242,13 +244,13 @@
 							&:first-child {
 								font-weight: bold;
 								font-family: $font-merriweather;
-								color: $color-grey-black;
 								margin-right: 8px;
+								@include theme-aware('color', 'story-item-username-color');
 							}
 
 							&:last-child {
 								font-size: 14px;
-								color: $color-grey-light;
+								@include theme-aware('color', 'story-item-created-color');
 							}
 						}
 					}
@@ -268,7 +270,7 @@
 
 					span {
 						font-size: 14px;
-						color: $color-grey-black;
+						@include theme-aware('color', 'story-item-description-color');
 					}
 				}
 			}
