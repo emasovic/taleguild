@@ -6,6 +6,7 @@ import {DropdownItem} from 'reactstrap';
 import {Toast} from 'types/toast';
 import {COLOR} from 'types/button';
 import {STORY_OP} from 'types/story';
+import {TYPOGRAPHY_LATO} from 'types/typography';
 import FA from 'types/font_awesome';
 
 // import {selectStory} from 'redux/story';
@@ -128,13 +129,13 @@ export default function Header({
 	};
 
 	const renderDetelePageContent = () => (
-		<span>
+		<span className={TYPOGRAPHY_LATO.placeholder_grey_medium}>
 			Are you sure you want to delete <strong>Page {selectedPage + 1}</strong>?
 		</span>
 	);
 
 	const renderDeteleContent = () => (
-		<span>
+		<span className={TYPOGRAPHY_LATO.placeholder_grey_medium}>
 			Are you sure you want to delete <strong>{title || 'this story'}</strong>?
 		</span>
 	);

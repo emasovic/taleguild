@@ -35,18 +35,6 @@
 
 		> span {
 			margin-bottom: 36px;
-			font-family: $font-merriweather;
-
-			&:first-child {
-				font-weight: 900;
-				font-size: 24px;
-				color: $color-secondary-black;
-			}
-
-			&:nth-child(2) {
-				color: $color-grey-medium;
-				font-size: 16px;
-			}
 		}
 
 		&-buttons {

@@ -15,7 +15,7 @@ export default function LanguagePicker({onChange, value, label, ...rest}) {
 		loading: state.categories.loading,
 		languages: selectLanguages(state),
 	}));
-	console.log(value)
+
 	const options = languages.map(item => ({value: item.id, label: item.name}));
 	return (
 		<DefaultPicker

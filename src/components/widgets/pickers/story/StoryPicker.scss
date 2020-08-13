@@ -11,7 +11,7 @@
 	.st-StoryPicker__option {
 		display: flex;
 		padding: 10px 5px;
-		@include theme-aware('background-color', 'default-picker-option-background-hover');
+		background-color: transparent;
 		cursor: pointer !important;
 
 		a {
@@ -22,15 +22,15 @@
 
 		&:hover,
 		&:active {
-			@include theme-aware('background-color', 'default-picker-option-background');
+			@include theme-aware('background-color', 'default-picker-option-background-hover');
 			text-decoration: none;
 		}
 
 		span {
 			font-family: $font-merriweather;
-			color: $color-grey-medium;
 			font-weight: bold;
 			font-size: 14px;
+			@include theme-aware('color', 'story-list-title-color');
 		}
 
 		.st-Image,
@@ -40,16 +40,6 @@
 			margin-right: 12px;
 			border-radius: 4px;
 			object-fit: cover;
-		}
-	}
-
-	.st-StoryPicker__menu {
-		@include theme-aware('background', 'story-item-background');
-
-		&-notice {
-			&--no-options {
-				@include theme-aware('background', 'story-item-background');
-			}
 		}
 	}
 
@@ -70,17 +60,31 @@
 		}
 	}
 
-	.st-StoryPicker__input {
+	&__menu {
+		@include theme-aware('background', 'story-item-background');
+
+		&-notice {
+			&--no-options {
+				@include theme-aware('background', 'story-item-background');
+			}
+		}
+	}
+
+	&__input {
 		@include theme-aware('color', 'story-item-username-color');
 	}
 
-	.st-StoryPicker__indicator {
+	&__single-value {
+		@include theme-aware('color', 'default-picker-item');
+	}
+
+	&__indicator {
 		&-separator {
 			display: none;
 		}
 	}
 
-	.st-StoryPicker__indicators {
+	&__indicators {
 		flex-direction: row-reverse;
 	}
 }

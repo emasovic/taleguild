@@ -54,6 +54,6 @@
 //LATO
 
 .placeholder-grey-medium {
-	color: $color-grey-medium;
+	@include theme-aware('color', 'lato-14-grey');
 	font-size: 14px;
 }

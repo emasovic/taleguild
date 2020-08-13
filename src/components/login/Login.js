@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
-import {Modal, ModalBody, Form, ModalHeader} from 'reactstrap';
+import {Form} from 'reactstrap';
 import {useDispatch, useSelector} from 'react-redux';
 import {Link} from 'react-router-dom';
 
-import {FORGOT_PASSWORD} from 'lib/routes';
+import {FORGOT_PASSWORD, REGISTER} from 'lib/routes';
 
 import {COLOR, BRAND} from 'types/button';
 
@@ -12,13 +12,12 @@ import {loginUser, selectUser} from '../../redux/user';
 import FloatingInput from '../widgets/input/FloatingInput';
 import IconButton from '../widgets/button/IconButton';
 import BrandButton from 'components/widgets/button/BrandButton';
-import Billboard from 'components/widgets/billboard/Billboard';
 
 import './Login.scss';
 
 const CLASS = 'st-Login';
 
-export default function Login(props) {
+export default function Login() {
 	const [identifier, setIdentifier] = useState('');
 	const [password, setPassword] = useState('');
 	const dispatch = useDispatch();
@@ -30,55 +29,42 @@ export default function Login(props) {
 		dispatch(loginUser({identifier, password}));
 	};
 
-	const {open, onClose, onChange} = props;
-
 	return (
-		<Modal returnFocusAfterClose={true} isOpen={open} toggle={onClose} modalClassName={CLASS}>
-			<ModalHeader toggle={onClose} />
-			<ModalBody>
-				<Billboard />
+		<Form onSubmit={e => submit(e)} className={CLASS}>
+			<h4>Welcome Back</h4>
+			<FloatingInput
+				label="Email or username"
+				// placeholder="Enter your email or username"
+				value={identifier}
+				type="text"
+				onChange={val => setIdentifier(val)}
+			/>
 
-				<Form onSubmit={e => submit(e)}>
-					<h4>Welcome Back</h4>
-					<FloatingInput
-						label="Email or username"
-						// placeholder="Enter your email or username"
-						value={identifier}
-						type="text"
-						onChange={val => setIdentifier(val)}
-					/>
+			<FloatingInput
+				label="Enter password"
+				// placeholder="you@example.com"
+				value={password}
+				type="password"
+				onChange={val => setPassword(val)}
+				errorMessage={error}
+				invalid={!!error}
+			/>
 
-					<FloatingInput
-						label="Enter password"
-						// placeholder="you@example.com"
-						value={password}
-						type="password"
-						onChange={val => setPassword(val)}
-						errorMessage={error}
-						invalid={!!error}
-					/>
+			<Link to={FORGOT_PASSWORD}>Forgot password?</Link>
 
-					<Link to={FORGOT_PASSWORD} onClick={onClose}>
-						Forgot password?
-					</Link>
+			<IconButton loading={op}>Sign in</IconButton>
 
-					<IconButton loading={op}>Sign in</IconButton>
+			<span className={CLASS + '-divider'}>OR</span>
 
-					<span className={CLASS + '-divider'}>OR</span>
+			<BrandButton loading={op} color={COLOR.secondary} brand={BRAND.google}>
+				Sign in with Google
+			</BrandButton>
 
-					<BrandButton loading={op} color={COLOR.secondary} brand={BRAND.google}>
-						Sign in with Google
-					</BrandButton>
+			<BrandButton loading={op} color={COLOR.secondary} brand={BRAND.facebook}>
+				Sign in with Facebook
+			</BrandButton>
 
-					<BrandButton loading={op} color={COLOR.secondary} brand={BRAND.facebook}>
-						Sign in with Facebook
-					</BrandButton>
-
-					<Link to="#" onClick={onChange}>
-						Don’t have an account? Sign up now.
-					</Link>
-				</Form>
-			</ModalBody>
-		</Modal>
+			<Link to={REGISTER}>Don’t have an account? Sign up now.</Link>
+		</Form>
 	);
 }

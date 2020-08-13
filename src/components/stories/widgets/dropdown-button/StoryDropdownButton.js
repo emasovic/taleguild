@@ -5,6 +5,8 @@ import {useHistory} from 'react-router-dom';
 
 import {editStory} from 'lib/routes';
 
+import {TYPOGRAPHY_LATO} from 'types/typography';
+
 import {deleteStory} from 'redux/story';
 
 import ConfirmModal from 'components/widgets/modals/Modal';
@@ -35,7 +37,7 @@ export default function StoryDropdownButton({story, onDeleteStory}) {
 	const toggleModal = () => setIsModalOpen(prevState => !prevState);
 
 	const renderContent = () => (
-		<span>
+		<span className={TYPOGRAPHY_LATO.placeholder_grey_medium}>
 			Are you sure you want to delete <strong>{story.title || 'Untitled'}</strong>?
 		</span>
 	);

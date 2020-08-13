@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
-import {Modal, ModalBody, Form, ModalHeader} from 'reactstrap';
+import {Form} from 'reactstrap';
 import {useDispatch, useSelector} from 'react-redux';
 import {Link, useHistory} from 'react-router-dom';
+
+import {LOGIN} from 'lib/routes';
 
 import {Toast} from 'types/toast';
 import {COLOR, BRAND} from 'types/button';
@@ -15,13 +17,12 @@ import FloatingInput from '../widgets/input/FloatingInput';
 import IconButton from '../widgets/button/IconButton';
 import BrandButton from 'components/widgets/button/BrandButton';
 import Checkbox from 'components/widgets/checkbox/Checkbox';
-import Billboard from 'components/widgets/billboard/Billboard';
 
 import './SignUp.scss';
 
 const CLASS = 'st-SignUp';
 
-export default function SignUp(props) {
+export default function SignUp() {
 	const history = useHistory();
 
 	const [username, setUsername] = useState('');
@@ -54,40 +55,33 @@ export default function SignUp(props) {
 		}
 	};
 
-	const {open, onClose, onChange} = props;
-
 	return (
-		<Modal returnFocusAfterClose={true} isOpen={open} toggle={onClose} modalClassName={CLASS}>
-			<ModalHeader toggle={onClose} />
-			<ModalBody>
-				<Billboard />
+		<Form onSubmit={e => submit(e)} className={CLASS}>
+			<h4>Join our guild of writers and storytellers</h4>
+			<FloatingInput
+				label="Username"
+				// placeholder="Enter your username here"
+				value={username}
+				onChange={val => setUsername(val)}
+			/>
+			<FloatingInput
+				label="Email Address "
+				// placeholder="Enter your email address here"
+				value={email}
+				type="email"
+				onChange={val => setEmail(val)}
+			/>
 
-				<Form onSubmit={e => submit(e)}>
-					<h4>Join our guild of writers and storytellers</h4>
-					<FloatingInput
-						label="Username"
-						// placeholder="Enter your username here"
-						value={username}
-						onChange={val => setUsername(val)}
-					/>
-					<FloatingInput
-						label="Email Address "
-						// placeholder="Enter your email address here"
-						value={email}
-						type="email"
-						onChange={val => setEmail(val)}
-					/>
-
-					<FloatingInput
-						label="Password"
-						// placeholder="you@example.com"
-						value={password}
-						type="password"
-						onChange={val => setPassword(val)}
-						// invalid={!!error}
-						// errorMessage={error}
-					/>
-					{/* <FloatingInput
+			<FloatingInput
+				label="Password"
+				// placeholder="you@example.com"
+				value={password}
+				type="password"
+				onChange={val => setPassword(val)}
+				// invalid={!!error}
+				// errorMessage={error}
+			/>
+			{/* <FloatingInput
 						label="Repeat Password"
 						value={repeatPassword}
 						type="password"
@@ -95,43 +89,41 @@ export default function SignUp(props) {
 						invalid={!!error}
 						errorMessage={error}
 					/> */}
-					<Checkbox
-						label="I agree to Terms of Service and Privacy Policy"
-						checked={accepted}
-						onChange={checked => setAccepted(checked)}
-					/>
-					<IconButton loading={op}>Sign Up</IconButton>
+			<Checkbox
+				label="I agree to Terms of Service and Privacy Policy"
+				checked={accepted}
+				onChange={checked => setAccepted(checked)}
+			/>
+			<IconButton loading={op}>Sign Up</IconButton>
 
-					<span className={CLASS + '-divider'}>OR</span>
+			<span className={CLASS + '-divider'}>OR</span>
 
-					<BrandButton loading={op} color={COLOR.secondary} brand={BRAND.google}>
-						Sign up with Google
-					</BrandButton>
+			<BrandButton loading={op} color={COLOR.secondary} brand={BRAND.google}>
+				Sign up with Google
+			</BrandButton>
 
-					<BrandButton loading={op} color={COLOR.secondary} brand={BRAND.facebook}>
-						Sign up with Facebook
-					</BrandButton>
-					<Link to="#" onClick={onChange}>
-						Already have an account? Sign in now.
-					</Link>
-					<div className={CLASS + '-terms'}>
-						<a
-							href="https://join.taleguild.com/terms-of-service"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							Terms of Service
-						</a>
-						<a
-							href="https://join.taleguild.com/privacy-policy"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							Privacy Policy
-						</a>
-					</div>
-				</Form>
-			</ModalBody>
-		</Modal>
+			<BrandButton loading={op} color={COLOR.secondary} brand={BRAND.facebook}>
+				Sign up with Facebook
+			</BrandButton>
+
+			<Link to={LOGIN}>Already have an account? Sign in now.</Link>
+
+			<div className={CLASS + '-terms'}>
+				<a
+					href="https://join.taleguild.com/terms-of-service"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					Terms of Service
+				</a>
+				<a
+					href="https://join.taleguild.com/privacy-policy"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					Privacy Policy
+				</a>
+			</div>
+		</Form>
 	);
 }

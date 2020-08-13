@@ -38,20 +38,15 @@ $secondary: $color-primary-light;
 		@include theme-aware('background-color', 'button-secondary-background');
 		@include theme-aware('color', 'button-secondary-color');
 
-		&:hover {
-			background-color: $color-white;
-			color: $color-primary-dark;
+		&:hover,
+		&:active:not(:disabled):not(.disabled):active,
+		&:focus {
+			@include theme-aware('background-color', 'button-secondary-background-state');
+			@include theme-aware('color', 'button-secondary-color');
 		}
 
 		&:active:not(:disabled):not(.disabled):active {
-			background-color: $color-white;
-			color: $color-primary-dark;
 			box-shadow: none;
-		}
-
-		&:focus {
-			background-color: $color-white;
-			color: $color-primary-dark;
 		}
 	}
 }

@@ -16,11 +16,15 @@ import UserSettings from 'components/user/UserSettings';
 import DraftStoriesPage from 'components/user/pages/DraftStoriesPage';
 import SavedStoriesPage from 'components/user/pages/SavedStoriesPage';
 
+import SignUp from 'components/signup/SignUp';
+
+import Login from 'components/login/Login';
 import ForgotPassword from 'components/login/ForgotPassword';
 import ResetPassword from 'components/login/ResetPassword';
 import ProviderLogin from 'components/login/ProviderLogin';
 
 import PrivateRoute from 'PrivateRoute';
+import PublicRoute from 'PublicRoute';
 import NotFound from 'NotFound';
 import DeletedStory from 'DeletedStory';
 import Welcome from 'Welcome';
@@ -38,10 +42,12 @@ const Routes = () => (
 			<PrivateRoute path={routes.USER_STORIES_DRAFTS} component={DraftStoriesPage} />
 			<PrivateRoute path={routes.USER_SETTINGS} component={UserSettings} />
 			<Route path={routes.USER_ID} component={UserProfile} />
-			<Route path={routes.FORGOT_PASSWORD} component={ForgotPassword} />
-			<Route path={routes.RESET_PASSWORD} component={ResetPassword} />
+			<PublicRoute path={routes.REGISTER} component={SignUp} />
+			<PublicRoute path={routes.LOGIN} component={Login} />
+			<PublicRoute path={routes.FORGOT_PASSWORD} component={ForgotPassword} />
+			<PublicRoute path={routes.RESET_PASSWORD} component={ResetPassword} />
 			<Route path={routes.PROVIDER_LOGIN} component={ProviderLogin} />
-			<Route path={routes.WELCOME} component={Welcome} />
+			<PublicRoute path={routes.WELCOME} component={Welcome} />
 			<Route path="*" component={NotFound} />
 		</Switch>
 	</Router>

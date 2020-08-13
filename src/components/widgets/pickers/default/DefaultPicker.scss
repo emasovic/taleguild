@@ -15,6 +15,7 @@
 
 	&__option {
 		cursor: pointer;
+		@include theme-aware('color', 'default-picker-option-color');
 
 		&:hover,
 		&--is-focused {

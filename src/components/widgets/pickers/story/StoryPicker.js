@@ -55,7 +55,10 @@ export default function StoryPicker({...props}) {
 			return callback(
 				result.map(item => ({
 					value: item.id,
-					label: item.title,
+					label:
+						item.title && item.title.length > 36
+							? item.title.slice(0, 36) + '...'
+							: item.title,
 					image: item.image,
 				}))
 			);

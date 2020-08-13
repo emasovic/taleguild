@@ -19,6 +19,10 @@
 			text-decoration: underline;
 			cursor: pointer;
 		}
+
+		&:active {
+			@include theme-aware('background-color', 'default-picker-option-background');
+		}
 	}
 
 	&__control {

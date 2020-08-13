@@ -5,9 +5,9 @@ import {useHistory} from 'react-router-dom';
 import {HOME} from 'lib/routes';
 
 import {COLOR} from 'types/button';
+import {TYPOGRAPHY_LATO, TYPOGRAPHY_MERRI} from 'types/typography';
 
 import {newStory} from 'redux/story';
-
 import {selectUser} from 'redux/user';
 
 import IconButton from 'components/widgets/button/IconButton';
@@ -29,8 +29,10 @@ export default function DeletedStory() {
 	return (
 		<div className={CLASS}>
 			<div className={CLASS + '-description'}>
-				<span>And that was the end of your story. Literally end. You delete it. </span>
-				<span>
+				<span className={TYPOGRAPHY_MERRI.heading_h1_black_bold}>
+					And that was the end of your story. Literally end. You delete it.
+				</span>
+				<span className={TYPOGRAPHY_LATO.placeholder_grey_medium}>
 					But you can create other one. Hope that you will not delete that one too. You
 					can also read other stories in mean time, just back to home.
 				</span>

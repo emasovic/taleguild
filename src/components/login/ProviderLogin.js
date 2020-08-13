@@ -46,7 +46,7 @@ export default function ProviderLogin() {
 				<span className={TYPOGRAPHY_LATO.placeholder_grey_medium}>
 					Account with this email address or username already exists.
 				</span>
-				<div>
+				<div className={CLASS + '-text-button'}>
 					<IconButton href={HOME}>Back to guild</IconButton>
 				</div>
 			</div>

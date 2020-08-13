@@ -19,6 +19,7 @@
 		&-menu {
 			padding: 0;
 			min-width: 300px;
+			@include theme-aware('background', 'story-item-background');
 		}
 
 		&-divider {
@@ -30,8 +31,8 @@
 			outline: none;
 			font-weight: bold;
 			padding: 15px;
+			background-color: transparent;
 			@include theme-aware('color', 'story-pagepicker-color');
-			@include theme-aware('background-color', 'story-pagepicker-background');
 
 			&:hover {
 				background-color: $color-background-white-grey;

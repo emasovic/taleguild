@@ -2,7 +2,7 @@ import React from 'react';
 
 import {HOME} from 'lib/routes';
 
-import {TYPOGRAPHY_MERRI} from 'types/typography';
+import {TYPOGRAPHY_MERRI, TYPOGRAPHY_LATO} from 'types/typography';
 
 import IconButton from 'components/widgets/button/IconButton';
 
@@ -22,7 +22,7 @@ export default function NotFound() {
 			<div className={CLASS + '-error'}>
 				<span>404</span>
 				<span className={TYPOGRAPHY_MERRI.heading_h1_black_bold}>You got lost in the woods.</span>
-				<span>
+				<span className={TYPOGRAPHY_LATO.placeholder_grey_medium}>
 					Don’t worry, our wizard will tell you path where you can find what you are
 					looking for.
 				</span>

@@ -34,6 +34,7 @@ $themes: (
 		story-pagepicker-background-hover: $color-white,
 
 		button-secondary-background: $color-primary-light,
+		button-secondary-background-state: $color-white,
 		button-secondary-color: $color-primary-dark,
 
 		modal-background: $color-white,
@@ -62,11 +63,15 @@ $themes: (
 
 		default-picker-label: $color-grey-medium,
 		default-picker-item: $color-grey-black,
-		default-picker-option-background: $color-primary-cream,
-		default-picker-option-background-hover: $color-primary-light,
-		default-picker-option-color: $color-grey-light,
+		default-picker-option-background: $color-primary-light,
+		default-picker-option-background-hover: $color-background-white-grey,
+		default-picker-option-color: $color-secondary-black,
 
 		merriweather-h1: $color-secondary-black,
+
+		lato-14-grey: $color-grey-medium,
+
+		not-found-color: $color-primary-dark,
 
 		scroll-svg: $color-grey-lighter,
 		tree-svg-first-path: $color-grey-lighter,
@@ -109,12 +114,13 @@ $themes: (
 		story-pagepicker-background-hover: $color-secondary-black-medium,
 
 		button-secondary-background: $color-grey-cream-dark,
+		button-secondary-background-state: $color-secondary-black-lighter,
 		button-secondary-color: $color-primary-cream,
 
 		modal-background: $color-secondary-black-light,
 		modal-border: 1px solid $color-secondary-black-lighter,
 		modal-title-color: $color-grey-border,
-		modal-footer-color: $color-secondary-black-lighter,
+		modal-footer-color: $color-secondary-black-cream,
 
 		sidebar-link-color: $color-grey-light,
 		sidebar-link-color-hover: $color-white,
@@ -136,12 +142,16 @@ $themes: (
 		uploader-border: 1px dashed $color-grey-light,
 
 		default-picker-label: $color-grey-light,
-		default-picker-item: $color-grey-border,
-		default-picker-option-background: $color-secondary-black-light,
-		default-picker-option-background-hover: $color-secondary-black-medium,
+		default-picker-item: $color-grey-lighter,
+		default-picker-option-background: $color-grey-cream-dark,
+		default-picker-option-background-hover: $color-secondary-black-cream,
 		default-picker-option-color: $color-grey-border,
 
 		merriweather-h1: $color-grey-border,
+
+		lato-14-grey: $color-grey-light,
+
+		not-found-color: $color-primary-cream,
 
 		scroll-svg: $color-secondary-black-lighter,
 		tree-svg-first-path: $color-grey-cream-dark,

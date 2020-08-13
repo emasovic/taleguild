@@ -17,6 +17,10 @@
 		@include theme-aware('background', 'story-item-background');
 		@include theme-aware('color', 'story-item-username-color');
 		@include theme-aware('border', 'story-item-border');
+
+		&:hover, &:focus {
+			border-color: $color-primary;
+		}
 	}
 
 	textarea {
