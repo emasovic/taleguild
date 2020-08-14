@@ -34,14 +34,17 @@
 			background-color: transparent;
 			@include theme-aware('color', 'story-pagepicker-color');
 
-			&:hover {
-				background-color: $color-background-white-grey;
-				color: $color-grey-black;
+			&:hover,
+			&:active {
+				@include theme-aware('color', 'story-pagepicker-color');
 			}
 
-			&:active {
-				background-color: $color-grey-border;
-				color: $color-grey-black;
+			&:hover {
+				@include theme-aware('background-color', 'default-picker-option-background-hover');
+			}
+
+			&:active, &:focus {
+				@include theme-aware('background-color', 'default-picker-option-background');
 			}
 
 			&:disabled {

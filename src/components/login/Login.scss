@@ -6,10 +6,10 @@
 	flex-direction: column;
 	justify-content: center;
 	width: $story-preview-width-medium;
-	box-shadow: $box-shadow-drop;
 	padding: 36px;
 	margin: 0 auto;
 	border-radius: 6px;
+	@include theme-aware('box-shadow', 'modal-box-shadow');
 
 	@media (max-width: $breakpoint-sm) {
 		width: $story-preview-width-small;

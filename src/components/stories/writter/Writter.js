@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 
 import {useDebounce} from 'hooks/debounce';
 
@@ -10,15 +10,11 @@ export default function Writter({
 	onCurrentChanged,
 	currentEditing,
 	onStoryPage,
-	storyPages,
-	selectedPage,
-	story,
+	// published,
 }) {
 	const editorRef = useRef(null);
 
-	const [pages, setPages] = useState([]);
-
-	const text = story && !story.published && currentEditing && JSON.stringify(currentEditing.text);
+	const text = currentEditing && JSON.stringify(currentEditing.text);
 
 	const debouncedSearchTerm = useDebounce(text, 3000);
 
@@ -42,17 +38,9 @@ export default function Writter({
 			...currentEditing,
 			text: val,
 		};
-		let updatedPages = [...pages];
-		updatedPages[selectedPage] = currnet;
-		onCurrentChanged(currnet);
-		setPages(updatedPages);
-	};
 
-	useEffect(() => {
-		if (storyPages) {
-			setPages(storyPages);
-		}
-	}, [storyPages]);
+		onCurrentChanged(currnet);
+	};
 
 	useEffect(() => {
 		if (debouncedSearchTerm) {
@@ -61,7 +49,7 @@ export default function Writter({
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [debouncedSearchTerm]);
 
-	if (!storyPages || !currentEditing) {
+	if (!currentEditing) {
 		return <Loader />;
 	}
 

@@ -38,8 +38,9 @@ $themes: (
 		button-secondary-color: $color-primary-dark,
 
 		modal-background: $color-white,
-		modal-title-color: $color-grey-black,
 		modal-border: 1px solid $color-grey-border,
+		modal-box-shadow: $box-shadow-light,
+		modal-title-color: $color-grey-black,
 		modal-footer-color: $color-background-white-grey,
 
 		sidebar-link-color: $color-grey-medium,
@@ -119,6 +120,7 @@ $themes: (
 
 		modal-background: $color-secondary-black-light,
 		modal-border: 1px solid $color-secondary-black-lighter,
+		modal-box-shadow: $box-shadow-drop,
 		modal-title-color: $color-grey-border,
 		modal-footer-color: $color-secondary-black-cream,
 

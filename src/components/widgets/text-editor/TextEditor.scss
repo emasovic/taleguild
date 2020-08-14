@@ -4,6 +4,7 @@
 .st-TextEditor {
 	font-family: $font-merriweather;
 	caret-color: $color-primary-dark;
+	@include theme-aware('color', 'viewer-color');
 
 	&-menu {
 		padding: 5px;

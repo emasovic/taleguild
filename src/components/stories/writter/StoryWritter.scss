@@ -145,9 +145,5 @@
 		padding-bottom: 200px;
 		font-size: 18px;
 		line-height: 28px;
-
-		.st-TextEditor {
-			@include theme-aware('color', 'writter-title-color');
-		}
 	}
 }

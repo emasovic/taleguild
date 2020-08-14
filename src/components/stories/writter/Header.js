@@ -62,7 +62,7 @@ export default function Header({
 	const [isDeleteStoryPageOpen, setIsDeleteStoryPageOpen] = useState(false);
 	const [isPreviewStoryOpen, setIsPreviewStoryOpen] = useState(false);
 
-	const text = story && !story.published && title;
+	const text = story && !isPublishStoryOpen && !story.published && title;
 	const debouncedSearchTerm = useDebounce(text, 3000);
 
 	const validate = () => {
@@ -184,7 +184,7 @@ export default function Header({
 		if (story) {
 			setTitle(story.title || '');
 			setDescription(story.description || '');
-			setCategories(story.categories.map(item => ({label: item.name, value: item.id})));
+			setCategories(story.categories.map(item => ({label: item.display_name, value: item.id})));
 			setImage(story.image);
 			setPublished(story.published || false);
 			story.language && setLanguage({value: story.language.id, label: story.language.name});

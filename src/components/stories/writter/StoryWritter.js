@@ -86,6 +86,8 @@ export default function StoryWritter() {
 		return <Loader />;
 	}
 
+	const {published} = story;
+
 	return (
 		<div className={CLASS}>
 			<Header
@@ -107,9 +109,7 @@ export default function StoryWritter() {
 				currentEditing={current}
 				onCurrentChanged={handleCurrent}
 				onStoryPage={handleStoryPage}
-				storyPages={pages}
-				story={story}
-				selectedPage={selectedPage}
+				published={published}
 				op={op}
 			/>
 		</div>
