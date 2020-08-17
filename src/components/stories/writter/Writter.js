@@ -1,6 +1,5 @@
-import React, {useEffect, useRef} from 'react';
-
-import {useDebounce} from 'hooks/debounce';
+import React, {useRef, useCallback} from 'react';
+import debounce from 'lodash/debounce';
 
 import TextEditor from 'components/widgets/text-editor/TextEditor';
 import Loader from 'components/widgets/loader/Loader';
@@ -13,10 +12,6 @@ export default function Writter({
 	// published,
 }) {
 	const editorRef = useRef(null);
-
-	const text = currentEditing && JSON.stringify(currentEditing.text);
-
-	const debouncedSearchTerm = useDebounce(text, 3000);
 
 	const scrollToBottom = () => {
 		const domSelection = window.getSelection();
@@ -33,6 +28,11 @@ export default function Writter({
 		}
 	};
 
+	const _onStoryPage = useCallback(
+		debounce((id, text) => onStoryPage(id, text), 3000),
+		[]
+	);
+
 	const handleEditPage = val => {
 		const currnet = {
 			...currentEditing,
@@ -40,14 +40,8 @@ export default function Writter({
 		};
 
 		onCurrentChanged(currnet);
+		_onStoryPage(currnet.id, val);
 	};
-
-	useEffect(() => {
-		if (debouncedSearchTerm) {
-			onStoryPage(currentEditing.id, currentEditing.text);
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [debouncedSearchTerm]);
 
 	if (!currentEditing) {
 		return <Loader />;

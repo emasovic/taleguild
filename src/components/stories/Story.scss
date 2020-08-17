@@ -94,8 +94,8 @@
 
 				&.active {
 					.page-link {
-						@include theme-aware('border', 'story-pagination-border-active');
-						@include theme-aware('color', 'story-pagination-color');
+						// @include theme-aware('border', 'story-pagination-border-active');
+						@include theme-aware('color', 'story-pagination-color-active');
 						box-shadow: $box-shadow-light;
 					}
 				}

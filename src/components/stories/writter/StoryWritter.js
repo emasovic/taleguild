@@ -9,6 +9,7 @@ import {
 	deleteStoryPage,
 	createOrUpdateStoryPage,
 	selectStoryPages,
+	loadStoryPage,
 } from 'redux/story_pages';
 import {createOrUpdateStory, deleteStory, selectStory} from 'redux/story';
 
@@ -26,10 +27,11 @@ export default function StoryWritter() {
 	const history = useHistory();
 	const {id: storyId, pageId} = useParams();
 
-	const {pages, story, op} = useSelector(
+	const {pages, story, op, loading} = useSelector(
 		state => ({
 			pages: selectStoryPages(state),
 			story: selectStory(state, storyId),
+			loading: state.story_pages.loading,
 			op: state.story_pages.op,
 		}),
 		shallowEqual
@@ -61,6 +63,21 @@ export default function StoryWritter() {
 		[dispatch, history, storyId]
 	);
 
+	const handleSelectedPage = useCallback(
+		id => {
+			dispatch(
+				loadStoryPage(
+					{
+						story: storyId,
+						id,
+					},
+					history
+				)
+			);
+		},
+		[dispatch, history, storyId]
+	);
+
 	const handleRemovePage = useCallback(() => {
 		dispatch(deleteStoryPage(storyId, pageId, history));
 	}, [pageId, dispatch, storyId, history]);
@@ -82,7 +99,7 @@ export default function StoryWritter() {
 		}
 	}, [pages, pageId]);
 
-	if (!pages) {
+	if (!pages || loading) {
 		return <Loader />;
 	}
 
@@ -97,7 +114,7 @@ export default function StoryWritter() {
 				story={story}
 				currentEditing={current}
 				selectedPage={selectedPage}
-				onSelectedPage={setSelectedPage}
+				onSelectedPage={handleSelectedPage}
 				onPageRemove={handleRemovePage}
 				onStoryPage={handleStoryPage}
 				onStoryRemove={handleRemoveStory}

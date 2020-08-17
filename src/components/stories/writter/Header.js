@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {useDispatch, useSelector, shallowEqual} from 'react-redux';
-// import {useParams} from 'react-router-dom';
+import debounce from 'lodash/debounce';
 import {DropdownItem} from 'reactstrap';
 
 import {Toast} from 'types/toast';
@@ -9,11 +9,8 @@ import {STORY_OP} from 'types/story';
 import {TYPOGRAPHY_LATO} from 'types/typography';
 import FA from 'types/font_awesome';
 
-// import {selectStory} from 'redux/story';
 import {selectUser} from 'redux/user';
 import {addToast} from 'redux/toast';
-
-import {useDebounce} from 'hooks/debounce';
 
 import CategoryPicker from 'components/widgets/pickers/category/CategoryPicker';
 import DropdownButton from 'components/widgets/button/DropdownButton';
@@ -62,9 +59,6 @@ export default function Header({
 	const [isDeleteStoryPageOpen, setIsDeleteStoryPageOpen] = useState(false);
 	const [isPreviewStoryOpen, setIsPreviewStoryOpen] = useState(false);
 
-	const text = story && !isPublishStoryOpen && !story.published && title;
-	const debouncedSearchTerm = useDebounce(text, 3000);
-
 	const validate = () => {
 		const errors = [];
 
@@ -108,12 +102,15 @@ export default function Header({
 		onPageRemove();
 	};
 
-	useEffect(() => {
-		if (debouncedSearchTerm) {
-			onCreateOrUpdateStory({id: story && story.id, title}, false);
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [debouncedSearchTerm]);
+	const _onCreateOrUpdateStory = useCallback(
+		debounce((id, title) => onCreateOrUpdateStory({id, title}, false), 3000),
+		[]
+	);
+
+	const handleTitle = val => {
+		setTitle(val);
+		!isPublishStoryOpen && !published && _onCreateOrUpdateStory(story.id, val);
+	};
 
 	const renderPreviewContent = () => {
 		return (
@@ -184,7 +181,9 @@ export default function Header({
 		if (story) {
 			setTitle(story.title || '');
 			setDescription(story.description || '');
-			setCategories(story.categories.map(item => ({label: item.display_name, value: item.id})));
+			setCategories(
+				story.categories.map(item => ({label: item.display_name, value: item.id}))
+			);
 			setImage(story.image);
 			setPublished(story.published || false);
 			story.language && setLanguage({value: story.language.id, label: story.language.name});
@@ -206,13 +205,13 @@ export default function Header({
 			<FloatingInput
 				placeholder="Type title of your story here..."
 				value={title}
-				onChange={val => setTitle(val)}
+				onChange={val => handleTitle(val)}
 			/>
 			<div className={className + '-header-publish'}>
 				<div className={className + '-header-publish-actions'}>
 					<StoryPagePicker
 						pages={pages}
-						onChange={val => onSelectedPage(val.index)}
+						onChange={item => onSelectedPage(item.value)}
 						onNewPageClick={() => onStoryPage(undefined)}
 						value={selectedPage}
 					/>

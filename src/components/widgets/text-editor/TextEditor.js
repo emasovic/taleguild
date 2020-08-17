@@ -12,7 +12,6 @@ import Leaf from './widgets/Leaf';
 import './TextEditor.scss';
 
 const CLASS = 'st-TextEditor';
-
 export default function TextEditor({value, onChange, onKeyDown, pageId}) {
 	const renderElement = useCallback(props => <Element {...props} />, []);
 	const renderLeaf = useCallback(props => <Leaf {...props} />, []);

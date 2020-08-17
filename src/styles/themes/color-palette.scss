@@ -15,7 +15,8 @@ $themes: (
 		story-pagination-background-hover: $color-primary-cream,
 		story-pagination-border: 1px solid $color-grey-border,
 		story-pagination-border-active: 1px solid $color-grey-lighter,
-		story-pagination-color: $color-grey-medium,
+		story-pagination-color: $color-grey-light,
+		story-pagination-color-active: $color-grey-medium,
 
 		story-list-background-hover: $color-white,
 		story-list-title-color: $color-grey-medium,
@@ -93,10 +94,11 @@ $themes: (
 		story-item-stats-color:  $color-grey-lighter,
 
 		story-pagination-background: $color-secondary-black-lighter,
-		story-pagination-background-hover: $color-secondary-black-medium,
+		story-pagination-background-hover: $color-grey-cream-dark,
 		story-pagination-border: 1px solid transparent,
 		story-pagination-border-active: 1px solid $color-secondary-black,
-		story-pagination-color:  $color-grey-lighter,
+		story-pagination-color: $color-grey-medium,
+		story-pagination-color-active: $color-grey-lighter,
 
 		story-list-background-hover: $color-secondary-black-medium,
 		story-list-title-color: $color-grey-light,
@@ -104,7 +106,7 @@ $themes: (
 		saved-story-title: $color-grey-light,
 		saved-story-color: $color-grey-medium,
 
-		writter-title-color: $color-grey-light,
+		writter-title-color: $color-grey-border,
 		writter-title-background: $color-secondary-black-light,
 
 		story-pagepicker-background: $color-secondary-black-cream,

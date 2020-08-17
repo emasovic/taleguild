@@ -77,6 +77,22 @@ export const loadStoryPages = id => async dispatch => {
 	dispatch(gotData({data: res, invalidate: true}));
 };
 
+export const loadStoryPage = payload => async dispatch => {
+	if (!payload.id) {
+		return null;
+	}
+	dispatch(loadingStart());
+
+	const res = await api.getStoryPages({id: payload.id, story: payload.story});
+
+	if (res.error) {
+		dispatch(loadingEnd());
+		return dispatch(newToast({...Toast.error(res.error)}));
+	}
+
+	dispatch(gotData({data: res}));
+};
+
 export const createOrUpdateStoryPage = (payload, history) => async (dispatch, getState) => {
 	dispatch(opStart(STORY_OP.saving_storypage));
 
@@ -92,11 +108,9 @@ export const createOrUpdateStoryPage = (payload, history) => async (dispatch, ge
 		history.push(editStory(payload.story, res.id));
 
 		dispatch(newToast({...Toast.success('Successfully created story page.')}));
+		return dispatch(gotData({data: res}));
 	}
-
-	dispatch(gotData({data: res}));
-
-	dispatch(opEnd());
+	return dispatch(opEnd());
 };
 
 export const deleteStoryPage = (storyId, pageId, history) => async (dispatch, getState) => {
