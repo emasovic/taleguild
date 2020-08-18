@@ -14,6 +14,10 @@
 
 	@include scrollbars(6px, $color-grey-lighter, $color-grey-border);
 
+	svg {
+		margin-right: 12px;
+	}
+
 	&:hover {
 		overflow-y: auto;
 	}
@@ -25,13 +29,6 @@
 	@media (max-width: $breakpoint-sm) {
 		max-width: $story-preview-width-small;
 		margin: 0 auto;
-	}
-
-	> span {
-		font-size: 14px;
-		color: $color-grey-light;
-		font-weight: 600;
-		padding-left: 16px;
 	}
 
 	.nav-link {

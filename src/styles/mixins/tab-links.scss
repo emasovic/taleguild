@@ -29,8 +29,8 @@
 	@include theme-aware('color', 'sidebar-link-color');
 
 	@media (max-width: $breakpoint-m) {
-		padding-left: 0;
-		padding-right: 16px;
+		padding-left: 8px;
+		padding-right: 8px;
 		width: max-content;
 	}
 

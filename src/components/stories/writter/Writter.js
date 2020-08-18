@@ -4,13 +4,7 @@ import debounce from 'lodash/debounce';
 import TextEditor from 'components/widgets/text-editor/TextEditor';
 import Loader from 'components/widgets/loader/Loader';
 
-export default function Writter({
-	className,
-	onCurrentChanged,
-	currentEditing,
-	onStoryPage,
-	// published,
-}) {
+export default function Writter({className, onCurrentChanged, currentEditing, onStoryPage}) {
 	const editorRef = useRef(null);
 
 	const scrollToBottom = () => {

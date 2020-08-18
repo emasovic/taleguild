@@ -41,16 +41,13 @@ export default function Languages() {
 			) : (
 				<>
 					<NavItem onClick={() => getStoriesByCategoryId(undefined)}>
-						<NavLink href="#" active={!activeCategory}>
-							All
-						</NavLink>
+						<NavLink active={!activeCategory}>All</NavLink>
 					</NavItem>
 					{languages.length
 						? orderBy(languages, 'name').map((item, key) => {
 								return (
 									<NavItem
 										key={key}
-										href="#"
 										onClick={() => getStoriesByCategoryId(item.id)}
 									>
 										<NavLink active={activeCategory === item.id}>

@@ -3,14 +3,43 @@ import {Nav, NavItem, NavLink} from 'reactstrap';
 import {useHistory, useLocation} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 
+import FA from 'types/font_awesome';
+
 import {navigateToQuery} from 'redux/application';
 import {selectCategories} from 'redux/categories';
 
 import Loader from 'components/widgets/loader/Loader';
 
 import './Categories.scss';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 const CLASS = 'st-Categories';
+
+const CATEGORY_ICONS = {
+	adult: FA.solid_ban,
+	adventure: FA.solid_car,
+	biography: FA.solid_book_reader,
+	children: FA.solid_baby,
+	comedy: FA.solid_laugh_beam,
+	detective: FA.solid_user_secret,
+	drama: FA.solid_theater_masks,
+	epic_fantasy: FA.solid_dragon,
+	essays: FA.solid_scroll,
+	fairy_tale: FA.solid_chess_rook,
+	fanfiction: FA.brand_jedi,
+	fantasy: FA.solid_hat_wizard,
+	historical_fiction: FA.solid_landmark,
+	horror: FA.solid_ghost,
+	inspirational_stories: FA.solid_lightbulb,
+	microfiction: FA.solid_feather,
+	mystery: FA.solid_mask,
+	non_fiction: FA.solid_book,
+	poetry: FA.solid_pen_nib,
+	romance: FA.solid_heart,
+	science_fiction: FA.solid_user_astronaut,
+	thriller: FA.solid_skull,
+	tragedy: FA.solid_sad_tear,
+};
 
 export default function Categories() {
 	const history = useHistory();
@@ -40,7 +69,8 @@ export default function Categories() {
 			) : (
 				<>
 					<NavItem onClick={() => getStoriesByCategoryId(undefined)}>
-						<NavLink href="#" active={!activeCategory}>
+						<NavLink active={!activeCategory}>
+							<FontAwesomeIcon icon={FA.solid_box_open} />
 							All
 						</NavLink>
 					</NavItem>
@@ -49,10 +79,10 @@ export default function Categories() {
 								return (
 									<NavItem
 										key={key}
-										href="#"
 										onClick={() => getStoriesByCategoryId(item.id)}
 									>
 										<NavLink active={activeCategory === item.id}>
+											<FontAwesomeIcon icon={CATEGORY_ICONS[item.name]} />
 											{item.display_name}
 										</NavLink>
 									</NavItem>
