@@ -57,6 +57,7 @@ $themes: (
 		viewer-color: $color-secondary-black,
 
 		icon-background: $color-grey-border,
+		icon-color: $color-grey-lighter,
 
 		user-info-title: $color-grey-black,
 		user-info-description: $color-grey-medium,
@@ -138,7 +139,8 @@ $themes: (
 
 		viewer-color: $color-grey-border,
 
-		icon-background: $color-secondary-black-cream,
+		icon-background: $color-secondary-black-grey-dark,
+		icon-color: $color-secondary-black-grey,
 
 		user-info-title: $color-grey-border,
 		user-info-description: $color-grey-light,

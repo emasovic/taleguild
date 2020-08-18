@@ -31,12 +31,14 @@
 	@media (max-width: $breakpoint-m) {
 		padding-left: 8px;
 		padding-right: 8px;
+		margin-right: 10px;
 		width: max-content;
 	}
 
 	&:hover {
 		@include theme-aware('color', 'sidebar-link-color-hover');
 		@include theme-aware('background-color', 'sidebar-link-background-hover');
+		border-radius: 4px;
 	}
 
 	&.active {

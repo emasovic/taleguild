@@ -53,12 +53,7 @@ export default function StoryDropdownButton({story, onDeleteStory}) {
 	return (
 		<div className={CLASS}>
 			<DropdownButton>
-				{pageId && (
-					<>
-						<DropdownItem href={editStory(story.id, pageId)}>Edit</DropdownItem>
-						<DropdownItem divider />
-					</>
-				)}
+				{pageId && <DropdownItem href={editStory(story.id, pageId)}>Edit</DropdownItem>}
 
 				<DropdownItem onClick={toggleModal}>Delete</DropdownItem>
 			</DropdownButton>

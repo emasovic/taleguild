@@ -230,14 +230,12 @@ export default function Header({
 							>
 								Update page
 							</DropdownItem>
-							<DropdownItem divider />
 							<DropdownItem
 								disabled={op === STORY_OP.saving_storypage || pages.length === 1}
 								onClick={toggleDeleteStoryPageModal}
 							>
 								Delete page
 							</DropdownItem>
-							<DropdownItem divider />
 							<DropdownItem
 								disabled={op === STORY_OP.saving_storypage}
 								onClick={toggleDeleteStoryModal}
