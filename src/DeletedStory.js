@@ -1,6 +1,5 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {useHistory} from 'react-router-dom';
 
 import {HOME} from 'lib/routes';
 
@@ -20,11 +19,10 @@ const CLASS = 'st-DeletedStory';
 
 export default function DeletedStory() {
 	const dispatch = useDispatch();
-	const history = useHistory();
 	const {data} = useSelector(selectUser);
 
 	const handleNewStory = () => {
-		dispatch(newStory({user: data && data.id, published: false}, history));
+		dispatch(newStory({user: data && data.id, published: false}));
 	};
 	return (
 		<div className={CLASS}>

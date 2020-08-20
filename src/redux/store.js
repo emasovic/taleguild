@@ -1,4 +1,7 @@
-import {configureStore} from '@reduxjs/toolkit';
+import {configureStore, getDefaultMiddleware} from '@reduxjs/toolkit';
+
+import history from 'lib/history';
+
 import user from './user';
 import users from './users';
 import stories from './story';
@@ -13,7 +16,14 @@ import categories from './categories';
 import languages from './languages';
 import application from './application';
 
-export default configureStore({
+const customizedMiddleware = getDefaultMiddleware({
+	thunk: {
+		extraArgument: history,
+	},
+	serializableCheck: false,
+});
+
+const store = configureStore({
 	reducer: {
 		application,
 		user,
@@ -29,4 +39,7 @@ export default configureStore({
 		user_stories,
 		saved_stories,
 	},
+	middleware: customizedMiddleware,
 });
+
+export default store;

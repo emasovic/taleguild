@@ -1,7 +1,7 @@
 import React, {useEffect, useState, memo, useCallback} from 'react';
 import {NavItem, NavLink, Nav} from 'reactstrap';
 import {useDispatch, useSelector, shallowEqual} from 'react-redux';
-import {useHistory, useLocation} from 'react-router-dom';
+import {useLocation} from 'react-router-dom';
 import propTypes from 'prop-types';
 import orderBy from 'lodash/orderBy';
 
@@ -28,7 +28,6 @@ const SORT = {
 
 function Stories({criteria, filter}) {
 	const dispatch = useDispatch();
-	const history = useHistory();
 	const location = useLocation();
 	const {stories, op, pages} = useSelector(
 		state => ({
@@ -48,7 +47,7 @@ function Stories({criteria, filter}) {
 
 	const sortStories = sort => {
 		setActiveSort(sort);
-		dispatch(navigateToQuery({_sort: sort}, location, history));
+		dispatch(navigateToQuery({_sort: sort}, location));
 	};
 
 	const handleCount = useCallback(() => {

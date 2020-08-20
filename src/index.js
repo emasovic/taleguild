@@ -17,9 +17,9 @@ import 'types/font_awesome';
 import 'styles/index.scss';
 
 const theme = localStorage.getItem('theme') || THEMES.light;
+document.documentElement.classList.add(`theme-${theme}`);
 
 store.dispatch(initialize());
-document.documentElement.classList.add(`theme-${theme}`);
 
 ReactDOM.render(
 	<React.StrictMode>

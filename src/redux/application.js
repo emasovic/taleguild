@@ -29,7 +29,7 @@ export const applicationSlice = createSlice({
 
 export const {loadingStart, loadingEnd, initialized} = applicationSlice.actions;
 
-export const navigateToQuery = (queryOb, location, history) => (dispatch, getState) => {
+export const navigateToQuery = (queryOb, location) => (dispatch, getState, history) => {
 	const query = queryString.parse(location.search);
 
 	const q = queryString.stringify({...query, ...queryOb});

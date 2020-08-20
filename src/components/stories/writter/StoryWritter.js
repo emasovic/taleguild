@@ -1,6 +1,6 @@
 import React, {useEffect, useCallback, useState} from 'react';
 import {useDispatch, useSelector, shallowEqual} from 'react-redux';
-import {useParams, useHistory} from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 
 import {DEFAULT_STORYPAGE_DATA} from 'types/story';
 
@@ -24,7 +24,6 @@ const CLASS = 'st-StoryWritter';
 
 export default function StoryWritter() {
 	const dispatch = useDispatch();
-	const history = useHistory();
 	const {id: storyId, pageId} = useParams();
 
 	const {pages, story, op, loading} = useSelector(
@@ -42,49 +41,43 @@ export default function StoryWritter() {
 
 	const handleCreateOrUpdateStory = useCallback(
 		(payload, shouldChange) => {
-			dispatch(createOrUpdateStory(payload, history, shouldChange));
+			dispatch(createOrUpdateStory(payload, shouldChange));
 		},
-		[dispatch, history]
+		[dispatch]
 	);
 
 	const handleStoryPage = useCallback(
 		(id, text) => {
 			dispatch(
-				createOrUpdateStoryPage(
-					{
-						story: storyId,
-						id,
-						text: text || DEFAULT_STORYPAGE_DATA,
-					},
-					history
-				)
+				createOrUpdateStoryPage({
+					story: storyId,
+					id,
+					text: text || DEFAULT_STORYPAGE_DATA,
+				})
 			);
 		},
-		[dispatch, history, storyId]
+		[dispatch, storyId]
 	);
 
 	const handleSelectedPage = useCallback(
 		id => {
 			dispatch(
-				loadStoryPage(
-					{
-						story: storyId,
-						id,
-					},
-					history
-				)
+				loadStoryPage({
+					story: storyId,
+					id,
+				})
 			);
 		},
-		[dispatch, history, storyId]
+		[dispatch, storyId]
 	);
 
 	const handleRemovePage = useCallback(() => {
-		dispatch(deleteStoryPage(storyId, pageId, history));
-	}, [pageId, dispatch, storyId, history]);
+		dispatch(deleteStoryPage(storyId, pageId));
+	}, [pageId, dispatch, storyId]);
 
 	const handleRemoveStory = useCallback(() => {
-		dispatch(deleteStory(storyId, history));
-	}, [dispatch, storyId, history]);
+		dispatch(deleteStory(storyId));
+	}, [dispatch, storyId]);
 
 	useEffect(() => {
 		dispatch(loadStoryPages(storyId));

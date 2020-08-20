@@ -58,7 +58,7 @@ export const loginUser = payload => async dispatch => {
 	dispatch(gotData({jwt, ...rest}));
 };
 
-export const registerUser = (payload, history) => async dispatch => {
+export const registerUser = (payload) => async (dispatch) => {
 	dispatch(opStart(USER_OP.registring));
 	const res = await api.registerUser(payload);
 
@@ -135,7 +135,7 @@ export const forgotPassword = payload => async dispatch => {
 	dispatch(newToast({...Toast.success('Soon you will get email with reset link!')}));
 };
 
-export const resetPassword = (payload, history) => async dispatch => {
+export const resetPassword = (payload) => async (dispatch, getState, history) => {
 	if (payload.password !== payload.passwordConfirmation) {
 		return dispatch(newToast({...Toast.error('Passwords doesn`t match!')}));
 	}
@@ -152,7 +152,7 @@ export const resetPassword = (payload, history) => async dispatch => {
 	dispatch(newToast({...Toast.success('Password successfully reset!')}));
 };
 
-export const providerLogin = (provider, token, history) => async dispatch => {
+export const providerLogin = (provider, token) => async (dispatch, getState, history) => {
 	dispatch(opStart(USER_OP.provider_login));
 	const res = await api.loginProvider(provider, token);
 

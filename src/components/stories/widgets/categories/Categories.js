@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Nav, NavItem, NavLink} from 'reactstrap';
-import {useHistory, useLocation} from 'react-router-dom';
+import {useLocation} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 
 import FA from 'types/font_awesome';
@@ -42,7 +42,6 @@ const CATEGORY_ICONS = {
 };
 
 export default function Categories() {
-	const history = useHistory();
 	const location = useLocation();
 	const dispatch = useDispatch();
 	const {categories, loading} = useSelector(state => ({
@@ -54,7 +53,7 @@ export default function Categories() {
 	const category = new URLSearchParams(useLocation().search).get('categories');
 
 	const getStoriesByCategoryId = categoryId => {
-		dispatch(navigateToQuery({categories: categoryId}, location, history));
+		dispatch(navigateToQuery({categories: categoryId}, location));
 	};
 
 	useEffect(() => {

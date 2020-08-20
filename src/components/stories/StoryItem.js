@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import propTypes from 'prop-types';
 import moment from 'moment';
-import {Link, useHistory, useLocation} from 'react-router-dom';
+import {Link, useLocation} from 'react-router-dom';
 import {useDispatch, useSelector, shallowEqual} from 'react-redux';
 
 import {goToUser} from 'lib/routes';
@@ -43,7 +43,6 @@ export default function StoryItem({
 	savedBy,
 }) {
 	const dispatch = useDispatch();
-	const history = useHistory();
 	const location = useLocation();
 	const {loggedUser, op} = useSelector(
 		state => ({
@@ -95,7 +94,7 @@ export default function StoryItem({
 	};
 
 	const getStoriesByCategoryId = categoryId => {
-		dispatch(navigateToQuery({categories: categoryId}, location, history));
+		dispatch(navigateToQuery({categories: categoryId}, location));
 	};
 
 	const renderCommentsContent = () => {

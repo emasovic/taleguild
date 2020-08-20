@@ -115,7 +115,7 @@ export const {
 	removeLike,
 } = storySlice.actions;
 
-export const newStory = (payload, history) => async (dispatch, getState) => {
+export const newStory = payload => async (dispatch, getState, history) => {
 	dispatch(loadingStart());
 
 	const res = await api.createStory(payload);
@@ -136,9 +136,10 @@ export const newStory = (payload, history) => async (dispatch, getState) => {
 	// dispatch(newToast({...Toast.success(message)}));
 };
 
-export const createOrUpdateStory = (payload, history, shouldChange = true) => async (
+export const createOrUpdateStory = (payload, shouldChange = true) => async (
 	dispatch,
-	getState
+	getState,
+	history
 ) => {
 	dispatch(loadingStart());
 
@@ -155,7 +156,7 @@ export const createOrUpdateStory = (payload, history, shouldChange = true) => as
 	}
 };
 
-export const deleteStory = (storyId, history) => async (dispatch, getState) => {
+export const deleteStory = storyId => async (dispatch, getState, history) => {
 	dispatch(loadingStart());
 
 	const res = await api.deleteStory(storyId);
@@ -170,8 +171,7 @@ export const deleteStory = (storyId, history) => async (dispatch, getState) => {
 
 export const loadStories = (params, count, filter, op = STORY_OP.loading, invalidate) => async (
 	dispatch,
-	getState,
-	history
+	getState
 ) => {
 	dispatch(opStart(op));
 	const res = await api.getStories(params);

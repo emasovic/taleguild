@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Nav, NavItem, NavLink} from 'reactstrap';
-import {useHistory, useLocation} from 'react-router-dom';
+import {useLocation} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import orderBy from 'lodash/orderBy';
 
@@ -14,7 +14,6 @@ import './Languages.scss';
 const CLASS = 'st-Languages';
 
 export default function Languages() {
-	const history = useHistory();
 	const location = useLocation();
 	const dispatch = useDispatch();
 	const {languages, loading} = useSelector(state => ({
@@ -26,7 +25,7 @@ export default function Languages() {
 	const category = new URLSearchParams(useLocation().search).get('language');
 
 	const getStoriesByCategoryId = languageId => {
-		dispatch(navigateToQuery({language: languageId}, location, history));
+		dispatch(navigateToQuery({language: languageId}, location));
 	};
 
 	useEffect(() => {

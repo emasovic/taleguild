@@ -1,7 +1,8 @@
 import React from 'react';
-import {Route, BrowserRouter as Router, Switch} from 'react-router-dom';
+import {Route, Router, Switch} from 'react-router-dom';
 
 import * as routes from 'lib/routes';
+import history from 'lib/history';
 
 import Nav from 'components/nav/Nav';
 
@@ -30,7 +31,7 @@ import DeletedStory from 'DeletedStory';
 import Welcome from 'Welcome';
 
 const Routes = () => (
-	<Router>
+	<Router history={history}>
 		<Nav />
 		<Switch>
 			<Route exact path={routes.HOME} component={Explore} />

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Form} from 'reactstrap';
 import {useDispatch, useSelector} from 'react-redux';
-import {Link, useHistory} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 import {LOGIN} from 'lib/routes';
 
@@ -23,8 +23,6 @@ import './SignUp.scss';
 const CLASS = 'st-SignUp';
 
 export default function SignUp() {
-	const history = useHistory();
-
 	const [username, setUsername] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
@@ -51,7 +49,7 @@ export default function SignUp() {
 	const submit = e => {
 		e.preventDefault();
 		if (validate()) {
-			dispatch(registerUser({username, email, password}, history));
+			dispatch(registerUser({username, email, password}));
 		}
 	};
 

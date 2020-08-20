@@ -5,7 +5,7 @@ import {DropdownItem} from 'reactstrap';
 
 import {Toast} from 'types/toast';
 import {COLOR} from 'types/button';
-import {STORY_OP} from 'types/story';
+import {STORY_PAGE_OP} from 'types/story_page';
 import {TYPOGRAPHY_LATO} from 'types/typography';
 import FA from 'types/font_awesome';
 
@@ -218,39 +218,39 @@ export default function Header({
 					<div className={className + '-header-publish-actions-buttons'}>
 						<IconButton
 							icon={FA.solid_eye}
-							disabled={op === STORY_OP.saving_storypage}
+							disabled={op === STORY_PAGE_OP.save}
 							outline
 							onClick={togglePreviewStoryModal}
 							color={COLOR.secondary}
 						/>
 						<DropdownButton outline={true}>
 							<DropdownItem
-								disabled={op === STORY_OP.saving_storypage}
+								disabled={op === STORY_PAGE_OP.save}
 								onClick={() => onStoryPage(currentEditing.id, currentEditing.text)}
 							>
 								Update page
 							</DropdownItem>
 							<DropdownItem
-								disabled={op === STORY_OP.saving_storypage || pages.length === 1}
+								disabled={op === STORY_PAGE_OP.save || pages.length === 1}
 								onClick={toggleDeleteStoryPageModal}
 							>
 								Delete page
 							</DropdownItem>
 							<DropdownItem
-								disabled={op === STORY_OP.saving_storypage}
+								disabled={op === STORY_PAGE_OP.save}
 								onClick={toggleDeleteStoryModal}
 							>
 								Delete story
 							</DropdownItem>
 						</DropdownButton>
-						{op === STORY_OP.saving_storypage && <span>Saving...</span>}
+						{op === STORY_PAGE_OP.save && <span>Saving...</span>}
 					</div>
 				</div>
 
 				<div>
 					<IconButton
 						color={COLOR.secondary}
-						disabled={op === STORY_OP.saving_storypage}
+						disabled={op === STORY_PAGE_OP.save}
 						onClick={togglePublishStoryModal}
 					>
 						Publish

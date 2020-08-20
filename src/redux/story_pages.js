@@ -1,41 +1,37 @@
-import {createSlice, createSelector} from '@reduxjs/toolkit';
+import {createSlice, createSelector, createEntityAdapter} from '@reduxjs/toolkit';
 
 import * as api from '../lib/api';
 import {editStory} from '../lib/routes';
 
 import {Toast} from 'types/toast';
+import {STORY_PAGE_OP} from 'types/story_page';
+
 import {newToast} from './toast';
 import {gotData as storyGotData} from './story';
-import {gotDataHelper} from './hepler';
-import sortBy from 'lodash/sortBy';
 
-export const STORY_OP = {
-	saving_storypage: 'saving_storypage',
-	deleting_storypage: 'deleting_storypage',
-};
+const storyPageAdapter = createEntityAdapter({
+	selectId: entity => entity.id,
+	sortComparer: (a, b) => a.created_at.localeCompare(b.created_at),
+});
 
 export const storyPageSlice = createSlice({
 	name: 'story_pages',
-	initialState: {
-		data: null,
-		error: null,
-		loading: false,
-		op: null,
-		pages: null,
-	},
+	initialState: storyPageAdapter.getInitialState({op: null, pages: null, loading: null}),
 	reducers: {
-		gotData: (state, action) => {
-			const {data, invalidate} = action.payload;
-			state.data = gotDataHelper(state.data, data, invalidate);
-			state.loading = false;
+		storyPagesReceieved: (state, action) => {
+			storyPageAdapter.setAll(state, action.payload);
+			state.loading = null;
 			state.op = null;
 		},
-		removeStoryPage: (state, action) => {
-			delete state.data[action.payload];
+		storyPageUpsert: (state, action) => {
+			storyPageAdapter.upsertOne(state, action.payload);
 			state.loading = null;
+			state.op = null;
 		},
-		gotPages: (state, action) => {
-			state.pages = action.payload;
+		storyPageRemoved: (state, action) => {
+			storyPageAdapter.removeOne(state, action.payload);
+			state.loading = null;
+			state.op = null;
 		},
 		opStart: (state, action) => {
 			state.op = action.payload;
@@ -57,8 +53,9 @@ export const {
 	opStart,
 	opEnd,
 	loadingEnd,
-	gotData,
-	removeStoryPage,
+	storyPagesReceieved,
+	storyPageUpsert,
+	storyPageRemoved,
 } = storyPageSlice.actions;
 
 export const loadStoryPages = id => async dispatch => {
@@ -74,7 +71,7 @@ export const loadStoryPages = id => async dispatch => {
 		dispatch(storyGotData({data: res[0].story}));
 	}
 
-	dispatch(gotData({data: res, invalidate: true}));
+	dispatch(storyPagesReceieved(res));
 };
 
 export const loadStoryPage = payload => async dispatch => {
@@ -83,18 +80,18 @@ export const loadStoryPage = payload => async dispatch => {
 	}
 	dispatch(loadingStart());
 
-	const res = await api.getStoryPages({id: payload.id, story: payload.story});
+	const res = await api.getStoryPage(payload.id);
 
 	if (res.error) {
 		dispatch(loadingEnd());
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
 
-	dispatch(gotData({data: res}));
+	dispatch(storyPageUpsert(res));
 };
 
-export const createOrUpdateStoryPage = (payload, history) => async (dispatch, getState) => {
-	dispatch(opStart(STORY_OP.saving_storypage));
+export const createOrUpdateStoryPage = payload => async (dispatch, getState, history) => {
+	dispatch(opStart(STORY_PAGE_OP.save));
 
 	const res = payload.id
 		? await api.updateStoryPage(payload)
@@ -108,13 +105,13 @@ export const createOrUpdateStoryPage = (payload, history) => async (dispatch, ge
 		history.push(editStory(payload.story, res.id));
 
 		dispatch(newToast({...Toast.success('Successfully created story page.')}));
-		return dispatch(gotData({data: res}));
+		return dispatch(storyPageUpsert(res));
 	}
 	return dispatch(opEnd());
 };
 
-export const deleteStoryPage = (storyId, pageId, history) => async (dispatch, getState) => {
-	dispatch(opStart(STORY_OP.deleting_storypage));
+export const deleteStoryPage = (storyId, pageId) => async (dispatch, getState, history) => {
+	dispatch(opStart(STORY_PAGE_OP.remove));
 
 	const res = await api.deleteStoryPage(pageId);
 
@@ -123,11 +120,11 @@ export const deleteStoryPage = (storyId, pageId, history) => async (dispatch, ge
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
 
-	dispatch(removeStoryPage(pageId));
+	dispatch(storyPageRemoved(pageId));
 
 	const {story_pages} = getState();
 
-	const page = Object.keys(story_pages.data)[0];
+	const page = Object.keys(story_pages.entities)[0];
 
 	page && history.push(editStory(storyId, page));
 
@@ -136,15 +133,14 @@ export const deleteStoryPage = (storyId, pageId, history) => async (dispatch, ge
 
 //SELECTORS
 
-const story_pages = state => state.story_pages.data;
+const globalizedSelectors = storyPageAdapter.getSelectors(state => state.story_pages);
 
-export const selectStoryPages = createSelector([story_pages], res =>
-	res
-		? sortBy(
-				Object.values(res).map(item => ({...item, text: JSON.parse(item.text)})),
-				'created_at'
-		  )
-		: null
+export const allPages = state => globalizedSelectors.selectAll(state);
+
+// console.log(state.story_pages);
+
+export const selectStoryPages = createSelector([allPages], res =>
+	res ? res.map(item => ({...item, text: JSON.parse(item.text)})) : null
 );
 
 export default storyPageSlice.reducer;

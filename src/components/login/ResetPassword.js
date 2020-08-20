@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {useLocation, useHistory} from 'react-router-dom';
+import {useLocation} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {resetPassword} from 'redux/user';
@@ -14,7 +14,6 @@ const CLASS = 'st-Password';
 
 export default function ResetPassword() {
 	const dispatch = useDispatch();
-	const history = useHistory();
 	const op = useSelector(state => state.user.op);
 	const query = new URLSearchParams(useLocation().search);
 
@@ -39,10 +38,7 @@ export default function ResetPassword() {
 				loading={op === USER_OP.reset_password}
 				onClick={() =>
 					dispatch(
-						resetPassword(
-							{password, passwordConfirmation, code: query.get('code')},
-							history
-						)
+						resetPassword({password, passwordConfirmation, code: query.get('code')})
 					)
 				}
 			>

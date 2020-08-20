@@ -3,7 +3,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 import {Navbar, Nav, NavItem, NavLink, DropdownItem} from 'reactstrap';
-import {useHistory, useLocation} from 'react-router-dom';
+import {useLocation} from 'react-router-dom';
 
 import FA from 'types/font_awesome';
 import {COLOR} from 'types/button';
@@ -35,14 +35,14 @@ const CLASS = 'st-Nav';
 
 export default function Navigation() {
 	const dispatch = useDispatch();
-	const history = useHistory();
+
 	const location = useLocation();
 
 	const user = useSelector(selectUser);
 	const {data} = user;
 
 	const handleNewStory = () => {
-		dispatch(newStory({user: data && data.id, published: false}, history));
+		dispatch(newStory({user: data && data.id, published: false}));
 	};
 
 	const userLoggedOut = () => {
