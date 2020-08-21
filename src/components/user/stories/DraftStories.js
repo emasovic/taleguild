@@ -20,8 +20,8 @@ export default function DraftStories({shouldLoadMore, Component}) {
 	const {drafts, userId, pages, op} = useSelector(
 		state => ({
 			drafts: selectStories(state),
-			op: state.drafts.op,
-			pages: state.drafts.pages,
+			op: state.draft_stories.op,
+			pages: state.draft_stories.pages,
 			userId: loggedUserId(state),
 		}),
 		shallowEqual

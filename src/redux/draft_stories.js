@@ -1,4 +1,4 @@
-import {createSlice, createSelector} from '@reduxjs/toolkit';
+import {createSlice, createEntityAdapter} from '@reduxjs/toolkit';
 
 import * as api from '../lib/api';
 
@@ -6,27 +6,35 @@ import {STORY_OP} from 'types/story';
 import {Toast} from 'types/toast';
 
 import {newToast} from './toast';
-import {gotDataHelper} from './hepler';
+
+const draftStoriesAdapter = createEntityAdapter({
+	selectId: entity => entity.id,
+	sortComparer: (a, b) => b.created_at.localeCompare(a.created_at),
+});
 
 export const draftSlice = createSlice({
-	name: 'drafts',
-	initialState: {
-		data: null,
-		error: null,
-		loading: false,
-		op: null,
-		pages: null,
-	},
+	name: 'draft_stories',
+	initialState: draftStoriesAdapter.getInitialState({op: null, pages: null, loading: null}),
 	reducers: {
-		gotData: (state, action) => {
-			const {data, invalidate} = action.payload;
-			state.data = gotDataHelper(state.data, data, invalidate);
-			state.loading = false;
+		draftStoriesReceieved: (state, action) => {
+			draftStoriesAdapter.setAll(state, action.payload);
+			state.loading = null;
 			state.op = null;
 		},
-		removeStory: (state, action) => {
-			delete state.data[action.payload];
-			state.loading = false;
+		draftStoryUpsertMany: (state, action) => {
+			draftStoriesAdapter.upsertMany(state, action.payload);
+			state.loading = null;
+			state.op = null;
+		},
+		draftStoryUpsert: (state, action) => {
+			draftStoriesAdapter.upsertOne(state, action.payload);
+			state.loading = null;
+			state.op = null;
+		},
+		draftStoryRemoved: (state, action) => {
+			draftStoriesAdapter.removeOne(state, action.payload);
+			state.loading = null;
+			state.op = null;
 		},
 		gotPages: (state, action) => {
 			state.pages = action.payload;
@@ -51,9 +59,11 @@ export const {
 	loadingEnd,
 	opStart,
 	opEnd,
-	gotData,
 	gotPages,
-	removeStory,
+	draftStoriesReceieved,
+	draftStoryUpsertMany,
+	draftStoryUpsert,
+	draftStoryRemoved,
 } = draftSlice.actions;
 
 export const loadStories = (params, count, op = STORY_OP.loading) => async dispatch => {
@@ -66,17 +76,20 @@ export const loadStories = (params, count, op = STORY_OP.loading) => async dispa
 	if (count) {
 		const countParams = {...params, _start: undefined, _limit: undefined};
 
-		const res = await api.countStories(countParams);
-		if (res.error) {
+		const countRes = await api.countStories(countParams);
+		if (countRes.error) {
 			dispatch(loadingEnd());
-			return dispatch(newToast({...Toast.error(res.error)}));
+			return dispatch(newToast({...Toast.error(countRes.error)}));
 		}
-		dispatch(gotPages(Math.ceil(res / 10)));
+		dispatch(gotPages(Math.ceil(countRes / 10)));
+
+		return dispatch(draftStoriesReceieved(res));
 	}
-	return dispatch(gotData({data: res}));
+
+	return dispatch(draftStoryUpsertMany(res));
 };
 
-export const deleteStory = (storyId) => async dispatch => {
+export const deleteStory = storyId => async dispatch => {
 	dispatch(loadingStart());
 
 	const res = await api.deleteStory(storyId);
@@ -84,22 +97,16 @@ export const deleteStory = (storyId) => async dispatch => {
 		dispatch(loadingEnd());
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
-	dispatch(removeStory(storyId));
+	dispatch(draftStoryRemoved(storyId));
 	dispatch(newToast({...Toast.success('Successfully deleted story.')}));
 };
 
 //SELECTORS
 
-const stories = state => state.drafts.data;
+const draftStoriesSelector = draftStoriesAdapter.getSelectors(state => state.draft_stories);
 
-export const selectStories = createSelector([stories], res =>
-	res
-		? Object.values(res)
-				.map(item => item)
-				.sort((a, b) => b.id - a.id)
-		: null
-);
+export const selectStories = state => draftStoriesSelector.selectAll(state);
 
-export const selectStory = (state, id) => state.drafts.data && state.drafts.data[id];
+export const selectStory = (state, id) => draftStoriesSelector.selectById(id);
 
 export default draftSlice.reducer;

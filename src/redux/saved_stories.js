@@ -1,4 +1,4 @@
-import {createSlice, createSelector} from '@reduxjs/toolkit';
+import {createSlice, createEntityAdapter} from '@reduxjs/toolkit';
 
 import * as api from '../lib/api';
 
@@ -7,28 +7,35 @@ import {Toast} from 'types/toast';
 
 import {newToast} from './toast';
 import {gotSaved, removeSaved} from './story';
-import {gotDataHelper} from './hepler';
+
+const savedStoriesAdapter = createEntityAdapter({
+	selectId: entity => entity.id,
+	sortComparer: (a, b) => b.created_at.localeCompare(a.created_at),
+});
 
 export const savedStorySlice = createSlice({
 	name: 'saved_stories',
-	initialState: {
-		data: null,
-		error: null,
-		pages: null,
-		op: null,
-		loading: false,
-	},
+	initialState: savedStoriesAdapter.getInitialState({op: null, pages: null, loading: null}),
 	reducers: {
-		gotData: (state, action) => {
-			const {data, invalidate} = action.payload;
-			state.data = gotDataHelper(state.data, data, invalidate);
-			state.op = null;
+		savedStoriesReceieved: (state, action) => {
+			savedStoriesAdapter.setAll(state, action.payload);
 			state.loading = null;
+			state.op = null;
 		},
-		removeSavedStory: (state, action) => {
-			state.data && delete state.data[action.payload];
-			state.op = null;
+		savedStoryUpsertMany: (state, action) => {
+			savedStoriesAdapter.upsertMany(state, action.payload);
 			state.loading = null;
+			state.op = null;
+		},
+		savedStoryUpsert: (state, action) => {
+			savedStoriesAdapter.upsertOne(state, action.payload);
+			state.loading = null;
+			state.op = null;
+		},
+		savedStoryRemoved: (state, action) => {
+			savedStoriesAdapter.removeOne(state, action.payload);
+			state.loading = null;
+			state.op = null;
 		},
 		gotPages: (state, action) => {
 			state.pages = action.payload;
@@ -51,12 +58,13 @@ export const savedStorySlice = createSlice({
 export const {
 	opStart,
 	opEnd,
-	hasError,
-	gotPages,
-	gotData,
-	removeSavedStory,
 	loadingStart,
 	loadingEnd,
+	gotPages,
+	savedStoriesReceieved,
+	savedStoryUpsertMany,
+	savedStoryUpsert,
+	savedStoryRemoved,
 } = savedStorySlice.actions;
 
 export const loadSavedStories = (params, count, op = STORY_OP.loading) => async dispatch => {
@@ -70,16 +78,18 @@ export const loadSavedStories = (params, count, op = STORY_OP.loading) => async 
 	if (count) {
 		const countParams = {...params, _start: undefined, _limit: undefined};
 
-		const res = await api.countSavedStories(countParams);
+		const countRes = await api.countSavedStories(countParams);
 
-		if (res.error) {
+		if (countRes.error) {
 			dispatch(opEnd());
-			return dispatch(newToast({...Toast.error(res.error)}));
+			return dispatch(newToast({...Toast.error(countRes.error)}));
 		}
-		dispatch(gotPages(Math.ceil(res / 10)));
+		dispatch(gotPages(Math.ceil(countRes / 10)));
+
+		return dispatch(savedStoriesReceieved(res));
 	}
 
-	return dispatch(gotData({data: res}));
+	return dispatch(savedStoryUpsertMany(res));
 };
 
 export const createOrDeleteSavedStory = (favourite, userId, storyId) => async (
@@ -98,17 +108,17 @@ export const createOrDeleteSavedStory = (favourite, userId, storyId) => async (
 	}
 
 	if (res.id) {
-		dispatch(gotData({data: res}));
+		dispatch(savedStoryUpsert(res));
 		return dispatch(gotSaved({...res, storyId}));
 	}
 	dispatch(removeSaved({storyId, savedId: favourite.id}));
-	return dispatch(removeSavedStory(favourite.id));
+	return dispatch(savedStoryRemoved(favourite.id));
 };
 
-const savedStories = state => state.saved_stories.data;
+//SELECTORS
 
-export const selectUserSavedStories = createSelector([savedStories], res =>
-	res ? Object.values(res).map(item => item) : null
-);
+const savedStoriesSelector = savedStoriesAdapter.getSelectors(state => state.saved_stories);
+
+export const selectUserSavedStories = state => savedStoriesSelector.selectAll(state);
 
 export default savedStorySlice.reducer;

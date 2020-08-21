@@ -1,28 +1,28 @@
-import {createSlice, createSelector} from '@reduxjs/toolkit';
+import {createSlice, createEntityAdapter} from '@reduxjs/toolkit';
 
 import * as api from '../lib/api';
 
 import {Toast} from 'types/toast';
 import {newToast} from './toast';
-import {gotDataHelper} from './hepler';
+
+const userStoriesAdapter = createEntityAdapter({
+	selectId: entity => entity.id,
+	sortComparer: (a, b) => b.created_at.localeCompare(a.created_at),
+});
 
 export const myStorySlice = createSlice({
 	name: 'user_stories',
-	initialState: {
-		data: null,
-		error: null,
-		loading: false,
-		pages: null,
-	},
+	initialState: userStoriesAdapter.getInitialState({op: null, pages: null, loading: null}),
 	reducers: {
-		gotData: (state, action) => {
-			const {data, invalidate} = action.payload;
-			state.data = gotDataHelper(state.data, data, invalidate);
-			state.loading = false;
+		userStoriesReceieved: (state, action) => {
+			userStoriesAdapter.setAll(state, action.payload);
+			state.loading = null;
+			state.op = null;
 		},
-		removeStory: (state, action) => {
-			delete state.data[action.payload];
-			state.loading = false;
+		userStoryRemoved: (state, action) => {
+			userStoriesAdapter.removeOne(state, action.payload);
+			state.loading = null;
+			state.op = null;
 		},
 		gotPages: (state, action) => {
 			state.pages = action.payload;
@@ -36,9 +36,15 @@ export const myStorySlice = createSlice({
 	},
 });
 
-export const {loadingStart, loadingEnd, gotData, gotPages, removeStory} = myStorySlice.actions;
+export const {
+	loadingStart,
+	loadingEnd,
+	gotPages,
+	userStoriesReceieved,
+	userStoryRemoved,
+} = myStorySlice.actions;
 
-export const loadStories = (params, count, invalidate) => async dispatch => {
+export const loadStories = (params, count) => async dispatch => {
 	dispatch(loadingStart());
 	const res = await api.getStories(params);
 	if (res.error) {
@@ -55,21 +61,15 @@ export const loadStories = (params, count, invalidate) => async dispatch => {
 		}
 		dispatch(gotPages(Math.ceil(res / 10)));
 	}
-	return dispatch(gotData({data: res}));
+	return dispatch(userStoriesReceieved(res));
 };
 
 //SELECTORS
 
-const stories = state => state.user_stories.data;
+const userStoriesSelector = userStoriesAdapter.getSelectors(state => state.user_stories);
 
-export const selectStories = createSelector([stories], res =>
-	res
-		? Object.values(res)
-				.map(item => item)
-				.sort((a, b) => b.id - a.id)
-		: null
-);
+export const selectStories = state => userStoriesSelector.selectAll(state);
 
-export const selectStory = (state, id) => state.user_stories.data && state.user_stories.data[id];
+export const selectStory = (state, id) => userStoriesSelector.selectById(id);
 
 export default myStorySlice.reducer;

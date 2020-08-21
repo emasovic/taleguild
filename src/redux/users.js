@@ -1,34 +1,33 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createSlice, createEntityAdapter} from '@reduxjs/toolkit';
 
 import * as api from '../lib/api';
 
 import {newToast} from './toast';
-// import {gotData as savedStoriesData} from './saved_stories';
 import {Toast} from 'types/toast';
-import {gotDataHelper} from './hepler';
+
+const usersAdapter = createEntityAdapter({
+	selectId: entity => entity.id,
+	sortComparer: (a, b) => b.created_at.localeCompare(a.created_at),
+});
 
 export const usersSlice = createSlice({
 	name: 'users',
-	initialState: {
-		data: null,
-		error: null,
-		loading: false,
-	},
+	initialState: usersAdapter.getInitialState({loading: null}),
 	reducers: {
-		gotData: (state, action) => {
-			state.data = gotDataHelper(state.data, action.payload);
-			state.loading = false;
+		usersReceieved: (state, action) => {
+			usersAdapter.upsertOne(state, action.payload);
+			state.loading = null;
 		},
 		loadingStart: state => {
 			state.loading = true;
 		},
 		loadingEnd: state => {
-			state.loading = false;
+			state.loading = null;
 		},
 	},
 });
 
-export const {gotData, loadingStart, loadingEnd} = usersSlice.actions;
+export const {usersReceieved, loadingStart, loadingEnd} = usersSlice.actions;
 
 export const loadUser = id => async dispatch => {
 	dispatch(loadingStart());
@@ -38,9 +37,11 @@ export const loadUser = id => async dispatch => {
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
 
-	dispatch(gotData(res));
+	dispatch(usersReceieved(res));
 };
 
-export const selectUser = (state, id) => state.users.data && state.users.data[id];
+const usersSelector = usersAdapter.getSelectors(state => state.users);
+
+export const selectUser = (state, id) => usersSelector.selectById(state, id);
 
 export default usersSlice.reducer;

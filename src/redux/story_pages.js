@@ -7,7 +7,7 @@ import {Toast} from 'types/toast';
 import {STORY_PAGE_OP} from 'types/story_page';
 
 import {newToast} from './toast';
-import {gotData as storyGotData} from './story';
+import {storyUpsert} from './story';
 
 const storyPageAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
@@ -68,7 +68,7 @@ export const loadStoryPages = id => async dispatch => {
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
 	if (res[0] && res[0].story) {
-		dispatch(storyGotData({data: res[0].story}));
+		dispatch(storyUpsert(res[0].story));
 	}
 
 	dispatch(storyPagesReceieved(res));
@@ -136,8 +136,6 @@ export const deleteStoryPage = (storyId, pageId) => async (dispatch, getState, h
 const globalizedSelectors = storyPageAdapter.getSelectors(state => state.story_pages);
 
 export const allPages = state => globalizedSelectors.selectAll(state);
-
-// console.log(state.story_pages);
 
 export const selectStoryPages = createSelector([allPages], res =>
 	res ? res.map(item => ({...item, text: JSON.parse(item.text)})) : null

@@ -1,30 +1,22 @@
-import {createSlice, createSelector} from '@reduxjs/toolkit';
+import {createSlice, createEntityAdapter} from '@reduxjs/toolkit';
 
 import * as api from '../lib/api';
 
 import {Toast} from 'types/toast';
 import {newToast} from './toast';
-import {gotDataHelper} from './hepler';
+
+const languageAdapter = createEntityAdapter({
+	selectId: entity => entity.id,
+	sortComparer: (a, b) => a.name.localeCompare(b.name),
+});
 
 export const languageSlice = createSlice({
 	name: 'languages',
-	initialState: {
-		data: null,
-		error: null,
-		loading: false,
-		op: null,
-		total: null,
-		pages: null,
-	},
+	initialState: languageAdapter.getInitialState({op: null, pages: null, loading: null}),
 	reducers: {
-		gotData: (state, action) => {
-			const {data, invalidate} = action.payload;
-			state.data = gotDataHelper(state.data, data, invalidate);
-			state.loading = false;
-		},
-		gotPages: (state, action) => {
-			state.pages = Math.ceil(action.payload / 10);
-			state.total = action.payload;
+		languagesReceieved: (state, action) => {
+			languageAdapter.setAll(state, action.payload);
+			state.loading = null;
 		},
 		loadingStart: state => {
 			state.loading = true;
@@ -35,34 +27,23 @@ export const languageSlice = createSlice({
 	},
 });
 
-export const {loadingStart, loadingEnd, gotData, gotPages} = languageSlice.actions;
+export const {loadingStart, loadingEnd, languagesReceieved} = languageSlice.actions;
 
-export const loadLanguages = (params, count, invalidate) => async dispatch => {
+export const loadLanguages = params => async dispatch => {
 	dispatch(loadingStart());
 	const res = await api.getLanguages(params);
 	if (res.error) {
 		dispatch(loadingEnd());
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
-	// if (count) {
-	// 	const countParams = {...params, _start: undefined, _limit: undefined};
 
-	// 	const res = await api.coutlanguages(countParams);
-	// 	if (res.error) {
-	// 		dispatch(loadingEnd());
-	// 		return dispatch(newToast({...Toast.error(res.error)}));
-	// 	}
-	// 	dispatch(gotPages(res));
-	// }
-	return dispatch(gotData({data: res}));
+	return dispatch(languagesReceieved(res));
 };
 
 //SELECTORS
 
-const languages = state => state.languages.data;
+const languagesSelector = languageAdapter.getSelectors(state => state.languages);
 
-export const selectLanguages = createSelector([languages], res =>
-	res ? Object.values(res).map(item => item) : []
-);
+export const selectLanguages = state => languagesSelector.selectAll(state);
 
 export default languageSlice.reducer;

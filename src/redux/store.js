@@ -6,7 +6,7 @@ import user from './user';
 import users from './users';
 import stories from './story';
 import toast from './toast';
-import drafts from './draft_stories';
+import draft_stories from './draft_stories';
 import saved_stories from './saved_stories';
 import user_stories from './user_stories';
 import story_pages from './story_pages';
@@ -31,7 +31,7 @@ const store = configureStore({
 		followers,
 		following,
 		stories,
-		drafts,
+		draft_stories,
 		toast,
 		languages,
 		categories,

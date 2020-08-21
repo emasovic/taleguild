@@ -1,27 +1,18 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createSlice, createEntityAdapter} from '@reduxjs/toolkit';
 
 import {Toast} from 'types/toast';
 
+const toastAdapter = createEntityAdapter({
+	selectId: entity => entity.id,
+	sortComparer: (a, b) => a.id.localeCompare(b.id),
+});
+
 export const toastSlice = createSlice({
 	name: 'toast',
-	initialState: {
-		toasts: null,
-	},
+	initialState: toastAdapter.getInitialState(),
 	reducers: {
-		newToast: (state, action) => {
-			let toasts = Object.assign({}, state.toasts);
-			toasts[action.payload.id] = action.payload;
-			state.toasts = toasts;
-		},
-		dissmissToast: (state, action) => {
-			if (state.toasts && state.toasts[action.payload]) {
-				let toasts = Object.assign({}, state.toasts);
-				delete toasts[action.payload];
-				state.toasts = toasts;
-			} else {
-				return state;
-			}
-		},
+		newToast: toastAdapter.upsertOne,
+		dissmissToast: toastAdapter.removeOne,
 	},
 });
 
@@ -38,6 +29,8 @@ export const removeToast = id => dispatch => {
 	dispatch(dissmissToast(id));
 };
 
-export const selectToasts = state => state.toast.toasts;
+const toastsSelector = toastAdapter.getSelectors(state => state.toast);
+
+export const selectToasts = state => toastsSelector.selectAll(state);
 
 export default toastSlice.reducer;
