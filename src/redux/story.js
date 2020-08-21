@@ -20,7 +20,6 @@ export const storySlice = createSlice({
 		total: null,
 		loading: null,
 	}),
-
 	reducers: {
 		storiesReceieved: (state, action) => {
 			storyAdapter.setAll(state, action.payload);
@@ -75,14 +74,12 @@ export const storySlice = createSlice({
 		},
 		removeSaved: (state, action) => {
 			const {storyId, savedId} = action.payload;
-
-			if (state.entities) {
+			if (state.entities[storyId]) {
 				state.entities[storyId] = {
 					...state.entities[storyId],
-					saved_by: state.entities[storyId].saved_by.filter(l => l.id !== savedId),
+					saved_by: state.entities[storyId].saved_by.filter(s => s.id !== savedId),
 				};
 			}
-
 			state.op = null;
 		},
 		gotPages: (state, action) => {
