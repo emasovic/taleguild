@@ -3,6 +3,7 @@ import {useSelector} from 'react-redux';
 
 import Routes from './Routes';
 
+import ErrorPage from 'ErrorPage';
 import Loader from 'components/widgets/loader/Loader';
 
 import './App.scss';
@@ -16,7 +17,11 @@ function App() {
 		return <Loader />;
 	}
 
-	return <Routes />;
+	return (
+		<ErrorPage>
+			<Routes />
+		</ErrorPage>
+	);
 }
 
 export default App;
