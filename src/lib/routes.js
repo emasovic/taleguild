@@ -4,10 +4,10 @@ export const FEED = '/feed';
 
 const STORY = '/story';
 export const NEW_STORY = STORY + '/new';
-export const STORY_ID = STORY + '/:id';
+export const STORY_ID = STORY + '/:slug';
 export const WRITE_STORY = STORY_ID + '/write/:pageId';
 
-export const goToStory = id => STORY + `/${id}`;
+export const goToStory = slug => STORY + `/${slug}`;
 export const editStory = (id, pageId) => STORY + `/${id}/write/${pageId}`;
 
 export const USER = '/user';

@@ -41,6 +41,7 @@ export default function StoryItem({
 	createdDate,
 	storypages,
 	savedBy,
+	slug
 }) {
 	const dispatch = useDispatch();
 	const location = useLocation();
@@ -241,12 +242,12 @@ export default function StoryItem({
 				</div>
 			</Link>
 			<div className={CLASS + '-description'}>{description}</div>
-			<Link to={`/story/${id}`} className={CLASS + '-cover'}>
+			<Link to={`/story/${slug}`} className={CLASS + '-cover'}>
 				<Image image={image} formats={formats} size={size} alt="cover" />
 			</Link>
 
 			<div className={CLASS + '-footer'}>
-				<Link to={`/story/${id}`} className={CLASS + '-footer-title'}>
+				<Link to={`/story/${slug}`} className={CLASS + '-footer-title'}>
 					<span>{title}</span>
 				</Link>
 				<div className={CLASS + '-footer-categories'}>{renderCategories}</div>

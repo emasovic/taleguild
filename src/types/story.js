@@ -24,3 +24,10 @@ export const STORY_OP = {
 	deleting_saved: 'deleting_saved',
 	deleting_storypage: 'deleting_storypage',
 };
+
+export const getIdFromSlug = slug => {
+	const splited = slug.split('-');
+	const id = splited[splited.length - 1];
+
+	return id;
+};

@@ -15,7 +15,7 @@
     "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
     "lodash": "^4.17.15",
-    "moment": "^2.24.0",
+    "moment": "^2.29.1",
     "node-sass": "^4.13.1",
     "query-string": "^6.13.1",
     "react": "^16.13.1",
@@ -67,5 +67,10 @@
     "eslint-plugin-react-hooks": "^2.5.1",
     "prettier-stylelint": "^0.4.0",
     "stylelint": "^8.0.0"
+  },
+  "bit": {
+    "env": {},
+    "componentsDefaultDirectory": "components/{name}",
+    "packageManager": "yarn"
   }
 }

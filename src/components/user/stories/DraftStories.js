@@ -69,6 +69,7 @@ export default function DraftStories({shouldLoadMore, Component}) {
 						onDeleteStory={handleDeleteStory}
 						createdDate={item.created_at}
 						storypages={item.storypages}
+						slug={item.slug}
 						// author={item.user}
 					/>
 				);

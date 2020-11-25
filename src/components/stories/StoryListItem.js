@@ -12,10 +12,10 @@ import './StoryListItem.scss';
 
 const CLASS = 'st-StoryListItem';
 
-export default function StoryListItem({id, formats, size, image, title}) {
+export default function StoryListItem({formats, size, image, slug, title}) {
 	title = title && title.length > 36 ? title.slice(0, 36) + '...' : title;
 	return (
-		<Link to={goToStory(id)} className={CLASS}>
+		<Link to={goToStory(slug)} className={CLASS}>
 			<div className={CLASS + '-cover'}>
 				<Image image={image} formats={formats} size={size} />
 			</div>

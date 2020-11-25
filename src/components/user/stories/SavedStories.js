@@ -78,6 +78,7 @@ export default function SavedStories({shouldLoadMore, Component}) {
 						key={item.id}
 						author={story.user}
 						createdDate={story.created_at}
+						slug={item.slug}
 						onDeleteStory={handleDeleteStory}
 					/>
 				);

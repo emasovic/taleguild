@@ -1,7 +1,11 @@
 import React, {useEffect, useState, useRef} from 'react';
 import {useDispatch, useSelector, shallowEqual} from 'react-redux';
 import orderBy from 'lodash/orderBy';
-import {useParams} from 'react-router-dom';
+import {useHistory, useParams} from 'react-router-dom';
+
+import {goToStory} from 'lib/routes';
+
+import {getIdFromSlug} from 'types/story';
 
 import {loadStory, selectStory} from 'redux/story';
 import {selectUser} from 'redux/user';
@@ -17,9 +21,13 @@ import './Story.scss';
 const CLASS = 'st-Story';
 
 export default function Story() {
-	const {id} = useParams();
+	const {slug} = useParams();
+	const history = useHistory();
 	const viewerRef = useRef(null);
 	const dispatch = useDispatch();
+
+	const id = getIdFromSlug(slug);
+
 	const {story, loggedUser} = useSelector(
 		state => ({
 			story: selectStory(state, id),
@@ -46,6 +54,12 @@ export default function Story() {
 		dispatch(loadStory(id));
 		scrollToStory();
 	}, [dispatch, id]);
+
+	useEffect(() => {
+		if (story && story.slug) {
+			history.replace(goToStory(story.slug));
+		}
+	}, [history, story]);
 
 	if (!story) {
 		return (

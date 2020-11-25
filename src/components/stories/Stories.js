@@ -96,6 +96,7 @@ function Stories({criteria, filter}) {
 						author={item.user}
 						createdDate={item.created_at}
 						savedBy={item.saved_by}
+						slug={item.slug}
 					/>
 				);
 			})
