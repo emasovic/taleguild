@@ -42,10 +42,16 @@ import {
 	faLightbulb as solidLightbulb,
 	faBaby as solidBaby,
 	faFeather as solidFeather,
-
+	faClipboardCheck as solidClipboardCheck,
 } from '@fortawesome/free-solid-svg-icons';
 
-import {faHeart, faComment, faBookmark, faCompass} from '@fortawesome/free-regular-svg-icons';
+import {
+	faHeart,
+	faComment,
+	faBookmark,
+	faCompass,
+	faClipboard,
+} from '@fortawesome/free-regular-svg-icons';
 
 import {faFacebookF, faGoogle, faJediOrder} from '@fortawesome/free-brands-svg-icons';
 
@@ -62,6 +68,7 @@ const FA = {
 	heart: faHeart,
 	bookmark: faBookmark,
 	compass: faCompass,
+	clipboard: faClipboard,
 
 	//SOLID ICONS
 	solid_box_open: solidBoxOpen,
@@ -107,6 +114,7 @@ const FA = {
 	solid_cog: solidCog,
 	solid_times: solidTimes,
 	soild_elipsis_h: soildElipsisH,
+	solid_clipboard_check: solidClipboardCheck,
 };
 
 library.add({...FA});

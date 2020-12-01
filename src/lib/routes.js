@@ -3,8 +3,10 @@ export const HOME = '/';
 export const FEED = '/feed';
 
 const STORY = '/story';
+const STORY_ID = STORY + '/:id';
+
 export const NEW_STORY = STORY + '/new';
-export const STORY_ID = STORY + '/:slug';
+export const STORY_SLUG = STORY + '/:slug';
 export const WRITE_STORY = STORY_ID + '/write/:pageId';
 
 export const goToStory = slug => STORY + `/${slug}`;

@@ -4,11 +4,15 @@ import moment from 'moment';
 import {Link, useLocation} from 'react-router-dom';
 import {useDispatch, useSelector, shallowEqual} from 'react-redux';
 
+import ENV from 'env';
+
 import {goToUser} from 'lib/routes';
 
 import FA from 'types/font_awesome';
 import {COLOR} from 'types/button';
 import {Toast} from 'types/toast';
+
+import useCopyToClipboard from 'hooks/copy-to-clipboard';
 
 import {createOrDeleteLike, createOrDeleteComment} from 'redux/story';
 import {selectUser} from 'redux/user';
@@ -41,7 +45,7 @@ export default function StoryItem({
 	createdDate,
 	storypages,
 	savedBy,
-	slug
+	slug,
 }) {
 	const dispatch = useDispatch();
 	const location = useLocation();
@@ -57,6 +61,7 @@ export default function StoryItem({
 	const [isCommentsOpen, setIsCommentsOpen] = useState(false);
 	const [isLikesOpen, setIsLikesOpen] = useState(false);
 	const [isSavedOpen, setIsSavedOpen] = useState(false);
+	const [isCopied, setIsCopied] = useCopyToClipboard(10000);
 	const [comment, setComment] = useState('');
 
 	const {data} = loggedUser;
@@ -228,6 +233,8 @@ export default function StoryItem({
 
 	const likeIcon = liked ? FA.solid_heart : FA.heart;
 	const favouriteIcon = favourite ? FA.solid_bookmark : FA.bookmark;
+	const copyIcon = isCopied ? FA.solid_clipboard_check : FA.clipboard;
+	const copyUrl = ENV.share.url + '/story/' + slug;
 
 	return (
 		<div className={CLASS}>
@@ -265,6 +272,11 @@ export default function StoryItem({
 									outline
 									icon={FA.comment}
 									onClick={() => setIsCommentsOpen(true)}
+								/>
+								<IconButton
+									outline
+									icon={copyIcon}
+									onClick={() => setIsCopied(copyUrl)}
 								/>
 							</div>
 							<IconButton

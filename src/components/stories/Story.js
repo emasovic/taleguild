@@ -98,6 +98,7 @@ export default function Story() {
 				author={story.user}
 				createdDate={story.created_at}
 				savedBy={story.saved_by}
+				slug={story.slug}
 			/>
 
 			{storypages[activePage] && <TextViewer value={storypages[activePage].text} />}

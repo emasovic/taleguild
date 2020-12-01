@@ -38,7 +38,7 @@ const Routes = () => (
 			<PrivateRoute path={routes.FEED} component={Home} />
 			<PrivateRoute path={routes.WRITE_STORY} component={StoryWritter} />
 			<PrivateRoute path={routes.DELETED_STORY} component={DeletedStory} />
-			<Route path={routes.STORY_ID} component={Story} />
+			<Route path={routes.STORY_SLUG} component={Story} />
 			<PrivateRoute path={routes.USER_STORIES_SAVED} component={SavedStoriesPage} />
 			<PrivateRoute path={routes.USER_STORIES_DRAFTS} component={DraftStoriesPage} />
 			<PrivateRoute path={routes.USER_SETTINGS} component={UserSettings} />

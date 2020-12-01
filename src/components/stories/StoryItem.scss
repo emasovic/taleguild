@@ -139,19 +139,6 @@
 				padding: 0;
 				color: $color-grey-light;
 
-				&:first-child {
-					margin-right: 24px;
-
-					&:hover {
-						color: $color-secondary-red !important;
-					}
-
-					&.active {
-						color: $color-secondary-red !important;
-						background: none !important;
-					}
-				}
-
 				&:last-child {
 					&:hover {
 						color: $color-secondary-yellow-dark !important;
@@ -160,6 +147,31 @@
 					&.active {
 						color: $color-secondary-yellow-dark !important;
 						background: none !important;
+					}
+				}
+			}
+
+			&-left {
+				.st-IconButton {
+					&:first-child {
+						margin-right: 24px;
+
+						&:hover {
+							color: $color-secondary-red !important;
+						}
+
+						&.active {
+							color: $color-secondary-red !important;
+							background: none !important;
+						}
+					}
+
+					&:nth-child(2) {
+						margin-right: 24px;
+
+						&:hover {
+							color: $color-secondary-yellow-dark !important;
+						}
 					}
 				}
 			}
