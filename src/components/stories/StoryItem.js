@@ -28,6 +28,7 @@ import StoryDropdownButton from './widgets/dropdown-button/StoryDropdownButton';
 import TextArea from 'components/widgets/textarea/TextArea';
 
 import './StoryItem.scss';
+import FloatingInput from 'components/widgets/input/FloatingInput';
 
 const CLASS = 'st-StoryItem';
 
@@ -61,6 +62,7 @@ export default function StoryItem({
 	const [isCommentsOpen, setIsCommentsOpen] = useState(false);
 	const [isLikesOpen, setIsLikesOpen] = useState(false);
 	const [isSavedOpen, setIsSavedOpen] = useState(false);
+	const [isShareOpen, setIsShareOpen] = useState(false);
 	const [isCopied, setIsCopied] = useCopyToClipboard(10000);
 	const [comment, setComment] = useState('');
 
@@ -212,6 +214,20 @@ export default function StoryItem({
 		);
 	};
 
+	const renderShareContent = () => {
+		const copyUrl = ENV.share.url + '/story/' + slug;
+		const buttonColor = isCopied ? COLOR.success : COLOR.primary;
+		const buttonLabel = isCopied ? 'Copied' : 'Copy URL';
+		return (
+			<div className={CLASS + '-share'}>
+				<FloatingInput value={copyUrl} label="Copy this URL to share story" disabled />
+				<IconButton color={buttonColor} onClick={() => setIsCopied(copyUrl)}>
+					{buttonLabel}
+				</IconButton>
+			</div>
+		);
+	};
+
 	const renderCategories =
 		categories && categories.length
 			? categories.map((item, key) => {
@@ -233,8 +249,6 @@ export default function StoryItem({
 
 	const likeIcon = liked ? FA.solid_heart : FA.heart;
 	const favouriteIcon = favourite ? FA.solid_bookmark : FA.bookmark;
-	const copyIcon = isCopied ? FA.solid_clipboard_check : FA.clipboard;
-	const copyUrl = ENV.share.url + '/story/' + slug;
 
 	return (
 		<div className={CLASS}>
@@ -275,8 +289,8 @@ export default function StoryItem({
 								/>
 								<IconButton
 									outline
-									icon={copyIcon}
-									onClick={() => setIsCopied(copyUrl)}
+									icon={FA.share_square}
+									onClick={() => setIsShareOpen(true)}
 								/>
 							</div>
 							<IconButton
@@ -331,6 +345,15 @@ export default function StoryItem({
 					renderFooter={false}
 					content={renderSavedContent()}
 					onClose={() => setIsSavedOpen(false)}
+				/>
+			)}
+			{isShareOpen && (
+				<ConfirmModal
+					isOpen={isShareOpen}
+					title="Copy URL"
+					renderFooter={false}
+					content={renderShareContent()}
+					onClose={() => setIsShareOpen(false)}
 				/>
 			)}
 		</div>

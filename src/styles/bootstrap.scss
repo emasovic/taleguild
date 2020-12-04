@@ -49,6 +49,15 @@ $secondary: $color-primary-light;
 			box-shadow: none;
 		}
 	}
+
+	&-success {
+		background-color: $color-secondary-green;
+
+		&:active:not(:disabled):not(.disabled):active, &:focus {
+			background-color: $color-secondary-green;
+			border-color: $color-secondary-green;
+		}
+	}
 }
 
 input,

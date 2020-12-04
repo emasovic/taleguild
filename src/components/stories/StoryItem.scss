@@ -317,4 +317,27 @@
 			}
 		}
 	}
+
+	&-share {
+		display: flex;
+		align-items: center;
+
+		@media (max-width: $breakpoint-sm) {
+			flex-direction: column;
+
+			.st-IconButton {
+				width: 100%;
+			}
+		}
+
+		.st-FloatingInput {
+			width: 100%;
+			margin-right: 16px;
+			margin-bottom: 22px;
+
+			@media (max-width: $breakpoint-sm) {
+				margin-right: 0;
+			}
+		}
+	}
 }

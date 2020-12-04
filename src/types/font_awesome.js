@@ -43,6 +43,7 @@ import {
 	faBaby as solidBaby,
 	faFeather as solidFeather,
 	faClipboardCheck as solidClipboardCheck,
+	faShare as solidShare,
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -51,6 +52,7 @@ import {
 	faBookmark,
 	faCompass,
 	faClipboard,
+	faShareSquare
 } from '@fortawesome/free-regular-svg-icons';
 
 import {faFacebookF, faGoogle, faJediOrder} from '@fortawesome/free-brands-svg-icons';
@@ -69,6 +71,7 @@ const FA = {
 	bookmark: faBookmark,
 	compass: faCompass,
 	clipboard: faClipboard,
+	share_square: faShareSquare,
 
 	//SOLID ICONS
 	solid_box_open: solidBoxOpen,
@@ -115,6 +118,7 @@ const FA = {
 	solid_times: solidTimes,
 	soild_elipsis_h: soildElipsisH,
 	solid_clipboard_check: solidClipboardCheck,
+	solid_share: solidShare,
 };
 
 library.add({...FA});
