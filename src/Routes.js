@@ -29,6 +29,7 @@ import PublicRoute from 'PublicRoute';
 import NotFound from 'NotFound';
 import DeletedStory from 'DeletedStory';
 import Welcome from 'Welcome';
+import RegistrationSuccess from 'RegistrationSuccess';
 
 const Routes = () => (
 	<Router history={history}>
@@ -49,6 +50,7 @@ const Routes = () => (
 			<PublicRoute path={routes.RESET_PASSWORD} component={ResetPassword} />
 			<Route path={routes.PROVIDER_LOGIN} component={ProviderLogin} />
 			<PublicRoute path={routes.WELCOME} component={Welcome} />
+			<PublicRoute path={routes.REGISTRATION_SUCCESS} component={RegistrationSuccess} />
 			<Route path="*" component={NotFound} />
 		</Switch>
 	</Router>

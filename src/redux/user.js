@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 import * as api from '../lib/api';
-import {HOME, WELCOME} from 'lib/routes';
+import {HOME, REGISTRATION_SUCCESS, WELCOME} from 'lib/routes';
 
 import {newToast} from './toast';
 import {Toast} from 'types/toast';
@@ -58,7 +58,7 @@ export const loginUser = payload => async dispatch => {
 	dispatch(gotData({jwt, ...rest}));
 };
 
-export const registerUser = (payload) => async (dispatch) => {
+export const registerUser = payload => async (dispatch, getState, history) => {
 	dispatch(opStart(USER_OP.registring));
 	const res = await api.registerUser(payload);
 
@@ -71,6 +71,8 @@ export const registerUser = (payload) => async (dispatch) => {
 		}
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
+
+	history.push(REGISTRATION_SUCCESS);
 
 	dispatch(
 		newToast({
@@ -135,7 +137,7 @@ export const forgotPassword = payload => async dispatch => {
 	dispatch(newToast({...Toast.success('Soon you will get email with reset link!')}));
 };
 
-export const resetPassword = (payload) => async (dispatch, getState, history) => {
+export const resetPassword = payload => async (dispatch, getState, history) => {
 	if (payload.password !== payload.passwordConfirmation) {
 		return dispatch(newToast({...Toast.error('Passwords doesn`t match!')}));
 	}
