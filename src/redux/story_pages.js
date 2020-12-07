@@ -91,7 +91,8 @@ export const loadStoryPage = payload => async dispatch => {
 };
 
 export const createOrUpdateStoryPage = payload => async (dispatch, getState, history) => {
-	dispatch(opStart(STORY_PAGE_OP.save));
+	const op = payload.id ? STORY_PAGE_OP.update : STORY_PAGE_OP.create;
+	dispatch(opStart(op));
 
 	const res = payload.id
 		? await api.updateStoryPage(payload)

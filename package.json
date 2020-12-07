@@ -29,9 +29,9 @@
     "react-scripts": "3.4.1",
     "react-select": "^3.1.0",
     "reactstrap": "^8.4.1",
-    "slate": "^0.58.4",
-    "slate-history": "^0.58.4",
-    "slate-react": "^0.58.4",
+    "slate": "^0.59.0",
+    "slate-history": "^0.59.0",
+    "slate-react": "^0.59.0",
     "source-map-explorer": "^2.4.2"
   },
   "scripts": {

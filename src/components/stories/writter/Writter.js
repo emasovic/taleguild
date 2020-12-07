@@ -1,10 +1,12 @@
 import React, {useRef, useCallback} from 'react';
 import debounce from 'lodash/debounce';
 
+import {STORY_PAGE_OP} from 'types/story_page';
+
 import TextEditor from 'components/widgets/text-editor/TextEditor';
 import Loader from 'components/widgets/loader/Loader';
 
-export default function Writter({className, onCurrentChanged, currentEditing, onStoryPage}) {
+export default function Writter({className, onCurrentChanged, currentEditing, onStoryPage, op}) {
 	const editorRef = useRef(null);
 
 	const scrollToBottom = () => {
@@ -37,7 +39,7 @@ export default function Writter({className, onCurrentChanged, currentEditing, on
 		_onStoryPage(currnet.id, val);
 	};
 
-	if (!currentEditing) {
+	if (!currentEditing || op === STORY_PAGE_OP.create) {
 		return <Loader />;
 	}
 

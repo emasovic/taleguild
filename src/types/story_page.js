@@ -1,4 +1,5 @@
 export const STORY_PAGE_OP = {
-	save: 'save',
+	create: 'create',
+	update: 'update',
 	remove: 'remove',
 };

@@ -200,6 +200,8 @@ export default function Header({
 		return <Loader />;
 	}
 
+	const disabledActions = op === STORY_PAGE_OP.create || op === STORY_PAGE_OP.update;
+
 	return (
 		<div className={className + '-header'}>
 			<FloatingInput
@@ -218,32 +220,32 @@ export default function Header({
 					<div className={className + '-header-publish-actions-buttons'}>
 						<IconButton
 							icon={FA.solid_eye}
-							disabled={op === STORY_PAGE_OP.save}
+							disabled={disabledActions}
 							outline
 							onClick={togglePreviewStoryModal}
 							color={COLOR.secondary}
 						/>
 						<DropdownButton outline={true}>
 							<DropdownItem
-								disabled={op === STORY_PAGE_OP.save}
+								disabled={disabledActions}
 								onClick={() => onStoryPage(currentEditing.id, currentEditing.text)}
 							>
 								Update page
 							</DropdownItem>
 							<DropdownItem
-								disabled={op === STORY_PAGE_OP.save || pages.length === 1}
+								disabled={disabledActions || pages.length === 1}
 								onClick={toggleDeleteStoryPageModal}
 							>
 								Delete page
 							</DropdownItem>
 							<DropdownItem
-								disabled={op === STORY_PAGE_OP.save}
+								disabled={disabledActions}
 								onClick={toggleDeleteStoryModal}
 							>
 								Delete story
 							</DropdownItem>
 						</DropdownButton>
-						{op === STORY_PAGE_OP.save && <span>Saving...</span>}
+						{disabledActions && <span>Saving...</span>}
 					</div>
 				</div>
 
