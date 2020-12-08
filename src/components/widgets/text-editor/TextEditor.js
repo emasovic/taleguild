@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo} from 'react';
+import React, {useCallback, useEffect, useMemo} from 'react';
 import {Slate, Editable, withReact} from 'slate-react';
 import {createEditor} from 'slate';
 import {withHistory} from 'slate-history';
@@ -22,6 +22,13 @@ export default function TextEditor({value, onChange, onKeyDown, pageId}) {
 		const point = {path: [0, 0], offset: 0};
 		editor.selection = {anchor: point, focus: point};
 	}
+
+	useEffect(() => {
+		if (previousId && pageId !== previousId && editor.selection) {
+			const point = {path: [0, 0], offset: 0};
+			editor.selection = {anchor: point, focus: point};
+		}
+	}, [previousId, pageId, editor]);
 
 	return (
 		<Slate editor={editor} value={value} onChange={onChange}>

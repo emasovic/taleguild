@@ -3,7 +3,7 @@
 
 .st-TextEditor {
 	font-family: $font-merriweather;
-	caret-color: $color-primary-dark;
+	@include theme-aware('caret-color', 'editor-caret-color');
 	@include theme-aware('color', 'viewer-color');
 
 	&-menu {

@@ -66,6 +66,7 @@ export default function MyStories({Component}) {
 						author={item.user}
 						createdDate={item.created_at}
 						savedBy={item.saved_by}
+						slug={item.slug}
 					/>
 				);
 			})

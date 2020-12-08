@@ -44,7 +44,7 @@ export default function UserSettings() {
 
 	useEffect(() => {
 		if (data) {
-			const theme = localStorage.getItem('theme') || THEMES.light;
+			const theme = localStorage.getItem('theme') || THEMES.dark;
 			setEmail(data.email);
 			setAvatar(data.avatar);
 			setUsername(data.username);

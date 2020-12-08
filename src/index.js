@@ -16,7 +16,7 @@ import 'types/font_awesome';
 
 import 'styles/index.scss';
 
-const theme = localStorage.getItem('theme') || THEMES.light;
+const theme = localStorage.getItem('theme') || THEMES.dark;
 document.documentElement.classList.add(`theme-${theme}`);
 
 store.dispatch(initialize());

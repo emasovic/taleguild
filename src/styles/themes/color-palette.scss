@@ -53,6 +53,7 @@ $themes: (
 		editor-toolbar-background: $color-white,
 		editor-toolbar-border: 1px solid $color-grey-border,
 		editor-toolbar-color: $color-grey-medium,
+		editor-caret-color: $color-primary-dark,
 
 		viewer-color: $color-secondary-black,
 
@@ -136,6 +137,7 @@ $themes: (
 		editor-toolbar-background: $color-secondary-black-lighter,
 		editor-toolbar-border: 1px solid transparent,
 		editor-toolbar-color: $color-grey-light,
+		editor-caret-color: $color-grey-light,
 
 		viewer-color: $color-grey-border,
 
