@@ -24,6 +24,9 @@ export default function RegistrationSuccess() {
 				We have send you an confirmation email. Please confirm your email address to
 				activate your account.
 			</span>
+			<span className={TYPOGRAPHY_LATO.placeholder_grey_medium}>
+				If you don't see it, you may need to <b>check your spam or junk folder.</b>
+			</span>
 
 			<IconButton href={LOGIN}>Go to Sign In</IconButton>
 		</div>
