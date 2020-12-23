@@ -1,6 +1,7 @@
-import React, {useEffect, useState, memo, useCallback} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import {NavItem, NavLink, Nav} from 'reactstrap';
 import {useDispatch, useSelector, shallowEqual} from 'react-redux';
+import queryString from 'query-string';
 import {useLocation} from 'react-router-dom';
 import propTypes from 'prop-types';
 import orderBy from 'lodash/orderBy';
@@ -22,11 +23,11 @@ import './Stories.scss';
 const CLASS = 'st-Stories';
 
 const SORT = {
-	recent: 'created_at',
-	popular: 'likes_count',
+	created_at: 'created_at',
+	likes_count: 'likes_count',
 };
 
-function Stories({criteria, filter}) {
+function Stories({criteria}) {
 	const dispatch = useDispatch();
 	const location = useLocation();
 	const {stories, op, pages} = useSelector(
@@ -39,43 +40,22 @@ function Stories({criteria, filter}) {
 	);
 
 	const [currentPage, setCurrentPage] = useState(1);
-	const [activeSort, setActiveSort] = useState(SORT.recent);
 
-	const categoryId = new URLSearchParams(useLocation().search).get('categories');
-	const languageId = new URLSearchParams(useLocation().search).get('language');
-	const sortBy = new URLSearchParams(useLocation().search).get('_sort');
-
-	const sortStories = sort => {
-		setActiveSort(sort);
-		dispatch(navigateToQuery({_sort: sort}, location));
-	};
+	const sortStories = sort => dispatch(navigateToQuery({_sort: sort}, location));
 
 	const handleCount = useCallback(() => {
 		const loadMoreCriteria = {...criteria, _start: currentPage * 10};
-		dispatch(loadStories(loadMoreCriteria, false, null, STORY_OP.load_more));
+		dispatch(loadStories(loadMoreCriteria, false, STORY_OP.load_more));
 		setCurrentPage(currentPage + 1);
 	}, [dispatch, currentPage, criteria]);
 
 	useEffect(() => {
 		if (criteria) {
-			const _sort = sortBy ? `${sortBy}:DESC` : criteria._sort;
-			dispatch(
-				loadStories(
-					{...criteria, categories: categoryId, language: languageId, _sort},
-					true,
-					filter,
-					undefined,
-					true
-				)
-			);
+			dispatch(loadStories(criteria, true));
 		}
-	}, [categoryId, languageId, sortBy, criteria, dispatch, filter]);
+	}, [criteria, dispatch]);
 
-	useEffect(() => {
-		if (sortBy) {
-			setActiveSort(sortBy);
-		}
-	}, [sortBy]);
+	const activeSort = SORT[criteria?._sort] || SORT.created_at;
 
 	const renderStories =
 		stories && stories.length ? (
@@ -121,11 +101,11 @@ function Stories({criteria, filter}) {
 			loading={op === STORY_OP.load_more}
 		>
 			<Nav className={CLASS + '-header'}>
-				<NavItem href="#" onClick={() => sortStories(SORT.recent, criteria)}>
-					<NavLink active={activeSort === SORT.recent}>Recent stories</NavLink>
+				<NavItem href="#" onClick={() => sortStories(SORT.created_at)}>
+					<NavLink active={activeSort === SORT.created_at}>Recent stories</NavLink>
 				</NavItem>
-				<NavItem href="#" onClick={() => sortStories(SORT.popular)}>
-					<NavLink active={activeSort === SORT.popular}>Popular stories</NavLink>
+				<NavItem href="#" onClick={() => sortStories(SORT.likes_count)}>
+					<NavLink active={activeSort === SORT.likes_count}>Popular stories</NavLink>
 				</NavItem>
 			</Nav>
 			<div className={CLASS + '-lastest'}>{renderStories}</div>
@@ -142,6 +122,11 @@ Stories.defaultProps = {
 	criteria: DEFAULT_CRITERIA,
 };
 
-const MemoizedStories = memo(Stories);
+const MemoizedStories = ({criteria}) => {
+	const location = useLocation();
+	const query = queryString.parse(location.search);
+
+	return <Stories criteria={{...criteria, ...query}} />;
+};
 
 export default MemoizedStories;

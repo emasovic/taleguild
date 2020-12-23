@@ -32,7 +32,7 @@ export default function DraftStories({shouldLoadMore, Component}) {
 
 	const handleCount = useCallback(() => {
 		const storyCriteria = {...criteria, _start: currentPage * 10};
-		dispatch(loadStories(storyCriteria, false, null, STORY_OP.load_more));
+		dispatch(loadStories(storyCriteria, false, STORY_OP.load_more));
 		setCurrentPage(currentPage + 1);
 	}, [dispatch, currentPage, criteria]);
 
