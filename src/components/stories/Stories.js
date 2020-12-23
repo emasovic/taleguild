@@ -57,6 +57,17 @@ function Stories({criteria}) {
 
 	const activeSort = SORT[criteria?._sort] || SORT.created_at;
 
+	const nav = (
+		<Nav className={CLASS + '-header'}>
+			<NavItem href="#" onClick={() => sortStories(SORT.created_at)}>
+				<NavLink active={activeSort === SORT.created_at}>Recent stories</NavLink>
+			</NavItem>
+			<NavItem href="#" onClick={() => sortStories(SORT.likes_count)}>
+				<NavLink active={activeSort === SORT.likes_count}>Popular stories</NavLink>
+			</NavItem>
+		</Nav>
+	);
+
 	const renderStories =
 		stories && stories.length ? (
 			orderBy(stories, [activeSort], ['desc']).map(item => {
@@ -87,6 +98,7 @@ function Stories({criteria}) {
 	if (op === STORY_OP.loading) {
 		return (
 			<div className={CLASS}>
+				{nav}
 				<Loader />
 			</div>
 		);
@@ -100,14 +112,7 @@ function Stories({criteria}) {
 			shouldLoad={pages > currentPage}
 			loading={op === STORY_OP.load_more}
 		>
-			<Nav className={CLASS + '-header'}>
-				<NavItem href="#" onClick={() => sortStories(SORT.created_at)}>
-					<NavLink active={activeSort === SORT.created_at}>Recent stories</NavLink>
-				</NavItem>
-				<NavItem href="#" onClick={() => sortStories(SORT.likes_count)}>
-					<NavLink active={activeSort === SORT.likes_count}>Popular stories</NavLink>
-				</NavItem>
-			</Nav>
+			{nav}
 			<div className={CLASS + '-lastest'}>{renderStories}</div>
 		</LoadMore>
 	);
