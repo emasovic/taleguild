@@ -4,8 +4,6 @@ import moment from 'moment';
 import {Link, useLocation} from 'react-router-dom';
 import {useDispatch, useSelector, shallowEqual} from 'react-redux';
 
-import ENV from 'env';
-
 import {goToUser} from 'lib/routes';
 
 import FA from 'types/font_awesome';
@@ -215,7 +213,7 @@ export default function StoryItem({
 	};
 
 	const renderShareContent = () => {
-		const copyUrl = ENV.share.url + '/story/' + slug;
+		const copyUrl = process.env.REACT_APP_SHARE_URL + '/story/' + slug;
 		const buttonColor = isCopied ? COLOR.success : COLOR.primary;
 		const buttonLabel = isCopied ? 'Copied' : 'Copy URL';
 		return (

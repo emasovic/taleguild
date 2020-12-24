@@ -1,8 +1,5 @@
-// import {useState, useCallback} from 'react';
 import axios from 'axios';
 import queryString from 'query-string';
-
-import ENV from '../env';
 
 import {detectIE} from './util';
 
@@ -30,7 +27,7 @@ export const request = opts => {
 		throw new Error('url is required');
 	}
 
-	opts.baseURL = ENV.api.url;
+	opts.baseURL = process.env.REACT_APP_API_URL;
 	opts.method = opts.method || 'get';
 
 	const headers = opts.headers;

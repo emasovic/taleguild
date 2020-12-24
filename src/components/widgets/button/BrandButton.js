@@ -1,7 +1,5 @@
 import React from 'react';
 
-import ENV from 'env';
-
 import FA from 'types/font_awesome';
 import {BRAND} from 'types/button';
 
@@ -13,7 +11,7 @@ const BRAND_ICONS = {
 };
 
 export default function BrandButton({brand, ...rest}) {
-	const url = `${ENV.api.url}/connect/${brand}`;
+	const url = `${process.env.REACT_APP_API_URL}/connect/${brand}`;
 
 	return <IconButton {...rest} icon={BRAND_ICONS[brand]} href={url} />;
 }

@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import ENV from 'env';
-
 import Icon from '../icon/Icon';
 
 import './Image.scss';
@@ -15,7 +13,7 @@ export default function Image({src, image, alt, formats, size, ...rest}) {
 	}
 
 	if (image) {
-		src = ENV.api.url + image.url;
+		src = process.env.REACT_APP_API_URL + image.url;
 	}
 
 	if (!src) {
