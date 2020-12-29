@@ -13,8 +13,8 @@ import {emailRegExp} from 'lib/util';
 import {registerUser} from '../../redux/user';
 import {addToast} from 'redux/toast';
 
-import FloatingInput from '../widgets/input/FloatingInput';
-import IconButton from '../widgets/button/IconButton';
+import FloatingInput from '../../components/widgets/input/FloatingInput';
+import IconButton from '../../components/widgets/button/IconButton';
 import BrandButton from 'components/widgets/button/BrandButton';
 import Checkbox from 'components/widgets/checkbox/Checkbox';
 

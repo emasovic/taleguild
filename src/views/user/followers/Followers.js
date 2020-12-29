@@ -51,7 +51,7 @@ export default function Followers({id}) {
 						const {follower, user} = item;
 						return (
 							<Link
-								to={goToUser(follower.id)}
+								to={goToUser(follower.username)}
 								key={key}
 								className={CLASS + '-followers-item'}
 							>

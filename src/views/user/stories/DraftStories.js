@@ -7,7 +7,7 @@ import {DEFAULT_CRITERIA, STORY_OP, STORY_COMPONENTS} from 'types/story';
 import {selectStories, loadStories, deleteStory} from 'redux/draft_stories';
 import {loggedUserId} from 'redux/user';
 
-import NoStories from 'components/stories/NoStories';
+import NoStories from 'views/stories/NoStories';
 import Loader from 'components/widgets/loader/Loader';
 import LoadMore from 'components/widgets/loadmore/LoadMore';
 

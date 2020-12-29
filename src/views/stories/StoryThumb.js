@@ -9,7 +9,7 @@ import {MEDIA_SIZE} from 'types/media';
 
 import Image from 'components/widgets/image/Image';
 import StoryDropdownButton from './widgets/dropdown-button/StoryDropdownButton';
-import UserAvatar from 'components/user/UserAvatar';
+import UserAvatar from 'views/user/UserAvatar';
 
 import './StoryThumb.scss';
 
@@ -32,7 +32,7 @@ export default function StoryThumb({
 
 	const handleGoToUser = e => {
 		e.preventDefault();
-		history.push(goToUser(author && author.id));
+		history.push(goToUser(author && author.username));
 	};
 	title = title && title.length > 36 ? title.slice(0, 36) + '...' : title;
 	image = image ? image.formats.thumbnail : image;

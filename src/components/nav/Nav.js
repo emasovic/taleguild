@@ -26,7 +26,7 @@ import {ReactComponent as Logo} from 'images/taleguild-logo.svg';
 import StoryPicker from 'components/widgets/pickers/story/StoryPicker';
 import DropdownButton from 'components/widgets/button/DropdownButton';
 
-import UserAvatar from 'components/user/UserAvatar';
+import UserAvatar from 'views/user/UserAvatar';
 import IconButton from '../widgets/button/IconButton';
 
 import './Nav.scss';
@@ -71,7 +71,7 @@ export default function Navigation() {
 				<IconButton onClick={handleNewStory}>New story</IconButton>
 
 				<DropdownButton toggleItem={<UserAvatar user={data} />}>
-					<DropdownItem href={goToUser(data && data.id)}>My profile</DropdownItem>
+					<DropdownItem href={goToUser(data && data.username)}>My profile</DropdownItem>
 					<DropdownItem href={USER_STORIES_DRAFTS}>Drafts</DropdownItem>
 					<DropdownItem href={USER_STORIES_SAVED}>Saved stories</DropdownItem>
 					<DropdownItem href={USER_SETTINGS}>Account settings</DropdownItem>

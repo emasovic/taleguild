@@ -1,10 +1,9 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {useDispatch, useSelector, shallowEqual} from 'react-redux';
 
 import {COLOR} from 'types/button';
 
 import {selectUser as selectLoggedUser} from 'redux/user';
-import {loadUser, selectUser} from 'redux/users';
 import {selectFollowers, createOrDeleteFollower} from 'redux/followers';
 
 import IconButton from 'components/widgets/button/IconButton';
@@ -14,30 +13,32 @@ import FollowedBy from './followers/Following';
 
 import UserAvatar from './UserAvatar';
 
-export default function UserProfileInfo({userId, className}) {
+export default function UserProfileInfo({user, className}) {
 	const dispatch = useDispatch();
-	const {total, followers, followersLoading, user, loggedUser} = useSelector(
-		state => ({
-			followers: selectFollowers(state, userId),
-			loggedUser: selectLoggedUser(state),
-			user: selectUser(state, userId),
+
+	const {total, followers, followersLoading, loggedUser} = useSelector(state => {
+		const loggedUser = selectLoggedUser(state);
+		return {
+			followers: selectFollowers(state, user?.id),
+			loggedUser: loggedUser?.data,
 			followersLoading: state.followers.loading,
 			total: state.stories.total,
-		}),
-		shallowEqual
-	);
-
-	const {data} = loggedUser;
+		};
+	}, shallowEqual);
 
 	let follower = null;
 
-	if (data) {
+	const {display_name, username, description, id} = user;
+
+	if (loggedUser) {
 		follower =
-			followers && followers.length && followers.find(item => item.follower.id === data.id);
+			followers &&
+			followers.length &&
+			followers.find(item => item.follower.id === loggedUser.id);
 	}
 
 	const handleFollow = () => {
-		dispatch(createOrDeleteFollower(follower, userId, data && data.id));
+		dispatch(createOrDeleteFollower(follower, id, loggedUser?.id));
 	};
 
 	const label = follower ? 'Unfollow' : 'Follow';
@@ -49,10 +50,10 @@ export default function UserProfileInfo({userId, className}) {
 					<span>{total}</span>
 					<span>Stories</span>
 				</div>
-				<Followers id={userId} />
-				<FollowedBy id={userId} />
+				<Followers id={id} />
+				<FollowedBy id={id} />
 			</div>
-			{data && Number(userId) !== data.id && (
+			{loggedUser && Number(id) !== loggedUser.id && (
 				<IconButton
 					color={COLOR.secondary}
 					disabled={followersLoading}
@@ -63,16 +64,6 @@ export default function UserProfileInfo({userId, className}) {
 			)}
 		</>
 	);
-
-	useEffect(() => {
-		dispatch(loadUser(userId));
-	}, [dispatch, userId]);
-
-	if (!user) {
-		return null;
-	}
-
-	const {display_name, username, description} = user;
 
 	return (
 		<div className={className + '-user'}>

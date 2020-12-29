@@ -52,7 +52,7 @@ export default function Following({id}) {
 
 						return (
 							<Link
-								to={goToUser(user.id)}
+								to={goToUser(user.username)}
 								key={key}
 								className={CLASS + '-followers-item'}
 							>

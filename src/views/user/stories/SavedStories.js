@@ -13,7 +13,7 @@ import {loggedUserId} from 'redux/user';
 
 import Loader from 'components/widgets/loader/Loader';
 import LoadMore from 'components/widgets/loadmore/LoadMore';
-import NoStories from 'components/stories/NoStories';
+import NoStories from 'views/stories/NoStories';
 
 import './SavedStories.scss';
 

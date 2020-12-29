@@ -9,8 +9,8 @@ import {COLOR, BRAND} from 'types/button';
 
 import {loginUser, selectUser} from '../../redux/user';
 
-import FloatingInput from '../widgets/input/FloatingInput';
-import IconButton from '../widgets/button/IconButton';
+import FloatingInput from '../../components/widgets/input/FloatingInput';
+import IconButton from '../../components/widgets/button/IconButton';
 import BrandButton from 'components/widgets/button/BrandButton';
 
 import './Login.scss';

@@ -44,4 +44,11 @@ const usersSelector = usersAdapter.getSelectors(state => state.users);
 
 export const selectUser = (state, id) => usersSelector.selectById(state, id);
 
+export const selectUserByUsername = (state, username) => {
+	const users = usersSelector.selectAll(state);
+	const user = users.find(u => u.username === username);
+
+	return user;
+};
+
 export default usersSlice.reducer;

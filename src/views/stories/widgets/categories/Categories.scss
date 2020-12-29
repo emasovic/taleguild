@@ -9,7 +9,7 @@
 	flex-direction: column;
 	position: sticky;
 	top: 80px;
-	height: calc(100vh - 100px);
+	height: calc(100vh - 140px);
 	overflow-y: hidden;
 
 	@include scrollbars(6px, $color-grey-lighter, $color-grey-border);

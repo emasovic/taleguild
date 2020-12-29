@@ -1,6 +1,6 @@
-import StoryThumb from 'components/stories/StoryThumb';
-import StoryItem from 'components/stories/StoryItem';
-import StoryListItem from 'components/stories/StoryListItem';
+import StoryThumb from 'views/stories/StoryThumb';
+import StoryItem from 'views/stories/StoryItem';
+import StoryListItem from 'views/stories/StoryListItem';
 
 export const DEFAULT_CRITERIA = {_start: 0, _limit: 10, _sort: 'created_at:DESC', published: true};
 

@@ -225,14 +225,14 @@ export const createOrDeleteComment = payload => async (dispatch, getState) => {
 
 export const createOrDeleteLike = (like, userId, storyId) => async (dispatch, getState) => {
 	const res = like
-		? await api.deleteLike(like.id, storyId)
+		? await api.deleteLike(like.id)
 		: await api.createLike({user: userId, story: storyId});
 
 	if (res.error) {
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
 
-	if (res.id) {
+	if (res.id && !like) {
 		return dispatch(gotLike({storyId, ...res}));
 	}
 

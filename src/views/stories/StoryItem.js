@@ -20,7 +20,7 @@ import {navigateToQuery} from 'redux/application';
 
 import IconButton from 'components/widgets/button/IconButton';
 import Image from 'components/widgets/image/Image';
-import UserAvatar from 'components/user/UserAvatar';
+import UserAvatar from 'views/user/UserAvatar';
 import ConfirmModal from 'components/widgets/modals/Modal';
 import StoryDropdownButton from './widgets/dropdown-button/StoryDropdownButton';
 import TextArea from 'components/widgets/textarea/TextArea';
@@ -112,7 +112,7 @@ export default function StoryItem({
 							const {user} = item;
 							return (
 								<Link
-									to={goToUser(user.id)}
+									to={goToUser(user.username)}
 									key={key}
 									className={CLASS + '-comments-posted-item'}
 								>
@@ -172,7 +172,7 @@ export default function StoryItem({
 						const {user} = item;
 						return (
 							<Link
-								to={goToUser(user.id)}
+								to={goToUser(user.username)}
 								key={key}
 								className={CLASS + '-likes-item'}
 							>
@@ -196,7 +196,7 @@ export default function StoryItem({
 						const {user} = item;
 						return (
 							<Link
-								to={goToUser(user.id)}
+								to={goToUser(user.username)}
 								key={key}
 								className={CLASS + '-likes-item'}
 							>
@@ -253,7 +253,7 @@ export default function StoryItem({
 			{data && author.id === data.id && (
 				<StoryDropdownButton story={{id, title, storypages}} />
 			)}
-			<Link to={goToUser(author.id)} className={CLASS + '-author'}>
+			<Link to={goToUser(author.username)} className={CLASS + '-author'}>
 				<UserAvatar user={author} />
 				<div className={CLASS + '-author-info'}>
 					<span>{author.display_name || author.username}</span>

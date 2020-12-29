@@ -2,10 +2,10 @@ import React from 'react';
 
 import {DEFAULT_CRITERIA} from 'types/story';
 
-import SideBar from './stories/SideBar';
+import SideBar from 'views/stories/SideBar';
 
-import Stories from './stories/Stories';
-import StoryTabs from './stories/StoryTabs';
+import Stories from 'views/stories/Stories';
+import StoryTabs from 'views/stories/StoryTabs';
 
 import './Explore.scss';
 

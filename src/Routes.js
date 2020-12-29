@@ -6,23 +6,23 @@ import history from 'lib/history';
 
 import Nav from 'components/nav/Nav';
 
-import Home from 'components/Home';
-import Explore from 'components/Explore';
+import Home from 'views/Home';
+import Explore from 'views/Explore';
 
-import Story from 'components/stories/Story';
-import StoryWritter from 'components/stories/writter/StoryWritter';
+import Story from 'views/stories/Story';
+import StoryWritter from 'views/stories/writter/StoryWritter';
 
-import UserProfile from 'components/user/UserProfile';
-import UserSettings from 'components/user/UserSettings';
-import DraftStoriesPage from 'components/user/pages/DraftStoriesPage';
-import SavedStoriesPage from 'components/user/pages/SavedStoriesPage';
+import UserProfile from 'views/user/UserProfile';
+import UserSettings from 'views/user/UserSettings';
+import DraftStoriesPage from 'views/user/pages/DraftStoriesPage';
+import SavedStoriesPage from 'views/user/pages/SavedStoriesPage';
 
-import SignUp from 'components/signup/SignUp';
+import SignUp from 'views/signup/SignUp';
 
-import Login from 'components/login/Login';
-import ForgotPassword from 'components/login/ForgotPassword';
-import ResetPassword from 'components/login/ResetPassword';
-import ProviderLogin from 'components/login/ProviderLogin';
+import Login from 'views/login/Login';
+import ForgotPassword from 'views/login/ForgotPassword';
+import ResetPassword from 'views/login/ResetPassword';
+import ProviderLogin from 'views/login/ProviderLogin';
 
 import PrivateRoute from 'PrivateRoute';
 import PublicRoute from 'PublicRoute';

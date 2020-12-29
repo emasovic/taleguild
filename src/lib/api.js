@@ -32,8 +32,8 @@ export const updateUser = payload => {
 	return http.put('/users/' + payload.id, null, payload);
 };
 
-export const getUser = id => {
-	return http.get('/users/' + id, null);
+export const getUser = username => {
+	return http.get('/users/username/' + username, null);
 };
 
 /******************      STORIES        ***********************/
@@ -136,8 +136,8 @@ export const createLike = payload => {
 	return http.post('likes', null, payload);
 };
 
-export const deleteLike = (id, storyId) => {
-	return http.del('likes/' + id, {story: storyId});
+export const deleteLike = (id) => {
+	return http.del('likes/' + id);
 };
 
 /******************      FOLLOWERS        ***********************/

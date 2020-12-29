@@ -6,7 +6,7 @@ import {DEFAULT_CRITERIA} from 'types/story';
 import {loggedUserId} from 'redux/user';
 import {selectFollowing, loadFollowing} from 'redux/following';
 
-import Loader from './widgets/loader/Loader';
+import Loader from 'components/widgets/loader/Loader';
 
 import Explore from './Explore';
 

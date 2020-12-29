@@ -9,9 +9,9 @@ import {STORY_COMPONENTS} from 'types/story';
 
 import {selectUser} from 'redux/user';
 
-import MyStories from 'components/user/stories/MyStories';
-import SavedStories from 'components/user/stories/SavedStories';
-import DraftStories from 'components/user/stories/DraftStories';
+import MyStories from 'views/user/stories/MyStories';
+import SavedStories from 'views/user/stories/SavedStories';
+import DraftStories from 'views/user/stories/DraftStories';
 
 import './StoryTabs.scss';
 
@@ -65,7 +65,7 @@ export default function StoryTabs() {
 					</NavItem>
 				</Nav>
 				<Component shouldLoadMore={false} Component={STORY_COMPONENTS.list} />
-				<Link to={GO_TO[activeTab] || goToUser(data && data.id)}>View all</Link>
+				<Link to={GO_TO[activeTab] || goToUser(data && data.username)}>View all</Link>
 			</div>
 		</div>
 	);
