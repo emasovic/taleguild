@@ -1,6 +1,7 @@
 import React, {useEffect, useState, useRef} from 'react';
 import {useDispatch, useSelector, shallowEqual} from 'react-redux';
 import orderBy from 'lodash/orderBy';
+import Helmet from 'react-helmet';
 import {useHistory, useParams} from 'react-router-dom';
 
 import {goToStory} from 'lib/routes';
@@ -85,6 +86,7 @@ export default function Story() {
 
 	return (
 		<div className={CLASS} ref={viewerRef}>
+			<Helmet title={story.title} />
 			<StoryItem
 				id={story.id}
 				image={story.image}
