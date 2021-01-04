@@ -23,7 +23,7 @@ app.get('/story/*', (req, res) => {
 	const storyId = getIdFromSlug(req.params[0]);
 
 	axios
-		.get(`${api}/stories/${storyId}`)
+		.get(`${api}/stories/${storyId}`, {proxy: {host: '147.135.167.132', port: 1330}})
 		.then(response => {
 			const {data: rData} = response;
 			fs.readFile(filePath, 'utf8', (err, data) => {
@@ -35,9 +35,7 @@ app.get('/story/*', (req, res) => {
 					.replace(/__TITLE__/g, rData.title)
 					.replace(/__DESCRIPTION__/g, rData.description);
 				if (rData && rData.image) {
-					data = data.concat(`<meta property="og:image" content="${api +
-						rData.image.url}" />
-					<meta property="twitter:image" content="${api + rData.image.url}" />`);
+					data = data.replace(/__IMAGE_URL__/g, api + rData.image.url);
 				}
 
 				res.send(data);
