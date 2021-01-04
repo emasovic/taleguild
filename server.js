@@ -10,7 +10,7 @@ const getIdFromSlug = slug => {
 	return id;
 };
 
-const api = 'http://localhost:1337';
+const api = 'http://dcoders.rs:1330';
 
 const PORT = process.env.PORT || 5000;
 
@@ -43,7 +43,10 @@ app.get('/story/*', (req, res) => {
 				res.send(data);
 			});
 		})
-		.catch(err => console.log(err));
+		.catch(err => {
+			console.log(err);
+			res.sendFile(path.join(__dirname, 'build', 'index.html'));
+		});
 });
 
 app.get('/*', function(req, res) {
