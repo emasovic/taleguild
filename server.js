@@ -18,6 +18,8 @@ const app = express();
 
 app.use(express.static(path.resolve(__dirname, 'build')));
 
+const filePath = path.resolve(__dirname, 'build', 'index.html');
+
 app.get('/story/*', (req, res) => {
 	const filePath = path.resolve(__dirname, 'build', 'index.html');
 	const storyId = getIdFromSlug(req.params[0]);
@@ -43,12 +45,40 @@ app.get('/story/*', (req, res) => {
 		})
 		.catch(err => {
 			console.log(err);
-			res.sendFile(path.join(__dirname, 'build', 'index.html'));
+			res.sendFile(filePath);
+		});
+});
+
+app.get('/user/*', (req, res) => {
+	const username = req.params[0];
+
+	axios
+		.get(`${api}/users/username/${username}`, {proxy: {host: '147.135.167.132', port: 1330}})
+		.then(response => {
+			const {data: rData} = response;
+			fs.readFile(filePath, 'utf8', (err, data) => {
+				if (err) {
+					return console.log(err);
+				}
+
+				data = data
+					.replace(/__TITLE__/g, rData.display_name || rData.username)
+					.replace(/__DESCRIPTION__/g, rData.description || rData.username);
+				if (rData && rData.avatar) {
+					data = data.replace(/__IMAGE_URL__/g, api + rData.avatar.url);
+				}
+
+				res.send(data);
+			});
+		})
+		.catch(err => {
+			console.log(err);
+			res.sendFile(filePath);
 		});
 });
 
 app.get('/*', function(req, res) {
-	res.sendFile(path.join(__dirname, 'build', 'index.html'));
+	res.sendFile(filePath);
 });
 
 app.listen(PORT, () => {
