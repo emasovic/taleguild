@@ -1,7 +1,10 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
-const axios = require('axios');
+
+const env = require('./src/env');
+
+const {User, Story, File} = require('./db');
 
 const getIdFromSlug = slug => {
 	const splited = slug.split('-');
@@ -10,9 +13,11 @@ const getIdFromSlug = slug => {
 	return id;
 };
 
-const api = 'http://dcoders.rs:1330';
+const api = 'http://localhost:1337';
 
 const PORT = process.env.PORT || 5000;
+
+const DEFAULT_IMAGE_URL = `${env.PUBLIC_URL}/taleguild-share.png`;
 
 const app = express();
 
@@ -20,65 +25,104 @@ app.use(express.static(path.resolve(__dirname, 'build')));
 
 const filePath = path.resolve(__dirname, 'build', 'index.html');
 
-app.get('/story/*', (req, res) => {
+app.get('/story/*', async (req, res) => {
 	const filePath = path.resolve(__dirname, 'build', 'index.html');
 	const storyId = getIdFromSlug(req.params[0]);
 
-	axios
-		.get(`${api}/stories/${storyId}`, {proxy: {host: '147.135.167.132', port: 1330}})
-		.then(response => {
-			const {data: rData} = response;
-			fs.readFile(filePath, 'utf8', (err, data) => {
-				if (err) {
-					return console.log(err);
-				}
+	try {
+		let story = await new Story({id: storyId}).fetch();
+		let image;
 
-				data = data
-					.replace(/__TITLE__/g, rData.title)
-					.replace(/__DESCRIPTION__/g, rData.description);
-				if (rData && rData.image) {
-					data = data.replace(/__IMAGE_URL__/g, api + rData.image.url);
-				}
-
-				res.send(data);
+		try {
+			image = await new File({related_id: storyId, related_type: 'stories'}).fetch({
+				withRelated: ['upload_file_id'],
 			});
-		})
-		.catch(err => {
-			console.log(err);
-			res.sendFile(filePath);
+			image = image.toJSON();
+		} catch (error) {
+			image = null;
+		}
+
+		story = story.toJSON();
+
+		fs.readFile(filePath, 'utf8', (err, data) => {
+			if (err) {
+				return console.log(err);
+			}
+
+			data = data
+				.replace(/__TITLE__/g, story.title)
+				.replace(/__DESCRIPTION__/g, story.description)
+				.replace(/__IMAGE_URL__/g, DEFAULT_IMAGE_URL);
+
+			if (image && image.upload_file_id) {
+				data = data.replace(/__IMAGE_URL__/g, api + image.upload_file_id.url);
+			}
+
+			res.send(data);
 		});
+	} catch (error) {
+		console.log(error);
+		res.sendFile(filePath);
+	}
 });
 
-app.get('/user/*', (req, res) => {
+app.get('/user/*', async (req, res) => {
 	const username = req.params[0];
 
-	axios
-		.get(`${api}/users/username/${username}`, {proxy: {host: '147.135.167.132', port: 1330}})
-		.then(response => {
-			const {data: rData} = response;
-			fs.readFile(filePath, 'utf8', (err, data) => {
-				if (err) {
-					return console.log(err);
-				}
-
-				data = data
-					.replace(/__TITLE__/g, rData.display_name || rData.username)
-					.replace(/__DESCRIPTION__/g, rData.description || rData.username);
-				if (rData && rData.avatar) {
-					data = data.replace(/__IMAGE_URL__/g, api + rData.avatar.url);
-				}
-
-				res.send(data);
+	try {
+		let user = await new User({username}).fetch();
+		user = user.toJSON();
+		let image;
+		try {
+			image = await new File({
+				related_id: user.id,
+				related_type: 'users-permissions_user',
+			}).fetch({
+				withRelated: ['upload_file_id'],
 			});
-		})
-		.catch(err => {
-			console.log(err);
-			res.sendFile(filePath);
+			image = image.toJSON();
+		} catch (error) {
+			image = null;
+		}
+
+		fs.readFile(filePath, 'utf8', (err, data) => {
+			if (err) {
+				return console.log(err);
+			}
+
+			data = data
+				.replace(/__TITLE__/g, user.display_name || user.username)
+				.replace(/__DESCRIPTION__/g, user.description || user.username)
+				.replace(/__IMAGE_URL__/g, DEFAULT_IMAGE_URL);
+
+			if (image && image.upload_file_id) {
+				data = data.replace(/__IMAGE_URL__/g, api + image.upload_file_id.url);
+			}
+
+			res.send(data);
 		});
+	} catch (error) {
+		console.log(error);
+		res.sendFile(filePath);
+	}
 });
 
 app.get('/*', function(req, res) {
-	res.sendFile(filePath);
+	fs.readFile(filePath, 'utf8', (err, data) => {
+		if (err) {
+			return console.log(err);
+		}
+
+		data = data
+			.replace(
+				/__TITLE__/g,
+				'Taleguild | Social Network for Short Stories Writers & Essayists'
+			)
+			.replace(/__DESCRIPTION__/g, 'Social Network of Short Story Writers & Essayists')
+			.replace(/__IMAGE_URL__/g, DEFAULT_IMAGE_URL);
+
+		res.send(data);
+	});
 });
 
 app.listen(PORT, () => {
