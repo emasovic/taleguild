@@ -13,8 +13,6 @@ const getIdFromSlug = slug => {
 	return id;
 };
 
-const api = 'http://localhost:1337';
-
 const PORT = process.env.PORT || 5000;
 
 const DEFAULT_IMAGE_URL = `${env.PUBLIC_URL}/taleguild-share.png`;
@@ -38,8 +36,13 @@ app.get('/story/*', async (req, res) => {
 				withRelated: ['upload_file_id'],
 			});
 			image = image.toJSON();
+
+			image =
+				image && image.upload_file_id
+					? env.API_URL + image.upload_file_id.url
+					: DEFAULT_IMAGE_URL;
 		} catch (error) {
-			image = null;
+			image = DEFAULT_IMAGE_URL;
 		}
 
 		story = story.toJSON();
@@ -52,11 +55,7 @@ app.get('/story/*', async (req, res) => {
 			data = data
 				.replace(/__TITLE__/g, story.title)
 				.replace(/__DESCRIPTION__/g, story.description)
-				.replace(/__IMAGE_URL__/g, DEFAULT_IMAGE_URL);
-
-			if (image && image.upload_file_id) {
-				data = data.replace(/__IMAGE_URL__/g, api + image.upload_file_id.url);
-			}
+				.replace(/__IMAGE_URL__/g, image);
 
 			res.send(data);
 		});
@@ -81,8 +80,13 @@ app.get('/user/*', async (req, res) => {
 				withRelated: ['upload_file_id'],
 			});
 			image = image.toJSON();
+
+			image =
+				image && image.upload_file_id
+					? env.API_URL + image.upload_file_id.url
+					: DEFAULT_IMAGE_URL;
 		} catch (error) {
-			image = null;
+			image = DEFAULT_IMAGE_URL;
 		}
 
 		fs.readFile(filePath, 'utf8', (err, data) => {
@@ -93,11 +97,7 @@ app.get('/user/*', async (req, res) => {
 			data = data
 				.replace(/__TITLE__/g, user.display_name || user.username)
 				.replace(/__DESCRIPTION__/g, user.description || user.username)
-				.replace(/__IMAGE_URL__/g, DEFAULT_IMAGE_URL);
-
-			if (image && image.upload_file_id) {
-				data = data.replace(/__IMAGE_URL__/g, api + image.upload_file_id.url);
-			}
+				.replace(/__IMAGE_URL__/g, image);
 
 			res.send(data);
 		});
