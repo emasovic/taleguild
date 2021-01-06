@@ -23,10 +23,10 @@ app.use(express.static(path.resolve(__dirname, 'build')));
 
 const filePath = path.resolve(__dirname, 'build', 'index.html');
 
-app.get('/story/*', async (req, res) => {
+app.get('/story/:slug', async (req, res) => {
 	const filePath = path.resolve(__dirname, 'build', 'index.html');
-	const storyId = getIdFromSlug(req.params[0]);
 
+	const storyId = getIdFromSlug(req.params.slug);
 	try {
 		let story = await new Story({id: storyId}).fetch();
 		let image;
@@ -65,8 +65,8 @@ app.get('/story/*', async (req, res) => {
 	}
 });
 
-app.get('/user/*', async (req, res) => {
-	const username = req.params[0];
+app.get('/user/:username', async (req, res) => {
+	const username = req.params.username;
 
 	try {
 		let user = await new User({username}).fetch();

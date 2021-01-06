@@ -27,6 +27,7 @@ export default function StoryThumb({
 	favouriteId,
 	onDeleteStory,
 	storypages,
+	slug,
 }) {
 	const history = useHistory();
 
@@ -38,12 +39,12 @@ export default function StoryThumb({
 	image = image ? image.formats.thumbnail : image;
 
 	return (
-		<div to={goToStory(id)} className={CLASS}>
+		<div className={CLASS}>
 			<StoryDropdownButton
 				story={{id, favouriteId, title, storypages}}
 				onDeleteStory={onDeleteStory}
 			/>
-			<Link to={goToStory(id)} className={CLASS}>
+			<Link to={goToStory(slug)} className={CLASS}>
 				<div className={CLASS + '-cover'}>
 					<Image image={image} formats={formats} size={size} />
 				</div>
