@@ -56,15 +56,10 @@ export default function SignUp() {
 	return (
 		<Form onSubmit={e => submit(e)} className={CLASS}>
 			<h4>Join our guild of writers and storytellers</h4>
-			<FloatingInput
-				label="Username"
-				// placeholder="Enter your username here"
-				value={username}
-				onChange={val => setUsername(val)}
-			/>
+			<FloatingInput label="Username" value={username} onChange={val => setUsername(val)} />
+
 			<FloatingInput
 				label="Email Address "
-				// placeholder="Enter your email address here"
 				value={email}
 				type="email"
 				onChange={val => setEmail(val)}
@@ -72,7 +67,6 @@ export default function SignUp() {
 
 			<FloatingInput
 				label="Password"
-				// placeholder="you@example.com"
 				value={password}
 				type="password"
 				onChange={val => setPassword(val)}
@@ -92,15 +86,15 @@ export default function SignUp() {
 				checked={accepted}
 				onChange={checked => setAccepted(checked)}
 			/>
-			<IconButton loading={op}>Sign Up</IconButton>
+			<IconButton loading={!!op}>Sign Up</IconButton>
 
 			<span className={CLASS + '-divider'}>OR</span>
 
-			<BrandButton loading={op} color={COLOR.secondary} brand={BRAND.google}>
+			<BrandButton loading={!!op} color={COLOR.secondary} brand={BRAND.google}>
 				Sign up with Google
 			</BrandButton>
 
-			<BrandButton loading={op} color={COLOR.secondary} brand={BRAND.facebook}>
+			<BrandButton loading={!!op} color={COLOR.secondary} brand={BRAND.facebook}>
 				Sign up with Facebook
 			</BrandButton>
 

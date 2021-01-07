@@ -69,7 +69,7 @@ export default function Story() {
 		);
 	}
 
-	if (!story.published && story.user.id !== loggedUserId) {
+	if (!story.published_at && story.user?.id !== loggedUserId) {
 		return <NotFound />;
 	}
 
@@ -78,7 +78,7 @@ export default function Story() {
 		storypages && storypages.length
 			? orderBy(
 					storypages.map(item => ({...item, text: JSON.parse(item.text)})),
-					['created_at'],
+					['published_at'],
 					['asc']
 			  )
 			: [];
@@ -96,7 +96,7 @@ export default function Story() {
 				comments={story.comments}
 				storypages={story.storypages}
 				author={story.user}
-				createdDate={story.created_at}
+				createdDate={story.published_at}
 				savedBy={story.saved_by}
 				slug={story.slug}
 			/>

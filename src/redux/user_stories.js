@@ -7,7 +7,7 @@ import {newToast} from './toast';
 
 const userStoriesAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
-	sortComparer: (a, b) => b.created_at.localeCompare(a.created_at),
+	sortComparer: (a, b) => b.published_at.localeCompare(a.published_at),
 });
 
 export const myStorySlice = createSlice({

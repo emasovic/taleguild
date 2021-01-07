@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import propTypes from 'prop-types';
-import moment from 'moment';
 import {Link, useLocation} from 'react-router-dom';
 import {useDispatch, useSelector, shallowEqual} from 'react-redux';
 
@@ -10,7 +9,7 @@ import FA from 'types/font_awesome';
 import {COLOR} from 'types/button';
 import {Toast} from 'types/toast';
 
-import useCopyToClipboard from 'hooks/copy-to-clipboard';
+// import useCopyToClipboard from 'hooks/copy-to-clipboard';
 
 import {createOrDeleteLike, createOrDeleteComment} from 'redux/story';
 import {selectUser} from 'redux/user';
@@ -24,9 +23,9 @@ import UserAvatar from 'views/user/UserAvatar';
 import ConfirmModal from 'components/widgets/modals/Modal';
 import StoryDropdownButton from './widgets/dropdown-button/StoryDropdownButton';
 import TextArea from 'components/widgets/textarea/TextArea';
+import FromNow from 'components/widgets/date-time/FromNow';
 
 import './StoryItem.scss';
-import FloatingInput from 'components/widgets/input/FloatingInput';
 
 const CLASS = 'st-StoryItem';
 
@@ -60,8 +59,8 @@ export default function StoryItem({
 	const [isCommentsOpen, setIsCommentsOpen] = useState(false);
 	const [isLikesOpen, setIsLikesOpen] = useState(false);
 	const [isSavedOpen, setIsSavedOpen] = useState(false);
-	const [isShareOpen, setIsShareOpen] = useState(false);
-	const [isCopied, setIsCopied] = useCopyToClipboard(10000);
+	// const [isShareOpen, setIsShareOpen] = useState(false);
+	// const [isCopied, setIsCopied] = useCopyToClipboard(10000);
 	const [comment, setComment] = useState('');
 
 	const {data} = loggedUser;
@@ -120,7 +119,7 @@ export default function StoryItem({
 									<div className={CLASS + '-comments-posted-item-user'}>
 										<div className={CLASS + '-comments-posted-item-user-info'}>
 											<span>{user.display_name || user.username}</span>
-											<span>{moment(item.created_at).fromNow()}</span>
+											<FromNow date={item.created_at} />
 										</div>
 										<span>{item.comment}</span>
 										{data && user.id === data.id && (
@@ -212,19 +211,19 @@ export default function StoryItem({
 		);
 	};
 
-	const renderShareContent = () => {
-		const copyUrl = process.env.REACT_APP_SHARE_URL + '/story/' + slug;
-		const buttonColor = isCopied ? COLOR.success : COLOR.primary;
-		const buttonLabel = isCopied ? 'Copied' : 'Copy URL';
-		return (
-			<div className={CLASS + '-share'}>
-				<FloatingInput value={copyUrl} label="Copy this URL to share story" disabled />
-				<IconButton color={buttonColor} onClick={() => setIsCopied(copyUrl)}>
-					{buttonLabel}
-				</IconButton>
-			</div>
-		);
-	};
+	// const renderShareContent = () => {
+	// 	const copyUrl = process.env.REACT_APP_SHARE_URL + '/story/' + slug;
+	// 	const buttonColor = isCopied ? COLOR.success : COLOR.primary;
+	// 	const buttonLabel = isCopied ? 'Copied' : 'Copy URL';
+	// 	return (
+	// 		<div className={CLASS + '-share'}>
+	// 			<FloatingInput value={copyUrl} label="Copy this URL to share story" disabled />
+	// 			<IconButton color={buttonColor} onClick={() => setIsCopied(copyUrl)}>
+	// 				{buttonLabel}
+	// 			</IconButton>
+	// 		</div>
+	// 	);
+	// };
 
 	const renderCategories =
 		categories && categories.length
@@ -257,7 +256,7 @@ export default function StoryItem({
 				<UserAvatar user={author} />
 				<div className={CLASS + '-author-info'}>
 					<span>{author.display_name || author.username}</span>
-					<span>{moment(createdDate).fromNow()}</span>
+					<FromNow date={createdDate} />
 				</div>
 			</Link>
 			<div className={CLASS + '-description'}>{description}</div>
@@ -285,11 +284,11 @@ export default function StoryItem({
 									icon={FA.comment}
 									onClick={() => setIsCommentsOpen(true)}
 								/>
-								<IconButton
+								{/* <IconButton
 									outline
 									icon={FA.share_square}
 									onClick={() => setIsShareOpen(true)}
-								/>
+								/> */}
 							</div>
 							<IconButton
 								outline
@@ -345,7 +344,7 @@ export default function StoryItem({
 					onClose={() => setIsSavedOpen(false)}
 				/>
 			)}
-			{isShareOpen && (
+			{/* {isShareOpen && (
 				<ConfirmModal
 					isOpen={isShareOpen}
 					title="Copy URL"
@@ -353,7 +352,7 @@ export default function StoryItem({
 					content={renderShareContent()}
 					onClose={() => setIsShareOpen(false)}
 				/>
-			)}
+			)} */}
 		</div>
 	);
 }

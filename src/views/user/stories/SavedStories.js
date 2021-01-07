@@ -49,7 +49,12 @@ export default function SavedStories({shouldLoadMore, Component}) {
 
 	useEffect(() => {
 		if (userId) {
-			setCriteria({...DEFAULT_CRITERIA, published: undefined, user: userId});
+			setCriteria({
+				...DEFAULT_CRITERIA,
+				_publicationState: undefined,
+				_sort: 'created_at:DESC',
+				user: userId,
+			});
 		}
 	}, [userId]);
 
@@ -77,7 +82,7 @@ export default function SavedStories({shouldLoadMore, Component}) {
 						description={story.description}
 						key={item.id}
 						author={story.user}
-						createdDate={story.created_at}
+						createdDate={story.published_at}
 						slug={story.slug}
 						onDeleteStory={handleDeleteStory}
 					/>

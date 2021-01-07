@@ -75,4 +75,15 @@
 			border-color: $color-primary;
 		}
 	}
+
+	&.invalid {
+		.st-DefaultPicker__control {
+			border: 1px solid $color-secondary-red;
+		}
+	}
+
+	&-error {
+		color: $color-secondary-red;
+		font-size: 14px;
+	}
 }

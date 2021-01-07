@@ -1,6 +1,6 @@
 import React from 'react';
 import {useHistory, Link} from 'react-router-dom';
-import moment from 'moment';
+
 import propTypes from 'prop-types';
 
 import {goToStory, goToUser} from 'lib/routes';
@@ -9,6 +9,8 @@ import {MEDIA_SIZE} from 'types/media';
 
 import Image from 'components/widgets/image/Image';
 import StoryDropdownButton from './widgets/dropdown-button/StoryDropdownButton';
+import FromNow from 'components/widgets/date-time/FromNow';
+
 import UserAvatar from 'views/user/UserAvatar';
 
 import './StoryThumb.scss';
@@ -55,7 +57,7 @@ export default function StoryThumb({
 					</div>
 
 					<div className={CLASS + '-details-created'}>
-						<span>{moment(createdDate).fromNow()}</span>
+						<FromNow date={createdDate} />
 						{author && (
 							<div onClick={handleGoToUser}>
 								<UserAvatar user={author} />

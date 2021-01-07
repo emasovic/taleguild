@@ -42,7 +42,7 @@ export default function Navigation() {
 	const {data} = user;
 
 	const handleNewStory = () => {
-		dispatch(newStory({user: data && data.id, published: false}));
+		dispatch(newStory({user: data && data.id, published_at: null}));
 	};
 
 	const userLoggedOut = () => {

@@ -58,10 +58,10 @@ export const {
 	storyPageRemoved,
 } = storyPageSlice.actions;
 
-export const loadStoryPages = id => async dispatch => {
+export const loadStoryPages = filter => async dispatch => {
 	dispatch(loadingStart());
 
-	const res = await api.getStoryPages({story: id});
+	const res = await api.getStoryPages(filter);
 
 	if (res.error) {
 		dispatch(loadingEnd());

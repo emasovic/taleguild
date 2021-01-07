@@ -2,7 +2,17 @@ import StoryThumb from 'views/stories/StoryThumb';
 import StoryItem from 'views/stories/StoryItem';
 import StoryListItem from 'views/stories/StoryListItem';
 
-export const DEFAULT_CRITERIA = {_start: 0, _limit: 10, _sort: 'created_at:DESC', published: true};
+export const PUBLISH_STATES = {
+	live: 'live',
+	preview: 'preview',
+};
+
+export const DEFAULT_CRITERIA = {
+	_start: 0,
+	_limit: 10,
+	_sort: 'published_at:DESC',
+	_publicationState: PUBLISH_STATES.live,
+};
 
 export const DEFAULT_STORYPAGE_DATA = [{type: 'paragraph', children: [{text: ''}]}];
 

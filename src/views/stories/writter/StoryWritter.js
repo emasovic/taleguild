@@ -2,7 +2,7 @@ import React, {useEffect, useCallback, useState} from 'react';
 import {useDispatch, useSelector, shallowEqual} from 'react-redux';
 import {useParams} from 'react-router-dom';
 
-import {DEFAULT_STORYPAGE_DATA} from 'types/story';
+import {DEFAULT_STORYPAGE_DATA, PUBLISH_STATES} from 'types/story';
 
 import {
 	loadStoryPages,
@@ -80,7 +80,7 @@ export default function StoryWritter() {
 	}, [dispatch, storyId]);
 
 	useEffect(() => {
-		dispatch(loadStoryPages(storyId));
+		dispatch(loadStoryPages({story: storyId, _publicationState: PUBLISH_STATES.preview}));
 	}, [dispatch, storyId]);
 
 	useEffect(() => {
@@ -115,6 +115,7 @@ export default function StoryWritter() {
 			<Writter
 				className={CLASS}
 				currentEditing={current}
+				published={story?.published_at}
 				onCurrentChanged={handleCurrent}
 				onStoryPage={handleStoryPage}
 				op={op}

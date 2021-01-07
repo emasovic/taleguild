@@ -2,7 +2,7 @@ import React, {useEffect, useState, useCallback} from 'react';
 import {useSelector, shallowEqual, useDispatch} from 'react-redux';
 import propTypes from 'prop-types';
 
-import {DEFAULT_CRITERIA, STORY_OP, STORY_COMPONENTS} from 'types/story';
+import {DEFAULT_CRITERIA, STORY_OP, STORY_COMPONENTS, PUBLISH_STATES} from 'types/story';
 
 import {selectStories, loadStories, deleteStory} from 'redux/draft_stories';
 import {loggedUserId} from 'redux/user';
@@ -45,7 +45,12 @@ export default function DraftStories({shouldLoadMore, Component}) {
 
 	useEffect(() => {
 		if (userId) {
-			setCriteria({...DEFAULT_CRITERIA, published: false, user: userId});
+			setCriteria({
+				...DEFAULT_CRITERIA,
+				_publicationState: PUBLISH_STATES.preview,
+				published_at_null: true,
+				user: userId,
+			});
 		}
 	}, [userId]);
 
@@ -67,7 +72,7 @@ export default function DraftStories({shouldLoadMore, Component}) {
 						description={item.description}
 						key={item.id}
 						onDeleteStory={handleDeleteStory}
-						createdDate={item.created_at}
+						createdDate={item.published_at}
 						storypages={item.storypages}
 						slug={item.slug}
 						// author={item.user}

@@ -6,7 +6,7 @@ import {STORY_PAGE_OP} from 'types/story_page';
 import TextEditor from 'components/widgets/text-editor/TextEditor';
 import Loader from 'components/widgets/loader/Loader';
 
-export default function Writter({className, onCurrentChanged, currentEditing, onStoryPage, op}) {
+export default function Writter({className, onCurrentChanged, currentEditing, onStoryPage, published, op}) {
 	const editorRef = useRef(null);
 
 	const scrollToBottom = () => {
@@ -36,7 +36,7 @@ export default function Writter({className, onCurrentChanged, currentEditing, on
 		};
 
 		onCurrentChanged(currnet);
-		_onStoryPage(currnet.id, val);
+		!published && _onStoryPage(currnet.id, val);
 	};
 
 	if (!currentEditing || op === STORY_PAGE_OP.create) {

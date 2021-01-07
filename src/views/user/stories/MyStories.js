@@ -39,7 +39,7 @@ export default function MyStories({Component}) {
 
 	useEffect(() => {
 		if (data) {
-			setCriteria({...DEFAULT_CRITERIA, 'user': data && data.id});
+			setCriteria({...DEFAULT_CRITERIA, user: data && data.id});
 		}
 	}, [data]);
 
@@ -64,7 +64,7 @@ export default function MyStories({Component}) {
 						comments={item.comments}
 						storypages={item.storypages}
 						author={item.user}
-						createdDate={item.created_at}
+						createdDate={item.published_at}
 						savedBy={item.saved_by}
 						slug={item.slug}
 					/>

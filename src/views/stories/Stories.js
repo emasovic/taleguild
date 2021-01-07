@@ -23,7 +23,7 @@ import './Stories.scss';
 const CLASS = 'st-Stories';
 
 const SORT = {
-	created_at: 'created_at',
+	published_at: 'published_at',
 	likes_count: 'likes_count',
 };
 
@@ -55,12 +55,12 @@ function Stories({criteria}) {
 		}
 	}, [criteria, dispatch]);
 
-	const activeSort = SORT[criteria?._sort] || SORT.created_at;
+	const activeSort = SORT[criteria?._sort] || SORT.published_at;
 
 	const nav = (
 		<Nav className={CLASS + '-header'}>
-			<NavItem href="#" onClick={() => sortStories(SORT.created_at)}>
-				<NavLink active={activeSort === SORT.created_at}>Recent stories</NavLink>
+			<NavItem href="#" onClick={() => sortStories(SORT.published_at)}>
+				<NavLink active={activeSort === SORT.published_at}>Recent stories</NavLink>
 			</NavItem>
 			<NavItem href="#" onClick={() => sortStories(SORT.likes_count)}>
 				<NavLink active={activeSort === SORT.likes_count}>Popular stories</NavLink>
@@ -85,7 +85,7 @@ function Stories({criteria}) {
 						comments={item.comments}
 						storypages={item.storypages}
 						author={item.user}
-						createdDate={item.created_at}
+						createdDate={item.published_at}
 						savedBy={item.saved_by}
 						slug={item.slug}
 					/>
@@ -131,7 +131,11 @@ const MemoizedStories = ({criteria}) => {
 	const location = useLocation();
 	const query = queryString.parse(location.search);
 
-	return <Stories criteria={{...criteria, ...query}} />;
+	const newCriteria = {...criteria, ...query};
+
+	delete newCriteria.fbclid;
+
+	return <Stories criteria={newCriteria} />;
 };
 
 export default MemoizedStories;

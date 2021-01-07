@@ -52,15 +52,15 @@ export default function Login() {
 
 			<Link to={FORGOT_PASSWORD}>Forgot password?</Link>
 
-			<IconButton loading={op}>Sign in</IconButton>
+			<IconButton loading={!!op}>Sign in</IconButton>
 
 			<span className={CLASS + '-divider'}>OR</span>
 
-			<BrandButton loading={op} color={COLOR.secondary} brand={BRAND.google}>
+			<BrandButton loading={!!op} color={COLOR.secondary} brand={BRAND.google}>
 				Sign in with Google
 			</BrandButton>
 
-			<BrandButton loading={op} color={COLOR.secondary} brand={BRAND.facebook}>
+			<BrandButton loading={!!op} color={COLOR.secondary} brand={BRAND.facebook}>
 				Sign in with Facebook
 			</BrandButton>
 

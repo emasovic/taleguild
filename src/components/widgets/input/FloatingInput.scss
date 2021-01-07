@@ -18,9 +18,18 @@
 		@include theme-aware('color', 'story-item-username-color');
 		@include theme-aware('border', 'story-item-border');
 
-		&:hover, &:focus {
+		&:hover,
+		&:focus {
 			border-color: $color-primary;
 		}
+
+		&.is-invalid {
+			border: 1px solid $color-secondary-red;
+		}
+	}
+
+	.invalid-feedback {
+		color: $color-secondary-red;
 	}
 
 	textarea {

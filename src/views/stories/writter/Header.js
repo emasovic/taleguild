@@ -1,16 +1,16 @@
 import React, {useState, useEffect, useCallback} from 'react';
-import {useDispatch, useSelector, shallowEqual} from 'react-redux';
+import {Form} from 'reactstrap';
+import {useSelector, shallowEqual} from 'react-redux';
 import debounce from 'lodash/debounce';
 import {DropdownItem} from 'reactstrap';
+import moment from 'moment';
 
-import {Toast} from 'types/toast';
 import {COLOR} from 'types/button';
 import {STORY_PAGE_OP} from 'types/story_page';
 import {TYPOGRAPHY_LATO} from 'types/typography';
 import FA from 'types/font_awesome';
 
 import {selectUser} from 'redux/user';
-import {addToast} from 'redux/toast';
 
 import CategoryPicker from 'components/widgets/pickers/category/CategoryPicker';
 import DropdownButton from 'components/widgets/button/DropdownButton';
@@ -23,6 +23,13 @@ import Loader from 'components/widgets/loader/Loader';
 import StoryPagePicker from '../widgets/page-picker/StoryPagePicker';
 import StoryItem from '../StoryItem';
 import LanguagePicker from 'components/widgets/pickers/language/LanguagePicker';
+
+const ERRORS = {
+	TITLE: 'TITLE',
+	CATEGORIES: 'CATEGORIES',
+	DESCRIPTION: 'DESCRIPTION',
+	LANGUAGE: 'LANGUAGE',
+};
 
 export default function Header({
 	className,
@@ -37,8 +44,6 @@ export default function Header({
 	onCreateOrUpdateStory,
 	story,
 }) {
-	const dispatch = useDispatch();
-
 	const {user} = useSelector(
 		state => ({
 			user: selectUser(state),
@@ -58,19 +63,26 @@ export default function Header({
 	const [isDeleteStoryOpen, setIsDeleteStoryOpen] = useState(false);
 	const [isDeleteStoryPageOpen, setIsDeleteStoryPageOpen] = useState(false);
 	const [isPreviewStoryOpen, setIsPreviewStoryOpen] = useState(false);
+	const [errors, setErrors] = useState({});
 
 	const validate = () => {
-		const errors = [];
+		const hasErrors = new Map();
 
-		title.length <= 3 && errors.push('Title too short. \n');
-		!categories.length && errors.push('You didnt pick category.');
-		categories.length > 3 && errors.push('You can pick maximum 3 categories.');
-		!language && errors.push('You didnt pick language.');
-		description.length <= 3 && errors.push('Description too short. \n');
-		description.length >= 200 && errors.push('Description too long. \n');
+		title.length <= 3 && hasErrors.set(ERRORS.TITLE, 'Title too short.');
 
-		if (errors.length) {
-			return dispatch(addToast(Toast.error(errors)));
+		!categories?.length && hasErrors.set(ERRORS.CATEGORIES, `You didn't pick category.`);
+
+		categories?.length > 3 &&
+			hasErrors.set(ERRORS.CATEGORIES, 'You can pick maximum 3 categories.');
+
+		!language && hasErrors.set(ERRORS.LANGUAGE, `You didn't pick language.`);
+
+		description.length <= 3 && hasErrors.set(ERRORS.DESCRIPTION, 'Description too short.');
+
+		description.length >= 200 && hasErrors.set(ERRORS.DESCRIPTION, 'Description too long.');
+
+		if (hasErrors.size) {
+			return setErrors(Object.fromEntries(hasErrors));
 		}
 
 		return true;
@@ -81,12 +93,12 @@ export default function Header({
 			const payload = {
 				id: story && story.id,
 				title,
-				published: true,
 				image: image && image.id,
 				user: data && data.id,
 				description,
 				categories: categories.length && categories.map(item => item.value),
 				language: language && language.value,
+				published_at: !published ? moment() : undefined,
 			};
 			onCreateOrUpdateStory(payload);
 		}
@@ -139,12 +151,14 @@ export default function Header({
 
 	const renderContent = () => {
 		return (
-			<>
+			<Form onSubmit={create}>
 				<FloatingInput
 					placeholder="Type title of your story here..."
 					label="Title of story"
 					value={title}
 					onChange={val => setTitle(val)}
+					errorMessage={errors[ERRORS.TITLE]}
+					invalid={!!errors[ERRORS.TITLE]}
 				/>
 				<CategoryPicker
 					placeholder="Pick categories"
@@ -152,12 +166,16 @@ export default function Header({
 					isMulti
 					onChange={setCategories}
 					value={categories}
+					errorMessage={errors[ERRORS.CATEGORIES]}
+					invalid={!!errors[ERRORS.CATEGORIES]}
 				/>
 				<LanguagePicker
 					placeholder="Pick language"
 					label="Language"
 					onChange={setLanguage}
 					value={language}
+					errorMessage={errors[ERRORS.LANGUAGE]}
+					invalid={!!errors[ERRORS.LANGUAGE]}
 				/>
 				<FloatingInput
 					rows={5}
@@ -166,6 +184,8 @@ export default function Header({
 					value={description}
 					placeholder="Type description of your story here..."
 					onChange={val => setDescription(val)}
+					errorMessage={errors[ERRORS.DESCRIPTION]}
+					invalid={!!errors[ERRORS.DESCRIPTION]}
 				/>
 				<Uploader
 					onUploaded={setImage}
@@ -173,28 +193,22 @@ export default function Header({
 					onRemove={() => setImage(null)}
 					files={image}
 				/>
-			</>
+			</Form>
 		);
 	};
 
 	useEffect(() => {
 		if (story) {
-			setTitle(story.title || '');
-			setDescription(story.description || '');
+			story.title && setTitle(story.title);
+			story.description && setDescription(story.description);
 			setCategories(
 				story.categories.map(item => ({label: item.display_name, value: item.id}))
 			);
 			setImage(story.image);
-			setPublished(story.published || false);
+			setPublished(story.published_at);
 			story.language && setLanguage({value: story.language.id, label: story.language.name});
 		}
 	}, [story]);
-
-	useEffect(() => {
-		if (published) {
-			onCreateOrUpdateStory({id: story && story.id, published: false}, false);
-		}
-	}, [onCreateOrUpdateStory, story, published]);
 
 	if (!story) {
 		return <Loader />;
@@ -286,7 +300,10 @@ export default function Header({
 				<ConfirmModal
 					isOpen={isPreviewStoryOpen}
 					onClose={togglePreviewStoryModal}
-					onSubmit={create}
+					onSubmit={() => {
+						togglePublishStoryModal();
+						togglePreviewStoryModal();
+					}}
 					content={renderPreviewContent()}
 					title="Preview"
 					renderFooter
