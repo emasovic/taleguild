@@ -10,7 +10,7 @@ import {gotSaved, removeSaved} from './story';
 
 const savedStoriesAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
-	sortComparer: (a, b) => b.published_at.localeCompare(a.published_at),
+	sortComparer: (a, b) => b.created_at.localeCompare(a.created_at),
 });
 
 export const savedStorySlice = createSlice({
