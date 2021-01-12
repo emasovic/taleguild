@@ -5,7 +5,7 @@ import queryString from 'query-string';
 import {useLocation} from 'react-router-dom';
 import propTypes from 'prop-types';
 
-import {DEFAULT_CRITERIA, STORY_OP, STORY_SORT} from 'types/story';
+import {DEFAULT_CRITERIA, SORT_DIRECTION, STORY_OP, STORY_SORT} from 'types/story';
 import {MEDIA_SIZE} from 'types/media';
 
 import {loadStories, selectStories} from '../../redux/story';
@@ -20,10 +20,9 @@ import NoStories from './NoStories';
 import './Stories.scss';
 
 const CLASS = 'st-Stories';
-function Stories({criteria}) {
+function Stories({criteria, activeSort}) {
 	const dispatch = useDispatch();
 	const location = useLocation();
-	const activeSort = STORY_SORT[criteria?._sort] || STORY_SORT.published_at;
 
 	const {stories, op, pages} = useSelector(
 		state => ({
@@ -36,7 +35,8 @@ function Stories({criteria}) {
 
 	const [currentPage, setCurrentPage] = useState(1);
 
-	const sortStories = sort => dispatch(navigateToQuery({_sort: sort}, location));
+	const sortStories = sort =>
+		dispatch(navigateToQuery({_sort: sort + ':' + SORT_DIRECTION.desc}, location));
 
 	const handleCount = useCallback(() => {
 		const loadMoreCriteria = {...criteria, _start: currentPage * 10};
@@ -53,10 +53,14 @@ function Stories({criteria}) {
 	const nav = (
 		<Nav className={CLASS + '-header'}>
 			<NavItem href="#" onClick={() => sortStories(STORY_SORT.published_at)}>
-				<NavLink active={activeSort === STORY_SORT.published_at}>Recent stories</NavLink>
+				<NavLink active={activeSort.includes(STORY_SORT.published_at)}>
+					Recent stories
+				</NavLink>
 			</NavItem>
 			<NavItem href="#" onClick={() => sortStories(STORY_SORT.likes_count)}>
-				<NavLink active={activeSort === STORY_SORT.likes_count}>Popular stories</NavLink>
+				<NavLink active={activeSort.includes(STORY_SORT.likes_count)}>
+					Popular stories
+				</NavLink>
 			</NavItem>
 		</Nav>
 	);
@@ -125,9 +129,13 @@ const MemoizedStories = ({criteria}) => {
 
 	const newCriteria = {...criteria, ...query};
 
+	const activeSort = newCriteria._sort
+		? newCriteria._sort.split(':')[0]
+		: STORY_SORT.published_at;
+
 	delete newCriteria.fbclid;
 
-	return <Stories criteria={newCriteria} />;
+	return <Stories criteria={newCriteria} activeSort={activeSort} />;
 };
 
 export default MemoizedStories;

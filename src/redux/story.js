@@ -246,6 +246,7 @@ const storySelector = storyAdapter.getSelectors(state => state.stories);
 
 export const selectStories = (state, sort = STORY_SORT.created_at) => {
 	let stories = storySelector.selectAll(state);
+
 	stories = stories.length ? orderBy(stories, [sort], [SORT_DIRECTION.desc]) : stories;
 
 	return stories;
