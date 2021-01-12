@@ -35,6 +35,17 @@ export const STORY_OP = {
 	deleting_storypage: 'deleting_storypage',
 };
 
+export const STORY_SORT = {
+	published_at: 'published_at',
+	likes_count: 'likes_count',
+	created_at: 'created_at',
+};
+
+export const SORT_DIRECTION = {
+	asc: 'asc',
+	desc: 'desc',
+};
+
 export const getIdFromSlug = slug => {
 	const splited = slug.split('-');
 	const id = splited[splited.length - 1];
