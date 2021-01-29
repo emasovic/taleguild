@@ -9,7 +9,7 @@ import {
 	loadSavedStories,
 	createOrDeleteSavedStory,
 } from 'redux/saved_stories';
-import {loggedUserId} from 'redux/user';
+import {selectUserId} from 'redux/user';
 
 import Loader from 'components/widgets/loader/Loader';
 import LoadMore from 'components/widgets/loadmore/LoadMore';
@@ -26,7 +26,7 @@ export default function SavedStories({shouldLoadMore, Component}) {
 			savedStories: selectUserSavedStories(state),
 			op: state.saved_stories.op,
 			pages: state.saved_stories.pages,
-			userId: loggedUserId(state),
+			userId: selectUserId(state),
 		}),
 		shallowEqual
 	);

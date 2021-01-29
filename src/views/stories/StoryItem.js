@@ -38,6 +38,7 @@ export default function StoryItem({
 	title,
 	categories,
 	likes,
+	views,
 	comments,
 	author,
 	createdDate,
@@ -310,6 +311,7 @@ export default function StoryItem({
 								{comments.length} comments
 							</span>
 						)}
+						{views && <span>{views.length} views</span>}
 					</div>
 
 					{savedBy && (

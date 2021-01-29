@@ -5,7 +5,7 @@ import propTypes from 'prop-types';
 import {DEFAULT_CRITERIA, STORY_OP, STORY_COMPONENTS, PUBLISH_STATES} from 'types/story';
 
 import {selectStories, loadStories, deleteStory} from 'redux/draft_stories';
-import {loggedUserId} from 'redux/user';
+import {selectUserId} from 'redux/user';
 
 import NoStories from 'views/stories/NoStories';
 import Loader from 'components/widgets/loader/Loader';
@@ -22,7 +22,7 @@ export default function DraftStories({shouldLoadMore, Component}) {
 			drafts: selectStories(state),
 			op: state.draft_stories.op,
 			pages: state.draft_stories.pages,
-			userId: loggedUserId(state),
+			userId: selectUserId(state),
 		}),
 		shallowEqual
 	);

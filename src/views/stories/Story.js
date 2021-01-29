@@ -7,8 +7,8 @@ import {goToStory} from 'lib/routes';
 
 import {getIdFromSlug} from 'types/story';
 
-import {loadStory, selectStory} from 'redux/story';
-import {selectUser} from 'redux/user';
+import {createOrUpdateViews, loadStory, selectStory} from 'redux/story';
+import {selectUserId} from 'redux/user';
 
 import TextViewer from 'components/widgets/text-editor/TextViewer';
 import Loader from 'components/widgets/loader/Loader';
@@ -28,18 +28,13 @@ export default function Story() {
 
 	const id = getIdFromSlug(slug);
 
-	const {story, loggedUser} = useSelector(
+	const {story, userId} = useSelector(
 		state => ({
 			story: selectStory(state, id),
-
-			loggedUser: selectUser(state),
+			userId: selectUserId(state),
 		}),
 		shallowEqual
 	);
-
-	const {data} = loggedUser;
-
-	const loggedUserId = data && data.id;
 
 	const [activePage, setActivePage] = useState(0);
 
@@ -49,6 +44,10 @@ export default function Story() {
 		setActivePage(page);
 		scrollToStory();
 	};
+
+	useEffect(() => {
+		dispatch(createOrUpdateViews(id, userId));
+	}, [dispatch, id, userId]);
 
 	useEffect(() => {
 		dispatch(loadStory(id));
@@ -69,7 +68,7 @@ export default function Story() {
 		);
 	}
 
-	if (!story.published_at && story.user?.id !== loggedUserId) {
+	if (!story.published_at && story.user?.id !== userId) {
 		return <NotFound />;
 	}
 
@@ -78,7 +77,7 @@ export default function Story() {
 		storypages && storypages.length
 			? orderBy(
 					storypages.map(item => ({...item, text: JSON.parse(item.text)})),
-					['published_at'],
+					['created_at'],
 					['asc']
 			  )
 			: [];
@@ -95,6 +94,7 @@ export default function Story() {
 				likes={story.likes}
 				comments={story.comments}
 				storypages={story.storypages}
+				views={story.views}
 				author={story.user}
 				createdDate={story.published_at}
 				savedBy={story.saved_by}

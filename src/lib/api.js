@@ -140,6 +140,13 @@ export const deleteLike = (id) => {
 	return http.del('likes/' + id);
 };
 
+/******************      VIEWS        ***********************/
+
+export const createOrUpdateViews = payload => {
+	return http.post('views', null, payload);
+};
+
+
 /******************      FOLLOWERS        ***********************/
 
 export const getFollowers = filter => {

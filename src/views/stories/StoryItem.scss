@@ -192,8 +192,10 @@
 
 			&-left {
 				span {
-					&:first-child {
-						margin-right: 24px;
+					margin-right: 24px;
+
+					&:last-child {
+						margin-right: 0;
 					}
 				}
 			}

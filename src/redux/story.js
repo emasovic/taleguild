@@ -207,6 +207,19 @@ export const loadStory = id => async dispatch => {
 	dispatch(storyUpsert(res));
 };
 
+export const createOrUpdateViews = (id, userId) => async dispatch => {
+	dispatch(opStart());
+
+	const res = await api.createOrUpdateViews({storyId: id, userAgent: navigator.userAgent, userId});
+	if (res.error) {
+		dispatch(opEnd());
+		return dispatch(newToast({...Toast.error(res.error)}));
+	}
+
+	// dispatch(removeComment({storyId: payload.story, commentId: payload.id}));
+	return dispatch(opEnd());
+};
+
 export const createOrDeleteComment = payload => async (dispatch, getState) => {
 	dispatch(opStart());
 

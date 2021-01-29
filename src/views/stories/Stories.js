@@ -79,6 +79,7 @@ function Stories({criteria, activeSort}) {
 						key={item.id}
 						categories={item.categories}
 						likes={item.likes}
+						views={item.views}
 						comments={item.comments}
 						storypages={item.storypages}
 						author={item.user}

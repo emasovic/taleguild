@@ -178,6 +178,6 @@ export const providerLogin = (provider, token) => async (dispatch, getState, his
 
 export const selectUser = state => state.user;
 
-export const loggedUserId = state => state.user.data && state.user.data.id;
+export const selectUserId = state => state.user.data && state.user.data.id;
 
 export default userSlice.reducer;
