@@ -72,14 +72,13 @@ export const registerUser = payload => async (dispatch, getState, history) => {
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
 
-	history.push(REGISTRATION_SUCCESS);
+	const {jwt, user} = res;
+	const {saved_stories, ...rest} = user;
 
-	dispatch(
-		newToast({
-			...Toast.success('Thank you for registring, check your email for confirmation link!'),
-		})
-	);
-	dispatch(opEnd());
+	localStorage.setItem('token', res.jwt);
+
+	dispatch(gotData({jwt, ...rest}));
+	history.push(HOME);
 };
 
 export const logOutUser = () => dispatch => {
