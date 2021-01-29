@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 import * as api from '../lib/api';
-import {HOME, REGISTRATION_SUCCESS, WELCOME} from 'lib/routes';
+import {HOME, WELCOME} from 'lib/routes';
 
 import {newToast} from './toast';
 import {Toast} from 'types/toast';

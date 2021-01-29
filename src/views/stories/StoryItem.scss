@@ -180,11 +180,12 @@
 		&-stats {
 			display: flex;
 			justify-content: space-between;
-			cursor: pointer;
 			@include theme-aware('color', 'story-item-stats-color');
 			// margin: 8px 0;
 
 			span {
+				cursor: pointer;
+
 				&:hover {
 					text-decoration: underline;
 				}
@@ -196,6 +197,8 @@
 
 					&:last-child {
 						margin-right: 0;
+						text-decoration: none;
+						cursor: alias;
 					}
 				}
 			}
