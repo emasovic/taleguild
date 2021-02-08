@@ -13,6 +13,8 @@ import {selectUserId} from 'redux/user';
 import TextViewer from 'components/widgets/text-editor/TextViewer';
 import Loader from 'components/widgets/loader/Loader';
 import Pages from 'components/widgets/pagination/Pagination';
+import Helmet from 'components/widgets/helmet/Helmet';
+
 import StoryItem from './StoryItem';
 import NotFound from 'NotFound';
 
@@ -84,6 +86,7 @@ export default function Story() {
 
 	return (
 		<div className={CLASS} ref={viewerRef}>
+			<Helmet title={story.title} description={story.description} />
 			<StoryItem
 				id={story.id}
 				image={story.image}

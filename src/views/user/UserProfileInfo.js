@@ -7,6 +7,7 @@ import {selectUser as selectLoggedUser} from 'redux/user';
 import {selectFollowers, createOrDeleteFollower} from 'redux/followers';
 
 import IconButton from 'components/widgets/button/IconButton';
+import Helmet from 'components/widgets/helmet/Helmet';
 
 import Followers from './followers/Followers';
 import FollowedBy from './followers/Following';
@@ -42,6 +43,7 @@ export default function UserProfileInfo({user, className}) {
 	};
 
 	const label = follower ? 'Unfollow' : 'Follow';
+	const displayName = display_name || username;
 
 	const info = (
 		<>
@@ -67,10 +69,11 @@ export default function UserProfileInfo({user, className}) {
 
 	return (
 		<div className={className + '-user'}>
+			<Helmet title={displayName} description={description} />
 			<UserAvatar user={user} />
 			<div className={className + '-user-info'}>
 				<div className={className + '-user-info-description'}>
-					<span>{display_name || username}</span>
+					<span>{displayName}</span>
 					<span>{description}</span>
 				</div>
 
