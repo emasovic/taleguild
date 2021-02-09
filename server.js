@@ -2,10 +2,10 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 
-const {renderToString} = require('react-dom/server');
 const React = require('react');
 const {Helmet} = require('react-helmet');
 const {StaticRouter} = require('react-router-dom');
+const {renderToString} = require('react-dom/server');
 
 const PORT = process.env.PORT || 5000;
 
@@ -21,11 +21,11 @@ app.get('/*', function(req, res) {
 			return console.log(err);
 		}
 
-		let context = {};
-		let html = renderToString(
+		const context = {};
+		const html = renderToString(
 			React.createElement(StaticRouter, {
 				location: req.url,
-				context: context,
+				context,
 			})
 		);
 		const helmet = Helmet.renderStatic();

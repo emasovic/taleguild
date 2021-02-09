@@ -86,7 +86,7 @@ export default function Story() {
 
 	return (
 		<div className={CLASS} ref={viewerRef}>
-			<Helmet title={story.title} description={story.description} />
+			<Helmet title={story.title} description={story.description} image={story.image}/>
 			<StoryItem
 				id={story.id}
 				image={story.image}

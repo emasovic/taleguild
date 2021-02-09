@@ -35,7 +35,6 @@ Image.propTypes = {
 	alt: PropTypes.string,
 	formats: PropTypes.object,
 	size: PropTypes.string,
-	// getColors: PropTypes.func,
 };
 
 Image.defaultProps = {

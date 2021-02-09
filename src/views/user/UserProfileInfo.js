@@ -69,7 +69,7 @@ export default function UserProfileInfo({user, className}) {
 
 	return (
 		<div className={className + '-user'}>
-			<Helmet title={displayName} description={description} />
+			<Helmet title={displayName} description={description} image={user.avatar} />
 			<UserAvatar user={user} />
 			<div className={className + '-user-info'}>
 				<div className={className + '-user-info-description'}>
