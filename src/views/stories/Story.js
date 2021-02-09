@@ -18,6 +18,8 @@ import Helmet from 'components/widgets/helmet/Helmet';
 import StoryItem from './StoryItem';
 import NotFound from 'NotFound';
 
+import defaultUrl from 'images/default-story-share.png';
+
 import './Story.scss';
 
 const CLASS = 'st-Story';
@@ -86,7 +88,12 @@ export default function Story() {
 
 	return (
 		<div className={CLASS} ref={viewerRef}>
-			<Helmet title={story.title} description={story.description} image={story.image}/>
+			<Helmet
+				title={story.title}
+				description={story.description}
+				image={story.image}
+				imageUrl={defaultUrl}
+			/>
 			<StoryItem
 				id={story.id}
 				image={story.image}
