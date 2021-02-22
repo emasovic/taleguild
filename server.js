@@ -113,11 +113,11 @@ app.get('/', function(req, res) {
 		}
 
 		data = data
+			.replace(/__TITLE__/g, 'Taleguild | Discover the Place with Top Writers')
 			.replace(
-				/__TITLE__/g,
-				'Taleguild | Social Network for Short Stories Writers & Essayists'
+				/__DESCRIPTION__/g,
+				'Taleguild is the place where writers publish their work, gain inspiration, feedback, and community, and is your best place to discover and connect with writers worldwide.'
 			)
-			.replace(/__DESCRIPTION__/g, 'Social Network of Short Story Writers & Essayists')
 			.replace(/__IMAGE_URL__/g, DEFAULT_IMAGE_URL);
 
 		res.send(data);
@@ -133,11 +133,11 @@ app.get('/*', function(req, res) {
 		}
 
 		data = data
+			.replace(/__TITLE__/g, 'Taleguild | Discover the Place with Top Writers')
 			.replace(
-				/__TITLE__/g,
-				'Taleguild | Social Network for Short Stories Writers & Essayists'
+				/__DESCRIPTION__/g,
+				'Taleguild is the place where writers publish their work, gain inspiration, feedback, and community, and is your best place to discover and connect with writers worldwide.'
 			)
-			.replace(/__DESCRIPTION__/g, 'Social Network of Short Story Writers & Essayists')
 			.replace(/__IMAGE_URL__/g, DEFAULT_IMAGE_URL);
 
 		res.send(data);
