@@ -10,14 +10,14 @@ import './UserAvatar.scss';
 
 const CLASS = 'st-UserAvatar';
 
-export default function UserAvatar({user}) {
+export default function UserAvatar({user, onClick}) {
 	if (!user) {
 		return null;
 	}
 	const {avatar, username} = user;
 
 	return (
-		<div className={CLASS}>
+		<div className={CLASS} onClick={onClick}>
 			{avatar ? (
 				<Image
 					image={avatar}
@@ -33,4 +33,5 @@ export default function UserAvatar({user}) {
 
 UserAvatar.propTypes = {
 	user: propTypes.object,
+	onClick: propTypes.func,
 };

@@ -132,5 +132,6 @@
 			}
 		],
 		"no-missing-end-of-source-newline": true
-	}
+	},
+	"ignoreFiles": ["**/*.js"]
 }
