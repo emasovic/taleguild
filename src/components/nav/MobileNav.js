@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
-import {Nav, NavItem, NavLink} from 'reactstrap';
+import {Nav, NavItem, NavLink, Navbar} from 'reactstrap';
 import {useLocation} from 'react-router-dom';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {useDispatch, useSelector} from 'react-redux';
-import {logOutUser, selectUser} from 'redux/user';
+
 import {
 	FEED,
 	goToUser,
@@ -14,14 +14,20 @@ import {
 	USER_STORIES_DRAFTS,
 	USER_STORIES_SAVED,
 } from 'lib/routes';
+
 import FA from 'types/font_awesome';
-import {ReactComponent as Logo} from 'images/taleguild-logo.svg';
+import {TYPOGRAPHY_LATO, TYPOGRAPHY_MERRI} from 'types/typography';
+import {COLOR} from 'types/button';
+
+import {logOutUser, selectUser} from 'redux/user';
+
 import UserAvatar from 'views/user/UserAvatar';
+
 import Backdrop from 'components/widgets/drawer/Backdrop';
 import SideDrawer from 'components/widgets/drawer/SideDrawer';
+import IconButton from 'components/widgets/button/IconButton';
 
 import './MobileNav.scss';
-import {TYPOGRAPHY_LATO, TYPOGRAPHY_MERRI} from 'types/typography';
 
 const CLASS = 'st-MobileNav';
 
@@ -80,11 +86,6 @@ export default function MobileNav() {
 	return (
 		<>
 			<Nav className={CLASS}>
-				<NavItem>
-					<NavLink href={HOME}>
-						<Logo width="30" height="30" />
-					</NavLink>
-				</NavItem>
 				{data ? (
 					<>
 						<NavItem>
@@ -103,19 +104,17 @@ export default function MobileNav() {
 						</NavItem>
 					</>
 				) : (
-					<>
+					<Navbar>
 						<NavItem>
-							<NavLink href={LOGIN} active={location.pathname === LOGIN}>
-								<FontAwesomeIcon size="lg" icon={FA.solid_home} />
-							</NavLink>
+							<IconButton color={COLOR.secondary} href={LOGIN}>
+								Sign in
+							</IconButton>
 						</NavItem>
 
 						<NavItem>
-							<NavLink href={REGISTER} active={location.pathname === REGISTER}>
-								<FontAwesomeIcon size="lg" icon={FA.compass} />
-							</NavLink>
+							<IconButton href={REGISTER}>Sign up</IconButton>
 						</NavItem>
-					</>
+					</Navbar>
 				)}
 			</Nav>
 			{data && (

@@ -13,6 +13,18 @@
 
 	@include theme-aware('background', 'body-background');
 
+	.navbar {
+		width: 100%;
+
+		.nav-item {
+			flex: 1;
+
+			&:first-child {
+				margin-right: 12px;
+			}
+		}
+	}
+
 	&-user {
 		padding: 24px;
 		display: flex;
