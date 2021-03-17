@@ -1,0 +1,76 @@
+@import 'styles/variables.scss';
+@import 'styles/themes/mixins.scss';
+
+.st-MobileNav {
+	position: fixed;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 1030;
+	width: 100%;
+	justify-content: space-around;
+	padding: 6px;
+
+	@include theme-aware('background', 'body-background');
+
+	.navbar {
+		width: 100%;
+
+		.nav-item {
+			flex: 1;
+
+			&:first-child {
+				margin-right: 12px;
+			}
+		}
+	}
+
+	&-user {
+		padding: 24px;
+		display: flex;
+		flex-direction: column;
+		border-bottom: 1px solid;
+
+		.st-UserAvatar {
+			margin-bottom: 12px;
+		}
+
+		.placeholder-18-black {
+			margin-bottom: 6px;
+		}
+
+		@include theme-aware('border-color', 'story-pagepicker-background-hover');
+	}
+
+	&-items {
+		display: flex;
+		justify-content: space-between;
+		flex-direction: column;
+		height: calc(100% - 162px);
+
+		.fa-user,
+		.fa-align-left,
+		.fa-cog,
+		.fa-bookmark,
+		.fa-sign-out-alt {
+			margin-right: 20px;
+			color: $color-primary;
+		}
+
+		.nav-link {
+			padding: 12px 22px;
+			border-bottom: 1px solid;
+			@include theme-aware('color', 'story-pagepicker-color');
+			@include theme-aware('border-color', 'story-pagepicker-background-hover');
+
+			&:nth-child(3) {
+				border-bottom: none;
+			}
+
+			&:last-child {
+				border-top: 1px solid;
+				@include theme-aware('border-color', 'story-pagepicker-background-hover');
+			}
+		}
+	}
+}
