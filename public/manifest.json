@@ -8,13 +8,13 @@
       "type": "image/x-icon"
     },
     {
-      "src": "taleguild-logo.png",
+      "src": "logo192x192.png",
       "type": "image/png",
       "sizes": "192x192",
       "purpose": "any maskable"
     },
     {
-      "src": "taleguild-logo.png",
+      "src": "logo512x512.png",
       "type": "image/png",
       "sizes": "512x512",
       "purpose": "any maskable"
