@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
+import {HelmetProvider} from 'react-helmet-async';
 
 import {THEMES} from 'types/themes';
 
@@ -24,8 +25,10 @@ store.dispatch(initialize());
 ReactDOM.render(
 	<React.StrictMode>
 		<Provider store={store}>
-			<App />
-			<Toasts />
+			<HelmetProvider>
+				<App />
+				<Toasts />
+			</HelmetProvider>
 		</Provider>
 	</React.StrictMode>,
 	document.getElementById('root')

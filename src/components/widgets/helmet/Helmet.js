@@ -1,5 +1,5 @@
 import React from 'react';
-import {Helmet as Rhelmet} from 'react-helmet';
+import {Helmet as Rhelmet} from 'react-helmet-async';
 
 export default function Helmet({title, description, imageUrl, image}) {
 	if (image) {
