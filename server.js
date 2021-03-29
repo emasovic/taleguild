@@ -15,7 +15,7 @@ const filePath = path.resolve(__dirname, 'build', 'index.html');
 
 app.use(express.static(path.resolve(__dirname, 'build')));
 
-app.get('/*', function(req, res) {
+app.get('*', function(req, res) {
 	fs.readFile(filePath, 'utf8', (err, data) => {
 		if (err) {
 			return console.log(err);

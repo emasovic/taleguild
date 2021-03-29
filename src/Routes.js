@@ -10,7 +10,6 @@ import PrivateRoute from 'PrivateRoute';
 import PublicRoute from 'PublicRoute';
 
 import Loader from 'components/widgets/loader/Loader';
-import Helmet from 'components/widgets/helmet/Helmet';
 
 const Home = lazy(() => import('views/Home'));
 const Explore = lazy(() => import('views/Explore'));
@@ -35,17 +34,10 @@ const DeletedStory = lazy(() => import('DeletedStory'));
 const Welcome = lazy(() => import('Welcome'));
 const RegistrationSuccess = lazy(() => import('RegistrationSuccess'));
 
-const DEFAULT_IMAGE_URL = `${process.env.PUBLIC_URL}/taleguild-share.png`;
-
 const Routes = () => (
 	<Router history={history}>
 		<Suspense fallback={<Loader />}>
 			<Nav />
-			<Helmet
-				title="Taleguild | Discover the Place with Top Writers"
-				description="Taleguild is the place where writers publish their work, gain inspiration, feedback, and community, and is your best place to discover and connect with writers worldwide."
-				imageUrl={DEFAULT_IMAGE_URL}
-			/>
 			<Switch>
 				<PrivateRoute path={routes.FEED} component={Home} />
 				<PrivateRoute path={routes.WRITE_STORY} component={StoryWritter} />
@@ -62,7 +54,7 @@ const Routes = () => (
 				<Route path={routes.PROVIDER_LOGIN} component={ProviderLogin} />
 				<PublicRoute path={routes.WELCOME} component={Welcome} />
 				<PublicRoute path={routes.REGISTRATION_SUCCESS} component={RegistrationSuccess} />
-				<Route path={routes.HOME} component={Explore} />
+				<Route exact path={routes.HOME} component={Explore} />
 				<Route path="*" component={NotFound} />
 			</Switch>
 		</Suspense>

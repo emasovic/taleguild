@@ -27,3 +27,7 @@ export default function Helmet({title, description, imageUrl, image}) {
 		</Rhelmet>
 	);
 }
+
+Helmet.defaultProps = {
+	imageUrl: `${process.env.PUBLIC_URL}/taleguild-share.png`,
+};
