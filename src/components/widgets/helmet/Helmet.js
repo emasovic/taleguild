@@ -4,6 +4,7 @@ import {Helmet as Rhelmet} from 'react-helmet';
 export default function Helmet({title, description}) {
 	return (
 		<Rhelmet title={title}>
+			<title>{title}</title>
 			<meta name="title" content={title} />
 			<meta name="description" content={description} />
 
