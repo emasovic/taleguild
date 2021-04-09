@@ -1,9 +1,10 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect, useMemo} from 'react';
 import {Form} from 'reactstrap';
 import {useSelector, shallowEqual} from 'react-redux';
 import debounce from 'lodash/debounce';
 import {DropdownItem} from 'reactstrap';
 import moment from 'moment';
+import PropTypes from 'prop-types';
 
 import {COLOR} from 'types/button';
 import {STORY_PAGE_OP} from 'types/story_page';
@@ -114,9 +115,9 @@ export default function Header({
 		onPageRemove();
 	};
 
-	const _onCreateOrUpdateStory = useCallback(
-		debounce((id, title) => onCreateOrUpdateStory({id, title}, false), 3000),
-		[]
+	const _onCreateOrUpdateStory = useMemo(
+		() => debounce((id, title) => onCreateOrUpdateStory({id, title}, false), 3000),
+		[onCreateOrUpdateStory]
 	);
 
 	const handleTitle = val => {
@@ -328,3 +329,17 @@ export default function Header({
 		</div>
 	);
 }
+
+Header.propTypes = {
+	className: PropTypes.string,
+	pages: PropTypes.array,
+	op: PropTypes.string,
+	currentEditing: PropTypes.object,
+	selectedPage: PropTypes.object,
+	onSelectedPage: PropTypes.func,
+	onPageRemove: PropTypes.func,
+	onStoryPage: PropTypes.func,
+	onStoryRemove: PropTypes.func,
+	onCreateOrUpdateStory: PropTypes.func,
+	story: PropTypes.object,
+};

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function Leaf({attributes, children, leaf}) {
 	if (leaf.bold) {
@@ -19,3 +20,9 @@ export default function Leaf({attributes, children, leaf}) {
 
 	return <span {...attributes}>{children}</span>;
 }
+
+Leaf.propTypes = {
+	attributes: PropTypes.object,
+	children: PropTypes.any,
+	leaf: PropTypes.object,
+};

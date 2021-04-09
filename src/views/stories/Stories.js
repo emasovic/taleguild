@@ -118,6 +118,7 @@ function Stories({criteria, activeSort}) {
 
 Stories.propTypes = {
 	criteria: propTypes.object,
+	activeSort: propTypes.string,
 };
 
 Stories.defaultProps = {
@@ -137,6 +138,10 @@ const MemoizedStories = ({criteria}) => {
 	delete newCriteria.fbclid;
 
 	return <Stories criteria={newCriteria} activeSort={activeSort} />;
+};
+
+MemoizedStories.propTypes = {
+	criteria: propTypes.object,
 };
 
 export default MemoizedStories;

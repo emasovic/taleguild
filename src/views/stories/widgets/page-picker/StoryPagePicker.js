@@ -68,6 +68,9 @@ export default function StoryPagePicker({onChange, value, pages, onNewPageClick,
 StoryPagePicker.propTypes = {
 	onChange: propTypes.func,
 	onNewPageClick: propTypes.func,
+	value: propTypes.number,
+	pages: propTypes.array,
+	data: propTypes.object
 };
 
 StoryPagePicker.defaultProps = {

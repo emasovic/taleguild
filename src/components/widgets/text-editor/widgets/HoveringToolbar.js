@@ -2,6 +2,7 @@ import React, {useRef, useEffect} from 'react';
 import {ReactEditor, useSlate} from 'slate-react';
 import {Editor} from 'slate';
 import {Range} from 'slate';
+import PropTypes from 'prop-types';
 
 import FA from 'types/font_awesome';
 
@@ -50,3 +51,7 @@ export default function HoveringToolbar({className}) {
 		</Portal>
 	);
 }
+
+HoveringToolbar.propTypes = {
+	className: PropTypes.string,
+};

@@ -1,6 +1,7 @@
 import React from 'react';
 import {useSlate} from 'slate-react';
 import {Editor, Transforms, Text} from 'slate';
+import PropTypes from 'prop-types';
 
 import IconButton from 'components/widgets/button/IconButton';
 
@@ -51,6 +52,11 @@ export const FormatButton = ({format, icon}) => {
 	);
 };
 
+FormatButton.propTypes = {
+	format: PropTypes.any,
+	icon: PropTypes.string,
+};
+
 export const BlockButton = ({format, icon}) => {
 	const editor = useSlate();
 	return (
@@ -63,4 +69,9 @@ export const BlockButton = ({format, icon}) => {
 			icon={icon}
 		/>
 	);
+};
+
+BlockButton.propTypes = {
+	format: PropTypes.any,
+	icon: PropTypes.string,
 };

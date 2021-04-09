@@ -1,5 +1,6 @@
 import React from 'react';
 import {useDispatch, useSelector, shallowEqual} from 'react-redux';
+import PropTypes from 'prop-types';
 
 import {COLOR} from 'types/button';
 
@@ -82,3 +83,8 @@ export default function UserProfileInfo({user, className}) {
 		</div>
 	);
 }
+
+UserProfileInfo.propTypes = {
+	user: PropTypes.object,
+	className: PropTypes.string,
+};

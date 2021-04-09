@@ -2,6 +2,7 @@ import React, {useCallback, useEffect, useMemo} from 'react';
 import {Slate, Editable, withReact} from 'slate-react';
 import {createEditor} from 'slate';
 import {withHistory} from 'slate-history';
+import PropTypes from 'prop-types';
 
 import {usePrevious} from 'hooks/compare';
 
@@ -45,6 +46,13 @@ export default function TextEditor({value, onChange, onKeyDown, pageId}) {
 		</Slate>
 	);
 }
+
+TextEditor.propTypes = {
+	value: PropTypes.array,
+	onChange: PropTypes.func,
+	onKeyDown: PropTypes.func,
+	pageId: PropTypes.number,
+};
 
 TextEditor.defaultProps = {
 	onChange: () => {},

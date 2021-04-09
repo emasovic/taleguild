@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function Element({attributes, children, element}) {
 	switch (element.type) {
@@ -18,3 +19,9 @@ export default function Element({attributes, children, element}) {
 			return <p {...attributes}>{children}</p>;
 	}
 }
+
+Element.propTypes = {
+	attributes: PropTypes.object,
+	children: PropTypes.any,
+	element: PropTypes.object,
+};

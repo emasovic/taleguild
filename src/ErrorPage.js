@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
 import {TYPOGRAPHY_MERRI, TYPOGRAPHY_LATO} from 'types/typography';
 
@@ -38,3 +39,7 @@ export default class ErrorPage extends Component {
 		return this.props.children;
 	}
 }
+
+ErrorPage.propTypes = {
+	children: PropTypes.any,
+};

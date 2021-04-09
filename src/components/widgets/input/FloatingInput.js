@@ -39,6 +39,8 @@ FloatingInput.propTypes = {
 	placeholder: propTypes.string,
 	label: propTypes.string,
 	errorMessage: propTypes.string,
+	invalid: propTypes.bool,
+	className: propTypes.string,
 };
 
 FloatingInput.defaultProps = {

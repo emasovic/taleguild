@@ -108,6 +108,7 @@ export default function SavedStories({shouldLoadMore, Component}) {
 
 SavedStories.propTypes = {
 	shouldLoadMore: propTypes.bool,
+	Component: propTypes.any,
 };
 
 SavedStories.defaultProps = {

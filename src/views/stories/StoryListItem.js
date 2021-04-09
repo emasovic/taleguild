@@ -32,6 +32,7 @@ StoryListItem.propTypes = {
 	formats: propTypes.object,
 	size: propTypes.string,
 	title: propTypes.string,
+	slug: propTypes.string,
 };
 
 StoryListItem.defaultProps = {

@@ -42,6 +42,7 @@ export default function ThemePicker({label, value, onChange, ...rest}) {
 }
 
 ThemePicker.propTypes = {
+	value: propTypes.string,
 	label: propTypes.string,
 	onChange: propTypes.func,
 };

@@ -1,6 +1,7 @@
 import React, {useEffect, useState, useCallback} from 'react';
 import {useSelector, useDispatch, shallowEqual} from 'react-redux';
 import {Link} from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import {goToUser} from 'lib/routes';
 
@@ -112,3 +113,7 @@ export default function Followers({id}) {
 		</div>
 	);
 }
+
+Followers.propTypes = {
+	id: PropTypes.number,
+};

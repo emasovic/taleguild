@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import FA from 'types/font_awesome';
 import {BRAND} from 'types/button';
@@ -15,3 +16,7 @@ export default function BrandButton({brand, ...rest}) {
 
 	return <IconButton {...rest} icon={BRAND_ICONS[brand]} href={url} />;
 }
+
+BrandButton.propTypes = {
+	brand: PropTypes.string,
+};

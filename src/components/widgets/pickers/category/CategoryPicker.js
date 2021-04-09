@@ -31,6 +31,8 @@ export default function CategoryPicker({onChange, value, label, ...rest}) {
 
 CategoryPicker.propTypes = {
 	onChange: propTypes.func,
+	value: propTypes.any,
+	label: propTypes.string,
 };
 
 CategoryPicker.defaultProps = {

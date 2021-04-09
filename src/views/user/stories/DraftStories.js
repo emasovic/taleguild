@@ -99,6 +99,7 @@ export default function DraftStories({shouldLoadMore, Component}) {
 
 DraftStories.propTypes = {
 	shouldLoadMore: propTypes.bool,
+	Component: propTypes.any,
 };
 
 DraftStories.defaultProps = {

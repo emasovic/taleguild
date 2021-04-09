@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {components} from 'react-select';
 import AsyncSelect from 'react-select/async';
-// import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import debounce from 'lodash/debounce';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
@@ -81,3 +81,7 @@ export default function StoryPicker({...props}) {
 		/>
 	);
 }
+
+StoryPicker.propTypes = {
+	data: PropTypes.object,
+};

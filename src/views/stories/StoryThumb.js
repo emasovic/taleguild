@@ -80,6 +80,9 @@ StoryThumb.propTypes = {
 	createdDate: propTypes.string,
 	author: propTypes.object,
 	storypages: propTypes.array,
+	favouriteId: propTypes.number,
+	onDeleteStory: propTypes.func,
+	slug: propTypes.string,
 };
 
 StoryThumb.defaultProps = {

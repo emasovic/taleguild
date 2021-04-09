@@ -53,6 +53,7 @@ IconButton.propTypes = {
 	active: PropTypes.bool,
 	onClick: PropTypes.func,
 	href: PropTypes.string,
+	children: PropTypes.any,
 	type: PropTypes.oneOf(['button', 'reset', 'submit']),
 };
 

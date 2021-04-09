@@ -12,4 +12,5 @@ export default function SideDrawer({isOpen, children}) {
 
 SideDrawer.propTypes = {
 	isOpen: propTypes.bool,
+	children: propTypes.any,
 };

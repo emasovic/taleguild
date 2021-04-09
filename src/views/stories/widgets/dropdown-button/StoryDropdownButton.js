@@ -1,6 +1,7 @@
 import React, {useState, useCallback} from 'react';
 import {DropdownItem} from 'reactstrap';
 import {useDispatch} from 'react-redux';
+import PropTypes from 'prop-types';
 
 import {editStory} from 'lib/routes';
 
@@ -71,3 +72,8 @@ export default function StoryDropdownButton({story, onDeleteStory}) {
 		</div>
 	);
 }
+
+StoryDropdownButton.propTypes = {
+	story: PropTypes.object,
+	onDeleteStory: PropTypes.func,
+};

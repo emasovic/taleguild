@@ -1,5 +1,6 @@
 import React from 'react';
 import classnames from 'classnames';
+import PropTypes from 'prop-types';
 
 import Loader from '../loader/Loader';
 
@@ -31,3 +32,12 @@ export default function LoadMore({children, shouldLoad, onLoadMore, loading, cla
 		</div>
 	);
 }
+
+LoadMore.propTypes = {
+	children: PropTypes.any,
+	shouldLoad: PropTypes.bool,
+	onLoadMore: PropTypes.func,
+	loading: PropTypes.bool,
+	className: PropTypes.string,
+	id: PropTypes.number,
+};

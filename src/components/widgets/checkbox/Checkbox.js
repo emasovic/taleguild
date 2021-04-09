@@ -1,5 +1,6 @@
 import React from 'react';
 import {CustomInput} from 'reactstrap';
+import PropTypes from 'prop-types';
 
 import './Checkbox.scss';
 
@@ -13,7 +14,13 @@ export default function Checkbox({checked, onChange, label}) {
 			type="checkbox"
 			label={label}
 			checked={checked}
-			onChange={(e) => onChange(e.target.checked)}
+			onChange={e => onChange(e.target.checked)}
 		/>
 	);
 }
+
+Checkbox.propTypes = {
+	checked: PropTypes.bool,
+	onChange: PropTypes.func,
+	label: PropTypes.string,
+};

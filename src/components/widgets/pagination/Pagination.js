@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import PropTypes from 'prop-types';
 import {Pagination, PaginationItem, PaginationLink} from 'reactstrap';
 
 import './Pagination.scss';
@@ -52,6 +53,12 @@ const Pages = ({onClick, pages, prefix}) => {
 			</PaginationItem>
 		</Pagination>
 	);
+};
+
+Pages.propTypes = {
+	onClick: PropTypes.func,
+	pages: PropTypes.number,
+	prefix: PropTypes.string,
 };
 
 export default Pages;

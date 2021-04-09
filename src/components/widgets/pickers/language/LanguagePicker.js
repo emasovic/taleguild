@@ -30,6 +30,8 @@ export default function LanguagePicker({onChange, value, label, ...rest}) {
 }
 
 LanguagePicker.propTypes = {
+	value: propTypes.any,
+	label: propTypes.string,
 	onChange: propTypes.func,
 };
 

@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Route, Redirect} from 'react-router-dom';
 import {useSelector} from 'react-redux';
+import PropTypes from 'prop-types';
 
 import {HOME} from 'lib/routes';
 
@@ -30,6 +31,10 @@ const PrivateRoute = ({component: Component, ...rest}) => {
 			render={props => (!isAuthenticated ? <Redirect to={HOME} /> : <Component {...props} />)}
 		/>
 	);
+};
+
+PrivateRoute.propTypes = {
+	component: PropTypes.any,
 };
 
 export default PrivateRoute;

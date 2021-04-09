@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch, shallowEqual} from 'react-redux';
+import PropTypes from 'prop-types';
 
 import {DEFAULT_CRITERIA, STORY_COMPONENTS} from 'types/story';
 
@@ -88,6 +89,10 @@ export default function MyStories({Component}) {
 		</div>
 	);
 }
+
+MyStories.propTypes = {
+	Component: PropTypes.any,
+};
 
 MyStories.defaultProps = {
 	Component: STORY_COMPONENTS.list,

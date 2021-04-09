@@ -82,6 +82,7 @@ ConfirmModal.propTypes = {
 	confirmLabel: PropTypes.string,
 	cancelLabel: PropTypes.string,
 	renderFooter: PropTypes.bool,
+	isOpen: PropTypes.bool,
 };
 
 ConfirmModal.defaultProps = {

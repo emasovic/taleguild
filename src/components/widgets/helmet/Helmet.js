@@ -1,5 +1,6 @@
 import React from 'react';
 import {Helmet as Rhelmet} from 'react-helmet';
+import PropTypes from 'prop-types';
 
 export default function Helmet({title, description}) {
 	return (
@@ -16,3 +17,8 @@ export default function Helmet({title, description}) {
 		</Rhelmet>
 	);
 }
+
+Helmet.propTypes = {
+	title: PropTypes.string,
+	description: PropTypes.string,
+};
