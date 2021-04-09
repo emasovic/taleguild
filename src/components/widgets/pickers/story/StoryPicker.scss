@@ -33,13 +33,19 @@
 			@include theme-aware('color', 'story-list-title-color');
 		}
 
-		.st-Image,
-		.st-Image-fallback {
-			width: 48px;
-			height: 36px;
-			margin-right: 12px;
-			border-radius: 4px;
-			object-fit: cover;
+		.st-Image {
+			&-fallback,
+			&-container {
+				width: 48px;
+				height: 36px;
+				margin-right: 12px;
+				border-radius: 4px;
+				object-fit: cover;
+			}
+
+			&-full {
+				object-fit: cover;
+			}
 		}
 	}
 

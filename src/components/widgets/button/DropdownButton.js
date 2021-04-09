@@ -29,7 +29,7 @@ export default function DropdownButton({children, icon, outline, color, toggleIt
 
 DropdownButton.propTypes = {
 	children: PropTypes.any,
-	icon: PropTypes.string,
+	icon: PropTypes.object,
 	outline: PropTypes.bool,
 	color: PropTypes.string,
 	toggleItem: PropTypes.any,

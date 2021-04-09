@@ -90,6 +90,7 @@ export default function Story() {
 			<StoryItem
 				id={story.id}
 				image={story.image}
+				formats={story?.image?.formats}
 				title={story.title}
 				description={story.description}
 				key={story.id}

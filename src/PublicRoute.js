@@ -34,7 +34,7 @@ const PublicRoute = ({component: Component, ...rest}) => {
 };
 
 PublicRoute.propTypes = {
-	component: PropTypes.element,
+	component: PropTypes.object,
 };
 
 export default PublicRoute;

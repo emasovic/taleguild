@@ -39,5 +39,5 @@ LoadMore.propTypes = {
 	onLoadMore: PropTypes.func,
 	loading: PropTypes.bool,
 	className: PropTypes.string,
-	id: PropTypes.number,
+	id: PropTypes.string,
 };
