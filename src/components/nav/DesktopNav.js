@@ -63,6 +63,7 @@ export default function Navigation() {
 				<IconButton
 					href="https://www.buymeacoffee.com/taleguildstory"
 					target="_blank"
+					rel="noopener"
 					icon={FA.solid_coffee}
 					color={COLOR.secondary}
 				>

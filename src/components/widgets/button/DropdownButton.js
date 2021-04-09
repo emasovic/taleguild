@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import PropTypes from 'prop-types';
 import {Dropdown, DropdownToggle, DropdownMenu} from 'reactstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
@@ -17,7 +18,7 @@ export default function DropdownButton({children, icon, outline, color, toggleIt
 	return (
 		<>
 			<Dropdown className={CLASS} isOpen={dropdownOpen} toggle={toggle} {...props}>
-				<DropdownToggle outline={outline} color={color}>
+				<DropdownToggle outline={outline} color={color} aria-label="dropdown-toggle">
 					{toggleItem || <FontAwesomeIcon icon={icon} />}
 				</DropdownToggle>
 				<DropdownMenu right>{children}</DropdownMenu>
@@ -25,6 +26,14 @@ export default function DropdownButton({children, icon, outline, color, toggleIt
 		</>
 	);
 }
+
+DropdownButton.propTypes = {
+	children: PropTypes.any,
+	icon: PropTypes.string,
+	outline: PropTypes.bool,
+	color: PropTypes.string,
+	toggleItem: PropTypes.any,
+};
 
 DropdownButton.defaultProps = {
 	color: COLOR.secondary,

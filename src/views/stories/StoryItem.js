@@ -279,11 +279,13 @@ export default function StoryItem({
 									active={!!liked}
 									icon={likeIcon}
 									onClick={e => handleLike(e, liked, id)}
+									aria-label="like"
 								/>
 								<IconButton
 									outline
 									icon={FA.comment}
 									onClick={() => setIsCommentsOpen(true)}
+									aria-label="comment"
 								/>
 								{/* <IconButton
 									outline
@@ -296,6 +298,7 @@ export default function StoryItem({
 								active={!!favourite}
 								icon={favouriteIcon}
 								onClick={e => handleFavourite(e, favourite, id)}
+								aria-label="save"
 							/>
 						</>
 					)}
@@ -372,4 +375,7 @@ StoryItem.propTypes = {
 	title: propTypes.string,
 	createdDate: propTypes.string,
 	author: propTypes.object,
+	views: propTypes.array,
+	savedBy: propTypes.array,
+	slug: propTypes.string,
 };
