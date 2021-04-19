@@ -1,6 +1,10 @@
 @import 'styles/variables.scss';
 
 .st-UserAvatar {
+	.st-Image-full {
+		object-fit: cover;
+	}
+
 	.st-Image-container,
 	.badge {
 		width: 40px;

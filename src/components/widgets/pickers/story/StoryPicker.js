@@ -6,11 +6,11 @@ import {Link} from 'react-router-dom';
 import debounce from 'lodash/debounce';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
-import FA from 'types/font_awesome';
-
 import {getStories} from 'lib/api';
-
 import {goToStory} from 'lib/routes';
+
+import FA from 'types/font_awesome';
+import {PUBLISH_STATES} from 'types/story';
 
 import Image from 'components/widgets/image/Image';
 
@@ -45,7 +45,7 @@ export default function StoryPicker({...props}) {
 		getStories({
 			_limit: 20,
 			_sort: 'likes_count:DESC',
-			published: true,
+			_publicationState: PUBLISH_STATES.live,
 			title_contains: inputValue,
 		}).then(result => {
 			if (result.error) {
