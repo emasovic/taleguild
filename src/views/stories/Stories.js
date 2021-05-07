@@ -136,6 +136,7 @@ const MemoizedStories = ({criteria}) => {
 		: STORY_SORT.published_at;
 
 	delete newCriteria.fbclid;
+	delete newCriteria.ref;
 
 	return <Stories criteria={newCriteria} activeSort={activeSort} />;
 };

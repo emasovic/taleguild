@@ -29,16 +29,6 @@
 			}
 		}
 
-		.st-Uploader {
-			&-thumbs {
-				&-item {
-					.st-Image {
-						height: 200px;
-					}
-				}
-			}
-		}
-
 		.st-DropdownButton {
 			.btn {
 				color: $color-grey-light;
@@ -133,6 +123,21 @@
 						&-footer {
 							&-actions {
 								display: none;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		&-publishModal {
+			.st-Uploader {
+				&-thumbs {
+					&-item {
+						.st-Image {
+							&-container,
+							&-fallback {
+								height: 200px;
 							}
 						}
 					}

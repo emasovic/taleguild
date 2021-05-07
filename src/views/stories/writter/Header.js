@@ -324,6 +324,7 @@ export default function Header({
 					renderFooter
 					cancelLabel="Back to edit"
 					confirmLabel="Publish my story"
+					className={className + '-header-publishModal'}
 				/>
 			)}
 		</div>
