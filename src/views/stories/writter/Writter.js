@@ -1,5 +1,5 @@
 import React, {useRef, useMemo} from 'react';
-import debounce from 'lodash/debounce';
+import debounce from 'lodash.debounce';
 import PropTypes from 'prop-types';
 
 import {STORY_PAGE_OP} from 'types/story_page';

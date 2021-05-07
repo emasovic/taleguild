@@ -1,9 +1,8 @@
 import React, {useState, useEffect, useMemo} from 'react';
 import {Form} from 'reactstrap';
 import {useSelector, shallowEqual} from 'react-redux';
-import debounce from 'lodash/debounce';
+import debounce from 'lodash.debounce';
 import {DropdownItem} from 'reactstrap';
-import moment from 'moment';
 import PropTypes from 'prop-types';
 
 import {COLOR} from 'types/button';
@@ -99,7 +98,7 @@ export default function Header({
 				description,
 				categories: categories.length && categories.map(item => item.value),
 				language: language && language.value,
-				published_at: !published ? moment() : undefined,
+				published_at: !published ? new Date() : undefined,
 			};
 			onCreateOrUpdateStory(payload);
 		}

@@ -1,5 +1,5 @@
 import {createSlice, createEntityAdapter} from '@reduxjs/toolkit';
-import orderBy from 'lodash/orderBy';
+import orderBy from 'lodash.orderby';
 
 import * as api from '../lib/api';
 import {goToStory, editStory, DELETED_STORY} from '../lib/routes';

@@ -1,6 +1,6 @@
 import React, {useEffect, useState, useRef} from 'react';
 import {useDispatch, useSelector, shallowEqual} from 'react-redux';
-import orderBy from 'lodash/orderBy';
+import orderBy from 'lodash.orderby';
 import {useHistory, useParams} from 'react-router-dom';
 
 import {goToStory} from 'lib/routes';

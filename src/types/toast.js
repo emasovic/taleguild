@@ -1,4 +1,4 @@
-import uniqueId from 'lodash/uniqueId';
+import uniqueId from 'lodash.uniqueid';
 
 export const TOAST_TYPES = {
 	success: 'success',

@@ -1,12 +1,12 @@
 import React from 'react';
 import propTypes from 'prop-types';
-import moment from 'moment';
+import {formatDistance} from 'date-fns';
 
 export default function FromNow({date}) {
 	if (!date) {
 		return null;
 	}
-	return <span>{moment(date).fromNow()}</span>;
+	return <span>{formatDistance(new Date(date), new Date(), {addSuffix: true})}</span>;
 }
 
 FromNow.propTypes = {
