@@ -10,6 +10,7 @@ import PrivateRoute from 'PrivateRoute';
 import PublicRoute from 'PublicRoute';
 
 import Loader from 'components/widgets/loader/Loader';
+import Guildator from 'components/guildator/Guildator';
 
 const Home = lazy(() => import('views/Home'));
 const Explore = lazy(() => import('views/Explore'));
@@ -42,6 +43,7 @@ const Routes = () => (
 		<Suspense fallback={<Loader />}>
 			<Nav />
 			<Switch>
+				<Route path="/guildator" component={Guildator} />
 				<PrivateRoute path={routes.FEED} component={Home} />
 				<PrivateRoute path={routes.WRITE_STORY} component={StoryWritter} />
 				<PrivateRoute path={routes.DELETED_STORY} component={DeletedStory} />
