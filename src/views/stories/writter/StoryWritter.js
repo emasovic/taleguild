@@ -115,7 +115,7 @@ export default function StoryWritter() {
 			<Writter
 				className={CLASS}
 				currentEditing={current}
-				published={story?.published_at}
+				published={!!story?.published_at}
 				onCurrentChanged={handleCurrent}
 				onStoryPage={handleStoryPage}
 				op={op}

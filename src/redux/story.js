@@ -7,6 +7,8 @@ import {goToStory, editStory, DELETED_STORY} from '../lib/routes';
 import {Toast} from 'types/toast';
 import {DEFAULT_STORYPAGE_DATA, SORT_DIRECTION, STORY_OP, STORY_SORT} from 'types/story';
 import {newToast} from './toast';
+import {savedStoryRemoved, savedStoryUpsert} from './saved_stories';
+import {storyPagesReceieved} from './story_pages';
 
 const storyAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
@@ -98,6 +100,24 @@ export const storySlice = createSlice({
 		},
 		loadingEnd: state => {
 			state.loading = false;
+		},
+	},
+	extraReducers: {
+		[savedStoryUpsert]: (state, {payload}) => {
+			const {storyId, ...rest} = payload;
+			state.entities[storyId].saved_by.push({...rest});
+		},
+		[savedStoryRemoved]: (state, {payload}) => {
+			const {storyId, savedId} = payload;
+			if (state.entities[storyId]) {
+				state.entities[storyId] = {
+					...state.entities[storyId],
+					saved_by: state.entities[storyId].saved_by.filter(s => s.id !== savedId),
+				};
+			}
+		},
+		[storyPagesReceieved]: (state, {payload}) => {
+			storyAdapter.upsertOne(state, payload?.[0]?.story);
 		},
 	},
 });
@@ -210,7 +230,11 @@ export const loadStory = id => async dispatch => {
 export const createOrUpdateViews = (id, userId) => async dispatch => {
 	dispatch(opStart());
 
-	const res = await api.createOrUpdateViews({storyId: id, userAgent: navigator.userAgent, userId});
+	const res = await api.createOrUpdateViews({
+		storyId: id,
+		userAgent: navigator.userAgent,
+		userId,
+	});
 	if (res.error) {
 		dispatch(opEnd());
 		return dispatch(newToast({...Toast.error(res.error)}));

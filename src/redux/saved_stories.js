@@ -6,7 +6,6 @@ import {STORY_OP} from 'types/story';
 import {Toast} from 'types/toast';
 
 import {newToast} from './toast';
-import {gotSaved, removeSaved} from './story';
 
 const savedStoriesAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
@@ -33,7 +32,7 @@ export const savedStorySlice = createSlice({
 			state.op = null;
 		},
 		savedStoryRemoved: (state, action) => {
-			savedStoriesAdapter.removeOne(state, action.payload);
+			savedStoriesAdapter.removeOne(state, action.payload.savedId);
 			state.loading = null;
 			state.op = null;
 		},
@@ -108,11 +107,10 @@ export const createOrDeleteSavedStory = (favourite, userId, storyId) => async (
 	}
 
 	if (res.id) {
-		dispatch(savedStoryUpsert(res));
-		return dispatch(gotSaved({...res, storyId}));
+		return dispatch(savedStoryUpsert({...res, storyId}));
 	}
-	dispatch(removeSaved({storyId, savedId: favourite.id}));
-	return dispatch(savedStoryRemoved(favourite.id));
+
+	return dispatch(savedStoryRemoved({storyId, savedId: favourite.id}));
 };
 
 //SELECTORS

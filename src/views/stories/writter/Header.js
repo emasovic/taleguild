@@ -335,7 +335,7 @@ Header.propTypes = {
 	pages: PropTypes.array,
 	op: PropTypes.string,
 	currentEditing: PropTypes.object,
-	selectedPage: PropTypes.object,
+	selectedPage: PropTypes.number,
 	onSelectedPage: PropTypes.func,
 	onPageRemove: PropTypes.func,
 	onStoryPage: PropTypes.func,

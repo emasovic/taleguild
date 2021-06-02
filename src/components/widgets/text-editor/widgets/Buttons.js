@@ -54,7 +54,7 @@ export const FormatButton = ({format, icon}) => {
 
 FormatButton.propTypes = {
 	format: PropTypes.any,
-	icon: PropTypes.string,
+	icon: PropTypes.object,
 };
 
 export const BlockButton = ({format, icon}) => {
@@ -73,5 +73,5 @@ export const BlockButton = ({format, icon}) => {
 
 BlockButton.propTypes = {
 	format: PropTypes.any,
-	icon: PropTypes.string,
+	icon: PropTypes.object,
 };

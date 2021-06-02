@@ -7,7 +7,6 @@ import {Toast} from 'types/toast';
 import {STORY_PAGE_OP} from 'types/story_page';
 
 import {newToast} from './toast';
-import {storyUpsert} from './story';
 
 const storyPageAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
@@ -66,9 +65,6 @@ export const loadStoryPages = filter => async dispatch => {
 	if (res.error) {
 		dispatch(loadingEnd());
 		return dispatch(newToast({...Toast.error(res.error)}));
-	}
-	if (res[0] && res[0].story) {
-		dispatch(storyUpsert(res[0].story));
 	}
 
 	dispatch(storyPagesReceieved(res));
