@@ -12359,10 +12359,10 @@ slate-history@^0.62.0:
     immer "^7.0.0"
     is-plain-object "^3.0.0"
 
-slate-react@0.64.0:
-  version "0.64.0"
-  resolved "https://npm.xrview.io/slate-react/-/slate-react-0.64.0.tgz#b052b3ad6707f886e1e1d0a82bb10e54a8a4b43e"
-  integrity sha512-qvQvDVwBmS+ZwA3YKvD94X0mBk0i9R+INkVP9/0+QhF5RmQy3F+3lOIdG+KZ5/01HPc0So5CQKAzaaC/zTDQsw==
+slate-react@^0.65.2:
+  version "0.65.2"
+  resolved "https://npm.xrview.io/slate-react/-/slate-react-0.65.2.tgz#71ca66f7b9c6d4ffaffb291494b85ce0398c1530"
+  integrity sha512-EweSDd7zehKsirLzwr6iPRArVMr8RgSm3DPboeUEdCBTawdQddXHt1niUmXtb+XzefCqGdOybKkkiXGAOKel8Q==
   dependencies:
     "@types/is-hotkey" "^0.1.1"
     "@types/lodash" "^4.14.149"
