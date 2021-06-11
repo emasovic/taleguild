@@ -7,8 +7,8 @@ import {goToStory, editStory, DELETED_STORY} from '../lib/routes';
 import {Toast} from 'types/toast';
 import {DEFAULT_STORYPAGE_DATA, SORT_DIRECTION, STORY_OP, STORY_SORT} from 'types/story';
 import {newToast} from './toast';
-import {savedStoryRemoved, savedStoryUpsert} from './saved_stories';
-import {storyPagesReceieved} from './story_pages';
+import {savedStoryRemoved, savedStoryUpsert} from './savedStories';
+import {storyPagesReceieved} from './storyPages';
 
 const storyAdapter = createEntityAdapter({
 	selectId: entity => entity.id,

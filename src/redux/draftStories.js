@@ -13,7 +13,7 @@ const draftStoriesAdapter = createEntityAdapter({
 });
 
 export const draftSlice = createSlice({
-	name: 'draft_stories',
+	name: 'draftStories',
 	initialState: draftStoriesAdapter.getInitialState({op: null, pages: null, loading: null}),
 	reducers: {
 		draftStoriesReceieved: (state, action) => {
@@ -103,7 +103,7 @@ export const deleteStory = storyId => async dispatch => {
 
 //SELECTORS
 
-const draftStoriesSelector = draftStoriesAdapter.getSelectors(state => state.draft_stories);
+const draftStoriesSelector = draftStoriesAdapter.getSelectors(state => state.draftStories);
 
 export const selectStories = state => draftStoriesSelector.selectAll(state);
 

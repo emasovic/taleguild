@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import {DEFAULT_CRITERIA, STORY_COMPONENTS} from 'types/story';
 
 import {selectUser} from 'redux/user';
-import {selectStories, loadStories} from 'redux/user_stories';
+import {selectStories, loadStories} from 'redux/userStories';
 
 import Loader from 'components/widgets/loader/Loader';
 import IconButton from 'components/widgets/button/IconButton';
@@ -21,8 +21,8 @@ export default function MyStories({Component}) {
 		state => ({
 			loggedInUser: selectUser(state),
 			stories: selectStories(state),
-			pages: state.user_stories.pages,
-			loading: state.user_stories.loading,
+			pages: state.userStories.pages,
+			loading: state.userStories.loading,
 		}),
 		shallowEqual
 	);

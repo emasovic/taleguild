@@ -4,7 +4,7 @@ import propTypes from 'prop-types';
 
 import {DEFAULT_CRITERIA, STORY_OP, STORY_COMPONENTS, PUBLISH_STATES} from 'types/story';
 
-import {selectStories, loadStories, deleteStory} from 'redux/draft_stories';
+import {selectStories, loadStories, deleteStory} from 'redux/draftStories';
 import {selectUserId} from 'redux/user';
 
 import NoStories from 'views/stories/NoStories';
@@ -20,8 +20,8 @@ export default function DraftStories({shouldLoadMore, Component}) {
 	const {drafts, userId, pages, op} = useSelector(
 		state => ({
 			drafts: selectStories(state),
-			op: state.draft_stories.op,
-			pages: state.draft_stories.pages,
+			op: state.draftStories.op,
+			pages: state.draftStories.pages,
 			userId: selectUserId(state),
 		}),
 		shallowEqual

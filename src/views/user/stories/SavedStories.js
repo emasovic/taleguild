@@ -8,7 +8,7 @@ import {
 	selectUserSavedStories,
 	loadSavedStories,
 	createOrDeleteSavedStory,
-} from 'redux/saved_stories';
+} from 'redux/savedStories';
 import {selectUserId} from 'redux/user';
 
 import Loader from 'components/widgets/loader/Loader';
@@ -24,8 +24,8 @@ export default function SavedStories({shouldLoadMore, Component}) {
 	const {savedStories, userId, pages, op} = useSelector(
 		state => ({
 			savedStories: selectUserSavedStories(state),
-			op: state.saved_stories.op,
-			pages: state.saved_stories.pages,
+			op: state.savedStories.op,
+			pages: state.savedStories.pages,
 			userId: selectUserId(state),
 		}),
 		shallowEqual

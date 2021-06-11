@@ -4,17 +4,20 @@ import history from 'lib/history';
 
 import user from './user';
 import users from './users';
+import comments from './comments';
 import stories from './story';
 import toast from './toast';
-import draft_stories from './draft_stories';
-import saved_stories from './saved_stories';
-import user_stories from './user_stories';
-import story_pages from './story_pages';
+import draftStories from './draftStories';
+import savedStories from './savedStories';
+import userStories from './userStories';
+import storyPages from './storyPages';
 import followers from './followers';
 import following from './following';
 import categories from './categories';
 import languages from './languages';
 import application from './application';
+import savedBy from './savedBy';
+import likes from './likes';
 
 const customizedMiddleware = getDefaultMiddleware({
 	thunk: {
@@ -28,16 +31,19 @@ const store = configureStore({
 		application,
 		user,
 		users,
+		likes,
 		followers,
 		following,
 		stories,
-		draft_stories,
+		comments,
+		savedBy,
+		draftStories,
 		toast,
 		languages,
 		categories,
-		story_pages,
-		user_stories,
-		saved_stories,
+		storyPages,
+		userStories,
+		savedStories,
 	},
 	middleware: customizedMiddleware,
 });

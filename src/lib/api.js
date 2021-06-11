@@ -122,8 +122,16 @@ export const getLanguages = filter => {
 
 /******************      COMMENTS        ***********************/
 
+export const getComments = filter => {
+	return http.get('comments', filter);
+};
+
 export const createComment = payload => {
 	return http.post('comments', null, payload);
+};
+
+export const countComments = filter => {
+	return http.get('comments/count', filter);
 };
 
 export const deleteComment = id => {
@@ -132,11 +140,19 @@ export const deleteComment = id => {
 
 /******************      LIKES        ***********************/
 
+export const getLikes = filter => {
+	return http.get('likes', filter);
+};
+
 export const createLike = payload => {
 	return http.post('likes', null, payload);
 };
 
-export const deleteLike = (id) => {
+export const countLikes = filter => {
+	return http.get('likes/count', filter);
+};
+
+export const deleteLike = id => {
 	return http.del('likes/' + id);
 };
 
@@ -145,7 +161,6 @@ export const deleteLike = (id) => {
 export const createOrUpdateViews = payload => {
 	return http.post('views', null, payload);
 };
-
 
 /******************      FOLLOWERS        ***********************/
 

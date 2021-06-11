@@ -14,7 +14,7 @@ const storyPageAdapter = createEntityAdapter({
 });
 
 export const storyPageSlice = createSlice({
-	name: 'story_pages',
+	name: 'storyPages',
 	initialState: storyPageAdapter.getInitialState({op: null, pages: null, loading: null}),
 	reducers: {
 		storyPagesReceieved: (state, action) => {
@@ -119,9 +119,9 @@ export const deleteStoryPage = (storyId, pageId) => async (dispatch, getState, h
 
 	dispatch(storyPageRemoved(pageId));
 
-	const {story_pages} = getState();
+	const {storyPages} = getState();
 
-	const page = Object.keys(story_pages.entities)[0];
+	const page = Object.keys(storyPages.entities)[0];
 
 	page && history.push(editStory(storyId, page));
 
@@ -130,7 +130,7 @@ export const deleteStoryPage = (storyId, pageId) => async (dispatch, getState, h
 
 //SELECTORS
 
-const globalizedSelectors = storyPageAdapter.getSelectors(state => state.story_pages);
+const globalizedSelectors = storyPageAdapter.getSelectors(state => state.storyPages);
 
 export const allPages = state => globalizedSelectors.selectAll(state);
 

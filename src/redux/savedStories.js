@@ -13,7 +13,7 @@ const savedStoriesAdapter = createEntityAdapter({
 });
 
 export const savedStorySlice = createSlice({
-	name: 'saved_stories',
+	name: 'savedStories',
 	initialState: savedStoriesAdapter.getInitialState({op: null, pages: null, loading: null}),
 	reducers: {
 		savedStoriesReceieved: (state, action) => {
@@ -115,7 +115,7 @@ export const createOrDeleteSavedStory = (favourite, userId, storyId) => async (
 
 //SELECTORS
 
-const savedStoriesSelector = savedStoriesAdapter.getSelectors(state => state.saved_stories);
+const savedStoriesSelector = savedStoriesAdapter.getSelectors(state => state.savedStories);
 
 export const selectUserSavedStories = state => savedStoriesSelector.selectAll(state);
 

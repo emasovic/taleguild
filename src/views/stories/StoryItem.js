@@ -6,24 +6,24 @@ import {useDispatch, useSelector, shallowEqual} from 'react-redux';
 import {goToUser} from 'lib/routes';
 
 import FA from 'types/font_awesome';
-import {COLOR} from 'types/button';
-import {Toast} from 'types/toast';
 
 // import useCopyToClipboard from 'hooks/copy-to-clipboard';
 
-import {createOrDeleteLike, createOrDeleteComment} from 'redux/story';
+import {createOrDeleteLike} from 'redux/story';
 import {selectUser} from 'redux/user';
-import {createOrDeleteSavedStory} from 'redux/saved_stories';
-import {addToast} from 'redux/toast';
+import {createOrDeleteSavedStory} from 'redux/savedStories';
 import {navigateToQuery} from 'redux/application';
 
 import IconButton from 'components/widgets/button/IconButton';
 import Image from 'components/widgets/image/Image';
-import UserAvatar from 'views/user/UserAvatar';
-import ConfirmModal from 'components/widgets/modals/Modal';
-import StoryDropdownButton from './widgets/dropdown-button/StoryDropdownButton';
-import TextArea from 'components/widgets/textarea/TextArea';
 import FromNow from 'components/widgets/date-time/FromNow';
+import StoryDropdownButton from './widgets/dropdown-button/StoryDropdownButton';
+
+import UserAvatar from 'views/user/UserAvatar';
+
+import SavedByDialog from './dialogs/SavesDialog';
+import CommentsDialog from './dialogs/CommentsDialog';
+import LikesDialog from './dialogs/LikesDialog';
 
 import './StoryItem.scss';
 
@@ -48,10 +48,10 @@ export default function StoryItem({
 }) {
 	const dispatch = useDispatch();
 	const location = useLocation();
-	const {loggedUser, op} = useSelector(
+	const {loggedUser} = useSelector(
 		state => ({
 			loading: state.stories.loading,
-			op: state.stories.op,
+
 			loggedUser: selectUser(state),
 		}),
 		shallowEqual
@@ -62,25 +62,8 @@ export default function StoryItem({
 	const [isSavedOpen, setIsSavedOpen] = useState(false);
 	// const [isShareOpen, setIsShareOpen] = useState(false);
 	// const [isCopied, setIsCopied] = useCopyToClipboard(10000);
-	const [comment, setComment] = useState('');
 
 	const {data} = loggedUser;
-
-	const handleComment = (e, commentId) => {
-		e.preventDefault();
-		if (comment.length >= 200) {
-			return dispatch(
-				addToast({...Toast.error('Comment needs to be less than 200 characters.')})
-			);
-		}
-		if (comment.trim().length <= 2 && !commentId) {
-			return dispatch(
-				addToast({...Toast.error('Comment needs to be more than 2 characters.')})
-			);
-		}
-		dispatch(createOrDeleteComment({user: data.id, story: id, comment, id: commentId}));
-		setComment('');
-	};
 
 	const handleLike = (e, liked, storyId) => {
 		if (!data) {
@@ -101,115 +84,6 @@ export default function StoryItem({
 
 	const getStoriesByCategoryId = categoryId => {
 		dispatch(navigateToQuery({categories: categoryId}, location));
-	};
-
-	const renderCommentsContent = () => {
-		return (
-			<div className={CLASS + '-comments'}>
-				<div className={CLASS + '-comments-posted'}>
-					{comments.length ? (
-						comments.map((item, key) => {
-							const {user} = item;
-							return (
-								<Link
-									to={goToUser(user.username)}
-									key={key}
-									className={CLASS + '-comments-posted-item'}
-								>
-									<UserAvatar user={user} />
-									<div className={CLASS + '-comments-posted-item-user'}>
-										<div className={CLASS + '-comments-posted-item-user-info'}>
-											<span>{user.display_name || user.username}</span>
-											<FromNow date={item.created_at} />
-										</div>
-										<span>{item.comment}</span>
-										{data && user.id === data.id && (
-											<IconButton
-												color={COLOR.secondary}
-												icon={FA.solid_times}
-												disabled={op}
-												onClick={e => handleComment(e, item.id)}
-											/>
-										)}
-									</div>
-								</Link>
-							);
-						})
-					) : (
-						<p>No Comments</p>
-					)}
-				</div>
-
-				{data && (
-					<div className={CLASS + '-comments-new'}>
-						<UserAvatar user={data} />
-						<div className={CLASS + '-comments-new-comment'}>
-							<TextArea
-								cols={34}
-								value={comment}
-								placeholder="Write a comment..."
-								onChange={val => setComment(val)}
-							/>
-							<IconButton
-								color={COLOR.secondary}
-								loading={op}
-								onClick={handleComment}
-							>
-								Post
-							</IconButton>
-						</div>
-					</div>
-				)}
-			</div>
-		);
-	};
-
-	const renderLikesContent = () => {
-		return (
-			<div className={CLASS + '-likes'}>
-				{likes.length ? (
-					likes.map((item, key) => {
-						const {user} = item;
-						return (
-							<Link
-								to={goToUser(user.username)}
-								key={key}
-								className={CLASS + '-likes-item'}
-							>
-								<UserAvatar user={user} />
-								<span>{user.display_name || user.username}</span>
-							</Link>
-						);
-					})
-				) : (
-					<p>No Likes</p>
-				)}
-			</div>
-		);
-	};
-
-	const renderSavedContent = () => {
-		return (
-			<div className={CLASS + '-likes'}>
-				{savedBy.length ? (
-					savedBy.map((item, key) => {
-						const {user} = item;
-						return (
-							<Link
-								to={goToUser(user.username)}
-								key={key}
-								className={CLASS + '-likes-item'}
-							>
-								<UserAvatar user={user} />
-								<span>{user.display_name || user.username}</span>
-							</Link>
-						);
-					})
-				) : (
-					<p>No saves</p>
-				)}
-			</div>
-		);
 	};
 
 	// const renderShareContent = () => {
@@ -323,29 +197,29 @@ export default function StoryItem({
 				</div>
 			</div>
 			{isLikesOpen && (
-				<ConfirmModal
+				<LikesDialog
 					isOpen={isLikesOpen}
 					title={title}
-					renderFooter={false}
-					content={renderLikesContent()}
+					className={CLASS}
+					storyId={id}
 					onClose={() => setIsLikesOpen(false)}
 				/>
 			)}
 			{isCommentsOpen && (
-				<ConfirmModal
+				<CommentsDialog
 					isOpen={isCommentsOpen}
 					title={title}
-					renderFooter={false}
-					content={renderCommentsContent()}
+					className={CLASS}
+					storyId={id}
 					onClose={() => setIsCommentsOpen(false)}
 				/>
 			)}
 			{isSavedOpen && (
-				<ConfirmModal
+				<SavedByDialog
+					className={CLASS}
+					storyId={id}
 					isOpen={isSavedOpen}
 					title={title}
-					renderFooter={false}
-					content={renderSavedContent()}
 					onClose={() => setIsSavedOpen(false)}
 				/>
 			)}

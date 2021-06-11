@@ -10,7 +10,7 @@ import {
 	createOrUpdateStoryPage,
 	selectStoryPages,
 	loadStoryPage,
-} from 'redux/story_pages';
+} from 'redux/storyPages';
 import {createOrUpdateStory, deleteStory, selectStory} from 'redux/story';
 
 import Loader from 'components/widgets/loader/Loader';
@@ -30,8 +30,8 @@ export default function StoryWritter() {
 		state => ({
 			pages: selectStoryPages(state),
 			story: selectStory(state, storyId),
-			loading: state.story_pages.loading,
-			op: state.story_pages.op,
+			loading: state.storyPages.loading,
+			op: state.storyPages.op,
 		}),
 		shallowEqual
 	);

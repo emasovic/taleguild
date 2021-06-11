@@ -11,7 +11,7 @@ const userStoriesAdapter = createEntityAdapter({
 });
 
 export const myStorySlice = createSlice({
-	name: 'user_stories',
+	name: 'userStories',
 	initialState: userStoriesAdapter.getInitialState({op: null, pages: null, loading: null}),
 	reducers: {
 		userStoriesReceieved: (state, action) => {
@@ -66,7 +66,7 @@ export const loadStories = (params, count) => async dispatch => {
 
 //SELECTORS
 
-const userStoriesSelector = userStoriesAdapter.getSelectors(state => state.user_stories);
+const userStoriesSelector = userStoriesAdapter.getSelectors(state => state.userStories);
 
 export const selectStories = state => userStoriesSelector.selectAll(state);
 
