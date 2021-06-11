@@ -207,6 +207,9 @@
 
 	&-likes,
 	&-comments {
+		max-height: 500px;
+		overflow-y: auto;
+
 		@include theme-aware('color', 'story-item-username-color');
 
 		.st-UserAvatar {

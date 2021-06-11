@@ -21,7 +21,7 @@ import StoryDropdownButton from './widgets/dropdown-button/StoryDropdownButton';
 
 import UserAvatar from 'views/user/UserAvatar';
 
-import SavedByDialog from './dialogs/SavesDialog';
+import SavedByDialog from './dialogs/SavedByDialog';
 import CommentsDialog from './dialogs/CommentsDialog';
 import LikesDialog from './dialogs/LikesDialog';
 

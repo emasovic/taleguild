@@ -15,7 +15,7 @@ export const savedBySlice = createSlice({
 	initialState: savedByAdapter.getInitialState({op: null, pages: null, loading: null}),
 	reducers: {
 		savedByReceieved: (state, action) => {
-			savedByAdapter.setAll(state, action.payload);
+			savedByAdapter.upsertMany(state, action.payload);
 			state.loading = null;
 		},
 		loadingStart: state => {

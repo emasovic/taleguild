@@ -15,7 +15,7 @@ export const likesSlice = createSlice({
 	initialState: likesAdapter.getInitialState({op: null, pages: null, loading: null}),
 	reducers: {
 		likesReceieved: (state, action) => {
-			likesAdapter.setAll(state, action.payload);
+			likesAdapter.upsertMany(state, action.payload);
 			state.loading = null;
 		},
 		loadingStart: state => {

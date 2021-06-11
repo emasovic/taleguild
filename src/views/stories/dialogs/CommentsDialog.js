@@ -42,14 +42,14 @@ function CommentsDialog({isOpen, title, onClose, storyId, className}) {
 
 	const renderContent = () => {
 		return (
-			<LoadMoreModal
-				className={className + '-comments'}
-				onLoadMore={handleCount}
-				loading={loading}
-				shouldLoad={pages > currentPage}
-				id="storyComments"
-			>
-				<div className={className + '-comments-posted'}>
+			<div className={className + '-comments'}>
+				<LoadMoreModal
+					onLoadMore={handleCount}
+					loading={loading}
+					shouldLoad={pages > currentPage}
+					id="storyComments"
+					className={className + '-comments-posted'}
+				>
 					{comments.length ? (
 						comments.map((item, key) => {
 							const {user} = item;
@@ -85,7 +85,7 @@ function CommentsDialog({isOpen, title, onClose, storyId, className}) {
 					) : (
 						<p>No Comments</p>
 					)}
-				</div>
+				</LoadMoreModal>
 
 				{data && (
 					<div className={className + '-comments-new'}>
@@ -107,12 +107,12 @@ function CommentsDialog({isOpen, title, onClose, storyId, className}) {
 						</div>
 					</div>
 				)}
-			</LoadMoreModal>
+			</div>
 		);
 	};
 
 	const handleCount = useCallback(() => {
-		dispatch(loadComments({story: storyId, _start: 0, _limit: 10}, true));
+		dispatch(loadComments({story: storyId, _start: currentPage * 10, _limit: 10}, false));
 		setCurrentPage(currentPage + 1);
 	}, [dispatch, currentPage, storyId]);
 

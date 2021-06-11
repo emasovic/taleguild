@@ -55,7 +55,7 @@ function SavedByDialog({isOpen, title, onClose, storyId, className}) {
 	};
 
 	const handleCount = useCallback(() => {
-		dispatch(loadSavedBy({story: storyId, _start: 0, _limit: 10}, true));
+		dispatch(loadSavedBy({story: storyId, _start: currentPage * 10, _limit: 10}, false));
 		setCurrentPage(currentPage + 1);
 	}, [dispatch, currentPage, storyId]);
 

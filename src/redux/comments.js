@@ -17,7 +17,7 @@ export const commentsSlice = createSlice({
 	initialState: commentsAdapter.getInitialState({op: null, pages: null, loading: null}),
 	reducers: {
 		commentsReceieved: (state, action) => {
-			commentsAdapter.setAll(state, action.payload);
+			commentsAdapter.upsertMany(state, action.payload);
 			state.loading = null;
 		},
 		loadingStart: state => {
