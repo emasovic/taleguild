@@ -8,7 +8,15 @@ import './LoadMore.scss';
 
 const CLASS = 'st-LoadMore';
 
-export default function LoadMore({children, shouldLoad, onLoadMore, loading, className, id}) {
+export default function LoadMore({
+	children,
+	shouldLoad,
+	onLoadMore,
+	loading,
+	initLoading,
+	className,
+	id,
+}) {
 	const isBottom = el => {
 		return el && el.scrollHeight - el.scrollTop <= el.clientHeight;
 	};
@@ -22,6 +30,10 @@ export default function LoadMore({children, shouldLoad, onLoadMore, loading, cla
 	};
 
 	const classNames = className ? classnames(`${CLASS}-modal`, className) : `${CLASS}-modal`;
+
+	if (initLoading) {
+		return <Loader />;
+	}
 
 	return (
 		<div id={id} className={classNames} onScroll={trackScrolling}>
@@ -40,6 +52,7 @@ LoadMore.propTypes = {
 	shouldLoad: PropTypes.bool,
 	onLoadMore: PropTypes.func,
 	loading: PropTypes.bool,
+	initLoading: PropTypes.bool,
 	className: PropTypes.string,
 	id: PropTypes.string,
 };

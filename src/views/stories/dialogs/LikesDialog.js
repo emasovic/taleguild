@@ -11,7 +11,6 @@ import {loadLikes, selectLikes} from 'redux/likes';
 
 import ConfirmModal from 'components/widgets/modals/Modal';
 import LoadMoreModal from 'components/widgets/loadmore/LoadMoreModal';
-import Loader from 'components/widgets/loader/Loader';
 
 import UserAvatar from 'views/user/UserAvatar';
 function LikesDialog({isOpen, title, onClose, storyId, className}) {
@@ -28,14 +27,12 @@ function LikesDialog({isOpen, title, onClose, storyId, className}) {
 	const [currentPage, setCurrentPage] = useState(1);
 
 	const renderContent = () => {
-		if (op === DEFAULT_OP.loading) {
-			return <Loader />;
-		}
 		return (
 			<LoadMoreModal
 				className={className + '-likes'}
 				onLoadMore={handleCount}
 				loading={op === DEFAULT_OP.load_more}
+				initLoading={op === DEFAULT_OP.loading}
 				shouldLoad={pages > currentPage}
 				id="storyLikes"
 			>

@@ -21,17 +21,16 @@ import FromNow from 'components/widgets/date-time/FromNow';
 import IconButton from 'components/widgets/button/IconButton';
 import TextArea from 'components/widgets/textarea/TextArea';
 
-import Loader from 'components/widgets/loader/Loader';
 import UserAvatar from 'views/user/UserAvatar';
 
 function CommentsDialog({isOpen, title, onClose, storyId, className}) {
 	const dispatch = useDispatch();
-	const {comments, commentsOp, user, op, pages} = useSelector(
+	const {comments, storyOp, user, op, pages} = useSelector(
 		state => ({
 			comments: selectComments(state),
 			user: selectUser(state),
-			op: state.stories.op,
-			commentsOp: state.comments.op,
+			storyOp: state.stories.op,
+			op: state.comments.op,
 			pages: state.comments.pages,
 		}),
 		shallowEqual
@@ -43,14 +42,12 @@ function CommentsDialog({isOpen, title, onClose, storyId, className}) {
 	const {data} = user;
 
 	const renderContent = () => {
-		if (op === DEFAULT_OP.loading) {
-			return <Loader />;
-		}
 		return (
 			<div className={className + '-comments'}>
 				<LoadMoreModal
 					onLoadMore={handleCount}
-					loading={commentsOp === DEFAULT_OP.load_more}
+					loading={op === DEFAULT_OP.load_more}
+					initLoading={op === DEFAULT_OP.loading}
 					shouldLoad={pages > currentPage}
 					id="storyComments"
 					className={className + '-comments-posted'}
@@ -79,7 +76,7 @@ function CommentsDialog({isOpen, title, onClose, storyId, className}) {
 											<IconButton
 												color={COLOR.secondary}
 												icon={FA.solid_times}
-												disabled={op}
+												disabled={storyOp}
 												onClick={e => handleComment(e, item.id)}
 											/>
 										)}
@@ -104,7 +101,7 @@ function CommentsDialog({isOpen, title, onClose, storyId, className}) {
 							/>
 							<IconButton
 								color={COLOR.secondary}
-								loading={op}
+								loading={storyOp}
 								onClick={handleComment}
 							>
 								Post
