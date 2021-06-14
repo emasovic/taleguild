@@ -10,7 +10,7 @@ const CLASS = 'st-LoadMore';
 
 export default function LoadMore({children, shouldLoad, onLoadMore, loading, className, id}) {
 	const isBottom = el => {
-		return el && el.scrollHeight - el.scrollTop === el.clientHeight;
+		return el && el.scrollHeight - el.scrollTop <= el.clientHeight;
 	};
 
 	const trackScrolling = () => {

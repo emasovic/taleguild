@@ -8,6 +8,7 @@ import {goToUser} from 'lib/routes';
 import FA from 'types/font_awesome';
 import {Toast} from 'types/toast';
 import {COLOR} from 'types/button';
+import {DEFAULT_OP} from 'types/default';
 
 import {loadComments, selectComments} from 'redux/comments';
 import {selectUser} from 'redux/user';
@@ -20,16 +21,17 @@ import FromNow from 'components/widgets/date-time/FromNow';
 import IconButton from 'components/widgets/button/IconButton';
 import TextArea from 'components/widgets/textarea/TextArea';
 
+import Loader from 'components/widgets/loader/Loader';
 import UserAvatar from 'views/user/UserAvatar';
 
 function CommentsDialog({isOpen, title, onClose, storyId, className}) {
 	const dispatch = useDispatch();
-	const {comments, loading, user, op, pages} = useSelector(
+	const {comments, commentsOp, user, op, pages} = useSelector(
 		state => ({
 			comments: selectComments(state),
 			user: selectUser(state),
 			op: state.stories.op,
-			loading: state.comments.loading,
+			commentsOp: state.comments.op,
 			pages: state.comments.pages,
 		}),
 		shallowEqual
@@ -41,11 +43,14 @@ function CommentsDialog({isOpen, title, onClose, storyId, className}) {
 	const {data} = user;
 
 	const renderContent = () => {
+		if (op === DEFAULT_OP.loading) {
+			return <Loader />;
+		}
 		return (
 			<div className={className + '-comments'}>
 				<LoadMoreModal
 					onLoadMore={handleCount}
-					loading={loading}
+					loading={commentsOp === DEFAULT_OP.load_more}
 					shouldLoad={pages > currentPage}
 					id="storyComments"
 					className={className + '-comments-posted'}
@@ -112,7 +117,13 @@ function CommentsDialog({isOpen, title, onClose, storyId, className}) {
 	};
 
 	const handleCount = useCallback(() => {
-		dispatch(loadComments({story: storyId, _start: currentPage * 10, _limit: 10}, false));
+		dispatch(
+			loadComments(
+				{story: storyId, _start: currentPage * 10, _limit: 10},
+				false,
+				DEFAULT_OP.load_more
+			)
+		);
 		setCurrentPage(currentPage + 1);
 	}, [dispatch, currentPage, storyId]);
 

@@ -239,9 +239,8 @@
 		flex-direction: column;
 
 		&-posted {
-			max-height: 500px;
-			overflow: auto;
-			word-break: break-word;
+			display: flex;
+			flex-direction: column;
 
 			&-item {
 				display: flex;
@@ -277,7 +276,6 @@
 						right: 5px;
 						font-size: 12px;
 						background: none;
-						// border: 1px solid transparent;
 						box-shadow: none;
 
 						&:hover {
@@ -304,7 +302,6 @@
 
 				.st-FloatingInput {
 					margin-bottom: 0;
-					//border: 1px solid $color-grey-border;
 				}
 
 				.st-IconButton {

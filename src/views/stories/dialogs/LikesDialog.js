@@ -5,18 +5,21 @@ import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
 import {goToUser} from 'lib/routes';
 
+import {DEFAULT_OP} from 'types/default';
+
 import {loadLikes, selectLikes} from 'redux/likes';
 
 import ConfirmModal from 'components/widgets/modals/Modal';
 import LoadMoreModal from 'components/widgets/loadmore/LoadMoreModal';
-import UserAvatar from 'views/user/UserAvatar';
+import Loader from 'components/widgets/loader/Loader';
 
+import UserAvatar from 'views/user/UserAvatar';
 function LikesDialog({isOpen, title, onClose, storyId, className}) {
 	const dispatch = useDispatch();
-	const {likes, loading, pages} = useSelector(
+	const {likes, op, pages} = useSelector(
 		state => ({
 			likes: selectLikes(state),
-			loading: state.likes.loading,
+			op: state.likes.op,
 			pages: state.likes.pages,
 		}),
 		shallowEqual
@@ -25,11 +28,14 @@ function LikesDialog({isOpen, title, onClose, storyId, className}) {
 	const [currentPage, setCurrentPage] = useState(1);
 
 	const renderContent = () => {
+		if (op === DEFAULT_OP.loading) {
+			return <Loader />;
+		}
 		return (
 			<LoadMoreModal
 				className={className + '-likes'}
 				onLoadMore={handleCount}
-				loading={loading}
+				loading={op === DEFAULT_OP.load_more}
 				shouldLoad={pages > currentPage}
 				id="storyLikes"
 			>
@@ -55,7 +61,13 @@ function LikesDialog({isOpen, title, onClose, storyId, className}) {
 	};
 
 	const handleCount = useCallback(() => {
-		dispatch(loadLikes({story: storyId, _start: currentPage * 10, _limit: 10}, false));
+		dispatch(
+			loadLikes(
+				{story: storyId, _start: currentPage * 10, _limit: 10},
+				false,
+				DEFAULT_OP.load_more
+			)
+		);
 		setCurrentPage(currentPage + 1);
 	}, [dispatch, currentPage, storyId]);
 

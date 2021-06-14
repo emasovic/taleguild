@@ -3,6 +3,8 @@ import {createSlice, createEntityAdapter} from '@reduxjs/toolkit';
 import * as api from '../lib/api';
 
 import {Toast} from 'types/toast';
+import {DEFAULT_OP} from 'types/default';
+
 import {newToast} from './toast';
 
 const likesAdapter = createEntityAdapter({
@@ -17,16 +19,24 @@ export const likesSlice = createSlice({
 		likesReceieved: (state, action) => {
 			likesAdapter.setAll(state, action.payload);
 			state.loading = null;
+			state.op = null;
 		},
 		likesUpsertMany: (state, action) => {
 			likesAdapter.upsertMany(state, action.payload);
 			state.loading = null;
+			state.op = null;
 		},
 		loadingStart: state => {
 			state.loading = true;
 		},
 		loadingEnd: state => {
 			state.loading = false;
+		},
+		opStart: (state, action) => {
+			state.op = action.payload;
+		},
+		opEnd: state => {
+			state.op = null;
 		},
 		gotPages: (state, action) => {
 			state.pages = Math.ceil(action.payload / 10);
@@ -41,13 +51,15 @@ export const {
 	likesReceieved,
 	likesUpsertMany,
 	gotPages,
+	opStart,
+	opEnd,
 } = likesSlice.actions;
 
-export const loadLikes = (params, count) => async dispatch => {
-	dispatch(loadingStart());
+export const loadLikes = (params, count, op = DEFAULT_OP.loading) => async dispatch => {
+	dispatch(opStart(op));
 	const res = await api.getLikes(params);
 	if (res.error) {
-		dispatch(loadingEnd());
+		dispatch(opEnd());
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
 
@@ -56,7 +68,7 @@ export const loadLikes = (params, count) => async dispatch => {
 
 		const countRes = await api.countLikes(countParams);
 		if (countRes.error) {
-			dispatch(loadingEnd());
+			dispatch(opEnd());
 			return dispatch(newToast({...Toast.error(countRes.error)}));
 		}
 		dispatch(gotPages(countRes));

@@ -3,6 +3,7 @@ import {createSlice, createEntityAdapter} from '@reduxjs/toolkit';
 import * as api from '../lib/api';
 
 import {Toast} from 'types/toast';
+import {DEFAULT_OP} from 'types/default';
 
 import {newToast} from './toast';
 import {gotComment, removeComment} from './story';
@@ -19,16 +20,24 @@ export const commentsSlice = createSlice({
 		commentsReceieved: (state, action) => {
 			commentsAdapter.setAll(state, action.payload);
 			state.loading = null;
+			state.op = null;
 		},
 		commentsUpsertMany: (state, action) => {
 			commentsAdapter.upsertMany(state, action.payload);
 			state.loading = null;
+			state.op = null;
 		},
 		loadingStart: state => {
 			state.loading = true;
 		},
 		loadingEnd: state => {
 			state.loading = false;
+		},
+		opStart: (state, action) => {
+			state.op = action.payload;
+		},
+		opEnd: state => {
+			state.op = null;
 		},
 		gotPages: (state, action) => {
 			state.pages = Math.ceil(action.payload / 10);
@@ -51,13 +60,15 @@ export const {
 	commentsReceieved,
 	commentsUpsertMany,
 	gotPages,
+	opStart,
+	opEnd,
 } = commentsSlice.actions;
 
-export const loadComments = (params, count) => async dispatch => {
-	dispatch(loadingStart());
+export const loadComments = (params, count, op = DEFAULT_OP.loading) => async dispatch => {
+	dispatch(opStart(op));
 	const res = await api.getComments(params);
 	if (res.error) {
-		dispatch(loadingEnd());
+		dispatch(opEnd());
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
 
@@ -66,7 +77,7 @@ export const loadComments = (params, count) => async dispatch => {
 
 		const countRes = await api.countComments(countParams);
 		if (countRes.error) {
-			dispatch(loadingEnd());
+			dispatch(opEnd());
 			return dispatch(newToast({...Toast.error(countRes.error)}));
 		}
 		dispatch(gotPages(countRes));
