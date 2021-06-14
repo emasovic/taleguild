@@ -15,6 +15,10 @@ export const savedBySlice = createSlice({
 	initialState: savedByAdapter.getInitialState({op: null, pages: null, loading: null}),
 	reducers: {
 		savedByReceieved: (state, action) => {
+			savedByAdapter.setAll(state, action.payload);
+			state.loading = null;
+		},
+		savedByUpsertMany: (state, action) => {
 			savedByAdapter.upsertMany(state, action.payload);
 			state.loading = null;
 		},
@@ -31,7 +35,13 @@ export const savedBySlice = createSlice({
 	},
 });
 
-export const {loadingStart, loadingEnd, savedByReceieved, gotPages} = savedBySlice.actions;
+export const {
+	loadingStart,
+	loadingEnd,
+	savedByReceieved,
+	savedByUpsertMany,
+	gotPages,
+} = savedBySlice.actions;
 
 export const loadSavedBy = (params, count) => async dispatch => {
 	dispatch(loadingStart());
@@ -44,15 +54,17 @@ export const loadSavedBy = (params, count) => async dispatch => {
 	if (count) {
 		const countParams = {...params, _start: undefined, _limit: undefined};
 
-		const res = await api.countSavedStories(countParams);
-		if (res.error) {
+		const countRes = await api.countSavedStories(countParams);
+		if (countRes.error) {
 			dispatch(loadingEnd());
-			return dispatch(newToast({...Toast.error(res.error)}));
+			return dispatch(newToast({...Toast.error(countRes.error)}));
 		}
-		dispatch(gotPages(res));
+		dispatch(gotPages(countRes));
+
+		return dispatch(savedByReceieved(res));
 	}
 
-	return dispatch(savedByReceieved(res));
+	return dispatch(savedByUpsertMany(res));
 };
 
 //SELECTORS

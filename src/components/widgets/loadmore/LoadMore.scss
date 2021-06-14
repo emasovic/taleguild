@@ -1,4 +1,19 @@
+@import 'styles/variables.scss';
+@import 'styles//scrollbar.scss';
+@import 'styles/mixins/tab-links.scss';
+
 .st-LoadMore {
+	&-modal {
+		max-height: 500px;
+		overflow-y: hidden;
+
+		&:hover {
+			overflow-y: auto;
+		}
+
+		@include scrollbars(6px, $color-grey-lighter, $color-grey-border);
+	}
+
 	&-pagination {
 		display: flex;
 		justify-content: center;

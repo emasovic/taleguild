@@ -17,6 +17,10 @@ export const commentsSlice = createSlice({
 	initialState: commentsAdapter.getInitialState({op: null, pages: null, loading: null}),
 	reducers: {
 		commentsReceieved: (state, action) => {
+			commentsAdapter.setAll(state, action.payload);
+			state.loading = null;
+		},
+		commentsUpsertMany: (state, action) => {
 			commentsAdapter.upsertMany(state, action.payload);
 			state.loading = null;
 		},
@@ -41,7 +45,13 @@ export const commentsSlice = createSlice({
 	},
 });
 
-export const {loadingStart, loadingEnd, commentsReceieved, gotPages} = commentsSlice.actions;
+export const {
+	loadingStart,
+	loadingEnd,
+	commentsReceieved,
+	commentsUpsertMany,
+	gotPages,
+} = commentsSlice.actions;
 
 export const loadComments = (params, count) => async dispatch => {
 	dispatch(loadingStart());
@@ -54,15 +64,16 @@ export const loadComments = (params, count) => async dispatch => {
 	if (count) {
 		const countParams = {...params, _start: undefined, _limit: undefined};
 
-		const res = await api.countComments(countParams);
-		if (res.error) {
+		const countRes = await api.countComments(countParams);
+		if (countRes.error) {
 			dispatch(loadingEnd());
-			return dispatch(newToast({...Toast.error(res.error)}));
+			return dispatch(newToast({...Toast.error(countRes.error)}));
 		}
-		dispatch(gotPages(res));
+		dispatch(gotPages(countRes));
+		return dispatch(commentsReceieved(res));
 	}
 
-	return dispatch(commentsReceieved(res));
+	return dispatch(commentsUpsertMany(res));
 };
 
 //SELECTORS

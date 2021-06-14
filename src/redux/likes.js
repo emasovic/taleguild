@@ -15,6 +15,10 @@ export const likesSlice = createSlice({
 	initialState: likesAdapter.getInitialState({op: null, pages: null, loading: null}),
 	reducers: {
 		likesReceieved: (state, action) => {
+			likesAdapter.setAll(state, action.payload);
+			state.loading = null;
+		},
+		likesUpsertMany: (state, action) => {
 			likesAdapter.upsertMany(state, action.payload);
 			state.loading = null;
 		},
@@ -31,7 +35,13 @@ export const likesSlice = createSlice({
 	},
 });
 
-export const {loadingStart, loadingEnd, likesReceieved, gotPages} = likesSlice.actions;
+export const {
+	loadingStart,
+	loadingEnd,
+	likesReceieved,
+	likesUpsertMany,
+	gotPages,
+} = likesSlice.actions;
 
 export const loadLikes = (params, count) => async dispatch => {
 	dispatch(loadingStart());
@@ -44,15 +54,16 @@ export const loadLikes = (params, count) => async dispatch => {
 	if (count) {
 		const countParams = {...params, _start: undefined, _limit: undefined};
 
-		const res = await api.countLikes(countParams);
-		if (res.error) {
+		const countRes = await api.countLikes(countParams);
+		if (countRes.error) {
 			dispatch(loadingEnd());
-			return dispatch(newToast({...Toast.error(res.error)}));
+			return dispatch(newToast({...Toast.error(countRes.error)}));
 		}
-		dispatch(gotPages(res));
+		dispatch(gotPages(countRes));
+		return dispatch(likesReceieved(res));
 	}
 
-	return dispatch(likesReceieved(res));
+	return dispatch(likesUpsertMany(res));
 };
 
 //SELECTORS

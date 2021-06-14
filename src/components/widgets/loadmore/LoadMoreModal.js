@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 
 import Loader from '../loader/Loader';
 
+import './LoadMore.scss';
+
 const CLASS = 'st-LoadMore';
 
 export default function LoadMore({children, shouldLoad, onLoadMore, loading, className, id}) {
@@ -19,7 +21,7 @@ export default function LoadMore({children, shouldLoad, onLoadMore, loading, cla
 		}
 	};
 
-	const classNames = className ? classnames(CLASS, className) : CLASS;
+	const classNames = className ? classnames(`${CLASS}-modal`, className) : `${CLASS}-modal`;
 
 	return (
 		<div id={id} className={classNames} onScroll={trackScrolling}>
