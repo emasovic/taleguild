@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import {TYPOGRAPHY_MERRI, TYPOGRAPHY_LATO} from 'types/typography';
+import {FONTS, TYPOGRAPHY_VARIANTS} from 'types/typography';
 
 import IconButton from 'components/widgets/button/IconButton';
+import Typography from 'components/widgets/typography/Typography';
 
 import {ReactComponent as LogoShiled} from 'images/logo-shield.svg';
 
@@ -25,12 +26,12 @@ export default class ErrorPage extends Component {
 				<div className={CLASS}>
 					<LogoShiled />
 
-					<span className={TYPOGRAPHY_MERRI.heading_h1_black_bold}>
+					<Typography font={FONTS.merri} variant={TYPOGRAPHY_VARIANTS.h1}>
 						Oops, Something Went Wrong.
-					</span>
-					<span className={TYPOGRAPHY_LATO.placeholder_grey_medium}>
+					</Typography>
+					<Typography font={FONTS.lato} variant={TYPOGRAPHY_VARIANTS.p14}>
 						Try reloading you page or press reload button.
-					</span>
+					</Typography>
 
 					<IconButton onClick={() => window.location.reload()}>Reload</IconButton>
 				</div>

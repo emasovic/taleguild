@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 
 import {COLOR} from 'types/button';
 import {STORY_PAGE_OP} from 'types/story_page';
-import {TYPOGRAPHY_LATO} from 'types/typography';
+import {FONTS, TYPOGRAPHY_VARIANTS} from 'types/typography';
 import FA from 'types/font_awesome';
 
 import {selectUser} from 'redux/user';
@@ -19,10 +19,11 @@ import IconButton from 'components/widgets/button/IconButton';
 import Uploader from 'components/widgets/uploader/Uploader';
 import ConfirmModal from 'components/widgets/modals/Modal';
 import Loader from 'components/widgets/loader/Loader';
+import Typography from 'components/widgets/typography/Typography';
+import LanguagePicker from 'components/widgets/pickers/language/LanguagePicker';
 
 import StoryPagePicker from '../widgets/page-picker/StoryPagePicker';
 import StoryItem from '../StoryItem';
-import LanguagePicker from 'components/widgets/pickers/language/LanguagePicker';
 
 const ERRORS = {
 	TITLE: 'TITLE',
@@ -138,15 +139,15 @@ export default function Header({
 	};
 
 	const renderDetelePageContent = () => (
-		<span className={TYPOGRAPHY_LATO.placeholder_grey_medium}>
+		<Typography font={FONTS.lato} variant={TYPOGRAPHY_VARIANTS.p14}>
 			Are you sure you want to delete <strong>Page {selectedPage + 1}</strong>?
-		</span>
+		</Typography>
 	);
 
 	const renderDeteleContent = () => (
-		<span className={TYPOGRAPHY_LATO.placeholder_grey_medium}>
+		<Typography font={FONTS.lato} variant={TYPOGRAPHY_VARIANTS.p14}>
 			Are you sure you want to delete <strong>{title || 'this story'}</strong>?
-		</span>
+		</Typography>
 	);
 
 	const renderContent = () => {

@@ -1,8 +1,10 @@
 import React from 'react';
 
-import {TYPOGRAPHY_MERRI} from 'types/typography';
+import {FONTS, TYPOGRAPHY_VARIANTS} from 'types/typography';
 
 import {ReactComponent as EmptyState} from 'images/no-story-scroll.svg';
+
+import Typography from 'components/widgets/typography/Typography';
 
 import './NoStories.scss';
 
@@ -12,9 +14,9 @@ export default function NoStories() {
 	return (
 		<div className={CLASS}>
 			<EmptyState />
-			<span className={TYPOGRAPHY_MERRI.heading_h2_black_bold}>
+			<Typography font={FONTS.merri} variant={TYPOGRAPHY_VARIANTS.h2}>
 				There are no stories here yet.
-			</span>
+			</Typography>
 		</div>
 	);
 }

@@ -4,12 +4,13 @@ import {useDispatch, useSelector} from 'react-redux';
 import {HOME} from 'lib/routes';
 
 import {COLOR} from 'types/button';
-import {TYPOGRAPHY_LATO, TYPOGRAPHY_MERRI} from 'types/typography';
+import {FONTS, TYPOGRAPHY_VARIANTS} from 'types/typography';
 
 import {newStory} from 'redux/story';
 import {selectUser} from 'redux/user';
 
 import IconButton from 'components/widgets/button/IconButton';
+import Typography from 'components/widgets/typography/Typography';
 
 import {ReactComponent as Scroll} from 'images/scroll.svg';
 
@@ -27,13 +28,13 @@ export default function DeletedStory() {
 	return (
 		<div className={CLASS}>
 			<div className={CLASS + '-description'}>
-				<span className={TYPOGRAPHY_MERRI.heading_h1_black_bold}>
+				<Typography font={FONTS.merri} variant={TYPOGRAPHY_VARIANTS.h1}>
 					And that was the end of your story. Literally end. You delete it.
-				</span>
-				<span className={TYPOGRAPHY_LATO.placeholder_grey_medium}>
+				</Typography>
+				<Typography font={FONTS.lato} variant={TYPOGRAPHY_VARIANTS.p14}>
 					But you can create other one. Hope that you will not delete that one too. You
 					can also read other stories in mean time, just back to home.
-				</span>
+				</Typography>
 				<div className={CLASS + '-description-buttons'}>
 					<IconButton href={HOME} color={COLOR.secondary}>
 						Back to guild

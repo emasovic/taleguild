@@ -16,7 +16,7 @@ import {
 } from 'lib/routes';
 
 import FA from 'types/font_awesome';
-import {TYPOGRAPHY_LATO, TYPOGRAPHY_MERRI} from 'types/typography';
+import {FONTS, TYPOGRAPHY_VARIANTS} from 'types/typography';
 import {COLOR} from 'types/button';
 
 import {logOutUser, selectUser} from 'redux/user';
@@ -26,6 +26,7 @@ import UserAvatar from 'views/user/UserAvatar';
 import Backdrop from 'components/widgets/drawer/Backdrop';
 import SideDrawer from 'components/widgets/drawer/SideDrawer';
 import IconButton from 'components/widgets/button/IconButton';
+import Typography from 'components/widgets/typography/Typography';
 
 import './MobileNav.scss';
 
@@ -48,10 +49,12 @@ export default function MobileNav() {
 			<SideDrawer isOpen={isOpen}>
 				<div className={CLASS + '-user'}>
 					<UserAvatar user={data} />
-					<span className={TYPOGRAPHY_MERRI.placeholder_18_black}>{displayName}</span>
-					<span className={TYPOGRAPHY_LATO.placeholder_grey_medium}>
+					<Typography font={FONTS.merri} variant={TYPOGRAPHY_VARIANTS.p18}>
+						{displayName}
+					</Typography>
+					<Typography font={FONTS.lato} variant={TYPOGRAPHY_VARIANTS.p14}>
 						@{data?.username}
-					</span>
+					</Typography>
 				</div>
 				<div className={CLASS + '-items'}>
 					<div>

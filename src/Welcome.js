@@ -2,9 +2,10 @@ import React from 'react';
 
 import {HOME} from 'lib/routes';
 
-import {TYPOGRAPHY_MERRI, TYPOGRAPHY_LATO} from 'types/typography';
+import {FONTS, TYPOGRAPHY_VARIANTS} from 'types/typography';
 
 import IconButton from 'components/widgets/button/IconButton';
+import Typography from 'components/widgets/typography/Typography';
 
 import {ReactComponent as LogoShiled} from 'images/logo-shield.svg';
 
@@ -17,13 +18,15 @@ export default function Welcome() {
 		<div className={CLASS}>
 			<LogoShiled />
 
-			<span className={TYPOGRAPHY_MERRI.heading_h1_black_bold}>Welcome to our guild.</span>
-			<span className={TYPOGRAPHY_LATO.placeholder_grey_medium}>
+			<Typography font={FONTS.merri} variant={TYPOGRAPHY_VARIANTS.h1}>
+				Welcome to our guild.
+			</Typography>
+			<Typography font={FONTS.lato} variant={TYPOGRAPHY_VARIANTS.p14}>
 				We nurture free thought and creativity. In our guild, you can write stories that
 				occupy your mind for a long time and share them with others. And others will help
 				you shape those stories in a better light. For everything else you are free to
 				contact us. Enjoy.
-			</span>
+			</Typography>
 
 			<IconButton href={HOME}>Open the door</IconButton>
 		</div>

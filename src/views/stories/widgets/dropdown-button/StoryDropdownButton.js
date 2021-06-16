@@ -5,12 +5,13 @@ import PropTypes from 'prop-types';
 
 import {editStory} from 'lib/routes';
 
-import {TYPOGRAPHY_LATO} from 'types/typography';
+import {FONTS, TYPOGRAPHY_VARIANTS} from 'types/typography';
 
 import {deleteStory} from 'redux/story';
 
 import ConfirmModal from 'components/widgets/modals/Modal';
 import DropdownButton from 'components/widgets/button/DropdownButton';
+import Typography from 'components/widgets/typography/Typography';
 
 import './StoryDropdownButton.scss';
 
@@ -36,9 +37,9 @@ export default function StoryDropdownButton({story, onDeleteStory}) {
 	const toggleModal = () => setIsModalOpen(prevState => !prevState);
 
 	const renderContent = () => (
-		<span className={TYPOGRAPHY_LATO.placeholder_grey_medium}>
+		<Typography font={FONTS.lato} variant={TYPOGRAPHY_VARIANTS.p14}>
 			Are you sure you want to delete <strong>{story.title || 'Untitled'}</strong>?
-		</span>
+		</Typography>
 	);
 
 	if (!story) {

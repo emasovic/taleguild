@@ -6,13 +6,14 @@ import {HOME} from 'lib/routes';
 
 import {USER_OP} from 'types/user';
 import {ICONS} from 'types/icons';
-import {TYPOGRAPHY_MERRI, TYPOGRAPHY_LATO} from 'types/typography';
+import {FONTS, TYPOGRAPHY_VARIANTS} from 'types/typography';
 
 import {providerLogin} from 'redux/user';
 
 import Loader from 'components/widgets/loader/Loader';
 import Icon from 'components/widgets/icon/Icon';
 import IconButton from 'components/widgets/button/IconButton';
+import Typography from 'components/widgets/typography/Typography';
 
 import './ProviderLogin.scss';
 
@@ -39,12 +40,12 @@ export default function ProviderLogin() {
 			</div>
 
 			<div className={CLASS + '-text'}>
-				<span className={TYPOGRAPHY_MERRI.heading_h1_black_bold}>
+				<Typography font={FONTS.merri} variant={TYPOGRAPHY_VARIANTS.h1}>
 					This account already exists.
-				</span>
-				<span className={TYPOGRAPHY_LATO.placeholder_grey_medium}>
+				</Typography>
+				<Typography font={FONTS.lato} variant={TYPOGRAPHY_VARIANTS.p14}>
 					Account with this email address or username already exists.
-				</span>
+				</Typography>
 				<div className={CLASS + '-text-button'}>
 					<IconButton href={HOME}>Back to guild</IconButton>
 				</div>
