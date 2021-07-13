@@ -12,14 +12,14 @@
 			font-family: $font-merriweather;
 			font-weight: bold;
 			font-size: 14px;
-			@include theme-aware('color', 'modal-title-color');
+			@include theme-aware('color', 'G600');
 		}
 
 		&-content {
 			min-width: $story-preview-width-medium;
 			border-radius: 6px;
 			border: none;
-			@include theme-aware('background', 'modal-background');
+			@include theme-aware('background', 'B200');
 
 			@media (max-width: $breakpoint-sm) {
 				min-width: $story-preview-width-small;
@@ -29,11 +29,12 @@
 		&-header {
 			display: flex;
 			align-items: center;
-			@include theme-aware('border-bottom', 'modal-border');
+			border-bottom: 1px solid;
+			@include theme-aware('border-color', 'G100');
 
 			.close {
 				outline: none;
-				@include theme-aware('color', 'modal-title-color');
+				@include theme-aware('color', 'G900');
 			}
 		}
 
@@ -45,8 +46,14 @@
 			display: flex;
 			align-items: center;
 			justify-content: flex-end;
-			@include theme-aware('border', 'modal-border');
-			@include theme-aware('background', 'modal-footer-color');
+			border-top: 1px solid;
+			@include theme-aware('border-color', 'G100');
+			@include theme-aware('background', 'B200');
+
+			.st-IconButton {
+				padding: 0px 16px;
+				margin-left: 16px;
+			}
 		}
 	}
 }

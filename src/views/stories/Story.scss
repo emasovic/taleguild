@@ -25,6 +25,7 @@
 
 		&-cover {
 			height: 384px;
+			@include theme-aware('background-color', 'B200');
 
 			.st-Image {
 				border-radius: 12px;
@@ -32,7 +33,7 @@
 
 				&-fallback {
 					.st-Icon {
-						border-radius: 12px;
+						border-radius: 8px;
 					}
 				}
 			}
@@ -56,7 +57,7 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		margin: 20px 0;
+		margin: 24px 0;
 		min-height: 50px;
 
 		.pagination {
@@ -67,19 +68,17 @@
 			&-item {
 				.page-link {
 					border-radius: 6px;
+					border: 1px solid;
 					padding: 10px 20px;
 					margin: 0 6px;
 					min-width: 90px;
 					min-height: 40px;
-					@include theme-aware('background-color', 'story-pagination-background');
-					@include theme-aware('border', 'story-pagination-border');
-					@include theme-aware('color', 'story-pagination-color');
+					@include theme-aware('background-color', 'B100');
+					@include theme-aware('border-color', 'G100');
+					@include theme-aware('color', 'G500');
 
 					&:hover {
-						@include theme-aware(
-							'background-color',
-							'story-pagination-background-hover'
-						);
+						@include theme-aware('background-color', 'B300');
 					}
 
 					&:focus {
@@ -94,9 +93,10 @@
 
 				&.active {
 					.page-link {
-						// @include theme-aware('border', 'story-pagination-border-active');
-						@include theme-aware('color', 'story-pagination-color-active');
-						box-shadow: $box-shadow-light;
+						@include theme-aware('border-color', 'T300');
+						@include theme-aware('color', 'T600');
+						@include theme-aware('background-color', 'T200');
+						font-weight: bold;
 					}
 				}
 			}
@@ -104,8 +104,8 @@
 	}
 
 	&-pages {
-		margin-bottom: 20px;
-		color: $color-grey-light;
+		margin-bottom: 24px;
+		@include theme-aware('color', 'G400');
 	}
 
 	.st-TextViewer {

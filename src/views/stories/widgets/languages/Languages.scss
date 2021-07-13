@@ -1,6 +1,7 @@
 @import 'styles/variables.scss';
 @import 'styles//scrollbar.scss';
 @import 'styles/mixins/tab-links.scss';
+@import 'styles/themes/mixins.scss';
 
 .st-Languages {
 	width: 100%;
@@ -12,7 +13,7 @@
 	height: calc(100vh - 100px);
 	overflow-y: hidden;
 
-	@include scrollbars(6px, $color-grey-lighter, $color-grey-border);
+	@include scrollbars(6px, 'G200', 'G100');
 
 	&:hover {
 		overflow-y: auto;
@@ -24,7 +25,7 @@
 
 	> span {
 		font-size: 14px;
-		color: $color-grey-light;
+		@include theme-aware('color', 'G500');
 		font-weight: 600;
 		padding-left: 16px;
 	}

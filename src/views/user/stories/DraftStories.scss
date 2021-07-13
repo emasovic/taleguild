@@ -8,12 +8,13 @@
 	> span {
 		font-weight: 600;
 		text-transform: uppercase;
-		@include theme-aware('color', 'saved-story-title');
+		@include theme-aware('color', 'G500');
+		margin-bottom: 8px;
 	}
 
 	&-pagination {
 		display: flex;
 		justify-content: center;
-		margin: 16px 0;
+		margin: 24px 0;
 	}
 }

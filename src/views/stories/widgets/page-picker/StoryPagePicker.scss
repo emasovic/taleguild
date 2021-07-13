@@ -3,25 +3,25 @@
 
 .st-StoryPagePicker {
 	min-width: 220px;
-	height: 36px;
+	height: 40px;
 
 	&__option {
-		@include theme-aware('background-color', 'story-pagepicker-background');
-		@include theme-aware('color', 'story-pagepicker-color');
-		@include theme-aware('border-bottom', 'story-pagepicker-border');
-		padding: 16px;
+		@include theme-aware('background-color', 'B100');
+		@include theme-aware('color', 'G700');
+		max-width: 202px;
+		padding: 8px 14px;
+		margin: 4px 8px;
+		border-radius: 6px;
 
 		.st-IconButton {
 			width: 100%;
 		}
 
 		&:hover {
-			text-decoration: underline;
 			cursor: pointer;
-		}
-
-		&:active {
-			@include theme-aware('background-color', 'default-picker-option-background');
+			text-decoration: underline;
+			@include theme-aware('text-decoration-color', 'B100');
+			@include theme-aware('background-color', 'B300');
 		}
 	}
 
@@ -30,21 +30,25 @@
 		flex-direction: row-reverse;
 		outline: none;
 		cursor: pointer !important;
-		padding: 0 6px;
-		@include theme-aware('border', 'story-pagepicker-button-border');
-		@include theme-aware('background-color', 'story-pagepicker-background');
+		padding: 0px 6px;
+		height: 36px;
+		border: 1px solid;
+		@include theme-aware('border-color', 'B100');
+		@include theme-aware('background-color', 'B100');
 
 		&:hover {
-			@include theme-aware('border', 'story-pagepicker-button-border');
+			@include theme-aware('border-color', 'B300');
+			@include theme-aware('background-color', 'B300');
 		}
 
 		&--menu-is-open {
-			@include theme-aware('background-color', 'story-pagepicker-background');
+			@include theme-aware('border-color', 'B300');
+			@include theme-aware('background-color', 'B300');
 		}
 	}
 
 	&__menu {
-		@include theme-aware('background-color', 'story-pagepicker-background');
+		@include theme-aware('background-color', 'B100');
 
 		&-list {
 			overflow-x: hidden;
@@ -53,14 +57,20 @@
 	}
 
 	&__single-value {
-		color: $color-grey-light !important;
+		@include theme-aware('color', 'G500');
 	}
 
 	&__indicator {
-		color: $color-grey-light !important;
+		@include theme-aware('color', 'G400');
 
 		&-separator {
 			display: none;
+		}
+	}
+
+	&-button {
+		&:hover {
+			@include theme-aware('background-color', 'B100');
 		}
 	}
 }

@@ -8,7 +8,8 @@
 	> span {
 		font-weight: 600;
 		text-transform: uppercase;
-		@include theme-aware('color', 'saved-story-title');
+		margin-bottom: 8px;
+		@include theme-aware('color', 'G500');
 	}
 
 	&-pagination {

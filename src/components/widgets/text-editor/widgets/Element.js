@@ -9,8 +9,8 @@ export default function Element({attributes, children, element}) {
 			return <ul {...attributes}>{children}</ul>;
 		case 'heading-one':
 			return <h1 {...attributes}>{children}</h1>;
-		case 'heading-three':
-			return <h3 {...attributes}>{children}</h3>;
+		case 'heading-four':
+			return <h4 {...attributes}>{children}</h4>;
 		case 'list-item':
 			return <li {...attributes}>{children}</li>;
 		case 'numbered-list':

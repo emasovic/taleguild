@@ -9,7 +9,8 @@
 	padding: 36px;
 	margin: 0 auto;
 	border-radius: 6px;
-	@include theme-aware('box-shadow', 'modal-box-shadow');
+	border: 1px solid;
+	@include theme-aware('border-color', 'G100');
 
 	@media (max-width: $breakpoint-sm) {
 		width: $story-preview-width-small;
@@ -20,7 +21,7 @@
 		font-weight: 900;
 		font-size: 24px;
 		margin-bottom: 24px;
-		@include theme-aware('color', 'modal-title-color');
+		@include theme-aware('color', 'G900');
 	}
 
 	.st-FloatingInput {
@@ -33,14 +34,18 @@
 		font-size: 14px;
 		text-align: right;
 		font-weight: bold;
+		margin-bottom: 16px;
+		@include theme-aware('color', 'T600');
 
 		&:last-child {
-			text-align: left;
+			text-align: center;
+			margin-top: 16px;
+			margin-bottom: 0px;
 		}
 	}
 
 	.st-IconButton {
-		margin: 15px 0;
+		margin-bottom: 16px;
 		min-height: 50px;
 
 		&-link {
@@ -51,6 +56,7 @@
 	&-divider {
 		text-align: center;
 		font-size: 14px;
-		color: $color-grey-medium;
+		margin-bottom: 16px;
+		@include theme-aware('color', 'G400');
 	}
 }

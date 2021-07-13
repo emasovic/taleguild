@@ -1,57 +1,36 @@
-//BOX-SHADOW
-
-$box-shadow-light: 2px 2px 12px rgba(35, 31, 26, 0.08);
-$box-shadow-drop: 2px 2px 12px rgba(35, 31, 26, 0.24);
-
-//STORY
-
-$story-preview-width-large: 640px;
-$story-preview-width-medium: 480px;
-$story-preview-width-small: 320px;
-$story-preview-height: 480px;
-$story-preview-shadow: $box-shadow-light;
-
 //COLORS
 
-$color-primary: #b57e40;
-$color-primary-dark: #885f30;
-$color-primary-cream: #daba95;
-$color-primary-light: #faf5f0;
+$color-gold-96: #fbf7ee;
+$color-gold-92: #f8eede;
+$color-gold-84: #f0ddbc;
+$color-gold-72: #e5c48a;
+$color-gold-64: #deb368;
+$color-gold-48: #c98f2c;
+$color-gold-36: #976b21;
+$color-gold-24: #644816;
+$color-gold-16: #2e2a24;
+$color-gold-12: #32240b;
 
-$color-secondary-black: #231f1a;
-$color-secondary-black-grey-dark: #35393b;
-$color-secondary-black-grey: #4D5356;
-$color-secondary-black-cream: #34393d;
-$color-secondary-black-medium: #3a3e41;
-$color-secondary-black-light: #2e3336;
-$color-secondary-black-lighter: #3f4447;
+$color-grey-100: #ffffff;
+$color-grey-97: #f9f8f6;
+$color-grey-94: #f1f0ee;
+$color-grey-92: #ecebe9;
+$color-grey-84: #d9d7d3;
+$color-grey-72: #bdb9b2;
+$color-grey-64: #aba59c;
+$color-grey-48: #847d71;
+$color-grey-36: #635e54;
+$color-grey-26: #424242;
+$color-grey-24: #3d3d3d;
+$color-grey-20: #333333;
+$color-grey-16: #292929;
+$color-grey-12: #1f1f1f;
 
-$color-secondary-green: #22d3bb;
-$color-secondary-green-dark: #11695e;
-$color-secondary-green-cream: #84ebdd;
-$color-secondary-green-light: #d3f8f3;
+$color-red-58: #ea3e55;
+$color-red-24: #6e0c19;
 
-$color-secondary-red: #ea3e55;
-$color-secondary-red-dark: #6e0c19;
-$color-secondary-red-cream: #f17e8e;
-$color-secondary-red-light: #fad1d7;
-
-$color-secondary-yellow: #f0c519;
-$color-secondary-yellow-dark: #c99f2c;
-$color-secondary-yellow-cream: #f6dd79;
-$color-secondary-yellow-light: #fcf3cf;
-
-$color-background: #fafaf9;
-$color-background-white-grey: #f6f5f4;
-$color-grey-border: #e9e6e2;
-$color-grey-lighter: #cdc7c1;
-$color-grey-light: #aba49c;
-$color-grey-medium: #847b71;
-$color-grey-cream: #635c54;
-$color-grey-cream-dark: #433e37;
-$color-grey-black: #2f2922;
-
-$color-white: #fff;
+$color-green-48: #22d398;
+$color-green-24: #11694c;
 
 //FONTS
 
@@ -62,3 +41,39 @@ $font-merriweather: 'Merriweather', serif;
 
 $breakpoint-m: 1166px;
 $breakpoint-sm: 576px;
+
+//BOX-SHADOW
+
+$box-shadow-light: 2px 2px 12px rgba(35, 31, 26, 0.08);
+$box-shadow-drop: 2px 2px 12px rgba(35, 31, 26, 0.24);
+$box-shadow-invert: 2px -2px 12px rgba(35, 31, 26, 0.08);
+$box-shadow-card-light: 2px 2px 12px rgba(35, 31, 26, 0.16);
+$box-shadow-card-dark: 2px 2px 12px rgba(35, 31, 26, 0.99);
+
+// BUTTON SHADOW
+
+$primary-button-shadow: 0px 2px 2px rgba(35, 31, 26, 0.04), 0px 1px 0px 1px #c98f2c,
+	0px 2px 4px rgba(35, 31, 26, 0.12);
+
+$box-shadow-btn: 0px 0px 0px 1px rgba(35, 31, 26, 0.02), 0px 2px 4px rgba(35, 31, 26, 0.08);
+
+$box-shadow-btn-hover: 0px 1px 4px rgba(35, 31, 26, 0.12), 0px 0px 0px 1px rgba(35, 31, 26, 0.02),
+	0px 2px 4px rgba(35, 31, 26, 0.08);
+
+$box-shadow-darkbtn: 0px 1px 4px rgba(0, 0, 0, 0.12), 0px 0px 0px 1px rgba(0, 0, 0, 0.02),
+	0px 2px 4px rgba(0, 0, 0, 0.08);
+
+$box-shadow-darkbtn-hover: 0px 1px 4px rgba(0, 0, 0, 0.12), 0px 0px 0px 1px rgba(0, 0, 0, 0.02),
+	0px 2px 4px 4px rgba(0, 0, 0, 0.08);
+
+// FOCUS
+
+$focus: 0px 0px 0px 3px rgba(201, 143, 44, 0.24);
+
+// STORY
+
+$story-preview-width-large: 640px;
+$story-preview-width-medium: 480px;
+$story-preview-width-small: 320px;
+$story-preview-height: 480px;
+$story-preview-shadow: $box-shadow-light;

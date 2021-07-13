@@ -6,12 +6,15 @@
 		// border: 1px solid transparent;
 		outline: none !important;
 		box-shadow: none;
-		color: $color-grey-cream;
+		@include theme-aware('color', 'G500');
 		border-color: transparent;
 
-		&:hover {
-			@include theme-aware('background-color', 'story-pagepicker-background-hover');
-			@include theme-aware('border-color', 'story-pagepicker-background-hover');
+		&:hover,
+		&:active:not(:disabled):not(.disabled):active,
+		&:focus {
+			@include theme-aware('background-color', 'B300');
+			@include theme-aware('border-color', 'B300');
+			@include theme-aware('color', 'G500');
 		}
 	}
 
@@ -19,36 +22,37 @@
 		&-menu {
 			padding: 0;
 			min-width: 300px;
-			@include theme-aware('background', 'story-item-background');
+			border-radius: 6px;
+			border: 1px solid;
+			@include theme-aware('box-shadow', 'card-shadow');
+			@include theme-aware('background', 'B100');
+			@include theme-aware('border-color', 'B100');
 		}
 
 		&-divider {
 			margin: 0;
-			@include theme-aware('border-top', 'story-pagepicker-border');
+			@include theme-aware('border-top', 'B100');
 		}
 
 		&-item {
 			outline: none;
-			font-weight: bold;
-			padding: 15px;
+			font-weight: 400;
+			font-size: 16px;
+			line-height: 16px;
+			padding: 12px 14px;
+			margin: 8px;
+			max-width: 280px;
 			background-color: transparent;
-			@include theme-aware('color', 'story-pagepicker-color');
+			@include theme-aware('color', 'G700');
 
 			&:hover,
-			&:active {
-				@include theme-aware('color', 'story-pagepicker-color');
-			}
-
-			&:hover {
-				@include theme-aware('background-color', 'default-picker-option-background-hover');
-			}
-
-			&:active, &:focus {
-				@include theme-aware('background-color', 'default-picker-option-background');
+			&:focus {
+				@include theme-aware('background-color', 'B300');
+				border-radius: 6px;
 			}
 
 			&:disabled {
-				@include theme-aware('color', 'story-pagepicker-color-disabled');
+				@include theme-aware('color', 'G400');
 				cursor: not-allowed;
 			}
 		}

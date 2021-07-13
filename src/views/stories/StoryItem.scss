@@ -4,14 +4,14 @@
 .st-StoryItem {
 	width: $story-preview-width-medium;
 	min-height: $story-preview-height;
-	margin: 12px 0 0;
+	margin: 16px 0 0;
 	border-radius: 6px;
-	box-shadow: 2px 2px 12px rgba(35, 31, 26, 0.08);
+	box-shadow: 2px 2px 12px rgba(35, 31, 26, 0.04);
 	display: flex;
 	flex-direction: column;
 	position: relative;
-	@include theme-aware('background', 'story-item-background');
-	@include theme-aware('color', 'story-item-description-color');
+	@include theme-aware('background', 'B100');
+	@include theme-aware('color', 'G900');
 
 	.st-DropdownButton {
 		position: absolute;
@@ -34,7 +34,7 @@
 	}
 
 	&:last-child {
-		margin-bottom: 12px;
+		margin-bottom: 16px;
 	}
 
 	@media (max-width: $breakpoint-sm) {
@@ -44,12 +44,16 @@
 	&-author {
 		display: flex;
 		align-items: center;
-		padding: 15px;
+		padding: 16px;
+
+		&:hover {
+			text-decoration: none;
+		}
 
 		.st-UserAvatar {
 			.st-Image-container,
 			.badge {
-				margin-right: 16px;
+				margin-right: 12px;
 			}
 		}
 
@@ -58,12 +62,16 @@
 			flex-direction: column;
 
 			span {
-				@include theme-aware('color', 'story-item-created-color');
+				@include theme-aware('color', 'G400');
 
 				&:first-child {
 					font-weight: bold;
 					font-family: $font-merriweather;
-					@include theme-aware('color', 'story-item-username-color');
+					@include theme-aware('color', 'G900');
+
+					&:hover {
+						text-decoration: underline;
+					}
 				}
 			}
 		}
@@ -72,7 +80,7 @@
 	&-description {
 		word-break: break-word;
 		// min-height: 70px;
-		padding: 0 15px 15px;
+		padding: 0 16px 16px;
 		// flex-grow: 1;
 	}
 
@@ -95,7 +103,7 @@
 
 	&-footer {
 		width: 100%;
-		padding: 15px;
+		padding: 16px;
 		min-height: 40px;
 		display: flex;
 		flex-direction: column;
@@ -109,14 +117,18 @@
 				font-size: 18px;
 				font-family: $font-merriweather;
 				font-weight: bold;
-				line-height: 22px;
-				@include theme-aware('color', 'story-item-title-color');
+				line-height: 24px;
+				@include theme-aware('color', 'G900');
+
+				&:hover {
+					text-decoration: underline;
+				}
 			}
 		}
 
 		&-categories {
 			span {
-				@include theme-aware('color', 'story-item-categories-color');
+				@include theme-aware('color', 'G500');
 				margin-right: 16px;
 				cursor: pointer;
 
@@ -137,15 +149,15 @@
 				background: none !important;
 				font-size: 24px;
 				padding: 0;
-				color: $color-grey-light;
+				@include theme-aware('color', 'G400');
 
 				&:last-child {
 					&:hover {
-						color: $color-secondary-yellow-dark !important;
+						@include theme-aware('color', 'T600');
 					}
 
 					&.active {
-						color: $color-secondary-yellow-dark !important;
+						@include theme-aware('color', 'T600');
 						background: none !important;
 					}
 				}
@@ -157,11 +169,11 @@
 						margin-right: 24px;
 
 						&:hover {
-							color: $color-secondary-red !important;
+							@include theme-aware('color', 'R58');
 						}
 
 						&.active {
-							color: $color-secondary-red !important;
+							@include theme-aware('color', 'R58');
 							background: none !important;
 						}
 					}
@@ -170,7 +182,7 @@
 						margin-right: 24px;
 
 						&:hover {
-							color: $color-secondary-yellow-dark !important;
+							@include theme-aware('color', 'T600');
 						}
 					}
 				}
@@ -180,7 +192,7 @@
 		&-stats {
 			display: flex;
 			justify-content: space-between;
-			@include theme-aware('color', 'story-item-stats-color');
+			@include theme-aware('color', 'G500');
 			// margin: 8px 0;
 
 			span {
@@ -207,12 +219,12 @@
 
 	&-likes,
 	&-comments {
-		@include theme-aware('color', 'story-item-username-color');
+		@include theme-aware('color', 'G500');
 
 		.st-UserAvatar {
 			.st-Image-container,
 			.badge {
-				margin-right: 16px;
+				margin-right: 12px;
 			}
 		}
 	}
@@ -224,12 +236,12 @@
 		&-item {
 			display: flex;
 			align-items: center;
-			margin: 15px 0;
+			margin: 16px 0;
 
 			span {
 				font-weight: bold;
 				font-family: $font-merriweather;
-				@include theme-aware('color', 'story-item-username-color');
+				@include theme-aware('color', 'G900');
 			}
 		}
 	}
@@ -261,12 +273,12 @@
 								font-weight: bold;
 								font-family: $font-merriweather;
 								margin-right: 8px;
-								@include theme-aware('color', 'story-item-username-color');
+								@include theme-aware('color', 'G900');
 							}
 
 							&:last-child {
 								font-size: 14px;
-								@include theme-aware('color', 'story-item-created-color');
+								@include theme-aware('color', 'G400');
 							}
 						}
 					}
@@ -285,7 +297,7 @@
 
 					span {
 						font-size: 14px;
-						@include theme-aware('color', 'story-item-description-color');
+						@include theme-aware('color', 'G900');
 					}
 				}
 			}
@@ -294,7 +306,7 @@
 		&-new {
 			display: flex;
 			align-items: center;
-			padding: 10px;
+			margin-top: 16px;
 
 			&-comment {
 				display: flex;
@@ -302,18 +314,22 @@
 
 				.st-FloatingInput {
 					margin-bottom: 0;
+					align-items: center;
+					margin-top: 2px;
 				}
 
 				.st-IconButton {
-					background: transparent !important;
+					// background: transparent !important;
 					outline: none;
-					box-shadow: none !important;
+					// box-shadow: none !important;
 					border: none;
-					color: $color-primary;
+					@include theme-aware('color', 'T600');
 					min-width: 80px;
+					margin-left: 12px;
 
 					&:hover {
 						border: none;
+						// @include theme-aware('background', 'T200');
 					}
 				}
 			}

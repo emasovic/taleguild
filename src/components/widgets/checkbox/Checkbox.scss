@@ -1,12 +1,13 @@
 @import '../../../styles/variables.scss';
+@import '../../../styles/themes/mixins.scss';
 
 .st-Checkbox {
 	margin: 20px 0;
 
 	label {
 		font-size: 14px;
-		font-weight: bold;
-		color: $color-grey-medium;
+		font-weight: 400;
+		@include theme-aware('color', 'G600');
 		cursor: pointer;
 
 		&:before,
@@ -15,7 +16,8 @@
 			top: 0;
 			width: 20px;
 			height: 20px;
-			border: 1px solid $color-primary;
+			border: 1px solid;
+			@include theme-aware('border-color', 'T600');
 		}
 	}
 }

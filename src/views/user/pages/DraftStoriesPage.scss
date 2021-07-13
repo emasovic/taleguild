@@ -44,7 +44,7 @@
 				padding: 0 15px 0 0;
 				margin-bottom: 12px;
 				text-transform: capitalize;
-				@include theme-aware('color', 'saved-story-color');
+				@include theme-aware('color', 'G800');
 			}
 
 			.st-NoStories {
@@ -56,6 +56,7 @@
 			&:last-child {
 				display: flex;
 				justify-content: center;
+				@include theme-aware('color', 'T600');
 			}
 		}
 	}

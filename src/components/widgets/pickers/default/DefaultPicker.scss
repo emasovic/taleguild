@@ -3,55 +3,62 @@
 
 .st-DefaultPicker {
 	min-width: 200px;
+	// max-width: 448px;
+
+	padding: 0;
 	display: flex;
 	flex-flow: column;
 	min-height: 50px;
 
 	label {
-		@include theme-aware('color', 'default-picker-label');
+		@include theme-aware('color', 'G600');
 		font-size: 14px;
 		margin-bottom: 4px;
 	}
 
 	&__option {
 		cursor: pointer;
-		@include theme-aware('color', 'default-picker-option-color');
+		padding: 12px 14px;
+
+		@include theme-aware('color', 'G700');
 
 		&:hover,
 		&--is-focused {
-			@include theme-aware('background-color', 'default-picker-option-background-hover');
-			@include theme-aware('color', 'default-picker-option-color');
+			@include theme-aware('background-color', 'B300');
+			@include theme-aware('color', 'G700');
 		}
 
 		&--is-selected {
-			@include theme-aware('background-color', 'default-picker-option-background');
-			@include theme-aware('color', 'default-picker-option-color');
+			@include theme-aware('background-color', 'T200');
+			@include theme-aware('color', 'G900');
 		}
 	}
 
 	&__single-value {
-		@include theme-aware('color', 'default-picker-item');
+		@include theme-aware('color', 'G900');
 	}
 
 	&__placeholder {
 		font-size: 14px;
+		@include theme-aware('color', 'G400');
 	}
 
 	&__menu {
-		@include theme-aware('background', 'story-item-background');
+		@include theme-aware('background', 'B100');
+		@include theme-aware('box-shadow', 'card-shadow');
 
 		&-notice {
 			&--no-options {
-				@include theme-aware('background', 'story-item-background');
+				@include theme-aware('background', 'B100');
 			}
 		}
 	}
 
 	.st-DefaultPicker__indicator {
-		color: $color-primary;
+		@include theme-aware('color', 'T600');
 
 		&:hover {
-			color: $color-primary;
+			@include theme-aware('color', 'T700');
 		}
 
 		&-separator {
@@ -62,28 +69,30 @@
 	.st-DefaultPicker__control {
 		height: 36px;
 		cursor: pointer;
-		@include theme-aware('background-color', 'story-item-background');
-		@include theme-aware('border', 'story-item-border');
+		border: 1px solid;
+		@include theme-aware('background-color', 'B100');
+		@include theme-aware('border-color', 'G100');
 
 		&--menu-is-open,
 		&--is-focused {
-			box-shadow: 0 0 0 1px $color-primary;
-			border-color: $color-primary;
+			box-shadow: $focus;
+			@include theme-aware('border-color', 'T600');
 		}
 
 		&:hover {
-			border-color: $color-primary;
+			@include theme-aware('border-color', 'T600');
 		}
 	}
 
 	&.invalid {
 		.st-DefaultPicker__control {
-			border: 1px solid $color-secondary-red;
+			border: 1px solid;
+			@include theme-aware('border-color', 'R58');
 		}
 	}
 
 	&-error {
-		color: $color-secondary-red;
+		@include theme-aware('color', 'R58');
 		font-size: 14px;
 	}
 }

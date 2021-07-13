@@ -3,7 +3,7 @@ body {
 	min-height: 100vh;
 	font-family: $font-lato;
 	overflow-y: scroll;
-	@include theme-aware('background', 'body-background');
+	@include theme-aware('background', 'B200');
 }
 
 #root {
