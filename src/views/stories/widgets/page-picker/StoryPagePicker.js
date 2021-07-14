@@ -20,7 +20,7 @@ export default function StoryPagePicker({onChange, value, pages, onNewPageClick,
 		const {data} = props;
 		if (data.custom) {
 			return (
-				<components.Option className={CLASS + '-button'} {...props}>
+				<components.Option className={CLASS + '-custom'} {...props}>
 					<IconButton color={COLOR.secondary} icon={FA.solid_plus} onClick={data.onClick}>
 						{data.label}
 					</IconButton>

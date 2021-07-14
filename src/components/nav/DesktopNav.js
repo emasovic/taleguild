@@ -1,11 +1,9 @@
 import React from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-// import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 import {Navbar, Nav, NavItem, NavLink, DropdownItem} from 'reactstrap';
 import {useLocation} from 'react-router-dom';
 
-// import FA from 'types/font_awesome';
 import {COLOR} from 'types/button';
 import {
 	USER_STORIES_SAVED,
@@ -60,15 +58,6 @@ export default function Navigation() {
 	const userLoggedIn = () => {
 		return (
 			<NavItem className={CLASS + '-status-signedIn'}>
-				{/* <IconButton
-					href="https://www.buymeacoffee.com/taleguildstory"
-					target="_blank"
-					rel="noopener"
-					icon={FA.solid_coffee}
-					color={COLOR.secondary}
-				>
-					Buy us a coffee
-				</IconButton> */}
 				<IconButton onClick={handleNewStory}>New story</IconButton>
 
 				<DropdownButton toggleItem={<UserAvatar user={data} />}>
@@ -100,14 +89,12 @@ export default function Navigation() {
 					<>
 						<NavItem>
 							<NavLink href={FEED} active={location.pathname === FEED}>
-								{/* <FontAwesomeIcon icon={FA.solid_home} /> */}
 								<span>Feed</span>
 							</NavLink>
 						</NavItem>
 
 						<NavItem>
 							<NavLink href={HOME} active={location.pathname === HOME}>
-								{/* <FontAwesomeIcon icon={FA.compass} /> */}
 								<span>Explore</span>
 							</NavLink>
 						</NavItem>

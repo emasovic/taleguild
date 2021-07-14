@@ -30,7 +30,7 @@
 		flex-direction: row-reverse;
 		outline: none;
 		cursor: pointer !important;
-		padding: 0px 6px;
+		padding: 0 6px;
 		height: 36px;
 		border: 1px solid;
 		@include theme-aware('border-color', 'B100');
@@ -68,7 +68,7 @@
 		}
 	}
 
-	&-button {
+	&-custom {
 		&:hover {
 			@include theme-aware('background-color', 'B100');
 		}

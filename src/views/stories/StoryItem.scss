@@ -79,9 +79,7 @@
 
 	&-description {
 		word-break: break-word;
-		// min-height: 70px;
 		padding: 0 16px 16px;
-		// flex-grow: 1;
 	}
 
 	&-cover {
@@ -193,7 +191,6 @@
 			display: flex;
 			justify-content: space-between;
 			@include theme-aware('color', 'G500');
-			// margin: 8px 0;
 
 			span {
 				cursor: pointer;
@@ -319,17 +316,14 @@
 				}
 
 				.st-IconButton {
-					// background: transparent !important;
 					outline: none;
-					// box-shadow: none !important;
 					border: none;
-					@include theme-aware('color', 'T600');
 					min-width: 80px;
 					margin-left: 12px;
+					@include theme-aware('color', 'T600');
 
 					&:hover {
 						border: none;
-						// @include theme-aware('background', 'T200');
 					}
 				}
 			}

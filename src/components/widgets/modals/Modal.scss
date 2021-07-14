@@ -38,10 +38,6 @@
 			}
 		}
 
-		// &-body {
-
-		// }
-
 		&-footer {
 			display: flex;
 			align-items: center;
@@ -51,7 +47,7 @@
 			@include theme-aware('background', 'B200');
 
 			.st-IconButton {
-				padding: 0px 16px;
+				padding: 0 16px;
 				margin-left: 16px;
 			}
 		}

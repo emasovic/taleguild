@@ -45,7 +45,6 @@
 					border-top-left-radius: 6px;
 					border-bottom-left-radius: 6px;
 				}
-				// border: none;
 			}
 		}
 	}
@@ -63,7 +62,6 @@
 			flex-direction: column;
 			word-break: break-word;
 			max-height: 100px;
-			// overflow: hidden;
 
 			> span {
 				@include theme-aware('color', 'G400');

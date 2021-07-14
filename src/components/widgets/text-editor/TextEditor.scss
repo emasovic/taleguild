@@ -19,17 +19,6 @@
 		transition: opacity 0.3s;
 		@include theme-aware('background-color', 'B100');
 
-		// &:before {
-		// 	content: '';
-		// 	position: absolute;
-		// 	width: 10px;
-		// 	height: 10px;
-		// 	bottom: -4px;
-		// 	left: 76px;
-		// 	transform: rotate(45deg);
-		// 	@include theme-aware('background-color', 'B100');
-		// }
-
 		.st-IconButton {
 			@include theme-aware('background-color', 'B100');
 			border: none !important;
@@ -39,7 +28,7 @@
 			@include theme-aware('color', 'G900');
 
 			&:last-child {
-				margin-right: 0px;
+				margin-right: 0;
 			}
 
 			&:hover {

@@ -4,7 +4,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import classnames from 'classnames';
 import {Button} from 'reactstrap';
 
-import FA from '../../../types/font_awesome';
+import FA from 'types/font_awesome';
 
 import './IconButton.scss';
 
