@@ -106,6 +106,10 @@
 		}
 
 		.st-UserAvatar {
+			&:hover {
+				opacity: 1;
+			}
+
 			.st-Image-container,
 			.badge {
 				font-size: 36px;
