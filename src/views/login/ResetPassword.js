@@ -21,6 +21,7 @@ export default function ResetPassword() {
 	const [passwordConfirmation, setPasswordConfirmation] = useState('');
 	return (
 		<div className={CLASS}>
+			<h4>Reset password</h4>
 			<FloatingInput
 				onChange={setPassword}
 				value={password}

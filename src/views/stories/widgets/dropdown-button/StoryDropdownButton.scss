@@ -1,4 +1,5 @@
 @import 'styles/variables.scss';
+@import 'styles/themes/mixins.scss';
 
 .st-StoryDropdownButton {
 	.st-DropdownButton {
@@ -9,7 +10,7 @@
 		.dropdown {
 			&-item {
 				&:last-child {
-					color: $color-secondary-red;
+					@include theme-aware('color', 'R58');
 				}
 			}
 		}

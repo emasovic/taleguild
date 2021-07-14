@@ -19,18 +19,18 @@
 		svg {
 			g {
 				path {
-					@include theme-aware('fill', 'tree-svg-first-path');
+					@include theme-aware('fill', 'G400');
 				}
 
 				&:nth-child(2) {
 					path {
-						@include theme-aware('fill', 'tree-svg-second-path');
+						@include theme-aware('fill', 'B100');
 					}
 				}
 
 				&:first-child {
 					path {
-						@include theme-aware('fill', 'tree-svg-last-path');
+						@include theme-aware('fill', 'G200');
 					}
 				}
 			}
@@ -53,7 +53,7 @@
 				font-family: $font-merriweather;
 				font-weight: 900;
 				font-size: 48px;
-				@include theme-aware('color', 'not-found-color');
+				@include theme-aware('color', 'T400');
 
 				@media (max-width: $breakpoint-sm) {
 					font-size: 32px;

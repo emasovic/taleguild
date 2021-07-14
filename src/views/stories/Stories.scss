@@ -1,5 +1,6 @@
 @import 'styles/variables.scss';
 @import 'styles/mixins/tab-links.scss';
+@import 'styles/themes/mixins.scss';
 
 .st-Stories {
 	min-width: $story-preview-width-medium;
@@ -49,7 +50,7 @@
 			min-width: 480px;
 			text-align: center;
 			// font-family: $font-merriweather;
-			color: $color-grey-cream;
+			@include theme-aware('color', 'G400');
 
 			@media (max-width: $breakpoint-m) {
 				min-width: $story-preview-width-small;

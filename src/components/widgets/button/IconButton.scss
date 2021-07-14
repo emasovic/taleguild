@@ -1,8 +1,8 @@
-@import '../../../styles/variables.scss';
+@import 'styles/variables.scss';
+@import 'styles/themes/mixins.scss';
 
 .st-IconButton {
 	border-radius: 6px !important;
-	color: $color-white;
 	font-weight: bold;
 	min-width: 100px;
 	min-height: 40px;
@@ -20,13 +20,10 @@
 	}
 
 	&-with-content {
-		// display: unset;
 		background: none;
-		color: #000;
-		min-width: 20px;
-		min-height: 20px;
+		min-width: 36px;
+		min-height: 38px;
 		width: max-content;
-		// border: none !important;
 		padding: 5px;
 
 		svg {

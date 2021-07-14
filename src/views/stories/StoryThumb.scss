@@ -10,13 +10,13 @@
 	width: $story-preview-width-medium;
 	cursor: pointer;
 	position: relative;
-	@include theme-aware('border', 'story-item-border');
-	@include theme-aware('background', 'story-item-background');
+	box-shadow: 2px 2px 12px rgba(35, 31, 26, 0.04);
+	@include theme-aware('background-color', 'B100');
 
 	.st-StoryDropdownButton {
 		position: absolute;
-		top: 5px;
-		right: 5px;
+		top: 4px;
+		right: 4px;
 		z-index: 1;
 	}
 
@@ -26,14 +26,12 @@
 
 	&:hover {
 		text-decoration: none;
-		box-shadow: $box-shadow-light;
-		transition: all 0.2s ease-in;
 	}
 
 	&-cover {
 		height: 100%;
 
-		.st-Image {
+		.st-Image-container {
 			width: 120px;
 			height: 100%;
 			object-fit: cover;
@@ -47,7 +45,6 @@
 					border-top-left-radius: 6px;
 					border-bottom-left-radius: 6px;
 				}
-				// border: none;
 			}
 		}
 	}
@@ -65,16 +62,20 @@
 			flex-direction: column;
 			word-break: break-word;
 			max-height: 100px;
-			// overflow: hidden;
 
 			> span {
-				@include theme-aware('color', 'story-item-created-color');
+				@include theme-aware('color', 'G400');
 
 				&:first-child {
 					font-family: $font-merriweather;
 					font-weight: bold;
 					font-size: 16px;
-					@include theme-aware('color', 'story-item-username-color');
+
+					@include theme-aware('color', 'G900');
+				}
+
+				&:hover {
+					text-decoration: underline;
 				}
 			}
 		}
@@ -86,7 +87,7 @@
 			margin-top: 6px;
 
 			span {
-				color: $color-grey-medium;
+				@include theme-aware('color', 'G400');
 			}
 		}
 	}

@@ -6,13 +6,13 @@
 	position: fixed;
 	top: 0;
 	right: 0;
-	width: 60vw;
+	width: 80vw;
 	z-index: 1031;
 	box-shadow: $box-shadow-light;
 	transform: translateX(100%);
 	transition: transform 0.3s ease-out;
 
-	@include theme-aware('background', 'body-background');
+	@include theme-aware('background', 'B100');
 
 	&.open {
 		transform: translateX(0);

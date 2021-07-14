@@ -11,16 +11,16 @@
 		border-radius: 6px;
 
 		&:hover {
-			@include theme-aware('background-color', 'story-list-background-hover');
+			@include theme-aware('background-color', 'B100');
 		}
 
 		span {
 			font-weight: bold;
 			font-size: 18px;
-			@include theme-aware('color', 'user-info-title');
+			@include theme-aware('color', 'G900');
 
 			&:last-child {
-				color: $color-grey-medium;
+				@include theme-aware('color', 'G500');
 				font-size: 14px;
 				font-weight: normal;
 				font-family: $font-lato;
@@ -31,12 +31,12 @@
 	&-followers {
 		display: flex;
 		flex-direction: column;
-		@include theme-aware('color', 'story-item-username-color');
+		@include theme-aware('color', 'G500');
 
 		&-item {
 			display: flex;
 			align-items: center;
-			margin: 15px 0;
+			margin: 16px 0;
 			position: relative;
 
 			&:hover {
@@ -57,7 +57,7 @@
 				overflow: hidden;
 				white-space: nowrap;
 				max-width: 150px;
-				@include theme-aware('color', 'story-item-username-color');
+				@include theme-aware('color', 'G900');
 			}
 
 			.st-IconButton {

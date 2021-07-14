@@ -5,5 +5,9 @@
 	font-family: $font-merriweather;
 	font-size: 18px;
 	line-height: 28px;
-	@include theme-aware('color', 'viewer-color');
+	@include theme-aware('color', 'G800');
+
+	span::selection {
+		@include theme-aware('background-color', 'text-selection');
+	}
 }

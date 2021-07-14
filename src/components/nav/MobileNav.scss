@@ -10,8 +10,8 @@
 	width: 100%;
 	justify-content: space-around;
 	padding: 6px;
-
-	@include theme-aware('background', 'body-background');
+	@include theme-aware('background-color', 'B100');
+	@include theme-aware('box-shadow', 'card-shadow');
 
 	.navbar {
 		width: 100%;
@@ -33,35 +33,46 @@
 
 		.st-UserAvatar {
 			margin-bottom: 12px;
+
+			.badge {
+				height: 80px;
+				width: 80px;
+				font-size: 36px;
+			}
+
+			.st-Image-container {
+				height: 80px;
+				width: 80px;
+			}
 		}
 
 		.placeholder-18-black {
 			margin-bottom: 6px;
 		}
 
-		@include theme-aware('border-color', 'story-pagepicker-background-hover');
+		@include theme-aware('border-color', 'B300');
 	}
 
 	&-items {
 		display: flex;
 		justify-content: space-between;
 		flex-direction: column;
-		height: calc(100% - 162px);
+		height: calc(100% - 200px);
 
 		.fa-user,
 		.fa-align-left,
 		.fa-cog,
 		.fa-bookmark,
 		.fa-sign-out-alt {
-			margin-right: 20px;
-			color: $color-primary;
+			margin-right: 16px;
+			@include theme-aware('color', 'T600');
 		}
 
 		.nav-link {
 			padding: 12px 22px;
 			border-bottom: 1px solid;
-			@include theme-aware('color', 'story-pagepicker-color');
-			@include theme-aware('border-color', 'story-pagepicker-background-hover');
+			@include theme-aware('color', 'G700');
+			@include theme-aware('border-color', 'B300');
 
 			&:nth-child(3) {
 				border-bottom: none;
@@ -69,7 +80,7 @@
 
 			&:last-child {
 				border-top: 1px solid;
-				@include theme-aware('border-color', 'story-pagepicker-background-hover');
+				@include theme-aware('border-color', 'B300');
 			}
 		}
 	}

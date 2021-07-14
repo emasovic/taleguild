@@ -28,8 +28,14 @@
 
 		> a {
 			&:last-child {
+				@include theme-aware('color', 'T600');
+				margin-top: 12px;
 				display: flex;
 				justify-content: center;
+
+				&:hover {
+					@include theme-aware('color', 'T600');
+				}
 			}
 		}
 	}

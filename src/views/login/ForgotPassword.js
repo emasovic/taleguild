@@ -23,6 +23,7 @@ export default function ForgotPassword() {
 
 	return (
 		<div className={CLASS}>
+			<h4>Forgot password?</h4>
 			<FloatingInput
 				onChange={setEmail}
 				value={email}

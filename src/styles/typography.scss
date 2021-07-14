@@ -5,7 +5,7 @@
 
 .merriweather-black {
 	font-family: $font-merriweather;
-	@include theme-aware('color', 'merriweather-h1');
+	@include theme-aware('color', 'G900');
 }
 
 .merriweather-black-bold {
@@ -54,6 +54,6 @@
 //LATO
 
 .placeholder-grey-medium {
-	@include theme-aware('color', 'lato-14-grey');
+	@include theme-aware('color', 'G900');
 	font-size: 14px;
 }
