@@ -12,6 +12,7 @@ export const DEFAULT_CRITERIA = {
 	_limit: 10,
 	_sort: 'published_at:DESC',
 	_publicationState: PUBLISH_STATES.live,
+	archived_at_null: true,
 };
 
 export const DEFAULT_STORYPAGE_DATA = [{type: 'paragraph', children: [{text: ''}]}];

@@ -11,9 +11,9 @@ import Loader from 'components/widgets/loader/Loader';
 import IconButton from 'components/widgets/button/IconButton';
 import NoStories from 'views/stories/NoStories';
 
-import './MyStories.scss';
+import './StoryList.scss';
 
-const CLASS = 'st-MyStories';
+const CLASS = 'st-StoryList';
 
 export default function MyStories({Component}) {
 	const dispatch = useDispatch();

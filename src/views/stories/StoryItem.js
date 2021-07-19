@@ -7,8 +7,6 @@ import {goToUser} from 'lib/routes';
 
 import FA from 'types/font_awesome';
 
-// import useCopyToClipboard from 'hooks/copy-to-clipboard';
-
 import {createOrDeleteLike} from 'redux/story';
 import {selectUser} from 'redux/user';
 import {createOrDeleteSavedStory} from 'redux/savedStories';
@@ -45,6 +43,9 @@ export default function StoryItem({
 	storypages,
 	savedBy,
 	slug,
+	archivedAt,
+	displayArchived,
+	keepArchived,
 }) {
 	const dispatch = useDispatch();
 	const location = useLocation();
@@ -60,8 +61,6 @@ export default function StoryItem({
 	const [isCommentsOpen, setIsCommentsOpen] = useState(false);
 	const [isLikesOpen, setIsLikesOpen] = useState(false);
 	const [isSavedOpen, setIsSavedOpen] = useState(false);
-	// const [isShareOpen, setIsShareOpen] = useState(false);
-	// const [isCopied, setIsCopied] = useCopyToClipboard(10000);
 
 	const {data} = loggedUser;
 
@@ -85,20 +84,6 @@ export default function StoryItem({
 	const getStoriesByCategoryId = categoryId => {
 		dispatch(navigateToQuery({categories: categoryId}, location));
 	};
-
-	// const renderShareContent = () => {
-	// 	const copyUrl = process.env.REACT_APP_SHARE_URL + '/story/' + slug;
-	// 	const buttonColor = isCopied ? COLOR.success : COLOR.primary;
-	// 	const buttonLabel = isCopied ? 'Copied' : 'Copy URL';
-	// 	return (
-	// 		<div className={CLASS + '-share'}>
-	// 			<FloatingInput value={copyUrl} label="Copy this URL to share story" disabled />
-	// 			<IconButton color={buttonColor} onClick={() => setIsCopied(copyUrl)}>
-	// 				{buttonLabel}
-	// 			</IconButton>
-	// 		</div>
-	// 	);
-	// };
 
 	const renderCategories =
 		categories && categories.length
@@ -125,7 +110,11 @@ export default function StoryItem({
 	return (
 		<div className={CLASS}>
 			{data && author.id === data.id && (
-				<StoryDropdownButton story={{id, title, storypages}} />
+				<StoryDropdownButton
+					story={{id, title, storypages, archivedAt}}
+					displayArchived={displayArchived}
+					keepArchived={keepArchived}
+				/>
 			)}
 			<Link to={goToUser(author.username)} className={CLASS + '-author'}>
 				<UserAvatar user={author} />
@@ -161,11 +150,6 @@ export default function StoryItem({
 									onClick={() => setIsCommentsOpen(true)}
 									aria-label="comment"
 								/>
-								{/* <IconButton
-									outline
-									icon={FA.share_square}
-									onClick={() => setIsShareOpen(true)}
-								/> */}
 							</div>
 							<IconButton
 								outline
@@ -223,15 +207,6 @@ export default function StoryItem({
 					onClose={() => setIsSavedOpen(false)}
 				/>
 			)}
-			{/* {isShareOpen && (
-				<ConfirmModal
-					isOpen={isShareOpen}
-					title="Copy URL"
-					renderFooter={false}
-					content={renderShareContent()}
-					onClose={() => setIsShareOpen(false)}
-				/>
-			)} */}
 		</div>
 	);
 }
@@ -248,8 +223,11 @@ StoryItem.propTypes = {
 	description: propTypes.string,
 	title: propTypes.string,
 	createdDate: propTypes.string,
+	archivedAt: propTypes.string,
 	author: propTypes.object,
 	views: propTypes.array,
 	savedBy: propTypes.array,
 	slug: propTypes.string,
+	displayArchived: propTypes.bool,
+	keepArchived: propTypes.bool,
 };

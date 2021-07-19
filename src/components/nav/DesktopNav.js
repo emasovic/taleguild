@@ -14,6 +14,7 @@ import {
 	FEED,
 	REGISTER,
 	LOGIN,
+	USER_STORIES_ARCHIVED,
 } from 'lib/routes';
 
 import {selectUser, logOutUser} from '../../redux/user';
@@ -64,6 +65,7 @@ export default function Navigation() {
 					<DropdownItem href={goToUser(data && data.username)}>My profile</DropdownItem>
 					<DropdownItem href={USER_STORIES_DRAFTS}>Drafts</DropdownItem>
 					<DropdownItem href={USER_STORIES_SAVED}>Saved stories</DropdownItem>
+					<DropdownItem href={USER_STORIES_ARCHIVED}>Archived stories</DropdownItem>
 					<DropdownItem href={USER_SETTINGS}>Account settings</DropdownItem>
 					<DropdownItem
 						href="https://www.buymeacoffee.com/taleguildstory"

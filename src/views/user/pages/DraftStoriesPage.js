@@ -6,7 +6,7 @@ import {USER_STORIES_SAVED} from 'lib/routes';
 import {STORY_COMPONENTS} from 'types/story';
 
 import DraftStories from '../stories/DraftStories';
-import SavedStories from '../stories/SavedStories';
+import SavedStories from '../stories/ArchivedStories';
 
 import './DraftStoriesPage.scss';
 

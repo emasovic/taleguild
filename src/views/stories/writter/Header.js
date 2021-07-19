@@ -100,6 +100,7 @@ export default function Header({
 				categories: categories.length && categories.map(item => item.value),
 				language: language && language.value,
 				published_at: !published ? new Date() : undefined,
+				archived_at: null,
 			};
 			onCreateOrUpdateStory(payload);
 		}

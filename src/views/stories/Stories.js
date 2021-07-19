@@ -86,6 +86,8 @@ function Stories({criteria, activeSort}) {
 						createdDate={item.published_at}
 						savedBy={item.saved_by}
 						slug={item.slug}
+						archivedAt={item.archived_at}
+						displayArchived
 					/>
 				);
 			})

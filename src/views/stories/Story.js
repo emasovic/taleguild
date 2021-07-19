@@ -3,9 +3,10 @@ import {useDispatch, useSelector, shallowEqual} from 'react-redux';
 import orderBy from 'lodash.orderby';
 import {useHistory, useParams} from 'react-router-dom';
 
-import {goToStory} from 'lib/routes';
+import {goToStory, HOME} from 'lib/routes';
 
 import {getIdFromSlug} from 'types/story';
+import {COLOR} from 'types/button';
 
 import {createOrUpdateViews, loadStory, selectStory} from 'redux/story';
 import {selectUserId} from 'redux/user';
@@ -14,6 +15,9 @@ import TextViewer from 'components/widgets/text-editor/TextViewer';
 import Loader from 'components/widgets/loader/Loader';
 import Pages from 'components/widgets/pagination/Pagination';
 import Helmet from 'components/widgets/helmet/Helmet';
+import PagePlaceholder from 'components/widgets/page-placeholder/PagePlaceholder';
+
+import {ReactComponent as ArchivedStory} from 'images/file-archive.svg';
 
 import StoryItem from './StoryItem';
 import NotFound from 'NotFound';
@@ -74,6 +78,20 @@ export default function Story() {
 		return <NotFound />;
 	}
 
+	if (story.archived_at && story.user?.id !== userId) {
+		return (
+			<PagePlaceholder
+				className={CLASS + '-placeholder'}
+				IconComponent={ArchivedStory}
+				buttonLabel="Back to home"
+				title="The story is archived"
+				subtitle="The writer has archived this story and it is no longer public."
+				to={HOME}
+				buttonProps={{color: COLOR.secondary}}
+			/>
+		);
+	}
+
 	let {storypages} = story;
 	storypages =
 		storypages && storypages.length
@@ -103,6 +121,9 @@ export default function Story() {
 				createdDate={story.published_at}
 				savedBy={story.saved_by}
 				slug={story.slug}
+				archivedAt={story.archived_at}
+				displayArchived
+				keepArchived
 			/>
 
 			{storypages[activePage] && <TextViewer value={storypages[activePage].text} />}

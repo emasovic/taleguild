@@ -45,7 +45,8 @@ import {
 	faClipboardCheck as solidClipboardCheck,
 	faShare as solidShare,
 	faAlignLeft as solidAlignLeft,
-	faSignOutAlt as solidSignOutAlt
+	faSignOutAlt as solidSignOutAlt,
+	faFileArchive as solidFileArchive,
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -117,6 +118,7 @@ const FA = {
 	solid_bookmark: solidBookmark,
 	solid_heart: solidHeart,
 	solid_archive: solidArchive,
+	solid_file_archive: solidFileArchive,
 	solid_trash: solidTrash,
 	solid_arrows_alt: solidArrowsAlt,
 	solid_pencil: solidPen,

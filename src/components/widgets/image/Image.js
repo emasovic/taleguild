@@ -84,7 +84,7 @@ const ImageContainer = props => {
 				if (!isVisible) {
 					setIsVisible(true);
 				}
-				observerElement.unobserve(ref.current);
+				ref?.current && observerElement.unobserve(ref.current);
 			}
 		},
 	});

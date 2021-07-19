@@ -11,9 +11,9 @@ import NoStories from 'views/stories/NoStories';
 import Loader from 'components/widgets/loader/Loader';
 import LoadMore from 'components/widgets/loadmore/LoadMore';
 
-import './DraftStories.scss';
+import './StoryList.scss';
 
-const CLASS = 'st-DraftStories';
+const CLASS = 'st-StoryList';
 
 export default function DraftStories({shouldLoadMore, Component}) {
 	const dispatch = useDispatch();

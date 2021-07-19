@@ -108,6 +108,14 @@
 		@include theme-aware('color', 'G400');
 	}
 
+	&-placeholder {
+		svg {
+			path {
+				@include theme-aware('fill', 'G400');
+			}
+		}
+	}
+
 	.st-TextViewer {
 		width: 100%;
 	}

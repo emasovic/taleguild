@@ -11,6 +11,7 @@ import {
 	LOGIN,
 	REGISTER,
 	USER_SETTINGS,
+	USER_STORIES_ARCHIVED,
 	USER_STORIES_DRAFTS,
 	USER_STORIES_SAVED,
 } from 'lib/routes';
@@ -69,6 +70,10 @@ export default function MobileNav() {
 						<NavLink href={USER_STORIES_SAVED}>
 							<FontAwesomeIcon icon={FA.bookmark} />
 							Saved stories
+						</NavLink>
+						<NavLink href={USER_STORIES_ARCHIVED}>
+							<FontAwesomeIcon icon={FA.solid_file_archive} />
+							Archived stories
 						</NavLink>
 						<NavLink href={USER_SETTINGS}>
 							<FontAwesomeIcon icon={FA.solid_cog} />

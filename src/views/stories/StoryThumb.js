@@ -22,7 +22,7 @@ export default function StoryThumb({
 	image,
 	formats,
 	size,
-	// description,
+	archivedAt,
 	title,
 	author,
 	createdDate,
@@ -30,6 +30,7 @@ export default function StoryThumb({
 	onDeleteStory,
 	storypages,
 	slug,
+	displayArchived,
 }) {
 	const history = useHistory();
 
@@ -43,8 +44,9 @@ export default function StoryThumb({
 	return (
 		<div className={CLASS}>
 			<StoryDropdownButton
-				story={{id, favouriteId, title, storypages}}
+				story={{id, favouriteId, title, storypages, archivedAt}}
 				onDeleteStory={onDeleteStory}
+				displayArchived={displayArchived}
 			/>
 			<Link to={goToStory(slug)} className={CLASS}>
 				<div className={CLASS + '-cover'}>
@@ -53,7 +55,6 @@ export default function StoryThumb({
 				<div className={CLASS + '-details'}>
 					<div className={CLASS + '-details-description'}>
 						<span>{title}</span>
-						{/* <span>{description}</span> */}
 					</div>
 
 					<div className={CLASS + '-details-created'}>
@@ -77,12 +78,14 @@ StoryThumb.propTypes = {
 	size: propTypes.string,
 	description: propTypes.string,
 	title: propTypes.string,
+	archivedAt: propTypes.string,
 	createdDate: propTypes.string,
 	author: propTypes.object,
 	storypages: propTypes.array,
 	favouriteId: propTypes.number,
 	onDeleteStory: propTypes.func,
 	slug: propTypes.string,
+	displayArchived: propTypes.bool,
 };
 
 StoryThumb.defaultProps = {

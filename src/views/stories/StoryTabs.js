@@ -3,7 +3,7 @@ import {Nav, NavItem, NavLink} from 'reactstrap';
 import {Link} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 
-import {USER_STORIES_SAVED, goToUser, USER_STORIES_DRAFTS} from 'lib/routes';
+import {USER_STORIES_SAVED, goToUser, USER_STORIES_DRAFTS, USER_STORIES_ARCHIVED} from 'lib/routes';
 
 import {STORY_COMPONENTS} from 'types/story';
 
@@ -12,6 +12,7 @@ import {selectUser} from 'redux/user';
 import MyStories from 'views/user/stories/MyStories';
 import SavedStories from 'views/user/stories/SavedStories';
 import DraftStories from 'views/user/stories/DraftStories';
+import ArchivedStories from 'views/user/stories/ArchivedStories';
 
 import './StoryTabs.scss';
 
@@ -21,18 +22,21 @@ const STORY_TABS = {
 	my_stories: 'my_stories',
 	saved_stories: 'saved_stories',
 	draft_stories: 'draft_stories',
+	archived_stories: 'archived_stories',
 };
 
 const COMPONENTS = {
 	[STORY_TABS.my_stories]: MyStories,
 	[STORY_TABS.saved_stories]: SavedStories,
 	[STORY_TABS.draft_stories]: DraftStories,
+	[STORY_TABS.archived_stories]: ArchivedStories,
 };
 
 const GO_TO = {
 	// [STORY_TABS.my_stories]: USER_STORIES_SAVED,
 	[STORY_TABS.saved_stories]: USER_STORIES_SAVED,
 	[STORY_TABS.draft_stories]: USER_STORIES_DRAFTS,
+	[STORY_TABS.archived_stories]: USER_STORIES_ARCHIVED,
 };
 
 export default function StoryTabs() {
@@ -61,6 +65,11 @@ export default function StoryTabs() {
 					<NavItem onClick={() => setActiveTab(STORY_TABS.draft_stories)}>
 						<NavLink href="#" active={activeTab === STORY_TABS.draft_stories}>
 							Drafts
+						</NavLink>
+					</NavItem>
+					<NavItem onClick={() => setActiveTab(STORY_TABS.archived_stories)}>
+						<NavLink href="#" active={activeTab === STORY_TABS.archived_stories}>
+							Archived stories
 						</NavLink>
 					</NavItem>
 				</Nav>

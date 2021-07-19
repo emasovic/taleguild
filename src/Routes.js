@@ -21,6 +21,7 @@ const UserProfile = lazy(() => import('views/user/UserProfile'));
 const UserSettings = lazy(() => import('views/user/UserSettings'));
 const DraftStoriesPage = lazy(() => import('views/user/pages/DraftStoriesPage'));
 const SavedStoriesPage = lazy(() => import('views/user/pages/SavedStoriesPage'));
+const ArchivedStoriesPage = lazy(() => import('views/user/pages/ArchivedStoriesPage'));
 
 const SignUp = lazy(() => import('views/signup/SignUp'));
 
@@ -43,8 +44,9 @@ const Routes = () => (
 				<PrivateRoute path={routes.WRITE_STORY} component={StoryWritter} />
 				<PrivateRoute path={routes.DELETED_STORY} component={DeletedStory} />
 				<Route path={routes.STORY_SLUG} component={Story} />
-				<PrivateRoute path={routes.USER_STORIES_SAVED} component={SavedStoriesPage} />
+				<PrivateRoute e path={routes.USER_STORIES_SAVED} component={SavedStoriesPage} />
 				<PrivateRoute path={routes.USER_STORIES_DRAFTS} component={DraftStoriesPage} />
+				<PrivateRoute path={routes.USER_STORIES_ARCHIVED} component={ArchivedStoriesPage} />
 				<PrivateRoute path={routes.USER_SETTINGS} component={UserSettings} />
 				<Route path={routes.USER_ID} component={UserProfile} />
 				<PublicRoute path={routes.REGISTER} component={SignUp} />

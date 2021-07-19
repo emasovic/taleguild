@@ -15,6 +15,7 @@ export const editStory = (id, pageId) => STORY + `/${id}/write/${pageId}`;
 export const USER = '/user';
 export const USER_SETTINGS = USER + '/account/settings';
 export const USER_ID = USER + '/:username';
+export const USER_STORIES_ARCHIVED = USER + '/stories/archived';
 export const USER_STORIES_DRAFTS = USER + '/stories/drafts';
 export const USER_STORIES_SAVED = USER + '/stories/saved';
 

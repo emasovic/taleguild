@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useCallback} from 'react';
-import {useSelector, shallowEqual, useDispatch} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import propTypes from 'prop-types';
 
 import {DEFAULT_CRITERIA, STORY_OP, STORY_COMPONENTS} from 'types/story';
@@ -15,21 +15,16 @@ import Loader from 'components/widgets/loader/Loader';
 import LoadMore from 'components/widgets/loadmore/LoadMore';
 import NoStories from 'views/stories/NoStories';
 
-import './SavedStories.scss';
+import './StoryList.scss';
 
-const CLASS = 'st-SavedStories';
+const CLASS = 'st-StoryList';
 
 export default function SavedStories({shouldLoadMore, Component}) {
 	const dispatch = useDispatch();
-	const {savedStories, userId, pages, op} = useSelector(
-		state => ({
-			savedStories: selectUserSavedStories(state),
-			op: state.savedStories.op,
-			pages: state.savedStories.pages,
-			userId: selectUserId(state),
-		}),
-		shallowEqual
-	);
+	const savedStories = useSelector(selectUserSavedStories);
+	const userId = useSelector(selectUserId);
+	const pages = useSelector(state => state.savedStories.pages);
+	const op = useSelector(state => state.savedStories.op);
 
 	const [currentPage, setCurrentPage] = useState(1);
 	const [criteria, setCriteria] = useState();
@@ -51,6 +46,7 @@ export default function SavedStories({shouldLoadMore, Component}) {
 		if (userId) {
 			setCriteria({
 				...DEFAULT_CRITERIA,
+				archived_at_null: undefined,
 				_publicationState: undefined,
 				_sort: 'created_at:DESC',
 				user: userId,

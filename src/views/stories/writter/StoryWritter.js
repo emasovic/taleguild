@@ -1,5 +1,5 @@
 import React, {useEffect, useCallback, useState} from 'react';
-import {useDispatch, useSelector, shallowEqual} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useParams} from 'react-router-dom';
 
 import {DEFAULT_STORYPAGE_DATA, PUBLISH_STATES} from 'types/story';
@@ -26,15 +26,10 @@ export default function StoryWritter() {
 	const dispatch = useDispatch();
 	const {id: storyId, pageId} = useParams();
 
-	const {pages, story, op, loading} = useSelector(
-		state => ({
-			pages: selectStoryPages(state),
-			story: selectStory(state, storyId),
-			loading: state.storyPages.loading,
-			op: state.storyPages.op,
-		}),
-		shallowEqual
-	);
+	const pages = useSelector(selectStoryPages);
+	const story = useSelector(state => selectStory(state, storyId));
+	const loading = useSelector(state => state.storyPages.loading);
+	const op = useSelector(state => state.storyPages.op);
 
 	const [selectedPage, setSelectedPage] = useState(0);
 	const [current, handleCurrent] = useState(null);
@@ -116,6 +111,7 @@ export default function StoryWritter() {
 				className={CLASS}
 				currentEditing={current}
 				published={!!story?.published_at}
+				archived={!!story?.archived_at}
 				onCurrentChanged={handleCurrent}
 				onStoryPage={handleStoryPage}
 				op={op}

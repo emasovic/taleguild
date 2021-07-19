@@ -10,6 +10,7 @@ import toast from './toast';
 import draftStories from './draftStories';
 import savedStories from './savedStories';
 import userStories from './userStories';
+import archivedStories from './archivedStories';
 import storyPages from './storyPages';
 import followers from './followers';
 import following from './following';
@@ -44,6 +45,7 @@ const store = configureStore({
 		storyPages,
 		userStories,
 		savedStories,
+		archivedStories,
 	},
 	middleware: customizedMiddleware,
 });

@@ -6,9 +6,11 @@ import {goToStory, editStory, DELETED_STORY} from '../lib/routes';
 
 import {Toast} from 'types/toast';
 import {DEFAULT_STORYPAGE_DATA, SORT_DIRECTION, STORY_OP, STORY_SORT} from 'types/story';
+
 import {newToast} from './toast';
 import {savedStoryRemoved, savedStoryUpsert} from './savedStories';
 import {storyPagesReceieved} from './storyPages';
+import {archivedStoryRemoved, archivedStoryUpsert} from './archivedStories';
 
 const storyAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
@@ -118,6 +120,16 @@ export const storySlice = createSlice({
 		},
 		[storyPagesReceieved]: (state, {payload}) => {
 			storyAdapter.upsertOne(state, payload?.[0]?.story);
+		},
+		[archivedStoryUpsert]: (state, {payload}) => {
+			const {keepArchived} = payload;
+
+			keepArchived
+				? storyAdapter.upsertOne(state, payload)
+				: storyAdapter.removeOne(state, payload.id);
+		},
+		[archivedStoryRemoved]: (state, {payload}) => {
+			storyAdapter.upsertOne(state, payload);
 		},
 	},
 });

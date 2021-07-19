@@ -13,6 +13,7 @@ export default function Writter({
 	currentEditing,
 	onStoryPage,
 	published,
+	archived,
 	op,
 }) {
 	const editorRef = useRef(null);
@@ -37,13 +38,14 @@ export default function Writter({
 	]);
 
 	const handleEditPage = val => {
+		const shouldAutoSave = !published || archived;
 		const currnet = {
 			...currentEditing,
 			text: val,
 		};
 
 		onCurrentChanged(currnet);
-		!published && _onStoryPage(currnet.id, val);
+		shouldAutoSave && _onStoryPage(currnet.id, val);
 	};
 
 	if (!currentEditing || op === STORY_PAGE_OP.create) {
@@ -68,5 +70,6 @@ Writter.propTypes = {
 	currentEditing: PropTypes.object,
 	onStoryPage: PropTypes.func,
 	published: PropTypes.bool,
+	archived: PropTypes.bool,
 	op: PropTypes.string,
 };

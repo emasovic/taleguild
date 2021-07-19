@@ -34,7 +34,7 @@ Typography.defaultProps = {
 Typography.propTypes = {
 	variant: PropTypes.string.isRequired,
 	font: PropTypes.string.isRequired,
-	component: PropTypes.element,
+	component: PropTypes.any,
 	className: PropTypes.string,
 	children: PropTypes.any,
 };

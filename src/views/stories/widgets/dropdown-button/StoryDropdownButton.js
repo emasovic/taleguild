@@ -8,6 +8,7 @@ import {editStory} from 'lib/routes';
 import {FONTS, TYPOGRAPHY_VARIANTS} from 'types/typography';
 
 import {deleteStory} from 'redux/story';
+import {updateArchivedStory} from 'redux/archivedStories';
 
 import ConfirmModal from 'components/widgets/modals/Modal';
 import DropdownButton from 'components/widgets/button/DropdownButton';
@@ -17,28 +18,36 @@ import './StoryDropdownButton.scss';
 
 const CLASS = 'st-StoryDropdownButton';
 
-export default function StoryDropdownButton({story, onDeleteStory}) {
+export default function StoryDropdownButton({story, onDeleteStory, displayArchived, keepArchived}) {
 	const dispatch = useDispatch();
+
+	const {archivedAt, id, favouriteId, title} = story;
 
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const handleDeleteStory = () => {
 		if (onDeleteStory) {
-			return onDeleteStory(story.id, story.favouriteId);
+			return onDeleteStory(id, favouriteId);
 		}
 
 		return _handleDeleteStory();
 	};
 
 	const _handleDeleteStory = useCallback(() => {
-		dispatch(deleteStory(story.id));
-	}, [dispatch, story]);
+		dispatch(deleteStory(id));
+	}, [dispatch, id]);
+
+	const handleArchive = () => {
+		dispatch(
+			updateArchivedStory({id, archived_at: archivedAt ? null : new Date()}, keepArchived)
+		);
+	};
 
 	const toggleModal = () => setIsModalOpen(prevState => !prevState);
 
 	const renderContent = () => (
 		<Typography font={FONTS.lato} variant={TYPOGRAPHY_VARIANTS.p14}>
-			Are you sure you want to delete <strong>{story.title || 'Untitled'}</strong>?
+			Are you sure you want to delete <strong>{title || 'Untitled'}</strong>?
 		</Typography>
 	);
 
@@ -47,14 +56,16 @@ export default function StoryDropdownButton({story, onDeleteStory}) {
 	}
 
 	const {storypages} = story;
-
-	const pageId = storypages && storypages.length ? storypages[0].id : null;
+	const pageId = storypages?.length ? storypages[0].id : null;
+	const archiveTitle = archivedAt ? 'Show on profile' : 'Archive';
 
 	return (
 		<div className={CLASS}>
 			<DropdownButton>
-				{pageId && <DropdownItem href={editStory(story.id, pageId)}>Edit</DropdownItem>}
-
+				{pageId && <DropdownItem href={editStory(id, pageId)}>Edit</DropdownItem>}
+				{displayArchived && (
+					<DropdownItem onClick={handleArchive}>{archiveTitle}</DropdownItem>
+				)}
 				<DropdownItem onClick={toggleModal}>Delete</DropdownItem>
 			</DropdownButton>
 
@@ -76,5 +87,7 @@ export default function StoryDropdownButton({story, onDeleteStory}) {
 
 StoryDropdownButton.propTypes = {
 	story: PropTypes.object,
+	displayArchived: PropTypes.bool,
+	keepArchived: PropTypes.bool,
 	onDeleteStory: PropTypes.func,
 };
