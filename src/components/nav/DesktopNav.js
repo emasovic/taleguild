@@ -63,8 +63,8 @@ export default function Navigation() {
 
 				<DropdownButton toggleItem={<UserAvatar user={data} />}>
 					<DropdownItem href={goToUser(data && data.username)}>My profile</DropdownItem>
-					<DropdownItem href={USER_STORIES_DRAFTS}>Drafts</DropdownItem>
 					<DropdownItem href={USER_STORIES_SAVED}>Saved stories</DropdownItem>
+					<DropdownItem href={USER_STORIES_DRAFTS}>Drafts</DropdownItem>
 					<DropdownItem href={USER_STORIES_ARCHIVED}>Archived stories</DropdownItem>
 					<DropdownItem href={USER_SETTINGS}>Account settings</DropdownItem>
 					<DropdownItem

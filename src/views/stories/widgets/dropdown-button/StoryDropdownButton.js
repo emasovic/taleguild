@@ -57,7 +57,7 @@ export default function StoryDropdownButton({story, onDeleteStory, displayArchiv
 
 	const {storypages} = story;
 	const pageId = storypages?.length ? storypages[0].id : null;
-	const archiveTitle = archivedAt ? 'Show on profile' : 'Archive';
+	const archiveTitle = archivedAt ? 'Unarchive' : 'Archive';
 
 	return (
 		<div className={CLASS}>

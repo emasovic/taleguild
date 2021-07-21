@@ -63,13 +63,13 @@ export default function MobileNav() {
 							<FontAwesomeIcon icon={FA.user} />
 							My profile
 						</NavLink>
-						<NavLink href={USER_STORIES_DRAFTS}>
-							<FontAwesomeIcon icon={FA.solid_align_left} />
-							Drafts
-						</NavLink>
 						<NavLink href={USER_STORIES_SAVED}>
 							<FontAwesomeIcon icon={FA.bookmark} />
 							Saved stories
+						</NavLink>
+						<NavLink href={USER_STORIES_DRAFTS}>
+							<FontAwesomeIcon icon={FA.solid_align_left} />
+							Drafts
 						</NavLink>
 						<NavLink href={USER_STORIES_ARCHIVED}>
 							<FontAwesomeIcon icon={FA.solid_file_archive} />

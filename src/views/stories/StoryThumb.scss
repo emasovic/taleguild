@@ -38,6 +38,10 @@
 			border-top-left-radius: 6px;
 			border-bottom-left-radius: 6px;
 
+			.st-Image-full {
+				object-fit: cover;
+			}
+
 			&-fallback {
 				width: 120px;
 
