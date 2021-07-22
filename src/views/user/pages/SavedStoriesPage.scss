@@ -8,9 +8,10 @@
 		flex: 1 1;
 	}
 
-	.st-SavedStories {
+	.st-StoryList {
 		@media (max-width: $breakpoint-m) {
 			align-items: center;
+			margin-bottom: 56px;
 		}
 
 		.st-StoryThumb {

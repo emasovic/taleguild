@@ -6,6 +6,10 @@
 	align-items: center;
 	margin-bottom: 24px;
 
+	@media (max-width: $breakpoint-m) {
+		margin: 24px 0 60px;
+	}
+
 	.st-Uploader {
 		margin-bottom: 24px;
 		@media (max-width: $breakpoint-m) {

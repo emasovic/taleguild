@@ -63,6 +63,7 @@
 		.fa-align-left,
 		.fa-cog,
 		.fa-bookmark,
+		.fa-file-archive,
 		.fa-sign-out-alt {
 			margin-right: 16px;
 			@include theme-aware('color', 'T600');
@@ -74,7 +75,7 @@
 			@include theme-aware('color', 'G700');
 			@include theme-aware('border-color', 'B300');
 
-			&:nth-child(3) {
+			&:nth-child(4) {
 				border-bottom: none;
 			}
 
