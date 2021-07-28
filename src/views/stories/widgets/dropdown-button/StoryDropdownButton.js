@@ -1,6 +1,6 @@
 import React, {useState, useCallback} from 'react';
 import {DropdownItem} from 'reactstrap';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 
 import {editStory} from 'lib/routes';
@@ -8,6 +8,7 @@ import {editStory} from 'lib/routes';
 import {FONTS, TYPOGRAPHY_VARIANTS} from 'types/typography';
 
 import {deleteStory} from 'redux/story';
+import {selectUser} from 'redux/user';
 import {updateArchivedStory} from 'redux/archivedStories';
 
 import ConfirmModal from 'components/widgets/modals/Modal';
@@ -20,6 +21,7 @@ const CLASS = 'st-StoryDropdownButton';
 
 export default function StoryDropdownButton({story, onDeleteStory, displayArchived, keepArchived}) {
 	const dispatch = useDispatch();
+	const {data} = useSelector(selectUser);
 
 	const {archivedAt, id, favouriteId, title} = story;
 
@@ -39,7 +41,10 @@ export default function StoryDropdownButton({story, onDeleteStory, displayArchiv
 
 	const handleArchive = () => {
 		dispatch(
-			updateArchivedStory({id, archived_at: archivedAt ? null : new Date()}, keepArchived)
+			updateArchivedStory(
+				{id, user: data?.id, archived_at: archivedAt ? null : new Date()},
+				keepArchived
+			)
 		);
 	};
 

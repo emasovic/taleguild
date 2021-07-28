@@ -44,6 +44,7 @@ export default function Login() {
 				label="Enter password"
 				// placeholder="you@example.com"
 				value={password}
+				autoComplete="on"
 				type="password"
 				onChange={val => setPassword(val)}
 				errorMessage={error}

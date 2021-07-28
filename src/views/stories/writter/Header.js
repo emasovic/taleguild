@@ -117,13 +117,16 @@ export default function Header({
 	};
 
 	const _onCreateOrUpdateStory = useMemo(
-		() => debounce((id, title) => onCreateOrUpdateStory({id, title}, false), 3000),
+		() =>
+			debounce(({id, user, title}) => onCreateOrUpdateStory({id, user, title}, false), 3000),
 		[onCreateOrUpdateStory]
 	);
 
 	const handleTitle = val => {
 		setTitle(val);
-		!isPublishStoryOpen && !published && _onCreateOrUpdateStory(story.id, val);
+		!isPublishStoryOpen &&
+			!published &&
+			_onCreateOrUpdateStory({id: story.id, user: data?.id, title: val});
 	};
 
 	const renderPreviewContent = () => {

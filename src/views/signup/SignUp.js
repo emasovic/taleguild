@@ -69,6 +69,7 @@ export default function SignUp() {
 				label="Password"
 				value={password}
 				type="password"
+				autoComplete="on"
 				onChange={val => setPassword(val)}
 				// invalid={!!error}
 				// errorMessage={error}
