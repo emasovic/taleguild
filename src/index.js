@@ -9,10 +9,9 @@ import {initialize} from 'redux/application';
 
 import * as serviceWorker from './serviceWorker';
 
-import Notifications from 'components/notifications/Notifications';
-
-import App from './App';
-import Toasts from './Toasts';
+import App from 'App';
+import Toasts from 'Toasts';
+import RealTimeUpdates from 'RealTimeUpdates';
 
 import 'types/font_awesome';
 
@@ -28,7 +27,7 @@ ReactDOM.render(
 		<Provider store={store}>
 			<App />
 			<Toasts />
-			<Notifications />
+			<RealTimeUpdates />
 		</Provider>
 	</React.StrictMode>,
 	document.getElementById('root')

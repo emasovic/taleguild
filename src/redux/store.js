@@ -19,6 +19,7 @@ import languages from './languages';
 import application from './application';
 import savedBy from './savedBy';
 import likes from './likes';
+import notifications from './notifications';
 
 const customizedMiddleware = getDefaultMiddleware({
 	thunk: {
@@ -40,6 +41,7 @@ const store = configureStore({
 		savedBy,
 		draftStories,
 		toast,
+		notifications,
 		languages,
 		categories,
 		storyPages,

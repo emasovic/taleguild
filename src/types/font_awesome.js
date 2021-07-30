@@ -50,6 +50,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
+	faBell,
 	faHeart,
 	faComment,
 	faBookmark,
@@ -70,6 +71,7 @@ const FA = {
 	brand_jedi: faJediOrder,
 
 	//REGULAR ICONS
+	bell: faBell,
 	comment: faComment,
 	heart: faHeart,
 	bookmark: faBookmark,

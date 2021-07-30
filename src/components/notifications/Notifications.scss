@@ -1,0 +1,48 @@
+@import 'styles/variables.scss';
+@import 'styles/themes/mixins.scss';
+
+.st-Notifications {
+	> button {
+		box-shadow: none !important;
+		background-color: transparent !important;
+	}
+
+	.dropdown-menu {
+		@include theme-aware('background', 'B100');
+	}
+
+	&-bell {
+		position: relative;
+
+		.badge {
+			position: absolute !important;
+		}
+	}
+
+	&-item {
+		display: flex !important;
+		flex-direction: column;
+		white-space: normal !important;
+		border-radius: 6px;
+		min-width: 300px;
+
+		&.active {
+			@include theme-aware('background-color', 'T100');
+		}
+
+		&-rewards {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+
+			> span {
+				display: flex;
+				align-items: center;
+
+				svg {
+					margin-left: 6px;
+				}
+			}
+		}
+	}
+}

@@ -180,6 +180,20 @@ export const deleteFollower = id => {
 	return http.del('followers/' + id);
 };
 
+/******************      NOTIFICATIONS        ***********************/
+
+export const getNotifications = filter => {
+	return http.get('notifications', filter);
+};
+
+export const countNotifications = filter => {
+	return http.get('notifications/count', filter);
+};
+
+export const updateNotification = payload => {
+	return http.put('/notifications/' + payload.id, null, payload);
+};
+
 /******************      MEDIA        ***********************/
 
 export const uploadMedia = files => {

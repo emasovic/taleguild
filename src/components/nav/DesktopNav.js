@@ -17,16 +17,17 @@ import {
 	USER_STORIES_ARCHIVED,
 } from 'lib/routes';
 
-import {selectUser, logOutUser} from '../../redux/user';
+import {selectUser, logOutUser} from 'redux/user';
 import {newStory} from 'redux/story';
 
 import {ReactComponent as Logo} from 'images/taleguild-logo.svg';
 
 import StoryPicker from 'components/widgets/pickers/story/StoryPicker';
 import DropdownButton from 'components/widgets/button/DropdownButton';
+import IconButton from 'components/widgets/button/IconButton';
+import Notifications from 'components/notifications/Notifications';
 
 import UserAvatar from 'views/user/UserAvatar';
-import IconButton from '../widgets/button/IconButton';
 
 import './DesktopNav.scss';
 
@@ -60,7 +61,7 @@ export default function Navigation() {
 		return (
 			<NavItem className={CLASS + '-status-signedIn'}>
 				<IconButton onClick={handleNewStory}>New story</IconButton>
-
+				<Notifications />
 				<DropdownButton toggleItem={<UserAvatar user={data} />}>
 					<DropdownItem href={goToUser(data && data.username)}>My profile</DropdownItem>
 					<DropdownItem href={USER_STORIES_SAVED}>Saved stories</DropdownItem>
