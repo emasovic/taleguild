@@ -14,9 +14,7 @@
 			@include tab-link;
 		}
 
-		.st-SavedStories,
-		.st-DraftStories,
-		.st-MyStories {
+		.st-StoryList {
 			> span {
 				display: none;
 			}

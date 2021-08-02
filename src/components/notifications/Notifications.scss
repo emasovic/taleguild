@@ -15,6 +15,7 @@
 	&-notifications {
 		padding: 14px;
 		text-transform: uppercase;
+		font-weight: 600;
 	}
 
 	&-page {
@@ -23,13 +24,12 @@
 
 		@media (max-width: $breakpoint-sm) {
 			margin-bottom: 50px;
-			padding: 0 6px;
+			padding: 6px;
 		}
 	}
 
 	&-bell {
 		position: relative;
-		@include theme-aware('color', 'G400');
 		padding: 8px 12px;
 		border-radius: 6px;
 

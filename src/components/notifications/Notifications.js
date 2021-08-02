@@ -53,6 +53,7 @@ export default function Notifications({isPage, isMobile}) {
 				shouldLoad={pages > currentPage}
 				loading={op === DEFAULT_OP.load_more}
 			>
+				<Typography className={CLASS + '-notifications'}>Notifications</Typography>
 				{notificationIds.length
 					? notificationIds.map(i => <NotificationItem key={i} id={i} />)
 					: 'No notifications'}
