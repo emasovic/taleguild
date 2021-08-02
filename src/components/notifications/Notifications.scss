@@ -20,14 +20,22 @@
 	&-page {
 		max-width: $story-preview-width-medium;
 		margin: 0 auto;
+
+		@media (max-width: $breakpoint-sm) {
+			margin-bottom: 50px;
+			padding: 0 6px;
+		}
 	}
 
 	&-bell {
 		position: relative;
 		@include theme-aware('color', 'G400');
-		@include theme-aware('background-color', 'B200');
 		padding: 8px 12px;
 		border-radius: 6px;
+
+		@media (max-width: $breakpoint-sm) {
+			padding: 0;
+		}
 
 		svg {
 			font-size: 24px;
