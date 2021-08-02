@@ -35,14 +35,14 @@ function NotificationItem({id}) {
 			<div className={CLASS + '-item-rewards'}>
 				{!!reward?.points && (
 					<Typography>
-						<strong>+ {reward?.points}</strong> &nbsp; experience
 						<Star />
+						<strong>+ {reward?.points}</strong> &nbsp; XP
 					</Typography>
 				)}
 				{!!reward?.coins && (
 					<Typography>
-						<strong>+ {reward?.coins}</strong> &nbsp; coins
 						<Coin />
+						<strong>+ {reward?.coins}</strong> &nbsp; coins
 					</Typography>
 				)}
 			</div>

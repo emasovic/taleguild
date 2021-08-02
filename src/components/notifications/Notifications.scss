@@ -9,13 +9,37 @@
 
 	.dropdown-menu {
 		@include theme-aware('background', 'B100');
+		padding: 0 8px;
 	}
 
 	&-bell {
 		position: relative;
+		@include theme-aware('color', 'G400');
+		@include theme-aware('background-color', 'B200');
+		padding: 8px 12px;
+		border-radius: 6px;
+
+		svg {
+			font-size: 24px;
+		}
+
+		span {
+			font-size: 12px;
+		}
 
 		.badge {
+			padding: 4px 6px;
+			border-radius: 16px;
+			// border: 4px solid;
+			// @include theme-aware('border-color', 'B200');
 			position: absolute !important;
+			margin-top: -10px;
+			margin-left: -6px;
+		}
+
+		&:hover {
+			@include theme-aware('color', 'T600');
+			@include theme-aware('background-color', 'B300');
 		}
 	}
 
@@ -24,23 +48,47 @@
 		flex-direction: column;
 		white-space: normal !important;
 		border-radius: 6px;
+		border-bottom: 1px solid;
+		@include theme-aware('border-color', 'R58');
 		min-width: 300px;
+		margin: 8px 0;
+		padding: 12px 16px !important;
 
 		&.active {
 			@include theme-aware('background-color', 'T100');
+
+			&:hover {
+				@include theme-aware('background-color', 'T100');
+			}
+		}
+
+		&:hover {
+			@include theme-aware('background-color', 'B300');
+		}
+
+		p {
+			@include theme-aware('color', 'G700');
+			font-size: 14px;
+			margin-bottom: 6px;
+
+			span {
+				@include theme-aware('color', 'G400');
+			}
 		}
 
 		&-rewards {
 			display: flex;
 			align-items: center;
+			flex-direction: row;
 			justify-content: space-between;
 
 			> span {
 				display: flex;
 				align-items: center;
+				margin-right: 36px;
 
 				svg {
-					margin-left: 6px;
+					margin-right: 6px;
 				}
 			}
 		}
