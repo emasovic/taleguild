@@ -30,6 +30,8 @@ const ForgotPassword = lazy(() => import('views/login/ForgotPassword'));
 const ResetPassword = lazy(() => import('views/login/ResetPassword'));
 const ProviderLogin = lazy(() => import('views/login/ProviderLogin'));
 
+const NotificationsPage = lazy(() => import('components/notifications/NotificationsPage'));
+
 const NotFound = lazy(() => import('NotFound'));
 const DeletedStory = lazy(() => import('DeletedStory'));
 const Welcome = lazy(() => import('Welcome'));
@@ -57,6 +59,7 @@ const Routes = () => (
 				<PublicRoute path={routes.WELCOME} component={Welcome} />
 				<PublicRoute path={routes.REGISTRATION_SUCCESS} component={RegistrationSuccess} />
 				<Route exact path={routes.HOME} component={Explore} />
+				<PrivateRoute path={routes.NOTIFICATIONS} component={NotificationsPage} />
 				<Route path="*" component={NotFound} />
 			</Switch>
 		</Suspense>

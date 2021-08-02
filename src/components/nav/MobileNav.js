@@ -9,6 +9,7 @@ import {
 	goToUser,
 	HOME,
 	LOGIN,
+	NOTIFICATIONS,
 	REGISTER,
 	USER_SETTINGS,
 	USER_STORIES_ARCHIVED,
@@ -28,6 +29,7 @@ import Backdrop from 'components/widgets/drawer/Backdrop';
 import SideDrawer from 'components/widgets/drawer/SideDrawer';
 import IconButton from 'components/widgets/button/IconButton';
 import Typography from 'components/widgets/typography/Typography';
+import Notifications from 'components/notifications/Notifications';
 
 import './MobileNav.scss';
 
@@ -105,6 +107,11 @@ export default function MobileNav() {
 						<NavItem>
 							<NavLink href={HOME} active={location.pathname === HOME}>
 								<FontAwesomeIcon size="lg" icon={FA.compass} />
+							</NavLink>
+						</NavItem>
+						<NavItem>
+							<NavLink href={NOTIFICATIONS} active={location.pathname === HOME}>
+								<Notifications isMobile />
 							</NavLink>
 						</NavItem>
 						<NavItem>

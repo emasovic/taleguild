@@ -27,6 +27,8 @@ export const RESET_PASSWORD = '/reset-password';
 export const WELCOME = '/welcome';
 export const REGISTRATION_SUCCESS = '/registration-success';
 
+export const NOTIFICATIONS = '/notifications';
+
 export const REGISTER = '/register';
 export const LOGIN = '/login';
 

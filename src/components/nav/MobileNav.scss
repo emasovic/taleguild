@@ -9,6 +9,7 @@
 	z-index: 1030;
 	width: 100%;
 	justify-content: space-around;
+	align-items: center;
 	padding: 6px;
 	@include theme-aware('background-color', 'B100');
 	@include theme-aware('box-shadow', 'card-shadow');

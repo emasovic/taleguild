@@ -32,10 +32,6 @@ export const notificationsSlice = createSlice({
 				state.currentPage += 1;
 			}
 
-			if (!payload.seen) {
-				state.unseen += 1;
-			}
-
 			state.op = null;
 		},
 		notificationsUpsertOne: (state, {payload}) => {
