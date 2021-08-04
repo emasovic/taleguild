@@ -31,7 +31,12 @@ export default function Notifications({isPage, isMobile}) {
 		if (data) {
 			dispatch(
 				loadNotifications(
-					{reciever: data.id, _limit: 10, _start: currentPage * 10},
+					{
+						reciever: data.id,
+						_limit: 10,
+						_start: currentPage * 10,
+						_sort: 'created_at:DESC',
+					},
 					false,
 					DEFAULT_OP.load_more
 				)
@@ -41,7 +46,12 @@ export default function Notifications({isPage, isMobile}) {
 
 	useEffect(() => {
 		if (data) {
-			dispatch(loadNotifications({reciever: data.id, ...DEFAULT_LIMIT}, true));
+			dispatch(
+				loadNotifications(
+					{reciever: data.id, _sort: 'created_at:DESC', ...DEFAULT_LIMIT},
+					true
+				)
+			);
 		}
 	}, [data, dispatch]);
 
