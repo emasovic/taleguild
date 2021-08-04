@@ -64,9 +64,8 @@ export default function Notifications({isPage, isMobile}) {
 				loading={op === DEFAULT_OP.load_more}
 			>
 				<Typography className={CLASS + '-notifications'}>Notifications</Typography>
-				{notificationIds.length
-					? notificationIds.map(i => <NotificationItem key={i} id={i} />)
-					: 'No notifications'}
+				{!!notificationIds.length &&
+					notificationIds.map(i => <NotificationItem key={i} id={i} />)}
 			</LoadMore>
 		);
 	}
@@ -102,9 +101,8 @@ export default function Notifications({isPage, isMobile}) {
 				loading={op === DEFAULT_OP.load_more}
 			>
 				<Typography className={CLASS + '-notifications'}>Notifications</Typography>
-				{notificationIds.length
-					? notificationIds.map(i => <NotificationItem key={i} id={i} />)
-					: 'No notifications'}
+				{!!notificationIds.length &&
+					notificationIds.map(i => <NotificationItem key={i} id={i} />)}
 			</LoadMoreModal>
 		</DropdownButton>
 	);
