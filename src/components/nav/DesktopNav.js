@@ -48,11 +48,13 @@ export default function Navigation() {
 	const userLoggedOut = () => {
 		return (
 			<NavItem className={CLASS + '-status-signedOut'}>
-				<IconButton color={COLOR.secondary} to={LOGIN}>
+				<IconButton tag={Link} color={COLOR.secondary} to={LOGIN}>
 					Sign in
 				</IconButton>
 
-				<IconButton to={REGISTER}>Sign up</IconButton>
+				<IconButton tag={Link} to={REGISTER}>
+					Sign up
+				</IconButton>
 			</NavItem>
 		);
 	};

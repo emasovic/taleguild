@@ -20,6 +20,10 @@
 		.nav-item {
 			flex: 1;
 
+			.st-IconButton {
+				width: 100%;
+			}
+
 			&:first-child {
 				margin-right: 12px;
 			}

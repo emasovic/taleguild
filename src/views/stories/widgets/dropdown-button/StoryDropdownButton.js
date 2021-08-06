@@ -1,6 +1,7 @@
 import React, {useState, useCallback} from 'react';
 import {DropdownItem} from 'reactstrap';
 import {useDispatch, useSelector} from 'react-redux';
+import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import {editStory} from 'lib/routes';
@@ -67,7 +68,11 @@ export default function StoryDropdownButton({story, onDeleteStory, displayArchiv
 	return (
 		<div className={CLASS}>
 			<DropdownButton>
-				{pageId && <DropdownItem href={editStory(id, pageId)}>Edit</DropdownItem>}
+				{pageId && (
+					<DropdownItem tag={Link} to={editStory(id, pageId)}>
+						Edit
+					</DropdownItem>
+				)}
 				{displayArchived && (
 					<DropdownItem onClick={handleArchive}>{archiveTitle}</DropdownItem>
 				)}

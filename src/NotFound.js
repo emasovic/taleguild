@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 
 import {HOME} from 'lib/routes';
 
@@ -30,7 +31,9 @@ export default function NotFound() {
 					looking for.
 				</Typography>
 				<div className={CLASS + '-error-button'}>
-					<IconButton href={HOME}>Back to guild</IconButton>
+					<IconButton tag={Link} to={HOME}>
+						Back to guild
+					</IconButton>
 				</div>
 			</div>
 		</div>

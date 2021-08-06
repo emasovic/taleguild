@@ -109,7 +109,7 @@ export default function StoryItem({
 
 	return (
 		<div className={CLASS}>
-			{data && author.id === data.id && (
+			{author?.id === data?.id && (
 				<StoryDropdownButton
 					story={{id, title, storypages, archivedAt}}
 					displayArchived={displayArchived}

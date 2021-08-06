@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 
 import {HOME} from 'lib/routes';
 
@@ -28,7 +29,9 @@ export default function Welcome() {
 				contact us. Enjoy.
 			</Typography>
 
-			<IconButton href={HOME}>Open the door</IconButton>
+			<IconButton tag={Link} to={HOME}>
+				Open the door
+			</IconButton>
 		</div>
 	);
 }

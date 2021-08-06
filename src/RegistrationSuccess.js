@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 
 import {LOGIN} from 'lib/routes';
 
@@ -29,7 +30,9 @@ export default function RegistrationSuccess() {
 				If you don't see it, you may need to <b>check your spam or junk folder.</b>
 			</Typography>
 
-			<IconButton href={LOGIN}>Go to Sign In</IconButton>
+			<IconButton tag={Link} to={LOGIN}>
+				Go to Sign In
+			</IconButton>
 		</div>
 	);
 }

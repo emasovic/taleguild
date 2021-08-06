@@ -14,7 +14,7 @@ export const toFa = (icon, spin, ...rest) => {
 	return <FontAwesomeIcon key={icon} icon={icon} spin={spin} {...rest} />;
 };
 
-const IconButton = ({icon, className, children, spin, loading, disabled, href, ...props}) => {
+const IconButton = ({icon, className, children, spin, loading, disabled, ...props}) => {
 	if (loading) {
 		icon = FA.solid_cog;
 		disabled = spin = true;
@@ -24,10 +24,12 @@ const IconButton = ({icon, className, children, spin, loading, disabled, href, .
 		icon = toFa(icon, spin);
 	}
 
+	const isLink = props.href || props.to;
+
 	className = classnames(
 		CLASS,
 		!children && CLASS + '-with-content',
-		href && CLASS + '-link',
+		isLink && CLASS + '-link',
 		className
 	);
 
@@ -37,7 +39,7 @@ const IconButton = ({icon, className, children, spin, loading, disabled, href, .
 	}
 
 	return (
-		<Button className={className} disabled={disabled || loading} href={href} {...props}>
+		<Button className={className} disabled={disabled || loading} {...props}>
 			{icon ? icon : null}
 			{children}
 		</Button>
@@ -53,6 +55,7 @@ IconButton.propTypes = {
 	active: PropTypes.bool,
 	onClick: PropTypes.func,
 	href: PropTypes.string,
+	to: PropTypes.string,
 	children: PropTypes.any,
 	type: PropTypes.oneOf(['button', 'reset', 'submit']),
 };

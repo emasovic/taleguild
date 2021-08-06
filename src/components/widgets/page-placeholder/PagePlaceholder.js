@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import {Link} from 'react-router-dom';
 
 import {FONTS, TYPOGRAPHY_VARIANTS} from 'types/typography';
 
@@ -32,7 +33,7 @@ function PagePlaceholder({
 			</Typography>
 
 			{to && (
-				<IconButton href={to} {...buttonProps}>
+				<IconButton tag={Link} to={to} {...buttonProps}>
 					{buttonLabel}
 				</IconButton>
 			)}
