@@ -2,7 +2,7 @@ import React from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 
 import {Navbar, Nav, NavItem, NavLink, DropdownItem} from 'reactstrap';
-import {useLocation} from 'react-router-dom';
+import {Link, useLocation} from 'react-router-dom';
 
 import {COLOR} from 'types/button';
 import {
@@ -48,11 +48,11 @@ export default function Navigation() {
 	const userLoggedOut = () => {
 		return (
 			<NavItem className={CLASS + '-status-signedOut'}>
-				<IconButton color={COLOR.secondary} href={LOGIN}>
+				<IconButton color={COLOR.secondary} to={LOGIN}>
 					Sign in
 				</IconButton>
 
-				<IconButton href={REGISTER}>Sign up</IconButton>
+				<IconButton to={REGISTER}>Sign up</IconButton>
 			</NavItem>
 		);
 	};
@@ -63,11 +63,21 @@ export default function Navigation() {
 				<IconButton onClick={handleNewStory}>New story</IconButton>
 				<Notifications />
 				<DropdownButton toggleItem={<UserAvatar user={data} />}>
-					<DropdownItem href={goToUser(data && data.username)}>My profile</DropdownItem>
-					<DropdownItem href={USER_STORIES_SAVED}>Saved stories</DropdownItem>
-					<DropdownItem href={USER_STORIES_DRAFTS}>Drafts</DropdownItem>
-					<DropdownItem href={USER_STORIES_ARCHIVED}>Archived stories</DropdownItem>
-					<DropdownItem href={USER_SETTINGS}>Account settings</DropdownItem>
+					<DropdownItem tag={Link} to={goToUser(data && data.username)}>
+						My profile
+					</DropdownItem>
+					<DropdownItem tag={Link} to={USER_STORIES_SAVED}>
+						Saved stories
+					</DropdownItem>
+					<DropdownItem tag={Link} to={USER_STORIES_DRAFTS}>
+						Drafts
+					</DropdownItem>
+					<DropdownItem tag={Link} to={USER_STORIES_ARCHIVED}>
+						Archived stories
+					</DropdownItem>
+					<DropdownItem tag={Link} to={USER_SETTINGS}>
+						Account settings
+					</DropdownItem>
 					<DropdownItem
 						href="https://www.buymeacoffee.com/taleguildstory"
 						target="_blank"
@@ -84,20 +94,20 @@ export default function Navigation() {
 		<Navbar className={CLASS}>
 			<Nav className={CLASS + '-feed'}>
 				<NavItem>
-					<NavLink href={HOME}>
+					<NavLink tag={Link} to={HOME}>
 						<Logo width="30" height="30" />
 					</NavLink>
 				</NavItem>
 				{data && (
 					<>
 						<NavItem>
-							<NavLink href={FEED} active={location.pathname === FEED}>
+							<NavLink tag={Link} to={FEED} active={location.pathname === FEED}>
 								<span>Feed</span>
 							</NavLink>
 						</NavItem>
 
 						<NavItem>
-							<NavLink href={HOME} active={location.pathname === HOME}>
+							<NavLink tag={Link} to={HOME} active={location.pathname === HOME}>
 								<span>Explore</span>
 							</NavLink>
 						</NavItem>

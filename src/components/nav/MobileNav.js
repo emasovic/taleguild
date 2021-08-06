@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Nav, NavItem, NavLink, Navbar} from 'reactstrap';
-import {useLocation} from 'react-router-dom';
+import {Link, useLocation} from 'react-router-dom';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -61,23 +61,27 @@ export default function MobileNav() {
 				</div>
 				<div className={CLASS + '-items'}>
 					<div>
-						<NavLink href={goToUser(data && data.username)}>
+						<NavLink
+							tag={Link}
+							onClick={toggleDrawer}
+							to={goToUser(data && data.username)}
+						>
 							<FontAwesomeIcon icon={FA.user} />
 							My profile
 						</NavLink>
-						<NavLink href={USER_STORIES_SAVED}>
+						<NavLink tag={Link} onClick={toggleDrawer} to={USER_STORIES_SAVED}>
 							<FontAwesomeIcon icon={FA.bookmark} />
 							Saved stories
 						</NavLink>
-						<NavLink href={USER_STORIES_DRAFTS}>
+						<NavLink tag={Link} onClick={toggleDrawer} to={USER_STORIES_DRAFTS}>
 							<FontAwesomeIcon icon={FA.solid_align_left} />
 							Drafts
 						</NavLink>
-						<NavLink href={USER_STORIES_ARCHIVED}>
+						<NavLink tag={Link} onClick={toggleDrawer} to={USER_STORIES_ARCHIVED}>
 							<FontAwesomeIcon icon={FA.solid_file_archive} />
 							Archived stories
 						</NavLink>
-						<NavLink href={USER_SETTINGS}>
+						<NavLink tag={Link} onClick={toggleDrawer} to={USER_SETTINGS}>
 							<FontAwesomeIcon icon={FA.solid_cog} />
 							Account settings
 						</NavLink>
@@ -99,18 +103,22 @@ export default function MobileNav() {
 				{data ? (
 					<>
 						<NavItem>
-							<NavLink href={FEED} active={location.pathname === FEED}>
+							<NavLink tag={Link} to={FEED} active={location.pathname === FEED}>
 								<FontAwesomeIcon size="lg" icon={FA.solid_home} />
 							</NavLink>
 						</NavItem>
 
 						<NavItem>
-							<NavLink href={HOME} active={location.pathname === HOME}>
+							<NavLink tag={Link} to={HOME} active={location.pathname === HOME}>
 								<FontAwesomeIcon size="lg" icon={FA.compass} />
 							</NavLink>
 						</NavItem>
 						<NavItem>
-							<NavLink href={NOTIFICATIONS} active={location.pathname === HOME}>
+							<NavLink
+								tag={Link}
+								to={NOTIFICATIONS}
+								active={location.pathname === HOME}
+							>
 								<Notifications isMobile />
 							</NavLink>
 						</NavItem>
@@ -121,13 +129,15 @@ export default function MobileNav() {
 				) : (
 					<Navbar>
 						<NavItem>
-							<IconButton color={COLOR.secondary} href={LOGIN}>
+							<IconButton tag={Link} color={COLOR.secondary} to={LOGIN}>
 								Sign in
 							</IconButton>
 						</NavItem>
 
 						<NavItem>
-							<IconButton href={REGISTER}>Sign up</IconButton>
+							<IconButton tag={Link} to={REGISTER}>
+								Sign up
+							</IconButton>
 						</NavItem>
 					</Navbar>
 				)}
