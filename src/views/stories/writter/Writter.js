@@ -1,4 +1,5 @@
 import React, {useRef, useMemo} from 'react';
+
 import debounce from 'lodash.debounce';
 import PropTypes from 'prop-types';
 
@@ -9,9 +10,11 @@ import Loader from 'components/widgets/loader/Loader';
 
 export default function Writter({
 	className,
-	onCurrentChanged,
+	onCurrentChange,
 	currentEditing,
 	onStoryPage,
+	onEndAt,
+	onStartAt,
 	published,
 	archived,
 	op,
@@ -33,22 +36,27 @@ export default function Writter({
 		}
 	};
 
+	const handleKeyDown = () => {
+		scrollToBottom();
+		onStartAt();
+	};
+
 	const _onStoryPage = useMemo(() => debounce((id, text) => onStoryPage(id, text), 3000), [
 		onStoryPage,
 	]);
 
 	const handleEditPage = val => {
 		const shouldAutoSave = !published || archived;
-		const currnet = {
+		const current = {
 			...currentEditing,
 			text: val,
 		};
 
-		onCurrentChanged(currnet);
-		shouldAutoSave && _onStoryPage(currnet.id, val);
+		onCurrentChange(current);
+		shouldAutoSave && _onStoryPage(current.id, val);
 	};
 
-	if (!currentEditing || op === STORY_PAGE_OP.create) {
+	if (op === STORY_PAGE_OP.create) {
 		return <Loader />;
 	}
 
@@ -58,7 +66,8 @@ export default function Writter({
 				pageId={currentEditing.id}
 				value={currentEditing.text}
 				onChange={handleEditPage}
-				onKeyDown={scrollToBottom}
+				onKeyUp={onEndAt}
+				onKeyDown={handleKeyDown}
 			/>
 		</div>
 	);
@@ -66,9 +75,11 @@ export default function Writter({
 
 Writter.propTypes = {
 	className: PropTypes.string,
-	onCurrentChanged: PropTypes.func,
+	onCurrentChange: PropTypes.func,
 	currentEditing: PropTypes.object,
 	onStoryPage: PropTypes.func,
+	onEndAt: PropTypes.func,
+	onStartAt: PropTypes.func,
 	published: PropTypes.bool,
 	archived: PropTypes.bool,
 	op: PropTypes.string,

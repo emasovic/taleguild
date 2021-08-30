@@ -24,7 +24,7 @@ export default function StoryDropdownButton({story, onDeleteStory, displayArchiv
 	const dispatch = useDispatch();
 	const {data} = useSelector(selectUser);
 
-	const {archivedAt, id, favouriteId, title} = story;
+	const {archivedAt, publishedAt, id, favouriteId, title, storypages} = story;
 
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -61,14 +61,14 @@ export default function StoryDropdownButton({story, onDeleteStory, displayArchiv
 		return null;
 	}
 
-	const {storypages} = story;
 	const pageId = storypages?.length ? storypages[0].id : null;
 	const archiveTitle = archivedAt ? 'Unarchive' : 'Archive';
 
+	const displayEdit = pageId && (archivedAt || !publishedAt);
 	return (
 		<div className={CLASS}>
 			<DropdownButton>
-				{pageId && (
+				{displayEdit && (
 					<DropdownItem tag={Link} to={editStory(id, pageId)}>
 						Edit
 					</DropdownItem>

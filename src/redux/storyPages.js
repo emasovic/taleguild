@@ -119,9 +119,11 @@ export const deleteStoryPage = (storyId, pageId) => async (dispatch, getState, h
 
 	dispatch(storyPageRemoved(pageId));
 
-	const {storyPages} = getState();
+	const {
+		storyPages: {ids},
+	} = getState();
 
-	const page = Object.keys(storyPages.entities)[0];
+	const page = ids[ids.length - 1];
 
 	page && history.push(editStory(storyId, page));
 
@@ -130,12 +132,20 @@ export const deleteStoryPage = (storyId, pageId) => async (dispatch, getState, h
 
 //SELECTORS
 
-const globalizedSelectors = storyPageAdapter.getSelectors(state => state.storyPages);
+const storyPagesSelector = storyPageAdapter.getSelectors(state => state.storyPages);
 
-export const allPages = state => globalizedSelectors.selectAll(state);
+export const storyPages = state => storyPagesSelector.selectAll(state);
 
-export const selectStoryPages = createSelector([allPages], res =>
+export const selectStoryPages = createSelector([storyPages], res =>
 	res ? res.map(item => ({...item, text: JSON.parse(item.text)})) : null
 );
+
+export const selectStoryPage = (state, id) => {
+	const storypage = storyPagesSelector.selectById(state, id);
+	if (!storypage) {
+		return null;
+	}
+	return {...storypage, text: JSON.parse(storypage.text)};
+};
 
 export default storyPageSlice.reducer;

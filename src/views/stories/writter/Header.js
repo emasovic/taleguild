@@ -1,6 +1,6 @@
-import React, {useState, useEffect, useMemo} from 'react';
-import {Form} from 'reactstrap';
-import {useSelector, shallowEqual} from 'react-redux';
+import React, {useState, useEffect, useMemo, useCallback} from 'react';
+
+import {useSelector, useDispatch} from 'react-redux';
 import debounce from 'lodash.debounce';
 import {DropdownItem} from 'reactstrap';
 import PropTypes from 'prop-types';
@@ -11,26 +11,21 @@ import {FONTS, TYPOGRAPHY_VARIANTS} from 'types/typography';
 import FA from 'types/font_awesome';
 
 import {selectUser} from 'redux/user';
+import {createOrUpdateStory, deleteStory} from 'redux/story';
+import {deleteStoryPage} from 'redux/storyPages';
 
-import CategoryPicker from 'components/widgets/pickers/category/CategoryPicker';
 import DropdownButton from 'components/widgets/button/DropdownButton';
 import FloatingInput from 'components/widgets/input/FloatingInput';
 import IconButton from 'components/widgets/button/IconButton';
-import Uploader from 'components/widgets/uploader/Uploader';
+
 import ConfirmModal from 'components/widgets/modals/Modal';
 import Loader from 'components/widgets/loader/Loader';
 import Typography from 'components/widgets/typography/Typography';
-import LanguagePicker from 'components/widgets/pickers/language/LanguagePicker';
 
 import StoryPagePicker from '../widgets/page-picker/StoryPagePicker';
-import StoryItem from '../StoryItem';
 
-const ERRORS = {
-	TITLE: 'TITLE',
-	CATEGORIES: 'CATEGORIES',
-	DESCRIPTION: 'DESCRIPTION',
-	LANGUAGE: 'LANGUAGE',
-};
+import PublishStoryDialog from './PublishStoryDialog';
+import PreviewStoryDialog from './PreviewStoryDialog';
 
 export default function Header({
 	className,
@@ -39,71 +34,35 @@ export default function Header({
 	currentEditing,
 	selectedPage,
 	onSelectedPage,
-	onPageRemove,
 	onStoryPage,
-	onStoryRemove,
-	onCreateOrUpdateStory,
 	story,
+	pageId,
 }) {
-	const {user} = useSelector(
-		state => ({
-			user: selectUser(state),
-		}),
-		shallowEqual
-	);
+	const {data} = useSelector(selectUser);
 
-	const {data} = user;
+	const dispatch = useDispatch();
 
+	const [isPublishStoryOpen, setIsPublishStoryOpen] = useState(false);
+	const [isDeleteStoryOpen, setIsDeleteStoryOpen] = useState(false);
+	const [isDeleteStoryPageOpen, setIsDeleteStoryPageOpen] = useState(false);
+	const [isPreviewStoryOpen, setIsPreviewStoryOpen] = useState(false);
 	const [title, setTitle] = useState('');
 	const [description, setDescription] = useState('');
 	const [categories, setCategories] = useState([]);
 	const [language, setLanguage] = useState(null);
 	const [image, setImage] = useState(null);
 	const [published, setPublished] = useState(false);
-	const [isPublishStoryOpen, setIsPublishStoryOpen] = useState(false);
-	const [isDeleteStoryOpen, setIsDeleteStoryOpen] = useState(false);
-	const [isDeleteStoryPageOpen, setIsDeleteStoryPageOpen] = useState(false);
-	const [isPreviewStoryOpen, setIsPreviewStoryOpen] = useState(false);
-	const [errors, setErrors] = useState({});
 
-	const validate = () => {
-		const hasErrors = new Map();
-
-		title.length <= 3 && hasErrors.set(ERRORS.TITLE, 'Title too short.');
-
-		!categories?.length && hasErrors.set(ERRORS.CATEGORIES, `You didn't pick category.`);
-
-		categories?.length > 3 &&
-			hasErrors.set(ERRORS.CATEGORIES, 'You can pick maximum 3 categories.');
-
-		!language && hasErrors.set(ERRORS.LANGUAGE, `You didn't pick language.`);
-
-		description.length <= 3 && hasErrors.set(ERRORS.DESCRIPTION, 'Description too short.');
-
-		description.length >= 200 && hasErrors.set(ERRORS.DESCRIPTION, 'Description too long.');
-
-		if (hasErrors.size) {
-			return setErrors(Object.fromEntries(hasErrors));
-		}
-
-		return true;
-	};
-
-	const create = () => {
-		if (validate()) {
-			const payload = {
-				id: story && story.id,
-				title,
-				image: image && image.id,
-				user: data && data.id,
-				description,
-				categories: categories.length && categories.map(item => item.value),
-				language: language && language.value,
-				published_at: !published ? new Date() : undefined,
-				archived_at: null,
-			};
-			onCreateOrUpdateStory(payload);
-		}
+	const stateStory = {
+		id: story.id,
+		title,
+		description,
+		categories,
+		language,
+		image,
+		published,
+		storypages: story?.storypages,
+		author: data,
 	};
 
 	const toggleDeleteStoryModal = () => setIsDeleteStoryOpen(prevState => !prevState);
@@ -111,35 +70,38 @@ export default function Header({
 	const togglePublishStoryModal = () => setIsPublishStoryOpen(prevState => !prevState);
 	const togglePreviewStoryModal = () => setIsPreviewStoryOpen(prevState => !prevState);
 
+	const disabledActions = op === STORY_PAGE_OP.create || op === STORY_PAGE_OP.update;
+
 	const handlePageRemove = () => {
 		toggleDeleteStoryPageModal();
-		onPageRemove();
+		handleRemovePage(story.id, pageId);
 	};
+
+	const handleCreateOrUpdateStory = useCallback(
+		(payload, shouldChange) => {
+			dispatch(createOrUpdateStory(payload, shouldChange));
+		},
+		[dispatch]
+	);
+
+	const handleRemovePage = (storyId, pageId) => dispatch(deleteStoryPage(storyId, pageId));
+
+	const handleRemoveStory = () => dispatch(deleteStory(story.id));
 
 	const _onCreateOrUpdateStory = useMemo(
 		() =>
-			debounce(({id, user, title}) => onCreateOrUpdateStory({id, user, title}, false), 3000),
-		[onCreateOrUpdateStory]
+			debounce(
+				({id, user, title}) => handleCreateOrUpdateStory({id, user, title}, false),
+				3000
+			),
+		[handleCreateOrUpdateStory]
 	);
 
 	const handleTitle = val => {
 		setTitle(val);
 		!isPublishStoryOpen &&
-			!published &&
+			!story.published &&
 			_onCreateOrUpdateStory({id: story.id, user: data?.id, title: val});
-	};
-
-	const renderPreviewContent = () => {
-		return (
-			<StoryItem
-				id={story.id}
-				image={image}
-				description={description}
-				title={title}
-				author={data}
-				storypages={pages}
-			/>
-		);
 	};
 
 	const renderDetelePageContent = () => (
@@ -153,54 +115,6 @@ export default function Header({
 			Are you sure you want to delete <strong>{title || 'this story'}</strong>?
 		</Typography>
 	);
-
-	const renderContent = () => {
-		return (
-			<Form onSubmit={create}>
-				<FloatingInput
-					placeholder="Type title of your story here..."
-					label="Title of story"
-					value={title}
-					onChange={val => setTitle(val)}
-					errorMessage={errors[ERRORS.TITLE]}
-					invalid={!!errors[ERRORS.TITLE]}
-				/>
-				<CategoryPicker
-					placeholder="Pick categories"
-					label="Categories"
-					isMulti
-					onChange={setCategories}
-					value={categories}
-					errorMessage={errors[ERRORS.CATEGORIES]}
-					invalid={!!errors[ERRORS.CATEGORIES]}
-				/>
-				<LanguagePicker
-					placeholder="Pick language"
-					label="Language"
-					onChange={setLanguage}
-					value={language}
-					errorMessage={errors[ERRORS.LANGUAGE]}
-					invalid={!!errors[ERRORS.LANGUAGE]}
-				/>
-				<FloatingInput
-					rows={5}
-					label="Story description"
-					type="textarea"
-					value={description}
-					placeholder="Type description of your story here..."
-					onChange={val => setDescription(val)}
-					errorMessage={errors[ERRORS.DESCRIPTION]}
-					invalid={!!errors[ERRORS.DESCRIPTION]}
-				/>
-				<Uploader
-					onUploaded={setImage}
-					uploadlabel="Upload cover image"
-					onRemove={() => setImage(null)}
-					files={image}
-				/>
-			</Form>
-		);
-	};
 
 	useEffect(() => {
 		if (story) {
@@ -218,8 +132,6 @@ export default function Header({
 	if (!story) {
 		return <Loader />;
 	}
-
-	const disabledActions = op === STORY_PAGE_OP.create || op === STORY_PAGE_OP.update;
 
 	return (
 		<div className={className + '-header'}>
@@ -297,38 +209,35 @@ export default function Header({
 					title="Delete"
 					content={renderDeteleContent()}
 					onClose={toggleDeleteStoryModal}
-					onSubmit={onStoryRemove}
+					onSubmit={handleRemoveStory}
 				/>
 			)}
 
 			{isPreviewStoryOpen && (
-				<ConfirmModal
+				<PreviewStoryDialog
 					isOpen={isPreviewStoryOpen}
 					onClose={togglePreviewStoryModal}
 					onSubmit={() => {
 						togglePublishStoryModal();
 						togglePreviewStoryModal();
 					}}
-					content={renderPreviewContent()}
-					title="Preview"
-					renderFooter
-					cancelLabel="Back to edit"
-					confirmLabel="Publish my story"
 					className={className + '-header-previewModal'}
+					story={stateStory}
 				/>
 			)}
 
 			{isPublishStoryOpen && (
-				<ConfirmModal
+				<PublishStoryDialog
+					onCreateOrUpdateStory={handleCreateOrUpdateStory}
 					isOpen={isPublishStoryOpen}
 					onClose={togglePublishStoryModal}
-					onSubmit={create}
-					content={renderContent()}
-					title="Publishing"
-					renderFooter
-					cancelLabel="Back to edit"
-					confirmLabel="Publish my story"
 					className={className + '-header-publishModal'}
+					story={stateStory}
+					setTitle={setTitle}
+					setDescription={setDescription}
+					setCategories={setCategories}
+					setLanguage={setLanguage}
+					setImage={setImage}
 				/>
 			)}
 		</div>
@@ -344,7 +253,6 @@ Header.propTypes = {
 	onSelectedPage: PropTypes.func,
 	onPageRemove: PropTypes.func,
 	onStoryPage: PropTypes.func,
-	onStoryRemove: PropTypes.func,
-	onCreateOrUpdateStory: PropTypes.func,
+	pageId: PropTypes.string,
 	story: PropTypes.object,
 };

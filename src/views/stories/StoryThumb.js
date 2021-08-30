@@ -44,7 +44,7 @@ export default function StoryThumb({
 	return (
 		<div className={CLASS}>
 			<StoryDropdownButton
-				story={{id, favouriteId, title, storypages, archivedAt}}
+				story={{id, favouriteId, title, storypages, archivedAt, publishedAt: createdDate}}
 				onDeleteStory={onDeleteStory}
 				displayArchived={displayArchived}
 			/>

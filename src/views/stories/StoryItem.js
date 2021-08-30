@@ -106,12 +106,11 @@ export default function StoryItem({
 
 	const likeIcon = liked ? FA.solid_heart : FA.heart;
 	const favouriteIcon = favourite ? FA.solid_bookmark : FA.bookmark;
-
 	return (
 		<div className={CLASS}>
 			{author?.id === data?.id && (
 				<StoryDropdownButton
-					story={{id, title, storypages, archivedAt}}
+					story={{id, title, storypages, archivedAt, publishedAt: createdDate}}
 					displayArchived={displayArchived}
 					keepArchived={keepArchived}
 				/>

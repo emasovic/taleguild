@@ -23,9 +23,9 @@ function NotificationItem({id}) {
 		!notification.seen && dispatch(updateNotification({id, seen: true}));
 	};
 
-	const {reward, created_at, seen} = notification;
+	const {data, created_at, seen} = notification;
 
-	const message = notification.message || reward?.description;
+	const message = notification.message;
 	return (
 		<DropdownItem active={!seen} onClick={() => editNotification()} className={CLASS + '-item'}>
 			<Typography component="p">{message}</Typography>
@@ -33,16 +33,16 @@ function NotificationItem({id}) {
 				<FromNow date={created_at} />
 			</Typography>
 			<div className={CLASS + '-item-rewards'}>
-				{!!reward?.points && (
+				{!!data?.points && (
 					<Typography>
 						<Star />
-						<strong>+ {reward?.points}</strong> &nbsp; XP
+						<strong>+ {data?.points}</strong> &nbsp; XP
 					</Typography>
 				)}
-				{!!reward?.coins && (
+				{!!data?.coins && (
 					<Typography>
 						<Coin />
-						<strong>+ {reward?.coins}</strong> &nbsp; coins
+						<strong>+ {data?.coins}</strong> &nbsp; coins
 					</Typography>
 				)}
 			</div>

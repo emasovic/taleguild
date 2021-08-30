@@ -11,6 +11,7 @@ import draftStories from './draftStories';
 import savedStories from './savedStories';
 import userStories from './userStories';
 import archivedStories from './archivedStories';
+import userActivity from './userActivity';
 import storyPages from './storyPages';
 import followers from './followers';
 import following from './following';
@@ -44,6 +45,7 @@ const store = configureStore({
 		notifications,
 		languages,
 		categories,
+		userActivity,
 		storyPages,
 		userStories,
 		savedStories,

@@ -94,13 +94,13 @@ export default function Notifications({isPage, isMobile}) {
 			outline={false}
 			{...dropDownProps}
 		>
+			<Typography className={CLASS + '-notifications'}>Notifications</Typography>
 			<LoadMoreModal
 				id="notifications"
 				onLoadMore={getNotifications}
 				shouldLoad={pages > currentPage}
 				loading={op === DEFAULT_OP.load_more}
 			>
-				<Typography className={CLASS + '-notifications'}>Notifications</Typography>
 				{!!notificationIds.length &&
 					notificationIds.map(i => <NotificationItem key={i} id={i} />)}
 			</LoadMoreModal>

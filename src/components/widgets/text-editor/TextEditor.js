@@ -13,7 +13,7 @@ import Leaf from './widgets/Leaf';
 import './TextEditor.scss';
 
 const CLASS = 'st-TextEditor';
-export default function TextEditor({value, onChange, onKeyDown, pageId}) {
+export default function TextEditor({value, onChange, onKeyDown, onKeyUp, pageId}) {
 	const renderElement = useCallback(props => <Element {...props} />, []);
 	const renderLeaf = useCallback(props => <Leaf {...props} />, []);
 	const editor = useMemo(() => withHistory(withReact(createEditor())), []);
@@ -36,6 +36,7 @@ export default function TextEditor({value, onChange, onKeyDown, pageId}) {
 			<HoveringToolbar className={CLASS} />
 			<Editable
 				onKeyDown={onKeyDown}
+				onKeyUp={onKeyUp}
 				className={CLASS}
 				renderElement={renderElement}
 				renderLeaf={renderLeaf}
@@ -49,8 +50,9 @@ export default function TextEditor({value, onChange, onKeyDown, pageId}) {
 
 TextEditor.propTypes = {
 	value: PropTypes.array,
-	onChange: PropTypes.func,
-	onKeyDown: PropTypes.func,
+	onChange: PropTypes.func.isRequired,
+	onKeyDown: PropTypes.func.isRequired,
+	onKeyUp: PropTypes.func.isRequired,
 	pageId: PropTypes.number,
 };
 

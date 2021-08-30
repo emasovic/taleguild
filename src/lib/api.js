@@ -194,6 +194,20 @@ export const updateNotification = payload => {
 	return http.put('/notifications/' + payload.id, null, payload);
 };
 
+/******************      USER ACTIVITY        ***********************/
+
+export const getActivity = filter => {
+	return http.get('user-activities', filter);
+};
+
+export const countActivity = filter => {
+	return http.get('user-activities/count', filter);
+};
+
+export const createActivity = payload => {
+	return http.post('user-activities', null, payload);
+};
+
 /******************      MEDIA        ***********************/
 
 export const uploadMedia = files => {

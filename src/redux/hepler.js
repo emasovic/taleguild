@@ -39,3 +39,7 @@ export const gotDataHelper = (state, data, invalidate, key) => {
 		...data,
 	};
 };
+
+// SELECTORS
+
+export const selectProps = (_, props) => props;

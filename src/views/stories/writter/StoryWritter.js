@@ -1,4 +1,4 @@
-import React, {useEffect, useCallback, useState} from 'react';
+import React, {useEffect, useCallback, useState, useMemo, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useParams} from 'react-router-dom';
 
@@ -6,12 +6,12 @@ import {DEFAULT_STORYPAGE_DATA, PUBLISH_STATES} from 'types/story';
 
 import {
 	loadStoryPages,
-	deleteStoryPage,
 	createOrUpdateStoryPage,
 	selectStoryPages,
 	loadStoryPage,
 } from 'redux/storyPages';
-import {createOrUpdateStory, deleteStory, selectStory} from 'redux/story';
+import {selectStory} from 'redux/story';
+import {createUserActivity} from 'redux/userActivity';
 
 import Loader from 'components/widgets/loader/Loader';
 
@@ -19,6 +19,13 @@ import Header from './Header';
 import Writter from './Writter';
 
 import './StoryWritter.scss';
+import {nanoid} from '@reduxjs/toolkit';
+import debounce from 'lodash.debounce';
+
+const ACTIVITY = {
+	startAt: null,
+	endAt: null,
+};
 
 const CLASS = 'st-StoryWritter';
 
@@ -33,13 +40,13 @@ export default function StoryWritter() {
 
 	const [selectedPage, setSelectedPage] = useState(0);
 	const [current, handleCurrent] = useState(null);
+	const [activities, setActivities] = useState({[nanoid()]: ACTIVITY});
+	const lastActivityKey = Object.keys(activities).pop();
+	const lastActivityVal = activities[lastActivityKey];
 
-	const handleCreateOrUpdateStory = useCallback(
-		(payload, shouldChange) => {
-			dispatch(createOrUpdateStory(payload, shouldChange));
-		},
-		[dispatch]
-	);
+	const published = !!story?.published_at;
+
+	const activitiesRef = useRef(activities);
 
 	const handleStoryPage = useCallback(
 		(id, text) => {
@@ -66,20 +73,39 @@ export default function StoryWritter() {
 		[dispatch, storyId]
 	);
 
-	const handleRemovePage = useCallback(() => {
-		dispatch(deleteStoryPage(storyId, pageId));
-	}, [pageId, dispatch, storyId]);
+	const handleStartAt = useCallback(() => {
+		if (!lastActivityVal?.startAt) {
+			setActivities(prevState => ({
+				...prevState,
+				[lastActivityKey]: {...lastActivityVal, startAt: new Date()},
+			}));
+		}
+		if (lastActivityVal?.endAt) {
+			setActivities(prevState => ({
+				...prevState,
+				[nanoid()]: ACTIVITY,
+			}));
+		}
+	}, [lastActivityVal, lastActivityKey]);
 
-	const handleRemoveStory = useCallback(() => {
-		dispatch(deleteStory(storyId));
-	}, [dispatch, storyId]);
+	const handleEndAt = useMemo(
+		() =>
+			debounce(() => {
+				lastActivityVal?.startAt &&
+					setActivities(prevState => ({
+						...prevState,
+						[lastActivityKey]: {...lastActivityVal, endAt: new Date()},
+					}));
+			}, 3000),
+		[lastActivityKey, lastActivityVal]
+	);
 
 	useEffect(() => {
 		dispatch(loadStoryPages({story: storyId, _publicationState: PUBLISH_STATES.preview}));
 	}, [dispatch, storyId]);
 
 	useEffect(() => {
-		if (pages && pages.length) {
+		if (pages?.length) {
 			let index = pages.findIndex(item => item.id === Number(pageId));
 			index = index < 0 ? 0 : index;
 			handleCurrent(pages[index]);
@@ -87,7 +113,17 @@ export default function StoryWritter() {
 		}
 	}, [pages, pageId]);
 
-	if (!pages || loading) {
+	useEffect(() => {
+		activitiesRef.current = activities;
+	}, [activities]);
+
+	useEffect(() => {
+		return () =>
+			!published &&
+			dispatch(createUserActivity({activity: activitiesRef.current, story: storyId}));
+	}, [dispatch, storyId, published]);
+
+	if (!pages || loading || !current) {
 		return <Loader />;
 	}
 
@@ -101,19 +137,19 @@ export default function StoryWritter() {
 				currentEditing={current}
 				selectedPage={selectedPage}
 				onSelectedPage={handleSelectedPage}
-				onPageRemove={handleRemovePage}
 				onStoryPage={handleStoryPage}
-				onStoryRemove={handleRemoveStory}
-				onCreateOrUpdateStory={handleCreateOrUpdateStory}
+				pageId={pageId}
 			/>
 
 			<Writter
 				className={CLASS}
 				currentEditing={current}
-				published={!!story?.published_at}
+				published={published}
 				archived={!!story?.archived_at}
-				onCurrentChanged={handleCurrent}
+				onCurrentChange={handleCurrent}
 				onStoryPage={handleStoryPage}
+				onStartAt={handleStartAt}
+				onEndAt={handleEndAt}
 				op={op}
 			/>
 		</div>
