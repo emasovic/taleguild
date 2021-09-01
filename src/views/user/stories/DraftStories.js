@@ -1,8 +1,9 @@
-import React, {useEffect, useState, useCallback} from 'react';
-import {useSelector, shallowEqual, useDispatch} from 'react-redux';
+import React, {useEffect, useCallback} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
 import propTypes from 'prop-types';
 
-import {DEFAULT_CRITERIA, STORY_OP, STORY_COMPONENTS, PUBLISH_STATES} from 'types/story';
+import {STORY_OP, STORY_COMPONENTS, PUBLISH_STATES} from 'types/story';
+import {DEFAULT_LIMIT} from 'types/default';
 
 import {selectStories, loadStories, deleteStory} from 'redux/draftStories';
 import {selectUserId} from 'redux/user';
@@ -17,24 +18,24 @@ const CLASS = 'st-StoryList';
 
 export default function DraftStories({shouldLoadMore, Component}) {
 	const dispatch = useDispatch();
-	const {drafts, userId, pages, op} = useSelector(
-		state => ({
-			drafts: selectStories(state),
-			op: state.draftStories.op,
-			pages: state.draftStories.pages,
-			userId: selectUserId(state),
-		}),
-		shallowEqual
-	);
+	const drafts = useSelector(selectStories);
+	const {op, currentPage, pages} = useSelector(state => state.draftStories);
+	const userId = useSelector(selectUserId);
 
-	const [currentPage, setCurrentPage] = useState(1);
-	const [criteria, setCriteria] = useState();
+	const shouldLoad = pages > currentPage && shouldLoadMore && !op;
 
 	const handleCount = useCallback(() => {
-		const storyCriteria = {...criteria, _start: currentPage * 10};
+		const storyCriteria = {
+			...DEFAULT_LIMIT,
+			_publicationState: PUBLISH_STATES.preview,
+			published_at_null: true,
+			archived_at_null: true,
+			user: userId,
+			_sort: 'created_at:DESC',
+			_start: currentPage * 10,
+		};
 		dispatch(loadStories(storyCriteria, false, STORY_OP.load_more));
-		setCurrentPage(currentPage + 1);
-	}, [dispatch, currentPage, criteria]);
+	}, [dispatch, currentPage, userId]);
 
 	const handleDeleteStory = useCallback(
 		storyId => {
@@ -45,20 +46,21 @@ export default function DraftStories({shouldLoadMore, Component}) {
 
 	useEffect(() => {
 		if (userId) {
-			setCriteria({
-				...DEFAULT_CRITERIA,
-				_publicationState: PUBLISH_STATES.preview,
-				published_at_null: true,
-				user: userId,
-			});
+			dispatch(
+				loadStories(
+					{
+						...DEFAULT_LIMIT,
+						_publicationState: PUBLISH_STATES.preview,
+						published_at_null: true,
+						archived_at_null: true,
+						user: userId,
+						_sort: 'created_at:DESC',
+					},
+					true
+				)
+			);
 		}
-	}, [userId]);
-
-	useEffect(() => {
-		if (criteria) {
-			dispatch(loadStories(criteria, true));
-		}
-	}, [dispatch, criteria]);
+	}, [dispatch, userId]);
 
 	const stories =
 		drafts && drafts.length ? (
@@ -87,7 +89,7 @@ export default function DraftStories({shouldLoadMore, Component}) {
 		<LoadMore
 			id="drafts"
 			onLoadMore={handleCount}
-			shouldLoad={pages > currentPage && shouldLoadMore}
+			shouldLoad={shouldLoad}
 			loading={op === STORY_OP.load_more}
 			className={CLASS}
 		>

@@ -4,6 +4,7 @@ import * as api from '../lib/api';
 
 import {STORY_OP} from 'types/story';
 import {Toast} from 'types/toast';
+import {DEFAULT_OP} from 'types/default';
 
 import {newToast} from './toast';
 
@@ -14,7 +15,12 @@ const draftStoriesAdapter = createEntityAdapter({
 
 export const draftSlice = createSlice({
 	name: 'draftStories',
-	initialState: draftStoriesAdapter.getInitialState({op: null, pages: null, loading: null}),
+	initialState: draftStoriesAdapter.getInitialState({
+		op: null,
+		pages: null,
+		loading: null,
+		currentPage: 1,
+	}),
 	reducers: {
 		draftStoriesReceieved: (state, action) => {
 			draftStoriesAdapter.setAll(state, action.payload);
@@ -23,6 +29,7 @@ export const draftSlice = createSlice({
 		},
 		draftStoryUpsertMany: (state, action) => {
 			draftStoriesAdapter.upsertMany(state, action.payload);
+			if (state.op === DEFAULT_OP.load_more) state.currentPage += 1;
 			state.loading = null;
 			state.op = null;
 		},

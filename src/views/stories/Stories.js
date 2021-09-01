@@ -1,6 +1,6 @@
-import React, {useEffect, useState, useCallback} from 'react';
+import React, {useEffect, useCallback} from 'react';
 import {NavItem, NavLink, Nav} from 'reactstrap';
-import {useDispatch, useSelector, shallowEqual} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import queryString from 'query-string';
 import {useLocation} from 'react-router-dom';
 import propTypes from 'prop-types';
@@ -24,16 +24,10 @@ function Stories({criteria, activeSort}) {
 	const dispatch = useDispatch();
 	const location = useLocation();
 
-	const {stories, op, pages} = useSelector(
-		state => ({
-			stories: selectStories(state, activeSort),
-			pages: state.stories.pages,
-			op: state.stories.op,
-		}),
-		shallowEqual
-	);
+	const stories = useSelector(state => selectStories(state, activeSort));
+	const {pages, op, currentPage} = useSelector(state => state.stories);
 
-	const [currentPage, setCurrentPage] = useState(1);
+	const shouldLoad = pages > currentPage && !op;
 
 	const sortStories = sort =>
 		dispatch(navigateToQuery({_sort: sort + ':' + SORT_DIRECTION.desc}, location));
@@ -41,7 +35,6 @@ function Stories({criteria, activeSort}) {
 	const handleCount = useCallback(() => {
 		const loadMoreCriteria = {...criteria, _start: currentPage * 10};
 		dispatch(loadStories(loadMoreCriteria, false, STORY_OP.load_more));
-		setCurrentPage(currentPage + 1);
 	}, [dispatch, currentPage, criteria]);
 
 	useEffect(() => {
@@ -109,7 +102,7 @@ function Stories({criteria, activeSort}) {
 			id="stories"
 			className={CLASS}
 			onLoadMore={handleCount}
-			shouldLoad={pages > currentPage}
+			shouldLoad={shouldLoad}
 			loading={op === STORY_OP.load_more}
 		>
 			{nav}

@@ -1,8 +1,9 @@
-import React, {useEffect, useState, useCallback, useMemo} from 'react';
+import React, {useEffect, useCallback} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import propTypes from 'prop-types';
 
-import {DEFAULT_CRITERIA, STORY_OP, STORY_COMPONENTS} from 'types/story';
+import {STORY_OP, STORY_COMPONENTS} from 'types/story';
+import {DEFAULT_LIMIT} from 'types/default';
 
 import {
 	selectArchivedStories,
@@ -23,27 +24,20 @@ export default function ArchivedStories({shouldLoadMore, Component}) {
 	const dispatch = useDispatch();
 	const archivedStories = useSelector(selectArchivedStories);
 	const userId = useSelector(selectUserId);
-	const pages = useSelector(state => state.archivedStories.pages);
-	const op = useSelector(state => state.archivedStories.op);
+	const {pages, op, currentPage} = useSelector(state => state.archivedStories);
 
-	const [currentPage, setCurrentPage] = useState(1);
+	const shouldLoad = pages > currentPage && shouldLoadMore && !op;
 
-	const criteria = useMemo(
-		() => ({
-			...DEFAULT_CRITERIA,
-			_publicationState: undefined,
+	const handleCount = useCallback(() => {
+		const storyCriteria = {
 			_sort: 'published_at:DESC',
 			archived_at_null: false,
 			user: userId,
-		}),
-		[userId]
-	);
-
-	const handleCount = useCallback(() => {
-		const storyCriteria = {...criteria, _start: currentPage * 10};
+			...DEFAULT_LIMIT,
+			_start: currentPage * 10,
+		};
 		dispatch(loadArchivedStories(storyCriteria, false, null, STORY_OP.load_more));
-		setCurrentPage(currentPage + 1);
-	}, [dispatch, currentPage, criteria]);
+	}, [dispatch, currentPage, userId]);
 
 	const handleDeleteStory = useCallback(
 		id => {
@@ -54,9 +48,19 @@ export default function ArchivedStories({shouldLoadMore, Component}) {
 
 	useEffect(() => {
 		if (userId) {
-			dispatch(loadArchivedStories(criteria, true));
+			dispatch(
+				loadArchivedStories(
+					{
+						...DEFAULT_LIMIT,
+						_sort: 'published_at:DESC',
+						archived_at_null: false,
+						user: userId,
+					},
+					true
+				)
+			);
 		}
-	}, [dispatch, criteria, userId]);
+	}, [dispatch, userId]);
 
 	const stories = archivedStories?.length ? (
 		archivedStories.map(item => {
@@ -87,7 +91,7 @@ export default function ArchivedStories({shouldLoadMore, Component}) {
 		<LoadMore
 			id="archived"
 			onLoadMore={handleCount}
-			shouldLoad={pages > currentPage && shouldLoadMore}
+			shouldLoad={shouldLoad}
 			loading={op === STORY_OP.load_more}
 			className={CLASS}
 		>

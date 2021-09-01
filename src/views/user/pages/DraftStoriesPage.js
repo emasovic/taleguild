@@ -1,12 +1,12 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
-import {USER_STORIES_SAVED} from 'lib/routes';
+import {USER_STORIES_ARCHIVED} from 'lib/routes';
 
 import {STORY_COMPONENTS} from 'types/story';
 
 import DraftStories from '../stories/DraftStories';
-import SavedStories from '../stories/ArchivedStories';
+import ArchivedStories from '../stories/ArchivedStories';
 
 import './DraftStoriesPage.scss';
 
@@ -16,8 +16,8 @@ export default function DraftStoriesPage() {
 	return (
 		<div className={CLASS}>
 			<div className={CLASS + '-saved'}>
-				<SavedStories shouldLoadMore={false} Component={STORY_COMPONENTS.list} />
-				<Link to={USER_STORIES_SAVED}>View all</Link>
+				<ArchivedStories shouldLoadMore={false} Component={STORY_COMPONENTS.list} />
+				<Link to={USER_STORIES_ARCHIVED}>View all</Link>
 			</div>
 			<DraftStories />
 

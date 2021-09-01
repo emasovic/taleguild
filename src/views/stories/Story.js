@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useRef} from 'react';
-import {useDispatch, useSelector, shallowEqual} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import orderBy from 'lodash.orderby';
 import {useHistory, useParams} from 'react-router-dom';
 
@@ -34,13 +34,10 @@ export default function Story() {
 
 	const id = getIdFromSlug(slug);
 
-	const {story, userId} = useSelector(
-		state => ({
-			story: selectStory(state, id),
-			userId: selectUserId(state),
-		}),
-		shallowEqual
-	);
+	const story = useSelector(state => selectStory(state, id));
+	const userId = useSelector(selectUserId);
+
+	const storyUser = story?.user?.id || story?.user;
 
 	const [activePage, setActivePage] = useState(0);
 
@@ -74,11 +71,11 @@ export default function Story() {
 		);
 	}
 
-	if (!story.published_at && story.user?.id !== userId) {
+	if (!story.published_at && storyUser !== userId) {
 		return <NotFound />;
 	}
 
-	if (story.archived_at && story.user?.id !== userId) {
+	if (story.archived_at && storyUser !== userId) {
 		return (
 			<PagePlaceholder
 				className={CLASS + '-placeholder'}

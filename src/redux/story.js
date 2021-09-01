@@ -6,6 +6,7 @@ import {goToStory, editStory, DELETED_STORY} from '../lib/routes';
 
 import {Toast} from 'types/toast';
 import {DEFAULT_STORYPAGE_DATA, SORT_DIRECTION, STORY_OP, STORY_SORT} from 'types/story';
+import {DEFAULT_OP} from 'types/default';
 
 import {newToast} from './toast';
 import {savedStoryRemoved, savedStoryUpsert} from './savedStories';
@@ -24,6 +25,7 @@ export const storySlice = createSlice({
 		pages: null,
 		total: null,
 		loading: null,
+		currentPage: 1,
 	}),
 	reducers: {
 		storiesReceieved: (state, action) => {
@@ -33,6 +35,7 @@ export const storySlice = createSlice({
 		},
 		storiesUpsertMany: (state, action) => {
 			storyAdapter.upsertMany(state, action.payload);
+			if (state.op === DEFAULT_OP.load_more) state.currentPage += 1;
 			state.loading = null;
 			state.op = null;
 		},
