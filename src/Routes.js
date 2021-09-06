@@ -10,7 +10,6 @@ import PrivateRoute from 'PrivateRoute';
 import PublicRoute from 'PublicRoute';
 
 import Loader from 'components/widgets/loader/Loader';
-import Guildator from 'components/guildator/Guildator';
 
 const Home = lazy(() => import('views/Home'));
 const Explore = lazy(() => import('views/Explore'));
@@ -23,6 +22,8 @@ const UserSettings = lazy(() => import('views/user/UserSettings'));
 const DraftStoriesPage = lazy(() => import('views/user/pages/DraftStoriesPage'));
 const SavedStoriesPage = lazy(() => import('views/user/pages/SavedStoriesPage'));
 const ArchivedStoriesPage = lazy(() => import('views/user/pages/ArchivedStoriesPage'));
+
+const GuildatorPage = lazy(() => import('views/guildator/GuildatorPage'));
 
 const SignUp = lazy(() => import('views/signup/SignUp'));
 
@@ -43,7 +44,6 @@ const Routes = () => (
 		<Suspense fallback={<Loader />}>
 			<Nav />
 			<Switch>
-				<Route path="/guildator" component={Guildator} />
 				<PrivateRoute path={routes.FEED} component={Home} />
 				<PrivateRoute path={routes.WRITE_STORY} component={StoryWritter} />
 				<PrivateRoute path={routes.DELETED_STORY} component={DeletedStory} />
@@ -61,6 +61,7 @@ const Routes = () => (
 				<PublicRoute path={routes.WELCOME} component={Welcome} />
 				<PublicRoute path={routes.REGISTRATION_SUCCESS} component={RegistrationSuccess} />
 				<Route exact path={routes.HOME} component={Explore} />
+				<PrivateRoute path={routes.GUILDATOR} component={GuildatorPage} />
 				<PrivateRoute path={routes.NOTIFICATIONS} component={NotificationsPage} />
 				<Route path="*" component={NotFound} />
 			</Switch>

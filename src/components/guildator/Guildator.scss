@@ -2,6 +2,7 @@
 
 .st-Guildator {
 	position: relative;
+	min-height: 300px;
 
 	&-character {
 		position: absolute;
@@ -11,66 +12,41 @@
 		height: 200px;
 
 		&-helmet,
-		&-hair,
 		&-head,
 		&-body,
-		&-left,
-		&-right,
 		&-weapon {
 			position: absolute;
 		}
 
 		&-helmet {
 			z-index: 2;
-			width: 100px;
-			height: 150px;
-			top: 0;
-			left: 50px;
-		}
-
-		&-hair {
-			z-index: 1;
-			width: 100px;
-			height: 150px;
-			top: 0;
+			width: 90px;
+			height: 76px;
+			top: 42px;
 			left: 50px;
 		}
 
 		&-head {
 			z-index: 1;
-			width: 100px;
-			height: 100px;
-			top: 50px;
-			left: 50px;
+			width: 70px;
+			height: 86px;
+			top: 64px;
+			left: 64px;
 		}
 
 		&-body {
-			width: 100px;
-			height: 100px;
-			top: 100px;
-			left: 50px;
-		}
-
-		&-left {
-			width: 100px;
-			height: 150px;
-			top: 50px;
+			width: 200px;
+			height: 200px;
+			top: 70px;
 			left: 0;
-			z-index: 200;
-		}
-
-		&-right {
-			width: 100px;
-			height: 100px;
-			top: 50px;
-			left: 100px;
 		}
 
 		&-weapon {
 			width: 100px;
 			height: 150px;
-			top: 50px;
-			left: 100px;
+			top: 128px;
+			left: 106px;
+			z-index: 2;
 		}
 	}
 }

@@ -1,33 +1,41 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-import head from 'images/guildator/head/head.svg';
+import helmet from 'images/guildator/helmet/hat_viking-helmet.png';
 
-import hair from 'images/guildator/head/hair.png';
+import head from 'images/guildator/head/head.png';
 
-import body from 'images/guildator/body/torso.svg';
-import left from 'images/guildator/body/left.svg';
-import right from 'images/guildator/body/right.svg';
+import body from 'images/guildator/body/body1.png';
 
-import spear from 'images/guildator/weapon/weapon_wizard-stick.svg';
-
-import hemlet from 'images/guildator/helmet/hat_viking-helmet.svg';
+import weapon from 'images/guildator/weapon/weapon_wizard-stick.svg';
 
 import './Guildator.scss';
 
 const CLASS = 'st-Guildator';
 
-export default function Guildator() {
+export default function Guildator({helmet, head, body, weapon}) {
 	return (
 		<div className={CLASS}>
 			<div className={CLASS + '-character'}>
-				<img src={hemlet} alt="hemlet" className={CLASS + '-character-helmet'} />
-				<img src={hair} alt="hair" className={CLASS + '-character-hair'} />
+				<img src={helmet} alt="helmet" className={CLASS + '-character-helmet'} />
 				<img src={head} alt="head" className={CLASS + '-character-head'} />
 				<img src={body} alt="body" className={CLASS + '-character-body'} />
-				<img src={left} alt="left" className={CLASS + '-character-left'} />
-				<img src={right} alt="right" className={CLASS + '-character-right'} />
-				<img src={spear} alt="spear" className={CLASS + '-character-weapon'} />
+				<img src={weapon} alt="weapon" className={CLASS + '-character-weapon'} />
 			</div>
 		</div>
 	);
 }
+
+Guildator.defaultProps = {
+	helmet,
+	head,
+	body,
+	weapon,
+};
+
+Guildator.propTypes = {
+	helmet: PropTypes.string,
+	head: PropTypes.string,
+	body: PropTypes.string,
+	weapon: PropTypes.string,
+};
