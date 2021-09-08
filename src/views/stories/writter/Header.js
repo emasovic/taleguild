@@ -4,6 +4,9 @@ import {useSelector, useDispatch} from 'react-redux';
 import debounce from 'lodash.debounce';
 import {DropdownItem} from 'reactstrap';
 import PropTypes from 'prop-types';
+import {useHistory} from 'react-router';
+
+import {editStory} from 'lib/routes';
 
 import {COLOR} from 'types/button';
 import {STORY_PAGE_OP} from 'types/story_page';
@@ -19,7 +22,6 @@ import FloatingInput from 'components/widgets/input/FloatingInput';
 import IconButton from 'components/widgets/button/IconButton';
 
 import ConfirmModal from 'components/widgets/modals/Modal';
-import Loader from 'components/widgets/loader/Loader';
 import Typography from 'components/widgets/typography/Typography';
 
 import StoryPagePicker from '../widgets/page-picker/StoryPagePicker';
@@ -33,14 +35,16 @@ export default function Header({
 	op,
 	currentEditing,
 	selectedPage,
-	onSelectedPage,
 	onStoryPage,
 	story,
 	pageId,
+	storyId,
 }) {
+	const dispatch = useDispatch();
+
 	const {data} = useSelector(selectUser);
 
-	const dispatch = useDispatch();
+	const {replace} = useHistory();
 
 	const [isPublishStoryOpen, setIsPublishStoryOpen] = useState(false);
 	const [isDeleteStoryOpen, setIsDeleteStoryOpen] = useState(false);
@@ -54,7 +58,7 @@ export default function Header({
 	const [published, setPublished] = useState(false);
 
 	const stateStory = {
-		id: story.id,
+		id: storyId,
 		title,
 		description,
 		categories,
@@ -129,10 +133,6 @@ export default function Header({
 		}
 	}, [story]);
 
-	if (!story) {
-		return <Loader />;
-	}
-
 	return (
 		<div className={className + '-header'}>
 			<FloatingInput
@@ -144,7 +144,7 @@ export default function Header({
 				<div className={className + '-header-publish-actions'}>
 					<StoryPagePicker
 						pages={pages}
-						onChange={item => onSelectedPage(item.value)}
+						onChange={item => item.value && replace(editStory(storyId, item.value))}
 						onNewPageClick={() => onStoryPage(undefined)}
 						value={selectedPage}
 					/>
@@ -245,14 +245,13 @@ export default function Header({
 }
 
 Header.propTypes = {
-	className: PropTypes.string,
-	pages: PropTypes.array,
+	className: PropTypes.string.isRequired,
+	pages: PropTypes.array.isRequired,
 	op: PropTypes.string,
-	currentEditing: PropTypes.object,
-	selectedPage: PropTypes.number,
-	onSelectedPage: PropTypes.func,
-	onPageRemove: PropTypes.func,
-	onStoryPage: PropTypes.func,
-	pageId: PropTypes.string,
-	story: PropTypes.object,
+	currentEditing: PropTypes.object.isRequired,
+	selectedPage: PropTypes.number.isRequired,
+	onStoryPage: PropTypes.func.isRequired,
+	pageId: PropTypes.string.isRequired,
+	storyId: PropTypes.string.isRequired,
+	story: PropTypes.object.isRequired,
 };

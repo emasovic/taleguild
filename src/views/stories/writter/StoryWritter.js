@@ -1,6 +1,8 @@
 import React, {useEffect, useCallback, useState, useMemo, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useParams} from 'react-router-dom';
+import {nanoid} from '@reduxjs/toolkit';
+import debounce from 'lodash.debounce';
 
 import {DEFAULT_STORYPAGE_DATA, PUBLISH_STATES} from 'types/story';
 
@@ -19,8 +21,6 @@ import Header from './Header';
 import Writter from './Writter';
 
 import './StoryWritter.scss';
-import {nanoid} from '@reduxjs/toolkit';
-import debounce from 'lodash.debounce';
 
 const ACTIVITY = {
 	startAt: null,
@@ -55,18 +55,6 @@ export default function StoryWritter() {
 					story: storyId,
 					id,
 					text: text || DEFAULT_STORYPAGE_DATA,
-				})
-			);
-		},
-		[dispatch, storyId]
-	);
-
-	const handleSelectedPage = useCallback(
-		id => {
-			dispatch(
-				loadStoryPage({
-					story: storyId,
-					id,
 				})
 			);
 		},
@@ -114,6 +102,14 @@ export default function StoryWritter() {
 	}, [pages, pageId]);
 
 	useEffect(() => {
+		dispatch(
+			loadStoryPage({
+				id: pageId,
+			})
+		);
+	}, [dispatch, pageId]);
+
+	useEffect(() => {
 		activitiesRef.current = activities;
 	}, [activities]);
 
@@ -123,7 +119,7 @@ export default function StoryWritter() {
 			dispatch(createUserActivity({activity: activitiesRef.current, story: storyId}));
 	}, [dispatch, storyId, published]);
 
-	if (!pages || loading || !current) {
+	if (!pages || loading || !current || !story) {
 		return <Loader />;
 	}
 
@@ -136,8 +132,8 @@ export default function StoryWritter() {
 				story={story}
 				currentEditing={current}
 				selectedPage={selectedPage}
-				onSelectedPage={handleSelectedPage}
 				onStoryPage={handleStoryPage}
+				storyId={storyId}
 				pageId={pageId}
 			/>
 

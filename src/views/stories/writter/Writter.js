@@ -1,9 +1,9 @@
 import React, {useRef, useMemo} from 'react';
-
 import debounce from 'lodash.debounce';
 import PropTypes from 'prop-types';
 
 import {STORY_PAGE_OP} from 'types/story_page';
+import {DEFAULT_OP} from 'types/default';
 
 import TextEditor from 'components/widgets/text-editor/TextEditor';
 import Loader from 'components/widgets/loader/Loader';
@@ -56,7 +56,7 @@ export default function Writter({
 		shouldAutoSave && _onStoryPage(current.id, val);
 	};
 
-	if (op === STORY_PAGE_OP.create) {
+	if (op === STORY_PAGE_OP.create || op === DEFAULT_OP.loading) {
 		return <Loader />;
 	}
 
