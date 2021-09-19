@@ -8,45 +8,55 @@
 		position: absolute;
 		top: 0;
 		left: 0;
-		width: 200px;
-		height: 200px;
+		width: 202px;
+		height: 201px;
 
 		&-helmet,
 		&-head,
 		&-body,
-		&-weapon {
+		&-right_weapon,
+		&-left_weapon {
 			position: absolute;
 		}
 
 		&-helmet {
-			z-index: 2;
-			width: 90px;
-			height: 76px;
-			top: 42px;
+			z-index: 300;
+			width: 100px;
+			height: 150px;
+			top: 0;
 			left: 50px;
 		}
 
 		&-head {
-			z-index: 1;
-			width: 70px;
-			height: 86px;
-			top: 64px;
-			left: 64px;
+			z-index: 200;
+			width: 100px;
+			height: 100px;
+			top: 51px;
+			left: 50px;
 		}
 
 		&-body {
-			width: 200px;
-			height: 200px;
-			top: 70px;
+			width: 202px;
+			height: 150px;
+			top: 51px;
 			left: 0;
+			z-index: 100;
 		}
 
-		&-weapon {
+		&-right_weapon {
 			width: 100px;
 			height: 150px;
-			top: 128px;
-			left: 106px;
-			z-index: 2;
+			top: 51px;
+			left: 100px;
+			z-index: 400;
+		}
+
+		&-left_weapon {
+			width: 100px;
+			height: 150px;
+			top: 51px;
+			left: 0;
+			z-index: 400;
 		}
 	}
 }

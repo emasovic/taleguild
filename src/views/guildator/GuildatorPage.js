@@ -11,7 +11,8 @@ const PARTS = {
 	helmet: 'helmet',
 	head: 'head',
 	body: 'body',
-	weapon: 'weapon',
+	left_weapon: 'left_weapon',
+	right_weapon: 'right_weapon',
 };
 
 export default function GuildatorPage() {
