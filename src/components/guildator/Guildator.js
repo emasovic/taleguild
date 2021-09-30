@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import helmet from 'images/guildator/helmet/hat_viking-helmet.png';
+import helmet from 'images/guildator/helmet/hat_viking-helmet.svg';
 
-import head from 'images/guildator/head/head.png';
+import head from 'images/guildator/head/head.svg';
 
-import body from 'images/guildator/body/body1.png';
+import body from 'images/guildator/body/body.svg';
 
-import left_weapon from 'images/guildator/weapon/weapon_wizard-stick.svg';
+import left_weapon from 'images/guildator/weapon/weapon_shield.svg';
 
-import right_weapon from 'images/guildator/weapon/weapon_wizard-stick.svg';
+import right_weapon from 'images/guildator/weapon/weapon_sword-small.svg';
 
 import './Guildator.scss';
 
