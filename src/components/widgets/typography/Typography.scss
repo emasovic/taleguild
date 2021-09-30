@@ -1,0 +1,70 @@
+@import 'styles/variables.scss';
+@import 'styles/themes/mixins.scss';
+
+.st-Typography {
+	&-merriweather {
+		font-family: $font-merriweather;
+	}
+
+	&-bold {
+		font-weight: 900;
+	}
+
+	&-semi-bold {
+		font-weight: 600;
+	}
+
+	&-primary {
+		@include theme-aware('color', 'G900');
+	}
+
+	&-secondary {
+		@include theme-aware('color', 'G600');
+	}
+
+	&-uppercase {
+		text-transform: uppercase;
+	}
+
+	&-lowercase {
+		text-transform: lowercase;
+	}
+
+	&-capitalize {
+		text-transform: capitalize;
+	}
+
+	&-h1 {
+		font-size: 32px;
+		line-height: 60px;
+
+		@media (max-width: $breakpoint-sm) {
+			font-size: 18px;
+			line-height: 48px;
+		}
+	}
+
+	&-h2 {
+		font-size: 24px;
+		line-height: 48px;
+
+		@media (max-width: $breakpoint-sm) {
+			font-size: 18px;
+			line-height: 24px;
+		}
+	}
+
+	&-h3 {
+		font-size: 22px;
+		line-height: 24px;
+	}
+
+	&-h4 {
+		font-size: 18px;
+		line-height: 24px;
+	}
+
+	&-action1 {
+		font-size: 14px;
+	}
+}

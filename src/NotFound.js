@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 
 import {HOME} from 'lib/routes';
 
-import {FONTS, TYPOGRAPHY_VARIANTS} from 'types/typography';
+import {FONTS, FONT_WEIGHT, TYPOGRAPHY_VARIANTS} from 'types/typography';
 
 import IconButton from 'components/widgets/button/IconButton';
 import Typography from 'components/widgets/typography/Typography';
@@ -23,10 +23,14 @@ export default function NotFound() {
 
 			<div className={CLASS + '-error'}>
 				<span>404</span>
-				<Typography font={FONTS.merri} variant={TYPOGRAPHY_VARIANTS.h1}>
+				<Typography
+					font={FONTS.merri}
+					variant={TYPOGRAPHY_VARIANTS.h1}
+					fontWeight={FONT_WEIGHT.bold}
+				>
 					You got lost in the woods.
 				</Typography>
-				<Typography font={FONTS.lato} variant={TYPOGRAPHY_VARIANTS.p14}>
+				<Typography font={FONTS.lato} variant={TYPOGRAPHY_VARIANTS.action1}>
 					Don’t worry, our wizard will tell you path where you can find what you are
 					looking for.
 				</Typography>

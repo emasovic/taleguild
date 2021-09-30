@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import {FONTS, TYPOGRAPHY_VARIANTS} from 'types/typography';
+import {FONTS, FONT_WEIGHT, TYPOGRAPHY_VARIANTS} from 'types/typography';
 
 import IconButton from 'components/widgets/button/IconButton';
 import Typography from 'components/widgets/typography/Typography';
@@ -26,10 +26,14 @@ export default class ErrorPage extends Component {
 				<div className={CLASS}>
 					<LogoShiled />
 
-					<Typography font={FONTS.merri} variant={TYPOGRAPHY_VARIANTS.h1}>
+					<Typography
+						font={FONTS.merri}
+						variant={TYPOGRAPHY_VARIANTS.h1}
+						fontWeight={FONT_WEIGHT.bold}
+					>
 						Oops, Something Went Wrong.
 					</Typography>
-					<Typography font={FONTS.lato} variant={TYPOGRAPHY_VARIANTS.p14}>
+					<Typography font={FONTS.lato} variant={TYPOGRAPHY_VARIANTS.action1}>
 						Try reloading you page or press reload button.
 					</Typography>
 

@@ -16,12 +16,29 @@ export const FONTS = {
 	lato: 'lato',
 };
 
+export const FONT_WEIGHT = {
+	bold: 'bold',
+	semiBold: 'semiBold',
+};
+
 export const TYPOGRAPHY_VARIANTS = {
 	h1: 'h1',
 	h2: 'h2',
 	h3: 'h3',
 	h4: 'h4',
+	action1: 'action1',
 	p18: 'p18',
 	p16: 'p16',
 	p14: 'p14',
+};
+
+export const TEXT_TRASFORM = {
+	capitalize: 'capitalize',
+	uppercase: 'uppercase',
+	lowercase: 'lowercase',
+};
+
+export const TEXT_COLORS = {
+	primary: 'primary',
+	secondary: 'secondary',
 };

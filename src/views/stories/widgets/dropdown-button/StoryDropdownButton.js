@@ -52,7 +52,7 @@ export default function StoryDropdownButton({story, onDeleteStory, displayArchiv
 	const toggleModal = () => setIsModalOpen(prevState => !prevState);
 
 	const renderContent = () => (
-		<Typography font={FONTS.lato} variant={TYPOGRAPHY_VARIANTS.p14}>
+		<Typography font={FONTS.lato} variant={TYPOGRAPHY_VARIANTS.action1}>
 			Are you sure you want to delete <strong>{title || 'Untitled'}</strong>?
 		</Typography>
 	);

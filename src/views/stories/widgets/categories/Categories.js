@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {Nav, NavItem, NavLink} from 'reactstrap';
 import {useLocation} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 import FA from 'types/font_awesome';
 
@@ -11,7 +12,6 @@ import {selectCategories} from 'redux/categories';
 import Loader from 'components/widgets/loader/Loader';
 
 import './Categories.scss';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 const CLASS = 'st-Categories';
 

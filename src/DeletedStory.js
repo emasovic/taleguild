@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom';
 import {HOME} from 'lib/routes';
 
 import {COLOR} from 'types/button';
-import {FONTS, TYPOGRAPHY_VARIANTS} from 'types/typography';
+import {FONTS, FONT_WEIGHT, TYPOGRAPHY_VARIANTS} from 'types/typography';
 
 import {newStory} from 'redux/story';
 import {selectUser} from 'redux/user';
@@ -29,10 +29,14 @@ export default function DeletedStory() {
 	return (
 		<div className={CLASS}>
 			<div className={CLASS + '-description'}>
-				<Typography font={FONTS.merri} variant={TYPOGRAPHY_VARIANTS.h1}>
+				<Typography
+					font={FONTS.merri}
+					variant={TYPOGRAPHY_VARIANTS.h1}
+					fontWeight={FONT_WEIGHT.bold}
+				>
 					And that was the end of your story. Literally end. You delete it.
 				</Typography>
-				<Typography font={FONTS.lato} variant={TYPOGRAPHY_VARIANTS.p14}>
+				<Typography font={FONTS.lato} variant={TYPOGRAPHY_VARIANTS.action1}>
 					But you can create other one. Hope that you will not delete that one too. You
 					can also read other stories in mean time, just back to home.
 				</Typography>

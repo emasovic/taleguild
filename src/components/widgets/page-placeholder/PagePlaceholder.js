@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {Link} from 'react-router-dom';
 
-import {FONTS, TYPOGRAPHY_VARIANTS} from 'types/typography';
+import {FONTS, FONT_WEIGHT, TYPOGRAPHY_VARIANTS} from 'types/typography';
 
 import Typography from '../typography/Typography';
 import IconButton from '../button/IconButton';
@@ -25,10 +25,14 @@ function PagePlaceholder({
 		<div className={classNames(CLASS, className)}>
 			<IconComponent />
 
-			<Typography font={FONTS.merri} variant={TYPOGRAPHY_VARIANTS.h1}>
+			<Typography
+				font={FONTS.merri}
+				variant={TYPOGRAPHY_VARIANTS.h1}
+				fontWeight={FONT_WEIGHT.bold}
+			>
 				{title}
 			</Typography>
-			<Typography font={FONTS.lato} variant={TYPOGRAPHY_VARIANTS.p14}>
+			<Typography font={FONTS.lato} variant={TYPOGRAPHY_VARIANTS.action1}>
 				{subtitle}
 			</Typography>
 

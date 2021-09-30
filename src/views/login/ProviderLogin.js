@@ -6,7 +6,7 @@ import {HOME} from 'lib/routes';
 
 import {USER_OP} from 'types/user';
 import {ICONS} from 'types/icons';
-import {FONTS, TYPOGRAPHY_VARIANTS} from 'types/typography';
+import {FONTS, FONT_WEIGHT, TYPOGRAPHY_VARIANTS} from 'types/typography';
 
 import {providerLogin} from 'redux/user';
 
@@ -40,10 +40,14 @@ export default function ProviderLogin() {
 			</div>
 
 			<div className={CLASS + '-text'}>
-				<Typography font={FONTS.merri} variant={TYPOGRAPHY_VARIANTS.h1}>
+				<Typography
+					font={FONTS.merri}
+					variant={TYPOGRAPHY_VARIANTS.h1}
+					fontWeight={FONT_WEIGHT.bold}
+				>
 					This account already exists.
 				</Typography>
-				<Typography font={FONTS.lato} variant={TYPOGRAPHY_VARIANTS.p14}>
+				<Typography font={FONTS.lato} variant={TYPOGRAPHY_VARIANTS.action1}>
 					Account with this email address or username already exists.
 				</Typography>
 				<div className={CLASS + '-text-button'}>

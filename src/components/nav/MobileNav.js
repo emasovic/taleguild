@@ -55,7 +55,7 @@ export default function MobileNav() {
 					<Typography font={FONTS.merri} variant={TYPOGRAPHY_VARIANTS.p18}>
 						{displayName}
 					</Typography>
-					<Typography font={FONTS.lato} variant={TYPOGRAPHY_VARIANTS.p14}>
+					<Typography font={FONTS.lato} variant={TYPOGRAPHY_VARIANTS.action1}>
 						@{data?.username}
 					</Typography>
 				</div>

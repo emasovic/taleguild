@@ -109,13 +109,13 @@ export default function Header({
 	};
 
 	const renderDetelePageContent = () => (
-		<Typography font={FONTS.lato} variant={TYPOGRAPHY_VARIANTS.p14}>
+		<Typography font={FONTS.lato} variant={TYPOGRAPHY_VARIANTS.action1}>
 			Are you sure you want to delete <strong>Page {selectedPage + 1}</strong>?
 		</Typography>
 	);
 
 	const renderDeteleContent = () => (
-		<Typography font={FONTS.lato} variant={TYPOGRAPHY_VARIANTS.p14}>
+		<Typography font={FONTS.lato} variant={TYPOGRAPHY_VARIANTS.action1}>
 			Are you sure you want to delete <strong>{title || 'this story'}</strong>?
 		</Typography>
 	);
