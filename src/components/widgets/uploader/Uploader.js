@@ -26,6 +26,7 @@ export default function Uploader({
 	multiple,
 	maxSize,
 	files,
+	previewOnly,
 }) {
 	const dispatch = useDispatch();
 	const {getRootProps, getInputProps} = useDropzone({
@@ -33,6 +34,14 @@ export default function Uploader({
 		maxSize,
 		accept: acceptedTypes,
 		onDropAccepted: acceptedFiles => {
+			if (previewOnly) {
+				const files = acceptedFiles.map(file =>
+					Object.assign(file, {
+						preview: URL.createObjectURL(file),
+					})
+				);
+				return onUploaded(multiple ? files : files[0]);
+			}
 			uploadMedia(acceptedFiles)
 				.then(files => onUploaded(multiple ? files : files[0]))
 				.catch(err => dispatch(addToast({...Toast.error(err)})));
@@ -81,6 +90,7 @@ Uploader.propTypes = {
 	acceptedTypes: propTypes.string,
 	onUploaded: propTypes.func,
 	onRemove: propTypes.func,
+	previewOnly: propTypes.bool,
 	files: propTypes.oneOfType([propTypes.object, propTypes.array]),
 	uploadlabel: propTypes.string,
 	buttonLabel: propTypes.string,

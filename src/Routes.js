@@ -23,6 +23,8 @@ const DraftStoriesPage = lazy(() => import('views/user/pages/DraftStoriesPage'))
 const SavedStoriesPage = lazy(() => import('views/user/pages/SavedStoriesPage'));
 const ArchivedStoriesPage = lazy(() => import('views/user/pages/ArchivedStoriesPage'));
 
+const GuildatorPage = lazy(() => import('views/guildator/GuildatorPage'));
+
 const SignUp = lazy(() => import('views/signup/SignUp'));
 
 const Login = lazy(() => import('views/login/Login'));
@@ -59,6 +61,7 @@ const Routes = () => (
 				<PublicRoute path={routes.WELCOME} component={Welcome} />
 				<PublicRoute path={routes.REGISTRATION_SUCCESS} component={RegistrationSuccess} />
 				<Route exact path={routes.HOME} component={Explore} />
+				<PrivateRoute path={routes.GUILDATOR} component={GuildatorPage} />
 				<PrivateRoute path={routes.NOTIFICATIONS} component={NotificationsPage} />
 				<Route path="*" component={NotFound} />
 			</Switch>

@@ -35,3 +35,5 @@ export const LOGIN = '/login';
 export const PROVIDER_LOGIN = '/connect/:provider';
 
 export const DELETED_STORY = '/deleted-story';
+
+export const GUILDATOR = '/guildator';

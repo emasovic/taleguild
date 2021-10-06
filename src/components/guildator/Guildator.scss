@@ -1,0 +1,62 @@
+@import 'styles/variables.scss';
+
+.st-Guildator {
+	position: relative;
+	min-height: 300px;
+
+	&-character {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 202px;
+		height: 201px;
+
+		&-helmet,
+		&-head,
+		&-body,
+		&-right_weapon,
+		&-left_weapon {
+			position: absolute;
+		}
+
+		&-helmet {
+			z-index: 300;
+			width: 100px;
+			height: 150px;
+			top: 0;
+			left: 50px;
+		}
+
+		&-head {
+			z-index: 200;
+			width: 100px;
+			height: 100px;
+			top: 51px;
+			left: 50px;
+		}
+
+		&-body {
+			width: 202px;
+			height: 150px;
+			top: 51px;
+			left: 0;
+			z-index: 100;
+		}
+
+		&-right_weapon {
+			width: 100px;
+			height: 150px;
+			top: 51px;
+			left: 100px;
+			z-index: 400;
+		}
+
+		&-left_weapon {
+			width: 100px;
+			height: 150px;
+			top: 51px;
+			left: 0;
+			z-index: 400;
+		}
+	}
+}
