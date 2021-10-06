@@ -7,15 +7,15 @@ import head from 'images/guildator/head/head.svg';
 
 import body from 'images/guildator/body/body.svg';
 
-import left_weapon from 'images/guildator/weapon/weapon_shield.svg';
+import leftWeapon from 'images/guildator/weapon/weapon_shield.svg';
 
-import right_weapon from 'images/guildator/weapon/weapon_sword-small.svg';
+import rightWeapon from 'images/guildator/weapon/weapon_sword-small.svg';
 
 import './Guildator.scss';
 
 const CLASS = 'st-Guildator';
 
-export default function Guildator({helmet, head, body, left_weapon, right_weapon}) {
+export default function Guildator({helmet, head, body, leftWeapon, rightWeapon}) {
 	return (
 		<div className={CLASS}>
 			<div className={CLASS + '-character'}>
@@ -23,12 +23,12 @@ export default function Guildator({helmet, head, body, left_weapon, right_weapon
 				<img src={head} alt="head" className={CLASS + '-character-head'} />
 				<img src={body} alt="body" className={CLASS + '-character-body'} />
 				<img
-					src={left_weapon}
+					src={leftWeapon}
 					alt="left_weapon"
 					className={CLASS + '-character-left_weapon'}
 				/>
 				<img
-					src={right_weapon}
+					src={rightWeapon}
 					alt="right_weapon"
 					className={CLASS + '-character-right_weapon'}
 				/>
@@ -41,14 +41,14 @@ Guildator.defaultProps = {
 	helmet,
 	head,
 	body,
-	left_weapon,
-	right_weapon,
+	leftWeapon,
+	rightWeapon,
 };
 
 Guildator.propTypes = {
 	helmet: PropTypes.string,
 	head: PropTypes.string,
 	body: PropTypes.string,
-	left_weapon: PropTypes.string,
-	right_weapon: PropTypes.string,
+	leftWeapon: PropTypes.string,
+	rightWeapon: PropTypes.string,
 };

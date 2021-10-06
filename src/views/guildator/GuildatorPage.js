@@ -7,20 +7,18 @@ import './GuildatorPage.scss';
 
 const CLASS = 'st-GuildatorPage';
 
-const PARTS = {
-	helmet: 'helmet',
-	head: 'head',
-	body: 'body',
-	left_weapon: 'left_weapon',
-	right_weapon: 'right_weapon',
-};
+const PARTS = [
+	{value: 'helmet', label: 'Helmet'},
+	{value: 'head', label: 'Head'},
+	{value: 'body', label: 'Body'},
+	{value: 'leftWeapon', label: 'Left weapon'},
+	{value: 'rightWeapon', label: 'Right weapon'},
+];
 
 export default function GuildatorPage() {
 	const [, setImage] = useState(null);
 	const [part, setPart] = useState(null);
 	const [parts, setParts] = useState({});
-
-	const options = Object.keys(PARTS).map(item => ({value: item, label: item}));
 
 	const handleImage = image => {
 		setParts(prevState => ({...prevState, [part.value]: image.preview}));
@@ -32,7 +30,7 @@ export default function GuildatorPage() {
 			<Guildator {...parts} />
 
 			<div className={CLASS + '-uploader'}>
-				<DefaultPicker label="Set part" onChange={setPart} options={options} value={part} />
+				<DefaultPicker label="Set part" onChange={setPart} options={PARTS} value={part} />
 				<Uploader
 					previewOnly
 					onUploaded={image => handleImage(image)}
