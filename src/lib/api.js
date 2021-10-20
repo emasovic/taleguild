@@ -208,6 +208,29 @@ export const createActivity = payload => {
 	return http.post('user-activities', null, payload);
 };
 
+/******************      USER ITEMS        ***********************/
+export const createUserItem = payload => {
+	return http.post('user-items', null, payload);
+};
+
+export const getUserItems = filter => {
+	return http.get('user-items', filter);
+};
+
+export const countUserItems = filter => {
+	return http.get('user-items/count', filter);
+};
+
+/******************      MARKETPLACE        ***********************/
+
+export const getMarketplace = filter => {
+	return http.get('marketplace', filter);
+};
+
+export const countMarketplace = filter => {
+	return http.get('marketplace/count', filter);
+};
+
 /******************      MEDIA        ***********************/
 
 export const uploadMedia = files => {

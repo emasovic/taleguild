@@ -1,4 +1,4 @@
-import {configureStore, getDefaultMiddleware} from '@reduxjs/toolkit';
+import {configureStore} from '@reduxjs/toolkit';
 
 import history from 'lib/history';
 
@@ -17,17 +17,11 @@ import followers from './followers';
 import following from './following';
 import categories from './categories';
 import languages from './languages';
+import marketplace from './marketplace';
 import application from './application';
 import savedBy from './savedBy';
 import likes from './likes';
 import notifications from './notifications';
-
-const customizedMiddleware = getDefaultMiddleware({
-	thunk: {
-		extraArgument: history,
-	},
-	serializableCheck: false,
-});
 
 const store = configureStore({
 	reducer: {
@@ -45,13 +39,20 @@ const store = configureStore({
 		notifications,
 		languages,
 		categories,
+		marketplace,
 		userActivity,
 		storyPages,
 		userStories,
 		savedStories,
 		archivedStories,
 	},
-	middleware: customizedMiddleware,
+	middleware: getDefaultMiddleware =>
+		getDefaultMiddleware({
+			thunk: {
+				extraArgument: history,
+			},
+			serializableCheck: false,
+		}),
 });
 
 export default store;

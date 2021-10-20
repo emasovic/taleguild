@@ -1,0 +1,28 @@
+@import 'styles/variables.scss';
+@import 'styles/themes/mixins.scss';
+
+.st-MarketplaceItem {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 180px;
+	height: 240px;
+	box-shadow: $box-shadow-default;
+	margin: 0 16px 16px 0;
+	border-radius: 6px;
+	padding: 16px;
+	@include theme-aware('background-color', 'B100');
+
+	&:hover {
+		cursor: pointer;
+	}
+
+	.st-Image {
+		&-container {
+			width: 100%;
+			height: 100%;
+			@include theme-aware('background-color', 'B100');
+		}
+	}
+}

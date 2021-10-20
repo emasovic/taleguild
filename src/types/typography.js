@@ -27,7 +27,7 @@ export const TYPOGRAPHY_VARIANTS = {
 	h3: 'h3',
 	h4: 'h4',
 	action1: 'action1',
-	p18: 'p18',
+	p: 'p',
 	p16: 'p16',
 	p14: 'p14',
 };

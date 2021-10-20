@@ -36,4 +36,6 @@ export const PROVIDER_LOGIN = '/connect/:provider';
 
 export const DELETED_STORY = '/deleted-story';
 
-export const GUILDATOR = '/guildator';
+export const GUILDATOR = '/guildatar';
+
+export const MARKETPLACE = '/marketplace';

@@ -1,0 +1,23 @@
+@import 'styles/variables.scss';
+@import 'styles/themes/mixins.scss';
+
+.st-MarketplaceDialog {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 36px;
+
+	.st-Guildatar {
+		width: 200px;
+		min-height: 230px;
+	}
+
+	&-dialog {
+		.modal {
+			&-footer {
+				justify-content: space-between;
+			}
+		}
+	}
+}

@@ -15,6 +15,7 @@ import {
 	REGISTER,
 	LOGIN,
 	USER_STORIES_ARCHIVED,
+	MARKETPLACE,
 } from 'lib/routes';
 
 import {selectUser, logOutUser} from 'redux/user';
@@ -111,6 +112,15 @@ export default function Navigation() {
 						<NavItem>
 							<NavLink tag={Link} to={HOME} active={location.pathname === HOME}>
 								<span>Explore</span>
+							</NavLink>
+						</NavItem>
+						<NavItem>
+							<NavLink
+								tag={Link}
+								to={MARKETPLACE}
+								active={location.pathname === MARKETPLACE}
+							>
+								<span>Marketplace</span>
 							</NavLink>
 						</NavItem>
 					</>

@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import {DropdownItem} from 'reactstrap';
 import {useDispatch, useSelector} from 'react-redux';
 
+import {NOTIFICATION_TYPES} from 'types/notifications';
+
 import {selectNotification, updateNotification} from 'redux/notifications';
 
 import Typography from 'components/widgets/typography/Typography';
@@ -23,9 +25,10 @@ function NotificationItem({id}) {
 		!notification.seen && dispatch(updateNotification({id, seen: true}));
 	};
 
-	const {data, created_at, seen} = notification;
+	const {data, created_at, type, seen} = notification;
 
 	const message = notification.message;
+	const sign = NOTIFICATION_TYPES.ITEM_BOUGHT === type ? '-' : '+';
 	return (
 		<DropdownItem active={!seen} onClick={() => editNotification()} className={CLASS + '-item'}>
 			<Typography component="p">{message}</Typography>
@@ -36,13 +39,19 @@ function NotificationItem({id}) {
 				{!!data?.points && (
 					<Typography>
 						<Star />
-						<strong>+ {data?.points}</strong> &nbsp; XP
+						<strong>
+							{sign} {data?.points}
+						</strong>
+						&nbsp; XP
 					</Typography>
 				)}
 				{!!data?.coins && (
 					<Typography>
 						<Coin />
-						<strong>+ {data?.coins}</strong> &nbsp; coins
+						<strong>
+							{sign} {data?.coins}
+						</strong>
+						&nbsp; coins
 					</Typography>
 				)}
 			</div>

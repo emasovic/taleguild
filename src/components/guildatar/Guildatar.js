@@ -1,21 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import helmet from 'images/guildator/helmet/hat_viking-helmet.svg';
+import helmet from 'images/guildatar/helmet/hat_viking-helmet.svg';
 
-import head from 'images/guildator/head/head.svg';
+import head from 'images/guildatar/head/head.svg';
 
-import body from 'images/guildator/body/body.svg';
+import body from 'images/guildatar/body/body.svg';
 
-import leftWeapon from 'images/guildator/weapon/weapon_shield.svg';
+import leftWeapon from 'images/guildatar/weapon/weapon_shield.svg';
 
-import rightWeapon from 'images/guildator/weapon/weapon_sword-small.svg';
+import rightWeapon from 'images/guildatar/weapon/weapon_sword-small.svg';
 
-import './Guildator.scss';
+import './Guildatar.scss';
 
-const CLASS = 'st-Guildator';
+const CLASS = 'st-Guildatar';
 
-export default function Guildator({helmet, head, body, leftWeapon, rightWeapon}) {
+export default function Guildatar({helmet, head, body, leftWeapon, rightWeapon}) {
 	return (
 		<div className={CLASS}>
 			<div className={CLASS + '-character'}>
@@ -37,7 +37,7 @@ export default function Guildator({helmet, head, body, leftWeapon, rightWeapon})
 	);
 }
 
-Guildator.defaultProps = {
+Guildatar.defaultProps = {
 	helmet,
 	head,
 	body,
@@ -45,7 +45,7 @@ Guildator.defaultProps = {
 	rightWeapon,
 };
 
-Guildator.propTypes = {
+Guildatar.propTypes = {
 	helmet: PropTypes.string,
 	head: PropTypes.string,
 	body: PropTypes.string,

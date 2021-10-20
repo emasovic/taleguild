@@ -1,21 +1,16 @@
-import Guildator from 'components/guildator/Guildator';
-import DefaultPicker from 'components/widgets/pickers/default/DefaultPicker';
-import Uploader from 'components/widgets/uploader/Uploader';
 import React, {useState} from 'react';
 
-import './GuildatorPage.scss';
+import {PARTS} from 'types/guildatar';
 
-const CLASS = 'st-GuildatorPage';
+import Guildatar from 'components/guildatar/Guildatar';
+import DefaultPicker from 'components/widgets/pickers/default/DefaultPicker';
+import Uploader from 'components/widgets/uploader/Uploader';
 
-const PARTS = [
-	{value: 'helmet', label: 'Helmet'},
-	{value: 'head', label: 'Head'},
-	{value: 'body', label: 'Body'},
-	{value: 'leftWeapon', label: 'Left weapon'},
-	{value: 'rightWeapon', label: 'Right weapon'},
-];
+import './GuildatarPage.scss';
 
-export default function GuildatorPage() {
+const CLASS = 'st-GuildatarPage';
+
+export default function GuildatarPage() {
 	const [, setImage] = useState(null);
 	const [part, setPart] = useState(null);
 	const [parts, setParts] = useState({});
@@ -27,7 +22,7 @@ export default function GuildatorPage() {
 
 	return (
 		<div className={CLASS}>
-			<Guildator {...parts} />
+			<Guildatar {...parts} />
 
 			<div className={CLASS + '-uploader'}>
 				<DefaultPicker label="Set part" onChange={setPart} options={PARTS} value={part} />

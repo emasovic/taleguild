@@ -18,12 +18,12 @@ function Image({src, image, alt, formats, size, thumb, ...rest}) {
 		image = formats[size];
 	}
 
-	if (formats?.thumbnail) {
-		thumb = process.env.REACT_APP_API_URL + formats.thumbnail.url;
-	}
-
 	if (image) {
 		src = process.env.REACT_APP_API_URL + image.url;
+	}
+
+	if (formats?.thumbnail || src) {
+		thumb = src || process.env.REACT_APP_API_URL + formats?.thumbnail?.url;
 	}
 
 	if (!src) {

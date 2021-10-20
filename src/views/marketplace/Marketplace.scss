@@ -1,0 +1,46 @@
+@import 'styles/variables.scss';
+
+.st-Marketplace {
+	display: flex;
+	flex-direction: column;
+	@media (max-width: $breakpoint-m) {
+		max-width: $story-preview-width-medium;
+		margin: 12px auto;
+	}
+
+	@media (max-width: $breakpoint-sm) {
+		max-width: $story-preview-width-small;
+	}
+
+	&-market {
+		display: flex;
+		margin-top: 32px;
+
+		@media (max-width: $breakpoint-m) {
+			flex-direction: column;
+		}
+
+		&-categories {
+			flex-basis: 20%;
+
+			@media (max-width: $breakpoint-m) {
+				flex-basis: 100%;
+			}
+		}
+
+		&-items {
+			display: flex;
+			flex-direction: column;
+			flex-basis: 80%;
+
+			@media (max-width: $breakpoint-m) {
+				flex-basis: 100%;
+				width: 100%;
+
+				.st-Typography-bold {
+					display: none;
+				}
+			}
+		}
+	}
+}

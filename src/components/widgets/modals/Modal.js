@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {Modal, ModalBody, ModalHeader, ModalFooter} from 'reactstrap';
 import classnames from 'classnames';
@@ -17,6 +17,7 @@ export default function ConfirmModal({
 	title,
 	content,
 	renderFooter,
+	additionalFooterInfo,
 	cancelLabel,
 	confirmLabel,
 	className,
@@ -47,12 +48,16 @@ export default function ConfirmModal({
 	};
 
 	const renderModalFooter = () => {
+		const Wrapper = additionalFooterInfo ? 'div' : Fragment;
 		return (
 			<ModalFooter>
-				<IconButton color={COLOR.secondary} onClick={handleCancel}>
-					{cancelLabel}
-				</IconButton>
-				<IconButton onClick={handleConfirm}>{confirmLabel}</IconButton>
+				{additionalFooterInfo}
+				<Wrapper>
+					<IconButton color={COLOR.secondary} onClick={handleCancel}>
+						{cancelLabel}
+					</IconButton>
+					<IconButton onClick={handleConfirm}>{confirmLabel}</IconButton>
+				</Wrapper>
 			</ModalFooter>
 		);
 	};
@@ -76,6 +81,7 @@ export default function ConfirmModal({
 ConfirmModal.propTypes = {
 	title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
 	content: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+	additionalFooterInfo: PropTypes.element,
 	className: PropTypes.string,
 	onSubmit: PropTypes.func,
 	onClose: PropTypes.func,
