@@ -64,7 +64,7 @@ const Routes = () => (
 				<PublicRoute path={routes.REGISTRATION_SUCCESS} component={RegistrationSuccess} />
 				<Route exact path={routes.HOME} component={Explore} />
 				<PrivateRoute path={routes.MARKETPLACE} component={Marketplace} />
-				<PrivateRoute path={routes.GUILDATOR} component={GuildatarPage} />
+				<PrivateRoute path={routes.GUILDATAR} component={GuildatarPage} />
 				<PrivateRoute path={routes.NOTIFICATIONS} component={NotificationsPage} />
 				<Route path="*" component={NotFound} />
 			</Switch>
