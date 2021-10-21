@@ -24,13 +24,17 @@ function MarketplaceDialog({isOpen, itemId, onClose}) {
 	const dispatch = useDispatch();
 
 	const {data} = useSelector(selectUser);
+	const {op} = useSelector(state => state.userItems);
 	const {image, name, price, description, body_part} = useSelector(state =>
 		selectMarketplaceById(state, itemId)
 	);
 
 	const props = {[body_part]: getImageUrl(image.url)};
 
-	const buyItem = () => dispatch(purchaseUserItem({item: itemId, user: data?.id}));
+	const buyItem = () => {
+		dispatch(purchaseUserItem({item: itemId, user: data?.id}));
+		onClose();
+	};
 
 	const additionalFooterInfo = (
 		<div>
@@ -72,6 +76,7 @@ function MarketplaceDialog({isOpen, itemId, onClose}) {
 			content={renderContent()}
 			onClose={onClose}
 			onSubmit={buyItem}
+			submitButtonProps={{disabled: !!op || price > data?.coins}}
 			cancelLabel="Cancel"
 			confirmLabel="Buy now"
 		/>

@@ -13,6 +13,7 @@ const CLASS = 'st-Modal';
 
 export default function ConfirmModal({
 	onSubmit,
+	submitButtonProps,
 	onClose,
 	title,
 	content,
@@ -56,7 +57,9 @@ export default function ConfirmModal({
 					<IconButton color={COLOR.secondary} onClick={handleCancel}>
 						{cancelLabel}
 					</IconButton>
-					<IconButton onClick={handleConfirm}>{confirmLabel}</IconButton>
+					<IconButton onClick={handleConfirm} {...submitButtonProps}>
+						{confirmLabel}
+					</IconButton>
 				</Wrapper>
 			</ModalFooter>
 		);
@@ -89,6 +92,7 @@ ConfirmModal.propTypes = {
 	cancelLabel: PropTypes.string,
 	renderFooter: PropTypes.bool,
 	isOpen: PropTypes.bool,
+	submitButtonProps: PropTypes.object,
 };
 
 ConfirmModal.defaultProps = {
@@ -96,4 +100,5 @@ ConfirmModal.defaultProps = {
 	cancelLabel: 'No',
 	className: '',
 	renderFooter: true,
+	submitButtonProps: {},
 };

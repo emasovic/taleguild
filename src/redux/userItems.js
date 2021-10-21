@@ -9,7 +9,6 @@ import {newToast} from './toast';
 
 const userItemsAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
-	sortComparer: (a, b) => a.created_at.localeCompare(b.created_at),
 });
 
 export const userItemsSlice = createSlice({

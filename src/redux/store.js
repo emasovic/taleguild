@@ -12,6 +12,7 @@ import savedStories from './savedStories';
 import userStories from './userStories';
 import archivedStories from './archivedStories';
 import userActivity from './userActivity';
+import userItems from './userItems';
 import storyPages from './storyPages';
 import followers from './followers';
 import following from './following';
@@ -41,6 +42,7 @@ const store = configureStore({
 		categories,
 		marketplace,
 		userActivity,
+		userItems,
 		storyPages,
 		userStories,
 		savedStories,

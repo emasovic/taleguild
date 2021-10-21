@@ -38,6 +38,7 @@ export default function Marketplace() {
 			<Loader />
 		) : (
 			<LoadMore
+				className={CLASS + '-market-items-loadmore'}
 				id="marketplace"
 				onLoadMore={handleCount}
 				shouldLoad={shouldLoad}

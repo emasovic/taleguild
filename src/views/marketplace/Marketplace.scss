@@ -33,6 +33,11 @@
 			flex-direction: column;
 			flex-basis: 80%;
 
+			&-loadmore {
+				display: flex;
+				flex-wrap: wrap;
+			}
+
 			@media (max-width: $breakpoint-m) {
 				flex-basis: 100%;
 				width: 100%;
