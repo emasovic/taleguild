@@ -65,7 +65,9 @@ export default function StoryThumb({
 					</div>
 
 					<div className={CLASS + '-details-created'}>
-						<FromNow date={createdDate} />
+						<div>
+							<FromNow date={createdDate} />
+						</div>
 						{author && (
 							<div onClick={handleGoToUser}>
 								<UserAvatar user={author} />
