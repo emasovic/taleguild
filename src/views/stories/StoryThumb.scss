@@ -17,7 +17,6 @@
 		position: absolute;
 		top: 4px;
 		right: 4px;
-		z-index: 1;
 	}
 
 	@media (max-width: $breakpoint-sm) {
@@ -26,6 +25,12 @@
 
 	&:hover {
 		text-decoration: none;
+	}
+
+	&-link-wrapper {
+		display: flex;
+		height: 100%;
+		width: 100%;
 	}
 
 	&-cover {
@@ -89,6 +94,7 @@
 			justify-content: space-between;
 			align-items: flex-end;
 			margin-top: 6px;
+			width: 100%;
 
 			span {
 				@include theme-aware('color', 'G400');

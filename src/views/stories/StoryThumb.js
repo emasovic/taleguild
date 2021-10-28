@@ -44,11 +44,18 @@ export default function StoryThumb({
 	return (
 		<div className={CLASS}>
 			<StoryDropdownButton
-				story={{id, favouriteId, title, storypages, archivedAt, publishedAt: createdDate}}
+				story={{
+					id,
+					favouriteId,
+					title,
+					storypages,
+					archivedAt,
+					publishedAt: createdDate,
+				}}
 				onDeleteStory={onDeleteStory}
 				displayArchived={displayArchived}
 			/>
-			<Link to={goToStory(slug)} className={CLASS}>
+			<Link to={goToStory(slug)} className={CLASS + '-link-wrapper'}>
 				<div className={CLASS + '-cover'}>
 					<Image image={image} formats={formats} size={size} />
 				</div>
