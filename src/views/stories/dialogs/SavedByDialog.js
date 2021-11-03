@@ -1,6 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router-dom';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
 import {goToUser} from 'lib/routes';
@@ -11,6 +10,7 @@ import {loadSavedBy, selectSavedBy} from 'redux/savedBy';
 
 import ConfirmModal from 'components/widgets/modals/Modal';
 import LoadMoreModal from 'components/widgets/loadmore/LoadMoreModal';
+import Link, {UNDERLINE} from 'components/widgets/link/Link';
 
 import UserAvatar from 'views/user/UserAvatar';
 
@@ -45,6 +45,7 @@ function SavedByDialog({isOpen, title, onClose, storyId, className}) {
 								to={goToUser(user.username)}
 								key={key}
 								className={className + '-likes-item'}
+								underline={UNDERLINE.hover}
 							>
 								<UserAvatar user={user} />
 								<span>{user.display_name || user.username}</span>

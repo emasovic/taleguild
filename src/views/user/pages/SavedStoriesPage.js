@@ -1,9 +1,10 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
 
 import {USER_STORIES_DRAFTS} from 'lib/routes';
 
 import {STORY_COMPONENTS} from 'types/story';
+
+import Link, {UNDERLINE} from 'components/widgets/link/Link';
 
 import DraftStories from '../stories/DraftStories';
 import SavedStories from '../stories/SavedStories';
@@ -17,7 +18,9 @@ export default function SavedStoriesPage() {
 		<div className={CLASS}>
 			<div className={CLASS + '-drafts'}>
 				<DraftStories shouldLoadMore={false} Component={STORY_COMPONENTS.list} />
-				<Link to={USER_STORIES_DRAFTS}>View all</Link>
+				<Link to={USER_STORIES_DRAFTS} UNDERLINE={UNDERLINE.hover}>
+					View all
+				</Link>
 			</div>
 
 			<SavedStories />

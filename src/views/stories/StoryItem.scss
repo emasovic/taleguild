@@ -310,9 +310,13 @@
 				align-items: center;
 
 				.st-FloatingInput {
-					margin-bottom: 0;
+					margin-bottom: 0 !important;
 					align-items: center;
 					margin-top: 2px;
+
+					> textarea {
+						overflow: hidden;
+					}
 				}
 
 				.st-IconButton {

@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {Nav, NavItem, NavLink} from 'reactstrap';
-import {Link} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 
 import {USER_STORIES_SAVED, goToUser, USER_STORIES_DRAFTS, USER_STORIES_ARCHIVED} from 'lib/routes';
@@ -13,6 +12,8 @@ import MyStories from 'views/user/stories/MyStories';
 import SavedStories from 'views/user/stories/SavedStories';
 import DraftStories from 'views/user/stories/DraftStories';
 import ArchivedStories from 'views/user/stories/ArchivedStories';
+
+import Link, {UNDERLINE} from 'components/widgets/link/Link';
 
 import './StoryTabs.scss';
 
@@ -74,7 +75,12 @@ export default function StoryTabs() {
 					</NavItem>
 				</Nav>
 				<Component shouldLoadMore={false} Component={STORY_COMPONENTS.list} />
-				<Link to={GO_TO[activeTab] || goToUser(data && data.username)}>View all</Link>
+				<Link
+					to={GO_TO[activeTab] || goToUser(data && data.username)}
+					underline={UNDERLINE.hover}
+				>
+					View all
+				</Link>
 			</div>
 		</div>
 	);

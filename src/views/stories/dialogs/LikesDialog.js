@@ -1,6 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router-dom';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
 import {goToUser} from 'lib/routes';
@@ -11,6 +10,7 @@ import {loadLikes, selectLikes} from 'redux/likes';
 
 import ConfirmModal from 'components/widgets/modals/Modal';
 import LoadMoreModal from 'components/widgets/loadmore/LoadMoreModal';
+import Link, {UNDERLINE} from 'components/widgets/link/Link';
 
 import UserAvatar from 'views/user/UserAvatar';
 function LikesDialog({isOpen, title, onClose, storyId, className}) {
@@ -43,6 +43,7 @@ function LikesDialog({isOpen, title, onClose, storyId, className}) {
 							<Link
 								to={goToUser(user.username)}
 								key={key}
+								underline={UNDERLINE.hover}
 								className={className + '-likes-item'}
 							>
 								<UserAvatar user={user} />

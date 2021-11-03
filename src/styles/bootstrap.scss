@@ -6,6 +6,18 @@ $secondary: $color-red-58;
 
 @import '~bootstrap/scss/bootstrap.scss';
 
+.modal {
+	&-open {
+		padding-right: 0 !important;
+	}
+}
+
+.bg {
+	&-primary {
+		@include theme-aware('background-color', 'T400');
+	}
+}
+
 .form-control {
 	&:focus {
 		@include theme-aware('border-color', 'T600');

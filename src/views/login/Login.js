@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {Form} from 'reactstrap';
 import {useDispatch, useSelector} from 'react-redux';
-import {Link} from 'react-router-dom';
 
 import {FORGOT_PASSWORD, REGISTER} from 'lib/routes';
 
@@ -9,8 +8,9 @@ import {COLOR, BRAND} from 'types/button';
 
 import {loginUser, selectUser} from '../../redux/user';
 
-import FloatingInput from '../../components/widgets/input/FloatingInput';
-import IconButton from '../../components/widgets/button/IconButton';
+import Link, {UNDERLINE} from 'components/widgets/link/Link';
+import FloatingInput from 'components/widgets/input/FloatingInput';
+import IconButton from 'components/widgets/button/IconButton';
 import BrandButton from 'components/widgets/button/BrandButton';
 
 import './Login.scss';
@@ -51,7 +51,9 @@ export default function Login() {
 				invalid={!!error}
 			/>
 
-			<Link to={FORGOT_PASSWORD}>Forgot password?</Link>
+			<Link to={FORGOT_PASSWORD} underline={UNDERLINE.hover}>
+				Forgot password?
+			</Link>
 
 			<IconButton loading={!!op}>Sign in</IconButton>
 
@@ -65,7 +67,9 @@ export default function Login() {
 				Sign in with Facebook
 			</BrandButton>
 
-			<Link to={REGISTER}>Don’t have an account? Sign up now.</Link>
+			<Link to={REGISTER} underline={UNDERLINE.hover}>
+				Don’t have an account? Sign up now.
+			</Link>
 		</Form>
 	);
 }

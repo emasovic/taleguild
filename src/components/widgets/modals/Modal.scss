@@ -32,9 +32,15 @@
 			border-bottom: 1px solid;
 			@include theme-aware('border-color', 'G100');
 
-			.close {
+			.st-IconButton {
 				outline: none;
-				@include theme-aware('color', 'G900');
+				box-shadow: none;
+
+				> svg {
+					> path {
+						@include theme-aware('fill', 'G900');
+					}
+				}
 			}
 		}
 

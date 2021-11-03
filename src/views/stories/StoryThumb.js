@@ -1,5 +1,5 @@
 import React from 'react';
-import {useHistory, Link} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 
 import propTypes from 'prop-types';
 
@@ -10,6 +10,7 @@ import {MEDIA_SIZE} from 'types/media';
 import Image from 'components/widgets/image/Image';
 import StoryDropdownButton from './widgets/dropdown-button/StoryDropdownButton';
 import FromNow from 'components/widgets/date-time/FromNow';
+import Link, {UNDERLINE} from 'components/widgets/link/Link';
 
 import UserAvatar from 'views/user/UserAvatar';
 
@@ -48,7 +49,7 @@ export default function StoryThumb({
 				onDeleteStory={onDeleteStory}
 				displayArchived={displayArchived}
 			/>
-			<Link to={goToStory(slug)} className={CLASS}>
+			<Link to={goToStory(slug)} underline={UNDERLINE.none} className={CLASS}>
 				<div className={CLASS + '-cover'}>
 					<Image image={image} formats={formats} size={size} />
 				</div>
