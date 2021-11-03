@@ -45,11 +45,22 @@ export default function StoryThumb({
 	return (
 		<div className={CLASS}>
 			<StoryDropdownButton
-				story={{id, favouriteId, title, storypages, archivedAt, publishedAt: createdDate}}
+				story={{
+					id,
+					favouriteId,
+					title,
+					storypages,
+					archivedAt,
+					publishedAt: createdDate,
+				}}
 				onDeleteStory={onDeleteStory}
 				displayArchived={displayArchived}
 			/>
-			<Link to={goToStory(slug)} underline={UNDERLINE.none} className={CLASS}>
+			<Link
+				to={goToStory(slug)}
+				underline={UNDERLINE.none}
+				className={CLASS + '-link-wrapper'}
+			>
 				<div className={CLASS + '-cover'}>
 					<Image image={image} formats={formats} size={size} />
 				</div>
@@ -59,7 +70,9 @@ export default function StoryThumb({
 					</div>
 
 					<div className={CLASS + '-details-created'}>
-						<FromNow date={createdDate} />
+						<div>
+							<FromNow date={createdDate} />
+						</div>
 						{author && (
 							<div onClick={handleGoToUser}>
 								<UserAvatar user={author} />
