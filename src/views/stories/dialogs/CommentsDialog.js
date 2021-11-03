@@ -1,6 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router-dom';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
 import {goToUser} from 'lib/routes';
@@ -22,6 +21,7 @@ import IconButton from 'components/widgets/button/IconButton';
 import TextArea from 'components/widgets/textarea/TextArea';
 
 import UserAvatar from 'views/user/UserAvatar';
+import Link, {UNDERLINE} from 'components/widgets/link/Link';
 
 function CommentsDialog({isOpen, title, onClose, storyId, className}) {
 	const dispatch = useDispatch();
@@ -60,6 +60,7 @@ function CommentsDialog({isOpen, title, onClose, storyId, className}) {
 									to={goToUser(user.username)}
 									key={key}
 									className={className + '-comments-posted-item'}
+									underline={UNDERLINE.hover}
 								>
 									<UserAvatar user={user} />
 									<div className={className + '-comments-posted-item-user'}>

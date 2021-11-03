@@ -98,7 +98,6 @@ export default function Story() {
 					['asc']
 			  )
 			: [];
-
 	return (
 		<div className={CLASS} ref={viewerRef}>
 			<Helmet title={story.title} description={story.description} />

@@ -21,7 +21,7 @@ export default function DropdownButton({children, icon, outline, color, toggleIt
 				<DropdownToggle outline={outline} color={color} aria-label="dropdown-toggle">
 					{toggleItem || <FontAwesomeIcon icon={icon} />}
 				</DropdownToggle>
-				<DropdownMenu right>{children}</DropdownMenu>
+				<DropdownMenu end>{children}</DropdownMenu>
 			</Dropdown>
 		</>
 	);

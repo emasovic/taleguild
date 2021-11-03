@@ -4,6 +4,8 @@ import propTypes from 'prop-types';
 
 import {MEDIA_SIZE} from 'types/media';
 
+import {COLOR} from 'types/button';
+
 import Image from 'components/widgets/image/Image';
 
 import './UserAvatar.scss';
@@ -25,7 +27,7 @@ export default function UserAvatar({user, onClick}) {
 					size={MEDIA_SIZE.thumbnail}
 				/>
 			) : (
-				<Badge>{username && username.slice(0, 1)}</Badge>
+				<Badge color={COLOR.primary}>{username && username.slice(0, 1)}</Badge>
 			)}
 		</div>
 	);

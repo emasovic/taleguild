@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import propTypes from 'prop-types';
-import {Link, useLocation} from 'react-router-dom';
+import {useLocation} from 'react-router-dom';
 import {useDispatch, useSelector, shallowEqual} from 'react-redux';
 
 import {goToUser} from 'lib/routes';
@@ -15,6 +15,7 @@ import {navigateToQuery} from 'redux/application';
 import IconButton from 'components/widgets/button/IconButton';
 import Image from 'components/widgets/image/Image';
 import FromNow from 'components/widgets/date-time/FromNow';
+import Link, {UNDERLINE} from 'components/widgets/link/Link';
 import StoryDropdownButton from './widgets/dropdown-button/StoryDropdownButton';
 
 import UserAvatar from 'views/user/UserAvatar';
@@ -115,7 +116,11 @@ export default function StoryItem({
 					keepArchived={keepArchived}
 				/>
 			)}
-			<Link to={goToUser(author.username)} className={CLASS + '-author'}>
+			<Link
+				to={goToUser(author.username)}
+				underline={UNDERLINE.none}
+				className={CLASS + '-author'}
+			>
 				<UserAvatar user={author} />
 				<div className={CLASS + '-author-info'}>
 					<span>{author.display_name || author.username}</span>
@@ -123,12 +128,16 @@ export default function StoryItem({
 				</div>
 			</Link>
 			<div className={CLASS + '-description'}>{description}</div>
-			<Link to={`/story/${slug}`} className={CLASS + '-cover'}>
+			<Link to={`/story/${slug}`} underline={UNDERLINE.none} className={CLASS + '-cover'}>
 				<Image image={image} formats={formats} size={size} alt="cover" />
 			</Link>
 
 			<div className={CLASS + '-footer'}>
-				<Link to={`/story/${slug}`} className={CLASS + '-footer-title'}>
+				<Link
+					to={`/story/${slug}`}
+					underline={UNDERLINE.none}
+					className={CLASS + '-footer-title'}
+				>
 					<span>{title}</span>
 				</Link>
 				<div className={CLASS + '-footer-categories'}>{renderCategories}</div>

@@ -1,12 +1,12 @@
 import React from 'react';
 import propTypes from 'prop-types';
-import {Link} from 'react-router-dom';
 
 import {goToStory} from 'lib/routes';
 
 import {MEDIA_SIZE} from 'types/media';
 
 import Image from 'components/widgets/image/Image';
+import Link, {UNDERLINE} from 'components/widgets/link/Link';
 
 import './StoryListItem.scss';
 
@@ -15,7 +15,7 @@ const CLASS = 'st-StoryListItem';
 export default function StoryListItem({formats, size, image, slug, title}) {
 	title = title && title.length > 36 ? title.slice(0, 36) + '...' : title;
 	return (
-		<Link to={goToStory(slug)} className={CLASS}>
+		<Link to={goToStory(slug)} underline={UNDERLINE.none} className={CLASS}>
 			<div className={CLASS + '-cover'}>
 				<Image image={image} formats={formats} size={size} />
 			</div>

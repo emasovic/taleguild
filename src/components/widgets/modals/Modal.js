@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {Modal, ModalBody, ModalHeader, ModalFooter} from 'reactstrap';
 import classnames from 'classnames';
 
+import FA from 'types/font_awesome';
 import {COLOR} from 'types/button';
 
 import IconButton from '../button/IconButton';
@@ -37,7 +38,20 @@ export default function ConfirmModal({
 			return null;
 		}
 
-		return <ModalHeader toggle={handleCancel}>{title}</ModalHeader>;
+		return (
+			<ModalHeader
+				close={
+					<IconButton
+						icon={FA.solid_times}
+						color={COLOR.secondary}
+						onClick={handleCancel}
+					/>
+				}
+				toggle={handleCancel}
+			>
+				{title}
+			</ModalHeader>
+		);
 	};
 
 	const renderModalBody = () => {

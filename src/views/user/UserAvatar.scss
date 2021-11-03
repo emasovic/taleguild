@@ -23,6 +23,9 @@
 		align-items: center;
 		text-transform: uppercase;
 		@include theme-aware('color', 'T700');
+	}
+
+	.bg-primary {
 		@include theme-aware('background-color', 'T400');
 	}
 
