@@ -62,7 +62,7 @@ export const purchaseUserItem = payload => async (dispatch, getState) => {
 	dispatch(userItemsUpsertMany(res));
 };
 
-export const loadMarketplace = (params, count, op = DEFAULT_OP.loading) => async dispatch => {
+export const loadUserItems = (params, count, op = DEFAULT_OP.loading) => async dispatch => {
 	dispatch(opStart(op));
 	const res = await getUserItems(params);
 	if (res.error) {
@@ -90,8 +90,8 @@ export const loadMarketplace = (params, count, op = DEFAULT_OP.loading) => async
 
 const userItemsSelector = userItemsAdapter.getSelectors(state => state.userItems);
 
-export const selectMarketplace = state => userItemsSelector.selectAll(state);
-export const selectMarketplaceIds = state => userItemsSelector.selectIds(state);
-export const selectMarketplaceById = (state, id) => userItemsSelector.selectById(state, id);
+export const selectUserItems = state => userItemsSelector.selectAll(state);
+export const selectUserItemsIds = state => userItemsSelector.selectIds(state);
+export const selectUserItemsById = (state, id) => userItemsSelector.selectById(state, id);
 
 export default userItemsSlice.reducer;
