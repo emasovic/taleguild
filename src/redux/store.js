@@ -23,6 +23,7 @@ import application from './application';
 import savedBy from './savedBy';
 import likes from './likes';
 import notifications from './notifications';
+import guildatars from './guildatars';
 
 const store = configureStore({
 	reducer: {
@@ -37,6 +38,7 @@ const store = configureStore({
 		savedBy,
 		draftStories,
 		toast,
+		guildatars,
 		notifications,
 		languages,
 		categories,

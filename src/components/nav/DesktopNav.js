@@ -16,6 +16,7 @@ import {
 	LOGIN,
 	USER_STORIES_ARCHIVED,
 	MARKETPLACE,
+	GUILDATARS,
 } from 'lib/routes';
 
 import {selectUser, logOutUser} from 'redux/user';
@@ -23,7 +24,6 @@ import {newStory} from 'redux/story';
 
 import {ReactComponent as Logo} from 'images/taleguild-logo.svg';
 
-import StoryPicker from 'components/widgets/pickers/story/StoryPicker';
 import DropdownButton from 'components/widgets/button/DropdownButton';
 import IconButton from 'components/widgets/button/IconButton';
 import Notifications from 'components/notifications/Notifications';
@@ -120,14 +120,21 @@ export default function Navigation() {
 								to={MARKETPLACE}
 								active={location.pathname === MARKETPLACE}
 							>
-								<span>Marketplace</span>
+								<span>Market</span>
+							</NavLink>
+						</NavItem>
+						<NavItem>
+							<NavLink
+								tag={Link}
+								to={GUILDATARS}
+								active={location.pathname === GUILDATARS}
+							>
+								<span>Guildatars</span>
 							</NavLink>
 						</NavItem>
 					</>
 				)}
 			</Nav>
-
-			<StoryPicker placeholder="Search for stories" />
 
 			<Nav className={CLASS + '-status'}>
 				{data && data.token ? userLoggedIn() : userLoggedOut()}

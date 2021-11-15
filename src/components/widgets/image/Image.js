@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import useIntersectionObserver from 'hooks/intersection-observer';
 
@@ -11,7 +12,7 @@ import './Image.scss';
 
 const CLASS = 'st-Image';
 
-function Image({src, image, alt, formats, size, thumb, ...rest}) {
+function Image({src, image, alt, formats, size, thumb, thumbClassName, imageClassName, ...rest}) {
 	const [isLoaded, setIsLoaded] = React.useState(false);
 
 	if (formats && formats[size]) {
@@ -34,10 +35,12 @@ function Image({src, image, alt, formats, size, thumb, ...rest}) {
 		);
 	}
 
+	const thumbClass = classNames(CLASS, `${CLASS}-thumb`, thumbClassName);
+	const imageClass = classNames(CLASS, `${CLASS}-full`, imageClassName);
 	return (
 		<>
 			<img
-				className={`${CLASS} ${CLASS}-thumb`}
+				className={thumbClass}
 				alt={alt}
 				src={thumb}
 				style={{visibility: isLoaded ? 'hidden' : 'visible'}}
@@ -46,7 +49,7 @@ function Image({src, image, alt, formats, size, thumb, ...rest}) {
 				onLoad={() => {
 					setIsLoaded(true);
 				}}
-				className={`${CLASS} ${CLASS}-full`}
+				className={imageClass}
 				style={{opacity: isLoaded ? 1 : 0}}
 				alt={alt}
 				src={src}
@@ -65,6 +68,8 @@ Image.propTypes = {
 	formats: PropTypes.object,
 	size: PropTypes.string,
 	thumb: PropTypes.string,
+	thumbClassName: PropTypes.string,
+	imageClassName: PropTypes.string,
 };
 
 Image.defaultProps = {

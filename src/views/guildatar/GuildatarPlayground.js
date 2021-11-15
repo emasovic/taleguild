@@ -6,11 +6,11 @@ import Guildatar from 'components/guildatar/Guildatar';
 import DefaultPicker from 'components/widgets/pickers/default/DefaultPicker';
 import Uploader from 'components/widgets/uploader/Uploader';
 
-import './GuildatarPage.scss';
+import './GuildatarPlayground.scss';
 
-const CLASS = 'st-GuildatarPage';
+const CLASS = 'st-GuildatarPlayground';
 
-export default function GuildatarPage() {
+export default function GuildatarPlayground() {
 	const [, setImage] = useState(null);
 	const [part, setPart] = useState(null);
 	const [parts, setParts] = useState({});

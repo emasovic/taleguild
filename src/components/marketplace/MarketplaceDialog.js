@@ -8,6 +8,7 @@ import {FONTS, TEXT_COLORS, TYPOGRAPHY_VARIANTS} from 'types/typography';
 
 import {selectMarketplaceById} from 'redux/marketplace';
 import {selectUser} from 'redux/user';
+import {purchaseUserItem} from 'redux/userItems';
 
 import ConfirmModal from 'components/widgets/modals/Modal';
 import Guildatar from 'components/guildatar/Guildatar';
@@ -16,7 +17,6 @@ import Typography from 'components/widgets/typography/Typography';
 import {ReactComponent as Coin} from 'images/coin.svg';
 
 import './MarketplaceDialog.scss';
-import {purchaseUserItem} from 'redux/userItems';
 
 const CLASS = 'st-MarketplaceDialog';
 

@@ -1,0 +1,15 @@
+@import 'styles/variables.scss';
+
+.st-GuildatarDialog {
+	&-guildatar {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	&-textarea {
+		> textarea {
+			min-height: 100px;
+		}
+	}
+}

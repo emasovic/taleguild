@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useLocation} from 'react-router';
 
 import {FONTS, FONT_WEIGHT, TEXT_COLORS, TYPOGRAPHY_VARIANTS} from 'types/typography';
-import {PARTS} from 'types/guildatar';
+import {ITEM_CATEGORIES, PARTS} from 'types/guildatar';
 import {DEFAULT_LIMIT, DEFAULT_OP} from 'types/default';
 
 import {loadMarketplace, selectMarketplaceIds} from 'redux/marketplace';
@@ -15,6 +15,8 @@ import Typography from 'components/widgets/typography/Typography';
 import SideNav from 'views/stories/widgets/side-nav/SideNav';
 import LoadMore from 'components/widgets/loadmore/LoadMoreModal';
 import Loader from 'components/widgets/loader/Loader';
+import HorizontalList from 'components/widgets/horizontal-list/HorizontalList';
+import SearchInput from 'components/search-input/SearchInput';
 
 import './Marketplace.scss';
 
@@ -31,6 +33,13 @@ export default function Marketplace() {
 	const [selectedItem, setSelectedItem] = useState(null);
 
 	const body_part = new URLSearchParams(useLocation().search).get('body_part');
+	const category = new URLSearchParams(useLocation().search).get('category');
+	const name = new URLSearchParams(useLocation().search).get('name');
+
+	const categories = ITEM_CATEGORIES.filter(i => i.category === body_part).map(i => ({
+		id: i.value,
+		name: i.label,
+	}));
 	const shouldLoad = pages > currentPage && !op;
 
 	const renderMarketPlaceItems = () => {
@@ -52,13 +61,13 @@ export default function Marketplace() {
 	};
 
 	const handleCount = useCallback(() => {
-		const loadMoreCriteria = {body_part, _start: currentPage * 10};
+		const loadMoreCriteria = {body_part, category, name, _start: currentPage * 10};
 		dispatch(loadMarketplace(loadMoreCriteria, false, DEFAULT_OP.load_more));
-	}, [dispatch, currentPage, body_part]);
+	}, [dispatch, currentPage, category, name, body_part]);
 
 	useEffect(() => {
-		dispatch(loadMarketplace({body_part, ...DEFAULT_LIMIT}, true));
-	}, [dispatch, body_part]);
+		dispatch(loadMarketplace({body_part, category, name, ...DEFAULT_LIMIT}, true));
+	}, [dispatch, category, body_part, name]);
 
 	return (
 		<div className={CLASS}>
@@ -73,13 +82,25 @@ export default function Marketplace() {
 				Here you can find amazing items for your Guildatar
 			</Typography>
 
+			<div className={CLASS + '-nav'}>
+				<HorizontalList
+					items={BODY_PARTS}
+					loading={false}
+					urlParamName="body_part"
+					childrenLoading={op === DEFAULT_OP.loading}
+					resetParamsOnChange
+				/>
+
+				<SearchInput placeholder="Search item" urlParamName="name" />
+			</div>
+
 			<div className={CLASS + '-market'}>
 				<div className={CLASS + '-market-categories'}>
 					<SideNav
-						items={BODY_PARTS}
+						items={categories}
 						loading={false}
 						title="Categories"
-						urlParamName="body_part"
+						urlParamName="category"
 					/>
 				</div>
 				<div className={CLASS + '-market-items'}>

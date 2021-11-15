@@ -6,6 +6,7 @@ import {
 	FONTS,
 	FONT_WEIGHT,
 	TEXT_COLORS,
+	TEXT_CURSORS,
 	TEXT_TRASFORM,
 	TYPOGRAPHY_VARIANTS,
 } from 'types/typography';
@@ -41,6 +42,11 @@ const VARIANT_CLASSES = {
 const COLOR_CLASSES = {
 	[TEXT_COLORS.primary]: `${CLASS}-primary`,
 	[TEXT_COLORS.secondary]: `${CLASS}-secondary`,
+	[TEXT_COLORS.tertiary]: `${CLASS}-tertiary`,
+};
+
+const CURSOR_CLASSES = {
+	[TEXT_CURSORS.pointer]: `${CLASS}-pointer`,
 };
 
 function Typography({
@@ -52,6 +58,8 @@ function Typography({
 	component,
 	className,
 	children,
+	cursor,
+	...rest
 }) {
 	const Component = component;
 	const tClassName = classNames(
@@ -60,15 +68,21 @@ function Typography({
 		textTransform && TEXT_TRANSFORM_CLASSES[textTransform],
 		variant && VARIANT_CLASSES[variant],
 		color && COLOR_CLASSES[color],
+		cursor && CURSOR_CLASSES[cursor],
 		className
 	);
-	return <Component className={tClassName}>{children}</Component>;
+	return (
+		<Component className={tClassName} {...rest}>
+			{children}
+		</Component>
+	);
 }
 
 Typography.defaultProps = {
 	component: 'span',
 	variant: TYPOGRAPHY_VARIANTS.action1,
 	color: TEXT_COLORS.primary,
+	cursor: TEXT_CURSORS.default,
 	font: FONTS.lato,
 };
 
@@ -81,6 +95,7 @@ Typography.propTypes = {
 	component: PropTypes.any,
 	className: PropTypes.string,
 	children: PropTypes.any,
+	cursor: PropTypes.string,
 };
 
 export default Typography;

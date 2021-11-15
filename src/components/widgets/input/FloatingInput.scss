@@ -12,6 +12,20 @@
 		margin-bottom: 4px;
 	}
 
+	.input-group {
+		&-text {
+			border: 1px solid;
+			@include theme-aware('background', 'B100');
+			@include theme-aware('color', 'G400');
+			@include theme-aware('border-color', 'G100');
+		}
+
+		&:hover,
+		&:focus {
+			@include theme-aware('border-color', 'T600');
+		}
+	}
+
 	textarea,
 	input {
 		border: 1px solid;

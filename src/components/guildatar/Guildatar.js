@@ -1,54 +1,70 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import helmet from 'images/guildatar/helmet/hat_viking-helmet.svg';
-
-import head from 'images/guildatar/head/head.svg';
+import face from 'images/guildatar/head/head.svg';
 
 import body from 'images/guildatar/body/body.svg';
 
-import leftWeapon from 'images/guildatar/weapon/weapon_shield.svg';
-
-import rightWeapon from 'images/guildatar/weapon/weapon_sword-small.svg';
+import ImageContainer from 'components/widgets/image/Image';
 
 import './Guildatar.scss';
 
 const CLASS = 'st-Guildatar';
 
-export default function Guildatar({helmet, head, body, leftWeapon, rightWeapon}) {
+export default function Guildatar({head, face, body, leftArm, rightArm}) {
 	return (
 		<div className={CLASS}>
 			<div className={CLASS + '-character'}>
-				<img src={helmet} alt="helmet" className={CLASS + '-character-helmet'} />
-				<img src={head} alt="head" className={CLASS + '-character-head'} />
-				<img src={body} alt="body" className={CLASS + '-character-body'} />
-				<img
-					src={leftWeapon}
-					alt="left_weapon"
-					className={CLASS + '-character-left_weapon'}
+				{head && (
+					<ImageContainer
+						src={head}
+						alt="helmet"
+						imageClassName={CLASS + '-character-helmet'}
+						thumbClassName={CLASS + '-character-helmet'}
+					/>
+				)}
+				<ImageContainer
+					src={face}
+					alt="head"
+					imageClassName={CLASS + '-character-head'}
+					thumbClassName={CLASS + '-character-head'}
 				/>
-				<img
-					src={rightWeapon}
-					alt="right_weapon"
-					className={CLASS + '-character-right_weapon'}
+				<ImageContainer
+					src={body}
+					alt="body"
+					imageClassName={CLASS + '-character-body'}
+					thumbClassName={CLASS + '-character-body'}
 				/>
+				{leftArm && (
+					<ImageContainer
+						src={leftArm}
+						alt="left_weapon"
+						imageClassName={CLASS + '-character-left_weapon'}
+						thumbClassName={CLASS + '-character-left_weapon'}
+					/>
+				)}
+				{rightArm && (
+					<ImageContainer
+						src={rightArm}
+						alt="right_weapon"
+						imageClassName={CLASS + '-character-right_weapon'}
+						thumbClassName={CLASS + '-character-right_weapon'}
+					/>
+				)}
 			</div>
 		</div>
 	);
 }
 
 Guildatar.defaultProps = {
-	helmet,
-	head,
+	face,
 	body,
-	leftWeapon,
-	rightWeapon,
 };
 
 Guildatar.propTypes = {
-	helmet: PropTypes.string,
 	head: PropTypes.string,
+	face: PropTypes.string,
 	body: PropTypes.string,
-	leftWeapon: PropTypes.string,
-	rightWeapon: PropTypes.string,
+	leftArm: PropTypes.string,
+	rightArm: PropTypes.string,
 };

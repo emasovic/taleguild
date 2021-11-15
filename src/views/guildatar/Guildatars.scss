@@ -1,0 +1,62 @@
+@import 'styles/variables.scss';
+@import 'styles/themes/mixins.scss';
+
+.st-Guildatars {
+	display: flex;
+	flex-direction: column;
+	@media (max-width: $breakpoint-m) {
+		max-width: $story-preview-width-medium;
+		margin: 12px auto;
+	}
+
+	@media (max-width: $breakpoint-sm) {
+		max-width: $story-preview-width-small;
+	}
+
+	&-header {
+		display: flex;
+		justify-content: space-between;
+
+		&-title {
+			display: flex;
+			flex-direction: column;
+		}
+
+		&-action {
+			display: flex;
+			align-items: flex-end;
+		}
+	}
+
+	&-avatars {
+		display: flex;
+		flex-wrap: wrap;
+		margin-top: 32px;
+
+		@media (max-width: $breakpoint-m) {
+			flex-direction: column;
+		}
+
+		&-avatar {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			box-shadow: $box-shadow-default;
+			margin: 0 16px 16px 0;
+			border-radius: 6px;
+			padding: 16px;
+			max-width: 236px;
+			width: 100%;
+			@include theme-aware('background-color', 'B100');
+
+			.st-Guildatar {
+				width: 200px;
+				min-height: 230px;
+			}
+
+			.st-Typography-action1 {
+				margin-bottom: 8px;
+			}
+		}
+	}
+}

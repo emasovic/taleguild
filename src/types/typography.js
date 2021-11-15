@@ -41,4 +41,10 @@ export const TEXT_TRASFORM = {
 export const TEXT_COLORS = {
 	primary: 'primary',
 	secondary: 'secondary',
+	tertiary: 'tertiary',
+};
+
+export const TEXT_CURSORS = {
+	pointer: 'pointer',
+	default: 'default',
 };

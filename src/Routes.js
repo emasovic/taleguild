@@ -23,7 +23,9 @@ const DraftStoriesPage = lazy(() => import('views/user/pages/DraftStoriesPage'))
 const SavedStoriesPage = lazy(() => import('views/user/pages/SavedStoriesPage'));
 const ArchivedStoriesPage = lazy(() => import('views/user/pages/ArchivedStoriesPage'));
 
-const GuildatarPage = lazy(() => import('views/guildatar/GuildatarPage'));
+const GuildatarPlayground = lazy(() => import('views/guildatar/GuildatarPlayground'));
+const Guildatars = lazy(() => import('views/guildatar/Guildatars'));
+const GuildatarContainer = lazy(() => import('views/guildatar/GuildatarContainer'));
 
 const SignUp = lazy(() => import('views/signup/SignUp'));
 
@@ -64,7 +66,9 @@ const Routes = () => (
 				<PublicRoute path={routes.REGISTRATION_SUCCESS} component={RegistrationSuccess} />
 				<Route exact path={routes.HOME} component={Explore} />
 				<PrivateRoute path={routes.MARKETPLACE} component={Marketplace} />
-				<PrivateRoute path={routes.GUILDATAR} component={GuildatarPage} />
+				<PrivateRoute path={routes.GUILDATAR_ID} component={GuildatarContainer} />
+				<PrivateRoute path={routes.GUILDATARS} component={Guildatars} />
+				<PrivateRoute path={routes.GUILDATAR_PLAYGROUND} component={GuildatarPlayground} />
 				<PrivateRoute path={routes.NOTIFICATIONS} component={NotificationsPage} />
 				<Route path="*" component={NotFound} />
 			</Switch>

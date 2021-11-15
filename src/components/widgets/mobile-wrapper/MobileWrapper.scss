@@ -1,0 +1,7 @@
+@import 'styles/variables.scss';
+
+.st-MobileWrapper {
+	@media (max-width: $breakpoint-sm) {
+		margin-bottom: 60px;
+	}
+}

@@ -77,6 +77,15 @@
 			@include theme-aware('border-color', 'T600');
 		}
 
+		&--is-disabled {
+			cursor: not-allowed;
+			@include theme-aware('background-color', 'G300');
+
+			.st-DefaultPicker__indicator {
+				@include theme-aware('color', 'G400');
+			}
+		}
+
 		&:hover {
 			@include theme-aware('border-color', 'T600');
 		}

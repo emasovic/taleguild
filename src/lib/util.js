@@ -24,7 +24,7 @@ export const emailRegExp = new RegExp(
 	/^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\\,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 );
 
-export const getImageUrl = url => process.env.REACT_APP_API_URL + url;
+export const getImageUrl = url => url && process.env.REACT_APP_API_URL + url;
 
 export const kFormatter = num =>
 	Math.abs(num) > 999

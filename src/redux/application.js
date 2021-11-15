@@ -29,12 +29,19 @@ export const applicationSlice = createSlice({
 
 export const {loadingStart, loadingEnd, initialized} = applicationSlice.actions;
 
-export const navigateToQuery = (queryOb, location) => (dispatch, getState, history) => {
+export const navigateToQuery = (queryOb, location, resetParamsOnChange) => (
+	dispatch,
+	getState,
+	history
+) => {
+	const {location, push} = history;
 	const query = queryString.parse(location.search);
 
-	const q = queryString.stringify({...query, ...queryOb});
+	const q = resetParamsOnChange
+		? queryString.stringify(queryOb)
+		: queryString.stringify({...query, ...queryOb});
 
-	history.push({pathname: location.path, search: q});
+	push({pathname: location.path, search: q});
 };
 
 export const initialize = () => dispatch => {

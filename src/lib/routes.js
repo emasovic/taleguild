@@ -36,6 +36,11 @@ export const PROVIDER_LOGIN = '/connect/:provider';
 
 export const DELETED_STORY = '/deleted-story';
 
+export const GUILDATARS = '/guildatars';
 export const GUILDATAR = '/guildatar';
+export const GUILDATAR_ID = GUILDATAR + '/:id';
+export const GUILDATAR_PLAYGROUND = '/guildatar-playground';
+
+export const goToGuildatar = id => GUILDATAR + `/${id}`;
 
 export const MARKETPLACE = '/marketplace';

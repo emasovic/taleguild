@@ -1,0 +1,45 @@
+@import 'styles/variables.scss';
+@import 'styles/themes/mixins.scss';
+
+.st-HorizontalList {
+	display: flex;
+	flex-direction: column;
+	overflow-x: auto;
+
+	&-items {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+
+		@media (max-width: $breakpoint-sm) {
+			overflow-x: auto;
+			flex-wrap: nowrap;
+		}
+
+		.nav {
+			&-item {
+				margin-right: 16px;
+				cursor: pointer;
+				border-radius: 50px;
+				width: max-content;
+				@include theme-aware('background-color', 'B100');
+			}
+
+			&-link {
+				padding: 8px 16px;
+				border-radius: 50px;
+
+				&.active {
+					@include theme-aware('background-color', 'T200');
+					font-weight: bold;
+				}
+			}
+		}
+	}
+
+	&-children {
+		display: flex;
+		flex-wrap: wrap;
+		margin-top: 12px;
+	}
+}

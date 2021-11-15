@@ -231,6 +231,32 @@ export const countMarketplace = filter => {
 	return http.get('marketplace/count', filter);
 };
 
+/******************      GUILDATARS        ***********************/
+
+export const createGuildatar = payload => {
+	return http.post('guildatars', null, payload);
+};
+
+export const updateGuildatar = payload => {
+	return http.put('guildatars/' + payload.id, null, payload);
+};
+
+export const deleteGuildatar = id => {
+	return http.del('guildatars/' + id);
+};
+
+export const getGuildatars = filter => {
+	return http.get('guildatars', filter);
+};
+
+export const countGuildatars = filter => {
+	return http.get('guildatars/count', filter);
+};
+
+export const getGuildatar = id => {
+	return http.get('guildatars/' + id);
+};
+
 /******************      MEDIA        ***********************/
 
 export const uploadMedia = files => {

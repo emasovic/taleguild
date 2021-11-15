@@ -12,6 +12,27 @@
 		max-width: $story-preview-width-small;
 	}
 
+	&-nav {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-top: 32px;
+
+		.st-FloatingInput {
+			margin-bottom: 0 !important;
+		}
+
+		@media (max-width: $breakpoint-m) {
+			flex-direction: column;
+			overflow: auto;
+
+			.st-FloatingInput {
+				margin-top: 12px;
+				width: 100%;
+			}
+		}
+	}
+
 	&-market {
 		display: flex;
 		margin-top: 32px;
@@ -36,6 +57,10 @@
 			&-loadmore {
 				display: flex;
 				flex-wrap: wrap;
+			}
+
+			.st-Typography-bold {
+				margin-bottom: 24px;
 			}
 
 			@media (max-width: $breakpoint-m) {

@@ -15,17 +15,19 @@ import './MarketplaceItem.scss';
 
 const CLASS = 'st-MarketplaceItem';
 
-function MarketplaceItem({id, onClick}) {
-	const {image, name, price} = useSelector(state => selectMarketplaceById(state, id));
+function MarketplaceItem({id, item, onClick}) {
+	const {image, name, price} = useSelector(state => selectMarketplaceById(state, id)) || item;
 
 	return (
 		<div className={CLASS} onClick={() => onClick(id)}>
 			<ImageContainer image={image} width={100} height={100} />
 			<Typography component={TYPOGRAPHY_VARIANTS.p}>{name}</Typography>
-			<Typography>
-				<Coin />
-				&nbsp;&nbsp;{price} <Typography color={TEXT_COLORS.secondary}>coins</Typography>
-			</Typography>
+			{price && (
+				<Typography>
+					<Coin />
+					&nbsp;&nbsp;{price} <Typography color={TEXT_COLORS.secondary}>coins</Typography>
+				</Typography>
+			)}
 		</div>
 	);
 }
@@ -33,6 +35,7 @@ function MarketplaceItem({id, onClick}) {
 MarketplaceItem.propTypes = {
 	id: PropTypes.number.isRequired,
 	onClick: PropTypes.func.isRequired,
+	item: PropTypes.object,
 };
 
 export default MarketplaceItem;

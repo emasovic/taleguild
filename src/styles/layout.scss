@@ -2,7 +2,7 @@ body {
 	display: flex;
 	min-height: 100vh;
 	font-family: $font-lato;
-	overflow-y: scroll;
+	overflow-y: auto;
 	@include theme-aware('background', 'B200');
 }
 

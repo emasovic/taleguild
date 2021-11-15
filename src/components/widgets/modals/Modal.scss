@@ -1,5 +1,6 @@
 @import 'styles/variables.scss';
 @import 'styles/themes/mixins.scss';
+@import 'styles//scrollbar.scss';
 
 .st-Modal {
 	display: flex !important;
@@ -8,6 +9,13 @@
 	backdrop-filter: blur(10px);
 
 	.modal {
+		&-dialog {
+			&-scrollable {
+				.modal-body {
+					@include scrollbars(6px, 'G200', 'G100');
+				}
+			}
+		}
 		&-title {
 			font-family: $font-merriweather;
 			font-weight: bold;

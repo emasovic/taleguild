@@ -22,6 +22,10 @@
 		@include theme-aware('color', 'G600');
 	}
 
+	&-tertiary {
+		@include theme-aware('color', 'G400');
+	}
+
 	&-uppercase {
 		text-transform: uppercase;
 	}
@@ -32,6 +36,10 @@
 
 	&-capitalize {
 		text-transform: capitalize;
+	}
+
+	&-pointer {
+		cursor: pointer;
 	}
 
 	&-h1 {

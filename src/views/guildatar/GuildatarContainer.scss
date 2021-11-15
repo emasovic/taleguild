@@ -1,0 +1,116 @@
+@import 'styles/variables.scss';
+@import 'styles/themes/mixins.scss';
+
+.st-GuildatarContainer {
+	display: flex;
+	flex-direction: column;
+
+	@media (max-width: $breakpoint-sm) {
+		padding: 20px;
+	}
+
+	&-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 32px;
+
+		@media (max-width: $breakpoint-sm) {
+			flex-direction: column;
+		}
+
+		&-title {
+			display: flex;
+			flex-direction: column;
+
+			@media (max-width: $breakpoint-sm) {
+				order: 3;
+				width: 100%;
+			}
+		}
+
+		&-edit {
+			@media (max-width: $breakpoint-sm) {
+				order: 2;
+				margin-bottom: 16px;
+			}
+		}
+
+		&-actions {
+			display: flex;
+
+			@media (max-width: $breakpoint-sm) {
+				order: 1;
+				margin-bottom: 16px;
+			}
+
+			.btn {
+				&-secondary {
+					margin-right: 16px;
+				}
+			}
+		}
+	}
+
+	&-content {
+		display: flex;
+		width: 100%;
+
+		@media (max-width: $breakpoint-sm) {
+			flex-direction: column;
+		}
+
+		&-avatar {
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
+			flex-basis: 40%;
+
+			&-guildatar {
+				width: 100%;
+				max-width: $story-preview-width-small;
+				display: flex;
+				justify-content: center;
+				border: 1px solid;
+				@include theme-aware('border-color', 'G100');
+
+				.st-Guildatar {
+					transform: scale(1.2);
+				}
+
+				@media (max-width: $breakpoint-sm) {
+					max-width: unset;
+				}
+			}
+
+			&-description {
+				display: flex;
+				flex-direction: column;
+				margin-top: 24px;
+				width: 100%;
+				max-width: $story-preview-width-small;
+
+				@media (max-width: $breakpoint-sm) {
+					max-width: unset;
+				}
+
+				&-text {
+					border: 1px solid;
+					@include theme-aware('border-color', 'G100');
+					padding: 24px;
+				}
+			}
+		}
+
+		&-items {
+			display: flex;
+			flex-direction: column;
+			flex-basis: 60%;
+
+			&-load_more {
+				display: flex;
+				flex-wrap: wrap;
+			}
+		}
+	}
+}

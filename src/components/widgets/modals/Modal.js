@@ -24,6 +24,8 @@ export default function ConfirmModal({
 	confirmLabel,
 	className,
 	isOpen,
+	scrollable,
+	fullscreen,
 }) {
 	const handleConfirm = () => {
 		onSubmit && onSubmit();
@@ -87,6 +89,8 @@ export default function ConfirmModal({
 			toggle={handleCancel}
 			isOpen={isOpen}
 			modalClassName={classNames}
+			scrollable={scrollable}
+			fullscreen={fullscreen}
 		>
 			{renderModalHeader()}
 			{renderModalBody()}
@@ -107,12 +111,16 @@ ConfirmModal.propTypes = {
 	renderFooter: PropTypes.bool,
 	isOpen: PropTypes.bool,
 	submitButtonProps: PropTypes.object,
+	scrollable: PropTypes.bool,
+	fullscreen: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 };
 
 ConfirmModal.defaultProps = {
 	confirmLabel: 'Yes',
 	cancelLabel: 'No',
 	className: '',
+	fullscreen: 'sm',
 	renderFooter: true,
+	scrollable: false,
 	submitButtonProps: {},
 };
