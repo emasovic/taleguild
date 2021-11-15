@@ -83,7 +83,7 @@ function Guildatars() {
 							textTransform={TEXT_TRASFORM.uppercase}
 							fontWeight={FONT_WEIGHT.semiBold}
 						>
-							{i.class.name}
+							{i.species}
 						</Typography>
 						<Typography fontWeight={FONT_WEIGHT.bold}>{i.name}</Typography>
 						<Typography color={TEXT_COLORS.secondary}>{i.description}</Typography>
