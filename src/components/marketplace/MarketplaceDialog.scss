@@ -13,6 +13,13 @@
 		min-height: 230px;
 	}
 
+	.st-Typography {
+		&-tertiary {
+			margin-bottom: 8px;
+			font-size: 12px;
+		}
+	}
+
 	&-dialog {
 		.modal {
 			&-footer {

@@ -1,13 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {
-	FONTS,
-	FONT_WEIGHT,
-	TEXT_COLORS,
-	TEXT_TRASFORM,
-	TYPOGRAPHY_VARIANTS,
-} from 'types/typography';
+import {FONTS, FONT_WEIGHT, TEXT_COLORS, TYPOGRAPHY_VARIANTS} from 'types/typography';
 
 import {getImageUrl} from 'lib/util';
 import {goToGuildatar} from 'lib/routes';
@@ -20,6 +14,7 @@ import GuildatarDialog from 'components/guildatar/GuildatarDialog';
 import IconButton from 'components/widgets/button/IconButton';
 import Guildatar from 'components/guildatar/Guildatar';
 import Link, {UNDERLINE} from 'components/widgets/link/Link';
+import Loader from 'components/widgets/loader/Loader';
 
 import './Guildatars.scss';
 
@@ -30,6 +25,7 @@ function Guildatars() {
 
 	const {data} = useSelector(selectUser);
 	const guildatars = useSelector(selectGuildatars);
+	const {op} = useSelector(state => state.guildatars);
 
 	const [isOpen, setIsOpen] = useState(false);
 
@@ -64,31 +60,28 @@ function Guildatars() {
 				</div>
 			</div>
 			<div className={CLASS + '-avatars'}>
-				{guildatars.map(i => (
-					<Link
-						key={i.id}
-						underline={UNDERLINE.none}
-						to={goToGuildatar(i.id)}
-						className={CLASS + '-avatars-avatar'}
-					>
-						<Guildatar
-							head={getImageUrl(i?.head?.item?.image?.url)}
-							face={getImageUrl(i?.face?.item?.image?.url)}
-							body={getImageUrl(i?.body?.item?.image?.url)}
-							leftArm={getImageUrl(i?.left_arm?.item?.image?.url)}
-							rightArm={getImageUrl(i?.right_arm?.item?.image?.url)}
-						/>
-						<Typography
-							color={TEXT_COLORS.tertiary}
-							textTransform={TEXT_TRASFORM.uppercase}
-							fontWeight={FONT_WEIGHT.semiBold}
+				{op ? (
+					<Loader />
+				) : (
+					guildatars.map(i => (
+						<Link
+							key={i.id}
+							underline={UNDERLINE.none}
+							to={goToGuildatar(i.id)}
+							className={CLASS + '-avatars-avatar'}
 						>
-							{i.species}
-						</Typography>
-						<Typography fontWeight={FONT_WEIGHT.bold}>{i.name}</Typography>
-						<Typography color={TEXT_COLORS.secondary}>{i.description}</Typography>
-					</Link>
-				))}
+							<Guildatar
+								head={getImageUrl(i?.head?.item?.image?.url)}
+								face={getImageUrl(i?.face?.item?.image?.url)}
+								body={getImageUrl(i?.body?.item?.image?.url)}
+								leftArm={getImageUrl(i?.left_arm?.item?.image?.url)}
+								rightArm={getImageUrl(i?.right_arm?.item?.image?.url)}
+							/>
+							<Typography fontWeight={FONT_WEIGHT.bold}>{i.name}</Typography>
+							<Typography color={TEXT_COLORS.secondary}>{i.description}</Typography>
+						</Link>
+					))
+				)}
 			</div>
 			{isOpen && <GuildatarDialog onClose={toggleOpen} isOpen={isOpen} />}
 		</div>

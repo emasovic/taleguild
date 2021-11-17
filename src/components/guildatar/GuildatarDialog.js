@@ -19,6 +19,7 @@ import TextArea from 'components/widgets/textarea/TextArea';
 import Guildatar from './Guildatar';
 
 import './GuildatarDialog.scss';
+import Checkbox from 'components/widgets/checkbox/Checkbox';
 
 const CLASS = 'st-GuildatarDialog';
 
@@ -29,7 +30,7 @@ const validationSchema = Yup.object().shape({
 		.required('Required'),
 	description: Yup.string()
 		.min(2, 'Too Short!')
-		.max(50, 'Too Long!')
+		.max(250, 'Too Long!')
 		.required('Required'),
 	gender: Yup.mixed().required('Required'),
 });
@@ -41,7 +42,7 @@ function GuildatarDialog({isOpen, onClose, id}) {
 	const {op} = useSelector(state => state.guildatars);
 	const guildatar = useSelector(state => selectGuildatarById(state, id));
 
-	const {head, face, body, left_arm, right_arm} = guildatar || {};
+	const {head, face, body, left_arm, right_arm, active} = guildatar || {};
 
 	const handleSubmit = values => {
 		const payload = {
@@ -66,14 +67,15 @@ function GuildatarDialog({isOpen, onClose, id}) {
 		setFieldValue,
 	} = useFormik({
 		validationSchema,
+		validateOnChange: false,
 		initialValues: {
+			active,
 			name: guildatar?.name || '',
 			description: guildatar?.description || '',
 			gender: GENDER.find(i => i.value === guildatar?.gender) || null,
 		},
 		onSubmit: handleSubmit,
 	});
-
 	const renderContent = () => (
 		<div className={CLASS}>
 			<form onSubmit={formikSubmit}>
@@ -109,6 +111,14 @@ function GuildatarDialog({isOpen, onClose, id}) {
 					errorMessage={errors.gender}
 					isDisabled={!!id}
 				/>
+				{id && (
+					<Checkbox
+						label="Select as default guildatar"
+						checked={values.active}
+						onChange={val => setFieldValue('active', val)}
+						withBorder
+					/>
+				)}
 				<TextArea
 					className={CLASS + '-textarea'}
 					label="Description"

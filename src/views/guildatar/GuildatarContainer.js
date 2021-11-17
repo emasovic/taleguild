@@ -1,24 +1,18 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useLocation, useParams} from 'react-router';
+import camelCase from 'lodash.camelcase';
 
 import {getImageUrl} from 'lib/util';
 
-import {
-	FONTS,
-	FONT_WEIGHT,
-	TEXT_COLORS,
-	TEXT_CURSORS,
-	TEXT_TRASFORM,
-	TYPOGRAPHY_VARIANTS,
-} from 'types/typography';
+import {FONTS, FONT_WEIGHT, TEXT_COLORS, TEXT_CURSORS, TYPOGRAPHY_VARIANTS} from 'types/typography';
 import {COLOR} from 'types/button';
 import {PARTS} from 'types/guildatar';
 import {DEFAULT_LIMIT, DEFAULT_OP} from 'types/default';
 import {useFormik} from 'formik';
 
 import {createOrUpdateGuildatar, loadGuildatar, selectGuildatarById} from 'redux/guildatars';
-import {loadUserItems, selectUserItems} from 'redux/userItems';
+import {loadUserItems, selectUserItems, selectItemFromUserItemById} from 'redux/userItems';
 
 import IconButton from 'components/widgets/button/IconButton';
 import Typography from 'components/widgets/typography/Typography';
@@ -72,12 +66,12 @@ export default function GuildatarContainer() {
 
 	const handleSubmit = values => {
 		const payload = {
-			...values,
+			id: values.id,
 			head: values?.head?.id,
 			face: values?.face?.id,
 			body: values?.body?.id,
-			leftArm: values?.leftArm?.id,
-			rightArm: values?.rightArm?.id,
+			left_arm: values?.leftArm?.id,
+			right_arm: values?.rightArm?.id,
 		};
 
 		dispatch(createOrUpdateGuildatar(payload));
@@ -92,6 +86,7 @@ export default function GuildatarContainer() {
 			dispatch(
 				loadUserItems(
 					{
+						guildatar_null: true,
 						user: guildatar.user?.id,
 						'item.body_part': bodyPart || undefined,
 						'item.gender': guildatar.gender,
@@ -123,7 +118,6 @@ export default function GuildatarContainer() {
 		);
 	}
 
-	// const defaultItems = [head, face, body, left_arm, right_arm];
 	const {
 		head: avatarHead,
 		face: avatarFace,
@@ -132,19 +126,16 @@ export default function GuildatarContainer() {
 		rightArm: avatarRightArm,
 	} = values;
 
+	let defaultItems = [head, face, body, left_arm, right_arm].filter(Boolean);
+	defaultItems = bodyPart
+		? defaultItems.filter(i => i?.item?.body_part === bodyPart)
+		: defaultItems;
+
 	return (
 		<MobileWrapper className={CLASS}>
 			<form onSubmit={formikSubmit}>
 				<div className={CLASS + '-header'}>
 					<div className={CLASS + '-header-title'}>
-						<Typography
-							color={TEXT_COLORS.tertiary}
-							textTransform={TEXT_TRASFORM.uppercase}
-							fontWeight={FONT_WEIGHT.semiBold}
-							component={TYPOGRAPHY_VARIANTS.p}
-						>
-							{guildatar.class.name}
-						</Typography>
 						<Typography
 							fontWeight={FONT_WEIGHT.bold}
 							component={TYPOGRAPHY_VARIANTS.h4}
@@ -225,12 +216,27 @@ export default function GuildatarContainer() {
 								{items.map(i => (
 									<MarketplaceItem
 										key={i.id}
-										item={i?.item}
+										selector={selectItemFromUserItemById}
+										active={values[camelCase(i.item.body_part)]?.id === i.id}
 										id={i.id}
+										displayPrice={false}
 										onClick={() => setFieldValue(i?.item?.body_part, i)}
 									/>
 								))}
 							</LoadMore>
+							{defaultItems.map(i => {
+								return (
+									<MarketplaceItem
+										key={i.id}
+										id={i.id}
+										active={values[camelCase(i.item.body_part)]?.id === i.id}
+										selector={selectItemFromUserItemById}
+										item={i.item}
+										displayPrice={false}
+										onClick={() => setFieldValue(i?.item?.body_part, i)}
+									/>
+								);
+							})}
 						</HorizontalList>
 					</div>
 				</div>

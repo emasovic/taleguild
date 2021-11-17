@@ -29,6 +29,10 @@ export const userItemsSlice = createSlice({
 			if (state.op === DEFAULT_OP.load_more) state.currentPage += 1;
 			state.op = null;
 		},
+		userItemsUpsert: (state, {payload}) => {
+			userItemsAdapter.upsertOne(state, payload);
+			state.op = null;
+		},
 		gotPages: (state, action) => {
 			state.pages = Math.ceil(action.payload / 10);
 			state.total = action.payload;
@@ -46,6 +50,7 @@ export const {
 	opStart,
 	opEnd,
 	gotPages,
+	userItemsUpsert,
 	userItemsUpsertMany,
 	userItemsReceieved,
 } = userItemsSlice.actions;
@@ -59,7 +64,7 @@ export const purchaseUserItem = payload => async (dispatch, getState) => {
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
 	dispatch(newToast({...Toast.success('Successfully bought item!')}));
-	dispatch(userItemsUpsertMany(res));
+	dispatch(userItemsUpsert(res));
 };
 
 export const loadUserItems = (params, count, op = DEFAULT_OP.loading) => async dispatch => {
@@ -93,5 +98,7 @@ const userItemsSelector = userItemsAdapter.getSelectors(state => state.userItems
 export const selectUserItems = state => userItemsSelector.selectAll(state);
 export const selectUserItemsIds = state => userItemsSelector.selectIds(state);
 export const selectUserItemsById = (state, id) => userItemsSelector.selectById(state, id);
+export const selectItemFromUserItemById = (state, id) =>
+	userItemsSelector.selectById(state, id)?.item;
 
 export default userItemsSlice.reducer;

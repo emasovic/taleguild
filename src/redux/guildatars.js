@@ -1,4 +1,4 @@
-import {createSlice, createEntityAdapter} from '@reduxjs/toolkit';
+import {createSlice, createEntityAdapter, createSelector} from '@reduxjs/toolkit';
 
 import {
 	getGuildatar,
@@ -125,5 +125,8 @@ const guildatarsSelector = guildatarsAdapter.getSelectors(state => state.guildat
 export const selectGuildatars = state => guildatarsSelector.selectAll(state);
 export const selectGuildatarsIds = state => guildatarsSelector.selectIds(state);
 export const selectGuildatarById = (state, id) => guildatarsSelector.selectById(state, id);
+export const selectActiveGuildatar = createSelector([selectGuildatars], guildatars =>
+	guildatars.find(i => i.active)
+);
 
 export default guildatarsSlice.reducer;

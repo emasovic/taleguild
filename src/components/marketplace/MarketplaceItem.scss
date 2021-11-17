@@ -18,11 +18,23 @@
 		cursor: pointer;
 	}
 
+	&.active {
+		border: 1px solid;
+		@include theme-aware('background-color', 'B200');
+		@include theme-aware('border-color', 'G100');
+	}
+
 	.st-Image {
 		&-container {
 			width: 100%;
 			height: 100%;
-			@include theme-aware('background-color', 'B100');
+			background-color: transparent;
+		}
+	}
+
+	.st-Typography {
+		&-tertiary {
+			margin-bottom: 8px;
 		}
 	}
 }

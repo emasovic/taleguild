@@ -4,11 +4,18 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import {getImageUrl, kFormatter} from 'lib/util';
 
-import {FONTS, TEXT_COLORS, TYPOGRAPHY_VARIANTS} from 'types/typography';
+import {
+	FONTS,
+	FONT_WEIGHT,
+	TEXT_COLORS,
+	TEXT_TRASFORM,
+	TYPOGRAPHY_VARIANTS,
+} from 'types/typography';
 
 import {selectMarketplaceById} from 'redux/marketplace';
 import {selectUser} from 'redux/user';
 import {purchaseUserItem} from 'redux/userItems';
+import {selectActiveGuildatar} from 'redux/guildatars';
 
 import ConfirmModal from 'components/widgets/modals/Modal';
 import Guildatar from 'components/guildatar/Guildatar';
@@ -25,10 +32,12 @@ function MarketplaceDialog({isOpen, itemId, onClose}) {
 
 	const {data} = useSelector(selectUser);
 	const {op} = useSelector(state => state.userItems);
-	const {image, name, price, description, body_part} = useSelector(state =>
+	const guildatar = useSelector(selectActiveGuildatar);
+	const {image, name, price, description, category, body_part} = useSelector(state =>
 		selectMarketplaceById(state, itemId)
 	);
 
+	const {head, face, body, left_arm, right_arm} = guildatar || {};
 	const props = {[body_part]: getImageUrl(image.url)};
 
 	const buyItem = () => {
@@ -48,7 +57,21 @@ function MarketplaceDialog({isOpen, itemId, onClose}) {
 
 	const renderContent = () => (
 		<div className={CLASS}>
-			<Guildatar {...props} />
+			<Guildatar
+				head={getImageUrl(head?.item?.image?.url)}
+				face={getImageUrl(face?.item?.image?.url)}
+				body={getImageUrl(body?.item?.image?.url)}
+				leftArm={getImageUrl(left_arm?.item?.image?.url)}
+				rightArm={getImageUrl(right_arm?.item?.image?.url)}
+				{...props}
+			/>
+			<Typography
+				color={TEXT_COLORS.tertiary}
+				textTransform={TEXT_TRASFORM.uppercase}
+				fontWeight={FONT_WEIGHT.semiBold}
+			>
+				{category}
+			</Typography>
 			<Typography
 				component={TYPOGRAPHY_VARIANTS.h4}
 				variant={TYPOGRAPHY_VARIANTS.h4}

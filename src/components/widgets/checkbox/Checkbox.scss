@@ -3,19 +3,32 @@
 
 .st-Checkbox {
 	margin: 20px 0;
+	display: flex;
+	align-items: center;
 
-	input {
+	&-border {
+		padding: 8px;
+		border: 1px solid;
+		border-radius: 6px;
+		@include theme-aware('border-color', 'G200');
+	}
+
+	.form-check-input {
 		border-radius: 2px;
+		margin-right: 8px;
+		margin-top: 0;
 		width: 20px;
 		height: 20px;
 		border: 1px solid;
+		padding: 0;
 		@include theme-aware('border-color', 'T600');
 	}
 
 	label {
 		font-size: 14px;
+		margin-bottom: 0;
 		font-weight: 400;
-		@include theme-aware('color', 'G600');
 		cursor: pointer;
+		@include theme-aware('color', 'G600');
 	}
 }

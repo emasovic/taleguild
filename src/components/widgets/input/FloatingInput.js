@@ -53,7 +53,7 @@ FloatingInput.propTypes = {
 	errorMessage: propTypes.string,
 	invalid: propTypes.bool,
 	className: propTypes.string,
-	icon: propTypes.string,
+	icon: propTypes.object,
 	wholeEvent: propTypes.bool,
 };
 

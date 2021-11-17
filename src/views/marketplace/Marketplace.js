@@ -7,6 +7,8 @@ import {ITEM_CATEGORIES, PARTS} from 'types/guildatar';
 import {DEFAULT_LIMIT, DEFAULT_OP} from 'types/default';
 
 import {loadMarketplace, selectMarketplaceIds} from 'redux/marketplace';
+import {loadGuildatars, selectActiveGuildatar} from 'redux/guildatars';
+import {selectUser} from 'redux/user';
 
 import MarketplaceItem from 'components/marketplace/MarketplaceItem';
 import MarketplaceDialog from 'components/marketplace/MarketplaceDialog';
@@ -28,7 +30,9 @@ export default function Marketplace() {
 	const dispatch = useDispatch();
 
 	const items = useSelector(selectMarketplaceIds);
+	const {data} = useSelector(selectUser);
 	const {op, currentPage, pages} = useSelector(state => state.marketplace);
+	const guildatar = useSelector(selectActiveGuildatar);
 
 	const [selectedItem, setSelectedItem] = useState(null);
 
@@ -61,13 +65,34 @@ export default function Marketplace() {
 	};
 
 	const handleCount = useCallback(() => {
-		const loadMoreCriteria = {body_part, category, name, _start: currentPage * 10};
+		const loadMoreCriteria = {
+			body_part,
+			category,
+			name_contains: name,
+			_start: currentPage * 10,
+		};
 		dispatch(loadMarketplace(loadMoreCriteria, false, DEFAULT_OP.load_more));
 	}, [dispatch, currentPage, category, name, body_part]);
 
 	useEffect(() => {
-		dispatch(loadMarketplace({body_part, category, name, ...DEFAULT_LIMIT}, true));
-	}, [dispatch, category, body_part, name]);
+		data && dispatch(loadGuildatars({user: data.id, active: true}));
+	}, [dispatch, data]);
+
+	useEffect(() => {
+		guildatar &&
+			dispatch(
+				loadMarketplace(
+					{
+						body_part,
+						category,
+						name_contains: name,
+						gender: guildatar.gender,
+						...DEFAULT_LIMIT,
+					},
+					true
+				)
+			);
+	}, [dispatch, category, body_part, name, guildatar]);
 
 	return (
 		<div className={CLASS}>
