@@ -4,6 +4,7 @@
 .st-Guildatars {
 	display: flex;
 	flex-direction: column;
+	margin: 0 14px;
 	@media (max-width: $breakpoint-m) {
 		max-width: $story-preview-width-medium;
 		margin: 12px auto;
@@ -44,7 +45,7 @@
 			box-shadow: $box-shadow-default;
 			margin: 0 16px 16px 0;
 			border-radius: 6px;
-			padding: 16px;
+			padding: 24px;
 			max-width: 236px;
 			width: 100%;
 			@include theme-aware('background-color', 'B100');
@@ -56,6 +57,17 @@
 
 			.st-Typography-action1 {
 				margin-bottom: 8px;
+			}
+
+			.st-Typography-secondary {
+				height: 60px;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				text-align: center;
+			}
+
+			&:hover {
+				@include theme-aware('background-color', 'B300');
 			}
 		}
 	}
