@@ -6,87 +6,42 @@
 	right: 0;
 	bottom: 0;
 	left: 0;
-	z-index: 1030;
+	z-index: 4;
 	width: 100%;
-	justify-content: space-around;
+	justify-content: space-between;
 	align-items: center;
-	padding: 6px;
-	@include theme-aware('background-color', 'B100');
+	height: 60px;
+	@include theme-aware('background-color', 'B200');
 	@include theme-aware('box-shadow', 'card-shadow');
 
-	.navbar {
-		width: 100%;
+	@media (max-width: $breakpoint-sm) {
+		max-width: $story-preview-width-small;
+		margin: 0 auto;
+	}
 
-		.nav-item {
-			flex: 1;
+	&.nav {
+		padding: 0 20px;
 
-			.st-IconButton {
-				width: 100%;
-			}
-
-			&:first-child {
-				margin-right: 12px;
-			}
+		@media (max-width: $breakpoint-sm) {
+			padding: 0 8px;
 		}
 	}
 
-	&-user {
-		padding: 24px;
-		display: flex;
-		flex-direction: column;
-		border-bottom: 1px solid;
-
-		.st-UserAvatar {
-			margin-bottom: 12px;
-
-			.badge {
-				height: 80px;
-				width: 80px;
-				font-size: 36px;
-			}
-
-			.st-Image-container {
-				height: 80px;
-				width: 80px;
-			}
-		}
-
-		.placeholder-18-black {
-			margin-bottom: 6px;
-		}
-
-		@include theme-aware('border-color', 'B300');
-	}
-
-	&-items {
-		display: flex;
-		justify-content: space-between;
-		flex-direction: column;
-		height: calc(100% - 200px);
-
-		.fa-user,
-		.fa-align-left,
-		.fa-cog,
-		.fa-bookmark,
-		.fa-file-archive,
-		.fa-sign-out-alt {
-			margin-right: 16px;
-			@include theme-aware('color', 'T600');
-		}
-
+	.nav-item {
 		.nav-link {
-			padding: 12px 22px;
-			border-bottom: 1px solid;
-			@include theme-aware('color', 'G700');
-			@include theme-aware('border-color', 'B300');
-
-			&:nth-child(4) {
-				border-bottom: none;
+			padding: 0;
+			svg {
+				> path {
+					@include theme-aware('fill', 'G400');
+				}
 			}
 
-			&:last-child {
-				border-top: 1px solid;
-				@include theme-aware('border-color', 'B300');
+			&.active {
+				svg {
+					> path {
+						@include theme-aware('fill', 'T600');
+					}
+				}
 			}
 		}
 	}

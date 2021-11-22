@@ -13,11 +13,11 @@ import FaIcon from 'components/widgets/fa-icon/FaIcon';
 import DropdownButton from 'components/widgets/button/DropdownButton';
 import LoadMoreModal from 'components/widgets/loadmore/LoadMoreModal';
 import LoadMore from 'components/widgets/loadmore/LoadMore';
+import Typography from 'components/widgets/typography/Typography';
 
 import NotificationItem from './NotificationItem';
 
 import './Notifications.scss';
-import Typography from 'components/widgets/typography/Typography';
 
 const CLASS = 'st-Notifications';
 
@@ -65,7 +65,7 @@ export default function Notifications({isPage, isMobile}) {
 			>
 				<Typography className={CLASS + '-notifications'}>Notifications</Typography>
 				{!!notificationIds.length &&
-					notificationIds.map(i => <NotificationItem key={i} id={i} />)}
+					notificationIds.map(i => <NotificationItem key={i} id={i} toggle={null} />)}
 			</LoadMore>
 		);
 	}
@@ -84,7 +84,7 @@ export default function Notifications({isPage, isMobile}) {
 	const dropDownProps = {};
 
 	if (isMobile) {
-		dropDownProps.toggle = undefined;
+		dropDownProps.isOpen = false;
 	}
 
 	return (

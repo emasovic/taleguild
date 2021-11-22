@@ -18,7 +18,7 @@ export default function DraftStoriesPage() {
 		<div className={CLASS}>
 			<div className={CLASS + '-saved'}>
 				<ArchivedStories shouldLoadMore={false} Component={STORY_COMPONENTS.list} />
-				<Link to={USER_STORIES_ARCHIVED} UNDERLINE={UNDERLINE.hover}>
+				<Link to={USER_STORIES_ARCHIVED} underline={UNDERLINE.hover}>
 					View all
 				</Link>
 			</div>

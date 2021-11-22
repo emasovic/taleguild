@@ -3,5 +3,7 @@
 .st-MobileWrapper {
 	@media (max-width: $breakpoint-sm) {
 		margin-bottom: 60px;
+		max-width: $story-preview-width-small;
+		margin: 0 auto;
 	}
 }

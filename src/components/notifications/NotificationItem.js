@@ -17,7 +17,7 @@ import './Notifications.scss';
 
 const CLASS = 'st-Notifications';
 
-function NotificationItem({id}) {
+function NotificationItem({id, toggle}) {
 	const dispatch = useDispatch();
 	const notification = useSelector(state => selectNotification(state, id));
 
@@ -30,7 +30,12 @@ function NotificationItem({id}) {
 	const message = notification.message;
 	const sign = NOTIFICATION_TYPES.ITEM_BOUGHT === type ? '-' : '+';
 	return (
-		<DropdownItem active={!seen} onClick={() => editNotification()} className={CLASS + '-item'}>
+		<DropdownItem
+			active={!seen}
+			onClick={editNotification}
+			className={CLASS + '-item'}
+			toggle={toggle}
+		>
 			<Typography component="p">{message}</Typography>
 			<Typography component="p">
 				<FromNow date={created_at} />
@@ -59,8 +64,13 @@ function NotificationItem({id}) {
 	);
 }
 
+NotificationItem.defaultProps = {
+	toggle: undefined,
+};
+
 NotificationItem.propTypes = {
 	id: PropTypes.number,
+	toggle: PropTypes.func,
 };
 
 export default NotificationItem;

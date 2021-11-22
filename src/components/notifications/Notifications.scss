@@ -5,6 +5,7 @@
 	> button {
 		box-shadow: none !important;
 		background-color: transparent !important;
+		padding: 0;
 	}
 
 	.dropdown-menu {
@@ -33,6 +34,15 @@
 		padding: 8px 12px;
 		border-radius: 6px;
 
+		&:hover {
+			@include theme-aware('color', 'T600');
+			@include theme-aware('background-color', 'B300');
+
+			@media (max-width: $breakpoint-sm) {
+				background-color: transparent !important;
+			}
+		}
+
 		@media (max-width: $breakpoint-sm) {
 			padding: 0;
 		}
@@ -51,11 +61,6 @@
 			position: absolute !important;
 			top: -12px !important;
 			right: -12px;
-		}
-
-		&:hover {
-			@include theme-aware('color', 'T600');
-			@include theme-aware('background-color', 'B300');
 		}
 	}
 

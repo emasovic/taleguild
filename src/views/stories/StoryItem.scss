@@ -38,7 +38,8 @@
 	}
 
 	@media (max-width: $breakpoint-sm) {
-		width: $story-preview-width-small;
+		max-width: $story-preview-width-small;
+		width: 100%;
 	}
 
 	&-author {

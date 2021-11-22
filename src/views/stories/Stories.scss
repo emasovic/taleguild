@@ -6,7 +6,9 @@
 	min-width: $story-preview-width-medium;
 
 	@media (max-width: $breakpoint-sm) {
-		min-width: $story-preview-width-small;
+		max-width: $story-preview-width-small;
+		min-width: unset;
+		width: 100%;
 	}
 
 	.st-Loader {
@@ -14,7 +16,9 @@
 		min-width: $story-preview-width-medium;
 
 		@media (max-width: $breakpoint-sm) {
-			min-width: $story-preview-width-small;
+			max-width: $story-preview-width-small;
+			min-width: unset;
+			width: 100%;
 		}
 	}
 

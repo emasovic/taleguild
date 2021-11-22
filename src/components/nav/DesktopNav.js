@@ -1,10 +1,9 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-
 import {Navbar, Nav, NavItem, NavLink, DropdownItem} from 'reactstrap';
 import {Link, useLocation} from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-import {COLOR} from 'types/button';
 import {
 	USER_STORIES_SAVED,
 	USER_SETTINGS,
@@ -17,24 +16,30 @@ import {
 	USER_STORIES_ARCHIVED,
 	MARKETPLACE,
 	GUILDATARS,
+	NOTIFICATIONS,
 } from 'lib/routes';
+import {kFormatter} from 'lib/util';
+
+import {COLOR} from 'types/button';
+import {ICONS} from 'types/icons';
 
 import {selectUser, logOutUser} from 'redux/user';
 import {newStory} from 'redux/story';
 
-import {ReactComponent as Logo} from 'images/taleguild-logo.svg';
-
 import DropdownButton from 'components/widgets/button/DropdownButton';
 import IconButton from 'components/widgets/button/IconButton';
 import Notifications from 'components/notifications/Notifications';
+import Icon from 'components/widgets/icon/Icon';
+import Typography from 'components/widgets/typography/Typography';
 
 import UserAvatar from 'views/user/UserAvatar';
+
+import MobileDrawer from './MobileDrawer';
 
 import './DesktopNav.scss';
 
 const CLASS = 'st-DesktopNav';
-
-export default function Navigation() {
+export default function DesktopNav({isMobile}) {
 	const dispatch = useDispatch();
 
 	const location = useLocation();
@@ -42,30 +47,49 @@ export default function Navigation() {
 	const user = useSelector(selectUser);
 	const {data} = user;
 
+	const [isOpen, setIsOpen] = useState(false);
+
 	const handleNewStory = () => {
 		dispatch(newStory({user: data && data.id, published_at: null}));
 	};
 
 	const userLoggedOut = () => {
 		return (
-			<NavItem className={CLASS + '-status-signedOut'}>
-				<IconButton tag={Link} color={COLOR.secondary} to={LOGIN}>
-					Sign in
-				</IconButton>
+			!isMobile && (
+				<NavItem className={CLASS + '-status-signedOut'}>
+					<IconButton tag={Link} color={COLOR.secondary} to={LOGIN}>
+						Sign in
+					</IconButton>
 
-				<IconButton tag={Link} to={REGISTER}>
-					Sign up
-				</IconButton>
-			</NavItem>
+					<IconButton tag={Link} to={REGISTER}>
+						Sign up
+					</IconButton>
+				</NavItem>
+			)
 		);
 	};
 
 	const userLoggedIn = () => {
 		return (
 			<NavItem className={CLASS + '-status-signedIn'}>
-				<IconButton onClick={handleNewStory}>New story</IconButton>
-				<Notifications />
-				<DropdownButton toggleItem={<UserAvatar user={data} />}>
+				<Typography className={CLASS + '-status-signedIn-icons'}>
+					<Icon icon={ICONS.star} size={20} />
+					<strong>{kFormatter(data?.points)}</strong>
+				</Typography>
+
+				<Typography className={CLASS + '-status-signedIn-icons'}>
+					<Icon icon={ICONS.coin} size={20} />
+					<strong>{kFormatter(data?.coins)}</strong>
+				</Typography>
+
+				<Link to={NOTIFICATIONS}>
+					<Notifications isMobile={isMobile} />
+				</Link>
+
+				<DropdownButton
+					toggleItem={<UserAvatar user={data} />}
+					toggle={isMobile ? () => setIsOpen(true) : undefined}
+				>
 					<DropdownItem tag={Link} to={goToUser(data && data.username)}>
 						My profile
 					</DropdownItem>
@@ -89,16 +113,22 @@ export default function Navigation() {
 					</DropdownItem>
 					<DropdownItem onClick={() => dispatch(logOutUser())}>Logout</DropdownItem>
 				</DropdownButton>
+
+				<IconButton onClick={handleNewStory}>New story</IconButton>
 			</NavItem>
 		);
 	};
+
+	if (isMobile && !data) {
+		return null;
+	}
 
 	return (
 		<Navbar className={CLASS}>
 			<Nav className={CLASS + '-feed'}>
 				<NavItem>
 					<NavLink tag={Link} to={HOME}>
-						<Logo width="30" height="30" />
+						<Icon icon={ICONS.logo} size={30} />
 					</NavLink>
 				</NavItem>
 				{data && (
@@ -137,8 +167,19 @@ export default function Navigation() {
 			</Nav>
 
 			<Nav className={CLASS + '-status'}>
-				{data && data.token ? userLoggedIn() : userLoggedOut()}
+				{data && data.token ? (
+					<>
+						{userLoggedIn()}
+						<MobileDrawer isOpen={isOpen} onClose={() => setIsOpen(false)} />
+					</>
+				) : (
+					userLoggedOut()
+				)}
 			</Nav>
 		</Navbar>
 	);
 }
+
+DesktopNav.propTypes = {
+	isMobile: PropTypes.bool.isRequired,
+};

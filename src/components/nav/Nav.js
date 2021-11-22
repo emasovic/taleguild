@@ -5,5 +5,9 @@ import MobileNav from './MobileNav';
 
 export default function Nav() {
 	const isMobile = window.screen.width < 768;
-	return isMobile ? <MobileNav /> : <DesktopNav />;
+	return (
+		<>
+			<DesktopNav isMobile={isMobile} /> {isMobile && <MobileNav />}
+		</>
+	);
 }

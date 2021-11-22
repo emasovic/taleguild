@@ -2,6 +2,8 @@ export const HOME = '/';
 
 export const FEED = '/feed';
 
+export const DASHBOARD = '/dashboard';
+
 const STORY = '/story';
 const STORY_ID = STORY + '/:id';
 

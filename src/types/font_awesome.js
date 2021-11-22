@@ -47,6 +47,9 @@ import {
 	faAlignLeft as solidAlignLeft,
 	faSignOutAlt as solidSignOutAlt,
 	faFileArchive as solidFileArchive,
+	faThLarge as solidThLarge,
+	faStore as solidStore,
+	faUserNinja as solidUserNinja,
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -81,6 +84,9 @@ const FA = {
 	user: faUser,
 
 	//SOLID ICONS
+	solid_th_large: solidThLarge,
+	solid_store: solidStore,
+	solid_user_ninja: solidUserNinja,
 	solid_sign_out_alt: solidSignOutAlt,
 	solid_align_left: solidAlignLeft,
 	solid_box_open: solidBoxOpen,

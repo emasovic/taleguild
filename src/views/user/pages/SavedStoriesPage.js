@@ -18,7 +18,7 @@ export default function SavedStoriesPage() {
 		<div className={CLASS}>
 			<div className={CLASS + '-drafts'}>
 				<DraftStories shouldLoadMore={false} Component={STORY_COMPONENTS.list} />
-				<Link to={USER_STORIES_DRAFTS} UNDERLINE={UNDERLINE.hover}>
+				<Link to={USER_STORIES_DRAFTS} underline={UNDERLINE.hover}>
 					View all
 				</Link>
 			</div>

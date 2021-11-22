@@ -1,35 +1,27 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Nav, NavItem, NavLink, Navbar} from 'reactstrap';
 import {Link, useLocation} from 'react-router-dom';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 
 import {
+	DASHBOARD,
 	FEED,
-	goToUser,
+	GUILDATAR,
+	GUILDATARS,
 	HOME,
 	LOGIN,
-	NOTIFICATIONS,
+	MARKETPLACE,
 	REGISTER,
-	USER_SETTINGS,
-	USER_STORIES_ARCHIVED,
-	USER_STORIES_DRAFTS,
-	USER_STORIES_SAVED,
 } from 'lib/routes';
 
 import FA from 'types/font_awesome';
-import {FONTS, TYPOGRAPHY_VARIANTS} from 'types/typography';
+
 import {COLOR} from 'types/button';
 
-import {logOutUser, selectUser} from 'redux/user';
+import {selectUser} from 'redux/user';
 
-import UserAvatar from 'views/user/UserAvatar';
-
-import Backdrop from 'components/widgets/drawer/Backdrop';
-import SideDrawer from 'components/widgets/drawer/SideDrawer';
 import IconButton from 'components/widgets/button/IconButton';
-import Typography from 'components/widgets/typography/Typography';
-import Notifications from 'components/notifications/Notifications';
 
 import './MobileNav.scss';
 
@@ -37,71 +29,25 @@ const CLASS = 'st-MobileNav';
 
 export default function MobileNav() {
 	const location = useLocation();
-	const dispatch = useDispatch();
 
 	const user = useSelector(selectUser);
 
-	const [isOpen, setIsOpen] = useState(false);
 	const {data} = user;
-
-	const toggleDrawer = () => setIsOpen(prevState => !prevState);
-
-	const renderDrawer = () => {
-		const displayName = data?.display_name || data?.username;
-		return (
-			<SideDrawer isOpen={isOpen}>
-				<div className={CLASS + '-user'}>
-					<UserAvatar user={data} />
-					<Typography font={FONTS.merri} variant={TYPOGRAPHY_VARIANTS.p18}>
-						{displayName}
-					</Typography>
-					<Typography font={FONTS.lato} variant={TYPOGRAPHY_VARIANTS.action1}>
-						@{data?.username}
-					</Typography>
-				</div>
-				<div className={CLASS + '-items'}>
-					<div>
-						<NavLink
-							tag={Link}
-							onClick={toggleDrawer}
-							to={goToUser(data && data.username)}
-						>
-							<FontAwesomeIcon icon={FA.user} />
-							My profile
-						</NavLink>
-						<NavLink tag={Link} onClick={toggleDrawer} to={USER_STORIES_SAVED}>
-							<FontAwesomeIcon icon={FA.bookmark} />
-							Saved stories
-						</NavLink>
-						<NavLink tag={Link} onClick={toggleDrawer} to={USER_STORIES_DRAFTS}>
-							<FontAwesomeIcon icon={FA.solid_align_left} />
-							Drafts
-						</NavLink>
-						<NavLink tag={Link} onClick={toggleDrawer} to={USER_STORIES_ARCHIVED}>
-							<FontAwesomeIcon icon={FA.solid_file_archive} />
-							Archived stories
-						</NavLink>
-						<NavLink tag={Link} onClick={toggleDrawer} to={USER_SETTINGS}>
-							<FontAwesomeIcon icon={FA.solid_cog} />
-							Account settings
-						</NavLink>
-					</div>
-					<div>
-						<NavLink onClick={() => dispatch(logOutUser())}>
-							<FontAwesomeIcon icon={FA.solid_sign_out_alt} />
-							Logout
-						</NavLink>
-					</div>
-				</div>
-			</SideDrawer>
-		);
-	};
 
 	return (
 		<>
 			<Nav className={CLASS}>
 				{data ? (
 					<>
+						<NavItem>
+							<NavLink
+								tag={Link}
+								to={DASHBOARD}
+								active={location.pathname === DASHBOARD}
+							>
+								<FontAwesomeIcon size="lg" icon={FA.solid_th_large} />
+							</NavLink>
+						</NavItem>
 						<NavItem>
 							<NavLink tag={Link} to={FEED} active={location.pathname === FEED}>
 								<FontAwesomeIcon size="lg" icon={FA.solid_home} />
@@ -116,14 +62,20 @@ export default function MobileNav() {
 						<NavItem>
 							<NavLink
 								tag={Link}
-								to={NOTIFICATIONS}
-								active={location.pathname === HOME}
+								to={MARKETPLACE}
+								active={location.pathname === MARKETPLACE}
 							>
-								<Notifications isMobile />
+								<FontAwesomeIcon size="lg" icon={FA.solid_store} />
 							</NavLink>
 						</NavItem>
 						<NavItem>
-							<UserAvatar user={data} onClick={toggleDrawer} />
+							<NavLink
+								tag={Link}
+								to={GUILDATARS}
+								active={location.pathname.includes(GUILDATAR)}
+							>
+								<FontAwesomeIcon size="lg" icon={FA.solid_user_ninja} />
+							</NavLink>
 						</NavItem>
 					</>
 				) : (
@@ -142,12 +94,6 @@ export default function MobileNav() {
 					</Navbar>
 				)}
 			</Nav>
-			{data && (
-				<>
-					{isOpen && <Backdrop onClick={toggleDrawer} />}
-					{renderDrawer()}
-				</>
-			)}
 		</>
 	);
 }

@@ -1,0 +1,65 @@
+@import 'styles/variables.scss';
+@import 'styles/themes/mixins.scss';
+
+.st-MobileDrawer {
+	&-user {
+		padding: 24px;
+		display: flex;
+		flex-direction: column;
+		border-bottom: 1px solid;
+
+		.st-UserAvatar {
+			margin-bottom: 12px;
+
+			.badge {
+				height: 80px;
+				width: 80px;
+				font-size: 36px;
+			}
+
+			.st-Image-container {
+				height: 80px;
+				width: 80px;
+			}
+		}
+
+		.placeholder-18-black {
+			margin-bottom: 6px;
+		}
+
+		@include theme-aware('border-color', 'B300');
+	}
+
+	&-items {
+		display: flex;
+		justify-content: space-between;
+		flex-direction: column;
+		height: calc(100% - 186px);
+
+		.fa-user,
+		.fa-align-left,
+		.fa-cog,
+		.fa-bookmark,
+		.fa-file-archive,
+		.fa-sign-out-alt {
+			margin-right: 16px;
+			@include theme-aware('color', 'T600');
+		}
+
+		.nav-link {
+			padding: 12px 22px;
+			border-bottom: 1px solid;
+			@include theme-aware('color', 'G700');
+			@include theme-aware('border-color', 'B300');
+
+			&:nth-child(4) {
+				border-bottom: none;
+			}
+
+			&:last-child {
+				border-top: 1px solid;
+				@include theme-aware('border-color', 'B300');
+			}
+		}
+	}
+}
