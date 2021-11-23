@@ -23,24 +23,22 @@
 			align-items: center;
 
 			@media (max-width: $breakpoint-sm) {
-				width: 320px;
+				width: $story-preview-width-small;
 			}
-		}
 
-		&-title {
-			display: flex;
-			flex-direction: column;
+			&-title {
+				display: flex;
+				flex-direction: column;
 
-			@media (max-width: $breakpoint-sm) {
-				// order: 3;
-				width: 100%;
+				@media (max-width: $breakpoint-sm) {
+					width: 100%;
+				}
 			}
-		}
 
-		&-edit {
-			@media (max-width: $breakpoint-sm) {
-				// order: 2;
-				margin-bottom: 16px;
+			&-edit {
+				@media (max-width: $breakpoint-sm) {
+					margin-bottom: 16px;
+				}
 			}
 		}
 
@@ -48,7 +46,6 @@
 			display: flex;
 
 			@media (max-width: $breakpoint-sm) {
-				// order: 1;
 				margin-bottom: 16px;
 			}
 
@@ -73,14 +70,8 @@
 			flex-direction: column;
 			align-items: flex-start;
 			margin-right: 48px;
-			// flex-basis: 40%;
 
 			&-guildatar {
-				// width: 100%;
-				// height: 100%;
-				// max-width: $story-preview-width-small;
-				// max-width: 360px;
-				// max-height: 420px;
 				width: 360px;
 				height: 420px;
 				display: flex;
@@ -100,7 +91,7 @@
 				}
 
 				@media (max-width: $breakpoint-sm) {
-					max-width: 320px;
+					max-width: $story-preview-width-small;
 				}
 			}
 
@@ -108,12 +99,10 @@
 				display: flex;
 				flex-direction: column;
 				margin: 36px 0;
-				// width: 100%;
-				// max-width: $story-preview-width-small;
 				width: 360px;
 
 				@media (max-width: $breakpoint-sm) {
-					max-width: 320px;
+					max-width: $story-preview-width-small;
 				}
 
 				&-text {
@@ -128,7 +117,6 @@
 		&-items {
 			display: flex;
 			flex-direction: column;
-			// flex-basis: 60%;
 
 			.st-HorizontalList {
 				&-children {

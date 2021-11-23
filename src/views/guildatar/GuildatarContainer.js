@@ -136,7 +136,7 @@ export default function GuildatarContainer() {
 			<form onSubmit={formikSubmit}>
 				<div className={CLASS + '-header'}>
 					<div className={CLASS + '-header-left-box'}>
-						<div className={CLASS + '-header-title'}>
+						<div className={CLASS + '-header-left-box-title'}>
 							<Typography
 								fontWeight={FONT_WEIGHT.bold}
 								component={TYPOGRAPHY_VARIANTS.h4}
@@ -146,7 +146,7 @@ export default function GuildatarContainer() {
 								{guildatar.name}
 							</Typography>
 						</div>
-						<div className={CLASS + '-header-edit'}>
+						<div className={CLASS + '-header-left-box-edit'}>
 							<IconButton color={COLOR.secondary} onClick={toggleOpen}>
 								Edit
 							</IconButton>
