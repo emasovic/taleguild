@@ -4,18 +4,14 @@
 .st-Guildatars {
 	display: flex;
 	flex-direction: column;
-	@media (max-width: $breakpoint-m) {
-		max-width: $story-preview-width-medium;
-		margin: 12px auto;
-	}
-
-	@media (max-width: $breakpoint-sm) {
-		max-width: $story-preview-width-small;
-	}
 
 	&-header {
 		display: flex;
 		justify-content: space-between;
+
+		@media (max-width: $breakpoint-sm) {
+			flex-direction: column;
+		}
 
 		&-title {
 			display: flex;
@@ -25,6 +21,10 @@
 		&-action {
 			display: flex;
 			align-items: flex-end;
+
+			@media (max-width: $breakpoint-sm) {
+				justify-content: flex-end;
+			}
 		}
 	}
 
@@ -35,6 +35,7 @@
 
 		@media (max-width: $breakpoint-m) {
 			flex-direction: column;
+			align-items: center;
 		}
 
 		&-avatar {

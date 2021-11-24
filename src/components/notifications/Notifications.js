@@ -17,6 +17,7 @@ import DropdownButton from 'components/widgets/button/DropdownButton';
 import LoadMoreModal from 'components/widgets/loadmore/LoadMoreModal';
 import LoadMore from 'components/widgets/loadmore/LoadMore';
 import Typography from 'components/widgets/typography/Typography';
+import MobileWrapper from 'components/widgets/mobile-wrapper/MobileWrapper';
 
 import NotificationItem from './NotificationItem';
 
@@ -61,16 +62,18 @@ export default function Notifications({isPage, isMobile}) {
 
 	if (isPage) {
 		return (
-			<LoadMore
-				id="notifications-page"
-				onLoadMore={getNotifications}
-				shouldLoad={pages > currentPage}
-				loading={op === DEFAULT_OP.load_more}
-			>
-				<Typography className={CLASS + '-notifications'}>Notifications</Typography>
-				{!!notificationIds.length &&
-					notificationIds.map(i => <NotificationItem key={i} id={i} toggle={null} />)}
-			</LoadMore>
+			<MobileWrapper>
+				<LoadMore
+					id="notifications-page"
+					onLoadMore={getNotifications}
+					shouldLoad={pages > currentPage}
+					loading={op === DEFAULT_OP.load_more}
+				>
+					<Typography className={CLASS + '-notifications'}>Notifications</Typography>
+					{!!notificationIds.length &&
+						notificationIds.map(i => <NotificationItem key={i} id={i} toggle={null} />)}
+				</LoadMore>
+			</MobileWrapper>
 		);
 	}
 

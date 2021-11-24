@@ -21,6 +21,7 @@ import HorizontalList from 'components/widgets/horizontal-list/HorizontalList';
 import SearchInput from 'components/search-input/SearchInput';
 
 import './Marketplace.scss';
+import MobileWrapper from 'components/widgets/mobile-wrapper/MobileWrapper';
 
 const CLASS = 'st-Marketplace';
 
@@ -97,7 +98,7 @@ export default function Marketplace() {
 	}, [dispatch, category, body_part, name, guildatar]);
 
 	return (
-		<div className={CLASS}>
+		<MobileWrapper className={CLASS}>
 			<Typography
 				variant={TYPOGRAPHY_VARIANTS.h4}
 				component={TYPOGRAPHY_VARIANTS.h4}
@@ -148,6 +149,6 @@ export default function Marketplace() {
 					onClose={() => setSelectedItem(null)}
 				/>
 			)}
-		</div>
+		</MobileWrapper>
 	);
 }

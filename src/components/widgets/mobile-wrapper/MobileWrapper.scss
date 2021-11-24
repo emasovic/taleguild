@@ -1,9 +1,9 @@
 @import 'styles/variables.scss';
 
 .st-MobileWrapper {
-	@media (max-width: $breakpoint-sm) {
-		margin-bottom: 60px;
-		max-width: $story-preview-width-small;
+	@media (max-width: $breakpoint-m) {
+		max-width: $story-preview-width-medium;
 		margin: 0 auto;
+		margin-bottom: 60px;
 	}
 }

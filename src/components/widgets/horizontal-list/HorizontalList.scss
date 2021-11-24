@@ -11,7 +11,7 @@
 		flex-wrap: wrap;
 		align-items: center;
 
-		@media (max-width: $breakpoint-sm) {
+		@media (max-width: $breakpoint-m) {
 			overflow-x: auto;
 			flex-wrap: nowrap;
 		}

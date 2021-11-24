@@ -15,6 +15,7 @@ import IconButton from 'components/widgets/button/IconButton';
 import Guildatar from 'components/guildatar/Guildatar';
 import Link, {UNDERLINE} from 'components/widgets/link/Link';
 import Loader from 'components/widgets/loader/Loader';
+import MobileWrapper from 'components/widgets/mobile-wrapper/MobileWrapper';
 
 import './Guildatars.scss';
 
@@ -38,7 +39,7 @@ function Guildatars() {
 	}, [data, dispatch]);
 
 	return (
-		<div className={CLASS}>
+		<MobileWrapper className={CLASS}>
 			<div className={CLASS + '-header'}>
 				<div className={CLASS + '-title'}>
 					<Typography
@@ -84,7 +85,7 @@ function Guildatars() {
 				)}
 			</div>
 			{isOpen && <GuildatarDialog onClose={toggleOpen} isOpen={isOpen} />}
-		</div>
+		</MobileWrapper>
 	);
 }
 

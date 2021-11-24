@@ -16,21 +16,18 @@
 	}
 
 	.container-fluid {
-		@media (max-width: $breakpoint-m) {
-			padding: 0;
-		}
+		padding: 0;
 	}
 
 	@media (max-width: $breakpoint-m) {
 		display: flex;
-		// flex-direction: column;
 		padding: 5px 0;
 		flex-wrap: nowrap !important;
 		height: auto;
 	}
 
 	@media (max-width: $breakpoint-sm) {
-		max-width: $story-preview-width-small;
+		max-width: $story-preview-width-large;
 		margin: 0 auto;
 	}
 
@@ -90,12 +87,6 @@
 			align-items: center;
 
 			@media (max-width: $breakpoint-m) {
-				.st-IconButton-link {
-					display: none !important;
-				}
-			}
-
-			@media (max-width: $breakpoint-sm) {
 				.st-IconButton {
 					display: none;
 				}
@@ -115,7 +106,7 @@
 			.st-DropdownButton {
 				margin-right: 24px;
 
-				@media (max-width: $breakpoint-sm) {
+				@media (max-width: $breakpoint-m) {
 					margin-right: 0;
 				}
 
@@ -147,6 +138,12 @@
 		}
 
 		.nav-item {
+			&:first-child {
+				.nav-link {
+					padding: 0;
+				}
+			}
+
 			.nav-link {
 				font-size: 16px;
 				@include theme-aware('color', 'G400');

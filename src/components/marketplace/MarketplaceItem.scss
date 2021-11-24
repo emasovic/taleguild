@@ -6,13 +6,18 @@
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	width: 180px;
-	height: 240px;
+	width: $market-item-width-large;
+	height: $market-item-height;
 	box-shadow: $box-shadow-default;
 	margin: 0 16px 16px 0;
 	border-radius: 6px;
 	padding: 16px;
 	@include theme-aware('background-color', 'B100');
+
+	@media (max-width: $breakpoint-sm) {
+		width: $market-item-width-small;
+		margin-right: 0;
+	}
 
 	&:hover {
 		cursor: pointer;

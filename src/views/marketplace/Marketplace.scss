@@ -3,14 +3,6 @@
 .st-Marketplace {
 	display: flex;
 	flex-direction: column;
-	@media (max-width: $breakpoint-m) {
-		max-width: $story-preview-width-medium;
-		margin: 12px auto;
-	}
-
-	@media (max-width: $breakpoint-sm) {
-		max-width: $story-preview-width-small;
-	}
 
 	&-nav {
 		display: flex;
@@ -20,16 +12,21 @@
 
 		.st-FloatingInput {
 			margin-bottom: 0 !important;
+
+			@media (max-width: $breakpoint-m) {
+				width: 100%;
+			}
+		}
+
+		.st-HorizontalList {
+			@media (max-width: $breakpoint-m) {
+				margin: 24px 0;
+				width: 100%;
+			}
 		}
 
 		@media (max-width: $breakpoint-m) {
-			flex-direction: column;
-			overflow: auto;
-
-			.st-FloatingInput {
-				margin-top: 12px;
-				width: 100%;
-			}
+			flex-direction: column-reverse;
 		}
 	}
 
@@ -39,6 +36,7 @@
 
 		@media (max-width: $breakpoint-m) {
 			flex-direction: column;
+			margin-top: 0;
 		}
 
 		&-categories {
@@ -57,6 +55,10 @@
 			&-loadmore {
 				display: flex;
 				flex-wrap: wrap;
+
+				@media (max-width: $breakpoint-sm) {
+					justify-content: space-evenly;
+				}
 			}
 
 			.st-Typography-bold {

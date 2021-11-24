@@ -224,19 +224,22 @@ export default function GuildatarContainer() {
 									/>
 								))}
 							</LoadMore>
-							{defaultItems.map(i => {
-								return (
-									<MarketplaceItem
-										key={i.id}
-										id={i.id}
-										active={values[camelCase(i.item.body_part)]?.id === i.id}
-										selector={selectItemFromUserItemById}
-										item={i.item}
-										displayPrice={false}
-										onClick={() => setFieldValue(i?.item?.body_part, i)}
-									/>
-								);
-							})}
+							{!op &&
+								defaultItems.map(i => {
+									return (
+										<MarketplaceItem
+											key={i.id}
+											id={i.id}
+											active={
+												values[camelCase(i.item.body_part)]?.id === i.id
+											}
+											selector={selectItemFromUserItemById}
+											item={i.item}
+											displayPrice={false}
+											onClick={() => setFieldValue(i?.item?.body_part, i)}
+										/>
+									);
+								})}
 						</HorizontalList>
 					</div>
 				</div>
