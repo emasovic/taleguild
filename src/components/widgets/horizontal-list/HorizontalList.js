@@ -53,6 +53,9 @@ function HorizontalList({
 					<Loader />
 				) : (
 					<div className={CLASS + '-items'}>
+						<NavItem onClick={() => updateQueryParams(undefined)}>
+							<NavLink active={!activeItem}>All</NavLink>
+						</NavItem>
 						{items.length
 							? items.map((item, key) => {
 									return (

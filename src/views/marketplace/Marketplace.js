@@ -15,7 +15,7 @@ import MarketplaceDialog from 'components/marketplace/MarketplaceDialog';
 
 import Typography from 'components/widgets/typography/Typography';
 import SideNav from 'views/stories/widgets/side-nav/SideNav';
-import LoadMore from 'components/widgets/loadmore/LoadMoreModal';
+import LoadMore from 'components/widgets/loadmore/LoadMore';
 import Loader from 'components/widgets/loader/Loader';
 import HorizontalList from 'components/widgets/horizontal-list/HorizontalList';
 import SearchInput from 'components/search-input/SearchInput';
@@ -40,10 +40,12 @@ export default function Marketplace() {
 	const category = new URLSearchParams(useLocation().search).get('category');
 	const name = new URLSearchParams(useLocation().search).get('name');
 
-	const categories = ITEM_CATEGORIES.filter(i => i.category === body_part).map(i => ({
-		id: i.value,
-		name: i.label,
-	}));
+	const categories = ITEM_CATEGORIES.filter(i => (body_part ? i.category === body_part : i)).map(
+		i => ({
+			id: i.value,
+			name: i.label,
+		})
+	);
 	const shouldLoad = pages > currentPage && !op;
 
 	const renderMarketPlaceItems = () => {

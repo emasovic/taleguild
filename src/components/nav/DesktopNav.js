@@ -16,7 +16,6 @@ import {
 	USER_STORIES_ARCHIVED,
 	MARKETPLACE,
 	GUILDATARS,
-	NOTIFICATIONS,
 } from 'lib/routes';
 import {kFormatter} from 'lib/util';
 
@@ -70,6 +69,11 @@ export default function DesktopNav({isMobile}) {
 	};
 
 	const userLoggedIn = () => {
+		const dropDownProps = {};
+
+		if (isMobile) {
+			dropDownProps.toggle = () => setIsOpen(true);
+		}
 		return (
 			<NavItem className={CLASS + '-status-signedIn'}>
 				<Typography className={CLASS + '-status-signedIn-icons'}>
@@ -82,14 +86,9 @@ export default function DesktopNav({isMobile}) {
 					<strong>{kFormatter(data?.coins)}</strong>
 				</Typography>
 
-				<Link to={NOTIFICATIONS}>
-					<Notifications isMobile={isMobile} />
-				</Link>
+				<Notifications isMobile={isMobile} />
 
-				<DropdownButton
-					toggleItem={<UserAvatar user={data} />}
-					toggle={isMobile ? () => setIsOpen(true) : undefined}
-				>
+				<DropdownButton toggleItem={<UserAvatar user={data} />} {...dropDownProps}>
 					<DropdownItem tag={Link} to={goToUser(data && data.username)}>
 						My profile
 					</DropdownItem>
