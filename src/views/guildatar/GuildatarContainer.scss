@@ -4,6 +4,7 @@
 .st-GuildatarContainer {
 	display: flex;
 	flex-direction: column;
+	margin: 0 14px;
 
 	&-header {
 		display: flex;
@@ -15,28 +16,36 @@
 			flex-direction: column;
 		}
 
-		&-title {
+		&-left-box {
 			display: flex;
-			flex-direction: column;
+			justify-content: space-between;
+			width: 360px;
+			align-items: center;
 
-			@media (max-width: $breakpoint-m) {
-				order: 3;
-				width: 100%;
+			@media (max-width: $breakpoint-sm) {
+				width: $story-preview-width-small;
 			}
-		}
 
-		&-edit {
-			@media (max-width: $breakpoint-m) {
-				order: 2;
-				margin-bottom: 16px;
+			&-title {
+				display: flex;
+				flex-direction: column;
+
+				@media (max-width: $breakpoint-sm) {
+					width: 100%;
+				}
+			}
+
+			&-edit {
+				@media (max-width: $breakpoint-sm) {
+					margin-bottom: 16px;
+				}
 			}
 		}
 
 		&-actions {
 			display: flex;
 
-			@media (max-width: $breakpoint-m) {
-				order: 1;
+			@media (max-width: $breakpoint-sm) {
 				margin-bottom: 16px;
 			}
 
@@ -60,38 +69,45 @@
 			display: flex;
 			flex-direction: column;
 			align-items: flex-start;
-			flex-basis: 40%;
+			margin-right: 48px;
 
 			&-guildatar {
-				width: 100%;
-				max-width: $story-preview-width-small;
+				width: 360px;
+				height: 420px;
 				display: flex;
 				justify-content: center;
+				align-items: center;
 				border: 1px solid;
+				border-radius: 6px;
 				@include theme-aware('border-color', 'G100');
 
 				.st-Guildatar {
-					transform: scale(1.2);
+					transform: scale(1.8);
+					margin-right: 50px;
+
+					@media (max-width: $breakpoint-sm) {
+						transform: scale(1.5);
+					}
 				}
 
-				@media (max-width: $breakpoint-m) {
-					max-width: unset;
+				@media (max-width: $breakpoint-sm) {
+					max-width: $story-preview-width-small;
 				}
 			}
 
 			&-description {
 				display: flex;
 				flex-direction: column;
-				margin-top: 24px;
-				width: 100%;
-				max-width: $story-preview-width-small;
+				margin: 36px 0;
+				width: 360px;
 
-				@media (max-width: $breakpoint-m) {
-					max-width: unset;
+				@media (max-width: $breakpoint-sm) {
+					max-width: $story-preview-width-small;
 				}
 
 				&-text {
 					border: 1px solid;
+					border-radius: 6px;
 					@include theme-aware('border-color', 'G100');
 					padding: 24px;
 				}
@@ -101,7 +117,6 @@
 		&-items {
 			display: flex;
 			flex-direction: column;
-			flex-basis: 60%;
 
 			.st-HorizontalList {
 				&-children {

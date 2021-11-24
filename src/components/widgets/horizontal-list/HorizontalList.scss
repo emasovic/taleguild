@@ -18,16 +18,27 @@
 
 		.nav {
 			&-item {
-				margin-right: 16px;
+				margin: 0 16px 8px 0;
 				cursor: pointer;
 				border-radius: 50px;
 				width: max-content;
+				border: 1px solid;
 				@include theme-aware('background-color', 'B100');
+				@include theme-aware('border-color', 'B100');
+
+				&:hover {
+					@include theme-aware('border-color', 'T600');
+				}
 			}
 
 			&-link {
 				padding: 8px 16px;
 				border-radius: 50px;
+
+				&:hover {
+					@include theme-aware('background-color', 'T100');
+					@include theme-aware('color', 'T600');
+				}
 
 				&.active {
 					@include theme-aware('background-color', 'T200');

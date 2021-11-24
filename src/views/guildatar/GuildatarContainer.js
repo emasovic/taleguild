@@ -135,21 +135,24 @@ export default function GuildatarContainer() {
 		<MobileWrapper className={CLASS}>
 			<form onSubmit={formikSubmit}>
 				<div className={CLASS + '-header'}>
-					<div className={CLASS + '-header-title'}>
-						<Typography
-							fontWeight={FONT_WEIGHT.bold}
-							component={TYPOGRAPHY_VARIANTS.h4}
-							variant={TYPOGRAPHY_VARIANTS.h4}
-							font={FONTS.merri}
-						>
-							{guildatar.name}
-						</Typography>
+					<div className={CLASS + '-header-left-box'}>
+						<div className={CLASS + '-header-left-box-title'}>
+							<Typography
+								fontWeight={FONT_WEIGHT.bold}
+								component={TYPOGRAPHY_VARIANTS.h4}
+								variant={TYPOGRAPHY_VARIANTS.h4}
+								font={FONTS.merri}
+							>
+								{guildatar.name}
+							</Typography>
+						</div>
+						<div className={CLASS + '-header-left-box-edit'}>
+							<IconButton color={COLOR.secondary} onClick={toggleOpen}>
+								Edit
+							</IconButton>
+						</div>
 					</div>
-					<div className={CLASS + '-header-edit'}>
-						<IconButton color={COLOR.secondary} onClick={toggleOpen}>
-							Edit
-						</IconButton>
-					</div>
+
 					<div className={CLASS + '-header-actions'}>
 						<IconButton color={COLOR.secondary} disabled={!dirty} onClick={handleReset}>
 							Cancel
