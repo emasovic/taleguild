@@ -6,7 +6,7 @@ import {FONTS, FONT_WEIGHT, TEXT_COLORS, TYPOGRAPHY_VARIANTS} from 'types/typogr
 import {getImageUrl} from 'lib/util';
 import {goToGuildatar} from 'lib/routes';
 
-import {selectUser} from 'redux/user';
+import {selectAuthUser} from 'redux/auth';
 import {loadGuildatars, selectGuildatars} from 'redux/guildatars';
 
 import Typography from 'components/widgets/typography/Typography';
@@ -24,7 +24,7 @@ const CLASS = 'st-Guildatars';
 function Guildatars() {
 	const dispatch = useDispatch();
 
-	const {data} = useSelector(selectUser);
+	const {data} = useSelector(selectAuthUser);
 	const guildatars = useSelector(selectGuildatars);
 	const {op} = useSelector(state => state.guildatars);
 

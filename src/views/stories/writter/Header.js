@@ -13,7 +13,7 @@ import {STORY_PAGE_OP} from 'types/story_page';
 import {FONTS, TYPOGRAPHY_VARIANTS} from 'types/typography';
 import FA from 'types/font_awesome';
 
-import {selectUser} from 'redux/user';
+import {selectAuthUser} from 'redux/auth';
 import {createOrUpdateStory, deleteStory} from 'redux/story';
 import {deleteStoryPage} from 'redux/storyPages';
 
@@ -42,7 +42,7 @@ export default function Header({
 }) {
 	const dispatch = useDispatch();
 
-	const {data} = useSelector(selectUser);
+	const {data} = useSelector(selectAuthUser);
 
 	const {replace} = useHistory();
 

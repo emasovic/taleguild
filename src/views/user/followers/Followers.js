@@ -8,7 +8,7 @@ import {goToUser} from 'lib/routes';
 import {COLOR} from 'types/button';
 
 import {selectFollowers, loadFollowers, createOrDeleteFollower} from 'redux/followers';
-import {selectUser} from 'redux/user';
+import {selectAuthUser} from 'redux/auth';
 
 import ConfirmModal from 'components/widgets/modals/Modal';
 import LoadMoreModal from 'components/widgets/loadmore/LoadMoreModal';
@@ -25,7 +25,7 @@ export default function Followers({id}) {
 	const {followers, total, loading, user, pages} = useSelector(
 		state => ({
 			followers: selectFollowers(state, id),
-			user: selectUser(state),
+			user: selectAuthUser(state),
 			loading: state.followers.loading,
 			pages: state.followers.pages,
 			total: state.followers.total,

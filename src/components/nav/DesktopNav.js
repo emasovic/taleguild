@@ -22,7 +22,7 @@ import {kFormatter} from 'lib/util';
 import {COLOR} from 'types/button';
 import {ICONS} from 'types/icons';
 
-import {selectUser, logOutUser} from 'redux/user';
+import {selectAuthUser, logOutUser} from 'redux/auth';
 import {newStory} from 'redux/story';
 
 import DropdownButton from 'components/widgets/button/DropdownButton';
@@ -43,7 +43,7 @@ export default function DesktopNav({isMobile}) {
 
 	const location = useLocation();
 
-	const user = useSelector(selectUser);
+	const user = useSelector(selectAuthUser);
 	const {data} = user;
 
 	const [isOpen, setIsOpen] = useState(false);

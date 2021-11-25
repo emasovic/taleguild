@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import {COLOR} from 'types/button';
 
-import {selectUser as selectLoggedUser} from 'redux/user';
+import {selectAuthUser} from 'redux/auth';
 import {selectFollowers, createOrDeleteFollower} from 'redux/followers';
 
 import IconButton from 'components/widgets/button/IconButton';
@@ -19,7 +19,7 @@ export default function UserProfileInfo({user, className}) {
 	const dispatch = useDispatch();
 
 	const {total, followers, followersLoading, loggedUser} = useSelector(state => {
-		const loggedUser = selectLoggedUser(state);
+		const loggedUser = selectAuthUser(state);
 		return {
 			followers: selectFollowers(state, user?.id),
 			loggedUser: loggedUser?.data,

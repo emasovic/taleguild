@@ -19,7 +19,7 @@ import FA from 'types/font_awesome';
 
 import {COLOR} from 'types/button';
 
-import {selectUser} from 'redux/user';
+import {selectAuthUser} from 'redux/auth';
 
 import IconButton from 'components/widgets/button/IconButton';
 
@@ -30,7 +30,7 @@ const CLASS = 'st-MobileNav';
 export default function MobileNav() {
 	const location = useLocation();
 
-	const user = useSelector(selectUser);
+	const user = useSelector(selectAuthUser);
 
 	const {data} = user;
 

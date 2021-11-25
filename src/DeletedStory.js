@@ -8,7 +8,7 @@ import {COLOR} from 'types/button';
 import {FONTS, FONT_WEIGHT, TYPOGRAPHY_VARIANTS} from 'types/typography';
 
 import {newStory} from 'redux/story';
-import {selectUser} from 'redux/user';
+import {selectAuthUser} from 'redux/auth';
 
 import IconButton from 'components/widgets/button/IconButton';
 import Typography from 'components/widgets/typography/Typography';
@@ -21,7 +21,7 @@ const CLASS = 'st-DeletedStory';
 
 export default function DeletedStory() {
 	const dispatch = useDispatch();
-	const {data} = useSelector(selectUser);
+	const {data} = useSelector(selectAuthUser);
 
 	const handleNewStory = () => {
 		dispatch(newStory({user: data && data.id, published: false}));

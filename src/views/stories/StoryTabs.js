@@ -6,7 +6,7 @@ import {USER_STORIES_SAVED, goToUser, USER_STORIES_DRAFTS, USER_STORIES_ARCHIVED
 
 import {STORY_COMPONENTS} from 'types/story';
 
-import {selectUser} from 'redux/user';
+import {selectAuthUser} from 'redux/auth';
 
 import MyStories from 'views/user/stories/MyStories';
 import SavedStories from 'views/user/stories/SavedStories';
@@ -42,7 +42,7 @@ const GO_TO = {
 
 export default function StoryTabs() {
 	const [activeTab, setActiveTab] = useState(STORY_TABS.my_stories);
-	const {data} = useSelector(selectUser);
+	const {data} = useSelector(selectAuthUser);
 	const Component = COMPONENTS[activeTab];
 
 	if (!data) {

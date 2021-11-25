@@ -5,12 +5,12 @@ import PropTypes from 'prop-types';
 
 import {HOME} from 'lib/routes';
 
-import {selectUser} from 'redux/user';
+import {selectAuthUser} from 'redux/auth';
 
 import Loader from 'components/widgets/loader/Loader';
 
 const PublicRoute = ({component: Component, ...rest}) => {
-	const user = useSelector(selectUser);
+	const user = useSelector(selectAuthUser);
 	const [isAuthenticated, setIsAuthenticated] = useState(null);
 	useEffect(() => {
 		let token = localStorage.getItem('token');

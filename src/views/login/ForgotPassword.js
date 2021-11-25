@@ -5,7 +5,7 @@ import {RESET_PASSWORD} from 'lib/routes';
 
 import {USER_OP} from 'types/user';
 
-import {forgotPassword} from 'redux/user';
+import {forgotPassword} from 'redux/auth';
 
 import FloatingInput from 'components/widgets/input/FloatingInput';
 import IconButton from 'components/widgets/button/IconButton';
@@ -18,7 +18,7 @@ const API = 'https://taleguild.com';
 
 export default function ForgotPassword() {
 	const dispatch = useDispatch();
-	const op = useSelector(state => state.user.op);
+	const op = useSelector(state => state.auth.op);
 	const [email, setEmail] = useState('');
 
 	return (

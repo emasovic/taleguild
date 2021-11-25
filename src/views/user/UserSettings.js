@@ -3,7 +3,7 @@ import {useSelector, useDispatch} from 'react-redux';
 
 import {THEMES} from 'types/themes';
 
-import {selectUser, updateUser} from 'redux/user';
+import {selectAuthUser, updateUser} from 'redux/auth';
 
 import IconButton from 'components/widgets/button/IconButton';
 import FloatingInput from 'components/widgets/input/FloatingInput';
@@ -17,7 +17,7 @@ import './UserSettings.scss';
 const CLASS = 'st-UserSettings';
 
 export default function UserSettings() {
-	const {data, loading} = useSelector(selectUser);
+	const {data, loading} = useSelector(selectAuthUser);
 	const dispatch = useDispatch();
 
 	const [avatar, setAvatar] = useState(null);

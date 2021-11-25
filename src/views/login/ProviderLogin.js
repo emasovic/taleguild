@@ -8,7 +8,7 @@ import {USER_OP} from 'types/user';
 import {ICONS} from 'types/icons';
 import {FONTS, FONT_WEIGHT, TYPOGRAPHY_VARIANTS} from 'types/typography';
 
-import {providerLogin} from 'redux/user';
+import {providerLogin} from 'redux/auth';
 
 import Loader from 'components/widgets/loader/Loader';
 import Icon from 'components/widgets/icon/Icon';
@@ -22,7 +22,7 @@ const CLASS = 'st-ProviderLogin';
 export default function ProviderLogin() {
 	const dispatch = useDispatch();
 	const {provider} = useParams();
-	const op = useSelector(state => state.user.op);
+	const op = useSelector(state => state.auth.op);
 	const query = useLocation().search;
 
 	useEffect(() => {

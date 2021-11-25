@@ -9,7 +9,7 @@ import {editStory} from 'lib/routes';
 import {FONTS, TYPOGRAPHY_VARIANTS} from 'types/typography';
 
 import {deleteStory} from 'redux/story';
-import {selectUser} from 'redux/user';
+import {selectAuthUser} from 'redux/auth';
 import {updateArchivedStory} from 'redux/archivedStories';
 
 import ConfirmModal from 'components/widgets/modals/Modal';
@@ -22,7 +22,7 @@ const CLASS = 'st-StoryDropdownButton';
 
 export default function StoryDropdownButton({story, onDeleteStory, displayArchived, keepArchived}) {
 	const dispatch = useDispatch();
-	const {data} = useSelector(selectUser);
+	const {data} = useSelector(selectAuthUser);
 
 	const {archivedAt, publishedAt, id, favouriteId, title, storypages} = story;
 

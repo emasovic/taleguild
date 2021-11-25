@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import {DEFAULT_CRITERIA, STORY_COMPONENTS} from 'types/story';
 
-import {selectUser} from 'redux/user';
+import {selectAuthUser} from 'redux/auth';
 import {selectStories, loadStories} from 'redux/userStories';
 
 import Loader from 'components/widgets/loader/Loader';
@@ -18,7 +18,7 @@ export default function MyStories({Component}) {
 	const dispatch = useDispatch();
 	const {stories, loading, loggedInUser} = useSelector(
 		state => ({
-			loggedInUser: selectUser(state),
+			loggedInUser: selectAuthUser(state),
 			stories: selectStories(state),
 			pages: state.userStories.pages,
 			loading: state.userStories.loading,

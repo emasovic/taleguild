@@ -9,7 +9,7 @@ import {getIdFromSlug} from 'types/story';
 import {COLOR} from 'types/button';
 
 import {createOrUpdateViews, loadStory, selectStory} from 'redux/story';
-import {selectUserId} from 'redux/user';
+import {selectUserId} from 'redux/auth';
 
 import TextViewer from 'components/widgets/text-editor/TextViewer';
 import Loader from 'components/widgets/loader/Loader';

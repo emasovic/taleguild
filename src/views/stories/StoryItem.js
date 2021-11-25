@@ -8,7 +8,7 @@ import {goToUser} from 'lib/routes';
 import FA from 'types/font_awesome';
 
 import {createOrDeleteLike} from 'redux/likes';
-import {selectUser} from 'redux/user';
+import {selectAuthUser} from 'redux/auth';
 import {createOrDeleteSavedStory} from 'redux/savedStories';
 import {navigateToQuery} from 'redux/application';
 
@@ -54,7 +54,7 @@ export default function StoryItem({
 		state => ({
 			loading: state.stories.loading,
 
-			loggedUser: selectUser(state),
+			loggedUser: selectAuthUser(state),
 		}),
 		shallowEqual
 	);

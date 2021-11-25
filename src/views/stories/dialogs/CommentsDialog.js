@@ -10,7 +10,7 @@ import {COLOR} from 'types/button';
 import {DEFAULT_OP} from 'types/default';
 
 import {loadComments, selectComments} from 'redux/comments';
-import {selectUser} from 'redux/user';
+import {selectAuthUser} from 'redux/auth';
 import {addToast} from 'redux/toast';
 import {createOrDeleteComment} from 'redux/comments';
 
@@ -28,7 +28,7 @@ function CommentsDialog({isOpen, title, onClose, storyId, className}) {
 	const {comments, storyOp, user, op, pages} = useSelector(
 		state => ({
 			comments: selectComments(state),
-			user: selectUser(state),
+			user: selectAuthUser(state),
 			storyOp: state.stories.op,
 			op: state.comments.op,
 			pages: state.comments.pages,

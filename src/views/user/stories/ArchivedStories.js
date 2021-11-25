@@ -10,7 +10,7 @@ import {
 	loadArchivedStories,
 	removeArchivedStory,
 } from 'redux/archivedStories';
-import {selectUserId} from 'redux/user';
+import {selectUserId} from 'redux/auth';
 
 import Loader from 'components/widgets/loader/Loader';
 import LoadMore from 'components/widgets/loadmore/LoadMore';

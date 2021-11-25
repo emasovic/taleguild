@@ -3,7 +3,7 @@ import queryString from 'query-string';
 
 import {Toast} from 'types/toast';
 
-import {getUser} from './user';
+import {getUser} from './auth';
 import {loadCategories} from './categories';
 import {loadLanguages} from './languages';
 import {newToast} from './toast';

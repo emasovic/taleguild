@@ -9,7 +9,7 @@ import {
 	loadSavedStories,
 	createOrDeleteSavedStory,
 } from 'redux/savedStories';
-import {selectUserId} from 'redux/user';
+import {selectUserId} from 'redux/auth';
 
 import Loader from 'components/widgets/loader/Loader';
 import LoadMore from 'components/widgets/loadmore/LoadMore';

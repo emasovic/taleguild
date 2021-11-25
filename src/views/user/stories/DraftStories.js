@@ -6,7 +6,7 @@ import {STORY_OP, STORY_COMPONENTS, PUBLISH_STATES} from 'types/story';
 import {DEFAULT_LIMIT} from 'types/default';
 
 import {selectStories, loadStories, deleteStory} from 'redux/draftStories';
-import {selectUserId} from 'redux/user';
+import {selectUserId} from 'redux/auth';
 
 import NoStories from 'views/stories/NoStories';
 import Loader from 'components/widgets/loader/Loader';

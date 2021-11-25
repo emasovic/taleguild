@@ -8,7 +8,7 @@ import {DEFAULT_LIMIT, DEFAULT_OP} from 'types/default';
 
 import {loadMarketplace, selectMarketplaceIds} from 'redux/marketplace';
 import {loadGuildatars, selectActiveGuildatar} from 'redux/guildatars';
-import {selectUser} from 'redux/user';
+import {selectAuthUser} from 'redux/auth';
 
 import MarketplaceItem from 'components/marketplace/MarketplaceItem';
 import MarketplaceDialog from 'components/marketplace/MarketplaceDialog';
@@ -31,7 +31,7 @@ export default function Marketplace() {
 	const dispatch = useDispatch();
 
 	const items = useSelector(selectMarketplaceIds);
-	const {data} = useSelector(selectUser);
+	const {data} = useSelector(selectAuthUser);
 	const {op, currentPage, pages} = useSelector(state => state.marketplace);
 	const guildatar = useSelector(selectActiveGuildatar);
 

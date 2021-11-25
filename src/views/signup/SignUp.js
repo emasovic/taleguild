@@ -10,7 +10,7 @@ import {COLOR, BRAND} from 'types/button';
 
 import {emailRegExp} from 'lib/util';
 
-import {registerUser} from '../../redux/user';
+import {registerUser} from '../../redux/auth';
 import {addToast} from 'redux/toast';
 
 import FloatingInput from '../../components/widgets/input/FloatingInput';
@@ -30,7 +30,7 @@ export default function SignUp() {
 	const [accepted, setAccepted] = useState(false);
 
 	const dispatch = useDispatch();
-	const op = useSelector(state => state.user.op);
+	const op = useSelector(state => state.auth.op);
 
 	const validate = () => {
 		const errors = [];

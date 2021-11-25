@@ -6,7 +6,7 @@ import {FORGOT_PASSWORD, REGISTER} from 'lib/routes';
 
 import {COLOR, BRAND} from 'types/button';
 
-import {loginUser, selectUser} from '../../redux/user';
+import {loginUser, selectAuthUser} from '../../redux/auth';
 
 import Link, {UNDERLINE} from 'components/widgets/link/Link';
 import FloatingInput from 'components/widgets/input/FloatingInput';
@@ -21,7 +21,7 @@ export default function Login() {
 	const [identifier, setIdentifier] = useState('');
 	const [password, setPassword] = useState('');
 	const dispatch = useDispatch();
-	const user = useSelector(selectUser);
+	const user = useSelector(selectAuthUser);
 	const {error, op} = user;
 
 	const submit = e => {

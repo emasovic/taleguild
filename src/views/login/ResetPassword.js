@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {useLocation} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {resetPassword} from 'redux/user';
+import {resetPassword} from 'redux/auth';
 import {USER_OP} from 'types/user';
 
 import FloatingInput from 'components/widgets/input/FloatingInput';
@@ -14,7 +14,7 @@ const CLASS = 'st-Password';
 
 export default function ResetPassword() {
 	const dispatch = useDispatch();
-	const op = useSelector(state => state.user.op);
+	const op = useSelector(state => state.auth.op);
 	const query = new URLSearchParams(useLocation().search);
 
 	const [password, setPassword] = useState('');

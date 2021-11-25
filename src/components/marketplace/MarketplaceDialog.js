@@ -13,7 +13,7 @@ import {
 } from 'types/typography';
 
 import {selectMarketplaceById} from 'redux/marketplace';
-import {selectUser} from 'redux/user';
+import {selectAuthUser} from 'redux/auth';
 import {purchaseUserItem} from 'redux/userItems';
 import {selectActiveGuildatar} from 'redux/guildatars';
 
@@ -30,7 +30,7 @@ const CLASS = 'st-MarketplaceDialog';
 function MarketplaceDialog({isOpen, itemId, onClose}) {
 	const dispatch = useDispatch();
 
-	const {data} = useSelector(selectUser);
+	const {data} = useSelector(selectAuthUser);
 	const {op} = useSelector(state => state.userItems);
 	const guildatar = useSelector(selectActiveGuildatar);
 	const {image, name, price, description, category, body_part} = useSelector(state =>

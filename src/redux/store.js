@@ -2,7 +2,7 @@ import {configureStore} from '@reduxjs/toolkit';
 
 import history from 'lib/history';
 
-import user from './user';
+import auth from './auth';
 import users from './users';
 import comments from './comments';
 import stories from './story';
@@ -27,6 +27,7 @@ import guildatars from './guildatars';
 
 const store = configureStore({
 	reducer: {
+		auth,
 		application,
 		archivedStories,
 		categories,
@@ -46,7 +47,6 @@ const store = configureStore({
 		userActivity,
 		userItems,
 		userStories,
-		user,
 		users,
 		toast,
 	},

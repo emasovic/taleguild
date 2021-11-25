@@ -13,7 +13,7 @@ import {
 import {FONTS, TYPOGRAPHY_VARIANTS} from 'types/typography';
 import FA from 'types/font_awesome';
 
-import {logOutUser, selectUser} from 'redux/user';
+import {logOutUser, selectAuthUser} from 'redux/auth';
 import {useDispatch, useSelector} from 'react-redux';
 
 import SideDrawer from 'components/widgets/drawer/SideDrawer';
@@ -31,7 +31,7 @@ const CLASS = 'st-MobileDrawer';
 function MobileDrawer({isOpen, onClose}) {
 	const dispatch = useDispatch();
 
-	const user = useSelector(selectUser);
+	const user = useSelector(selectAuthUser);
 
 	const {data} = user;
 

@@ -10,7 +10,7 @@ import {DEFAULT_LIMIT, DEFAULT_OP} from 'types/default';
 import FA from 'types/font_awesome';
 
 import {loadNotifications, selectNotificationIds} from 'redux/notifications';
-import {selectUser} from 'redux/user';
+import {selectAuthUser} from 'redux/auth';
 
 import FaIcon from 'components/widgets/fa-icon/FaIcon';
 import DropdownButton from 'components/widgets/button/DropdownButton';
@@ -28,7 +28,7 @@ const CLASS = 'st-Notifications';
 export default function Notifications({isPage, isMobile}) {
 	const dispatch = useDispatch();
 	const {push} = useHistory();
-	const {data} = useSelector(selectUser);
+	const {data} = useSelector(selectAuthUser);
 	const {unseen, currentPage, pages, op} = useSelector(state => state.notifications);
 	const notificationIds = useSelector(selectNotificationIds);
 

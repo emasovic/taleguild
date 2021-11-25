@@ -3,12 +3,15 @@ import {createSlice} from '@reduxjs/toolkit';
 import * as api from '../lib/api';
 import {HOME, WELCOME} from 'lib/routes';
 
-import {newToast} from './toast';
 import {Toast} from 'types/toast';
 import {USER_OP} from 'types/user';
+import {NOTIFICATION_TYPES} from 'types/notifications';
+
+import {newToast} from './toast';
+import {notificationsAddOne} from './notifications';
 
 export const userSlice = createSlice({
-	name: 'user',
+	name: 'auth',
 	initialState: {
 		data: null,
 		error: null,
@@ -37,6 +40,22 @@ export const userSlice = createSlice({
 		},
 		logOut: state => {
 			state.data = null;
+		},
+	},
+	extraReducers: {
+		[notificationsAddOne]: (state, {payload}) => {
+			const {data = {}} = payload;
+			const shouldReduce = payload.type === NOTIFICATION_TYPES.ITEM_BOUGHT;
+			if (data?.coins) {
+				state.data.coins = shouldReduce
+					? state.data.coins - data.coins
+					: state.data.coins + data.coins;
+			}
+			if (data?.points) {
+				state.data.points = shouldReduce
+					? state.data.points - data.points
+					: state.data.points + data.points;
+			}
 		},
 	},
 });
@@ -175,8 +194,8 @@ export const providerLogin = (provider, token) => async (dispatch, getState, his
 	history.push(WELCOME);
 };
 
-export const selectUser = state => state.user;
+export const selectAuthUser = state => state.auth;
 
-export const selectUserId = state => state.user.data && state.user.data.id;
+export const selectUserId = state => state.auth.data && state.auth.data.id;
 
 export default userSlice.reducer;

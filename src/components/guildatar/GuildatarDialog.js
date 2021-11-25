@@ -9,7 +9,7 @@ import {getImageUrl} from 'lib/util';
 import {GENDER} from 'types/guildatar';
 
 import {createOrUpdateGuildatar, selectGuildatarById} from 'redux/guildatars';
-import {selectUser} from 'redux/user';
+import {selectAuthUser} from 'redux/auth';
 
 import DefaultPicker from 'components/widgets/pickers/default/DefaultPicker';
 import ConfirmModal from 'components/widgets/modals/Modal';
@@ -38,7 +38,7 @@ const validationSchema = Yup.object().shape({
 function GuildatarDialog({isOpen, onClose, id}) {
 	const dispatch = useDispatch();
 
-	const {data} = useSelector(selectUser);
+	const {data} = useSelector(selectAuthUser);
 	const {op} = useSelector(state => state.guildatars);
 	const guildatar = useSelector(state => selectGuildatarById(state, id));
 

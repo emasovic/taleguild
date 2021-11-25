@@ -45,6 +45,15 @@ export const notificationsSlice = createSlice({
 
 			state.op = null;
 		},
+		notificationsAddOne: (state, {payload}) => {
+			notificationsAdapter.addOne(state, payload);
+
+			if (!payload.seen) {
+				state.unseen += 1;
+			} else {
+				state.unseen -= 1;
+			}
+		},
 		loadingStart: state => {
 			state.loading = true;
 		},
@@ -71,6 +80,7 @@ export const {
 	notificationsReceieved,
 	notificationsUpsertMany,
 	notificationsUpsertOne,
+	notificationsAddOne,
 	gotPages,
 	opStart,
 	opEnd,
