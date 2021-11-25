@@ -12,7 +12,7 @@ import {DEFAULT_OP} from 'types/default';
 import {loadComments, selectComments} from 'redux/comments';
 import {selectUser} from 'redux/user';
 import {addToast} from 'redux/toast';
-import {createOrDeleteComment} from 'redux/story';
+import {createOrDeleteComment} from 'redux/comments';
 
 import ConfirmModal from 'components/widgets/modals/Modal';
 import LoadMoreModal from 'components/widgets/loadmore/LoadMoreModal';

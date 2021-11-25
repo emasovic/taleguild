@@ -6,7 +6,6 @@ import {Toast} from 'types/toast';
 import {DEFAULT_OP} from 'types/default';
 
 import {newToast} from './toast';
-import {gotComment, removeComment} from './story';
 
 const commentsAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
@@ -15,16 +14,22 @@ const commentsAdapter = createEntityAdapter({
 
 export const commentsSlice = createSlice({
 	name: 'comments',
-	initialState: commentsAdapter.getInitialState({op: null, pages: null, loading: null}),
+	initialState: commentsAdapter.getInitialState({op: null, pages: null}),
 	reducers: {
 		commentsReceieved: (state, action) => {
 			commentsAdapter.setAll(state, action.payload);
-			state.loading = null;
 			state.op = null;
 		},
 		commentsUpsertMany: (state, action) => {
 			commentsAdapter.upsertMany(state, action.payload);
-			state.loading = null;
+			state.op = null;
+		},
+		commentsUpsertOne: (state, {payload}) => {
+			commentsAdapter.upsertOne(state, payload);
+			state.op = null;
+		},
+		commentsRemoveOne: (state, {payload}) => {
+			commentsAdapter.removeOne(state, payload.id);
 			state.op = null;
 		},
 		loadingStart: state => {
@@ -44,14 +49,6 @@ export const commentsSlice = createSlice({
 			state.total = action.payload;
 		},
 	},
-	extraReducers: {
-		[gotComment]: (state, {payload}) => {
-			commentsAdapter.addOne(state, payload);
-		},
-		[removeComment]: (state, {payload}) => {
-			commentsAdapter.removeOne(state, payload.commentId);
-		},
-	},
 });
 
 export const {
@@ -59,6 +56,8 @@ export const {
 	loadingEnd,
 	commentsReceieved,
 	commentsUpsertMany,
+	commentsUpsertOne,
+	commentsRemoveOne,
 	gotPages,
 	opStart,
 	opEnd,
@@ -85,6 +84,23 @@ export const loadComments = (params, count, op = DEFAULT_OP.loading) => async di
 	}
 
 	return dispatch(commentsUpsertMany(res));
+};
+
+export const createOrDeleteComment = payload => async (dispatch, getState) => {
+	dispatch(opStart());
+
+	const res = payload.id ? await api.deleteComment(payload.id) : await api.createComment(payload);
+	if (res.error) {
+		dispatch(opEnd());
+		return dispatch(newToast({...Toast.error(res.error)}));
+	}
+	if (res.id) {
+		dispatch(commentsUpsertOne({storyId: payload.story, ...res}));
+		return dispatch(newToast({...Toast.success('Successfully posted comment.')}));
+	}
+
+	dispatch(commentsRemoveOne({storyId: payload.story, id: payload.id}));
+	return dispatch(newToast({...Toast.success('Successfully deleted comment.')}));
 };
 
 //SELECTORS

@@ -7,7 +7,7 @@ import {goToUser} from 'lib/routes';
 
 import FA from 'types/font_awesome';
 
-import {createOrDeleteLike} from 'redux/story';
+import {createOrDeleteLike} from 'redux/likes';
 import {selectUser} from 'redux/user';
 import {createOrDeleteSavedStory} from 'redux/savedStories';
 import {navigateToQuery} from 'redux/application';

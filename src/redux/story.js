@@ -12,6 +12,8 @@ import {newToast} from './toast';
 import {savedStoryRemoved, savedStoryUpsert} from './savedStories';
 import {storyPagesReceieved} from './storyPages';
 import {archivedStoryRemoved, archivedStoryUpsert} from './archivedStories';
+import {likesRemoveOne, likesUpsertOne} from './likes';
+import {commentsRemoveOne, commentsUpsertOne} from './comments';
 
 const storyAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
@@ -48,47 +50,6 @@ export const storySlice = createSlice({
 			storyAdapter.upsertOne(state, action.payload);
 			state.op = null;
 			state.loading = null;
-		},
-		gotComment: (state, action) => {
-			const {storyId, ...rest} = action.payload;
-			state.entities[storyId].comments.push({...rest});
-			state.op = null;
-		},
-		removeComment: (state, action) => {
-			const {storyId, commentId} = action.payload;
-			state.entities[storyId] = {
-				...state.entities[storyId],
-				comments: state.entities[storyId].comments.filter(c => c.id !== commentId),
-			};
-			state.op = null;
-		},
-		gotLike: (state, action) => {
-			const {storyId, ...rest} = action.payload;
-			state.entities[storyId].likes.push({...rest});
-			state.op = null;
-		},
-		removeLike: (state, action) => {
-			const {storyId, likeId} = action.payload;
-			state.entities[storyId] = {
-				...state.entities[storyId],
-				likes: state.entities[storyId].likes.filter(l => l.id !== likeId),
-			};
-			state.op = null;
-		},
-		gotSaved: (state, action) => {
-			const {storyId, ...rest} = action.payload;
-			state.entities[storyId].saved_by.push({...rest});
-			state.op = null;
-		},
-		removeSaved: (state, action) => {
-			const {storyId, savedId} = action.payload;
-			if (state.entities[storyId]) {
-				state.entities[storyId] = {
-					...state.entities[storyId],
-					saved_by: state.entities[storyId].saved_by.filter(s => s.id !== savedId),
-				};
-			}
-			state.op = null;
 		},
 		gotPages: (state, action) => {
 			state.pages = Math.ceil(action.payload / 10);
@@ -134,6 +95,28 @@ export const storySlice = createSlice({
 		[archivedStoryRemoved]: (state, {payload}) => {
 			storyAdapter.upsertOne(state, payload);
 		},
+		[likesUpsertOne]: (state, {payload}) => {
+			const {storyId, ...rest} = payload;
+			state.entities[storyId].likes.push({...rest});
+		},
+		[likesRemoveOne]: (state, {payload}) => {
+			const {storyId, id: likeId} = payload;
+			state.entities[storyId] = {
+				...state.entities[storyId],
+				likes: state.entities[storyId].likes.filter(l => l.id !== likeId),
+			};
+		},
+		[commentsUpsertOne]: (state, {payload}) => {
+			const {storyId, ...rest} = payload;
+			state.entities[storyId].comments.push({...rest});
+		},
+		[commentsRemoveOne]: (state, {payload}) => {
+			const {storyId, id: commentId} = payload;
+			state.entities[storyId] = {
+				...state.entities[storyId],
+				comments: state.entities[storyId].comments.filter(c => c.id !== commentId),
+			};
+		},
 	},
 });
 
@@ -146,13 +129,7 @@ export const {
 	storiesUpsertMany,
 	storyUpsert,
 	storyRemoved,
-	gotSaved,
 	gotPages,
-	gotComment,
-	gotLike,
-	removeSaved,
-	removeComment,
-	removeLike,
 } = storySlice.actions;
 
 export const newStory = payload => async (dispatch, getState, history) => {
@@ -255,41 +232,7 @@ export const createOrUpdateViews = (id, userId) => async dispatch => {
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
 
-	// dispatch(removeComment({storyId: payload.story, commentId: payload.id}));
 	return dispatch(opEnd());
-};
-
-export const createOrDeleteComment = payload => async (dispatch, getState) => {
-	dispatch(opStart());
-
-	const res = payload.id ? await api.deleteComment(payload.id) : await api.createComment(payload);
-	if (res.error) {
-		dispatch(opEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
-	}
-	if (res.id) {
-		dispatch(gotComment({storyId: payload.story, ...res}));
-		return dispatch(newToast({...Toast.success('Successfully posted comment.')}));
-	}
-
-	dispatch(removeComment({storyId: payload.story, commentId: payload.id}));
-	return dispatch(newToast({...Toast.success('Successfully deleted comment.')}));
-};
-
-export const createOrDeleteLike = (like, userId, storyId) => async (dispatch, getState) => {
-	const res = like
-		? await api.deleteLike(like.id)
-		: await api.createLike({user: userId, story: storyId});
-
-	if (res.error) {
-		return dispatch(newToast({...Toast.error(res.error)}));
-	}
-
-	if (res.id && !like) {
-		return dispatch(gotLike({storyId, ...res}));
-	}
-
-	return dispatch(removeLike({storyId, likeId: like.id}));
 };
 
 //SELECTORS

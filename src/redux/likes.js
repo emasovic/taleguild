@@ -14,16 +14,22 @@ const likesAdapter = createEntityAdapter({
 
 export const likesSlice = createSlice({
 	name: 'likes',
-	initialState: likesAdapter.getInitialState({op: null, pages: null, loading: null}),
+	initialState: likesAdapter.getInitialState({op: null, pages: null}),
 	reducers: {
 		likesReceieved: (state, action) => {
 			likesAdapter.setAll(state, action.payload);
-			state.loading = null;
 			state.op = null;
 		},
 		likesUpsertMany: (state, action) => {
 			likesAdapter.upsertMany(state, action.payload);
-			state.loading = null;
+			state.op = null;
+		},
+		likesUpsertOne: (state, {payload}) => {
+			likesAdapter.upsertOne(state, payload);
+			state.op = null;
+		},
+		likesRemoveOne: (state, {payload}) => {
+			likesAdapter.removeOne(state, payload.id);
 			state.op = null;
 		},
 		loadingStart: state => {
@@ -50,6 +56,8 @@ export const {
 	loadingEnd,
 	likesReceieved,
 	likesUpsertMany,
+	likesUpsertOne,
+	likesRemoveOne,
 	gotPages,
 	opStart,
 	opEnd,
@@ -76,6 +84,22 @@ export const loadLikes = (params, count, op = DEFAULT_OP.loading) => async dispa
 	}
 
 	return dispatch(likesUpsertMany(res));
+};
+
+export const createOrDeleteLike = (like, userId, storyId) => async (dispatch, getState) => {
+	const res = like
+		? await api.deleteLike(like.id)
+		: await api.createLike({user: userId, story: storyId});
+
+	if (res.error) {
+		return dispatch(newToast({...Toast.error(res.error)}));
+	}
+
+	if (res.id && !like) {
+		return dispatch(likesUpsertOne({storyId, ...res}));
+	}
+
+	return dispatch(likesRemoveOne({storyId, id: like.id}));
 };
 
 //SELECTORS
