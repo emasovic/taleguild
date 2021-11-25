@@ -31,6 +31,7 @@ function MarketplaceDialog({isOpen, itemId, onClose}) {
 	const dispatch = useDispatch();
 
 	const {data} = useSelector(selectAuthUser);
+	const {stats} = useSelector(state => state.auth);
 	const {op} = useSelector(state => state.userItems);
 	const guildatar = useSelector(selectActiveGuildatar);
 	const {image, name, price, description, category, body_part} = useSelector(state =>
@@ -49,7 +50,7 @@ function MarketplaceDialog({isOpen, itemId, onClose}) {
 		<div>
 			<Typography>
 				<Coin />
-				&nbsp;&nbsp;{kFormatter(data.coins)}&nbsp;
+				&nbsp;&nbsp;{kFormatter(stats.coins)}&nbsp;
 			</Typography>
 			<Typography color={TEXT_COLORS.secondary}>in your chest</Typography>
 		</div>
