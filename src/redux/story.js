@@ -98,7 +98,7 @@ export const storySlice = createSlice({
 			state.op = action.payload;
 		},
 		opEnd: state => {
-			state.op = null;
+			state.op = false;
 		},
 		loadingStart: state => {
 			state.loading = true;
