@@ -1,15 +1,18 @@
-import React, {useEffect, useCallback} from 'react';
+import React, {useEffect, useCallback, memo} from 'react';
 import {NavItem, NavLink, Nav} from 'reactstrap';
 import {useDispatch, useSelector} from 'react-redux';
 import queryString from 'query-string';
 import {useLocation} from 'react-router-dom';
 import propTypes from 'prop-types';
+import isEqual from 'lodash.isequal';
 
 import {DEFAULT_CRITERIA, SORT_DIRECTION, STORY_OP, STORY_SORT} from 'types/story';
 import {MEDIA_SIZE} from 'types/media';
 
 import {loadStories, selectStories} from '../../redux/story';
 import {navigateToQuery} from 'redux/application';
+
+import {usePrevious} from 'hooks/compare';
 
 import Loader from 'components/widgets/loader/Loader';
 import LoadMore from 'components/widgets/loadmore/LoadMore';
@@ -20,12 +23,14 @@ import NoStories from './NoStories';
 import './Stories.scss';
 
 const CLASS = 'st-Stories';
-function Stories({criteria, activeSort}) {
+
+const Stories = memo(({criteria, activeSort}) => {
 	const dispatch = useDispatch();
 	const location = useLocation();
 
 	const stories = useSelector(state => selectStories(state, activeSort));
 	const {pages, op, currentPage} = useSelector(state => state.stories);
+	const previousCriteria = usePrevious(criteria);
 
 	const shouldLoad = pages > currentPage && !op;
 
@@ -38,10 +43,10 @@ function Stories({criteria, activeSort}) {
 	}, [dispatch, currentPage, criteria]);
 
 	useEffect(() => {
-		if (criteria) {
+		if (criteria && !isEqual(criteria, previousCriteria)) {
 			dispatch(loadStories(criteria, true));
 		}
-	}, [criteria, dispatch]);
+	}, [criteria, dispatch, previousCriteria]);
 
 	const nav = (
 		<Nav className={CLASS + '-header'}>
@@ -109,7 +114,9 @@ function Stories({criteria, activeSort}) {
 			<div className={CLASS + '-lastest'}>{renderStories}</div>
 		</LoadMore>
 	);
-}
+});
+
+Stories.displayName = 'Stories';
 
 Stories.propTypes = {
 	criteria: propTypes.object,

@@ -29,15 +29,16 @@ export default function Notifications({isPage, isMobile}) {
 	const dispatch = useDispatch();
 	const {push} = useHistory();
 	const {data} = useSelector(selectAuthUser);
+	const userId = data?.id;
 	const {unseen, currentPage, pages, op} = useSelector(state => state.notifications);
 	const notificationIds = useSelector(selectNotificationIds);
 
 	const getNotifications = useCallback(() => {
-		if (data) {
+		if (userId) {
 			dispatch(
 				loadNotifications(
 					{
-						reciever: data.id,
+						reciever: userId,
 						_limit: 10,
 						_start: currentPage * 10,
 						_sort: 'created_at:DESC',
@@ -47,18 +48,18 @@ export default function Notifications({isPage, isMobile}) {
 				)
 			);
 		}
-	}, [currentPage, data, dispatch]);
+	}, [currentPage, userId, dispatch]);
 
 	useEffect(() => {
-		if (data) {
+		if (userId) {
 			dispatch(
 				loadNotifications(
-					{reciever: data.id, _sort: 'created_at:DESC', ...DEFAULT_LIMIT},
+					{reciever: userId, _sort: 'created_at:DESC', ...DEFAULT_LIMIT},
 					true
 				)
 			);
 		}
-	}, [data, dispatch]);
+	}, [userId, dispatch]);
 
 	if (isPage) {
 		return (

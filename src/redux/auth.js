@@ -14,15 +14,15 @@ export const userSlice = createSlice({
 	name: 'auth',
 	initialState: {
 		data: null,
-		error: null,
+		stats: null,
 		op: null,
 		loading: false,
 	},
 	reducers: {
 		gotData: (state, action) => {
-			const {error, jwt, ...rest} = action.payload;
+			const {jwt, points, coins, ...rest} = action.payload;
 			state.data = {...rest, token: jwt};
-			state.error = error;
+			state.stats = {points, coins};
 			state.loading = null;
 			state.op = null;
 		},
@@ -47,14 +47,14 @@ export const userSlice = createSlice({
 			const {data = {}} = payload;
 			const shouldReduce = payload.type === NOTIFICATION_TYPES.ITEM_BOUGHT;
 			if (data?.coins) {
-				state.data.coins = shouldReduce
-					? state.data.coins - data.coins
-					: state.data.coins + data.coins;
+				state.stats.coins = shouldReduce
+					? state.stats.coins - data.coins
+					: state.stats.coins + data.coins;
 			}
 			if (data?.points) {
-				state.data.points = shouldReduce
-					? state.data.points - data.points
-					: state.data.points + data.points;
+				state.stats.points = shouldReduce
+					? state.stats.points - data.points
+					: state.stats.points + data.points;
 			}
 		},
 	},

@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {useSelector, useDispatch, shallowEqual} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
 
 import {DEFAULT_CRITERIA, STORY_COMPONENTS} from 'types/story';
@@ -16,22 +16,17 @@ const CLASS = 'st-StoryList';
 
 export default function MyStories({Component}) {
 	const dispatch = useDispatch();
-	const {stories, loading, loggedInUser} = useSelector(
-		state => ({
-			loggedInUser: selectAuthUser(state),
-			stories: selectStories(state),
-			pages: state.userStories.pages,
-			loading: state.userStories.loading,
-		}),
-		shallowEqual
-	);
-	const {data} = loggedInUser;
+	const {data} = useSelector(selectAuthUser);
+	const stories = useSelector(selectStories);
+	const {loading} = useSelector(state => state.userStories);
+
+	const userId = data?.id;
 
 	useEffect(() => {
-		if (data) {
-			dispatch(loadStories({...DEFAULT_CRITERIA, user: data.id}));
+		if (userId) {
+			dispatch(loadStories({...DEFAULT_CRITERIA, user: userId}));
 		}
-	}, [dispatch, data]);
+	}, [dispatch, userId]);
 
 	const myStories =
 		stories && stories.length ? (

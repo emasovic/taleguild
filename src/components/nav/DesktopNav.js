@@ -43,8 +43,8 @@ export default function DesktopNav({isMobile}) {
 
 	const location = useLocation();
 
-	const user = useSelector(selectAuthUser);
-	const {data} = user;
+	const {data} = useSelector(selectAuthUser);
+	const {stats} = useSelector(state => state.auth);
 
 	const [isOpen, setIsOpen] = useState(false);
 
@@ -78,12 +78,12 @@ export default function DesktopNav({isMobile}) {
 			<NavItem className={CLASS + '-status-signedIn'}>
 				<Typography className={CLASS + '-status-signedIn-icons'}>
 					<Icon icon={ICONS.star} size={20} />
-					<strong>{kFormatter(data?.points)}</strong>
+					<strong>{kFormatter(stats?.points)}</strong>
 				</Typography>
 
 				<Typography className={CLASS + '-status-signedIn-icons'}>
 					<Icon icon={ICONS.coin} size={20} />
-					<strong>{kFormatter(data?.coins)}</strong>
+					<strong>{kFormatter(stats?.coins)}</strong>
 				</Typography>
 
 				<Notifications isMobile={isMobile} />

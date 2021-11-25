@@ -86,7 +86,7 @@ export const loadLikes = (params, count, op = DEFAULT_OP.loading) => async dispa
 	return dispatch(likesUpsertMany(res));
 };
 
-export const createOrDeleteLike = (like, userId, storyId) => async (dispatch, getState) => {
+export const createOrDeleteLike = (like, userId, storyId) => async dispatch => {
 	const res = like
 		? await api.deleteLike(like.id)
 		: await api.createLike({user: userId, story: storyId});

@@ -233,16 +233,20 @@ export default function GuildatarContainer() {
 										/>
 									);
 								})}
-							{items.map(i => (
-								<MarketplaceItem
-									key={i.id}
-									selector={selectItemFromUserItemById}
-									active={values[camelCase(i.item.body_part)]?.id === i.id}
-									id={i.id}
-									displayPrice={false}
-									onClick={() => setFieldValue(i?.item?.body_part, i)}
-								/>
-							))}
+							{op !== DEFAULT_OP.loading ? (
+								items.map(i => (
+									<MarketplaceItem
+										key={i.id}
+										selector={selectItemFromUserItemById}
+										active={values[camelCase(i.item.body_part)]?.id === i.id}
+										id={i.id}
+										displayPrice={false}
+										onClick={() => setFieldValue(i?.item?.body_part, i)}
+									/>
+								))
+							) : (
+								<Loader />
+							)}
 						</LoadMore>
 					</div>
 				</div>

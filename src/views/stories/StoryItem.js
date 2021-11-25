@@ -53,7 +53,6 @@ export default function StoryItem({
 	const {loggedUser} = useSelector(
 		state => ({
 			loading: state.stories.loading,
-
 			loggedUser: selectAuthUser(state),
 		}),
 		shallowEqual

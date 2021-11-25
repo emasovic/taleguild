@@ -1,11 +1,10 @@
 import {createSlice, createEntityAdapter} from '@reduxjs/toolkit';
-import orderBy from 'lodash.orderby';
 
 import * as api from '../lib/api';
 import {goToStory, editStory, DELETED_STORY} from '../lib/routes';
 
 import {Toast} from 'types/toast';
-import {DEFAULT_STORYPAGE_DATA, SORT_DIRECTION, STORY_OP, STORY_SORT} from 'types/story';
+import {DEFAULT_STORYPAGE_DATA, STORY_OP} from 'types/story';
 import {DEFAULT_OP} from 'types/default';
 
 import {newToast} from './toast';
@@ -17,7 +16,6 @@ import {commentsRemoveOne, commentsUpsertOne} from './comments';
 
 const storyAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
-	sortComparer: (a, b) => b.created_at.localeCompare(a.created_at),
 });
 
 export const storySlice = createSlice({
@@ -239,13 +237,7 @@ export const createOrUpdateViews = (id, userId) => async dispatch => {
 
 const storySelector = storyAdapter.getSelectors(state => state.stories);
 
-export const selectStories = (state, sort = STORY_SORT.created_at) => {
-	let stories = storySelector.selectAll(state);
-
-	stories = stories.length ? orderBy(stories, [sort], [SORT_DIRECTION.desc]) : stories;
-
-	return stories;
-};
+export const selectStories = state => storySelector.selectAll(state);
 
 export const selectStory = (state, id) => storySelector.selectById(state, id);
 
