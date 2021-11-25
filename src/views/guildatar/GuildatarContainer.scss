@@ -4,7 +4,6 @@
 .st-GuildatarContainer {
 	display: flex;
 	flex-direction: column;
-	margin: 0 14px;
 
 	&-header {
 		display: flex;
@@ -19,24 +18,21 @@
 		&-left-box {
 			display: flex;
 			justify-content: space-between;
-			width: 360px;
+			max-width: $story-preview-width-medium;
+			width: 100%;
 			align-items: center;
-
-			@media (max-width: $breakpoint-sm) {
-				width: $story-preview-width-small;
-			}
 
 			&-title {
 				display: flex;
 				flex-direction: column;
 
-				@media (max-width: $breakpoint-sm) {
+				@media (max-width: $breakpoint-m) {
 					width: 100%;
 				}
 			}
 
 			&-edit {
-				@media (max-width: $breakpoint-sm) {
+				@media (max-width: $breakpoint-m) {
 					margin-bottom: 16px;
 				}
 			}
@@ -45,7 +41,7 @@
 		&-actions {
 			display: flex;
 
-			@media (max-width: $breakpoint-sm) {
+			@media (max-width: $breakpoint-m) {
 				margin-bottom: 16px;
 			}
 
@@ -70,9 +66,15 @@
 			flex-direction: column;
 			align-items: flex-start;
 			margin-right: 48px;
+			max-width: $story-preview-width-medium;
+			width: 100%;
+
+			@media (max-width: $breakpoint-m) {
+				margin-right: 0;
+			}
 
 			&-guildatar {
-				width: 360px;
+				width: 100%;
 				height: 420px;
 				display: flex;
 				justify-content: center;
@@ -89,21 +91,14 @@
 						transform: scale(1.5);
 					}
 				}
-
-				@media (max-width: $breakpoint-sm) {
-					max-width: $story-preview-width-small;
-				}
 			}
 
 			&-description {
 				display: flex;
 				flex-direction: column;
 				margin: 36px 0;
-				width: 360px;
-
-				@media (max-width: $breakpoint-sm) {
-					max-width: $story-preview-width-small;
-				}
+				max-width: $story-preview-width-medium;
+				width: 100%;
 
 				&-text {
 					border: 1px solid;
