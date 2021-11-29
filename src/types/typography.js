@@ -42,9 +42,11 @@ export const TEXT_COLORS = {
 	primary: 'primary',
 	secondary: 'secondary',
 	tertiary: 'tertiary',
+	buttonPrimary: 'buttonPrimary',
 };
 
 export const TEXT_CURSORS = {
 	pointer: 'pointer',
 	default: 'default',
+	disabled: 'disabled',
 };

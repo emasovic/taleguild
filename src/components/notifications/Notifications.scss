@@ -10,13 +10,15 @@
 
 	.dropdown-menu {
 		@include theme-aware('background', 'B100');
+		min-width: $story-preview-width-small;
 		padding: 8px 6px;
 	}
 
 	&-notifications {
 		padding: 14px;
-		text-transform: uppercase;
-		font-weight: 600;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
 	}
 
 	&-page {

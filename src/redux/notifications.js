@@ -1,4 +1,4 @@
-import {createSlice, createEntityAdapter} from '@reduxjs/toolkit';
+import {createSlice, createEntityAdapter, current} from '@reduxjs/toolkit';
 
 import * as api from '../lib/api';
 
@@ -33,6 +33,15 @@ export const notificationsSlice = createSlice({
 			}
 
 			state.op = null;
+		},
+		notificationsMarkAllAsRead: state => {
+			const {entities} = current(state);
+
+			notificationsAdapter.upsertMany(
+				state,
+				Object.values(entities).map(i => ({...i, seen: true}))
+			);
+			state.unseen = 0;
 		},
 		notificationsUpsertOne: (state, {payload}) => {
 			notificationsAdapter.upsertOne(state, payload);
@@ -79,6 +88,7 @@ export const {
 	loadingEnd,
 	notificationsReceieved,
 	notificationsUpsertMany,
+	notificationsMarkAllAsRead,
 	notificationsUpsertOne,
 	notificationsAddOne,
 	gotPages,
@@ -119,6 +129,17 @@ export const updateNotification = payload => async dispatch => {
 	}
 
 	return dispatch(notificationsUpsertOne(res));
+};
+
+export const updateNotifications = payload => async (dispatch, getState) => {
+	dispatch(opStart(DEFAULT_OP.update));
+	const res = await api.updateNotifications(payload);
+	if (res.error) {
+		dispatch(opEnd());
+		return dispatch(newToast({...Toast.error(res.error)}));
+	}
+
+	return dispatch(notificationsMarkAllAsRead(res));
 };
 
 //SELECTORS

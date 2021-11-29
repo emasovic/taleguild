@@ -190,6 +190,10 @@ export const countNotifications = filter => {
 	return http.get('notifications/count', filter);
 };
 
+export const updateNotifications = payload => {
+	return http.put('/notifications', null, payload);
+};
+
 export const updateNotification = payload => {
 	return http.put('/notifications/' + payload.id, null, payload);
 };

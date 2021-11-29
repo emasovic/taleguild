@@ -18,6 +18,10 @@
 
 	&-primary {
 		@include theme-aware('color', 'G900');
+
+		&_button {
+			@include theme-aware('color', 'T600');
+		}
 	}
 
 	&-secondary {
@@ -42,6 +46,12 @@
 
 	&-pointer {
 		cursor: pointer;
+	}
+
+	&-disabled {
+		pointer-events: none;
+		cursor: not-allowed;
+		@include theme-aware('color', 'T400');
 	}
 
 	&-h1 {

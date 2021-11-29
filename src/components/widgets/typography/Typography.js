@@ -43,10 +43,12 @@ const COLOR_CLASSES = {
 	[TEXT_COLORS.primary]: `${CLASS}-primary`,
 	[TEXT_COLORS.secondary]: `${CLASS}-secondary`,
 	[TEXT_COLORS.tertiary]: `${CLASS}-tertiary`,
+	[TEXT_COLORS.buttonPrimary]: `${CLASS}-primary_button`,
 };
 
 const CURSOR_CLASSES = {
 	[TEXT_CURSORS.pointer]: `${CLASS}-pointer`,
+	[TEXT_CURSORS.disabled]: `${CLASS}-disabled`,
 };
 
 function Typography({
@@ -59,6 +61,7 @@ function Typography({
 	className,
 	children,
 	cursor,
+	disabled,
 	...rest
 }) {
 	const Component = component;
@@ -69,6 +72,7 @@ function Typography({
 		variant && VARIANT_CLASSES[variant],
 		color && COLOR_CLASSES[color],
 		cursor && CURSOR_CLASSES[cursor],
+		disabled && CURSOR_CLASSES[TEXT_CURSORS.disabled],
 		className
 	);
 	return (
@@ -87,15 +91,16 @@ Typography.defaultProps = {
 };
 
 Typography.propTypes = {
-	variant: PropTypes.string.isRequired,
-	font: PropTypes.string.isRequired,
-	fontWeight: PropTypes.string,
-	color: PropTypes.string,
-	textTransform: PropTypes.string,
 	component: PropTypes.any,
 	className: PropTypes.string,
 	children: PropTypes.any,
 	cursor: PropTypes.string,
+	color: PropTypes.string,
+	disabled: PropTypes.bool,
+	font: PropTypes.string.isRequired,
+	fontWeight: PropTypes.string,
+	textTransform: PropTypes.string,
+	variant: PropTypes.string.isRequired,
 };
 
 export default Typography;

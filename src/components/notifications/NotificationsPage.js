@@ -9,7 +9,7 @@ const CLASS = 'st-Notifications';
 export default function NotificationsPage() {
 	return (
 		<div className={CLASS + '-page'}>
-			<Notifications isPage />;
+			<Notifications isPage />
 		</div>
 	);
 }

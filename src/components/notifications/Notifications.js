@@ -7,9 +7,10 @@ import {useHistory} from 'react-router';
 import {NOTIFICATIONS} from 'lib/routes';
 
 import {DEFAULT_LIMIT, DEFAULT_OP} from 'types/default';
+import {FONT_WEIGHT, TEXT_COLORS, TEXT_CURSORS, TEXT_TRASFORM} from 'types/typography';
 import FA from 'types/font_awesome';
 
-import {loadNotifications, selectNotificationIds} from 'redux/notifications';
+import {loadNotifications, updateNotifications, selectNotificationIds} from 'redux/notifications';
 import {selectAuthUser} from 'redux/auth';
 
 import FaIcon from 'components/widgets/fa-icon/FaIcon';
@@ -32,13 +33,14 @@ export default function Notifications({isPage, isMobile}) {
 	const userId = data?.id;
 	const {unseen, currentPage, pages, op} = useSelector(state => state.notifications);
 	const notificationIds = useSelector(selectNotificationIds);
+	const unseenBool = !!unseen;
 
 	const getNotifications = useCallback(() => {
 		if (userId) {
 			dispatch(
 				loadNotifications(
 					{
-						reciever: userId,
+						receiver: userId,
 						_limit: 10,
 						_start: currentPage * 10,
 						_sort: 'created_at:DESC',
@@ -50,16 +52,35 @@ export default function Notifications({isPage, isMobile}) {
 		}
 	}, [currentPage, userId, dispatch]);
 
+	const handleMarkAllAsRead = () => dispatch(updateNotifications({markAllAsRead: true}));
+
 	useEffect(() => {
 		if (userId) {
 			dispatch(
 				loadNotifications(
-					{reciever: userId, _sort: 'created_at:DESC', ...DEFAULT_LIMIT},
+					{receiver: userId, _sort: 'created_at:DESC', ...DEFAULT_LIMIT},
 					true
 				)
 			);
 		}
 	}, [userId, dispatch]);
+
+	const header = (
+		<div className={CLASS + '-notifications'}>
+			<Typography textTransform={TEXT_TRASFORM.uppercase} fontWeight={FONT_WEIGHT.semiBold}>
+				Notifications
+			</Typography>
+			<Typography
+				disabled={!unseenBool}
+				onClick={handleMarkAllAsRead}
+				color={TEXT_COLORS.buttonPrimary}
+				fontWeight={FONT_WEIGHT.bold}
+				cursor={TEXT_CURSORS.pointer}
+			>
+				Mark all as read
+			</Typography>
+		</div>
+	);
 
 	if (isPage) {
 		return (
@@ -70,7 +91,7 @@ export default function Notifications({isPage, isMobile}) {
 					shouldLoad={pages > currentPage}
 					loading={op === DEFAULT_OP.load_more}
 				>
-					<Typography className={CLASS + '-notifications'}>Notifications</Typography>
+					{header}
 					{!!notificationIds.length &&
 						notificationIds.map(i => <NotificationItem key={i} id={i} toggle={null} />)}
 				</LoadMore>
@@ -103,7 +124,7 @@ export default function Notifications({isPage, isMobile}) {
 			outline={false}
 			{...dropDownProps}
 		>
-			<Typography className={CLASS + '-notifications'}>Notifications</Typography>
+			{header}
 			<LoadMoreModal
 				id="notifications"
 				onLoadMore={getNotifications}
