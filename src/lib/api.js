@@ -158,6 +158,14 @@ export const deleteLike = id => {
 
 /******************      VIEWS        ***********************/
 
+export const getViews = filter => {
+	return http.get('views', filter);
+};
+
+export const countViews = filter => {
+	return http.get('views/count', filter);
+};
+
 export const createOrUpdateViews = payload => {
 	return http.post('views', null, payload);
 };

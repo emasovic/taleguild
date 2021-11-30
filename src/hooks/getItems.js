@@ -1,8 +1,8 @@
 import {useState, useEffect} from 'react';
 
-export const useLoadItems = loadFunction => {
+export const useLoadItems = (loadFunction, defaultParams) => {
 	const [data, setData] = useState([]);
-	const [params, setParams] = useState(null);
+	const [params, setParams] = useState(defaultParams);
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState(false);
 

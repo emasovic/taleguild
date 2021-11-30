@@ -70,6 +70,6 @@ const userStoriesSelector = userStoriesAdapter.getSelectors(state => state.userS
 
 export const selectStories = state => userStoriesSelector.selectAll(state);
 
-export const selectStory = (state, id) => userStoriesSelector.selectById(id);
+export const selectStory = (state, id) => userStoriesSelector.selectById(state, id);
 
 export default myStorySlice.reducer;

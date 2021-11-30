@@ -2,28 +2,29 @@ import {configureStore} from '@reduxjs/toolkit';
 
 import history from 'lib/history';
 
+import application from './application';
 import auth from './auth';
-import users from './users';
-import comments from './comments';
 import stories from './story';
-import toast from './toast';
-import draftStories from './draftStories';
-import savedStories from './savedStories';
-import userStories from './userStories';
 import archivedStories from './archivedStories';
-import userActivity from './userActivity';
-import userItems from './userItems';
-import storyPages from './storyPages';
+import comments from './comments';
+import categories from './categories';
+import draftStories from './draftStories';
 import followers from './followers';
 import following from './following';
-import categories from './categories';
-import languages from './languages';
-import marketplace from './marketplace';
-import application from './application';
-import savedBy from './savedBy';
-import likes from './likes';
-import notifications from './notifications';
 import guildatars from './guildatars';
+import likes from './likes';
+import languages from './languages';
+import notifications from './notifications';
+import marketplace from './marketplace';
+import savedStories from './savedStories';
+import savedBy from './savedBy';
+import storyPages from './storyPages';
+import users from './users';
+import userStories from './userStories';
+import userActivity from './userActivity';
+import userItems from './userItems';
+import toast from './toast';
+import views from './views';
 
 const store = configureStore({
 	reducer: {
@@ -48,6 +49,7 @@ const store = configureStore({
 		userItems,
 		userStories,
 		users,
+		views,
 		toast,
 	},
 	middleware: getDefaultMiddleware =>

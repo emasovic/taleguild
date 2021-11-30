@@ -113,7 +113,8 @@ export const deleteStory = storyId => async dispatch => {
 const draftStoriesSelector = draftStoriesAdapter.getSelectors(state => state.draftStories);
 
 export const selectStories = state => draftStoriesSelector.selectAll(state);
+export const selectStoryIds = state => draftStoriesSelector.selectIds(state);
 
-export const selectStory = (state, id) => draftStoriesSelector.selectById(id);
+export const selectStory = (state, id) => draftStoriesSelector.selectById(state, id);
 
 export default draftSlice.reducer;

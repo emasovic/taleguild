@@ -16,6 +16,7 @@ import {
 	USER_STORIES_ARCHIVED,
 	MARKETPLACE,
 	GUILDATARS,
+	DASHBOARD,
 } from 'lib/routes';
 import {kFormatter} from 'lib/util';
 
@@ -132,6 +133,15 @@ export default function DesktopNav({isMobile}) {
 				</NavItem>
 				{data && (
 					<>
+						<NavItem>
+							<NavLink
+								tag={Link}
+								to={DASHBOARD}
+								active={location.pathname === DASHBOARD}
+							>
+								<span>Dashboard</span>
+							</NavLink>
+						</NavItem>
 						<NavItem>
 							<NavLink tag={Link} to={FEED} active={location.pathname === FEED}>
 								<span>Feed</span>

@@ -1,3 +1,5 @@
+import {Node} from 'slate';
+
 export const detectIE = () => {
 	let ua = window.navigator.userAgent;
 	let msie = ua.indexOf('MSIE ');
@@ -30,3 +32,21 @@ export const kFormatter = num =>
 	Math.abs(num) > 999
 		? Math.sign(num) * (Math.abs(num) / 1000).toFixed(1) + 'k'
 		: Math.sign(num) * Math.abs(num);
+
+export const setTimeToDate = (hours, minutes, seconds) => {
+	const today = new Date();
+	return new Date(
+		today.getFullYear(),
+		today.getMonth(),
+		today.getDate(),
+		hours,
+		minutes,
+		seconds
+	).toISOString();
+};
+
+export const serializeTextEditorValue = (nodes, sliceAt) => {
+	let text = nodes.map(n => Node.string(n)).join('\n');
+	text = sliceAt ? (text.length > sliceAt ? `${text.slice(0, sliceAt)}...` : sliceAt) : sliceAt;
+	return text;
+};

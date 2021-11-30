@@ -1,0 +1,41 @@
+@import 'styles/variables.scss';
+@import 'styles/themes/mixins.scss';
+
+.st-RecentItems {
+	display: flex;
+	flex-direction: column;
+	cursor: pointer;
+
+	&-item {
+		display: flex;
+		align-items: center;
+		padding: 18px;
+
+		.st-Image {
+			&-container {
+				width: 120px;
+				height: 120px;
+			}
+		}
+
+		&-data {
+			display: flex;
+			flex-direction: column;
+
+			.st-Typography {
+				&-action1 {
+					margin-top: 8px;
+				}
+			}
+
+			&-price {
+				display: flex;
+
+				.st-Icon {
+					width: auto;
+					height: auto;
+				}
+			}
+		}
+	}
+}

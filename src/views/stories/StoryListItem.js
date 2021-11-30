@@ -20,7 +20,7 @@ export default function StoryListItem({formats, size, image, slug, title}) {
 				<Image image={image} formats={formats} size={size} />
 			</div>
 			<div className={CLASS + '-description'}>
-				<span>{title}</span>
+				<span>{title || 'Untitled'}</span>
 			</div>
 		</Link>
 	);

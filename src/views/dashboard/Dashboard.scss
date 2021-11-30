@@ -1,0 +1,12 @@
+@import 'styles/variables.scss';
+@import 'styles/themes/mixins.scss';
+
+.st-Dashboard {
+	&-content {
+		display: flex;
+
+		> div {
+			flex: 1 1;
+		}
+	}
+}
