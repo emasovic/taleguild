@@ -14,7 +14,6 @@ import {useLoadItems} from 'hooks/getItems';
 
 import Typography from 'components/widgets/typography/Typography';
 import Icon from 'components/widgets/icon/Icon';
-import Loader from 'components/widgets/loader/Loader';
 
 import RecentStats from './RecentStats';
 
@@ -25,10 +24,6 @@ export default function RecentFocus() {
 		created_at_gte: setTimeToDate(0, 0, 0),
 		created_at_lte: addDays(new Date(setTimeToDate(23, 59, 59)), 7).toISOString(),
 	});
-
-	if (error || isLoading) {
-		<Loader />;
-	}
 
 	const active = !error
 		? secondsToHoursMinutes(result.reduce((acc, val) => acc + val.active, 0))
@@ -47,5 +42,12 @@ export default function RecentFocus() {
 		<Typography color={TEXT_COLORS.secondary}>focus time for this week</Typography>
 	);
 
-	return <RecentStats topStats={topStats} bottomStats={bottomStats} />;
+	return (
+		<RecentStats
+			topStats={topStats}
+			bottomStats={bottomStats}
+			isLoading={isLoading}
+			error={error}
+		/>
+	);
 }

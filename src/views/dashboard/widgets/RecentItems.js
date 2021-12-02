@@ -59,6 +59,7 @@ export default function RecentItems() {
 				{
 					_start: 0,
 					_limit: 4,
+					_sort: 'created_at:DESC',
 				},
 				false
 			)

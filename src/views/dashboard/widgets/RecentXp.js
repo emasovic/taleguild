@@ -10,7 +10,6 @@ import {useLoadItems} from 'hooks/getItems';
 
 import Typography from 'components/widgets/typography/Typography';
 import Icon from 'components/widgets/icon/Icon';
-import Loader from 'components/widgets/loader/Loader';
 
 import RecentStats from './RecentStats';
 
@@ -18,11 +17,7 @@ export default function RecentXp() {
 	const {stats} = useSelector(state => state.auth);
 	const [{data, error, isLoading}] = useLoadItems(getLevels);
 
-	if (error || isLoading) {
-		<Loader />;
-	}
-
-	const currentLevel = data.find(
+	const currentLevel = data?.find(
 		l => stats.points >= l.min_points && stats.points <= l.max_points
 	);
 
@@ -41,5 +36,12 @@ export default function RecentXp() {
 		</Typography>
 	);
 
-	return <RecentStats topStats={topStats} bottomStats={bottomStats} />;
+	return (
+		<RecentStats
+			topStats={topStats}
+			bottomStats={bottomStats}
+			isLoading={isLoading}
+			error={error}
+		/>
+	);
 }

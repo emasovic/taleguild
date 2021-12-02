@@ -13,9 +13,12 @@ export const useLoadItems = (loadFunction, defaultParams) => {
 			setIsLoading(true);
 
 			try {
-				const stories = await loadFunction(params);
-
-				!unmounted && setData(stories);
+				const res = await loadFunction(params);
+				if (res.error) {
+					!unmounted && setError(res.error);
+				} else {
+					!unmounted && setData(res);
+				}
 			} catch (error) {
 				!unmounted && setError(error);
 			}
