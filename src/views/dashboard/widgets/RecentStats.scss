@@ -1,0 +1,17 @@
+@import 'styles/variables.scss';
+@import 'styles/themes/mixins.scss';
+
+.st-RecentStats {
+	display: flex;
+	flex-direction: column;
+	padding: 20px;
+	border: 1px solid;
+	border-radius: 6px;
+	@include theme-aware('border-color', 'G100');
+
+	&-top {
+		display: flex;
+		justify-content: space-between;
+		margin-bottom: 8px;
+	}
+}

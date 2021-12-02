@@ -13,8 +13,6 @@
 		border-radius: 6px;
 		box-shadow: $box-shadow-light;
 		margin-top: 16px;
-		max-width: $story-preview-width-small;
-		width: 100%;
 		@include theme-aware('background-color', 'B100');
 
 		.st-Typography {

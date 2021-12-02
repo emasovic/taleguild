@@ -3,6 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 
 import {FONT_WEIGHT, TEXT_COLORS} from 'types/typography';
+import {PUBLISH_STATES} from 'types/story';
 
 import {selectAuthUser} from 'redux/auth';
 import {loadViews, selectViewsById, selectViewsIds} from 'redux/views';
@@ -20,6 +21,7 @@ const RecentView = ({id}) => {
 	const {story} = useSelector(state => selectViewsById(state, id));
 
 	const {image, slug, title} = story || {};
+
 	return <StoryListItem formats={image?.formats} image={image} slug={slug} title={title} />;
 };
 
@@ -43,6 +45,8 @@ export default function RecentViews() {
 					{
 						_start: 0,
 						_limit: 4,
+						_publicationState: PUBLISH_STATES.live,
+						story_null: false,
 						user: userId,
 						_sort: 'created_at:DESC',
 					},

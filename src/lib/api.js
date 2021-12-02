@@ -221,6 +221,7 @@ export const createActivity = payload => {
 };
 
 /******************      USER ITEMS        ***********************/
+
 export const createUserItem = payload => {
 	return http.post('user-items', null, payload);
 };
@@ -231,6 +232,16 @@ export const getUserItems = filter => {
 
 export const countUserItems = filter => {
 	return http.get('user-items/count', filter);
+};
+
+/******************      USER POINTS-COINS        ***********************/
+
+export const getUserPointsAndCoins = filter => {
+	return http.get('user-points-coins', filter);
+};
+
+export const countUserPointsAndCoins = filter => {
+	return http.get('user-points-coins/count', filter);
 };
 
 /******************      MARKETPLACE        ***********************/
@@ -267,6 +278,16 @@ export const countGuildatars = filter => {
 
 export const getGuildatar = id => {
 	return http.get('guildatars/' + id);
+};
+
+/******************      LEVELS        ***********************/
+
+export const getLevels = filter => {
+	return http.get('levels', filter);
+};
+
+export const countLevelsgetLevels = filter => {
+	return http.get('levels/count', filter);
 };
 
 /******************      MEDIA        ***********************/

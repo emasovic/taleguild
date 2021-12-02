@@ -12,6 +12,9 @@ import Typography from 'components/widgets/typography/Typography';
 import RecentItems from './widgets/RecentItems';
 import RecentWork from './widgets/RecentWork';
 import RecentViews from './widgets/RecentViews';
+import RecentCoins from './widgets/RecentCoins';
+import RecentFocus from './widgets/RecentFocus';
+import RecentXp from './widgets/RecentXp';
 
 import './Dashboard.scss';
 
@@ -33,7 +36,11 @@ export default function Dashboard() {
 			<Typography variant={TYPOGRAPHY_VARIANTS.action1} color={TEXT_COLORS.secondary}>
 				It’s {format(new Date(), 'EEEE')}, great day to start working on you next story.
 			</Typography>
-			<div className={CLASS + '-content'}></div>
+			<div className={CLASS + '-content'}>
+				<RecentCoins />
+				<RecentFocus />
+				<RecentXp />
+			</div>
 			<div className={CLASS + '-content'}>
 				<RecentItems />
 				<RecentWork />

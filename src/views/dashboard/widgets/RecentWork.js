@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 
 import {getActivity} from 'lib/api';
-import {serializeTextEditorValue} from 'lib/util';
+import {secondsToHoursMinutes, serializeTextEditorValue} from 'lib/util';
 import {editStory} from 'lib/routes';
 
 import {FONTS, FONT_WEIGHT, TEXT_COLORS, TYPOGRAPHY_VARIANTS} from 'types/typography';
@@ -27,7 +27,10 @@ const CLASS = 'st-RecentWork';
 const RecentItem = ({id}) => {
 	const {title, storypages} = useSelector(state => selectStory(state, id));
 
-	let [{data}] = useLoadItems(getActivity, {story: id});
+	let [{data}] = useLoadItems(getActivity, {
+		story: id,
+		_publicationState: PUBLISH_STATES.preview,
+	});
 	const storypage = storypages[0];
 
 	data = data.reduce(
@@ -56,7 +59,7 @@ const RecentItem = ({id}) => {
 				</Typography>
 				<Typography>
 					<Icon icon={ICONS.clock} size={20} /> &nbsp;&nbsp;
-					{new Date(data.active * 1000).toISOString().substr(11, 5)} focus time
+					{secondsToHoursMinutes(data.active)} focus time
 				</Typography>
 			</div>
 		</Link>

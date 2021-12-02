@@ -7,21 +7,27 @@ export const useLoadItems = (loadFunction, defaultParams) => {
 	const [error, setError] = useState(false);
 
 	useEffect(() => {
+		let unmounted = false;
 		const fetchData = async () => {
 			setError(false);
 			setIsLoading(true);
 
 			try {
 				const stories = await loadFunction(params);
-				setData(stories);
+
+				!unmounted && setData(stories);
 			} catch (error) {
-				setError(error);
+				!unmounted && setError(error);
 			}
 
-			setIsLoading(false);
+			!unmounted && setIsLoading(false);
 		};
 
 		fetchData();
+
+		return () => {
+			unmounted = true;
+		};
 	}, [params, loadFunction]);
 
 	return [{data, isLoading, error}, setParams];

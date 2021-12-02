@@ -45,6 +45,9 @@ export const setTimeToDate = (hours, minutes, seconds) => {
 	).toISOString();
 };
 
+export const secondsToHoursMinutes = seconds =>
+	new Date(seconds * 1000).toISOString().substr(11, 5);
+
 export const serializeTextEditorValue = (nodes, sliceAt) => {
 	let text = nodes.map(n => Node.string(n)).join('\n');
 	text = sliceAt ? (text.length > sliceAt ? `${text.slice(0, sliceAt)}...` : sliceAt) : sliceAt;
