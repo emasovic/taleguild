@@ -5,6 +5,7 @@
 	display: flex;
 	flex-direction: column;
 	cursor: pointer;
+	margin-top: 8px;
 
 	&-no-items {
 		display: flex;
@@ -15,18 +16,22 @@
 	&-item {
 		display: flex;
 		align-items: center;
-		padding: 18px;
+		padding: 12px;
+		border-radius: 6px;
+		margin-bottom: 8px;
 
 		.st-Image {
 			&-container {
-				width: 120px;
-				height: 120px;
+				width: 80px;
+				height: 80px;
+				background: none;
 			}
 		}
 
 		&-data {
 			display: flex;
 			flex-direction: column;
+			margin-left: 12px;
 
 			.st-Typography {
 				&-action1 {
@@ -36,6 +41,7 @@
 
 			&-price {
 				display: flex;
+				margin-bottom: 8px;
 
 				.st-Icon {
 					width: auto;
@@ -43,5 +49,13 @@
 				}
 			}
 		}
+
+		&:hover {
+			@include theme-aware('background-color', 'G100');
+		}
+	}
+
+	.st-Typography-bold {
+		margin-bottom: 16px;
 	}
 }

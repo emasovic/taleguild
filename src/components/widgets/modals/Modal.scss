@@ -60,10 +60,19 @@
 			@include theme-aware('border-color', 'G100');
 			@include theme-aware('background', 'B200');
 
+			div:first-child {
+				margin-bottom: 16px;
+			}
+
 			.st-IconButton {
 				padding: 0 16px;
 				margin-left: 16px;
+				// margin-top: 16px;
 			}
+
+			// @media (max-width: $breakpoint-m) {
+			// 	flex-direction: column;
+			// }
 		}
 	}
 }

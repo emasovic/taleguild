@@ -43,6 +43,7 @@
 		align-items: center;
 		flex-wrap: nowrap;
 		flex: 1 1 0;
+		margin-bottom: 24px;
 
 		@media (max-width: $breakpoint-sm) {
 			flex: unset;

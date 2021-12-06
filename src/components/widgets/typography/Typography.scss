@@ -21,6 +21,10 @@
 
 		&_button {
 			@include theme-aware('color', 'T600');
+
+			&:hover {
+				text-decoration: underline;
+			}
 		}
 	}
 
@@ -51,7 +55,7 @@
 	&-disabled {
 		pointer-events: none;
 		cursor: not-allowed;
-		@include theme-aware('color', 'T400');
+		@include theme-aware('color', 'G400');
 	}
 
 	&-h1 {
