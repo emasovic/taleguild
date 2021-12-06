@@ -1,6 +1,5 @@
 import React, {useEffect, useState, useCallback} from 'react';
 import {useSelector, useDispatch, shallowEqual} from 'react-redux';
-import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import {goToUser} from 'lib/routes';
@@ -13,6 +12,7 @@ import {selectAuthUser} from 'redux/auth';
 import ConfirmModal from 'components/widgets/modals/Modal';
 import LoadMoreModal from 'components/widgets/loadmore/LoadMoreModal';
 import IconButton from 'components/widgets/button/IconButton';
+import Link, {UNDERLINE} from 'components/widgets/link/Link';
 
 import UserAvatar from '../UserAvatar';
 
@@ -53,6 +53,7 @@ export default function Following({id}) {
 
 						return (
 							<Link
+								underline={UNDERLINE.hover}
 								to={goToUser(user.username)}
 								key={key}
 								className={CLASS + '-followers-item'}
