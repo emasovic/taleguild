@@ -176,6 +176,7 @@ export default function GuildatarContainer() {
 								body={getImageUrl(avatarBody?.item?.image?.url)}
 								leftArm={getImageUrl(avatarLeftArm?.item?.image?.url)}
 								rightArm={getImageUrl(avatarRightArm?.item?.image?.url)}
+								gender={guildatar.gender}
 							/>
 						</div>
 
