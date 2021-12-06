@@ -39,6 +39,14 @@
 		@include theme-aware('border', 'G100');
 		@include theme-aware('background-color', 'B300');
 
+		.st-Icon {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			width: 100%;
+			height: 100%;
+		}
+
 		svg {
 			path {
 				@include theme-aware('fill', 'B400');
