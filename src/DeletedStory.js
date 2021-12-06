@@ -2,7 +2,7 @@ import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Link} from 'react-router-dom';
 
-import {HOME} from 'lib/routes';
+import {DASHBOARD} from 'lib/routes';
 
 import {COLOR} from 'types/button';
 import {FONTS, FONT_WEIGHT, TYPOGRAPHY_VARIANTS} from 'types/typography';
@@ -41,7 +41,7 @@ export default function DeletedStory() {
 					can also read other stories in mean time, just back to home.
 				</Typography>
 				<div className={CLASS + '-description-buttons'}>
-					<IconButton tag={Link} to={HOME} color={COLOR.secondary}>
+					<IconButton tag={Link} to={DASHBOARD} color={COLOR.secondary}>
 						Back to guild
 					</IconButton>
 					<IconButton onClick={handleNewStory}>Create new story</IconButton>

@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 import * as api from '../lib/api';
-import {HOME, WELCOME} from 'lib/routes';
+import {DASHBOARD, WELCOME} from 'lib/routes';
 
 import {Toast} from 'types/toast';
 import {USER_OP} from 'types/user';
@@ -97,7 +97,7 @@ export const registerUser = payload => async (dispatch, getState, history) => {
 	localStorage.setItem('token', res.jwt);
 
 	dispatch(gotData({jwt, ...rest}));
-	history.push(HOME);
+	history.push(DASHBOARD);
 };
 
 export const logOutUser = () => dispatch => {
@@ -168,7 +168,7 @@ export const resetPassword = payload => async (dispatch, getState, history) => {
 	}
 	localStorage.setItem('token', res.jwt);
 	dispatch(gotData(res));
-	history.push(HOME);
+	history.push(DASHBOARD);
 	dispatch(newToast({...Toast.success('Password successfully reset!')}));
 };
 

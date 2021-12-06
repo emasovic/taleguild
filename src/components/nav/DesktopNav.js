@@ -9,14 +9,14 @@ import {
 	USER_SETTINGS,
 	USER_STORIES_DRAFTS,
 	goToUser,
-	HOME,
-	FEED,
 	REGISTER,
 	LOGIN,
 	USER_STORIES_ARCHIVED,
 	MARKETPLACE,
 	GUILDATARS,
 	DASHBOARD,
+	goToWidget,
+	_COMMUNITY,
 } from 'lib/routes';
 import {kFormatter} from 'lib/util';
 
@@ -33,6 +33,8 @@ import Icon from 'components/widgets/icon/Icon';
 import Typography from 'components/widgets/typography/Typography';
 
 import UserAvatar from 'views/user/UserAvatar';
+
+import {WIDGETS} from 'views/community/Community';
 
 import MobileDrawer from './MobileDrawer';
 
@@ -127,7 +129,7 @@ export default function DesktopNav({isMobile}) {
 		<Navbar className={CLASS}>
 			<Nav className={CLASS + '-feed'}>
 				<NavItem>
-					<NavLink tag={Link} to={HOME}>
+					<NavLink tag={Link} to={goToWidget(WIDGETS.following)}>
 						<Icon icon={ICONS.logo} size={30} />
 					</NavLink>
 				</NavItem>
@@ -142,17 +144,7 @@ export default function DesktopNav({isMobile}) {
 								<span>Dashboard</span>
 							</NavLink>
 						</NavItem>
-						<NavItem>
-							<NavLink tag={Link} to={FEED} active={location.pathname === FEED}>
-								<span>Feed</span>
-							</NavLink>
-						</NavItem>
 
-						<NavItem>
-							<NavLink tag={Link} to={HOME} active={location.pathname === HOME}>
-								<span>Explore</span>
-							</NavLink>
-						</NavItem>
 						<NavItem>
 							<NavLink
 								tag={Link}
@@ -169,6 +161,16 @@ export default function DesktopNav({isMobile}) {
 								active={location.pathname === GUILDATARS}
 							>
 								<span>Guildatars</span>
+							</NavLink>
+						</NavItem>
+
+						<NavItem>
+							<NavLink
+								tag={Link}
+								to={goToWidget(WIDGETS.following)}
+								active={location.pathname.includes(_COMMUNITY)}
+							>
+								<span>Community</span>
 							</NavLink>
 						</NavItem>
 					</>

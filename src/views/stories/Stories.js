@@ -16,6 +16,7 @@ import {usePrevious} from 'hooks/compare';
 
 import Loader from 'components/widgets/loader/Loader';
 import LoadMore from 'components/widgets/loadmore/LoadMore';
+import SearchInput from 'components/search-input/SearchInput';
 
 import StoryItem from './StoryItem';
 import NoStories from './NoStories';
@@ -24,7 +25,7 @@ import './Stories.scss';
 
 const CLASS = 'st-Stories';
 
-const Stories = memo(({criteria, activeSort}) => {
+const Stories = memo(({criteria, activeSort, displaySearch}) => {
 	const dispatch = useDispatch();
 	const location = useLocation();
 
@@ -93,15 +94,6 @@ const Stories = memo(({criteria, activeSort}) => {
 			<NoStories />
 		);
 
-	if (op === STORY_OP.loading) {
-		return (
-			<div className={CLASS}>
-				{nav}
-				<Loader />
-			</div>
-		);
-	}
-
 	return (
 		<LoadMore
 			id="stories"
@@ -111,7 +103,14 @@ const Stories = memo(({criteria, activeSort}) => {
 			loading={op === STORY_OP.load_more}
 		>
 			{nav}
-			<div className={CLASS + '-lastest'}>{renderStories}</div>
+			{displaySearch && (
+				<SearchInput placeholder="Search stories" urlParamName="title_contains" />
+			)}
+			{op === STORY_OP.loading ? (
+				<Loader />
+			) : (
+				<div className={CLASS + '-lastest'}>{renderStories}</div>
+			)}
 		</LoadMore>
 	);
 });
@@ -121,13 +120,15 @@ Stories.displayName = 'Stories';
 Stories.propTypes = {
 	criteria: propTypes.object,
 	activeSort: propTypes.string,
+	displaySearch: propTypes.bool,
 };
 
 Stories.defaultProps = {
 	criteria: DEFAULT_CRITERIA,
+	displaySearch: true,
 };
 
-const MemoizedStories = ({criteria}) => {
+const MemoizedStories = ({criteria, displaySearch}) => {
 	const location = useLocation();
 	const query = queryString.parse(location.search);
 
@@ -140,11 +141,12 @@ const MemoizedStories = ({criteria}) => {
 	delete newCriteria.fbclid;
 	delete newCriteria.ref;
 
-	return <Stories criteria={newCriteria} activeSort={activeSort} />;
+	return <Stories criteria={newCriteria} activeSort={activeSort} displaySearch={displaySearch} />;
 };
 
 MemoizedStories.propTypes = {
 	criteria: propTypes.object,
+	displaySearch: propTypes.bool,
 };
 
 export default MemoizedStories;

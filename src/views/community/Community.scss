@@ -1,20 +1,34 @@
 @import 'styles/variables.scss';
 
-.st-Explore {
+.st-Community {
 	display: flex;
 	flex-direction: column;
 
 	&-header {
-		margin-bottom: 12px;
+		margin-bottom: 48px;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
 
 		@media (max-width: $breakpoint-m) {
 			max-width: $story-preview-width-medium;
-			margin: 0 auto;
+			flex-direction: column;
+			align-items: flex-start;
+			margin-bottom: 24px;
 		}
 
-		@media (max-width: $breakpoint-sm) {
-			max-width: $story-preview-width-small;
-			margin: 0 auto;
+		&-actions {
+			display: flex;
+
+			@media (max-width: $breakpoint-m) {
+				margin-top: 24px;
+			}
+
+			.st-IconButton {
+				&:first-child {
+					margin-right: 12px;
+				}
+			}
 		}
 	}
 

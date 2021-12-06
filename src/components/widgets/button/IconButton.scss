@@ -13,6 +13,31 @@
 		margin-right: 8px;
 	}
 
+	&-tertiary {
+		@include theme-aware('background-color', 'B200');
+		@include theme-aware('border-color', 'B100');
+		@include theme-aware('color', 'G500');
+
+		&:hover {
+			@include theme-aware('background-color', 'B100');
+			@include theme-aware('color', 'G500');
+			@include theme-aware('border-color', 'T100');
+		}
+
+		&.active {
+			@include theme-aware('background-color', 'T100');
+			@include theme-aware('color', 'G500');
+			@include theme-aware('border-color', 'T100');
+			box-shadow: none;
+
+			svg {
+				> path {
+					@include theme-aware('fill', 'T600');
+				}
+			}
+		}
+	}
+
 	&-link {
 		display: flex !important;
 		justify-content: center;

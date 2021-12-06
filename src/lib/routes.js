@@ -1,8 +1,9 @@
-export const HOME = '/';
+export const DASHBOARD = '/';
 
-export const FEED = '/feed';
+export const _COMMUNITY = '/community/';
+export const COMMUNITY = '/community/:widget?';
 
-export const DASHBOARD = '/dashboard';
+export const goToWidget = widget => `/community/${widget}`;
 
 const STORY = '/story';
 const STORY_ID = STORY + '/:id';

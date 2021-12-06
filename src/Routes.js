@@ -11,9 +11,9 @@ import PublicRoute from 'PublicRoute';
 
 import Loader from 'components/widgets/loader/Loader';
 
-const Home = lazy(() => import('views/Home'));
-const Explore = lazy(() => import('views/Explore'));
 const Dashboard = lazy(() => import('views/dashboard/Dashboard'));
+
+const Community = lazy(() => import('views/community/Community'));
 
 const Story = lazy(() => import('views/stories/Story'));
 const StoryWritter = lazy(() => import('views/stories/writter/StoryWritter'));
@@ -49,8 +49,8 @@ const Routes = () => (
 		<Suspense fallback={<Loader />}>
 			<Nav />
 			<Switch>
-				<PrivateRoute path={routes.DASHBOARD} component={Dashboard} />
-				<PrivateRoute path={routes.FEED} component={Home} />
+				<PrivateRoute exact path={routes.DASHBOARD} component={Dashboard} />
+				<PrivateRoute path={routes.COMMUNITY} component={Community} />
 				<PrivateRoute path={routes.WRITE_STORY} component={StoryWritter} />
 				<PrivateRoute path={routes.DELETED_STORY} component={DeletedStory} />
 				<Route path={routes.STORY_SLUG} component={Story} />
@@ -66,7 +66,6 @@ const Routes = () => (
 				<Route path={routes.PROVIDER_LOGIN} component={ProviderLogin} />
 				<PublicRoute path={routes.WELCOME} component={Welcome} />
 				<PublicRoute path={routes.REGISTRATION_SUCCESS} component={RegistrationSuccess} />
-				<Route exact path={routes.HOME} component={Explore} />
 				<PrivateRoute path={routes.MARKETPLACE} component={Marketplace} />
 				<PrivateRoute path={routes.GUILDATAR_ID} component={GuildatarContainer} />
 				<PrivateRoute path={routes.GUILDATARS} component={Guildatars} />

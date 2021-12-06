@@ -50,6 +50,7 @@ import {
 	faThLarge as solidThLarge,
 	faStore as solidStore,
 	faUserNinja as solidUserNinja,
+	faUsers as solidUsers,
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -84,6 +85,7 @@ const FA = {
 	user: faUser,
 
 	//SOLID ICONS
+	solid_users: solidUsers,
 	solid_th_large: solidThLarge,
 	solid_store: solidStore,
 	solid_user_ninja: solidUserNinja,

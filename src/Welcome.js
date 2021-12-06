@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
-import {HOME} from 'lib/routes';
+import {DASHBOARD} from 'lib/routes';
 
 import {FONTS, FONT_WEIGHT, TYPOGRAPHY_VARIANTS} from 'types/typography';
 
@@ -33,7 +33,7 @@ export default function Welcome() {
 				contact us. Enjoy.
 			</Typography>
 
-			<IconButton tag={Link} to={HOME}>
+			<IconButton tag={Link} to={DASHBOARD}>
 				Open the door
 			</IconButton>
 		</div>

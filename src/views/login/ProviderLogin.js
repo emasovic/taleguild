@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {Link, useLocation, useParams} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {HOME} from 'lib/routes';
+import {DASHBOARD} from 'lib/routes';
 
 import {USER_OP} from 'types/user';
 import {ICONS} from 'types/icons';
@@ -51,7 +51,7 @@ export default function ProviderLogin() {
 					Account with this email address or username already exists.
 				</Typography>
 				<div className={CLASS + '-text-button'}>
-					<IconButton tag={Link} to={HOME}>
+					<IconButton tag={Link} to={DASHBOARD}>
 						Back to guild
 					</IconButton>
 				</div>

@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
+import {DASHBOARD} from 'lib/routes';
+
 import {FONTS, FONT_WEIGHT, TYPOGRAPHY_VARIANTS} from 'types/typography';
 
 import IconButton from 'components/widgets/button/IconButton';
@@ -37,7 +39,9 @@ export default class ErrorPage extends Component {
 						Try reloading you page or press reload button.
 					</Typography>
 
-					<IconButton onClick={() => window.location.reload()}>Reload</IconButton>
+					<IconButton onClick={() => window.location.replace(DASHBOARD)}>
+						Go to dashboard
+					</IconButton>
 				</div>
 			);
 		}

@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import orderBy from 'lodash.orderby';
 import {useHistory, useParams} from 'react-router-dom';
 
-import {goToStory, HOME} from 'lib/routes';
+import {goToStory, DASHBOARD} from 'lib/routes';
 
 import {getIdFromSlug} from 'types/story';
 import {COLOR} from 'types/button';
@@ -83,7 +83,7 @@ export default function Story() {
 				buttonLabel="Back to home"
 				title="The story is archived"
 				subtitle="The writer has archived this story and it is no longer public."
-				to={HOME}
+				to={DASHBOARD}
 				buttonProps={{color: COLOR.secondary}}
 			/>
 		);

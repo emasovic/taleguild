@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 
-import {HOME} from 'lib/routes';
+import {DASHBOARD} from 'lib/routes';
 
 import {FONT_WEIGHT, TEXT_COLORS} from 'types/typography';
 import {PUBLISH_STATES} from 'types/story';
@@ -62,7 +62,7 @@ export default function RecentViews() {
 	if (!views.length && !op) {
 		return (
 			<div className={CLASS + '-no-items'}>
-				<IconButton tag={Link} to={HOME}>
+				<IconButton tag={Link} to={DASHBOARD}>
 					Visit our community
 				</IconButton>
 			</div>

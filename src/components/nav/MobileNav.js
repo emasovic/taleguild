@@ -6,13 +6,13 @@ import {useSelector} from 'react-redux';
 
 import {
 	DASHBOARD,
-	FEED,
+	goToWidget,
 	GUILDATAR,
 	GUILDATARS,
-	HOME,
 	LOGIN,
 	MARKETPLACE,
 	REGISTER,
+	_COMMUNITY,
 } from 'lib/routes';
 
 import FA from 'types/font_awesome';
@@ -22,6 +22,8 @@ import {COLOR} from 'types/button';
 import {selectAuthUser} from 'redux/auth';
 
 import IconButton from 'components/widgets/button/IconButton';
+
+import {WIDGETS} from 'views/community/Community';
 
 import './MobileNav.scss';
 
@@ -48,17 +50,7 @@ export default function MobileNav() {
 								<FontAwesomeIcon size="lg" icon={FA.solid_th_large} />
 							</NavLink>
 						</NavItem>
-						<NavItem>
-							<NavLink tag={Link} to={FEED} active={location.pathname === FEED}>
-								<FontAwesomeIcon size="lg" icon={FA.solid_home} />
-							</NavLink>
-						</NavItem>
 
-						<NavItem>
-							<NavLink tag={Link} to={HOME} active={location.pathname === HOME}>
-								<FontAwesomeIcon size="lg" icon={FA.compass} />
-							</NavLink>
-						</NavItem>
 						<NavItem>
 							<NavLink
 								tag={Link}
@@ -75,6 +67,15 @@ export default function MobileNav() {
 								active={location.pathname.includes(GUILDATAR)}
 							>
 								<FontAwesomeIcon size="lg" icon={FA.solid_user_ninja} />
+							</NavLink>
+						</NavItem>
+						<NavItem>
+							<NavLink
+								tag={Link}
+								to={goToWidget(WIDGETS.following)}
+								active={location.pathname.includes(_COMMUNITY)}
+							>
+								<FontAwesomeIcon size="lg" icon={FA.solid_users} />
 							</NavLink>
 						</NavItem>
 					</>
