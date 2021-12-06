@@ -61,7 +61,7 @@ export default function RecentItems() {
 					_limit: 4,
 					_sort: 'created_at:DESC',
 				},
-				false
+				true
 			)
 		);
 	}, [dispatch]);

@@ -2,12 +2,14 @@
 @import 'styles/themes/mixins.scss';
 
 .st-Dashboard {
-	margin-bottom: 16px;
-
 	&-content {
 		display: flex;
 		justify-content: space-between;
 		margin-top: 24px;
+
+		&:last-child {
+			margin-bottom: 16px;
+		}
 
 		@media (max-width: $breakpoint-m) {
 			flex-direction: column;

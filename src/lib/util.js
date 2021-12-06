@@ -53,3 +53,5 @@ export const serializeTextEditorValue = (nodes, sliceAt) => {
 	text = sliceAt ? (text.length > sliceAt ? `${text.slice(0, sliceAt)}...` : sliceAt) : sliceAt;
 	return text;
 };
+
+export const isMobile = window.screen.width < 768;

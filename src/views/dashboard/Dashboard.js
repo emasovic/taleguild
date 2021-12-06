@@ -17,6 +17,7 @@ import RecentFocus from './widgets/RecentFocus';
 import RecentXp from './widgets/RecentXp';
 
 import './Dashboard.scss';
+import {isMobile} from 'lib/util';
 
 const CLASS = 'st-Dashboard';
 
@@ -24,6 +25,7 @@ export default function Dashboard() {
 	const {data} = useSelector(selectAuthUser);
 
 	const displayName = data?.display_name || data?.username;
+
 	return (
 		<MobileWrapper className={CLASS}>
 			<Typography
@@ -43,7 +45,7 @@ export default function Dashboard() {
 			</div>
 			<div className={CLASS + '-content'}>
 				<RecentItems />
-				<RecentWork />
+				{!isMobile && <RecentWork />}
 				<RecentViews />
 			</div>
 		</MobileWrapper>
