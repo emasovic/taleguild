@@ -6,6 +6,12 @@
 	flex-direction: column;
 	cursor: pointer;
 
+	&-no-items {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
 	&-item {
 		display: flex;
 		flex-direction: column;

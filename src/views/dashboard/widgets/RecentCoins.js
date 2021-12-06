@@ -39,7 +39,7 @@ export default function RecentCoins() {
 	const bottomStats = (
 		<Typography>
 			{result}
-			<Typography color={TEXT_COLORS.secondary}> coins earned yesterday</Typography>
+			<Typography color={TEXT_COLORS.secondary}> coins earned today</Typography>
 		</Typography>
 	);
 

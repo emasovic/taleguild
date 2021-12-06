@@ -33,6 +33,21 @@ export const kFormatter = num =>
 		? Math.sign(num) * (Math.abs(num) / 1000).toFixed(1) + 'k'
 		: Math.sign(num) * Math.abs(num);
 
+export const ordinalSuffixOf = i => {
+	let j = i % 10,
+		k = i % 100;
+	if (j === 1 && k !== 11) {
+		return i + 'st';
+	}
+	if (j === 2 && k !== 12) {
+		return i + 'nd';
+	}
+	if (j === 3 && k !== 13) {
+		return i + 'rd';
+	}
+	return i + 'th';
+};
+
 export const setTimeToDate = (hours, minutes, seconds) => {
 	const today = new Date();
 	return new Date(

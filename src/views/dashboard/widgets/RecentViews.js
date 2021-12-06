@@ -1,6 +1,9 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
+import {Link} from 'react-router-dom';
+
+import {HOME} from 'lib/routes';
 
 import {FONT_WEIGHT, TEXT_COLORS} from 'types/typography';
 import {PUBLISH_STATES} from 'types/story';
@@ -12,6 +15,7 @@ import StoryListItem from 'views/stories/StoryListItem';
 
 import Typography from 'components/widgets/typography/Typography';
 import Loader from 'components/widgets/loader/Loader';
+import IconButton from 'components/widgets/button/IconButton';
 
 import './RecentViews.scss';
 
@@ -54,6 +58,16 @@ export default function RecentViews() {
 				)
 			);
 	}, [dispatch, userId]);
+
+	if (!views.length && !op) {
+		return (
+			<div className={CLASS + '-no-items'}>
+				<IconButton tag={Link} to={HOME}>
+					Visit our community
+				</IconButton>
+			</div>
+		);
+	}
 	return (
 		<div className={CLASS}>
 			<Typography color={TEXT_COLORS.secondary} fontWeight={FONT_WEIGHT.bold}>

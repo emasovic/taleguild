@@ -25,21 +25,22 @@ export default function RecentFocus() {
 		created_at_lte: addDays(new Date(setTimeToDate(23, 59, 59)), 7).toISOString(),
 	});
 
-	const active = !error
-		? secondsToHoursMinutes(result.reduce((acc, val) => acc + val.active, 0))
-		: 0;
+	const totalActive = result.reduce((acc, val) => acc + val.active, 0);
+	const active = !error ? secondsToHoursMinutes(totalActive) : 0;
+
+	const title = !totalActive ? 'Start to write' : `${active} h`;
 
 	const topStats = (
 		<>
 			<Typography variant={TYPOGRAPHY_VARIANTS.h3} font={FONTS.merri}>
-				{active} h
+				{title}
 			</Typography>
 			<Icon icon={ICONS.clock} />
 		</>
 	);
 
 	const bottomStats = (
-		<Typography color={TEXT_COLORS.secondary}>focus time for this week</Typography>
+		<Typography color={TEXT_COLORS.secondary}>Focus time for this week</Typography>
 	);
 
 	return (

@@ -2,6 +2,7 @@ import React from 'react';
 import {useSelector} from 'react-redux';
 
 import {getLevels} from 'lib/api';
+import {ordinalSuffixOf} from 'lib/util';
 
 import {FONTS, TEXT_COLORS, TYPOGRAPHY_VARIANTS} from 'types/typography';
 import {ICONS} from 'types/icons';
@@ -32,7 +33,8 @@ export default function RecentXp() {
 
 	const bottomStats = (
 		<Typography>
-			{currentLevel?.level} <Typography color={TEXT_COLORS.secondary}>level</Typography>
+			{ordinalSuffixOf(currentLevel?.level)}
+			<Typography color={TEXT_COLORS.secondary}> level</Typography>
 		</Typography>
 	);
 

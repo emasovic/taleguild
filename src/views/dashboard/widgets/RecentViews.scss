@@ -4,4 +4,10 @@
 .st-RecentViews {
 	display: flex;
 	flex-direction: column;
+
+	&-no-items {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
 }

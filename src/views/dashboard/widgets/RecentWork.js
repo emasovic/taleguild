@@ -12,9 +12,11 @@ import {ICONS} from 'types/icons';
 
 import {loadStories, selectStory, selectStoryIds} from 'redux/draftStories';
 import {selectAuthUser} from 'redux/auth';
+import {newStory} from 'redux/story';
 
 import {useLoadItems} from 'hooks/getItems';
 
+import IconButton from 'components/widgets/button/IconButton';
 import Typography from 'components/widgets/typography/Typography';
 import Link, {UNDERLINE} from 'components/widgets/link/Link';
 import Icon from 'components/widgets/icon/Icon';
@@ -96,6 +98,16 @@ export default function RecentWork() {
 				)
 			);
 	}, [dispatch, userId]);
+
+	if (!stories.length && !op) {
+		return (
+			<div className={CLASS + '-no-items'}>
+				<IconButton onClick={() => dispatch(newStory({user: userId, published_at: null}))}>
+					Write your new story
+				</IconButton>
+			</div>
+		);
+	}
 	return (
 		<div className={CLASS}>
 			<Typography color={TEXT_COLORS.secondary} fontWeight={FONT_WEIGHT.bold}>

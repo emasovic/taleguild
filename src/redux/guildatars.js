@@ -39,6 +39,10 @@ export const guildatarsSlice = createSlice({
 		guildatarUpsert: (state, {payload}) => {
 			guildatarsAdapter.upsertOne(state, payload);
 			state.op = null;
+
+			if (payload.isNew) {
+				state.total += 1;
+			}
 		},
 		gotPages: (state, action) => {
 			state.pages = Math.ceil(action.payload / 10);
@@ -62,11 +66,7 @@ export const {
 	guildatarsReceieved,
 } = guildatarsSlice.actions;
 
-export const createOrUpdateGuildatar = (payload, shouldChange = true) => async (
-	dispatch,
-	getState,
-	history
-) => {
+export const createOrUpdateGuildatar = payload => async (dispatch, getState, history) => {
 	dispatch(opStart());
 
 	const res = payload.id ? await updateGuildatar(payload) : await createGuildatar(payload);
@@ -78,7 +78,7 @@ export const createOrUpdateGuildatar = (payload, shouldChange = true) => async (
 		? 'Successfully updated guildatar.'
 		: 'Successfully created guildatar.';
 
-	dispatch(guildatarUpsert(res));
+	dispatch(guildatarUpsert({...res, isNew: payload.id ? false : true}));
 	dispatch(newToast({...Toast.success(message)}));
 };
 
@@ -104,6 +104,17 @@ export const loadGuildatars = (params, count, op = DEFAULT_OP.loading) => async 
 	}
 
 	return dispatch(guildatarsUpsertMany(res));
+};
+
+export const countAllGuildatars = (params, op = DEFAULT_OP.loading) => async dispatch => {
+	dispatch(opStart(op));
+	const res = await countGuildatars(params);
+	if (res.error) {
+		dispatch(opEnd());
+		return dispatch(newToast({...Toast.error(res.error)}));
+	}
+	dispatch(opEnd());
+	dispatch(gotPages(res));
 };
 
 export const loadGuildatar = id => async dispatch => {

@@ -4,12 +4,12 @@ export const useLoadItems = (loadFunction, defaultParams) => {
 	const [data, setData] = useState([]);
 	const [params, setParams] = useState(defaultParams);
 	const [isLoading, setIsLoading] = useState(false);
-	const [error, setError] = useState(false);
+	const [error, setError] = useState('');
 
 	useEffect(() => {
 		let unmounted = false;
 		const fetchData = async () => {
-			setError(false);
+			setError('');
 			setIsLoading(true);
 
 			try {
