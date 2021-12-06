@@ -86,6 +86,7 @@ function GuildatarDialog({isOpen, onClose, id}) {
 						body={getImageUrl(body?.item?.image?.url)}
 						leftArm={getImageUrl(left_arm?.item?.image?.url)}
 						rightArm={getImageUrl(right_arm?.item?.image?.url)}
+						gender={values?.gender?.value}
 					/>
 				</div>
 

@@ -1,9 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import face from 'images/guildatar/head/head.svg';
+import {GENDERS} from 'types/guildatar';
 
-import body from 'images/guildatar/body/body.svg';
+import femaleFace from 'images/guildatar/female-face.svg';
+import maleFace from 'images/guildatar/male-face.svg';
+
+import femaleBody from 'images/guildatar/female-body.svg';
+import maleBody from 'images/guildatar/male-body.svg';
 
 import ImageContainer from 'components/widgets/image/Image';
 
@@ -11,7 +15,21 @@ import './Guildatar.scss';
 
 const CLASS = 'st-Guildatar';
 
-export default function Guildatar({head, face, body, leftArm, rightArm}) {
+const DEFAULT_GUILDATARS = {
+	[GENDERS.male]: {
+		face: maleFace,
+		body: maleBody,
+	},
+	[GENDERS.female]: {
+		face: femaleFace,
+		body: femaleBody,
+	},
+};
+
+export default function Guildatar({head, face, body, leftArm, rightArm, gender}) {
+	const defaultGuildatar = DEFAULT_GUILDATARS[gender];
+	face = face || defaultGuildatar.face;
+	body = body || defaultGuildatar.body;
 	return (
 		<div className={CLASS}>
 			<div className={CLASS + '-character'}>
@@ -57,8 +75,7 @@ export default function Guildatar({head, face, body, leftArm, rightArm}) {
 }
 
 Guildatar.defaultProps = {
-	face,
-	body,
+	gender: GENDERS.male,
 };
 
 Guildatar.propTypes = {
@@ -67,4 +84,5 @@ Guildatar.propTypes = {
 	body: PropTypes.string,
 	leftArm: PropTypes.string,
 	rightArm: PropTypes.string,
+	gender: PropTypes.string,
 };

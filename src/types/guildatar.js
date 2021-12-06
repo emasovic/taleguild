@@ -6,6 +6,11 @@ export const PARTS = [
 	{value: 'rightArm', label: 'Right arm'},
 ];
 
+export const GENDERS = {
+	male: 'male',
+	female: 'female',
+};
+
 export const GENDER = [
 	{label: 'Male', value: 'male'},
 	{label: 'Female', value: 'female'},
