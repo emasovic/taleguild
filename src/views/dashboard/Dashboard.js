@@ -2,6 +2,8 @@ import React from 'react';
 import {useSelector} from 'react-redux';
 import {format} from 'date-fns';
 
+import {isMobile} from 'lib/util';
+
 import {FONTS, TEXT_COLORS, TYPOGRAPHY_VARIANTS} from 'types/typography';
 
 import {selectAuthUser} from 'redux/auth';
@@ -17,7 +19,6 @@ import RecentFocus from './widgets/RecentFocus';
 import RecentXp from './widgets/RecentXp';
 
 import './Dashboard.scss';
-import {isMobile} from 'lib/util';
 
 const CLASS = 'st-Dashboard';
 

@@ -8,9 +8,8 @@
 	margin-top: 8px;
 
 	&-no-items {
-		display: flex;
-		align-items: center;
-		justify-content: center;
+		@include theme-aware('background-color', 'T100');
+		border-radius: 6px;
 	}
 
 	&-item {

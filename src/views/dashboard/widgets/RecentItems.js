@@ -4,18 +4,20 @@ import PropTypes from 'prop-types';
 
 import {FONT_WEIGHT, TEXT_COLORS, TEXT_TRASFORM} from 'types/typography';
 import {ICONS} from 'types/icons';
-import {selectAuthUser} from 'redux/auth';
+import {COLOR} from 'types/button';
 
+import {selectAuthUser} from 'redux/auth';
 import {loadMarketplace, selectMarketplaceById, selectMarketplaceIds} from 'redux/marketplace';
-import {countAllGuildatars} from 'redux/guildatars';
+import {loadGuildatars, selectActiveGuildatar} from 'redux/guildatars';
 
 import MarketplaceDialog from 'components/marketplace/MarketplaceDialog';
 import ImageContainer from 'components/widgets/image/Image';
 import Typography from 'components/widgets/typography/Typography';
 import Icon from 'components/widgets/icon/Icon';
 import Loader from 'components/widgets/loader/Loader';
-import IconButton from 'components/widgets/button/IconButton';
 import GuildatarDialog from 'components/guildatar/GuildatarDialog';
+
+import NoItemsPlaceholder from './NoItemsPlaceholder';
 
 import './RecentItems.scss';
 
@@ -59,30 +61,39 @@ export default function RecentItems() {
 	const userId = data?.id;
 	const marketplace = useSelector(selectMarketplaceIds);
 	const {op} = useSelector(state => state.marketplace);
-	const {op: countOp, total} = useSelector(state => state.guildatars);
+	const {gender} = useSelector(selectActiveGuildatar) || {};
 
-	useEffect(() => dispatch(countAllGuildatars({user: userId})), [userId, dispatch]);
+	useEffect(() => userId && dispatch(loadGuildatars({user: userId, active: true})), [
+		userId,
+		dispatch,
+	]);
 
 	useEffect(() => {
-		total &&
+		gender &&
 			dispatch(
 				loadMarketplace(
 					{
 						_start: 0,
 						_limit: 4,
 						_sort: 'created_at:DESC',
+						gender,
 					},
 					true
 				)
 			);
-	}, [dispatch, total]);
+	}, [dispatch, gender]);
 
-	if (!marketplace.length && !op && !total && !countOp) {
+	if (!marketplace.length && !op && !gender) {
 		return (
-			<div className={CLASS + '-no-items'}>
-				<IconButton onClick={() => setIsOpen(true)}>Create guildatar</IconButton>
+			<>
+				<NoItemsPlaceholder
+					title="Build your characters"
+					subtitle="With your writing you can collect coins and create characters from Market"
+					buttonText="Create guildatar"
+					buttonProps={{onClick: () => setIsOpen(true), color: COLOR.secondary}}
+				/>
 				{isOpen && <GuildatarDialog isOpen={isOpen} onClose={() => setIsOpen(false)} />}
-			</div>
+			</>
 		);
 	}
 	return (
@@ -90,7 +101,7 @@ export default function RecentItems() {
 			<Typography color={TEXT_COLORS.secondary} fontWeight={FONT_WEIGHT.bold}>
 				New items
 			</Typography>
-			{!op && !countOp ? (
+			{!op ? (
 				marketplace.map(i => <RecentItem key={i} id={i} onClick={setSelectedItem} />)
 			) : (
 				<Loader />

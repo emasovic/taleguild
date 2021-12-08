@@ -3,8 +3,9 @@ import {useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 
-import {DASHBOARD} from 'lib/routes';
+import {goToWidget} from 'lib/routes';
 
+import {COLOR} from 'types/button';
 import {FONT_WEIGHT, TEXT_COLORS} from 'types/typography';
 import {PUBLISH_STATES} from 'types/story';
 
@@ -12,10 +13,12 @@ import {selectAuthUser} from 'redux/auth';
 import {loadViews, selectViewsById, selectViewsIds} from 'redux/views';
 
 import StoryListItem from 'views/stories/StoryListItem';
+import {WIDGETS} from 'views/community/Community';
 
 import Typography from 'components/widgets/typography/Typography';
 import Loader from 'components/widgets/loader/Loader';
-import IconButton from 'components/widgets/button/IconButton';
+
+import NoItemsPlaceholder from './NoItemsPlaceholder';
 
 import './RecentViews.scss';
 
@@ -61,11 +64,12 @@ export default function RecentViews() {
 
 	if (!views.length && !op) {
 		return (
-			<div className={CLASS + '-no-items'}>
-				<IconButton tag={Link} to={DASHBOARD}>
-					Visit our community
-				</IconButton>
-			</div>
+			<NoItemsPlaceholder
+				title="Find people to follow"
+				subtitle="With your writing you can collect coins and create characters from Market"
+				buttonText="Visit our community"
+				buttonProps={{tag: Link, to: goToWidget(WIDGETS.explore), color: COLOR.secondary}}
+			/>
 		);
 	}
 	return (

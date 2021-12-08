@@ -16,11 +16,12 @@ import {newStory} from 'redux/story';
 
 import {useLoadItems} from 'hooks/getItems';
 
-import IconButton from 'components/widgets/button/IconButton';
 import Typography from 'components/widgets/typography/Typography';
 import Link, {UNDERLINE} from 'components/widgets/link/Link';
 import Icon from 'components/widgets/icon/Icon';
 import Loader from 'components/widgets/loader/Loader';
+
+import NoItemsPlaceholder from './NoItemsPlaceholder';
 
 import './RecentWork.scss';
 
@@ -101,11 +102,15 @@ export default function RecentWork() {
 
 	if (!stories.length && !op) {
 		return (
-			<div className={CLASS + '-no-items'}>
-				<IconButton onClick={() => dispatch(newStory({user: userId, published_at: null}))}>
-					Write your new story
-				</IconButton>
-			</div>
+			<NoItemsPlaceholder
+				title="Create your first story"
+				subtitle="With your writing you can collect coins and create characters from Market"
+				buttonText="Write your first story"
+				className={CLASS + '-no-items'}
+				buttonProps={{
+					onClick: () => dispatch(newStory({user: userId, published_at: null})),
+				}}
+			/>
 		);
 	}
 	return (

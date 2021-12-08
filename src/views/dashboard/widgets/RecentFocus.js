@@ -1,6 +1,6 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
-import {addDays} from 'date-fns';
+import {subDays} from 'date-fns';
 
 import {getActivity} from 'lib/api';
 import {secondsToHoursMinutes, setTimeToDate} from 'lib/util';
@@ -9,6 +9,7 @@ import {FONTS, TEXT_COLORS, TYPOGRAPHY_VARIANTS} from 'types/typography';
 import {ICONS} from 'types/icons';
 
 import {selectAuthUser} from 'redux/auth';
+import {selectStories} from 'redux/draftStories';
 
 import {useLoadItems} from 'hooks/getItems';
 
@@ -19,17 +20,17 @@ import RecentStats from './RecentStats';
 
 export default function RecentFocus() {
 	const {data} = useSelector(selectAuthUser);
+	const drafts = useSelector(selectStories);
 	const [{data: result, isLoading, error}] = useLoadItems(getActivity, {
-		user: data.id,
-		created_at_gte: setTimeToDate(0, 0, 0),
-		created_at_lte: addDays(new Date(setTimeToDate(23, 59, 59)), 7).toISOString(),
+		user: data?.id,
+		created_at_lte: setTimeToDate(0, 0, 0),
+		created_at_gte: subDays(new Date(setTimeToDate(23, 59, 59)), 7).toISOString(),
 	});
 
 	const totalActive = result.reduce((acc, val) => acc + val.active, 0);
 	const active = !error ? secondsToHoursMinutes(totalActive) : 0;
 
-	const title = !totalActive ? 'Start to write' : `${active} h`;
-
+	const title = !drafts.length ? '--:--' : `${active} h`;
 	const topStats = (
 		<>
 			<Typography variant={TYPOGRAPHY_VARIANTS.h3} font={FONTS.merri}>
@@ -40,7 +41,7 @@ export default function RecentFocus() {
 	);
 
 	const bottomStats = (
-		<Typography color={TEXT_COLORS.secondary}>Focus time for this week</Typography>
+		<Typography color={TEXT_COLORS.secondary}>Focus time for last 7 days</Typography>
 	);
 
 	return (
