@@ -3,7 +3,7 @@ import uniqueId from 'lodash.uniqueid';
 export const TOAST_TYPES = {
 	success: 'success',
 	warning: 'warning',
-	danger: 'danger',
+	error: 'error',
 	info: 'info',
 };
 
@@ -18,14 +18,14 @@ const DEFAULT_OPTIONS = {
 const DEFAULT_TOAST_TITLES = {
 	success: 'Success',
 	warning: 'Warning',
-	danger: 'Error',
+	error: 'Error',
 	info: 'Info',
 };
 
 const DEFAULT_TOAST_DURATIONS = {
 	success: 10 * 1000,
 	warning: 10 * 1000,
-	danger: 10 * 1000, // 0 for Indefinite
+	error: 10 * 1000, // 0 for Indefinite
 	info: 10 * 1000,
 };
 
@@ -40,7 +40,7 @@ export class Toast {
 }
 
 Toast.error = (error, title) => {
-	return new Toast(error.message || error, TOAST_TYPES.danger, title);
+	return new Toast(error.message || error, TOAST_TYPES.error, title);
 };
 
 Toast.warning = (warning, title) => {

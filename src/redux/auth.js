@@ -135,7 +135,9 @@ export const updateUser = (token, payload) => async dispatch => {
 		}
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
-	dispatch(newToast({...Toast.success('Successfully updated user settings!')}));
+	dispatch(
+		newToast({...Toast.success('Successfully updated user settings!', 'Account Settings')})
+	);
 	dispatch(gotData({...res, jwt: token}));
 };
 
