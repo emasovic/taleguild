@@ -9,19 +9,12 @@
 	max-width: $story-preview-width-large;
 	margin: 0 auto;
 
-	@media (max-width: $breakpoint-sm) {
-		width: $story-preview-width-small;
-	}
-
 	.st-StoryItem {
-		width: $story-preview-width-large;
+		max-width: $story-preview-width-large;
+		width: 100%;
 		border: none;
 		box-shadow: none;
 		background-color: transparent;
-
-		@media (max-width: $breakpoint-sm) {
-			width: $story-preview-width-small;
-		}
 
 		&-cover {
 			height: 384px;
