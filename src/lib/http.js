@@ -56,8 +56,12 @@ export const request = opts => {
 		.catch(res => {
 			let err = null;
 			let response = res.response;
-			if (response && response.data && response.data.error) {
-				err = response.data.message;
+			if (response?.data?.error) {
+				err = Array.isArray(response.data.message)
+					? response.data.message[0]?.messages[0]?.message
+					: typeof response.data.message === 'string'
+					? response.data.message
+					: response.data.error;
 			} else if (response) {
 				err = new Error(response.statusText);
 				err.status = response.status;
