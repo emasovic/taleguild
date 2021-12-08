@@ -16,6 +16,7 @@ import Loader from 'components/widgets/loader/Loader';
 import Pages from 'components/widgets/pagination/Pagination';
 import Helmet from 'components/widgets/helmet/Helmet';
 import PagePlaceholder from 'components/widgets/page-placeholder/PagePlaceholder';
+import MobileWrapper from 'components/widgets/mobile-wrapper/MobileWrapper';
 
 import {ReactComponent as ArchivedStory} from 'images/file-archive.svg';
 
@@ -99,7 +100,7 @@ export default function Story() {
 			  )
 			: [];
 	return (
-		<div className={CLASS} ref={viewerRef}>
+		<MobileWrapper className={CLASS} ref={viewerRef}>
 			<Helmet title={story.title} description={story.description} />
 			<StoryItem
 				id={story.id}
@@ -118,7 +119,7 @@ export default function Story() {
 				savedBy={story.saved_by}
 				slug={story.slug}
 				archivedAt={story.archived_at}
-				displayArchived
+				displayArchived={!!story.published_at}
 				keepArchived
 			/>
 
@@ -126,6 +127,6 @@ export default function Story() {
 
 			{storypages && <Pages onClick={handleActivePage} pages={storypages.length} />}
 			<div className={CLASS + '-pages'}>{storypages.length} pages total</div>
-		</div>
+		</MobileWrapper>
 	);
 }

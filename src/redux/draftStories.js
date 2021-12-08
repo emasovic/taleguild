@@ -115,6 +115,6 @@ const draftStoriesSelector = draftStoriesAdapter.getSelectors(state => state.dra
 export const selectStories = state => draftStoriesSelector.selectAll(state);
 export const selectStoryIds = state => draftStoriesSelector.selectIds(state);
 
-export const selectStory = (state, id) => draftStoriesSelector.selectById(state, id);
+export const selectDraftStory = (state, id) => draftStoriesSelector.selectById(state, id);
 
 export default draftSlice.reducer;

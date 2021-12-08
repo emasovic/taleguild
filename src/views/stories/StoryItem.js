@@ -41,12 +41,10 @@ export default function StoryItem({
 	comments,
 	author,
 	createdDate,
-	storypages,
 	savedBy,
 	slug,
-	archivedAt,
-	displayArchived,
 	keepArchived,
+	selector,
 }) {
 	const dispatch = useDispatch();
 	const location = useLocation();
@@ -109,14 +107,10 @@ export default function StoryItem({
 	return (
 		<div className={CLASS}>
 			{author?.id === data?.id && (
-				<StoryDropdownButton
-					story={{id, title, storypages, archivedAt, publishedAt: createdDate}}
-					displayArchived={displayArchived}
-					keepArchived={keepArchived}
-				/>
+				<StoryDropdownButton id={id} keepArchived={keepArchived} selector={selector} />
 			)}
 			<Link
-				to={goToUser(author.username)}
+				to={goToUser(author?.username)}
 				underline={UNDERLINE.none}
 				className={CLASS + '-author'}
 			>
@@ -224,17 +218,15 @@ StoryItem.propTypes = {
 	categories: propTypes.array,
 	likes: propTypes.array,
 	comments: propTypes.array,
-	storypages: propTypes.array,
 	formats: propTypes.object,
 	size: propTypes.string,
 	description: propTypes.string,
 	title: propTypes.string,
 	createdDate: propTypes.string,
-	archivedAt: propTypes.string,
 	author: propTypes.object,
 	views: propTypes.array,
 	savedBy: propTypes.array,
 	slug: propTypes.string,
-	displayArchived: propTypes.bool,
 	keepArchived: propTypes.bool,
+	selector: propTypes.func,
 };

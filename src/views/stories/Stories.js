@@ -86,7 +86,7 @@ const Stories = memo(({criteria, activeSort, displaySearch}) => {
 						savedBy={item.saved_by}
 						slug={item.slug}
 						archivedAt={item.archived_at}
-						displayArchived
+						displayArchived={!!item.published_at}
 					/>
 				);
 			})

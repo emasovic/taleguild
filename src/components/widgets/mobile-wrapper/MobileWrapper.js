@@ -6,8 +6,12 @@ import './MobileWrapper.scss';
 
 const CLASS = 'st-MobileWrapper';
 
-function MobileWrapper({children, className}) {
-	return <div className={classNames(CLASS, className)}>{children}</div>;
+function MobileWrapper({children, className, ...rest}) {
+	return (
+		<div className={classNames(CLASS, className)} {...rest}>
+			{children}
+		</div>
+	);
 }
 
 MobileWrapper.propTypes = {

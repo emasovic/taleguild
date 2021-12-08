@@ -118,5 +118,6 @@ export const createOrDeleteSavedStory = (favourite, userId, storyId) => async (
 const savedStoriesSelector = savedStoriesAdapter.getSelectors(state => state.savedStories);
 
 export const selectUserSavedStories = state => savedStoriesSelector.selectAll(state);
+export const selectUserSavedStory = (state, id) => savedStoriesSelector.selectById(state, id);
 
 export default savedStorySlice.reducer;

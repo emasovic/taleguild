@@ -9,6 +9,7 @@ import {
 	selectArchivedStories,
 	loadArchivedStories,
 	removeArchivedStory,
+	selectArchivedStory,
 } from 'redux/archivedStories';
 import {selectUserId} from 'redux/auth';
 
@@ -67,7 +68,6 @@ export default function ArchivedStories({shouldLoadMore, Component}) {
 			return (
 				<Component
 					id={item.id}
-					favouriteId={item.id}
 					image={item.image}
 					formats={item.image && item.image.formats}
 					title={item.title}
@@ -79,7 +79,7 @@ export default function ArchivedStories({shouldLoadMore, Component}) {
 					slug={item.slug}
 					storypages={item.storypages}
 					onDeleteStory={handleDeleteStory}
-					displayArchived
+					selector={selectArchivedStory}
 				/>
 			);
 		})
