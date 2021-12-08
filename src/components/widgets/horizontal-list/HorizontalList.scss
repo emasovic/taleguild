@@ -24,7 +24,7 @@
 				width: max-content;
 				border: 1px solid;
 				@include theme-aware('background-color', 'B100');
-				@include theme-aware('border-color', 'B100');
+				@include theme-aware('border-color', 'B200');
 
 				&:hover {
 					@include theme-aware('border-color', 'T600');

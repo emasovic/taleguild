@@ -51,6 +51,12 @@ $secondary: $color-red-58;
 		&:active:not(:disabled):not(.disabled):active {
 			@include theme-aware('color', 'B100');
 		}
+
+		&:disabled {
+			@include theme-aware('background-color', 'B300');
+			@include theme-aware('color', 'G500');
+			@include theme-aware('box-shadow', 'no-shadow');
+		}
 	}
 
 	&-secondary {
@@ -69,6 +75,12 @@ $secondary: $color-red-58;
 		&:active:not(:disabled):not(.disabled):active {
 			box-shadow: none;
 			@include theme-aware('background-color', 'B100');
+		}
+
+		&:disabled {
+			@include theme-aware('background-color', 'B200');
+			@include theme-aware('color', 'G500');
+			@include theme-aware('box-shadow', 'no-shadow');
 		}
 	}
 

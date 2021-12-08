@@ -29,6 +29,7 @@ $themes: (
 		button-shadow: $box-shadow-btn,
 		button-shadow-hover: $box-shadow-btn-hover,
 		card-shadow: $box-shadow-card-light,
+		no-shadow: $box-shadow-none,
 		text-selection: $color-gold-72,
 	),
 	dark: (
@@ -61,6 +62,7 @@ $themes: (
 		button-shadow: $box-shadow-darkbtn,
 		button-shadow-hover: $box-shadow-darkbtn-hover,
 		card-shadow: $box-shadow-card-dark,
+		no-shadow: $box-shadow-none,
 		text-selection: $color-gold-24,
 	),
 );
