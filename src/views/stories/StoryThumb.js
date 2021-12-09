@@ -37,7 +37,7 @@ export default function StoryThumb({
 		history.push(goToUser(author && author.username));
 	};
 	title = title && title.length > 36 ? title.slice(0, 36) + '...' : title;
-	image = image ? image.formats.thumbnail : image;
+	image = image?.formats?.thumbnail || image;
 
 	return (
 		<div className={CLASS}>
