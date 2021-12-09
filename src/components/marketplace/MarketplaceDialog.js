@@ -66,10 +66,14 @@ function MarketplaceDialog({isOpen, itemId, onClose}) {
 				rightArm={getImageUrl(right_arm?.item?.image?.url)}
 				{...props}
 			/>
+			<Typography color={TEXT_COLORS.tertiary}>
+				This is a preview of your default Guildatar
+			</Typography>
 			<Typography
 				color={TEXT_COLORS.tertiary}
 				textTransform={TEXT_TRASFORM.uppercase}
 				fontWeight={FONT_WEIGHT.semiBold}
+				className={CLASS + '-category'}
 			>
 				{category}
 			</Typography>
