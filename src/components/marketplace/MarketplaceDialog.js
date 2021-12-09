@@ -100,7 +100,7 @@ function MarketplaceDialog({isOpen, itemId, onClose}) {
 			renderFooter
 			additionalFooterInfo={additionalFooterInfo}
 			isOpen={isOpen}
-			title={name}
+			title="Shopping"
 			content={renderContent()}
 			onClose={onClose}
 			onSubmit={buyItem}
