@@ -65,16 +65,15 @@
 				}
 			}
 
-			.st-Typography-bold {
+			&-title {
 				margin-bottom: 24px;
 			}
 
 			@media (max-width: $breakpoint-m) {
 				flex-basis: 100%;
-				// flex-direction: row;
 				width: 100%;
 
-				.st-Typography-bold {
+				&-title {
 					display: none;
 				}
 			}

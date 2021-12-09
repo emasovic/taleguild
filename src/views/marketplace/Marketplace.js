@@ -19,9 +19,13 @@ import LoadMore from 'components/widgets/loadmore/LoadMore';
 import Loader from 'components/widgets/loader/Loader';
 import HorizontalList from 'components/widgets/horizontal-list/HorizontalList';
 import SearchInput from 'components/search-input/SearchInput';
+import MobileWrapper from 'components/widgets/mobile-wrapper/MobileWrapper';
+import PagePlaceholder from 'components/widgets/page-placeholder/PagePlaceholder';
+import GuildatarDialog from 'components/guildatar/GuildatarDialog';
+
+import {ReactComponent as NoSearchResults} from 'images/no-search-results.svg';
 
 import './Marketplace.scss';
-import MobileWrapper from 'components/widgets/mobile-wrapper/MobileWrapper';
 
 const CLASS = 'st-Marketplace';
 
@@ -36,6 +40,7 @@ export default function Marketplace() {
 	const guildatar = useSelector(selectActiveGuildatar);
 
 	const [selectedItem, setSelectedItem] = useState(null);
+	const [isOpen, setIsOpen] = useState(false);
 
 	const body_part = new URLSearchParams(useLocation().search).get('body_part');
 	const category = new URLSearchParams(useLocation().search).get('category');
@@ -52,18 +57,34 @@ export default function Marketplace() {
 	const renderMarketPlaceItems = () => {
 		return op === DEFAULT_OP.loading ? (
 			<Loader />
+		) : items.length ? (
+			<>
+				<Typography
+					variant={TYPOGRAPHY_VARIANTS.action1}
+					color={TEXT_COLORS.secondary}
+					fontWeight={FONT_WEIGHT.bold}
+					className={CLASS + '-market-items-title'}
+				>
+					Items
+				</Typography>
+				<LoadMore
+					className={CLASS + '-market-items-loadmore'}
+					id="marketplace"
+					onLoadMore={handleCount}
+					shouldLoad={shouldLoad}
+					loading={op === DEFAULT_LIMIT.load_more}
+				>
+					{items.map(i => (
+						<MarketplaceItem key={i} id={i} onClick={setSelectedItem} />
+					))}
+				</LoadMore>
+			</>
 		) : (
-			<LoadMore
-				className={CLASS + '-market-items-loadmore'}
-				id="marketplace"
-				onLoadMore={handleCount}
-				shouldLoad={shouldLoad}
-				loading={op === DEFAULT_LIMIT.load_more}
-			>
-				{items.map(i => (
-					<MarketplaceItem key={i} id={i} onClick={setSelectedItem} />
-				))}
-			</LoadMore>
+			<PagePlaceholder
+				IconComponent={NoSearchResults}
+				title="No results found"
+				subtitle="We couldn’t find what you are looking for"
+			/>
 		);
 	};
 
@@ -132,14 +153,20 @@ export default function Marketplace() {
 					/>
 				</div>
 				<div className={CLASS + '-market-items'}>
-					<Typography
-						variant={TYPOGRAPHY_VARIANTS.action1}
-						color={TEXT_COLORS.secondary}
-						fontWeight={FONT_WEIGHT.bold}
-					>
-						Items
-					</Typography>
-					{renderMarketPlaceItems()}
+					{!guildatar ? (
+						<PagePlaceholder
+							title="Create your first Guildatar"
+							subtitle="In order to access the Market, you first need to create your guildarter for whom you will buy items with coins"
+							buttonLabel="Create Guildatar"
+							buttonProps={{
+								to: undefined,
+								tag: undefined,
+								onClick: () => setIsOpen(true),
+							}}
+						/>
+					) : (
+						renderMarketPlaceItems()
+					)}
 				</div>
 			</div>
 			{!!selectedItem && (
@@ -149,6 +176,7 @@ export default function Marketplace() {
 					onClose={() => setSelectedItem(null)}
 				/>
 			)}
+			{!!isOpen && <GuildatarDialog isOpen={isOpen} onClose={() => setIsOpen(false)} />}
 		</MobileWrapper>
 	);
 }
