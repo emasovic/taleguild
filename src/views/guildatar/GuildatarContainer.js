@@ -28,6 +28,8 @@ import Guildatar from 'components/guildatar/Guildatar';
 import GuildatarDialog from 'components/guildatar/GuildatarDialog';
 
 import './GuildatarContainer.scss';
+import PagePlaceholder from 'components/widgets/page-placeholder/PagePlaceholder';
+import {MARKETPLACE} from 'lib/routes';
 
 const CLASS = 'st-GuildatarContainer';
 
@@ -131,6 +133,7 @@ export default function GuildatarContainer() {
 		? defaultItems.filter(i => i?.item?.body_part === bodyPart)
 		: defaultItems;
 
+	const total = defaultItems.length + items.length;
 	return (
 		<MobileWrapper className={CLASS}>
 			<form onSubmit={formikSubmit}>
@@ -189,14 +192,15 @@ export default function GuildatarContainer() {
 								Description
 							</Typography>
 							<ShowMore
+								className={CLASS + '-content-avatar-description-text'}
 								textProps={{
 									color: TEXT_COLORS.secondary,
-									className: CLASS + '-content-avatar-description-text',
 								}}
 								actionComponent={Typography}
 								actionProps={{
-									color: TEXT_COLORS.tertiary,
+									color: TEXT_COLORS.buttonPrimary,
 									cursor: TEXT_CURSORS.pointer,
+									className: CLASS + '-content-avatar-description-text-action',
 								}}
 								text={guildatar.description}
 							/>
@@ -211,16 +215,28 @@ export default function GuildatarContainer() {
 							childrenLoading={op === DEFAULT_OP.loading}
 						/>
 
-						<LoadMore
-							id="user-items"
-							onLoadMore={handleLoadMore}
-							shouldLoad={pages > currentPage}
-							loading={op === DEFAULT_OP.load_more}
-							className={CLASS + '-content-items-load_more'}
-						>
-							{op !== DEFAULT_OP.loading &&
-								defaultItems.map(i => {
-									return (
+						{op !== DEFAULT_OP.loading ? (
+							!total ? (
+								<>
+									<PagePlaceholder
+										title="Buy items on Market"
+										subtitle="You currently have none of the items for this category"
+										buttonLabel="Visit market"
+										to={{
+											pathname: MARKETPLACE,
+											search: bodyPart && `?body_part=${bodyPart}`,
+										}}
+									/>
+								</>
+							) : (
+								<LoadMore
+									id="user-items"
+									onLoadMore={handleLoadMore}
+									shouldLoad={pages > currentPage}
+									loading={op === DEFAULT_OP.load_more}
+									className={CLASS + '-content-items-load_more'}
+								>
+									{defaultItems.map(i => (
 										<MarketplaceItem
 											key={i.id}
 											id={i.id}
@@ -232,23 +248,24 @@ export default function GuildatarContainer() {
 											displayPrice={false}
 											onClick={() => setFieldValue(i?.item?.body_part, i)}
 										/>
-									);
-								})}
-							{op !== DEFAULT_OP.loading ? (
-								items.map(i => (
-									<MarketplaceItem
-										key={i.id}
-										selector={selectItemFromUserItemById}
-										active={values[camelCase(i.item.body_part)]?.id === i.id}
-										id={i.id}
-										displayPrice={false}
-										onClick={() => setFieldValue(i?.item?.body_part, i)}
-									/>
-								))
-							) : (
-								<Loader />
-							)}
-						</LoadMore>
+									))}
+									{items.map(i => (
+										<MarketplaceItem
+											key={i.id}
+											selector={selectItemFromUserItemById}
+											active={
+												values[camelCase(i.item.body_part)]?.id === i.id
+											}
+											id={i.id}
+											displayPrice={false}
+											onClick={() => setFieldValue(i?.item?.body_part, i)}
+										/>
+									))}
+								</LoadMore>
+							)
+						) : (
+							<Loader className={CLASS + '-content-items-loader'} />
+						)}
 					</div>
 				</div>
 			</form>

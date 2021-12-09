@@ -22,7 +22,7 @@ function ShowMore({
 
 	const toggleOpen = () => setIsOpen(prevState => !prevState);
 	const buttonText = isOpen ? 'Show less' : 'Show more';
-	const shouldCutoff = text > numberOfCharacters;
+	const shouldCutoff = text.length > numberOfCharacters;
 	const displayText = shouldCutoff && !isOpen ? text.slice(0, numberOfCharacters) : text;
 
 	const TextComponent = textComponent;

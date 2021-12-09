@@ -4,7 +4,10 @@
 .st-HorizontalList {
 	display: flex;
 	flex-direction: column;
-	overflow-x: auto;
+
+	@media (max-width: $breakpoint-m) {
+		overflow-x: auto;
+	}
 
 	&-items {
 		display: flex;
