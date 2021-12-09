@@ -129,7 +129,7 @@ export default function DesktopNav({isMobile}) {
 		<Navbar className={CLASS}>
 			<Nav className={CLASS + '-feed'}>
 				<NavItem>
-					<NavLink tag={Link} to={goToWidget(WIDGETS.following)}>
+					<NavLink tag={Link} to={DASHBOARD}>
 						<Icon icon={ICONS.logo} size={30} />
 					</NavLink>
 				</NavItem>
