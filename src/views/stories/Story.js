@@ -81,7 +81,7 @@ export default function Story() {
 			<PagePlaceholder
 				className={CLASS + '-placeholder'}
 				IconComponent={ArchivedStory}
-				buttonLabel="Back to home"
+				buttonLabel="Back to dashboard"
 				title="The story is archived"
 				subtitle="The writer has archived this story and it is no longer public."
 				to={DASHBOARD}

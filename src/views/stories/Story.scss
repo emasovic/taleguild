@@ -106,6 +106,7 @@
 	}
 
 	&-placeholder {
+		height: 80vh;
 		svg {
 			path {
 				@include theme-aware('fill', 'G400');

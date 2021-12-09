@@ -140,7 +140,7 @@ export default function Marketplace() {
 					resetParamsOnChange
 				/>
 
-				<SearchInput placeholder="Search item" urlParamName="name" />
+				<SearchInput placeholder="Search item" defaultValue={name} urlParamName="name" />
 			</div>
 
 			<div className={CLASS + '-market'}>

@@ -10,7 +10,6 @@
 	flex-direction: column;
 	position: sticky;
 	top: 80px;
-	height: calc(100vh - 140px);
 	overflow-y: hidden;
 
 	@include scrollbars(6px, 'G200', 'G100');
