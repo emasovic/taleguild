@@ -34,7 +34,7 @@ export default function Dashboard() {
 				component={TYPOGRAPHY_VARIANTS.h4}
 				font={FONTS.merri}
 			>
-				Welcome back, {displayName}
+				Welcome {displayName}!
 			</Typography>
 			<Typography variant={TYPOGRAPHY_VARIANTS.action1} color={TEXT_COLORS.secondary}>
 				It’s {format(new Date(), 'EEEE')}, great day to start working on you next story.

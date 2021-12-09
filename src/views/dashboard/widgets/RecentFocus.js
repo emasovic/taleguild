@@ -3,7 +3,7 @@ import {useSelector} from 'react-redux';
 import {subDays} from 'date-fns';
 
 import {getActivity} from 'lib/api';
-import {secondsToHoursMinutes, setTimeToDate} from 'lib/util';
+import {isMobile, secondsToHoursMinutes, setTimeToDate} from 'lib/util';
 
 import {FONTS, TEXT_COLORS, TYPOGRAPHY_VARIANTS} from 'types/typography';
 import {ICONS} from 'types/icons';
@@ -30,7 +30,7 @@ export default function RecentFocus() {
 	const totalActive = result.reduce((acc, val) => acc + val.active, 0);
 	const active = !error ? secondsToHoursMinutes(totalActive) : 0;
 
-	const title = !drafts.length ? '--:--' : `${active} h`;
+	const title = !drafts.length && !isMobile ? '--:--' : `${active} h`;
 	const topStats = (
 		<>
 			<Typography variant={TYPOGRAPHY_VARIANTS.h3} font={FONTS.merri}>
