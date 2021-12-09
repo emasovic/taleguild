@@ -111,6 +111,7 @@ function GuildatarDialog({isOpen, onClose, id}) {
 					invalid={!!errors.gender}
 					errorMessage={errors.gender}
 					isDisabled={!!id}
+					isSearchable={false}
 				/>
 				{id && (
 					<Checkbox

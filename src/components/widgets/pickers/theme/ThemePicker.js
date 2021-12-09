@@ -5,10 +5,6 @@ import {THEMES} from 'types/themes';
 
 import DefaultPicker from '../default/DefaultPicker';
 
-// import './ThemePicker.scss';
-
-// const CLASS = 'st-ThemePicker';
-
 const OPTIONS = [
 	{
 		value: THEMES.light,
@@ -36,6 +32,7 @@ export default function ThemePicker({label, value, onChange, ...rest}) {
 			label={label}
 			options={OPTIONS}
 			value={theme}
+			isSearchable={false}
 			{...rest}
 		/>
 	);
