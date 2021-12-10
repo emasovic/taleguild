@@ -75,8 +75,8 @@ export const createOrUpdateGuildatar = payload => async (dispatch, getState, his
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
 	const message = payload.id
-		? 'Successfully updated guildatar.'
-		: 'Successfully created guildatar.';
+		? 'The guildatar has been successfully updated.'
+		: 'The guildatar has been successfully created.';
 
 	dispatch(guildatarUpsert({...res, isNew: payload.id ? false : true}));
 	dispatch(newToast({...Toast.success(message)}));

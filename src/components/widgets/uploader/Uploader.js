@@ -47,7 +47,14 @@ export default function Uploader({
 				.catch(err => dispatch(addToast({...Toast.error(err)})));
 		},
 		onDropRejected: () => {
-			dispatch(addToast({...Toast.error('File too large')}));
+			dispatch(
+				addToast({
+					...Toast.error(
+						'The file that was uploaded is too large. Try uploading something below 1 MB.',
+						'File too large'
+					),
+				})
+			);
 		},
 	});
 

@@ -96,11 +96,9 @@ export const createOrDeleteComment = payload => async (dispatch, getState) => {
 	}
 	if (res.id) {
 		dispatch(commentsUpsertOne({storyId: payload.story, ...res}));
-		return dispatch(newToast({...Toast.success('Successfully posted comment.')}));
 	}
 
 	dispatch(commentsRemoveOne({storyId: payload.story, id: payload.id}));
-	return dispatch(newToast({...Toast.success('Successfully deleted comment.')}));
 };
 
 //SELECTORS

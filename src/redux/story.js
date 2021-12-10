@@ -162,7 +162,9 @@ export const createOrUpdateStory = (payload, shouldChange = true) => async (
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
 	dispatch(storyUpsert(res));
-	const message = payload.id ? 'Successfully updated story.' : 'Successfully created story.';
+	const message = payload.id
+		? 'Your story has been successfully published in the Community and is now public.'
+		: 'Your story has been successfully published in the Community and is now public.';
 	if (shouldChange) {
 		history.push(goToStory(res.id));
 		dispatch(newToast({...Toast.success(message)}));
@@ -178,7 +180,7 @@ export const deleteStory = storyId => async (dispatch, getState, history) => {
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
 	dispatch(storyRemoved(storyId));
-	dispatch(newToast({...Toast.success('Successfully deleted story.')}));
+
 	return history.push(DELETED_STORY);
 };
 

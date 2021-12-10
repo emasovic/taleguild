@@ -36,13 +36,19 @@
 
 	.toast {
 		@include theme-aware('background-color', 'B100');
+		@include theme-aware('box-shadow', 'card-shadow');
 		border-radius: 6px;
+		border: none;
+		margin-bottom: 16px;
+		padding: 8px;
 
 		&-header {
 			@include theme-aware('background-color', 'B100');
-
+			@include theme-aware('border-color', 'B100');
+			margin-bottom: -16px;
 			.fa-times {
 				cursor: pointer;
+				@include theme-aware('color', 'G500');
 			}
 		}
 

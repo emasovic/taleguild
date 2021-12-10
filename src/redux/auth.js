@@ -136,7 +136,9 @@ export const updateUser = (token, payload) => async dispatch => {
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
 	dispatch(
-		newToast({...Toast.success('Successfully updated user settings!', 'Account Settings')})
+		newToast({
+			...Toast.success('The settings have been successfully updated.', 'Account Settings'),
+		})
 	);
 	dispatch(gotData({...res, jwt: token}));
 };
@@ -154,12 +156,26 @@ export const forgotPassword = payload => async dispatch => {
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
 	dispatch(opEnd());
-	dispatch(newToast({...Toast.success('Soon you will get email with reset link!')}));
+	dispatch(
+		newToast({
+			...Toast.success(
+				'We have sent a password recover instructions to your email. Please check your Spam folder if you cannot find it.',
+				'Check your email'
+			),
+		})
+	);
 };
 
 export const resetPassword = payload => async (dispatch, getState, history) => {
 	if (payload.password !== payload.passwordConfirmation) {
-		return dispatch(newToast({...Toast.error('Passwords doesn`t match!')}));
+		return dispatch(
+			newToast({
+				...Toast.error(
+					'Passwords do not match',
+					'Please try re-entering the correct passwords.'
+				),
+			})
+		);
 	}
 	dispatch(opStart(USER_OP.reset_password));
 	const res = await api.resetPassword(payload);
@@ -171,7 +187,11 @@ export const resetPassword = payload => async (dispatch, getState, history) => {
 	localStorage.setItem('token', res.jwt);
 	dispatch(gotData(res));
 	history.push(DASHBOARD);
-	dispatch(newToast({...Toast.success('Password successfully reset!')}));
+	dispatch(
+		newToast({
+			...Toast.success('The password has been successfully reset.', 'Password recovered'),
+		})
+	);
 };
 
 export const providerLogin = (provider, token) => async (dispatch, getState, history) => {
