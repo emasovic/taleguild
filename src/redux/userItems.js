@@ -63,7 +63,14 @@ export const purchaseUserItem = payload => async (dispatch, getState) => {
 		dispatch(opEnd());
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
-	dispatch(newToast({...Toast.success('Successfully bought item!')}));
+	dispatch(
+		newToast({
+			...Toast.success(
+				'You can find bought item in Guildatars and apply it to any of them.',
+				`${res?.item?.name} bought`
+			),
+		})
+	);
 	dispatch(userItemsUpsert(res));
 };
 

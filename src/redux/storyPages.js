@@ -101,7 +101,6 @@ export const createOrUpdateStoryPage = payload => async (dispatch, getState, his
 	if (!payload.id) {
 		history.push(editStory(payload.story, res.id));
 
-		dispatch(newToast({...Toast.success('Successfully created story page.')}));
 		return dispatch(storyPageUpsert(res));
 	}
 	return dispatch(opEnd());
@@ -126,8 +125,6 @@ export const deleteStoryPage = (storyId, pageId) => async (dispatch, getState, h
 	const page = ids[ids.length - 1];
 
 	page && history.push(editStory(storyId, page));
-
-	return dispatch(newToast({...Toast.success('Successfully removed page!')}));
 };
 
 //SELECTORS

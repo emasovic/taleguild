@@ -106,15 +106,9 @@ export const updateArchivedStory = (payload, keepArchived) => async (dispatch, g
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
 
-	const message = res.archived_at
-		? 'Successfully archived story'
-		: 'Successfully unarchived story';
-
 	res.archived_at
 		? dispatch(archivedStoryUpsert({...res, keepArchived}))
-		: dispatch(archivedStoryRemoved({...res}));
-
-	dispatch(newToast({...Toast.success(message)}));
+		: dispatch(archivedStoryRemoved(res));
 };
 
 export const removeArchivedStory = storyId => async (dispatch, getState, history) => {
@@ -126,7 +120,6 @@ export const removeArchivedStory = storyId => async (dispatch, getState, history
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
 	dispatch(archivedStoryRemoved({id: storyId}));
-	dispatch(newToast({...Toast.success('Successfully deleted story.')}));
 };
 
 //SELECTORS

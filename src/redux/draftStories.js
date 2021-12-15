@@ -107,7 +107,6 @@ export const deleteStory = storyId => async dispatch => {
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
 	dispatch(draftStoryRemoved(storyId));
-	dispatch(newToast({...Toast.success('Successfully deleted story.')}));
 };
 
 //SELECTORS

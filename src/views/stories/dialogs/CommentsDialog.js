@@ -129,12 +129,22 @@ function CommentsDialog({isOpen, title, onClose, storyId, className}) {
 		e.preventDefault();
 		if (comment.length >= 200) {
 			return dispatch(
-				addToast({...Toast.error('Comment needs to be less than 200 characters.')})
+				addToast({
+					...Toast.error(
+						'Comment should be less than 200 characters.',
+						'Comment too long'
+					),
+				})
 			);
 		}
 		if (comment.trim().length <= 2 && !commentId) {
 			return dispatch(
-				addToast({...Toast.error('Comment needs to be more than 2 characters.')})
+				addToast({
+					...Toast.error(
+						'Comment should be longer than 2 characters.',
+						'Comment too short'
+					),
+				})
 			);
 		}
 		dispatch(createOrDeleteComment({user: data.id, story: storyId, comment, id: commentId}));

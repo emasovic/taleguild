@@ -1,3 +1,6 @@
+@import 'styles/variables.scss';
+@import 'styles/themes/mixins.scss';
+
 .st-Toasts {
 	position: fixed;
 	bottom: 80px;
@@ -7,4 +10,51 @@
 	max-width: 400px;
 	min-width: 256px;
 	word-wrap: break-word;
+
+	&-success,
+	&-warning,
+	&-error,
+	&-info {
+		font-size: 12px;
+	}
+
+	&-success {
+		@include theme-aware('color', 'S48');
+	}
+
+	&-warning {
+		@include theme-aware('color', 'T600');
+	}
+
+	&-error {
+		@include theme-aware('color', 'R58');
+	}
+
+	&-info {
+		@include theme-aware('color', 'G500');
+	}
+
+	.toast {
+		@include theme-aware('background-color', 'B100');
+		@include theme-aware('box-shadow', 'card-shadow');
+		border-radius: 6px;
+		border: none;
+		margin-bottom: 16px;
+		padding: 8px;
+
+		&-header {
+			@include theme-aware('background-color', 'B100');
+			@include theme-aware('border-color', 'B100');
+			margin-bottom: -16px;
+			.fa-times {
+				cursor: pointer;
+				@include theme-aware('color', 'G500');
+			}
+		}
+
+		&-body {
+			display: flex;
+			flex-direction: column;
+		}
+	}
 }
