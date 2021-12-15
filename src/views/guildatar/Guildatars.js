@@ -78,7 +78,7 @@ function Guildatars() {
 								body={getImageUrl(i?.body?.item?.image?.url)}
 								leftArm={getImageUrl(i?.left_arm?.item?.image?.url)}
 								rightArm={getImageUrl(i?.right_arm?.item?.image?.url)}
-								gender={i.gender}
+								gender={i.gender?.gender}
 							/>
 							<Typography fontWeight={FONT_WEIGHT.bold}>{i.name}</Typography>
 							<Typography color={TEXT_COLORS.secondary}>{i.description}</Typography>

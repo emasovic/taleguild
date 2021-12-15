@@ -5,7 +5,7 @@ import {Provider} from 'react-redux';
 import {THEMES} from 'types/themes';
 
 import store from './redux/store';
-import {initialize} from 'redux/application';
+import {getUser} from 'redux/auth';
 
 import * as serviceWorker from './serviceWorker';
 
@@ -20,7 +20,7 @@ import 'styles/index.scss';
 const theme = localStorage.getItem('theme') || THEMES.dark;
 document.documentElement.classList.add(`theme-${theme}`);
 
-store.dispatch(initialize());
+store.dispatch(getUser());
 
 ReactDOM.render(
 	<React.StrictMode>

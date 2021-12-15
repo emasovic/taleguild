@@ -48,7 +48,12 @@ function SideNav({items, loading, title, urlParamName}) {
 						? items.map((item, key) => {
 								return (
 									<NavItem key={key} onClick={() => updateQueryParams(item.id)}>
-										<NavLink active={activeItem === item.id}>
+										<NavLink
+											active={
+												activeItem === item.id ||
+												Number(activeItem) === item.id
+											}
+										>
 											{item.name}
 										</NavLink>
 									</NavItem>

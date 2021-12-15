@@ -46,11 +46,11 @@ function PagePlaceholder({
 }
 
 PagePlaceholder.propTypes = {
-	IconComponent: PropTypes.element,
+	IconComponent: PropTypes.object,
 	title: PropTypes.string.isRequired,
 	subtitle: PropTypes.string.isRequired,
 	buttonLabel: PropTypes.string,
-	to: PropTypes.string,
+	to: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 	className: PropTypes.string,
 	buttonProps: PropTypes.object,
 };

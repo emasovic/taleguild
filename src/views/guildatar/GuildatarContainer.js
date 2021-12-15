@@ -4,6 +4,7 @@ import {useLocation, useParams} from 'react-router';
 import camelCase from 'lodash.camelcase';
 
 import {getImageUrl} from 'lib/util';
+import {MARKETPLACE} from 'lib/routes';
 
 import {FONTS, FONT_WEIGHT, TEXT_COLORS, TEXT_CURSORS, TYPOGRAPHY_VARIANTS} from 'types/typography';
 import {COLOR} from 'types/button';
@@ -21,6 +22,7 @@ import ShowMore from 'components/widgets/show-more/ShowMore';
 import HorizontalList from 'components/widgets/horizontal-list/HorizontalList';
 import MobileWrapper from 'components/widgets/mobile-wrapper/MobileWrapper';
 import LoadMore from 'components/widgets/loadmore/LoadMore';
+import PagePlaceholder from 'components/widgets/page-placeholder/PagePlaceholder';
 
 import MarketplaceItem from 'components/marketplace/MarketplaceItem';
 
@@ -28,8 +30,6 @@ import Guildatar from 'components/guildatar/Guildatar';
 import GuildatarDialog from 'components/guildatar/GuildatarDialog';
 
 import './GuildatarContainer.scss';
-import PagePlaceholder from 'components/widgets/page-placeholder/PagePlaceholder';
-import {MARKETPLACE} from 'lib/routes';
 
 const CLASS = 'st-GuildatarContainer';
 
@@ -49,22 +49,25 @@ export default function GuildatarContainer() {
 
 	const toggleOpen = () => setIsOpen(prevState => !prevState);
 
-	const handleLoadMore = useCallback(() => {
-		guildatar?.user?.id &&
+	const handleLoadUserItems = useCallback(
+		(count, op, _start) => {
 			dispatch(
 				loadUserItems(
 					{
 						user: guildatar.user?.id,
 						'item.body_part': bodyPart || undefined,
-						_limit: 10,
-						_start: currentPage * 10,
+						'item.genders': guildatar.gender,
+						...DEFAULT_LIMIT,
+						_start,
 						_sort: 'created_at:DESC',
 					},
-					false,
-					DEFAULT_OP.load_more
+					count,
+					op
 				)
 			);
-	}, [currentPage, dispatch, bodyPart, guildatar]);
+		},
+		[dispatch, bodyPart, guildatar]
+	);
 
 	const handleSubmit = values => {
 		const payload = {
@@ -84,20 +87,8 @@ export default function GuildatarContainer() {
 	}, [id, dispatch]);
 
 	useEffect(() => {
-		guildatar?.user?.id &&
-			dispatch(
-				loadUserItems(
-					{
-						guildatar_null: true,
-						user: guildatar.user?.id,
-						'item.body_part': bodyPart || undefined,
-						'item.gender': guildatar.gender,
-						...DEFAULT_LIMIT,
-					},
-					true
-				)
-			);
-	}, [dispatch, guildatar, bodyPart]);
+		guildatar?.user?.id && handleLoadUserItems(true, null, 0);
+	}, [dispatch, guildatar, handleLoadUserItems]);
 
 	const {values, dirty, handleSubmit: formikSubmit, handleReset, setFieldValue} = useFormik({
 		initialValues: {
@@ -179,7 +170,7 @@ export default function GuildatarContainer() {
 								body={getImageUrl(avatarBody?.item?.image?.url)}
 								leftArm={getImageUrl(avatarLeftArm?.item?.image?.url)}
 								rightArm={getImageUrl(avatarRightArm?.item?.image?.url)}
-								gender={guildatar.gender}
+								gender={guildatar?.gender?.gender}
 							/>
 						</div>
 
@@ -231,7 +222,13 @@ export default function GuildatarContainer() {
 							) : (
 								<LoadMore
 									id="user-items"
-									onLoadMore={handleLoadMore}
+									onLoadMore={() =>
+										handleLoadUserItems(
+											false,
+											DEFAULT_OP.load_more,
+											currentPage * 10
+										)
+									}
 									shouldLoad={pages > currentPage}
 									loading={op === DEFAULT_OP.load_more}
 									className={CLASS + '-content-items-load_more'}

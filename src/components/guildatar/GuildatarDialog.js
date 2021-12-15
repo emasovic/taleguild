@@ -4,22 +4,23 @@ import {useFormik} from 'formik';
 import {useDispatch, useSelector} from 'react-redux';
 import * as Yup from 'yup';
 
-import {getImageUrl} from 'lib/util';
-
-import {GENDER} from 'types/guildatar';
+import {capitalize, getImageUrl} from 'lib/util';
+import {getGenders} from 'lib/api';
 
 import {createOrUpdateGuildatar, selectGuildatarById} from 'redux/guildatars';
 import {selectAuthUser} from 'redux/auth';
+
+import {useLoadItems} from 'hooks/getItems';
 
 import DefaultPicker from 'components/widgets/pickers/default/DefaultPicker';
 import ConfirmModal from 'components/widgets/modals/Modal';
 import FloatingInput from 'components/widgets/input/FloatingInput';
 import TextArea from 'components/widgets/textarea/TextArea';
+import Checkbox from 'components/widgets/checkbox/Checkbox';
 
 import Guildatar from './Guildatar';
 
 import './GuildatarDialog.scss';
-import Checkbox from 'components/widgets/checkbox/Checkbox';
 
 const CLASS = 'st-GuildatarDialog';
 
@@ -37,6 +38,9 @@ const validationSchema = Yup.object().shape({
 
 function GuildatarDialog({isOpen, onClose, id}) {
 	const dispatch = useDispatch();
+	const [{data: genders}] = useLoadItems(getGenders);
+
+	const options = genders.map(i => ({value: i.id, label: capitalize(i.gender)}));
 
 	const {data} = useSelector(selectAuthUser);
 	const {op} = useSelector(state => state.guildatars);
@@ -72,10 +76,11 @@ function GuildatarDialog({isOpen, onClose, id}) {
 			active,
 			name: guildatar?.name || '',
 			description: guildatar?.description || '',
-			gender: GENDER.find(i => i.value === guildatar?.gender) || null,
+			gender: options.find(i => i.value === guildatar?.gender?.id) || null,
 		},
 		onSubmit: handleSubmit,
 	});
+
 	const renderContent = () => (
 		<div className={CLASS}>
 			<form onSubmit={formikSubmit}>
@@ -86,7 +91,7 @@ function GuildatarDialog({isOpen, onClose, id}) {
 						body={getImageUrl(body?.item?.image?.url)}
 						leftArm={getImageUrl(left_arm?.item?.image?.url)}
 						rightArm={getImageUrl(right_arm?.item?.image?.url)}
-						gender={values?.gender?.value}
+						gender={values?.gender?.label.toLowerCase()}
 					/>
 				</div>
 
@@ -102,7 +107,7 @@ function GuildatarDialog({isOpen, onClose, id}) {
 				/>
 
 				<DefaultPicker
-					options={GENDER}
+					options={options}
 					placeholder="Choose guildatar's gender..."
 					label="Gender"
 					name="gender"
@@ -145,7 +150,7 @@ function GuildatarDialog({isOpen, onClose, id}) {
 				confirmLabel="Save"
 				isOpen={isOpen}
 				onClose={onClose}
-				submitButtonProps={{disabled: op || !dirty, loading: op}}
+				submitButtonProps={{disabled: !!op || !dirty, loading: !!op}}
 				content={renderContent()}
 				onSubmit={formikSubmit}
 			/>

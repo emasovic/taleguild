@@ -34,7 +34,7 @@ const RecentItem = ({id, onClick}) => {
 					textTransform={TEXT_TRASFORM.uppercase}
 					fontWeight={FONT_WEIGHT.semiBold}
 				>
-					{category}
+					{category?.display_name}
 				</Typography>
 				<Typography>{name}</Typography>
 
@@ -76,7 +76,7 @@ export default function RecentItems() {
 						_start: 0,
 						_limit: 4,
 						_sort: 'created_at:DESC',
-						gender,
+						genders: gender.id,
 					},
 					true
 				)

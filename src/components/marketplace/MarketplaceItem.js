@@ -27,7 +27,7 @@ function MarketplaceItem({id, onClick, item, displayPrice, active, selector}) {
 				textTransform={TEXT_TRASFORM.uppercase}
 				fontWeight={FONT_WEIGHT.semiBold}
 			>
-				{category}
+				{category?.display_name}
 			</Typography>
 			<Typography component={TYPOGRAPHY_VARIANTS.p}>{name}</Typography>
 			{displayPrice && price && (
