@@ -67,7 +67,7 @@ export const purchaseUserItem = payload => async (dispatch, getState) => {
 		newToast({
 			...Toast.success(
 				'You can find bought item in Guildatars and apply it to any of them.',
-				'DYNAMIC TITLE bought'
+				`${res?.item?.name} bought`
 			),
 		})
 	);
