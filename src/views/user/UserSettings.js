@@ -11,6 +11,7 @@ import Uploader from 'components/widgets/uploader/Uploader';
 import Loader from 'components/widgets/loader/Loader';
 import TextArea from 'components/widgets/textarea/TextArea';
 import ThemePicker from 'components/widgets/pickers/theme/ThemePicker';
+import MobileWrapper from 'components/widgets/mobile-wrapper/MobileWrapper';
 
 import './UserSettings.scss';
 
@@ -59,7 +60,7 @@ export default function UserSettings() {
 	}
 
 	return (
-		<div className={CLASS}>
+		<MobileWrapper className={CLASS}>
 			<Uploader
 				onUploaded={setAvatar}
 				files={avatar}
@@ -81,6 +82,6 @@ export default function UserSettings() {
 					Save changes
 				</IconButton>
 			</div>
-		</div>
+		</MobileWrapper>
 	);
 }

@@ -4,17 +4,17 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	margin-bottom: 24px;
+	max-width: $story-preview-width-medium;
+	width: 100%;
+	margin: 0 auto;
 
 	@media (max-width: $breakpoint-m) {
-		margin: 24px 0 60px;
+		padding-bottom: 120px;
 	}
 
 	.st-Uploader {
 		margin-bottom: 24px;
-		@media (max-width: $breakpoint-m) {
-			width: $story-preview-width-small;
-		}
+		width: 100%;
 
 		&-thumbs {
 			display: flex;
@@ -32,11 +32,7 @@
 	}
 
 	&-info {
-		min-width: 400px;
-
-		@media (max-width: $breakpoint-m) {
-			min-width: $story-preview-width-small;
-		}
+		width: 100%;
 
 		.st-IconButton {
 			width: 100%;
