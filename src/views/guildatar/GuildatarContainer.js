@@ -4,6 +4,7 @@ import {useLocation, useParams} from 'react-router';
 import camelCase from 'lodash.camelcase';
 
 import {getImageUrl} from 'lib/util';
+import {MARKETPLACE} from 'lib/routes';
 
 import {FONTS, FONT_WEIGHT, TEXT_COLORS, TEXT_CURSORS, TYPOGRAPHY_VARIANTS} from 'types/typography';
 import {COLOR} from 'types/button';
@@ -21,6 +22,7 @@ import ShowMore from 'components/widgets/show-more/ShowMore';
 import HorizontalList from 'components/widgets/horizontal-list/HorizontalList';
 import MobileWrapper from 'components/widgets/mobile-wrapper/MobileWrapper';
 import LoadMore from 'components/widgets/loadmore/LoadMore';
+import PagePlaceholder from 'components/widgets/page-placeholder/PagePlaceholder';
 
 import MarketplaceItem from 'components/marketplace/MarketplaceItem';
 
@@ -47,22 +49,25 @@ export default function GuildatarContainer() {
 
 	const toggleOpen = () => setIsOpen(prevState => !prevState);
 
-	const handleLoadMore = useCallback(() => {
-		guildatar?.user?.id &&
+	const handleLoadUserItems = useCallback(
+		(count, op, _start) => {
 			dispatch(
 				loadUserItems(
 					{
 						user: guildatar.user?.id,
 						'item.body_part': bodyPart || undefined,
-						_limit: 10,
-						_start: currentPage * 10,
+						'item.genders': guildatar.gender,
+						...DEFAULT_LIMIT,
+						_start,
 						_sort: 'created_at:DESC',
 					},
-					false,
-					DEFAULT_OP.load_more
+					count,
+					op
 				)
 			);
-	}, [currentPage, dispatch, bodyPart, guildatar]);
+		},
+		[dispatch, bodyPart, guildatar]
+	);
 
 	const handleSubmit = values => {
 		const payload = {
@@ -82,20 +87,8 @@ export default function GuildatarContainer() {
 	}, [id, dispatch]);
 
 	useEffect(() => {
-		guildatar?.user?.id &&
-			dispatch(
-				loadUserItems(
-					{
-						guildatar_null: true,
-						user: guildatar.user?.id,
-						'item.body_part': bodyPart || undefined,
-						'item.gender': guildatar.gender,
-						...DEFAULT_LIMIT,
-					},
-					true
-				)
-			);
-	}, [dispatch, guildatar, bodyPart]);
+		guildatar?.user?.id && handleLoadUserItems(true, null, 0);
+	}, [dispatch, guildatar, handleLoadUserItems]);
 
 	const {values, dirty, handleSubmit: formikSubmit, handleReset, setFieldValue} = useFormik({
 		initialValues: {
@@ -131,6 +124,7 @@ export default function GuildatarContainer() {
 		? defaultItems.filter(i => i?.item?.body_part === bodyPart)
 		: defaultItems;
 
+	const total = defaultItems.length + items.length;
 	return (
 		<MobileWrapper className={CLASS}>
 			<form onSubmit={formikSubmit}>
@@ -176,7 +170,7 @@ export default function GuildatarContainer() {
 								body={getImageUrl(avatarBody?.item?.image?.url)}
 								leftArm={getImageUrl(avatarLeftArm?.item?.image?.url)}
 								rightArm={getImageUrl(avatarRightArm?.item?.image?.url)}
-								gender={guildatar.gender}
+								gender={guildatar?.gender?.gender}
 							/>
 						</div>
 
@@ -189,14 +183,15 @@ export default function GuildatarContainer() {
 								Description
 							</Typography>
 							<ShowMore
+								className={CLASS + '-content-avatar-description-text'}
 								textProps={{
 									color: TEXT_COLORS.secondary,
-									className: CLASS + '-content-avatar-description-text',
 								}}
 								actionComponent={Typography}
 								actionProps={{
-									color: TEXT_COLORS.tertiary,
+									color: TEXT_COLORS.buttonPrimary,
 									cursor: TEXT_CURSORS.pointer,
+									className: CLASS + '-content-avatar-description-text-action',
 								}}
 								text={guildatar.description}
 							/>
@@ -211,16 +206,34 @@ export default function GuildatarContainer() {
 							childrenLoading={op === DEFAULT_OP.loading}
 						/>
 
-						<LoadMore
-							id="user-items"
-							onLoadMore={handleLoadMore}
-							shouldLoad={pages > currentPage}
-							loading={op === DEFAULT_OP.load_more}
-							className={CLASS + '-content-items-load_more'}
-						>
-							{op !== DEFAULT_OP.loading &&
-								defaultItems.map(i => {
-									return (
+						{op !== DEFAULT_OP.loading ? (
+							!total ? (
+								<>
+									<PagePlaceholder
+										title="Buy items on Market"
+										subtitle="You currently have none of the items for this category"
+										buttonLabel="Visit market"
+										to={{
+											pathname: MARKETPLACE,
+											search: bodyPart && `?body_part=${bodyPart}`,
+										}}
+									/>
+								</>
+							) : (
+								<LoadMore
+									id="user-items"
+									onLoadMore={() =>
+										handleLoadUserItems(
+											false,
+											DEFAULT_OP.load_more,
+											currentPage * 10
+										)
+									}
+									shouldLoad={pages > currentPage}
+									loading={op === DEFAULT_OP.load_more}
+									className={CLASS + '-content-items-load_more'}
+								>
+									{defaultItems.map(i => (
 										<MarketplaceItem
 											key={i.id}
 											id={i.id}
@@ -232,23 +245,24 @@ export default function GuildatarContainer() {
 											displayPrice={false}
 											onClick={() => setFieldValue(i?.item?.body_part, i)}
 										/>
-									);
-								})}
-							{op !== DEFAULT_OP.loading ? (
-								items.map(i => (
-									<MarketplaceItem
-										key={i.id}
-										selector={selectItemFromUserItemById}
-										active={values[camelCase(i.item.body_part)]?.id === i.id}
-										id={i.id}
-										displayPrice={false}
-										onClick={() => setFieldValue(i?.item?.body_part, i)}
-									/>
-								))
-							) : (
-								<Loader />
-							)}
-						</LoadMore>
+									))}
+									{items.map(i => (
+										<MarketplaceItem
+											key={i.id}
+											selector={selectItemFromUserItemById}
+											active={
+												values[camelCase(i.item.body_part)]?.id === i.id
+											}
+											id={i.id}
+											displayPrice={false}
+											onClick={() => setFieldValue(i?.item?.body_part, i)}
+										/>
+									))}
+								</LoadMore>
+							)
+						) : (
+							<Loader className={CLASS + '-content-items-loader'} />
+						)}
 					</div>
 				</div>
 			</form>

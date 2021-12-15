@@ -23,12 +23,6 @@
 				&-divider {
 					display: none;
 				}
-
-				&-item {
-					&:first-child {
-						display: none;
-					}
-				}
 			}
 		}
 	}
@@ -38,7 +32,7 @@
 	}
 
 	@media (max-width: $breakpoint-sm) {
-		max-width: $story-preview-width-small;
+		max-width: $story-preview-width-medium;
 		width: 100%;
 	}
 

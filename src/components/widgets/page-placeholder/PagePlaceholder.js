@@ -23,7 +23,7 @@ function PagePlaceholder({
 }) {
 	return (
 		<div className={classNames(CLASS, className)}>
-			<IconComponent />
+			{IconComponent && <IconComponent />}
 
 			<Typography
 				font={FONTS.merri}
@@ -36,7 +36,7 @@ function PagePlaceholder({
 				{subtitle}
 			</Typography>
 
-			{to && (
+			{buttonLabel && (
 				<IconButton tag={Link} to={to} {...buttonProps}>
 					{buttonLabel}
 				</IconButton>
@@ -46,11 +46,11 @@ function PagePlaceholder({
 }
 
 PagePlaceholder.propTypes = {
-	IconComponent: PropTypes.element.isRequired,
+	IconComponent: PropTypes.object,
 	title: PropTypes.string.isRequired,
 	subtitle: PropTypes.string.isRequired,
 	buttonLabel: PropTypes.string,
-	to: PropTypes.string,
+	to: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 	className: PropTypes.string,
 	buttonProps: PropTypes.object,
 };

@@ -13,7 +13,7 @@ import './App.scss';
 // const CLASS = 'st-App';
 
 function App() {
-	const loading = useSelector(state => state.application.loading);
+	const loading = useSelector(state => state.application.auth);
 
 	if (loading) {
 		return <Loader />;

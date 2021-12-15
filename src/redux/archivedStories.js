@@ -127,5 +127,6 @@ export const removeArchivedStory = storyId => async (dispatch, getState, history
 const archivedStoriesSelector = archivedStoriesAdapter.getSelectors(state => state.archivedStories);
 
 export const selectArchivedStories = state => archivedStoriesSelector.selectAll(state);
+export const selectArchivedStory = (state, id) => archivedStoriesSelector.selectById(state, id);
 
 export default archivedStorySlice.reducer;

@@ -16,6 +16,7 @@ import Guildatar from 'components/guildatar/Guildatar';
 import Link, {UNDERLINE} from 'components/widgets/link/Link';
 import Loader from 'components/widgets/loader/Loader';
 import MobileWrapper from 'components/widgets/mobile-wrapper/MobileWrapper';
+import PagePlaceholder from 'components/widgets/page-placeholder/PagePlaceholder';
 
 import './Guildatars.scss';
 
@@ -34,7 +35,7 @@ function Guildatars() {
 
 	useEffect(() => {
 		if (data) {
-			dispatch(loadGuildatars({user: data.id}));
+			dispatch(loadGuildatars({user: data.id}, true));
 		}
 	}, [data, dispatch]);
 
@@ -63,7 +64,7 @@ function Guildatars() {
 			<div className={CLASS + '-avatars'}>
 				{op ? (
 					<Loader />
-				) : (
+				) : guildatars.length ? (
 					guildatars.map(i => (
 						<Link
 							key={i.id}
@@ -77,12 +78,24 @@ function Guildatars() {
 								body={getImageUrl(i?.body?.item?.image?.url)}
 								leftArm={getImageUrl(i?.left_arm?.item?.image?.url)}
 								rightArm={getImageUrl(i?.right_arm?.item?.image?.url)}
-								gender={i.gender}
+								gender={i.gender?.gender}
 							/>
 							<Typography fontWeight={FONT_WEIGHT.bold}>{i.name}</Typography>
 							<Typography color={TEXT_COLORS.secondary}>{i.description}</Typography>
 						</Link>
 					))
+				) : (
+					<PagePlaceholder
+						className={CLASS + '-avatars-placeholder'}
+						title="Create your first Guildatar"
+						subtitle="Start building your first Guildatar, a character from your stories or an avatar who represents you"
+						buttonLabel="Create Guildatar"
+						buttonProps={{
+							to: undefined,
+							tag: undefined,
+							onClick: toggleOpen,
+						}}
+					/>
 				)}
 			</div>
 			{isOpen && <GuildatarDialog onClose={toggleOpen} isOpen={isOpen} />}

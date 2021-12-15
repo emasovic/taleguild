@@ -5,7 +5,7 @@ import propTypes from 'prop-types';
 import {STORY_OP, STORY_COMPONENTS, PUBLISH_STATES} from 'types/story';
 import {DEFAULT_LIMIT} from 'types/default';
 
-import {selectStories, loadStories, deleteStory} from 'redux/draftStories';
+import {selectStories, loadStories, deleteStory, selectDraftStory} from 'redux/draftStories';
 import {selectUserId} from 'redux/auth';
 
 import NoStories from 'views/stories/NoStories';
@@ -77,6 +77,7 @@ export default function DraftStories({shouldLoadMore, Component}) {
 						createdDate={item.published_at}
 						storypages={item.storypages}
 						slug={item.slug}
+						selector={selectDraftStory}
 						// author={item.user}
 					/>
 				);

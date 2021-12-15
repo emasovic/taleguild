@@ -6,7 +6,7 @@
 	min-width: $story-preview-width-medium;
 
 	@media (max-width: $breakpoint-sm) {
-		max-width: $story-preview-width-small;
+		max-width: $story-preview-width-medium;
 		min-width: unset;
 		width: 100%;
 	}
@@ -16,7 +16,7 @@
 		min-width: $story-preview-width-medium;
 
 		@media (max-width: $breakpoint-sm) {
-			max-width: $story-preview-width-small;
+			max-width: $story-preview-width-medium;
 			min-width: unset;
 			width: 100%;
 		}
@@ -35,10 +35,6 @@
 		max-width: $story-preview-width-medium;
 		margin: 0 auto;
 
-		@media (max-width: $breakpoint-sm) {
-			max-width: $story-preview-width-small;
-		}
-
 		.nav-link {
 			@include tab-link;
 		}
@@ -56,14 +52,9 @@
 
 		h2 {
 			margin: 12px 0;
-			min-width: 480px;
+			min-width: $story-preview-width-medium;
 			text-align: center;
-			// font-family: $font-merriweather;
 			@include theme-aware('color', 'G400');
-
-			@media (max-width: $breakpoint-m) {
-				min-width: $story-preview-width-small;
-			}
 		}
 	}
 

@@ -25,7 +25,7 @@ export default function TextEditor({value, onChange, onKeyDown, onKeyUp, pageId}
 				className={CLASS}
 				renderElement={renderElement}
 				renderLeaf={renderLeaf}
-				placeholder="Behind the seven seas…"
+				placeholder="Write for 3 minutes and more to get coins and start focus mode…"
 				spellCheck
 				autoFocus
 			/>

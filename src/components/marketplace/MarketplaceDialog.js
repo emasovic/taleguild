@@ -15,7 +15,6 @@ import {
 import {selectMarketplaceById} from 'redux/marketplace';
 import {selectAuthUser} from 'redux/auth';
 import {purchaseUserItem} from 'redux/userItems';
-import {selectActiveGuildatar} from 'redux/guildatars';
 
 import ConfirmModal from 'components/widgets/modals/Modal';
 import Guildatar from 'components/guildatar/Guildatar';
@@ -33,12 +32,10 @@ function MarketplaceDialog({isOpen, itemId, onClose}) {
 	const {data} = useSelector(selectAuthUser);
 	const {stats} = useSelector(state => state.auth);
 	const {op} = useSelector(state => state.userItems);
-	const guildatar = useSelector(selectActiveGuildatar);
-	const {image, name, price, description, category, body_part} = useSelector(state =>
+	const {image, name, price, description, category, genders, body_part} = useSelector(state =>
 		selectMarketplaceById(state, itemId)
 	);
 
-	const {head, face, body, left_arm, right_arm} = guildatar || {};
 	const props = {[body_part]: getImageUrl(image.url)};
 
 	const buyItem = () => {
@@ -58,20 +55,17 @@ function MarketplaceDialog({isOpen, itemId, onClose}) {
 
 	const renderContent = () => (
 		<div className={CLASS}>
-			<Guildatar
-				head={getImageUrl(head?.item?.image?.url)}
-				face={getImageUrl(face?.item?.image?.url)}
-				body={getImageUrl(body?.item?.image?.url)}
-				leftArm={getImageUrl(left_arm?.item?.image?.url)}
-				rightArm={getImageUrl(right_arm?.item?.image?.url)}
-				{...props}
-			/>
+			<Guildatar gender={genders[0]?.gender} {...props} />
+			<Typography color={TEXT_COLORS.tertiary}>
+				This is a preview of your default Guildatar
+			</Typography>
 			<Typography
 				color={TEXT_COLORS.tertiary}
 				textTransform={TEXT_TRASFORM.uppercase}
 				fontWeight={FONT_WEIGHT.semiBold}
+				className={CLASS + '-category'}
 			>
-				{category}
+				{category?.display_name}
 			</Typography>
 			<Typography
 				component={TYPOGRAPHY_VARIANTS.h4}
@@ -96,7 +90,7 @@ function MarketplaceDialog({isOpen, itemId, onClose}) {
 			renderFooter
 			additionalFooterInfo={additionalFooterInfo}
 			isOpen={isOpen}
-			title={name}
+			title="Shopping"
 			content={renderContent()}
 			onClose={onClose}
 			onSubmit={buyItem}

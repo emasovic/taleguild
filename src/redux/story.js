@@ -91,7 +91,7 @@ export const storySlice = createSlice({
 				: storyAdapter.removeOne(state, payload.id);
 		},
 		[archivedStoryRemoved]: (state, {payload}) => {
-			storyAdapter.upsertOne(state, payload);
+			payload.hasOwnProperty('user') && storyAdapter.upsertOne(state, payload);
 		},
 		[likesUpsertOne]: (state, {payload}) => {
 			const {storyId, ...rest} = payload;

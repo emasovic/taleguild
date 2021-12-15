@@ -8,6 +8,7 @@ import {
 	selectUserSavedStories,
 	loadSavedStories,
 	createOrDeleteSavedStory,
+	selectUserSavedStory,
 } from 'redux/savedStories';
 import {selectUserId} from 'redux/auth';
 
@@ -70,8 +71,7 @@ export default function SavedStories({shouldLoadMore, Component}) {
 
 				return (
 					<Component
-						id={story.id}
-						favouriteId={item.id}
+						id={item.id}
 						image={story.image}
 						formats={item.image && item.image.formats}
 						title={story.title}
@@ -80,7 +80,8 @@ export default function SavedStories({shouldLoadMore, Component}) {
 						author={story.user}
 						createdDate={story.published_at}
 						slug={story.slug}
-						onDeleteStory={handleDeleteStory}
+						onDeleteStory={id => handleDeleteStory(id, item.id)}
+						selector={selectUserSavedStory}
 					/>
 				);
 			})

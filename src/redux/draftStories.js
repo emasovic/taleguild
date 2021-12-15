@@ -20,6 +20,7 @@ export const draftSlice = createSlice({
 		pages: null,
 		loading: null,
 		currentPage: 1,
+		total: 0,
 	}),
 	reducers: {
 		draftStoriesReceieved: (state, action) => {
@@ -43,8 +44,9 @@ export const draftSlice = createSlice({
 			state.loading = null;
 			state.op = null;
 		},
-		gotPages: (state, action) => {
-			state.pages = action.payload;
+		gotPages: (state, {payload}) => {
+			state.pages = payload / 10;
+			state.total = payload;
 		},
 		loadingStart: state => {
 			state.loading = true;
@@ -88,7 +90,7 @@ export const loadStories = (params, count, op = STORY_OP.loading) => async dispa
 			dispatch(loadingEnd());
 			return dispatch(newToast({...Toast.error(countRes.error)}));
 		}
-		dispatch(gotPages(Math.ceil(countRes / 10)));
+		dispatch(gotPages(countRes));
 
 		return dispatch(draftStoriesReceieved(res));
 	}
@@ -114,6 +116,6 @@ const draftStoriesSelector = draftStoriesAdapter.getSelectors(state => state.dra
 export const selectStories = state => draftStoriesSelector.selectAll(state);
 export const selectStoryIds = state => draftStoriesSelector.selectIds(state);
 
-export const selectStory = (state, id) => draftStoriesSelector.selectById(state, id);
+export const selectDraftStory = (state, id) => draftStoriesSelector.selectById(state, id);
 
 export default draftSlice.reducer;

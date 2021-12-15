@@ -23,15 +23,12 @@ export default function StoryThumb({
 	image,
 	formats,
 	size,
-	archivedAt,
 	title,
 	author,
 	createdDate,
-	favouriteId,
 	onDeleteStory,
-	storypages,
 	slug,
-	displayArchived,
+	selector,
 }) {
 	const history = useHistory();
 
@@ -40,22 +37,11 @@ export default function StoryThumb({
 		history.push(goToUser(author && author.username));
 	};
 	title = title && title.length > 36 ? title.slice(0, 36) + '...' : title;
-	image = image ? image.formats.thumbnail : image;
+	image = image?.formats?.thumbnail || image;
 
 	return (
 		<div className={CLASS}>
-			<StoryDropdownButton
-				story={{
-					id,
-					favouriteId,
-					title,
-					storypages,
-					archivedAt,
-					publishedAt: createdDate,
-				}}
-				onDeleteStory={onDeleteStory}
-				displayArchived={displayArchived}
-			/>
+			<StoryDropdownButton id={id} onDeleteStory={onDeleteStory} selector={selector} />
 			<Link
 				to={goToStory(slug)}
 				underline={UNDERLINE.none}
@@ -90,16 +76,12 @@ StoryThumb.propTypes = {
 	image: propTypes.object,
 	formats: propTypes.object,
 	size: propTypes.string,
-	description: propTypes.string,
 	title: propTypes.string,
-	archivedAt: propTypes.string,
 	createdDate: propTypes.string,
 	author: propTypes.object,
-	storypages: propTypes.array,
-	favouriteId: propTypes.number,
 	onDeleteStory: propTypes.func,
 	slug: propTypes.string,
-	displayArchived: propTypes.bool,
+	selector: propTypes.func,
 };
 
 StoryThumb.defaultProps = {

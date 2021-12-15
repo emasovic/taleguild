@@ -83,11 +83,6 @@ export const registerUser = payload => async (dispatch, getState, history) => {
 
 	if (res.error) {
 		dispatch(opEnd());
-		if (Array.isArray(res.error)) {
-			return dispatch(
-				newToast({...Toast.error(res.error[0].messages[0].message || 'Bad request')})
-			);
-		}
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
 
@@ -128,11 +123,6 @@ export const updateUser = (token, payload) => async dispatch => {
 	const res = await api.updateUser(token, payload);
 	if (res.error) {
 		dispatch(loadingEnd());
-		if (Array.isArray(res.error)) {
-			return dispatch(
-				newToast({...Toast.error(res.error[0].messages[0].message || 'Bad request')})
-			);
-		}
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
 	dispatch(
@@ -148,11 +138,6 @@ export const forgotPassword = payload => async dispatch => {
 	const res = await api.forgotPassword(payload);
 	if (res.error) {
 		dispatch(opEnd());
-		if (Array.isArray(res.error)) {
-			return dispatch(
-				newToast({...Toast.error(res.error[0].messages[0].message || 'Bad request')})
-			);
-		}
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
 	dispatch(opEnd());
@@ -200,11 +185,6 @@ export const providerLogin = (provider, token) => async (dispatch, getState, his
 
 	if (res.error) {
 		dispatch(opEnd());
-		if (Array.isArray(res.error)) {
-			return dispatch(
-				newToast({...Toast.error(res.error[0].messages[0].message || 'Bad request')})
-			);
-		}
 		return dispatch(newToast({...Toast.error(res.error.detail || res.error)}));
 	}
 	const {jwt, user} = res;

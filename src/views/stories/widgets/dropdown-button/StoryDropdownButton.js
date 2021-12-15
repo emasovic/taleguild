@@ -5,12 +5,13 @@ import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import {editStory} from 'lib/routes';
+import {isMobile} from 'lib/util';
 
 import {FONTS, TYPOGRAPHY_VARIANTS} from 'types/typography';
 
-import {deleteStory} from 'redux/story';
 import {selectAuthUser} from 'redux/auth';
 import {updateArchivedStory} from 'redux/archivedStories';
+import {deleteStory, selectStory} from 'redux/story';
 
 import ConfirmModal from 'components/widgets/modals/Modal';
 import DropdownButton from 'components/widgets/button/DropdownButton';
@@ -20,17 +21,20 @@ import './StoryDropdownButton.scss';
 
 const CLASS = 'st-StoryDropdownButton';
 
-export default function StoryDropdownButton({story, onDeleteStory, displayArchived, keepArchived}) {
+export default function StoryDropdownButton({id, selector, onDeleteStory, keepArchived}) {
 	const dispatch = useDispatch();
 	const {data} = useSelector(selectAuthUser);
 
-	const {archivedAt, publishedAt, id, favouriteId, title, storypages} = story;
+	selector = selector || selectStory;
+
+	const story = useSelector(state => selector(state, id));
+	const {archived_at, published_at, title, storypages} = story || {};
 
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const handleDeleteStory = () => {
 		if (onDeleteStory) {
-			return onDeleteStory(id, favouriteId);
+			return onDeleteStory(id);
 		}
 
 		return _handleDeleteStory();
@@ -43,7 +47,7 @@ export default function StoryDropdownButton({story, onDeleteStory, displayArchiv
 	const handleArchive = () => {
 		dispatch(
 			updateArchivedStory(
-				{id, user: data?.id, archived_at: archivedAt ? null : new Date()},
+				{id, user: data?.id, archived_at: archived_at ? null : new Date()},
 				keepArchived
 			)
 		);
@@ -62,9 +66,10 @@ export default function StoryDropdownButton({story, onDeleteStory, displayArchiv
 	}
 
 	const pageId = storypages?.length ? storypages[0].id : null;
-	const archiveTitle = archivedAt ? 'Unarchive' : 'Archive';
+	const archiveTitle = archived_at ? 'Unarchive' : 'Archive';
 
-	const displayEdit = pageId && (archivedAt || !publishedAt);
+	const displayEdit = pageId && !isMobile && (archived_at || !published_at);
+	const displayArchived = !!published_at;
 	return (
 		<div className={CLASS}>
 			<DropdownButton>
@@ -96,8 +101,8 @@ export default function StoryDropdownButton({story, onDeleteStory, displayArchiv
 }
 
 StoryDropdownButton.propTypes = {
-	story: PropTypes.object,
-	displayArchived: PropTypes.bool,
+	id: PropTypes.number.isRequired,
+	selector: PropTypes.func,
 	keepArchived: PropTypes.bool,
 	onDeleteStory: PropTypes.func,
 };

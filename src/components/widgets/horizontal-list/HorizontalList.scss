@@ -4,7 +4,10 @@
 .st-HorizontalList {
 	display: flex;
 	flex-direction: column;
-	overflow-x: auto;
+
+	@media (max-width: $breakpoint-m) {
+		overflow-x: auto;
+	}
 
 	&-items {
 		display: flex;
@@ -24,7 +27,7 @@
 				width: max-content;
 				border: 1px solid;
 				@include theme-aware('background-color', 'B100');
-				@include theme-aware('border-color', 'B100');
+				@include theme-aware('border-color', 'B200');
 
 				&:hover {
 					@include theme-aware('border-color', 'T600');

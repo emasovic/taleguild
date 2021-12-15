@@ -4,6 +4,11 @@
 	display: flex;
 	flex-direction: column;
 
+	@media (max-width: $breakpoint-m) {
+		max-width: $story-preview-width-medium;
+		margin: 0 auto;
+	}
+
 	&-header {
 		margin-bottom: 48px;
 		display: flex;
@@ -65,8 +70,8 @@
 		.st-Stories {
 			margin: 0 36px;
 
-			@media (max-width: $breakpoint-sm) {
-				margin: 0 auto;
+			@media (max-width: $breakpoint-m) {
+				margin: 0;
 			}
 		}
 	}

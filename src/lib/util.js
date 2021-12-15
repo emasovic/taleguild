@@ -70,3 +70,7 @@ export const serializeTextEditorValue = (nodes, sliceAt) => {
 };
 
 export const isMobile = window.screen.width < 768;
+
+export const capitalize = string => {
+	return string.charAt(0).toUpperCase() + string.slice(1);
+};

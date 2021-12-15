@@ -280,6 +280,12 @@ export const getGuildatar = id => {
 	return http.get('guildatars/' + id);
 };
 
+/******************      GUILDATARS        ***********************/
+
+export const getGenders = filter => {
+	return http.get('genders', filter);
+};
+
 /******************      LEVELS        ***********************/
 
 export const getLevels = filter => {

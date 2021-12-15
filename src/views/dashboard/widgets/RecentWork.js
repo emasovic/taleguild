@@ -10,7 +10,7 @@ import {FONTS, FONT_WEIGHT, TEXT_COLORS, TYPOGRAPHY_VARIANTS} from 'types/typogr
 import {PUBLISH_STATES} from 'types/story';
 import {ICONS} from 'types/icons';
 
-import {loadStories, selectStory, selectStoryIds} from 'redux/draftStories';
+import {loadStories, selectDraftStory, selectStoryIds} from 'redux/draftStories';
 import {selectAuthUser} from 'redux/auth';
 import {newStory} from 'redux/story';
 
@@ -28,7 +28,7 @@ import './RecentWork.scss';
 const CLASS = 'st-RecentWork';
 
 const RecentItem = ({id}) => {
-	const {title, storypages} = useSelector(state => selectStory(state, id));
+	const {title, storypages} = useSelector(state => selectDraftStory(state, id));
 
 	let [{data}] = useLoadItems(getActivity, {
 		story: id,
@@ -95,7 +95,7 @@ export default function RecentWork() {
 						user: userId,
 						_sort: 'created_at:DESC',
 					},
-					false
+					true
 				)
 			);
 	}, [dispatch, userId]);

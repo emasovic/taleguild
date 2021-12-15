@@ -1,12 +1,17 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useParams} from 'react-router';
 import {Link} from 'react-router-dom';
+import {useDispatch} from 'react-redux';
 
 import {goToWidget} from 'lib/routes';
 
 import {DEFAULT_CRITERIA} from 'types/story';
 import {FONTS, TEXT_COLORS, TYPOGRAPHY_VARIANTS} from 'types/typography';
 import FA from 'types/font_awesome';
+import {CATEGORY_TYPES} from 'types/category';
+
+import {loadCategories} from 'redux/categories';
+import {loadLanguages} from 'redux/languages';
 
 import SideBar from 'views/stories/SideBar';
 
@@ -26,10 +31,16 @@ export const WIDGETS = {
 
 export default function Community() {
 	const {widget} = useParams();
+	const dispatch = useDispatch();
 	const criteria = {
 		...DEFAULT_CRITERIA,
 		relevant: widget === WIDGETS.following ? true : undefined,
 	};
+
+	useEffect(() => {
+		dispatch(loadCategories({type: CATEGORY_TYPES.story}));
+		dispatch(loadLanguages());
+	}, [dispatch]);
 	return (
 		<div className={CLASS}>
 			<div className={CLASS + '-header'}>

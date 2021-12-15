@@ -10,11 +10,23 @@
 		justify-content: space-between;
 		margin-top: 32px;
 
-		.st-FloatingInput {
-			margin-bottom: 0 !important;
+		&-actions {
+			display: flex;
+			align-items: center;
 
 			@media (max-width: $breakpoint-m) {
-				width: 100%;
+				flex-direction: row-reverse;
+			}
+
+			.st-FloatingInput {
+				margin-bottom: 0 !important;
+				margin-left: 24px;
+
+				@media (max-width: $breakpoint-m) {
+					width: 100%;
+					margin-left: 0;
+					margin-right: 12px;
+				}
 			}
 		}
 
@@ -65,16 +77,15 @@
 				}
 			}
 
-			.st-Typography-bold {
+			&-title {
 				margin-bottom: 24px;
 			}
 
 			@media (max-width: $breakpoint-m) {
 				flex-basis: 100%;
-				// flex-direction: row;
 				width: 100%;
 
-				.st-Typography-bold {
+				&-title {
 					display: none;
 				}
 			}

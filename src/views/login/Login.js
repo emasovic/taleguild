@@ -41,7 +41,7 @@ export default function Login() {
 			/>
 
 			<FloatingInput
-				label="Enter password"
+				label="Password"
 				// placeholder="you@example.com"
 				value={password}
 				autoComplete="on"

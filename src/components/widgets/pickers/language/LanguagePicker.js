@@ -6,10 +6,6 @@ import {selectLanguages} from 'redux/languages';
 
 import DefaultPicker from '../default/DefaultPicker';
 
-// import './LanguagePicker.scss';
-
-// const CLASS = 'st-LanguagePicker';
-
 export default function LanguagePicker({onChange, value, label, ...rest}) {
 	const {languages, loading} = useSelector(state => ({
 		loading: state.categories.loading,

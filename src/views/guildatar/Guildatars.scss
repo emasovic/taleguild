@@ -38,6 +38,10 @@
 			align-items: center;
 		}
 
+		&-placeholder {
+			height: 70vh;
+		}
+
 		&-avatar {
 			display: flex;
 			flex-direction: column;
