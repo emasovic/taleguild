@@ -35,7 +35,7 @@ function Guildatars() {
 
 	useEffect(() => {
 		if (data) {
-			dispatch(loadGuildatars({user: data.id}));
+			dispatch(loadGuildatars({user: data.id}, true));
 		}
 	}, [data, dispatch]);
 

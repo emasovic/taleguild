@@ -57,7 +57,7 @@ export default function RecentViews() {
 						user: userId,
 						_sort: 'created_at:DESC',
 					},
-					false
+					true
 				)
 			);
 	}, [dispatch, userId]);

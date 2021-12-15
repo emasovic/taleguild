@@ -95,7 +95,7 @@ export default function RecentWork() {
 						user: userId,
 						_sort: 'created_at:DESC',
 					},
-					false
+					true
 				)
 			);
 	}, [dispatch, userId]);
