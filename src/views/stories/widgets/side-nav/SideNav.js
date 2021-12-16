@@ -10,12 +10,13 @@ import {navigateToQuery} from 'redux/application';
 
 import Loader from 'components/widgets/loader/Loader';
 import Typography from 'components/widgets/typography/Typography';
+import FaIcon from 'components/widgets/fa-icon/FaIcon';
 
 import './SideNav.scss';
 
 const CLASS = 'st-SideNav';
 
-function SideNav({items, loading, title, urlParamName}) {
+function SideNav({items, loading, title, urlParamName, allIcon}) {
 	const location = useLocation();
 	const dispatch = useDispatch();
 	const [activeItem, setActiveItem] = useState(null);
@@ -42,7 +43,9 @@ function SideNav({items, loading, title, urlParamName}) {
 			) : (
 				<>
 					<NavItem onClick={() => updateQueryParams(undefined)}>
-						<NavLink active={!activeItem}>All</NavLink>
+						<NavLink active={!activeItem}>
+							{allIcon && <FaIcon icon={allIcon} />} All
+						</NavLink>
 					</NavItem>
 					{items.length
 						? items.map((item, key) => {
@@ -54,6 +57,7 @@ function SideNav({items, loading, title, urlParamName}) {
 												Number(activeItem) === item.id
 											}
 										>
+											{item.icon && <FaIcon icon={item.icon} />}
 											{item.name}
 										</NavLink>
 									</NavItem>
@@ -66,7 +70,12 @@ function SideNav({items, loading, title, urlParamName}) {
 	);
 }
 
+SideNav.defaultProps = {
+	title: '',
+};
+
 SideNav.propTypes = {
+	allIcon: PropTypes.object,
 	items: PropTypes.array.isRequired,
 	loading: PropTypes.bool.isRequired,
 	title: PropTypes.string.isRequired,

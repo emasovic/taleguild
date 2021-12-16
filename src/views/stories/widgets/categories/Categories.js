@@ -1,19 +1,12 @@
-import React, {useState, useEffect} from 'react';
-import {Nav, NavItem, NavLink} from 'reactstrap';
-import {useLocation} from 'react-router-dom';
-import {useDispatch, useSelector} from 'react-redux';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import React from 'react';
+
+import {useSelector} from 'react-redux';
 
 import FA from 'types/font_awesome';
 
-import {navigateToQuery} from 'redux/application';
 import {selectCategories} from 'redux/categories';
 
-import Loader from 'components/widgets/loader/Loader';
-
-import './Categories.scss';
-
-const CLASS = 'st-Categories';
+import SideNav from '../side-nav/SideNav';
 
 const CATEGORY_ICONS = {
 	adult: FA.solid_ban,
@@ -42,54 +35,19 @@ const CATEGORY_ICONS = {
 };
 
 export default function Categories() {
-	const location = useLocation();
-	const dispatch = useDispatch();
-	const {categories, loading} = useSelector(state => ({
+	let {categories, loading} = useSelector(state => ({
 		loading: state.categories.loading,
 		categories: selectCategories(state),
 	}));
-	const [activeCategory, setActiveCategory] = useState(null);
 
-	const category = new URLSearchParams(useLocation().search).get('categories');
-
-	const getStoriesByCategoryId = categoryId => {
-		dispatch(navigateToQuery({categories: categoryId}, location));
-	};
-
-	useEffect(() => {
-		setActiveCategory(Number(category));
-	}, [category]);
+	categories = categories.map(i => ({...i, icon: CATEGORY_ICONS[i.name]}));
 
 	return (
-		<Nav className={CLASS}>
-			<span>Categories</span>
-			{loading ? (
-				<Loader />
-			) : (
-				<>
-					<NavItem onClick={() => getStoriesByCategoryId(undefined)}>
-						<NavLink active={!activeCategory}>
-							<FontAwesomeIcon icon={FA.solid_box_open} />
-							All
-						</NavLink>
-					</NavItem>
-					{categories.length
-						? categories.map((item, key) => {
-								return (
-									<NavItem
-										key={key}
-										onClick={() => getStoriesByCategoryId(item.id)}
-									>
-										<NavLink active={activeCategory === item.id}>
-											<FontAwesomeIcon icon={CATEGORY_ICONS[item.name]} />
-											{item.display_name}
-										</NavLink>
-									</NavItem>
-								);
-						  })
-						: null}
-				</>
-			)}
-		</Nav>
+		<SideNav
+			items={categories}
+			urlParamName="categories"
+			loading={!!loading}
+			allIcon={FA.solid_box_open}
+		/>
 	);
 }
