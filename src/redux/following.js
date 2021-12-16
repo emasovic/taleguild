@@ -1,4 +1,4 @@
-import {createSlice, createSelector, createEntityAdapter} from '@reduxjs/toolkit';
+import {createSlice, createEntityAdapter} from '@reduxjs/toolkit';
 
 import * as api from '../lib/api';
 

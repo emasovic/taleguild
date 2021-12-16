@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useCallback} from 'react';
-import {useSelector, useDispatch, shallowEqual} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
 
 import {goToUser} from 'lib/routes';
