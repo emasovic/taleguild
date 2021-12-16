@@ -124,7 +124,8 @@ Stories.propTypes = {
 Stories.defaultProps = {
 	criteria: DEFAULT_CRITERIA,
 	displaySearch: true,
-	NoItemsComponent: NoStories,
+	displayNav: true,
+	NoItemsComponent: <NoStories />,
 };
 
 const MemoizedStories = ({criteria, displaySearch, NoItemsComponent}) => {
