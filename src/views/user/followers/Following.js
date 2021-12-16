@@ -1,11 +1,11 @@
 import React, {useEffect, useState, useCallback} from 'react';
-import {useSelector, useDispatch, shallowEqual} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
 
 import {goToUser} from 'lib/routes';
 
 import {COLOR} from 'types/button';
-import {DEFAULT_LIMIT} from 'types/default';
+import {DEFAULT_LIMIT, DEFAULT_OP} from 'types/default';
 
 import {selectFollowing, loadFollowing, createOrDeleteFollowing} from 'redux/following';
 import {selectAuthUser} from 'redux/auth';
@@ -23,28 +23,24 @@ const CLASS = 'st-Followers';
 
 export default function Following({id}) {
 	const dispatch = useDispatch();
-	const {following, total, loading, user, pages} = useSelector(
-		state => ({
-			following: selectFollowing(state, id),
-			user: selectAuthUser(state),
-			loading: state.following.loading,
-			pages: state.following.pages,
-			total: state.following.total,
-		}),
-		shallowEqual
-	);
-
-	const {data} = user;
+	const following = useSelector(selectFollowing);
+	const {data} = useSelector(selectAuthUser);
+	const {op, pages, total, currentPage} = useSelector(state => state.following);
 
 	const [isOpen, setIsOpen] = useState(false);
-	const [currentPage, setCurrentPage] = useState(1);
 
 	const renderContent = () => {
 		return (
 			<LoadMoreModal
 				className={CLASS + '-followers'}
-				onLoadMore={handleCount}
-				loading={loading}
+				onLoadMore={() =>
+					handleLoadFollowing(
+						false,
+						DEFAULT_OP.load_more,
+						currentPage * DEFAULT_LIMIT._limit
+					)
+				}
+				loading={op === DEFAULT_OP.load_more}
 				shouldLoad={pages > currentPage}
 				id="following"
 			>
@@ -81,29 +77,26 @@ export default function Following({id}) {
 
 	const handleFollow = (e, follower) => {
 		e.preventDefault();
-		dispatch(createOrDeleteFollowing(follower, id, data && data.id));
+		dispatch(createOrDeleteFollowing({follower, userId: id, followerId: data.id}));
 	};
 
-	const handleCount = useCallback(() => {
-		dispatch(
-			loadFollowing(
-				{follower: id, ...DEFAULT_LIMIT, _start: currentPage * DEFAULT_LIMIT._limit},
-				false
-			)
-		);
-		setCurrentPage(currentPage + 1);
-	}, [dispatch, currentPage, id]);
+	const handleLoadFollowing = useCallback(
+		(count, op, _start) => {
+			dispatch(loadFollowing({follower: id, ...DEFAULT_LIMIT, _start}, count, op));
+		},
+		[dispatch, id]
+	);
 
 	useEffect(() => {
 		if (id) {
-			dispatch(loadFollowing({follower: id, ...DEFAULT_LIMIT}, true));
+			handleLoadFollowing(true, undefined, 0);
 		}
-	}, [dispatch, id]);
+	}, [dispatch, id, handleLoadFollowing]);
 
 	return (
 		<div className={CLASS}>
 			<div className={CLASS + '-info'} onClick={() => setIsOpen(true)}>
-				<span>{!loading && total}</span>
+				<span>{op !== DEFAULT_OP.loading && total}</span>
 				<span>Following</span>
 			</div>
 

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import {goToUser} from 'lib/routes';
 
 import {COLOR} from 'types/button';
-import {DEFAULT_LIMIT} from 'types/default';
+import {DEFAULT_LIMIT, DEFAULT_OP} from 'types/default';
 
 import {selectFollowers, loadFollowers, createOrDeleteFollower} from 'redux/followers';
 import {selectAuthUser} from 'redux/auth';
@@ -23,28 +23,24 @@ const CLASS = 'st-Followers';
 
 export default function Followers({id}) {
 	const dispatch = useDispatch();
-	const {followers, total, loading, user, pages} = useSelector(
-		state => ({
-			followers: selectFollowers(state, id),
-			user: selectAuthUser(state),
-			loading: state.followers.loading,
-			pages: state.followers.pages,
-			total: state.followers.total,
-		}),
-		shallowEqual
-	);
-
-	const {data} = user;
+	const followers = useSelector(selectFollowers);
+	const {data} = useSelector(selectAuthUser);
+	const {op, pages, total, currentPage} = useSelector(state => state.followers);
 
 	const [isOpen, setIsOpen] = useState(false);
-	const [currentPage, setCurrentPage] = useState(1);
 
 	const renderContent = () => {
 		return (
 			<LoadMoreModal
 				className={CLASS + '-followers'}
-				onLoadMore={handleCount}
-				loading={loading}
+				onLoadMore={() =>
+					handleLoadFollwers(
+						false,
+						DEFAULT_OP.load_more,
+						currentPage * DEFAULT_LIMIT._limit
+					)
+				}
+				loading={op === DEFAULT_OP.load_more}
 				shouldLoad={pages > currentPage}
 				id="following"
 			>
@@ -60,7 +56,7 @@ export default function Followers({id}) {
 							>
 								<UserAvatar user={follower} />
 								<span>{follower.display_name || follower.username}</span>
-								{data && data.id === user.id && (
+								{data?.id === user.id && (
 									<IconButton
 										color={COLOR.secondary}
 										onClick={e => handleFollow(e, item)}
@@ -80,29 +76,26 @@ export default function Followers({id}) {
 
 	const handleFollow = (e, follower) => {
 		e.preventDefault();
-		dispatch(createOrDeleteFollower(follower, id, data && data.id));
+		dispatch(createOrDeleteFollower({follower, userId: id, followerId: data?.id}));
 	};
 
-	const handleCount = useCallback(() => {
-		dispatch(
-			loadFollowers(
-				{user: id, ...DEFAULT_LIMIT, _start: currentPage * DEFAULT_LIMIT._limit},
-				false
-			)
-		);
-		setCurrentPage(currentPage + 1);
-	}, [dispatch, currentPage, id]);
+	const handleLoadFollwers = useCallback(
+		(count, op, _start) => {
+			dispatch(loadFollowers({user: id, ...DEFAULT_LIMIT, _start}, count, op));
+		},
+		[dispatch, id]
+	);
 
 	useEffect(() => {
 		if (id) {
-			dispatch(loadFollowers({user: id, ...DEFAULT_LIMIT}, true));
+			handleLoadFollwers(true, undefined, 0);
 		}
-	}, [dispatch, id]);
+	}, [dispatch, id, handleLoadFollwers]);
 
 	return (
 		<div className={CLASS}>
 			<div className={CLASS + '-info'} onClick={() => setIsOpen(true)}>
-				<span>{!loading && total}</span>
+				<span>{op !== DEFAULT_OP.loading && total}</span>
 				<span>Followers</span>
 			</div>
 

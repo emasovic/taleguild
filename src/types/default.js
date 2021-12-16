@@ -1,4 +1,6 @@
 export const DEFAULT_OP = {
+	create: 'create',
+	delete: 'delete',
 	update: 'update',
 	loading: 'loading',
 	load_more: 'load_more',

@@ -9,7 +9,6 @@ import {newToast} from './toast';
 
 const viewsAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
-	sortComparer: (a, b) => a.created_at.localeCompare(b.created_at),
 });
 
 export const viewsSlice = createSlice({

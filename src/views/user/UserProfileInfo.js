@@ -20,7 +20,7 @@ export default function UserProfileInfo({user, className}) {
 
 	const {op, total} = useSelector(state => state.stories);
 	const {data: loggedUser} = useSelector(selectAuthUser);
-	const followers = useSelector(state => selectFollowers(state, user?.id));
+	const followers = useSelector(selectFollowers);
 	const {loading: followersLoading} = useSelector(state => state.followers);
 
 	let follower = null;
@@ -35,7 +35,7 @@ export default function UserProfileInfo({user, className}) {
 	}
 
 	const handleFollow = () => {
-		dispatch(createOrDeleteFollower(follower, id, loggedUser?.id));
+		dispatch(createOrDeleteFollower({follower, userId: id, followerId: loggedUser?.id}));
 	};
 
 	const label = follower ? 'Unfollow' : 'Follow';
