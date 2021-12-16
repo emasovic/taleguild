@@ -44,9 +44,9 @@ export const likesSlice = createSlice({
 		opEnd: state => {
 			state.op = null;
 		},
-		gotPages: (state, action) => {
-			state.pages = Math.ceil(action.payload / 10);
-			state.total = action.payload;
+		gotPages: (state, {payload}) => {
+			state.pages = Math.ceil(payload.total / payload.limit);
+			state.total = payload.total;
 		},
 	},
 });
@@ -79,7 +79,7 @@ export const loadLikes = (params, count, op = DEFAULT_OP.loading) => async dispa
 			dispatch(opEnd());
 			return dispatch(newToast({...Toast.error(countRes.error)}));
 		}
-		dispatch(gotPages(countRes));
+		dispatch(gotPages({total: countRes, limit: params._limit}));
 		return dispatch(likesReceieved(res));
 	}
 

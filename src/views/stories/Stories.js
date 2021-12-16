@@ -37,7 +37,7 @@ const Stories = memo(({criteria, activeSort, NoItemsComponent, displayNav, displ
 		dispatch(navigateToQuery({_sort: sort + ':' + SORT_DIRECTION.desc}));
 
 	const handleCount = useCallback(() => {
-		const loadMoreCriteria = {...criteria, _start: currentPage * 10};
+		const loadMoreCriteria = {...criteria, _start: currentPage * criteria._limit};
 		dispatch(loadStories(loadMoreCriteria, false, STORY_OP.load_more));
 	}, [dispatch, currentPage, criteria]);
 

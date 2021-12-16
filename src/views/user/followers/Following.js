@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import {goToUser} from 'lib/routes';
 
 import {COLOR} from 'types/button';
+import {DEFAULT_LIMIT} from 'types/default';
 
 import {selectFollowing, loadFollowing, createOrDeleteFollowing} from 'redux/following';
 import {selectAuthUser} from 'redux/auth';
@@ -84,13 +85,18 @@ export default function Following({id}) {
 	};
 
 	const handleCount = useCallback(() => {
-		dispatch(loadFollowing({follower: id, _start: currentPage * 10, _limit: 10}, false));
+		dispatch(
+			loadFollowing(
+				{follower: id, ...DEFAULT_LIMIT, _start: currentPage * DEFAULT_LIMIT._limit},
+				false
+			)
+		);
 		setCurrentPage(currentPage + 1);
 	}, [dispatch, currentPage, id]);
 
 	useEffect(() => {
 		if (id) {
-			dispatch(loadFollowing({follower: id, _start: 0, _limit: 10}, true));
+			dispatch(loadFollowing({follower: id, ...DEFAULT_LIMIT}, true));
 		}
 	}, [dispatch, id]);
 

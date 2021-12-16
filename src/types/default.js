@@ -6,5 +6,5 @@ export const DEFAULT_OP = {
 
 export const DEFAULT_LIMIT = {
 	_start: 0,
-	_limit: 10,
+	_limit: 5,
 };

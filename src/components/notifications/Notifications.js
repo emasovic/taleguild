@@ -41,8 +41,8 @@ export default function Notifications({isPage, isMobile}) {
 				loadNotifications(
 					{
 						receiver: userId,
-						_limit: 10,
-						_start: currentPage * 10,
+						_limit: DEFAULT_LIMIT._limit,
+						_start: currentPage * DEFAULT_LIMIT._limit,
 						_sort: 'created_at:DESC',
 					},
 					false,

@@ -44,7 +44,7 @@ export const userActivitySlice = createSlice({
 			state.op = null;
 		},
 		gotPages: (state, {payload}) => {
-			state.pages = Math.ceil(payload.total / 10);
+			state.pages = Math.ceil(payload.total / payload.limit);
 			state.total = payload.total;
 		},
 	},
@@ -78,7 +78,7 @@ export const loadUserActivity = (params, count, op = DEFAULT_OP.loading) => asyn
 			return dispatch(newToast({...Toast.error(countRes.error)}));
 		}
 
-		dispatch(gotPages(countRes));
+		dispatch(gotPages({total: countRes, limit: params._limit}));
 		return dispatch(userActivityReceieved(res));
 	}
 

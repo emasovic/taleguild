@@ -231,7 +231,7 @@ export default function GuildatarContainer() {
 										handleLoadUserItems(
 											false,
 											DEFAULT_OP.load_more,
-											currentPage * 10
+											currentPage * DEFAULT_LIMIT._limit
 										)
 									}
 									shouldLoad={pages > currentPage}

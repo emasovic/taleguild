@@ -82,7 +82,11 @@ export default function Marketplace() {
 					className={CLASS + '-market-items-loadmore'}
 					id="marketplace"
 					onLoadMore={() =>
-						handleLoadMarketplace(false, currentPage * 10, DEFAULT_OP.load_more)
+						handleLoadMarketplace(
+							false,
+							currentPage * DEFAULT_LIMIT._limit,
+							DEFAULT_OP.load_more
+						)
 					}
 					shouldLoad={shouldLoad}
 					loading={op === DEFAULT_LIMIT.load_more}

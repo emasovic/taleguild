@@ -76,7 +76,7 @@ export const notificationsSlice = createSlice({
 			state.op = null;
 		},
 		gotPages: (state, {payload}) => {
-			state.pages = Math.ceil(payload.total / 10);
+			state.pages = Math.ceil(payload.total / payload.limit);
 			state.unseen = payload.unseen;
 			state.total = payload.total;
 		},
@@ -113,7 +113,7 @@ export const loadNotifications = (params, count, op = DEFAULT_OP.loading) => asy
 			return dispatch(newToast({...Toast.error(countRes.error)}));
 		}
 
-		dispatch(gotPages(countRes));
+		dispatch(gotPages({total: countRes, limit: params._limit}));
 		return dispatch(notificationsReceieved(res));
 	}
 

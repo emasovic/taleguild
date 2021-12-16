@@ -7,7 +7,7 @@ import {goToUser} from 'lib/routes';
 import FA from 'types/font_awesome';
 import {Toast} from 'types/toast';
 import {COLOR} from 'types/button';
-import {DEFAULT_OP} from 'types/default';
+import {DEFAULT_LIMIT, DEFAULT_OP} from 'types/default';
 
 import {loadComments, selectComments} from 'redux/comments';
 import {selectAuthUser} from 'redux/auth';
@@ -117,7 +117,7 @@ function CommentsDialog({isOpen, title, onClose, storyId, className}) {
 	const handleCount = useCallback(() => {
 		dispatch(
 			loadComments(
-				{story: storyId, _start: currentPage * 10, _limit: 10},
+				{story: storyId, ...DEFAULT_LIMIT, _start: currentPage * DEFAULT_LIMIT._limit},
 				false,
 				DEFAULT_OP.load_more
 			)

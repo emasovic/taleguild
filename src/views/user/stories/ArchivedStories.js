@@ -35,7 +35,7 @@ export default function ArchivedStories({shouldLoadMore, Component}) {
 			archived_at_null: false,
 			user: userId,
 			...DEFAULT_LIMIT,
-			_start: currentPage * 10,
+			_start: currentPage * DEFAULT_LIMIT._limit,
 		};
 		dispatch(loadArchivedStories(storyCriteria, false, null, STORY_OP.load_more));
 	}, [dispatch, currentPage, userId]);

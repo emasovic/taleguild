@@ -4,7 +4,7 @@ import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
 import {goToUser} from 'lib/routes';
 
-import {DEFAULT_OP} from 'types/default';
+import {DEFAULT_LIMIT, DEFAULT_OP} from 'types/default';
 
 import {loadLikes, selectLikes} from 'redux/likes';
 
@@ -61,7 +61,7 @@ function LikesDialog({isOpen, title, onClose, storyId, className}) {
 	const handleCount = useCallback(() => {
 		dispatch(
 			loadLikes(
-				{story: storyId, _start: currentPage * 10, _limit: 10},
+				{story: storyId, ...DEFAULT_LIMIT, _start: currentPage * DEFAULT_LIMIT._limit},
 				false,
 				DEFAULT_OP.load_more
 			)
@@ -71,7 +71,7 @@ function LikesDialog({isOpen, title, onClose, storyId, className}) {
 
 	useEffect(() => {
 		if (storyId) {
-			dispatch(loadLikes({story: storyId, _start: 0, _limit: 10}, true));
+			dispatch(loadLikes({story: storyId, ...DEFAULT_LIMIT}, true));
 		}
 	}, [dispatch, storyId]);
 	return (

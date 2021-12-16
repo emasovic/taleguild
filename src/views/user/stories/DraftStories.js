@@ -32,7 +32,7 @@ export default function DraftStories({shouldLoadMore, Component}) {
 			archived_at_null: true,
 			user: userId,
 			_sort: 'created_at:DESC',
-			_start: currentPage * 10,
+			_start: currentPage * DEFAULT_LIMIT._limit,
 		};
 		dispatch(loadStories(storyCriteria, false, STORY_OP.load_more));
 	}, [dispatch, currentPage, userId]);

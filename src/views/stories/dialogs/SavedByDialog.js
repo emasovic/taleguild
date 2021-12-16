@@ -4,7 +4,7 @@ import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
 import {goToUser} from 'lib/routes';
 
-import {DEFAULT_OP} from 'types/default';
+import {DEFAULT_LIMIT, DEFAULT_OP} from 'types/default';
 
 import {loadSavedBy, selectSavedBy} from 'redux/savedBy';
 
@@ -62,7 +62,7 @@ function SavedByDialog({isOpen, title, onClose, storyId, className}) {
 	const handleCount = useCallback(() => {
 		dispatch(
 			loadSavedBy(
-				{story: storyId, _start: currentPage * 10, _limit: 10},
+				{story: storyId, ...DEFAULT_LIMIT, _start: currentPage * DEFAULT_LIMIT._limit},
 				false,
 				DEFAULT_OP.load_more
 			)
@@ -72,7 +72,7 @@ function SavedByDialog({isOpen, title, onClose, storyId, className}) {
 
 	useEffect(() => {
 		if (storyId) {
-			dispatch(loadSavedBy({story: storyId, _start: 0, _limit: 10}, true));
+			dispatch(loadSavedBy({story: storyId, ...DEFAULT_LIMIT}, true));
 		}
 	}, [dispatch, storyId]);
 	return (

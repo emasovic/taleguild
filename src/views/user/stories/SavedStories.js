@@ -3,6 +3,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import propTypes from 'prop-types';
 
 import {DEFAULT_CRITERIA, STORY_OP, STORY_COMPONENTS} from 'types/story';
+import {DEFAULT_LIMIT} from 'types/default';
 
 import {
 	selectUserSavedStories,
@@ -31,7 +32,7 @@ export default function SavedStories({shouldLoadMore, Component}) {
 	const [criteria, setCriteria] = useState();
 
 	const handleCount = useCallback(() => {
-		const storyCriteria = {...criteria, _start: currentPage * 10};
+		const storyCriteria = {...criteria, _start: currentPage * DEFAULT_LIMIT._limit};
 		dispatch(loadSavedStories(storyCriteria, false, null, STORY_OP.load_more));
 		setCurrentPage(currentPage + 1);
 	}, [dispatch, currentPage, criteria]);
