@@ -55,7 +55,8 @@ export default function Marketplace() {
 
 	const {body_part, category, name, gender} = useGetSearchParams();
 
-	const selectedGender = genders.find(g => g.id === Number(gender));
+	const selectedGender =
+		genders.find(g => g.id === Number(gender)) || genders.find(g => g.gender === GENDERS.male);
 
 	const categories = marketCategories
 		.filter(i => (body_part ? i.body_part === body_part : i))
@@ -123,7 +124,7 @@ export default function Marketplace() {
 						body_part,
 						category,
 						name_contains: name,
-						genders: gender,
+						genders: selectedGender?.id,
 						...DEFAULT_LIMIT,
 						_start,
 					},
@@ -132,7 +133,7 @@ export default function Marketplace() {
 				)
 			);
 		},
-		[dispatch, category, name, gender, body_part]
+		[dispatch, category, name, selectedGender, body_part]
 	);
 
 	useEffect(() => {
@@ -159,61 +160,58 @@ export default function Marketplace() {
 			<Typography variant={TYPOGRAPHY_VARIANTS.action1} color={TEXT_COLORS.secondary}>
 				Here you can find amazing items for your Guildatar
 			</Typography>
-			{op || loading ? (
-				<Loader />
-			) : (
-				<>
-					<div className={CLASS + '-nav'}>
-						<HorizontalList
-							items={BODY_PARTS}
-							loading={false}
-							urlParamName="body_part"
-							resetParamsOnChange
+
+			<div className={CLASS + '-nav'}>
+				<HorizontalList
+					items={BODY_PARTS}
+					loading={false}
+					urlParamName="body_part"
+					resetParamsOnChange
+				/>
+
+				<div className={CLASS + '-nav-actions'}>
+					<Switch
+						labelChecked="Female"
+						labelUnchecked="Male"
+						checked={selectedGender?.gender === GENDERS.female ? false : true}
+						onChange={handleSwitch}
+					/>
+					<SearchInput
+						placeholder="Search item"
+						defaultValue={name}
+						urlParamName="name"
+					/>
+				</div>
+			</div>
+
+			<div className={CLASS + '-market'}>
+				<div className={CLASS + '-market-categories'}>
+					<SideNav
+						items={categories}
+						loading={!!loading}
+						title="Categories"
+						urlParamName="category"
+					/>
+				</div>
+				<div className={CLASS + '-market-items'}>
+					{!total && !op ? (
+						<PagePlaceholder
+							title="Create your first Guildatar"
+							subtitle="In order to access the Market, you first need to create your guildarter for whom you will buy items with coins"
+							buttonLabel="Create Guildatar"
+							buttonProps={{
+								to: undefined,
+								tag: undefined,
+								onClick: () => setIsOpen(true),
+							}}
 						/>
-
-						<div className={CLASS + '-nav-actions'}>
-							<Switch
-								labelChecked="Female"
-								labelUnchecked="Male"
-								checked={selectedGender?.gender === GENDERS.female ? false : true}
-								onChange={handleSwitch}
-							/>
-							<SearchInput
-								placeholder="Search item"
-								defaultValue={name}
-								urlParamName="name"
-							/>
-						</div>
-					</div>
-
-					<div className={CLASS + '-market'}>
-						<div className={CLASS + '-market-categories'}>
-							<SideNav
-								items={categories}
-								loading={!!loading}
-								title="Categories"
-								urlParamName="category"
-							/>
-						</div>
-						<div className={CLASS + '-market-items'}>
-							{!total ? (
-								<PagePlaceholder
-									title="Create your first Guildatar"
-									subtitle="In order to access the Market, you first need to create your guildarter for whom you will buy items with coins"
-									buttonLabel="Create Guildatar"
-									buttonProps={{
-										to: undefined,
-										tag: undefined,
-										onClick: () => setIsOpen(true),
-									}}
-								/>
-							) : (
-								renderMarketPlaceItems()
-							)}
-						</div>
-					</div>
-				</>
-			)}
+					) : op === DEFAULT_OP.loading ? (
+						<Loader />
+					) : (
+						renderMarketPlaceItems()
+					)}
+				</div>
+			</div>
 
 			{!!selectedItem && (
 				<MarketplaceDialog
