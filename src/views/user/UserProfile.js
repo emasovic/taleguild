@@ -12,6 +12,7 @@ import Loader from 'components/widgets/loader/Loader';
 
 import NoItemsPlaceholder from 'views/dashboard/widgets/NoItemsPlaceholder';
 import Stories from 'views/stories/Stories';
+import NoStories from 'views/stories/NoStories';
 
 import UserProfileInfo from './UserProfileInfo';
 
@@ -26,9 +27,10 @@ export default function UserProfile() {
 	const user = useSelector(state => selectUserByUsername(state, username));
 	const stories = useSelector(selectStories);
 	const {data} = useSelector(selectAuthUser);
+
 	const isOwnProfile = data?.id === user?.id;
 
-	const component = isOwnProfile && (
+	const component = isOwnProfile ? (
 		<NoItemsPlaceholder
 			title="Write your first story"
 			subtitle="Start writing your first story with our simple and clean text editor"
@@ -36,6 +38,8 @@ export default function UserProfile() {
 			buttonProps={{onClick: () => dispatch(newStory({user: data?.id, published_at: null}))}}
 			withBackground
 		/>
+	) : (
+		<NoStories />
 	);
 
 	useEffect(() => {
