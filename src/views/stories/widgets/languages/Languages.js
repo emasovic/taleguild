@@ -4,7 +4,7 @@ import {useSelector} from 'react-redux';
 
 import {selectLanguages} from 'redux/languages';
 
-import SideNav from '../side-nav/SideNav';
+import SideNav from '../../../../components/widgets/side-nav/SideNav';
 
 export default function Languages() {
 	const {languages, loading} = useSelector(state => ({

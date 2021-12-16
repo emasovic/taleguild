@@ -1,7 +1,7 @@
 @import 'styles/variables.scss';
 @import 'styles/mixins/tab-links.scss';
 
-.st-SideBar {
+.st-DottedList {
 	display: flex;
 	flex-direction: column;
 
@@ -23,16 +23,16 @@
 		}
 	}
 
-	.st-Categories,
-	.st-Languages {
-		> span {
-			display: none;
-		}
+	> a {
+		&:last-child {
+			@include theme-aware('color', 'T600');
+			margin-top: 12px;
+			display: flex;
+			justify-content: center;
 
-		@media (max-width: $breakpoint-m) {
-			flex-direction: row;
-			overflow: auto;
-			margin-top: 6px;
+			&:hover {
+				@include theme-aware('color', 'T600');
+			}
 		}
 	}
 }

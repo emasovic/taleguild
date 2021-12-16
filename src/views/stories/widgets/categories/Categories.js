@@ -6,7 +6,7 @@ import FA from 'types/font_awesome';
 
 import {selectCategories} from 'redux/categories';
 
-import SideNav from '../side-nav/SideNav';
+import SideNav from '../../../../components/widgets/side-nav/SideNav';
 
 const CATEGORY_ICONS = {
 	adult: FA.solid_ban,

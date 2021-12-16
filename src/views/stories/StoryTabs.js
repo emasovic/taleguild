@@ -1,5 +1,4 @@
-import React, {useState} from 'react';
-import {Nav, NavItem, NavLink} from 'reactstrap';
+import React from 'react';
 import {useSelector} from 'react-redux';
 
 import {USER_STORIES_SAVED, goToUser, USER_STORIES_DRAFTS, USER_STORIES_ARCHIVED} from 'lib/routes';
@@ -13,75 +12,57 @@ import SavedStories from 'views/user/stories/SavedStories';
 import DraftStories from 'views/user/stories/DraftStories';
 import ArchivedStories from 'views/user/stories/ArchivedStories';
 
-import Link, {UNDERLINE} from 'components/widgets/link/Link';
+import DottedList from 'components/widgets/lists/dotted-list/DottedList';
 
 import './StoryTabs.scss';
 
 const CLASS = 'st-StoryTabs';
 
-const STORY_TABS = {
-	my_stories: 'my_stories',
-	saved_stories: 'saved_stories',
-	draft_stories: 'draft_stories',
-	archived_stories: 'archived_stories',
-};
-
-const COMPONENTS = {
-	[STORY_TABS.my_stories]: MyStories,
-	[STORY_TABS.saved_stories]: SavedStories,
-	[STORY_TABS.draft_stories]: DraftStories,
-	[STORY_TABS.archived_stories]: ArchivedStories,
-};
-
-const GO_TO = {
-	// [STORY_TABS.my_stories]: USER_STORIES_SAVED,
-	[STORY_TABS.saved_stories]: USER_STORIES_SAVED,
-	[STORY_TABS.draft_stories]: USER_STORIES_DRAFTS,
-	[STORY_TABS.archived_stories]: USER_STORIES_ARCHIVED,
-};
-
 export default function StoryTabs() {
-	const [activeTab, setActiveTab] = useState(STORY_TABS.my_stories);
 	const {data} = useSelector(selectAuthUser);
-	const Component = COMPONENTS[activeTab];
+
+	const items = [
+		{
+			name: 'My stories',
+			component: MyStories,
+			to: goToUser(data.username),
+			componentProps: {
+				shouldLoadMore: false,
+				Component: STORY_COMPONENTS.list,
+			},
+		},
+		{
+			name: 'Saved stories',
+			component: SavedStories,
+			to: USER_STORIES_SAVED,
+			componentProps: {
+				shouldLoadMore: false,
+				Component: STORY_COMPONENTS.list,
+			},
+		},
+		{
+			name: 'Drafts',
+			component: DraftStories,
+			to: USER_STORIES_DRAFTS,
+			componentProps: {
+				shouldLoadMore: false,
+				Component: STORY_COMPONENTS.list,
+			},
+		},
+		{
+			name: 'Archived stories',
+			component: ArchivedStories,
+			to: USER_STORIES_ARCHIVED,
+			componentProps: {
+				shouldLoadMore: false,
+				Component: STORY_COMPONENTS.list,
+			},
+		},
+	];
 
 	if (!data) {
 		return null;
 	}
 
-	return (
-		<div className={CLASS}>
-			<div className={CLASS + '-tabs'}>
-				<Nav>
-					<NavItem onClick={() => setActiveTab(STORY_TABS.my_stories)}>
-						<NavLink href="#" active={activeTab === STORY_TABS.my_stories}>
-							My stories
-						</NavLink>
-					</NavItem>
-					<NavItem onClick={() => setActiveTab(STORY_TABS.saved_stories)}>
-						<NavLink href="#" active={activeTab === STORY_TABS.saved_stories}>
-							Saved stories
-						</NavLink>
-					</NavItem>
-					<NavItem onClick={() => setActiveTab(STORY_TABS.draft_stories)}>
-						<NavLink href="#" active={activeTab === STORY_TABS.draft_stories}>
-							Drafts
-						</NavLink>
-					</NavItem>
-					<NavItem onClick={() => setActiveTab(STORY_TABS.archived_stories)}>
-						<NavLink href="#" active={activeTab === STORY_TABS.archived_stories}>
-							Archived stories
-						</NavLink>
-					</NavItem>
-				</Nav>
-				<Component shouldLoadMore={false} Component={STORY_COMPONENTS.list} />
-				<Link
-					to={GO_TO[activeTab] || goToUser(data && data.username)}
-					underline={UNDERLINE.hover}
-				>
-					View all
-				</Link>
-			</div>
-		</div>
-	);
+	return <DottedList items={items} className={CLASS} initialActive={items[0]} />;
 }

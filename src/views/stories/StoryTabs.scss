@@ -1,40 +1,17 @@
-@import '../../styles/variables.scss';
-@import 'styles/mixins/tab-links.scss';
-
 .st-StoryTabs {
-	display: flex;
-	flex-direction: column;
-
-	&-tabs {
-		.nav {
-			margin-bottom: 12px;
+	.st-DottedList {
+		&-tabs {
+			margin-right: 0;
+			margin: 0 0 12px 0;
+		}
+	}
+	.st-StoryList {
+		> span {
+			display: none;
 		}
 
-		.nav-link {
-			@include tab-link;
-		}
-
-		.st-StoryList {
-			> span {
-				display: none;
-			}
-
-			.st-NoStories {
-				display: none;
-			}
-		}
-
-		> a {
-			&:last-child {
-				@include theme-aware('color', 'T600');
-				margin-top: 12px;
-				display: flex;
-				justify-content: center;
-
-				&:hover {
-					@include theme-aware('color', 'T600');
-				}
-			}
+		.st-NoStories {
+			display: none;
 		}
 	}
 }

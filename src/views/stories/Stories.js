@@ -16,7 +16,7 @@ import {usePrevious} from 'hooks/compare';
 
 import Loader from 'components/widgets/loader/Loader';
 import LoadMore from 'components/widgets/loadmore/LoadMore';
-import SearchInput from 'components/search-input/SearchInput';
+import SearchInput from 'components/widgets/search-input/SearchInput';
 
 import StoryItem from './StoryItem';
 import NoStories from './NoStories';

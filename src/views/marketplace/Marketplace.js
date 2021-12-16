@@ -21,11 +21,11 @@ import MarketplaceItem from 'components/marketplace/MarketplaceItem';
 import MarketplaceDialog from 'components/marketplace/MarketplaceDialog';
 
 import Typography from 'components/widgets/typography/Typography';
-import SideNav from 'views/stories/widgets/side-nav/SideNav';
+import SideNav from 'components/widgets/side-nav/SideNav';
 import LoadMore from 'components/widgets/loadmore/LoadMore';
 import Loader from 'components/widgets/loader/Loader';
-import HorizontalList from 'components/widgets/horizontal-list/HorizontalList';
-import SearchInput from 'components/search-input/SearchInput';
+import HorizontalList from 'components/widgets/lists/horizontal-list/HorizontalList';
+import SearchInput from 'components/widgets/search-input/SearchInput';
 import MobileWrapper from 'components/widgets/mobile-wrapper/MobileWrapper';
 import PagePlaceholder from 'components/widgets/page-placeholder/PagePlaceholder';
 import GuildatarDialog from 'components/guildatar/GuildatarDialog';

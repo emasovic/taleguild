@@ -22,7 +22,7 @@ import IconButton from 'components/widgets/button/IconButton';
 import Typography from 'components/widgets/typography/Typography';
 import Loader from 'components/widgets/loader/Loader';
 import ShowMore from 'components/widgets/show-more/ShowMore';
-import HorizontalList from 'components/widgets/horizontal-list/HorizontalList';
+import HorizontalList from 'components/widgets/lists/horizontal-list/HorizontalList';
 import MobileWrapper from 'components/widgets/mobile-wrapper/MobileWrapper';
 import LoadMore from 'components/widgets/loadmore/LoadMore';
 import PagePlaceholder from 'components/widgets/page-placeholder/PagePlaceholder';
