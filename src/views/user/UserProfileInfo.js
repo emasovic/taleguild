@@ -1,5 +1,5 @@
 import React from 'react';
-import {useDispatch, useSelector, shallowEqual} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 
 import {COLOR} from 'types/button';
@@ -18,15 +18,10 @@ import UserAvatar from './UserAvatar';
 export default function UserProfileInfo({user, className}) {
 	const dispatch = useDispatch();
 
-	const {total, followers, followersLoading, loggedUser} = useSelector(state => {
-		const loggedUser = selectAuthUser(state);
-		return {
-			followers: selectFollowers(state, user?.id),
-			loggedUser: loggedUser?.data,
-			followersLoading: state.followers.loading,
-			total: state.stories.total,
-		};
-	}, shallowEqual);
+	const {op, total} = useSelector(state => state.stories);
+	const {data: loggedUser} = useSelector(selectAuthUser);
+	const followers = useSelector(state => selectFollowers(state, user?.id));
+	const {loading: followersLoading} = useSelector(state => state.followers);
 
 	let follower = null;
 
@@ -50,9 +45,10 @@ export default function UserProfileInfo({user, className}) {
 		<>
 			<div className={className + '-user-info-stats'}>
 				<div className={className + '-user-info-stats-stories'}>
-					<span>{total}</span>
+					<span>{!op && total}</span>
 					<span>Stories</span>
 				</div>
+
 				<Followers id={id} />
 				<FollowedBy id={id} />
 			</div>

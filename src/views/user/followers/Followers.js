@@ -102,7 +102,7 @@ export default function Followers({id}) {
 	return (
 		<div className={CLASS}>
 			<div className={CLASS + '-info'} onClick={() => setIsOpen(true)}>
-				<span>{total}</span>
+				<span>{!loading && total}</span>
 				<span>Followers</span>
 			</div>
 

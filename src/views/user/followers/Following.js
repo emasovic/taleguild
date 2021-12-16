@@ -103,7 +103,7 @@ export default function Following({id}) {
 	return (
 		<div className={CLASS}>
 			<div className={CLASS + '-info'} onClick={() => setIsOpen(true)}>
-				<span>{total}</span>
+				<span>{!loading && total}</span>
 				<span>Following</span>
 			</div>
 
