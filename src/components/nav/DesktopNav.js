@@ -167,7 +167,7 @@ export default function DesktopNav({isMobile}) {
 						<NavItem>
 							<NavLink
 								tag={Link}
-								to={goToWidget(WIDGETS.following)}
+								to={goToWidget(WIDGETS.explore)}
 								active={location.pathname.includes(_COMMUNITY)}
 							>
 								<span>Community</span>

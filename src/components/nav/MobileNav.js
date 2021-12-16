@@ -72,7 +72,7 @@ export default function MobileNav() {
 						<NavItem>
 							<NavLink
 								tag={Link}
-								to={goToWidget(WIDGETS.following)}
+								to={goToWidget(WIDGETS.explore)}
 								active={location.pathname.includes(_COMMUNITY)}
 							>
 								<FontAwesomeIcon size="lg" icon={FA.solid_users} />

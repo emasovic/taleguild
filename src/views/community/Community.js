@@ -60,16 +60,6 @@ export default function Community() {
 				<div className={CLASS + '-header-actions'}>
 					<IconButton
 						tag={Link}
-						to={goToWidget(WIDGETS.following)}
-						active={widget === WIDGETS.following}
-						icon={FA.solid_users}
-						outline
-						tertiary
-					>
-						Following
-					</IconButton>
-					<IconButton
-						tag={Link}
 						to={goToWidget(WIDGETS.explore)}
 						active={widget === WIDGETS.explore}
 						icon={FA.compass}
@@ -77,6 +67,17 @@ export default function Community() {
 						tertiary
 					>
 						Explore
+					</IconButton>
+
+					<IconButton
+						tag={Link}
+						to={goToWidget(WIDGETS.following)}
+						active={widget === WIDGETS.following}
+						icon={FA.solid_users}
+						outline
+						tertiary
+					>
+						Following
 					</IconButton>
 				</div>
 			</div>
