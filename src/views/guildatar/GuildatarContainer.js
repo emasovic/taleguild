@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {useLocation, useParams} from 'react-router';
+import {useParams} from 'react-router';
 import camelCase from 'lodash.camelcase';
 
 import {getImageUrl} from 'lib/util';
@@ -14,6 +14,9 @@ import {useFormik} from 'formik';
 
 import {createOrUpdateGuildatar, loadGuildatar, selectGuildatarById} from 'redux/guildatars';
 import {loadUserItems, selectUserItems, selectItemFromUserItemById} from 'redux/userItems';
+
+import {useGetSearchParams} from 'hooks/getSearchParams';
+import {usePrevious} from 'hooks/compare';
 
 import IconButton from 'components/widgets/button/IconButton';
 import Typography from 'components/widgets/typography/Typography';
@@ -44,8 +47,9 @@ export default function GuildatarContainer() {
 
 	const [isOpen, setIsOpen] = useState(false);
 
-	const bodyPart = new URLSearchParams(useLocation().search).get('body_part');
-	const {head, face, body, left_arm, right_arm} = guildatar || {};
+	const {body_part: bodyPart} = useGetSearchParams();
+	const {head, face, body, left_arm, right_arm, user, gender} = guildatar || {};
+	const previousUser = usePrevious(user);
 
 	const toggleOpen = () => setIsOpen(prevState => !prevState);
 
@@ -54,9 +58,10 @@ export default function GuildatarContainer() {
 			dispatch(
 				loadUserItems(
 					{
-						user: guildatar.user?.id,
+						user: user?.id,
 						'item.body_part': bodyPart || undefined,
-						'item.genders': guildatar.gender,
+						'item.genders': gender?.id,
+						guildatar_null: true,
 						...DEFAULT_LIMIT,
 						_start,
 						_sort: 'created_at:DESC',
@@ -66,7 +71,7 @@ export default function GuildatarContainer() {
 				)
 			);
 		},
-		[dispatch, bodyPart, guildatar]
+		[dispatch, bodyPart, user, gender]
 	);
 
 	const handleSubmit = values => {
@@ -87,8 +92,8 @@ export default function GuildatarContainer() {
 	}, [id, dispatch]);
 
 	useEffect(() => {
-		guildatar?.user?.id && handleLoadUserItems(true, null, 0);
-	}, [dispatch, guildatar, handleLoadUserItems]);
+		previousUser?.id !== user?.id && handleLoadUserItems(true, null, 0);
+	}, [dispatch, user, previousUser, handleLoadUserItems]);
 
 	const {values, dirty, handleSubmit: formikSubmit, handleReset, setFieldValue} = useFormik({
 		initialValues: {

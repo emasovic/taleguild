@@ -38,7 +38,7 @@ const validationSchema = Yup.object().shape({
 
 function GuildatarDialog({isOpen, onClose, id}) {
 	const dispatch = useDispatch();
-	const [{data: genders}] = useLoadItems(getGenders);
+	const [{data: genders, error}] = useLoadItems(getGenders);
 
 	const options = genders.map(i => ({value: i.id, label: capitalize(i.gender)}));
 
@@ -71,6 +71,7 @@ function GuildatarDialog({isOpen, onClose, id}) {
 		setFieldValue,
 	} = useFormik({
 		validationSchema,
+		enableReinitialize: true,
 		validateOnChange: false,
 		initialValues: {
 			active,
@@ -113,8 +114,8 @@ function GuildatarDialog({isOpen, onClose, id}) {
 					name="gender"
 					onChange={val => setFieldValue('gender', val)}
 					value={values.gender}
-					invalid={!!errors.gender}
-					errorMessage={errors.gender}
+					invalid={!!errors.gender || !!error}
+					errorMessage={errors.gender || error}
 					isDisabled={!!id}
 					isSearchable={false}
 				/>
