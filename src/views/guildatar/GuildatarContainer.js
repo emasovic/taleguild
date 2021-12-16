@@ -92,7 +92,7 @@ export default function GuildatarContainer() {
 	}, [id, dispatch]);
 
 	useEffect(() => {
-		previousUser?.id !== user?.id && handleLoadUserItems(true, null, 0);
+		previousUser?.id !== user?.id && handleLoadUserItems(true, undefined, 0);
 	}, [dispatch, user, previousUser, handleLoadUserItems]);
 
 	const {values, dirty, handleSubmit: formikSubmit, handleReset, setFieldValue} = useFormik({

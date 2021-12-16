@@ -6,9 +6,7 @@ import {FONT_WEIGHT, TEXT_COLORS, TEXT_TRASFORM} from 'types/typography';
 import {ICONS} from 'types/icons';
 import {COLOR} from 'types/button';
 
-import {selectAuthUser} from 'redux/auth';
 import {loadMarketplace, selectMarketplaceById, selectMarketplaceIds} from 'redux/marketplace';
-import {loadGuildatars, selectActiveGuildatar} from 'redux/guildatars';
 
 import MarketplaceDialog from 'components/marketplace/MarketplaceDialog';
 import ImageContainer from 'components/widgets/image/Image';
@@ -57,33 +55,23 @@ export default function RecentItems() {
 	const [selectedItem, setSelectedItem] = useState(null);
 	const [isOpen, setIsOpen] = useState(false);
 
-	const {data} = useSelector(selectAuthUser);
-	const userId = data?.id;
 	const marketplace = useSelector(selectMarketplaceIds);
 	const {op} = useSelector(state => state.marketplace);
-	const {gender} = useSelector(selectActiveGuildatar) || {};
-
-	useEffect(() => userId && dispatch(loadGuildatars({user: userId, active: true})), [
-		userId,
-		dispatch,
-	]);
 
 	useEffect(() => {
-		gender &&
-			dispatch(
-				loadMarketplace(
-					{
-						_start: 0,
-						_limit: 4,
-						_sort: 'created_at:DESC',
-						genders: gender.id,
-					},
-					true
-				)
-			);
-	}, [dispatch, gender]);
+		dispatch(
+			loadMarketplace(
+				{
+					_start: 0,
+					_limit: 4,
+					_sort: 'created_at:DESC',
+				},
+				true
+			)
+		);
+	}, [dispatch]);
 
-	if (!marketplace.length && !op && !gender) {
+	if (!marketplace.length && !op) {
 		return (
 			<>
 				<NoItemsPlaceholder

@@ -114,7 +114,7 @@ export const countAllGuildatars = (params, op = DEFAULT_OP.loading) => async dis
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
 	dispatch(opEnd());
-	dispatch(gotPages(res));
+	dispatch(gotPages({total: res}));
 };
 
 export const loadGuildatar = id => async dispatch => {

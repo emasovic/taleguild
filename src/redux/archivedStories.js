@@ -10,7 +10,6 @@ import {newToast} from './toast';
 
 const archivedStoriesAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
-	// sortComparer: (a, b) => b.published_at.localeCompare(a.published_at),
 });
 
 export const archivedStorySlice = createSlice({
@@ -20,6 +19,7 @@ export const archivedStorySlice = createSlice({
 		pages: null,
 		loading: null,
 		currentPage: 1,
+		total: 0,
 	}),
 	reducers: {
 		archivedStoriesReceieved: (state, action) => {
@@ -43,8 +43,9 @@ export const archivedStorySlice = createSlice({
 			state.loading = null;
 			state.op = null;
 		},
-		gotPages: (state, action) => {
-			state.pages = action.payload;
+		gotPages: (state, {payload}) => {
+			state.pages = Math.ceil(payload.total / payload.limit);
+			state.total = payload.total;
 		},
 		loadingStart: state => {
 			state.loading = true;
@@ -88,7 +89,7 @@ export const loadArchivedStories = (params, count, op = STORY_OP.loading) => asy
 			dispatch(loadingEnd());
 			return dispatch(newToast({...Toast.error(countRes.error)}));
 		}
-		dispatch(gotPages(Math.ceil(countRes / 10)));
+		dispatch(gotPages({total: countRes, limit: params._limit}));
 
 		return dispatch(archivedStoriesReceieved(res));
 	}

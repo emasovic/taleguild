@@ -2,14 +2,15 @@ import StoryThumb from 'views/stories/StoryThumb';
 import StoryItem from 'views/stories/StoryItem';
 import StoryListItem from 'views/stories/StoryListItem';
 
+import {DEFAULT_LIMIT} from './default';
+
 export const PUBLISH_STATES = {
 	live: 'live',
 	preview: 'preview',
 };
 
 export const DEFAULT_CRITERIA = {
-	_start: 0,
-	_limit: 10,
+	...DEFAULT_LIMIT,
 	_sort: 'published_at:DESC',
 	_publicationState: PUBLISH_STATES.live,
 	archived_at_null: true,

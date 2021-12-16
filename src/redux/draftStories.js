@@ -45,8 +45,8 @@ export const draftSlice = createSlice({
 			state.op = null;
 		},
 		gotPages: (state, {payload}) => {
-			state.pages = payload / 10;
-			state.total = payload;
+			state.pages = Math.ceil(payload.total / payload.limit);
+			state.total = payload.total;
 		},
 		loadingStart: state => {
 			state.loading = true;
@@ -90,7 +90,7 @@ export const loadStories = (params, count, op = STORY_OP.loading) => async dispa
 			dispatch(loadingEnd());
 			return dispatch(newToast({...Toast.error(countRes.error)}));
 		}
-		dispatch(gotPages(countRes));
+		dispatch(gotPages({total: countRes, limit: params._limit}));
 
 		return dispatch(draftStoriesReceieved(res));
 	}
