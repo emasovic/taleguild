@@ -1,8 +1,6 @@
 import React, {useEffect, useCallback, memo} from 'react';
 import {NavItem, NavLink, Nav} from 'reactstrap';
 import {useDispatch, useSelector} from 'react-redux';
-import queryString from 'query-string';
-import {useLocation} from 'react-router-dom';
 import propTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
 
@@ -13,6 +11,7 @@ import {loadStories, selectStories} from '../../redux/story';
 import {navigateToQuery} from 'redux/application';
 
 import {usePrevious} from 'hooks/compare';
+import {useGetSearchParams} from 'hooks/getSearchParams';
 
 import Loader from 'components/widgets/loader/Loader';
 import LoadMore from 'components/widgets/loadmore/LoadMore';
@@ -25,9 +24,8 @@ import './Stories.scss';
 
 const CLASS = 'st-Stories';
 
-const Stories = memo(({criteria, activeSort, displaySearch}) => {
+const Stories = memo(({criteria, activeSort, NoItemsComponent, displayNav, displaySearch}) => {
 	const dispatch = useDispatch();
-	const location = useLocation();
 
 	const stories = useSelector(state => selectStories(state, activeSort));
 	const {pages, op, currentPage} = useSelector(state => state.stories);
@@ -36,7 +34,7 @@ const Stories = memo(({criteria, activeSort, displaySearch}) => {
 	const shouldLoad = pages > currentPage && !op;
 
 	const sortStories = sort =>
-		dispatch(navigateToQuery({_sort: sort + ':' + SORT_DIRECTION.desc}, location));
+		dispatch(navigateToQuery({_sort: sort + ':' + SORT_DIRECTION.desc}));
 
 	const handleCount = useCallback(() => {
 		const loadMoreCriteria = {...criteria, _start: currentPage * 10};
@@ -49,7 +47,7 @@ const Stories = memo(({criteria, activeSort, displaySearch}) => {
 		}
 	}, [criteria, dispatch, previousCriteria]);
 
-	const nav = (
+	const nav = displayNav && (
 		<Nav className={CLASS + '-header'}>
 			<NavItem href="#" onClick={() => sortStories(STORY_SORT.published_at)}>
 				<NavLink active={activeSort.includes(STORY_SORT.published_at)}>
@@ -65,34 +63,32 @@ const Stories = memo(({criteria, activeSort, displaySearch}) => {
 	);
 
 	const renderStories =
-		stories && stories.length ? (
-			stories.map(item => {
-				return (
-					<StoryItem
-						id={item.id}
-						image={item.image}
-						size={MEDIA_SIZE.small}
-						formats={item.image && item.image.formats}
-						title={item.title}
-						description={item.description}
-						key={item.id}
-						categories={item.categories}
-						likes={item.likes}
-						views={item.views}
-						comments={item.comments}
-						storypages={item.storypages}
-						author={item.user}
-						createdDate={item.published_at}
-						savedBy={item.saved_by}
-						slug={item.slug}
-						archivedAt={item.archived_at}
-						displayArchived={!!item.published_at}
-					/>
-				);
-			})
-		) : (
-			<NoStories />
-		);
+		stories && stories.length
+			? stories.map(item => {
+					return (
+						<StoryItem
+							id={item.id}
+							image={item.image}
+							size={MEDIA_SIZE.small}
+							formats={item.image && item.image.formats}
+							title={item.title}
+							description={item.description}
+							key={item.id}
+							categories={item.categories}
+							likes={item.likes}
+							views={item.views}
+							comments={item.comments}
+							storypages={item.storypages}
+							author={item.user}
+							createdDate={item.published_at}
+							savedBy={item.saved_by}
+							slug={item.slug}
+							archivedAt={item.archived_at}
+							displayArchived={!!item.published_at}
+						/>
+					);
+			  })
+			: NoItemsComponent;
 
 	return (
 		<LoadMore
@@ -121,16 +117,18 @@ Stories.propTypes = {
 	criteria: propTypes.object,
 	activeSort: propTypes.string,
 	displaySearch: propTypes.bool,
+	displayNav: propTypes.bool,
+	NoItemsComponent: propTypes.node,
 };
 
 Stories.defaultProps = {
 	criteria: DEFAULT_CRITERIA,
 	displaySearch: true,
+	NoItemsComponent: NoStories,
 };
 
-const MemoizedStories = ({criteria, displaySearch}) => {
-	const location = useLocation();
-	const query = queryString.parse(location.search);
+const MemoizedStories = ({criteria, displaySearch, NoItemsComponent}) => {
+	const query = useGetSearchParams();
 
 	const newCriteria = {...criteria, ...query};
 
@@ -141,12 +139,21 @@ const MemoizedStories = ({criteria, displaySearch}) => {
 	delete newCriteria.fbclid;
 	delete newCriteria.ref;
 
-	return <Stories criteria={newCriteria} activeSort={activeSort} displaySearch={displaySearch} />;
+	return (
+		<Stories
+			criteria={newCriteria}
+			activeSort={activeSort}
+			displaySearch={displaySearch}
+			NoItemsComponent={NoItemsComponent}
+		/>
+	);
 };
 
 MemoizedStories.propTypes = {
 	criteria: propTypes.object,
 	displaySearch: propTypes.bool,
+	displayNav: propTypes.bool,
+	NoItemsComponent: propTypes.object,
 };
 
 export default MemoizedStories;

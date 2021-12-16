@@ -1,13 +1,19 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {Form} from 'reactstrap';
+import {useParams} from 'react-router-dom';
+import {useDispatch} from 'react-redux';
+
+import {CATEGORY_TYPES} from 'types/category';
+
+import {loadCategories} from 'redux/categories';
+import {loadLanguages} from 'redux/languages';
 
 import CategoryPicker from 'components/widgets/pickers/category/CategoryPicker';
 import Uploader from 'components/widgets/uploader/Uploader';
 import LanguagePicker from 'components/widgets/pickers/language/LanguagePicker';
 import ConfirmModal from 'components/widgets/modals/Modal';
 import FloatingInput from 'components/widgets/input/FloatingInput';
-import {useParams} from 'react-router-dom';
 
 const ERRORS = {
 	TITLE: 'TITLE',
@@ -29,10 +35,16 @@ export default function PublishStoryDialog({
 	setImage,
 }) {
 	const {id} = useParams();
+	const dispatch = useDispatch();
 
 	const {title, description, categories, language, image, published} = story;
 
 	const [errors, setErrors] = useState({});
+
+	useEffect(() => {
+		dispatch(loadCategories({type: CATEGORY_TYPES.story}));
+		dispatch(loadLanguages());
+	}, [dispatch]);
 
 	const validate = () => {
 		const hasErrors = new Map();

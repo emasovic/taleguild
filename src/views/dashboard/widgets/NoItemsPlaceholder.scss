@@ -1,7 +1,21 @@
+@import 'styles/variables.scss';
+@import 'styles/themes/mixins.scss';
+
 .st-NoItemsPlaceholder {
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
 	padding: 24px;
+
+	&-background {
+		&__primary {
+			@include theme-aware('background-color', 'T100');
+			border-radius: 6px;
+		}
+	}
+
+	.st-IconButton {
+		margin-top: 16px;
+	}
 }

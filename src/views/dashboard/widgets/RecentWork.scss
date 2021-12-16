@@ -7,11 +7,6 @@
 	cursor: pointer;
 	margin-top: 8px;
 
-	&-no-items {
-		@include theme-aware('background-color', 'T100');
-		border-radius: 6px;
-	}
-
 	&-item {
 		display: flex;
 		flex-direction: column;

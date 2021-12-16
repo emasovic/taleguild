@@ -106,7 +106,7 @@ export default function RecentWork() {
 				title="Create your first story"
 				subtitle="With your writing you can collect coins and create characters from Market"
 				buttonText="Write your first story"
-				className={CLASS + '-no-items'}
+				withBackground
 				buttonProps={{
 					onClick: () => dispatch(newStory({user: userId, published_at: null})),
 				}}
