@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
-import {useLocation} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {resetPassword} from 'redux/auth';
 import {USER_OP} from 'types/user';
+
+import {resetPassword} from 'redux/auth';
+
+import {useGetSearchParams} from 'hooks/getSearchParams';
 
 import FloatingInput from 'components/widgets/input/FloatingInput';
 import IconButton from 'components/widgets/button/IconButton';
@@ -15,7 +17,7 @@ const CLASS = 'st-Password';
 export default function ResetPassword() {
 	const dispatch = useDispatch();
 	const op = useSelector(state => state.auth.op);
-	const query = new URLSearchParams(useLocation().search);
+	const {code} = useGetSearchParams();
 
 	const [password, setPassword] = useState('');
 	const [passwordConfirmation, setPasswordConfirmation] = useState('');
@@ -37,11 +39,7 @@ export default function ResetPassword() {
 			/>
 			<IconButton
 				loading={op === USER_OP.reset_password}
-				onClick={() =>
-					dispatch(
-						resetPassword({password, passwordConfirmation, code: query.get('code')})
-					)
-				}
+				onClick={() => dispatch(resetPassword({password, passwordConfirmation, code}))}
 			>
 				Reset password
 			</IconButton>

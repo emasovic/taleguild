@@ -1,6 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {useLocation} from 'react-router';
 
 import {getGenders} from 'lib/api';
 
@@ -16,6 +15,7 @@ import {loadCategories, selectCategories} from 'redux/categories';
 import {navigateToQuery} from 'redux/application';
 
 import {useLoadItems} from 'hooks/getItems';
+import {useGetSearchParams} from 'hooks/getSearchParams';
 
 import MarketplaceItem from 'components/marketplace/MarketplaceItem';
 import MarketplaceDialog from 'components/marketplace/MarketplaceDialog';
@@ -53,10 +53,7 @@ export default function Marketplace() {
 	const [selectedItem, setSelectedItem] = useState(null);
 	const [isOpen, setIsOpen] = useState(false);
 
-	const body_part = new URLSearchParams(useLocation().search).get('body_part');
-	const category = new URLSearchParams(useLocation().search).get('category');
-	const name = new URLSearchParams(useLocation().search).get('name');
-	const gender = new URLSearchParams(useLocation().search).get('gender');
+	const {body_part, category, name, gender} = useGetSearchParams();
 
 	const selectedGender = genders.find(g => g.id === Number(gender));
 
