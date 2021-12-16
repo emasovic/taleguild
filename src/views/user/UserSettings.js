@@ -1,5 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {useSelector, useDispatch} from 'react-redux';
+import {useFormik} from 'formik';
+import {object, string} from 'yup';
 
 import {THEMES} from 'types/themes';
 
@@ -17,43 +19,62 @@ import './UserSettings.scss';
 
 const CLASS = 'st-UserSettings';
 
+const validationSchema = object().shape({
+	username: string()
+		.min(2, 'Too Short!')
+		.max(50, 'Too Long!')
+		.required('Required'),
+	description: string()
+		.min(2, 'Too Short!')
+		.max(250, 'Too Long!'),
+	displayName: string()
+		.min(2, 'Too Short!')
+		.max(250, 'Too Long!'),
+	email: string()
+		.required('Required')
+		.email('Must be a valid email'),
+});
+
 export default function UserSettings() {
-	const {data, loading} = useSelector(selectAuthUser);
+	const {data, op} = useSelector(selectAuthUser);
 	const dispatch = useDispatch();
 
-	const [avatar, setAvatar] = useState(null);
-	const [username, setUsername] = useState('');
-	const [email, setEmail] = useState('');
-	const [displayName, setDisplayName] = useState('');
-	const [description, setDescription] = useState('');
-	const [theme, setTheme] = useState(null);
-
-	const update = () => {
-		localStorage.setItem('theme', theme);
+	const handleSubmit = val => {
+		localStorage.setItem('theme', val.theme);
 		dispatch(
 			updateUser({
-				id: data.id,
-				username,
-				email,
-				description,
-				theme,
-				display_name: displayName,
-				avatar: avatar && avatar.id,
+				id: val.id,
+				username: val.username,
+				email: val.email,
+				description: val.description,
+				display_name: val.displayName,
+				avatar: val?.avatar?.id || null,
 			})
 		);
 	};
 
-	useEffect(() => {
-		if (data) {
-			const theme = localStorage.getItem('theme') || THEMES.dark;
-			setEmail(data.email);
-			setAvatar(data.avatar);
-			setUsername(data.username);
-			setDescription(data.description || '');
-			setDisplayName(data.display_name || '');
-			setTheme(theme);
-		}
-	}, [data]);
+	const {
+		values: {avatar, displayName, username, email, description, theme},
+		errors,
+		dirty,
+		handleSubmit: formikSubmit,
+		handleChange,
+		setFieldValue,
+	} = useFormik({
+		validationSchema,
+		enableReinitialize: true,
+		validateOnChange: false,
+		initialValues: {
+			id: data?.id,
+			username: data?.username,
+			email: data?.email,
+			description: data?.description,
+			displayName: data?.display_name,
+			avatar: data?.avatar,
+			theme: localStorage.getItem('theme') || THEMES.dark,
+		},
+		onSubmit: handleSubmit,
+	});
 
 	if (!data) {
 		return <Loader />;
@@ -61,27 +82,61 @@ export default function UserSettings() {
 
 	return (
 		<MobileWrapper className={CLASS}>
-			<Uploader
-				onUploaded={setAvatar}
-				files={avatar}
-				uploadlabel="Upload avatar"
-				onRemove={() => setAvatar(null)}
-			/>
-			<div className={CLASS + '-info'}>
-				<FloatingInput value={displayName} label="Display name" onChange={setDisplayName} />
+			<form onSubmit={formikSubmit}>
+				<Uploader
+					onUploaded={image => setFieldValue('avatar', image)}
+					files={avatar}
+					uploadlabel="Upload avatar"
+					onRemove={() => setFieldValue('avatar', null)}
+				/>
+				<div className={CLASS + '-info'}>
+					<FloatingInput
+						value={displayName}
+						label="Display name"
+						name="displayName"
+						onChange={handleChange}
+						wholeEvent
+						invalid={!!errors.displayName}
+						errorMessage={errors.displayName}
+					/>
 
-				<TextArea value={description} label="Description" onChange={setDescription} />
+					<TextArea
+						value={description}
+						name="description"
+						label="Description"
+						onChange={handleChange}
+						wholeEvent
+						invalid={!!errors.description}
+						errorMessage={errors.description}
+					/>
 
-				<FloatingInput value={username} label="Username" onChange={setUsername} />
+					<FloatingInput
+						value={username}
+						name="username"
+						label="Username"
+						onChange={handleChange}
+						wholeEvent
+						invalid={!!errors.username}
+						errorMessage={errors.username}
+					/>
 
-				<FloatingInput value={email} label="Email address" onChange={setEmail} />
+					<FloatingInput
+						value={email}
+						name="email"
+						label="Email address"
+						onChange={handleChange}
+						wholeEvent
+						invalid={!!errors.email}
+						errorMessage={errors.email}
+					/>
 
-				<ThemePicker value={theme} onChange={setTheme} />
+					<ThemePicker value={theme} onChange={val => setFieldValue('theme', val)} />
 
-				<IconButton onClick={update} loading={loading}>
-					Save changes
-				</IconButton>
-			</div>
+					<IconButton loading={!!op} disabled={!dirty}>
+						Save changes
+					</IconButton>
+				</div>
+			</form>
 		</MobileWrapper>
 	);
 }

@@ -1,11 +1,12 @@
 import {createSlice} from '@reduxjs/toolkit';
 
-import * as api from '../lib/api';
+import * as api from 'lib/api';
 import {DASHBOARD, WELCOME} from 'lib/routes';
 
 import {Toast} from 'types/toast';
 import {USER_OP} from 'types/user';
 import {NOTIFICATION_TYPES} from 'types/notifications';
+import {DEFAULT_OP} from 'types/default';
 
 import {newToast} from './toast';
 import {notificationsAddOne} from './notifications';
@@ -119,10 +120,10 @@ export const getUser = () => async (dispatch, getState) => {
 };
 
 export const updateUser = (token, payload) => async dispatch => {
-	dispatch(loadingStart());
+	dispatch(opStart(DEFAULT_OP.update));
 	const res = await api.updateUser(token, payload);
 	if (res.error) {
-		dispatch(loadingEnd());
+		dispatch(opEnd());
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
 	dispatch(
