@@ -67,6 +67,9 @@ export default function Marketplace() {
 	const shouldLoad = pages > currentPage && !op;
 
 	const renderMarketPlaceItems = () => {
+		if (op) {
+			return <Loader />;
+		}
 		return items.length ? (
 			<>
 				<Typography
@@ -118,20 +121,21 @@ export default function Marketplace() {
 
 	const handleLoadMarketplace = useCallback(
 		(count, op, _start) => {
-			dispatch(
-				loadMarketplace(
-					{
-						body_part,
-						category,
-						name_contains: name,
-						genders: selectedGender?.id,
-						...DEFAULT_LIMIT,
-						_start,
-					},
-					count,
-					op
-				)
-			);
+			selectedGender &&
+				dispatch(
+					loadMarketplace(
+						{
+							body_part,
+							category,
+							name_contains: name,
+							genders: selectedGender?.id,
+							...DEFAULT_LIMIT,
+							_start,
+						},
+						count,
+						op
+					)
+				);
 		},
 		[dispatch, category, name, selectedGender, body_part]
 	);
@@ -205,8 +209,6 @@ export default function Marketplace() {
 								onClick: () => setIsOpen(true),
 							}}
 						/>
-					) : op === DEFAULT_OP.loading ? (
-						<Loader />
 					) : (
 						renderMarketPlaceItems()
 					)}
@@ -217,6 +219,7 @@ export default function Marketplace() {
 				<MarketplaceDialog
 					isOpen={!!selectedItem}
 					itemId={selectedItem}
+					gender={selectedGender?.gender}
 					onClose={() => setSelectedItem(null)}
 				/>
 			)}

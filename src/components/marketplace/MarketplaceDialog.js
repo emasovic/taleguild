@@ -26,7 +26,7 @@ import './MarketplaceDialog.scss';
 
 const CLASS = 'st-MarketplaceDialog';
 
-function MarketplaceDialog({isOpen, itemId, onClose}) {
+function MarketplaceDialog({isOpen, itemId, gender, onClose}) {
 	const dispatch = useDispatch();
 
 	const {data} = useSelector(selectAuthUser);
@@ -35,6 +35,8 @@ function MarketplaceDialog({isOpen, itemId, onClose}) {
 	const {image, name, price, description, category, genders, body_part} = useSelector(state =>
 		selectMarketplaceById(state, itemId)
 	);
+
+	gender = gender || genders[0]?.gender;
 
 	const props = {[body_part]: getImageUrl(image.url)};
 
@@ -55,7 +57,7 @@ function MarketplaceDialog({isOpen, itemId, onClose}) {
 
 	const renderContent = () => (
 		<div className={CLASS}>
-			<Guildatar gender={genders[0]?.gender} {...props} />
+			<Guildatar gender={gender} {...props} />
 			<Typography color={TEXT_COLORS.tertiary}>
 				This is a preview of your default Guildatar
 			</Typography>
@@ -105,6 +107,7 @@ MarketplaceDialog.propTypes = {
 	isOpen: PropTypes.bool.isRequired,
 	onClose: PropTypes.func.isRequired,
 	itemId: PropTypes.number.isRequired,
+	gender: PropTypes.string,
 };
 
 export default MarketplaceDialog;
