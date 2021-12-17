@@ -14,7 +14,7 @@ const viewsAdapter = createEntityAdapter({
 export const viewsSlice = createSlice({
 	name: 'views',
 	initialState: viewsAdapter.getInitialState({
-		op: null,
+		op: DEFAULT_OP.loading,
 		pages: null,
 		total: null,
 		currentPage: 1,

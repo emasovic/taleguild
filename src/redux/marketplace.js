@@ -15,7 +15,7 @@ const marketplaceAdapter = createEntityAdapter({
 export const marketplaceSlice = createSlice({
 	name: 'marketplace',
 	initialState: marketplaceAdapter.getInitialState({
-		op: null,
+		op: DEFAULT_OP.loading,
 		pages: null,
 		total: null,
 		currentPage: 1,

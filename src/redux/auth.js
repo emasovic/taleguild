@@ -16,7 +16,7 @@ export const userSlice = createSlice({
 	initialState: {
 		data: null,
 		stats: null,
-		op: null,
+		op: DEFAULT_OP.loading,
 		loading: false,
 	},
 	reducers: {

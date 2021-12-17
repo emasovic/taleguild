@@ -14,7 +14,11 @@ const savedByAdapter = createEntityAdapter({
 
 export const savedBySlice = createSlice({
 	name: 'savedBy',
-	initialState: savedByAdapter.getInitialState({op: null, pages: null, loading: null}),
+	initialState: savedByAdapter.getInitialState({
+		op: DEFAULT_OP.loading,
+		pages: null,
+		loading: null,
+	}),
 	reducers: {
 		savedByReceieved: (state, action) => {
 			savedByAdapter.setAll(state, action.payload);

@@ -15,7 +15,7 @@ const archivedStoriesAdapter = createEntityAdapter({
 export const archivedStorySlice = createSlice({
 	name: 'archivedStories',
 	initialState: archivedStoriesAdapter.getInitialState({
-		op: null,
+		op: DEFAULT_OP.loading,
 		pages: null,
 		loading: null,
 		currentPage: 1,

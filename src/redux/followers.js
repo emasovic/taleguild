@@ -14,7 +14,7 @@ const followersAdapter = createEntityAdapter({
 export const followersSlice = createSlice({
 	name: 'followers',
 	initialState: followersAdapter.getInitialState({
-		op: null,
+		op: DEFAULT_OP.loading,
 		pages: null,
 		total: null,
 		currentPage: 1,

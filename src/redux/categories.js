@@ -3,6 +3,8 @@ import {createSlice, createEntityAdapter} from '@reduxjs/toolkit';
 import * as api from '../lib/api';
 
 import {Toast} from 'types/toast';
+import {DEFAULT_OP} from 'types/default';
+
 import {newToast} from './toast';
 
 const categoryAdapter = createEntityAdapter({
@@ -12,7 +14,11 @@ const categoryAdapter = createEntityAdapter({
 
 export const categorySlice = createSlice({
 	name: 'categories',
-	initialState: categoryAdapter.getInitialState({op: null, pages: null, loading: null}),
+	initialState: categoryAdapter.getInitialState({
+		op: DEFAULT_OP.loading,
+		pages: null,
+		loading: null,
+	}),
 	reducers: {
 		categoriesReceieved: (state, action) => {
 			categoryAdapter.setAll(state, action.payload);

@@ -3,6 +3,8 @@ import {createSlice, createEntityAdapter} from '@reduxjs/toolkit';
 import * as api from '../lib/api';
 
 import {Toast} from 'types/toast';
+import {DEFAULT_OP} from 'types/default';
+
 import {newToast} from './toast';
 
 const languageAdapter = createEntityAdapter({
@@ -12,7 +14,11 @@ const languageAdapter = createEntityAdapter({
 
 export const languageSlice = createSlice({
 	name: 'languages',
-	initialState: languageAdapter.getInitialState({op: null, pages: null, loading: null}),
+	initialState: languageAdapter.getInitialState({
+		op: DEFAULT_OP.loading,
+		pages: null,
+		loading: null,
+	}),
 	reducers: {
 		languagesReceieved: (state, action) => {
 			languageAdapter.setAll(state, action.payload);

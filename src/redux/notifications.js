@@ -15,7 +15,7 @@ const notificationsAdapter = createEntityAdapter({
 export const notificationsSlice = createSlice({
 	name: 'notifications',
 	initialState: notificationsAdapter.getInitialState({
-		op: null,
+		op: DEFAULT_OP.loading,
 		pages: null,
 		currentPage: 1,
 		unseen: 0,

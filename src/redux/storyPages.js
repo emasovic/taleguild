@@ -5,6 +5,7 @@ import {editStory} from '../lib/routes';
 
 import {Toast} from 'types/toast';
 import {STORY_PAGE_OP} from 'types/story_page';
+import {DEFAULT_OP} from 'types/default';
 
 import {newToast} from './toast';
 
@@ -15,7 +16,11 @@ const storyPageAdapter = createEntityAdapter({
 
 export const storyPageSlice = createSlice({
 	name: 'storyPages',
-	initialState: storyPageAdapter.getInitialState({op: null, pages: null, loading: null}),
+	initialState: storyPageAdapter.getInitialState({
+		op: DEFAULT_OP.loading,
+		pages: null,
+		loading: null,
+	}),
 	reducers: {
 		storyPagesReceieved: (state, action) => {
 			storyPageAdapter.setAll(state, action.payload);

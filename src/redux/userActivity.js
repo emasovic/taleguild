@@ -15,7 +15,7 @@ const userActivityAdapter = createEntityAdapter({
 export const userActivitySlice = createSlice({
 	name: 'userActivity',
 	initialState: userActivityAdapter.getInitialState({
-		op: null,
+		op: DEFAULT_OP.loading,
 		pages: null,
 	}),
 	reducers: {

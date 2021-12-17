@@ -4,6 +4,7 @@ import * as api from '../lib/api';
 
 import {STORY_OP} from 'types/story';
 import {Toast} from 'types/toast';
+import {DEFAULT_OP} from 'types/default';
 
 import {newToast} from './toast';
 
@@ -14,7 +15,11 @@ const savedStoriesAdapter = createEntityAdapter({
 
 export const savedStorySlice = createSlice({
 	name: 'savedStories',
-	initialState: savedStoriesAdapter.getInitialState({op: null, pages: null, loading: null}),
+	initialState: savedStoriesAdapter.getInitialState({
+		op: DEFAULT_OP.loading,
+		pages: null,
+		loading: null,
+	}),
 	reducers: {
 		savedStoriesReceieved: (state, action) => {
 			savedStoriesAdapter.setAll(state, action.payload);

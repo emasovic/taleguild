@@ -3,6 +3,8 @@ import {createSlice, createEntityAdapter} from '@reduxjs/toolkit';
 import * as api from '../lib/api';
 
 import {Toast} from 'types/toast';
+import {DEFAULT_OP} from 'types/default';
+
 import {newToast} from './toast';
 
 const userStoriesAdapter = createEntityAdapter({
@@ -12,7 +14,11 @@ const userStoriesAdapter = createEntityAdapter({
 
 export const myStorySlice = createSlice({
 	name: 'userStories',
-	initialState: userStoriesAdapter.getInitialState({op: null, pages: null, loading: null}),
+	initialState: userStoriesAdapter.getInitialState({
+		op: DEFAULT_OP.loading,
+		pages: null,
+		loading: null,
+	}),
 	reducers: {
 		userStoriesReceieved: (state, action) => {
 			userStoriesAdapter.setAll(state, action.payload);

@@ -16,7 +16,7 @@ const draftStoriesAdapter = createEntityAdapter({
 export const draftSlice = createSlice({
 	name: 'draftStories',
 	initialState: draftStoriesAdapter.getInitialState({
-		op: null,
+		op: DEFAULT_OP.loading,
 		pages: null,
 		loading: null,
 		currentPage: 1,

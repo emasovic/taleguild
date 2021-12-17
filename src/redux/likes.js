@@ -14,7 +14,7 @@ const likesAdapter = createEntityAdapter({
 
 export const likesSlice = createSlice({
 	name: 'likes',
-	initialState: likesAdapter.getInitialState({op: null, pages: null}),
+	initialState: likesAdapter.getInitialState({op: DEFAULT_OP.loading, pages: null}),
 	reducers: {
 		likesReceieved: (state, action) => {
 			likesAdapter.setAll(state, action.payload);

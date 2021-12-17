@@ -21,7 +21,7 @@ const guildatarsAdapter = createEntityAdapter({
 export const guildatarsSlice = createSlice({
 	name: 'guildatars',
 	initialState: guildatarsAdapter.getInitialState({
-		op: null,
+		op: DEFAULT_OP.loading,
 		pages: null,
 		total: null,
 		currentPage: 1,

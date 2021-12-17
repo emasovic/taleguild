@@ -21,7 +21,7 @@ const storyAdapter = createEntityAdapter({
 export const storySlice = createSlice({
 	name: 'stories',
 	initialState: storyAdapter.getInitialState({
-		op: null,
+		op: DEFAULT_OP.loading,
 		pages: null,
 		total: null,
 		loading: null,

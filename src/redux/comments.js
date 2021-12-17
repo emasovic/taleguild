@@ -14,7 +14,7 @@ const commentsAdapter = createEntityAdapter({
 
 export const commentsSlice = createSlice({
 	name: 'comments',
-	initialState: commentsAdapter.getInitialState({op: null, pages: null, total: 0}),
+	initialState: commentsAdapter.getInitialState({op: DEFAULT_OP.loading, pages: null, total: 0}),
 	reducers: {
 		commentsReceieved: (state, action) => {
 			commentsAdapter.setAll(state, action.payload);
