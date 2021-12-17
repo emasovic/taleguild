@@ -64,12 +64,18 @@ export default function RecentViews() {
 
 	if (!views.length && !op) {
 		return (
-			<NoItemsPlaceholder
-				title="Find people to follow"
-				subtitle="With your writing you can collect coins and create characters from Market"
-				buttonText="Visit our community"
-				buttonProps={{tag: Link, to: goToWidget(WIDGETS.explore), color: COLOR.secondary}}
-			/>
+			<div>
+				<NoItemsPlaceholder
+					title="Find people to follow"
+					subtitle="With your writing you can collect coins and create characters from Market"
+					buttonText="Visit our community"
+					buttonProps={{
+						tag: Link,
+						to: goToWidget(WIDGETS.explore),
+						color: COLOR.secondary,
+					}}
+				/>
+			</div>
 		);
 	}
 	return (

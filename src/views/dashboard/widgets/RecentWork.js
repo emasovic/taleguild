@@ -102,15 +102,17 @@ export default function RecentWork() {
 
 	if (!stories.length && !op) {
 		return (
-			<NoItemsPlaceholder
-				title="Create your first story"
-				subtitle="With your writing you can collect coins and create characters from Market"
-				buttonText="Write your first story"
-				withBackground
-				buttonProps={{
-					onClick: () => dispatch(newStory({user: userId, published_at: null})),
-				}}
-			/>
+			<div>
+				<NoItemsPlaceholder
+					title="Create your first story"
+					subtitle="With your writing you can collect coins and create characters from Market"
+					buttonText="Write your first story"
+					withBackground
+					buttonProps={{
+						onClick: () => dispatch(newStory({user: userId, published_at: null})),
+					}}
+				/>
+			</div>
 		);
 	}
 	return (

@@ -18,6 +18,8 @@ import GuildatarDialog from 'components/guildatar/GuildatarDialog';
 import NoItemsPlaceholder from './NoItemsPlaceholder';
 
 import './RecentItems.scss';
+import {countAllGuildatars} from 'redux/guildatars';
+import {selectAuthUser} from 'redux/auth';
 
 const CLASS = 'st-RecentItems';
 
@@ -56,24 +58,33 @@ export default function RecentItems() {
 	const [isOpen, setIsOpen] = useState(false);
 
 	const marketplace = useSelector(selectMarketplaceIds);
+	const {data} = useSelector(selectAuthUser);
 	const {op} = useSelector(state => state.marketplace);
+	const {total, op: guildatarOp} = useSelector(state => state.guildatars);
 
-	useEffect(() => {
-		dispatch(
-			loadMarketplace(
-				{
-					_start: 0,
-					_limit: 4,
-					_sort: 'created_at:DESC',
-				},
-				true
-			)
-		);
-	}, [dispatch]);
+	const userId = data?.id;
 
-	if (!marketplace.length && !op) {
+	useEffect(() => userId && dispatch(countAllGuildatars({user: userId})), [userId, dispatch]);
+
+	useEffect(
+		() =>
+			total &&
+			dispatch(
+				loadMarketplace(
+					{
+						_start: 0,
+						_limit: 4,
+						_sort: 'created_at:DESC',
+					},
+					true
+				)
+			),
+		[dispatch, total]
+	);
+
+	if (!total && !guildatarOp) {
 		return (
-			<>
+			<div>
 				<NoItemsPlaceholder
 					title="Build your characters"
 					subtitle="With your writing you can collect coins and create characters from Market"
@@ -81,7 +92,7 @@ export default function RecentItems() {
 					buttonProps={{onClick: () => setIsOpen(true), color: COLOR.secondary}}
 				/>
 				{isOpen && <GuildatarDialog isOpen={isOpen} onClose={() => setIsOpen(false)} />}
-			</>
+			</div>
 		);
 	}
 	return (
@@ -89,7 +100,7 @@ export default function RecentItems() {
 			<Typography color={TEXT_COLORS.secondary} fontWeight={FONT_WEIGHT.bold}>
 				New items
 			</Typography>
-			{!op ? (
+			{!op && !guildatarOp ? (
 				marketplace.map(i => <RecentItem key={i} id={i} onClick={setSelectedItem} />)
 			) : (
 				<Loader />
