@@ -1,27 +1,14 @@
 import React from 'react';
-import {Nav, NavItem, NavLink, Navbar} from 'reactstrap';
+import {Nav, NavItem, NavLink} from 'reactstrap';
 import {Link, useLocation} from 'react-router-dom';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {useSelector} from 'react-redux';
 
-import {
-	DASHBOARD,
-	goToWidget,
-	GUILDATAR,
-	GUILDATARS,
-	LOGIN,
-	MARKETPLACE,
-	REGISTER,
-	_COMMUNITY,
-} from 'lib/routes';
+import {DASHBOARD, goToWidget, GUILDATAR, GUILDATARS, MARKETPLACE, _COMMUNITY} from 'lib/routes';
 
 import FA from 'types/font_awesome';
 
-import {COLOR} from 'types/button';
-
 import {selectAuthUser} from 'redux/auth';
-
-import IconButton from 'components/widgets/button/IconButton';
 
 import {WIDGETS} from 'views/community/Community';
 
@@ -39,7 +26,7 @@ export default function MobileNav() {
 	return (
 		<>
 			<Nav className={CLASS}>
-				{data ? (
+				{data && (
 					<>
 						<NavItem>
 							<NavLink
@@ -79,20 +66,6 @@ export default function MobileNav() {
 							</NavLink>
 						</NavItem>
 					</>
-				) : (
-					<Navbar>
-						<NavItem>
-							<IconButton tag={Link} color={COLOR.secondary} to={LOGIN}>
-								Sign in
-							</IconButton>
-						</NavItem>
-
-						<NavItem>
-							<IconButton tag={Link} to={REGISTER}>
-								Sign up
-							</IconButton>
-						</NavItem>
-					</Navbar>
 				)}
 			</Nav>
 		</>
