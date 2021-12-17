@@ -5,13 +5,14 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	max-width: $story-preview-width-medium;
+	width: 100%;
+	margin: 0 auto;
 
 	&-user {
-		width: 100%;
 		display: flex;
 		margin-bottom: 32px;
 		min-height: 150px;
-		max-width: $story-preview-width-medium;
 
 		@media (max-width: $breakpoint-sm) {
 			max-width: $story-preview-width-small;

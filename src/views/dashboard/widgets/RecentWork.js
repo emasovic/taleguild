@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -9,6 +9,7 @@ import {editStory} from 'lib/routes';
 import {FONTS, FONT_WEIGHT, TEXT_COLORS, TYPOGRAPHY_VARIANTS} from 'types/typography';
 import {PUBLISH_STATES} from 'types/story';
 import {ICONS} from 'types/icons';
+import {DEFAULT_LIMIT, DEFAULT_OP} from 'types/default';
 
 import {loadStories, selectDraftStory, selectStoryIds} from 'redux/draftStories';
 import {selectAuthUser} from 'redux/auth';
@@ -20,6 +21,7 @@ import Typography from 'components/widgets/typography/Typography';
 import Link, {UNDERLINE} from 'components/widgets/link/Link';
 import Icon from 'components/widgets/icon/Icon';
 import Loader from 'components/widgets/loader/Loader';
+import LoadMore from 'components/widgets/loadmore/LoadMore';
 
 import NoItemsPlaceholder from './NoItemsPlaceholder';
 
@@ -44,7 +46,7 @@ const RecentItem = ({id}) => {
 		{coins: 0, active: 0}
 	);
 
-	const text = serializeTextEditorValue(JSON.parse(storypage.text), 200);
+	const text = storypage ? serializeTextEditorValue(JSON.parse(storypage.text), 200) : '';
 	return (
 		<Link
 			to={editStory(id, storypage?.id)}
@@ -73,32 +75,38 @@ RecentItem.propTypes = {
 	id: PropTypes.number.isRequired,
 };
 
-export default function RecentWork() {
+function RecentWork({shouldLoadMore, title, titleProps, placeholderProps}) {
 	const dispatch = useDispatch();
 
 	const stories = useSelector(selectStoryIds);
-	const {op} = useSelector(state => state.draftStories);
+	const {op, pages, currentPage} = useSelector(state => state.draftStories);
 	const {data} = useSelector(selectAuthUser);
 
 	const userId = data?.id;
 
-	useEffect(() => {
-		userId &&
-			dispatch(
-				loadStories(
-					{
-						_start: 0,
-						_limit: 4,
-						_publicationState: PUBLISH_STATES.preview,
-						published_at_null: true,
-						archived_at_null: true,
-						user: userId,
-						_sort: 'created_at:DESC',
-					},
-					true
-				)
-			);
-	}, [dispatch, userId]);
+	const handleLoadStories = useCallback(
+		(op, count, _start) => {
+			userId &&
+				dispatch(
+					loadStories(
+						{
+							...DEFAULT_LIMIT,
+							_publicationState: PUBLISH_STATES.preview,
+							published_at_null: true,
+							archived_at_null: true,
+							user: userId,
+							_sort: 'created_at:DESC',
+							_start,
+						},
+						count,
+						op
+					)
+				);
+		},
+		[dispatch, userId]
+	);
+
+	useEffect(() => handleLoadStories(undefined, true, 0), [handleLoadStories]);
 
 	if (!stories.length && !op) {
 		return (
@@ -111,16 +119,51 @@ export default function RecentWork() {
 					buttonProps={{
 						onClick: () => dispatch(newStory({user: userId, published_at: null})),
 					}}
+					{...placeholderProps}
 				/>
 			</div>
 		);
 	}
 	return (
 		<div className={CLASS}>
-			<Typography color={TEXT_COLORS.secondary} fontWeight={FONT_WEIGHT.bold}>
-				Recent work
+			<Typography color={TEXT_COLORS.secondary} fontWeight={FONT_WEIGHT.bold} {...titleProps}>
+				{title}
 			</Typography>
-			{!op ? stories.map(i => <RecentItem key={i} id={i} />) : <Loader />}
+			{op !== DEFAULT_OP.loading ? (
+				<LoadMore
+					id="recentWork"
+					loading={op === DEFAULT_OP.load_more}
+					shouldLoad={shouldLoadMore && pages > currentPage}
+					onLoadMore={() =>
+						handleLoadStories(
+							DEFAULT_OP.load_more,
+							false,
+							currentPage * DEFAULT_LIMIT._limit
+						)
+					}
+				>
+					{stories.map(i => (
+						<RecentItem key={i} id={i} />
+					))}
+				</LoadMore>
+			) : (
+				<Loader />
+			)}
 		</div>
 	);
 }
+
+RecentWork.propTypes = {
+	shouldLoadMore: PropTypes.bool,
+	titleProps: PropTypes.object,
+	title: PropTypes.string,
+	placeholderProps: PropTypes.object,
+};
+
+RecentWork.defaultProps = {
+	title: 'Recent work',
+	titleProps: {},
+	placeholderProps: {},
+};
+
+export default RecentWork;

@@ -2,13 +2,17 @@ import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useParams} from 'react-router-dom';
 
+import {USER_STORIES_DRAFTS} from 'lib/routes';
+
 import {DEFAULT_CRITERIA} from 'types/story';
+import {COLOR} from 'types/button';
 
 import {loadUser, selectUserByUsername} from 'redux/users';
-import {newStory, selectStories} from 'redux/story';
+import {selectStories} from 'redux/story';
 import {selectAuthUser} from 'redux/auth';
 
 import Loader from 'components/widgets/loader/Loader';
+import Link from 'components/widgets/link/Link';
 
 import NoItemsPlaceholder from 'views/dashboard/widgets/NoItemsPlaceholder';
 import Stories from 'views/stories/Stories';
@@ -30,17 +34,18 @@ export default function UserProfile() {
 
 	const isOwnProfile = data?.id === user?.id;
 
-	const component = isOwnProfile ? (
-		<NoItemsPlaceholder
-			title="Write your first story"
-			subtitle="Start writing your first story with our simple and clean text editor"
-			buttonText="Write story now"
-			buttonProps={{onClick: () => dispatch(newStory({user: data?.id, published_at: null}))}}
-			withBackground
-		/>
-	) : (
-		<NoStories />
-	);
+	const component = isOwnProfile ? NoItemsPlaceholder : NoStories;
+
+	const componentProps = isOwnProfile
+		? {
+				title: 'You have no published stories.',
+				subtitle:
+					'You can make your stories public and it will be visible here on your profile and in the Community. If you want to publish a story, choose from Drafts.',
+				buttonText: 'Visit Drafts',
+				buttonProps: {to: USER_STORIES_DRAFTS, tag: Link, color: COLOR.secondary},
+				withBorder: true,
+		  }
+		: {};
 
 	useEffect(() => {
 		dispatch(loadUser(username));
@@ -55,6 +60,7 @@ export default function UserProfile() {
 			<Stories
 				criteria={{...DEFAULT_CRITERIA, user: user?.id}}
 				NoItemsComponent={component}
+				noItemsComponentProps={componentProps}
 				displaySearch={!!stories?.length}
 				displayNav={!!stories?.length}
 			/>

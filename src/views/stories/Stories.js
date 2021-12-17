@@ -24,47 +24,55 @@ import './Stories.scss';
 
 const CLASS = 'st-Stories';
 
-const Stories = memo(({criteria, activeSort, NoItemsComponent, displayNav, displaySearch}) => {
-	const dispatch = useDispatch();
+const Stories = memo(
+	({
+		criteria,
+		activeSort,
+		NoItemsComponent,
+		noItemsComponentProps,
+		displayNav,
+		displaySearch,
+	}) => {
+		const dispatch = useDispatch();
 
-	const stories = useSelector(state => selectStories(state, activeSort));
-	const {pages, op, currentPage} = useSelector(state => state.stories);
-	const previousCriteria = usePrevious(criteria);
+		const stories = useSelector(state => selectStories(state, activeSort));
+		const {pages, op, currentPage} = useSelector(state => state.stories);
+		const previousCriteria = usePrevious(criteria);
 
-	const shouldLoad = pages > currentPage && !op;
+		const shouldLoad = pages > currentPage && !op;
 
-	const sortStories = sort =>
-		dispatch(navigateToQuery({_sort: sort + ':' + SORT_DIRECTION.desc}));
+		const sortStories = sort =>
+			dispatch(navigateToQuery({_sort: sort + ':' + SORT_DIRECTION.desc}));
 
-	const handleCount = useCallback(() => {
-		const loadMoreCriteria = {...criteria, _start: currentPage * criteria._limit};
-		dispatch(loadStories(loadMoreCriteria, false, STORY_OP.load_more));
-	}, [dispatch, currentPage, criteria]);
+		const handleCount = useCallback(() => {
+			const loadMoreCriteria = {...criteria, _start: currentPage * criteria._limit};
+			dispatch(loadStories(loadMoreCriteria, false, STORY_OP.load_more));
+		}, [dispatch, currentPage, criteria]);
 
-	useEffect(() => {
-		if (criteria && !isEqual(criteria, previousCriteria)) {
-			dispatch(loadStories(criteria, true));
-		}
-	}, [criteria, dispatch, previousCriteria]);
+		useEffect(() => {
+			if (criteria && !isEqual(criteria, previousCriteria)) {
+				dispatch(loadStories(criteria, true));
+			}
+		}, [criteria, dispatch, previousCriteria]);
 
-	const nav = displayNav && (
-		<Nav className={CLASS + '-header'}>
-			<NavItem href="#" onClick={() => sortStories(STORY_SORT.published_at)}>
-				<NavLink active={activeSort.includes(STORY_SORT.published_at)}>
-					Recent stories
-				</NavLink>
-			</NavItem>
-			<NavItem href="#" onClick={() => sortStories(STORY_SORT.likes_count)}>
-				<NavLink active={activeSort.includes(STORY_SORT.likes_count)}>
-					Popular stories
-				</NavLink>
-			</NavItem>
-		</Nav>
-	);
+		const nav = displayNav && (
+			<Nav className={CLASS + '-header'}>
+				<NavItem href="#" onClick={() => sortStories(STORY_SORT.published_at)}>
+					<NavLink active={activeSort.includes(STORY_SORT.published_at)}>
+						Recent stories
+					</NavLink>
+				</NavItem>
+				<NavItem href="#" onClick={() => sortStories(STORY_SORT.likes_count)}>
+					<NavLink active={activeSort.includes(STORY_SORT.likes_count)}>
+						Popular stories
+					</NavLink>
+				</NavItem>
+			</Nav>
+		);
 
-	const renderStories =
-		stories && stories.length
-			? stories.map(item => {
+		const renderStories =
+			stories && stories.length ? (
+				stories.map(item => {
 					return (
 						<StoryItem
 							id={item.id}
@@ -87,29 +95,32 @@ const Stories = memo(({criteria, activeSort, NoItemsComponent, displayNav, displ
 							displayArchived={!!item.published_at}
 						/>
 					);
-			  })
-			: NoItemsComponent;
-
-	return (
-		<LoadMore
-			id="stories"
-			className={CLASS}
-			onLoadMore={handleCount}
-			shouldLoad={shouldLoad}
-			loading={op === STORY_OP.load_more}
-		>
-			{nav}
-			{displaySearch && (
-				<SearchInput placeholder="Search stories" urlParamName="title_contains" />
-			)}
-			{op === STORY_OP.loading ? (
-				<Loader />
+				})
 			) : (
-				<div className={CLASS + '-lastest'}>{renderStories}</div>
-			)}
-		</LoadMore>
-	);
-});
+				<NoItemsComponent {...noItemsComponentProps} />
+			);
+
+		return (
+			<LoadMore
+				id="stories"
+				className={CLASS}
+				onLoadMore={handleCount}
+				shouldLoad={shouldLoad}
+				loading={op === STORY_OP.load_more}
+			>
+				{nav}
+				{displaySearch && (
+					<SearchInput placeholder="Search stories" urlParamName="title_contains" />
+				)}
+				{op === STORY_OP.loading ? (
+					<Loader />
+				) : (
+					<div className={CLASS + '-lastest'}>{renderStories}</div>
+				)}
+			</LoadMore>
+		);
+	}
+);
 
 Stories.displayName = 'Stories';
 
@@ -118,17 +129,25 @@ Stories.propTypes = {
 	activeSort: propTypes.string,
 	displaySearch: propTypes.bool,
 	displayNav: propTypes.bool,
-	NoItemsComponent: propTypes.node,
+	NoItemsComponent: propTypes.func,
+	noItemsComponentProps: propTypes.object,
 };
 
 Stories.defaultProps = {
 	criteria: DEFAULT_CRITERIA,
 	displaySearch: true,
 	displayNav: true,
-	NoItemsComponent: <NoStories />,
+	NoItemsComponent: NoStories,
+	noItemsComponentProps: {},
 };
 
-const MemoizedStories = ({criteria, displaySearch, NoItemsComponent}) => {
+const MemoizedStories = ({
+	criteria,
+	displaySearch,
+	displayNav,
+	NoItemsComponent,
+	noItemsComponentProps,
+}) => {
 	const query = useGetSearchParams();
 
 	const newCriteria = {...criteria, ...query};
@@ -145,7 +164,9 @@ const MemoizedStories = ({criteria, displaySearch, NoItemsComponent}) => {
 			criteria={newCriteria}
 			activeSort={activeSort}
 			displaySearch={displaySearch}
+			displayNav={displayNav}
 			NoItemsComponent={NoItemsComponent}
+			noItemsComponentProps={noItemsComponentProps}
 		/>
 	);
 };
@@ -154,7 +175,8 @@ MemoizedStories.propTypes = {
 	criteria: propTypes.object,
 	displaySearch: propTypes.bool,
 	displayNav: propTypes.bool,
-	NoItemsComponent: propTypes.object,
+	NoItemsComponent: propTypes.func,
+	noItemsComponentProps: propTypes.object,
 };
 
 export default MemoizedStories;

@@ -31,7 +31,6 @@ function MarketplaceDialog({isOpen, itemId, gender, onClose}) {
 
 	const {data} = useSelector(selectAuthUser);
 	const {stats} = useSelector(state => state.auth);
-	const {op} = useSelector(state => state.userItems);
 	const {image, name, price, description, category, genders, body_part} = useSelector(state =>
 		selectMarketplaceById(state, itemId)
 	);
@@ -96,7 +95,7 @@ function MarketplaceDialog({isOpen, itemId, gender, onClose}) {
 			content={renderContent()}
 			onClose={onClose}
 			onSubmit={buyItem}
-			submitButtonProps={{disabled: !!op || price > data?.coins}}
+			submitButtonProps={{disabled: price > stats?.coins}}
 			cancelLabel="Cancel"
 			confirmLabel="Buy now"
 		/>

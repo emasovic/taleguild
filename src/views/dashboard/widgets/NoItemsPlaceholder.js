@@ -11,12 +11,21 @@ import './NoItemsPlaceholder.scss';
 
 const CLASS = 'st-NoItemsPlaceholder';
 
-function NoItemsPlaceholder({buttonProps, title, subtitle, className, withBackground, buttonText}) {
+function NoItemsPlaceholder({
+	buttonProps,
+	title,
+	subtitle,
+	className,
+	withBackground,
+	withBorder,
+	buttonText,
+}) {
 	return (
 		<div
 			className={classNames(
 				CLASS,
 				withBackground && CLASS + '-background__primary',
+				withBorder && CLASS + '-border',
 				className
 			)}
 		>
@@ -46,6 +55,7 @@ NoItemsPlaceholder.propTypes = {
 	buttonText: PropTypes.string,
 	title: PropTypes.string,
 	withBackground: PropTypes.bool,
+	withBorder: PropTypes.bool,
 	subtitle: PropTypes.string,
 	className: PropTypes.string,
 };

@@ -2,8 +2,11 @@ import React, {useEffect, useState, useCallback} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import propTypes from 'prop-types';
 
+import {goToWidget} from 'lib/routes';
+
 import {DEFAULT_CRITERIA, STORY_OP, STORY_COMPONENTS} from 'types/story';
 import {DEFAULT_LIMIT} from 'types/default';
+import {COLOR} from 'types/button';
 
 import {
 	selectUserSavedStories,
@@ -15,7 +18,10 @@ import {selectUserId} from 'redux/auth';
 
 import Loader from 'components/widgets/loader/Loader';
 import LoadMore from 'components/widgets/loadmore/LoadMore';
-import NoStories from 'views/stories/NoStories';
+import NoItemsPlaceholder from 'views/dashboard/widgets/NoItemsPlaceholder';
+import Link from 'components/widgets/link/Link';
+
+import {WIDGETS} from 'views/community/Community';
 
 import './StoryList.scss';
 
@@ -87,7 +93,12 @@ export default function SavedStories({shouldLoadMore, Component}) {
 				);
 			})
 		) : (
-			<NoStories />
+			<NoItemsPlaceholder
+				title="Explore stories in Community"
+				subtitle="Find stories you like from other writers and save them here so you can always access and read them."
+				buttonText="Visit our community"
+				buttonProps={{color: COLOR.secondary, tag: Link, to: goToWidget(WIDGETS.explore)}}
+			/>
 		);
 
 	return (
