@@ -13,16 +13,31 @@
 	}
 
 	.input-group {
+		border: 1px solid;
+		transition: 0.5s all;
+		border-radius: 4px;
+
+		@include theme-aware('border-color', 'G100');
 		&-text {
-			border: 1px solid;
-			@include theme-aware('background', 'B100');
+			border: none;
+			@include theme-aware('background-color', 'B100');
 			@include theme-aware('color', 'G400');
-			@include theme-aware('border-color', 'G100');
+		}
+
+		input {
+			border: none;
+			box-shadow: none;
 		}
 
 		&:hover,
-		&:focus {
+		&:focus-within {
 			@include theme-aware('border-color', 'T600');
+			.input-group {
+				&-text {
+					@include theme-aware('color', 'T600');
+					@include theme-aware('border-color', 'T600');
+				}
+			}
 		}
 	}
 
