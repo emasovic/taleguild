@@ -16,7 +16,6 @@ import {createOrUpdateGuildatar, loadGuildatar, selectGuildatarById} from 'redux
 import {loadUserItems, selectUserItems, selectItemFromUserItemById} from 'redux/userItems';
 
 import {useGetSearchParams} from 'hooks/getSearchParams';
-import {usePrevious} from 'hooks/compare';
 
 import IconButton from 'components/widgets/button/IconButton';
 import Typography from 'components/widgets/typography/Typography';
@@ -49,7 +48,6 @@ export default function GuildatarContainer() {
 
 	const {body_part: bodyPart} = useGetSearchParams();
 	const {head, face, body, left_arm, right_arm, user, gender} = guildatar || {};
-	const previousUser = usePrevious(user);
 
 	const toggleOpen = () => setIsOpen(prevState => !prevState);
 
@@ -92,8 +90,8 @@ export default function GuildatarContainer() {
 	}, [id, dispatch]);
 
 	useEffect(() => {
-		previousUser?.id !== user?.id && handleLoadUserItems(true, undefined, 0);
-	}, [dispatch, user, previousUser, handleLoadUserItems]);
+		user?.id && handleLoadUserItems(true, undefined, 0);
+	}, [dispatch, user, handleLoadUserItems]);
 
 	const {values, dirty, handleSubmit: formikSubmit, handleReset, setFieldValue} = useFormik({
 		initialValues: {
