@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {forwardRef} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -6,13 +6,15 @@ import './MobileWrapper.scss';
 
 const CLASS = 'st-MobileWrapper';
 
-function MobileWrapper({children, className, ...rest}) {
+const MobileWrapper = forwardRef(({children, className, ...rest}, ref) => {
 	return (
-		<div className={classNames(CLASS, className)} {...rest}>
+		<div className={classNames(CLASS, className)} {...rest} ref={ref}>
 			{children}
 		</div>
 	);
-}
+});
+
+MobileWrapper.displayName = 'MobileWrapper';
 
 MobileWrapper.propTypes = {
 	children: PropTypes.node,
