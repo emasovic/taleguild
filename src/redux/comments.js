@@ -95,7 +95,7 @@ export const createOrDeleteComment = payload => async (dispatch, getState) => {
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
 	if (res.id) {
-		dispatch(commentsUpsertOne({storyId: payload.story, ...res}));
+		return dispatch(commentsUpsertOne({storyId: payload.story, ...res}));
 	}
 
 	dispatch(commentsRemoveOne({storyId: payload.story, id: payload.id}));

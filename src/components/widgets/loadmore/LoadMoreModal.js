@@ -16,6 +16,9 @@ export default function LoadMore({
 	initLoading,
 	className,
 	id,
+	NoItemsComponent,
+	noItemsComponentProps,
+	total,
 }) {
 	const isBottom = el => {
 		return el && el.scrollHeight - el.scrollTop <= el.clientHeight;
@@ -43,6 +46,9 @@ export default function LoadMore({
 					<Loader />
 				</div>
 			)}
+			{NoItemsComponent && !shouldLoad && !loading && !total && (
+				<NoItemsComponent {...noItemsComponentProps} />
+			)}
 		</div>
 	);
 }
@@ -55,4 +61,7 @@ LoadMore.propTypes = {
 	initLoading: PropTypes.bool,
 	className: PropTypes.string,
 	id: PropTypes.string,
+	NoItemsComponent: PropTypes.func,
+	noItemsComponentProps: PropTypes.object,
+	total: PropTypes.number,
 };

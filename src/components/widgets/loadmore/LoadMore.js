@@ -17,8 +17,13 @@ export default function LoadMore({
 	showItems,
 	noItemsComponentProps,
 	id,
+	isModal,
 }) {
-	const isBottom = el => el?.getBoundingClientRect().bottom - 100 <= window.innerHeight;
+	const isBottom = el => {
+		return isModal
+			? el?.scrollHeight - el?.scrollTop <= el?.clientHeight
+			: el?.getBoundingClientRect().bottom - 100 <= window.innerHeight;
+	};
 
 	const trackScrolling = () => {
 		const wrappedElement = document.getElementById(id);
@@ -29,16 +34,24 @@ export default function LoadMore({
 	};
 
 	useLayoutEffect(() => {
-		document.addEventListener('scroll', trackScrolling);
-		return () => {
-			document.removeEventListener('scroll', trackScrolling);
-		};
+		if (!isModal) {
+			document.addEventListener('scroll', trackScrolling);
+			return () => {
+				document.removeEventListener('scroll', trackScrolling);
+			};
+		}
 	});
 
-	const classNames = className ? classnames(CLASS, className) : CLASS;
+	const classNames = classnames(CLASS, isModal && `${CLASS}-modal`, className);
+
+	const componentProps = {};
+
+	if (isModal) {
+		componentProps.onScroll = trackScrolling;
+	}
 
 	return (
-		<div id={id} className={classNames}>
+		<div id={id} className={classNames} {...componentProps}>
 			{showItems && children}
 			{loading && (
 				<div className={CLASS + '-pagination'}>
@@ -64,6 +77,7 @@ LoadMore.propTypes = {
 	className: PropTypes.string,
 	id: PropTypes.string,
 	showItems: PropTypes.bool,
+	isModal: PropTypes.bool,
 	total: PropTypes.number.isRequired,
 	NoItemsComponent: PropTypes.func,
 	noItemsComponentProps: PropTypes.object,

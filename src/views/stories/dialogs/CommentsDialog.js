@@ -1,161 +1,158 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {useFormik} from 'formik';
+import * as Yup from 'yup';
 
 import {goToUser} from 'lib/routes';
 
 import FA from 'types/font_awesome';
-import {Toast} from 'types/toast';
 import {COLOR} from 'types/button';
 import {DEFAULT_LIMIT, DEFAULT_OP} from 'types/default';
 
 import {loadComments, selectComments} from 'redux/comments';
 import {selectAuthUser} from 'redux/auth';
-import {addToast} from 'redux/toast';
 import {createOrDeleteComment} from 'redux/comments';
 
 import ConfirmModal from 'components/widgets/modals/Modal';
-import LoadMoreModal from 'components/widgets/loadmore/LoadMoreModal';
+import LoadMore from 'components/widgets/loadmore/LoadMore';
 import FromNow from 'components/widgets/date-time/FromNow';
 import IconButton from 'components/widgets/button/IconButton';
 import TextArea from 'components/widgets/textarea/TextArea';
 
 import UserAvatar from 'views/user/UserAvatar';
 import Link, {UNDERLINE} from 'components/widgets/link/Link';
+import Typography from 'components/widgets/typography/Typography';
 
+const validationSchema = Yup.object().shape({
+	comment: Yup.string()
+		.min(2, 'Too Short!')
+		.max(250, 'Too Long!')
+		.required('Required'),
+});
 function CommentsDialog({isOpen, title, onClose, storyId, className}) {
 	const dispatch = useDispatch();
-	const {comments, storyOp, user, op, pages} = useSelector(
-		state => ({
-			comments: selectComments(state),
-			user: selectAuthUser(state),
-			storyOp: state.stories.op,
-			op: state.comments.op,
-			pages: state.comments.pages,
-		}),
-		shallowEqual
-	);
 
-	const [currentPage, setCurrentPage] = useState(1);
-	const [comment, setComment] = useState('');
+	const comments = useSelector(selectComments);
+	const {op, total} = useSelector(state => state.comments);
+	const {data} = useSelector(selectAuthUser);
 
-	const {data} = user;
+	const handleSubmit = val => {
+		dispatch(
+			createOrDeleteComment({user: data.id, story: storyId, comment: val.comment, id: val.id})
+		);
+		!val.id && resetForm();
+	};
+
+	const {values, errors, dirty, handleSubmit: formikSubmit, resetForm, handleChange} = useFormik({
+		validationSchema,
+		enableReinitialize: true,
+		validateOnChange: false,
+		initialValues: {
+			comment: '',
+		},
+		onSubmit: handleSubmit,
+	});
 
 	const renderContent = () => {
 		return (
 			<div className={className + '-comments'}>
-				<LoadMoreModal
-					onLoadMore={handleCount}
-					loading={op === DEFAULT_OP.load_more}
-					initLoading={op === DEFAULT_OP.loading}
-					shouldLoad={pages > currentPage}
+				<LoadMore
+					onLoadMore={() =>
+						handleLoadComments(false, DEFAULT_OP.load_more, comments.length)
+					}
+					loading={[DEFAULT_OP.loading, DEFAULT_OP.load_more].includes(op)}
+					showItems={op !== DEFAULT_OP.loading}
+					shouldLoad={total > comments.length}
+					isModal
+					total={total}
+					NoItemsComponent={() => <Typography>No comments</Typography>}
 					id="storyComments"
 					className={className + '-comments-posted'}
 				>
-					{comments.length ? (
-						comments.map((item, key) => {
-							const {user} = item;
-							return (
-								<Link
-									to={goToUser(user.username)}
-									key={key}
-									className={className + '-comments-posted-item'}
-									underline={UNDERLINE.hover}
-								>
-									<UserAvatar user={user} />
-									<div className={className + '-comments-posted-item-user'}>
-										<div
-											className={
-												className + '-comments-posted-item-user-info'
-											}
-										>
-											<span>{user.display_name || user.username}</span>
-											<FromNow date={item.created_at} />
-										</div>
-										<span>{item.comment}</span>
-										{data && user.id === data.id && (
-											<IconButton
-												color={COLOR.secondary}
-												icon={FA.solid_times}
-												disabled={storyOp}
-												onClick={e => handleComment(e, item.id)}
-											/>
-										)}
+					{comments.map((item, key) => {
+						const {user} = item;
+						return (
+							<Link
+								to={goToUser(user.username)}
+								key={key}
+								className={className + '-comments-posted-item'}
+								underline={UNDERLINE.hover}
+							>
+								<UserAvatar user={user} />
+								<div className={className + '-comments-posted-item-user'}>
+									<div className={className + '-comments-posted-item-user-info'}>
+										<span>{user.display_name || user.username}</span>
+										<FromNow date={item.created_at} />
 									</div>
-								</Link>
-							);
-						})
-					) : (
-						<p>No Comments</p>
-					)}
-				</LoadMoreModal>
+									<span>{item.comment}</span>
+									{data && user.id === data.id && (
+										<IconButton
+											color={COLOR.secondary}
+											icon={FA.solid_times}
+											disabled={!!op}
+											onClick={e => {
+												e.preventDefault();
+												handleSubmit({id: item.id});
+											}}
+										/>
+									)}
+								</div>
+							</Link>
+						);
+					})}
+				</LoadMore>
 
 				{data && (
-					<div className={className + '-comments-new'}>
-						<UserAvatar user={data} />
-						<div className={className + '-comments-new-comment'}>
-							<TextArea
-								cols={34}
-								value={comment}
-								placeholder="Write a comment..."
-								onChange={val => setComment(val)}
-							/>
-							<IconButton
-								color={COLOR.secondary}
-								loading={storyOp}
-								onClick={handleComment}
-							>
-								Post
-							</IconButton>
+					<form onSubmit={formikSubmit}>
+						<div className={className + '-comments-new'}>
+							<UserAvatar user={data} />
+							<div className={className + '-comments-new-comment'}>
+								<TextArea
+									cols={34}
+									name="comment"
+									value={values.comment}
+									placeholder="Write a comment..."
+									wholeEvent
+									onChange={handleChange}
+									errorMessage={errors.comment}
+									invalid={!!errors.comment}
+								/>
+								<IconButton
+									type="submit"
+									color={COLOR.secondary}
+									loading={!!op}
+									disabled={!dirty}
+								>
+									Post
+								</IconButton>
+							</div>
 						</div>
-					</div>
+					</form>
 				)}
 			</div>
 		);
 	};
 
-	const handleCount = useCallback(() => {
-		dispatch(
-			loadComments(
-				{story: storyId, ...DEFAULT_LIMIT, _start: currentPage * DEFAULT_LIMIT._limit},
-				false,
-				DEFAULT_OP.load_more
-			)
-		);
-		setCurrentPage(currentPage + 1);
-	}, [dispatch, currentPage, storyId]);
+	const handleLoadComments = useCallback(
+		(count, op, _start) => {
+			storyId &&
+				dispatch(
+					loadComments(
+						{
+							story: storyId,
+							...DEFAULT_LIMIT,
+							_start,
+						},
+						count,
+						op
+					)
+				);
+		},
+		[dispatch, storyId]
+	);
 
-	const handleComment = (e, commentId) => {
-		e.preventDefault();
-		if (comment.length >= 200) {
-			return dispatch(
-				addToast({
-					...Toast.error(
-						'Comment should be less than 200 characters.',
-						'Comment too long'
-					),
-				})
-			);
-		}
-		if (comment.trim().length <= 2 && !commentId) {
-			return dispatch(
-				addToast({
-					...Toast.error(
-						'Comment should be longer than 2 characters.',
-						'Comment too short'
-					),
-				})
-			);
-		}
-		dispatch(createOrDeleteComment({user: data.id, story: storyId, comment, id: commentId}));
-		setComment('');
-	};
-
-	useEffect(() => {
-		if (storyId) {
-			dispatch(loadComments({story: storyId, _start: 0, _limit: 10}, true));
-		}
-	}, [dispatch, storyId]);
+	useEffect(() => handleLoadComments(true, undefined, 0), [handleLoadComments]);
 
 	return (
 		<ConfirmModal
