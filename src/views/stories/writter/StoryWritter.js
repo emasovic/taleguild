@@ -35,8 +35,7 @@ export default function StoryWritter() {
 
 	const pages = useSelector(selectStoryPages);
 	const story = useSelector(state => selectStory(state, storyId));
-	const loading = useSelector(state => state.storyPages.loading);
-	const op = useSelector(state => state.storyPages.op);
+	const {loading, op} = useSelector(state => state.storyPages);
 
 	const [selectedPage, setSelectedPage] = useState(0);
 	const [current, handleCurrent] = useState(null);

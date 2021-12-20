@@ -16,7 +16,11 @@ function StoriesPage({MainComponent, mainComponentProps, SideComponent, sideComp
 		<MobileWrapper className={CLASS}>
 			{!isMobile && (
 				<div className={CLASS + '-side'}>
-					<SideComponent {...sideComponentProps} />
+					<SideComponent
+						shouldLoadMore={false}
+						Component={STORY_COMPONENTS.list}
+						{...sideComponentProps}
+					/>
 				</div>
 			)}
 			<MainComponent {...mainComponentProps} />
@@ -26,10 +30,7 @@ function StoriesPage({MainComponent, mainComponentProps, SideComponent, sideComp
 }
 
 StoriesPage.defaultProps = {
-	mainComponentProps: {
-		shouldLoadMore: false,
-		Component: STORY_COMPONENTS.list,
-	},
+	mainComponentProps: {},
 	sideComponentProps: {},
 };
 

@@ -28,7 +28,7 @@ export default function StoryTabs() {
 			componentProps: {
 				shouldLoadMore: false,
 				Component: STORY_COMPONENTS.list,
-				to: goToUser(data.username),
+				to: goToUser(data?.username),
 			},
 		},
 		{
