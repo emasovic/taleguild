@@ -25,37 +25,37 @@ export default function StoryTabs() {
 		{
 			name: 'My stories',
 			component: MyStories,
-			to: goToUser(data.username),
 			componentProps: {
 				shouldLoadMore: false,
 				Component: STORY_COMPONENTS.list,
+				to: goToUser(data.username),
 			},
 		},
 		{
 			name: 'Saved stories',
 			component: SavedStories,
-			to: USER_STORIES_SAVED,
 			componentProps: {
 				shouldLoadMore: false,
 				Component: STORY_COMPONENTS.list,
+				to: USER_STORIES_SAVED,
 			},
 		},
 		{
 			name: 'Drafts',
 			component: DraftStories,
-			to: USER_STORIES_DRAFTS,
 			componentProps: {
 				shouldLoadMore: false,
 				Component: STORY_COMPONENTS.list,
+				to: USER_STORIES_DRAFTS,
 			},
 		},
 		{
 			name: 'Archived stories',
 			component: ArchivedStories,
-			to: USER_STORIES_ARCHIVED,
 			componentProps: {
 				shouldLoadMore: false,
 				Component: STORY_COMPONENTS.list,
+				to: USER_STORIES_ARCHIVED,
 			},
 		},
 	];

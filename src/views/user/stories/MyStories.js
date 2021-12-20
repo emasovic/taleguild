@@ -10,7 +10,7 @@ import {selectStories, loadStories, selectStory} from 'redux/userStories';
 
 import StoryList from './StoryList';
 
-export default function MyStories({Component}) {
+export default function MyStories({Component, to}) {
 	const {data} = useSelector(selectAuthUser);
 
 	const userId = data?.id;
@@ -29,12 +29,14 @@ export default function MyStories({Component}) {
 			shouldTriggerLoad={!!userId}
 			title="My stories"
 			loadItems={loadStories}
+			to={to}
 		/>
 	);
 }
 
 MyStories.propTypes = {
 	Component: PropTypes.any,
+	to: PropTypes.string,
 };
 
 MyStories.defaultProps = {

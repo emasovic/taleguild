@@ -12,9 +12,7 @@
 		@include theme-aware('color', 'G500');
 	}
 
-	&-pagination {
-		display: flex;
-		justify-content: center;
-		margin: 16px 0;
+	&-view-all {
+		text-align: center;
 	}
 }

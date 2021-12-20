@@ -2,6 +2,7 @@ import React, {useEffect, useCallback, memo} from 'react';
 import {NavItem, NavLink, Nav} from 'reactstrap';
 import {useDispatch, useSelector} from 'react-redux';
 import propTypes from 'prop-types';
+import isEqual from 'lodash.isequal';
 
 import {DEFAULT_CRITERIA, SORT_DIRECTION, STORY_OP, STORY_SORT} from 'types/story';
 import {MEDIA_SIZE} from 'types/media';
@@ -10,6 +11,7 @@ import {loadStories, selectStories} from '../../redux/story';
 import {navigateToQuery} from 'redux/application';
 
 import {useGetSearchParams} from 'hooks/getSearchParams';
+import {usePrevious} from 'hooks/compare';
 
 import LoadMore from 'components/widgets/loadmore/LoadMore';
 import SearchInput from 'components/widgets/search-input/SearchInput';
@@ -35,6 +37,7 @@ const Stories = memo(
 		const stories = useSelector(state => selectStories(state, activeSort));
 		const {op, total} = useSelector(state => state.stories);
 
+		const prevCriteria = usePrevious(criteria);
 		const shouldLoad = total > stories.length && !op;
 
 		const sortStories = sort =>
@@ -56,7 +59,9 @@ const Stories = memo(
 			[dispatch, criteria]
 		);
 
-		useEffect(() => handleLoadStories(true, undefined, 0), [handleLoadStories]);
+		useEffect(() => {
+			!isEqual(criteria, prevCriteria) && handleLoadStories(true, undefined, 0);
+		}, [handleLoadStories, criteria, prevCriteria]);
 
 		const nav = displayNav && (
 			<Nav className={CLASS + '-header'}>

@@ -11,7 +11,7 @@ import {selectUserId} from 'redux/auth';
 
 import StoryList from './StoryList';
 
-export default function DraftStories({shouldLoadMore, Component}) {
+export default function DraftStories({shouldLoadMore, Component, to}) {
 	const dispatch = useDispatch();
 
 	const userId = useSelector(selectUserId);
@@ -42,6 +42,7 @@ export default function DraftStories({shouldLoadMore, Component}) {
 			title="Drafts"
 			onDeleteStory={handleDeleteStory}
 			loadItems={loadStories}
+			to={to}
 		/>
 	);
 }
@@ -49,6 +50,7 @@ export default function DraftStories({shouldLoadMore, Component}) {
 DraftStories.propTypes = {
 	shouldLoadMore: propTypes.bool,
 	Component: propTypes.any,
+	to: propTypes.string,
 };
 
 DraftStories.defaultProps = {

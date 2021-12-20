@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import {Nav, NavItem, NavLink} from 'reactstrap';
 import classNames from 'classnames';
 
-import Link, {UNDERLINE} from 'components/widgets/link/Link';
-
 import './DottedList.scss';
 
 const CLASS = 'st-DottedList';
@@ -31,11 +29,6 @@ function DottedList({items, className, initialActive}) {
 				))}
 			</Nav>
 			<Component {...props} />
-			{activeTab?.to && (
-				<Link to={activeTab.to} underline={UNDERLINE.hover}>
-					View all
-				</Link>
-			)}
 		</div>
 	);
 }

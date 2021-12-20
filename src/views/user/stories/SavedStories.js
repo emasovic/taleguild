@@ -23,7 +23,7 @@ import {WIDGETS} from 'views/community/Community';
 
 import StoryList from './StoryList';
 
-export default function SavedStories({shouldLoadMore, Component}) {
+export default function SavedStories({shouldLoadMore, Component, to}) {
 	const dispatch = useDispatch();
 
 	const userId = useSelector(selectUserId);
@@ -62,6 +62,7 @@ export default function SavedStories({shouldLoadMore, Component}) {
 			shouldTriggerLoad={!!userId}
 			title="My stories"
 			loadItems={loadSavedStories}
+			to={to}
 		/>
 	);
 }
@@ -69,6 +70,7 @@ export default function SavedStories({shouldLoadMore, Component}) {
 SavedStories.propTypes = {
 	shouldLoadMore: propTypes.bool,
 	Component: propTypes.any,
+	to: propTypes.string,
 };
 
 SavedStories.defaultProps = {

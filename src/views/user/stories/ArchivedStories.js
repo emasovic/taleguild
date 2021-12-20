@@ -16,7 +16,7 @@ import {selectUserId} from 'redux/auth';
 
 import StoryList from './StoryList';
 
-export default function ArchivedStories({shouldLoadMore, Component}) {
+export default function ArchivedStories({shouldLoadMore, Component, to}) {
 	const dispatch = useDispatch();
 
 	const userId = useSelector(selectUserId);
@@ -40,6 +40,7 @@ export default function ArchivedStories({shouldLoadMore, Component}) {
 			title="Archived stories"
 			onDeleteStory={handleDeleteStory}
 			loadItems={loadArchivedStories}
+			to={to}
 		/>
 	);
 }
@@ -47,6 +48,7 @@ export default function ArchivedStories({shouldLoadMore, Component}) {
 ArchivedStories.propTypes = {
 	shouldLoadMore: propTypes.bool,
 	Component: propTypes.any,
+	to: propTypes.string,
 };
 
 ArchivedStories.defaultProps = {

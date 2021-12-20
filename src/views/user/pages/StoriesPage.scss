@@ -1,7 +1,7 @@
 @import 'styles/variables.scss';
 @import 'styles/themes/mixins.scss';
 
-.st-SavedStoriesPage {
+.st-StoriesPage {
 	display: flex;
 	height: 100%;
 
@@ -29,13 +29,13 @@
 	}
 
 	@media (max-width: $breakpoint-m) {
-		&-drafts,
+		&-side,
 		&-holder {
 			display: none;
 		}
 	}
 
-	&-drafts {
+	&-side {
 		.st-StoryList {
 			margin-right: 16px;
 

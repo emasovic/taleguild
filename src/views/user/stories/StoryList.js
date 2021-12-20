@@ -11,6 +11,7 @@ import NoStories from 'views/stories/NoStories';
 import Typography from 'components/widgets/typography/Typography';
 
 import './StoryList.scss';
+import Link, {UNDERLINE} from 'components/widgets/link/Link';
 
 const CLASS = 'st-StoryList';
 
@@ -25,6 +26,7 @@ export default function StoryList({
 	title,
 	onDeleteStory,
 	componentSelector,
+	to,
 }) {
 	const dispatch = useDispatch();
 	let stories = useSelector(selector);
@@ -83,6 +85,11 @@ export default function StoryList({
 					selector={componentSelector}
 				/>
 			))}
+			{stories.length && to && (
+				<Link to={to} className={CLASS + '-view-all'} underline={UNDERLINE.hover}>
+					View all
+				</Link>
+			)}
 		</LoadMore>
 	);
 }
@@ -105,6 +112,7 @@ StoryList.propTypes = {
 	NoItemsComponent: propTypes.func,
 	noItemsComponentProps: propTypes.object,
 	componentSelector: propTypes.func,
+	to: propTypes.string,
 };
 
 StoryList.defaultProps = {
