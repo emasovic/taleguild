@@ -113,7 +113,7 @@ export const loadNotifications = (params, count, op = DEFAULT_OP.loading) => asy
 			return dispatch(newToast({...Toast.error(countRes.error)}));
 		}
 
-		dispatch(gotPages({total: countRes, limit: params._limit}));
+		dispatch(gotPages({total: countRes.total, unseen: countRes.unseen, limit: params._limit}));
 		return dispatch(notificationsReceieved(res));
 	}
 

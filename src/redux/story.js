@@ -23,7 +23,7 @@ export const storySlice = createSlice({
 	initialState: storyAdapter.getInitialState({
 		op: DEFAULT_OP.loading,
 		pages: null,
-		total: null,
+		total: 0,
 		loading: null,
 		currentPage: 1,
 	}),

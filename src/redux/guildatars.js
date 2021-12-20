@@ -23,7 +23,7 @@ export const guildatarsSlice = createSlice({
 	initialState: guildatarsAdapter.getInitialState({
 		op: DEFAULT_OP.loading,
 		pages: null,
-		total: null,
+		total: 0,
 		currentPage: 1,
 	}),
 	reducers: {

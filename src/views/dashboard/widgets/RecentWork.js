@@ -20,7 +20,6 @@ import {useLoadItems} from 'hooks/getItems';
 import Typography from 'components/widgets/typography/Typography';
 import Link, {UNDERLINE} from 'components/widgets/link/Link';
 import Icon from 'components/widgets/icon/Icon';
-import Loader from 'components/widgets/loader/Loader';
 import LoadMore from 'components/widgets/loadmore/LoadMore';
 
 import NoItemsPlaceholder from './NoItemsPlaceholder';
@@ -79,7 +78,7 @@ function RecentWork({shouldLoadMore, title, titleProps, placeholderProps}) {
 	const dispatch = useDispatch();
 
 	const stories = useSelector(selectStoryIds);
-	const {op, pages, currentPage} = useSelector(state => state.draftStories);
+	const {op, pages, currentPage, total} = useSelector(state => state.draftStories);
 	const {data} = useSelector(selectAuthUser);
 
 	const userId = data?.id;
@@ -108,47 +107,42 @@ function RecentWork({shouldLoadMore, title, titleProps, placeholderProps}) {
 
 	useEffect(() => handleLoadStories(undefined, true, 0), [handleLoadStories]);
 
-	if (!stories.length && !op) {
-		return (
-			<div>
-				<NoItemsPlaceholder
-					title="Create your first story"
-					subtitle="With your writing you can collect coins and create characters from Market"
-					buttonText="Write your first story"
-					withBackground
-					buttonProps={{
-						onClick: () => dispatch(newStory({user: userId, published_at: null})),
-					}}
-					{...placeholderProps}
-				/>
-			</div>
-		);
-	}
 	return (
 		<div className={CLASS}>
 			<Typography color={TEXT_COLORS.secondary} fontWeight={FONT_WEIGHT.bold} {...titleProps}>
 				{title}
 			</Typography>
-			{op !== DEFAULT_OP.loading ? (
-				<LoadMore
-					id="recentWork"
-					loading={op === DEFAULT_OP.load_more}
-					shouldLoad={shouldLoadMore && pages > currentPage}
-					onLoadMore={() =>
-						handleLoadStories(
-							DEFAULT_OP.load_more,
-							false,
-							currentPage * DEFAULT_LIMIT._limit
-						)
-					}
-				>
-					{stories.map(i => (
-						<RecentItem key={i} id={i} />
-					))}
-				</LoadMore>
-			) : (
-				<Loader />
-			)}
+
+			<LoadMore
+				id="recentWork"
+				total={total}
+				loading={[DEFAULT_OP.loading, DEFAULT_OP.load_more].includes(op)}
+				showItems={op !== DEFAULT_OP.loading}
+				shouldLoad={shouldLoadMore && pages > currentPage}
+				onLoadMore={() =>
+					handleLoadStories(
+						DEFAULT_OP.load_more,
+						false,
+						currentPage * DEFAULT_LIMIT._limit
+					)
+				}
+				NoItemsComponent={NoItemsPlaceholder}
+				noItemsComponentProps={{
+					title: 'Create your first story',
+					subtitle:
+						'With your writing you can collect coins and create characters from Market',
+					buttonText: 'Write your first story',
+					withBackground: true,
+					buttonProps: {
+						onClick: () => dispatch(newStory({user: userId, published_at: null})),
+					},
+					...placeholderProps,
+				}}
+			>
+				{stories.map(i => (
+					<RecentItem key={i} id={i} />
+				))}
+			</LoadMore>
 		</div>
 	);
 }

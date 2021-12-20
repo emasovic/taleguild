@@ -17,7 +17,7 @@ export const marketplaceSlice = createSlice({
 	initialState: marketplaceAdapter.getInitialState({
 		op: DEFAULT_OP.loading,
 		pages: null,
-		total: null,
+		total: 0,
 		currentPage: 1,
 	}),
 	reducers: {

@@ -13,7 +13,6 @@ import {navigateToQuery} from 'redux/application';
 import {usePrevious} from 'hooks/compare';
 import {useGetSearchParams} from 'hooks/getSearchParams';
 
-import Loader from 'components/widgets/loader/Loader';
 import LoadMore from 'components/widgets/loadmore/LoadMore';
 import SearchInput from 'components/widgets/search-input/SearchInput';
 
@@ -36,24 +35,32 @@ const Stories = memo(
 		const dispatch = useDispatch();
 
 		const stories = useSelector(state => selectStories(state, activeSort));
-		const {pages, op, currentPage} = useSelector(state => state.stories);
+		const {op, total} = useSelector(state => state.stories);
 		const previousCriteria = usePrevious(criteria);
 
-		const shouldLoad = pages > currentPage && !op;
+		const shouldLoad = total > stories.length && !op;
 
 		const sortStories = sort =>
 			dispatch(navigateToQuery({_sort: sort + ':' + SORT_DIRECTION.desc}));
 
-		const handleCount = useCallback(() => {
-			const loadMoreCriteria = {...criteria, _start: currentPage * criteria._limit};
-			dispatch(loadStories(loadMoreCriteria, false, STORY_OP.load_more));
-		}, [dispatch, currentPage, criteria]);
+		const handleLoadStories = useCallback(
+			(count, op, _start) =>
+				criteria &&
+				!isEqual(criteria, previousCriteria) &&
+				dispatch(
+					loadStories(
+						{
+							...criteria,
+							_start,
+						},
+						count,
+						op
+					)
+				),
+			[dispatch, criteria, previousCriteria]
+		);
 
-		useEffect(() => {
-			if (criteria && !isEqual(criteria, previousCriteria)) {
-				dispatch(loadStories(criteria, true));
-			}
-		}, [criteria, dispatch, previousCriteria]);
+		useEffect(() => handleLoadStories(true, undefined, 0), [handleLoadStories]);
 
 		const nav = displayNav && (
 			<Nav className={CLASS + '-header'}>
@@ -70,10 +77,25 @@ const Stories = memo(
 			</Nav>
 		);
 
-		const renderStories =
-			stories && stories.length ? (
-				stories.map(item => {
-					return (
+		return (
+			<LoadMore
+				id="stories"
+				className={CLASS}
+				onLoadMore={() => handleLoadStories(false, STORY_OP.load_more, stories.length)}
+				shouldLoad={shouldLoad}
+				total={total}
+				loading={[STORY_OP.loading, STORY_OP.load_more].includes(op)}
+				showItems={op !== STORY_OP.loading}
+				NoItemsComponent={NoItemsComponent}
+				noItemsComponentProps={noItemsComponentProps}
+			>
+				{nav}
+				{displaySearch && (
+					<SearchInput placeholder="Search stories" urlParamName="title_contains" />
+				)}
+
+				<div className={CLASS + '-lastest'}>
+					{stories.map(item => (
 						<StoryItem
 							id={item.id}
 							image={item.image}
@@ -94,29 +116,8 @@ const Stories = memo(
 							archivedAt={item.archived_at}
 							displayArchived={!!item.published_at}
 						/>
-					);
-				})
-			) : (
-				<NoItemsComponent {...noItemsComponentProps} />
-			);
-
-		return (
-			<LoadMore
-				id="stories"
-				className={CLASS}
-				onLoadMore={handleCount}
-				shouldLoad={shouldLoad}
-				loading={op === STORY_OP.load_more}
-			>
-				{nav}
-				{displaySearch && (
-					<SearchInput placeholder="Search stories" urlParamName="title_contains" />
-				)}
-				{op === STORY_OP.loading ? (
-					<Loader />
-				) : (
-					<div className={CLASS + '-lastest'}>{renderStories}</div>
-				)}
+					))}
+				</div>
 			</LoadMore>
 		);
 	}

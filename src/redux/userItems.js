@@ -16,7 +16,7 @@ export const userItemsSlice = createSlice({
 	initialState: userItemsAdapter.getInitialState({
 		op: DEFAULT_OP.loading,
 		pages: null,
-		total: null,
+		total: 0,
 		currentPage: 1,
 	}),
 	reducers: {

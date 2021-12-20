@@ -6,6 +6,7 @@ import {setTimeToDate} from 'lib/util';
 
 import {FONTS, TEXT_COLORS, TYPOGRAPHY_VARIANTS} from 'types/typography';
 import {ICONS} from 'types/icons';
+import {VALUE_TYPE} from 'types/points-coins';
 
 import {selectAuthUser} from 'redux/auth';
 
@@ -21,6 +22,7 @@ export default function RecentCoins() {
 	const {stats} = useSelector(state => state.auth);
 	let [{data: result, error, isLoading}] = useLoadItems(getUserPointsAndCoins, {
 		user: data?.id,
+		type: VALUE_TYPE.increment,
 		created_at_gte: setTimeToDate(0, 0, 0),
 		created_at_lte: setTimeToDate(23, 59, 59),
 	});

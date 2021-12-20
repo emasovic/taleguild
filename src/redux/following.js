@@ -16,7 +16,7 @@ export const followingSlice = createSlice({
 	initialState: followingAdapter.getInitialState({
 		op: DEFAULT_OP.loading,
 		pages: null,
-		total: null,
+		total: 0,
 		currentPage: 1,
 	}),
 	reducers: {

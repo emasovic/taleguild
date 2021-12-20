@@ -18,6 +18,7 @@ export const myStorySlice = createSlice({
 		op: DEFAULT_OP.loading,
 		pages: null,
 		loading: null,
+		total: 0,
 	}),
 	reducers: {
 		userStoriesReceieved: (state, action) => {

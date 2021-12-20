@@ -19,6 +19,7 @@ export const savedStorySlice = createSlice({
 		op: DEFAULT_OP.loading,
 		pages: null,
 		loading: null,
+		total: 0,
 	}),
 	reducers: {
 		savedStoriesReceieved: (state, action) => {
@@ -41,8 +42,9 @@ export const savedStorySlice = createSlice({
 			state.loading = null;
 			state.op = null;
 		},
-		gotPages: (state, action) => {
-			state.pages = action.payload;
+		gotPages: (state, {payload}) => {
+			state.pages = Math.ceil(payload.total / payload.limit);
+			state.total = payload.total;
 		},
 		loadingStart: state => {
 			state.loading = true;
@@ -88,7 +90,7 @@ export const loadSavedStories = (params, count, op = STORY_OP.loading) => async 
 			dispatch(opEnd());
 			return dispatch(newToast({...Toast.error(countRes.error)}));
 		}
-		dispatch(gotPages(Math.ceil(countRes / 10)));
+		dispatch(gotPages({total: countRes, limit: params._limit}));
 
 		return dispatch(savedStoriesReceieved(res));
 	}

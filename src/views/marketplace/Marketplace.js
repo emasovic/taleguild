@@ -23,7 +23,6 @@ import MarketplaceDialog from 'components/marketplace/MarketplaceDialog';
 import Typography from 'components/widgets/typography/Typography';
 import SideNav from 'components/widgets/side-nav/SideNav';
 import LoadMore from 'components/widgets/loadmore/LoadMore';
-import Loader from 'components/widgets/loader/Loader';
 import HorizontalList from 'components/widgets/lists/horizontal-list/HorizontalList';
 import SearchInput from 'components/widgets/search-input/SearchInput';
 import MobileWrapper from 'components/widgets/mobile-wrapper/MobileWrapper';
@@ -44,7 +43,7 @@ export default function Marketplace() {
 
 	const items = useSelector(selectMarketplaceIds);
 	const {data} = useSelector(selectAuthUser);
-	const {op, currentPage, pages} = useSelector(state => state.marketplace);
+	const {op, total: marketplaceTotal} = useSelector(state => state.marketplace);
 	const {total} = useSelector(state => state.guildatars);
 	const marketCategories = useSelector(selectCategories);
 	const {loading} = useSelector(state => state.categories);
@@ -64,48 +63,7 @@ export default function Marketplace() {
 			id: i.id,
 			name: i.display_name,
 		}));
-	const shouldLoad = pages > currentPage && !op;
-
-	const renderMarketPlaceItems = () => {
-		if (op) {
-			return <Loader />;
-		}
-		return items.length ? (
-			<>
-				<Typography
-					variant={TYPOGRAPHY_VARIANTS.action1}
-					color={TEXT_COLORS.secondary}
-					fontWeight={FONT_WEIGHT.bold}
-					className={CLASS + '-market-items-title'}
-				>
-					Items
-				</Typography>
-				<LoadMore
-					className={CLASS + '-market-items-loadmore'}
-					id="marketplace"
-					onLoadMore={() =>
-						handleLoadMarketplace(
-							false,
-							currentPage * DEFAULT_LIMIT._limit,
-							DEFAULT_OP.load_more
-						)
-					}
-					shouldLoad={shouldLoad}
-					loading={op === DEFAULT_LIMIT.load_more}
-				>
-					{items.map(i => (
-						<MarketplaceItem key={i} id={i} onClick={setSelectedItem} />
-					))}
-				</LoadMore>
-			</>
-		) : (
-			<PagePlaceholder
-				IconComponent={NoSearchResults}
-				title="No results found"
-				subtitle="We couldn’t find what you are looking for"
-			/>
-		);
-	};
+	const shouldLoad = marketplaceTotal > items.length && !op;
 
 	const handleSwitch = val => {
 		const gender = genders.find(g =>
@@ -210,7 +168,37 @@ export default function Marketplace() {
 							}}
 						/>
 					) : (
-						renderMarketPlaceItems()
+						<>
+							<Typography
+								variant={TYPOGRAPHY_VARIANTS.action1}
+								color={TEXT_COLORS.secondary}
+								fontWeight={FONT_WEIGHT.bold}
+								className={CLASS + '-market-items-title'}
+							>
+								Items
+							</Typography>
+							<LoadMore
+								id="marketplace"
+								className={CLASS + '-market-items-loadmore'}
+								total={marketplaceTotal}
+								onLoadMore={() =>
+									handleLoadMarketplace(false, DEFAULT_OP.load_more, items.length)
+								}
+								shouldLoad={shouldLoad}
+								loading={[DEFAULT_OP.loading, DEFAULT_OP.load_more].includes(op)}
+								showItems={op !== DEFAULT_OP.loading}
+								NoItemsComponent={PagePlaceholder}
+								noItemsComponentProps={{
+									IconComponent: NoSearchResults,
+									title: 'No results found',
+									subtitle: 'We couldn’t find what you are looking for',
+								}}
+							>
+								{items.map(i => (
+									<MarketplaceItem key={i} id={i} onClick={setSelectedItem} />
+								))}
+							</LoadMore>
+						</>
 					)}
 				</div>
 			</div>

@@ -1,63 +1,35 @@
-import React, {useEffect} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
+import React from 'react';
+import {useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 
 import {DEFAULT_CRITERIA, STORY_COMPONENTS} from 'types/story';
+import {REDUX_STATE} from 'types/redux';
 
 import {selectAuthUser} from 'redux/auth';
-import {selectStories, loadStories} from 'redux/userStories';
+import {selectStories, loadStories, selectStory} from 'redux/userStories';
 
-import Loader from 'components/widgets/loader/Loader';
-import NoStories from 'views/stories/NoStories';
-
-import './StoryList.scss';
-
-const CLASS = 'st-StoryList';
+import StoryList from './StoryList';
 
 export default function MyStories({Component}) {
-	const dispatch = useDispatch();
 	const {data} = useSelector(selectAuthUser);
-	const stories = useSelector(selectStories);
-	const {loading} = useSelector(state => state.userStories);
 
 	const userId = data?.id;
 
-	useEffect(() => {
-		if (userId) {
-			dispatch(loadStories({...DEFAULT_CRITERIA, user: userId}));
-		}
-	}, [dispatch, userId]);
-
-	const myStories =
-		stories && stories.length ? (
-			stories.map(item => {
-				return (
-					<Component
-						id={item.id}
-						image={item.image}
-						title={item.title}
-						description={item.description}
-						key={item.id}
-						categories={item.categories}
-						likes={item.likes}
-						comments={item.comments}
-						storypages={item.storypages}
-						author={item.user}
-						createdDate={item.published_at}
-						savedBy={item.saved_by}
-						slug={item.slug}
-					/>
-				);
-			})
-		) : (
-			<NoStories />
-		);
-
 	return (
-		<div className={CLASS}>
-			<span>MY STORIES</span>
-			{loading ? <Loader /> : myStories}
-		</div>
+		<StoryList
+			Component={Component}
+			shouldLoadMore={false}
+			componentSelector={selectStory}
+			criteria={{
+				...DEFAULT_CRITERIA,
+				user: userId,
+			}}
+			reduxState={REDUX_STATE.userStories}
+			selector={selectStories}
+			shouldTriggerLoad={!!userId}
+			title="My stories"
+			loadItems={loadStories}
+		/>
 	);
 }
 

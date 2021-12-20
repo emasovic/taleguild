@@ -18,6 +18,7 @@ export const savedBySlice = createSlice({
 		op: DEFAULT_OP.loading,
 		pages: null,
 		loading: null,
+		total: 0,
 	}),
 	reducers: {
 		savedByReceieved: (state, action) => {

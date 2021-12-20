@@ -35,35 +35,27 @@ export default function Notifications({isPage, isMobile}) {
 	const notificationIds = useSelector(selectNotificationIds);
 	const unseenBool = !!unseen;
 
-	const getNotifications = useCallback(() => {
-		if (userId) {
+	const handleLoadNotifications = useCallback(
+		(count, op, _start) =>
+			userId &&
 			dispatch(
 				loadNotifications(
 					{
 						receiver: userId,
-						_limit: DEFAULT_LIMIT._limit,
-						_start: currentPage * DEFAULT_LIMIT._limit,
 						_sort: 'created_at:DESC',
+						...DEFAULT_LIMIT,
+						_start,
 					},
-					false,
-					DEFAULT_OP.load_more
+					count,
+					op
 				)
-			);
-		}
-	}, [currentPage, userId, dispatch]);
+			),
+		[dispatch, userId]
+	);
 
 	const handleMarkAllAsRead = () => dispatch(updateNotifications({markAllAsRead: true}));
 
-	useEffect(() => {
-		if (userId) {
-			dispatch(
-				loadNotifications(
-					{receiver: userId, _sort: 'created_at:DESC', ...DEFAULT_LIMIT},
-					true
-				)
-			);
-		}
-	}, [userId, dispatch]);
+	useEffect(() => handleLoadNotifications(true, undefined, 0), [handleLoadNotifications]);
 
 	const header = (
 		<div className={CLASS + '-notifications'}>
@@ -87,9 +79,12 @@ export default function Notifications({isPage, isMobile}) {
 			<MobileWrapper>
 				<LoadMore
 					id="notifications-page"
-					onLoadMore={getNotifications}
+					onLoadMore={() =>
+						handleLoadNotifications(false, DEFAULT_OP.load_more, notificationIds.length)
+					}
 					shouldLoad={pages > currentPage}
-					loading={op === DEFAULT_OP.load_more}
+					loading={[DEFAULT_OP.loading, DEFAULT_OP.load_more].includes(op)}
+					showItems={op !== DEFAULT_OP.loading}
 				>
 					{header}
 					{!!notificationIds.length &&
@@ -127,7 +122,9 @@ export default function Notifications({isPage, isMobile}) {
 			{header}
 			<LoadMoreModal
 				id="notifications"
-				onLoadMore={getNotifications}
+				onLoadMore={() =>
+					handleLoadNotifications(false, DEFAULT_OP.load_more, notificationIds.length)
+				}
 				shouldLoad={pages > currentPage}
 				loading={op === DEFAULT_OP.load_more}
 			>

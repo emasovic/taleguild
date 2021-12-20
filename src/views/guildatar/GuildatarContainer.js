@@ -209,63 +209,53 @@ export default function GuildatarContainer() {
 							childrenLoading={op === DEFAULT_OP.loading}
 						/>
 
-						{op !== DEFAULT_OP.loading ? (
-							!total ? (
-								<>
-									<PagePlaceholder
-										title="Buy items on Market"
-										subtitle="You currently have none of the items for this category"
-										buttonLabel="Visit market"
-										to={{
-											pathname: MARKETPLACE,
-											search: bodyPart && `?body_part=${bodyPart}`,
-										}}
-									/>
-								</>
-							) : (
-								<LoadMore
-									id="user-items"
-									onLoadMore={() =>
-										handleLoadUserItems(
-											false,
-											DEFAULT_OP.load_more,
-											currentPage * DEFAULT_LIMIT._limit
-										)
-									}
-									shouldLoad={pages > currentPage}
-									loading={op === DEFAULT_OP.load_more}
-									className={CLASS + '-content-items-load_more'}
-								>
-									{defaultItems.map(i => (
-										<MarketplaceItem
-											key={i.id}
-											id={i.id}
-											active={
-												values[camelCase(i.item.body_part)]?.id === i.id
-											}
-											selector={selectItemFromUserItemById}
-											item={i.item}
-											displayPrice={false}
-											onClick={() => setFieldValue(i?.item?.body_part, i)}
-										/>
-									))}
-									{items.map(i => (
-										<MarketplaceItem
-											key={i.id}
-											selector={selectItemFromUserItemById}
-											active={
-												values[camelCase(i.item.body_part)]?.id === i.id
-											}
-											id={i.id}
-											displayPrice={false}
-											onClick={() => setFieldValue(i?.item?.body_part, i)}
-										/>
-									))}
-								</LoadMore>
-							)
-						) : (
-							<Loader className={CLASS + '-content-items-loader'} />
-						)}
+						<LoadMore
+							id="user-items"
+							total={total}
+							onLoadMore={() =>
+								handleLoadUserItems(
+									false,
+									DEFAULT_OP.load_more,
+									currentPage * DEFAULT_LIMIT._limit
+								)
+							}
+							NoItemsComponent={PagePlaceholder}
+							noItemsComponentProps={{
+								title: 'Buy items on Market',
+								subtitle: 'You currently have none of the items for this category',
+								buttonLabel: 'Visit market',
+								to: {
+									pathname: MARKETPLACE,
+									search: bodyPart && `?body_part=${bodyPart}`,
+								},
+							}}
+							shouldLoad={pages > currentPage}
+							loading={[DEFAULT_OP.loading, DEFAULT_OP.load_more].includes(op)}
+							showItems={op !== DEFAULT_OP.loading}
+							className={CLASS + '-content-items-load_more'}
+						>
+							{defaultItems.map(i => (
+								<MarketplaceItem
+									key={i.id}
+									id={i.id}
+									active={values[camelCase(i.item.body_part)]?.id === i.id}
+									selector={selectItemFromUserItemById}
+									item={i.item}
+									displayPrice={false}
+									onClick={() => setFieldValue(i?.item?.body_part, i)}
+								/>
+							))}
+							{items.map(i => (
+								<MarketplaceItem
+									key={i.id}
+									selector={selectItemFromUserItemById}
+									active={values[camelCase(i.item.body_part)]?.id === i.id}
+									id={i.id}
+									displayPrice={false}
+									onClick={() => setFieldValue(i?.item?.body_part, i)}
+								/>
+							))}
+						</LoadMore>
 					</div>
 				</div>
 			</form>

@@ -10,6 +10,7 @@ import {DEFAULT_OP} from 'types/default';
 
 import {newToast} from './toast';
 import {notificationsAddOne} from './notifications';
+import {userItemsUpsert} from './userItems';
 
 export const userSlice = createSlice({
 	name: 'auth',
@@ -57,6 +58,9 @@ export const userSlice = createSlice({
 					? state.stats.points - data.points
 					: state.stats.points + data.points;
 			}
+		},
+		[userItemsUpsert]: (state, {payload}) => {
+			state.stats.coins -= payload.item?.price;
 		},
 	},
 });
