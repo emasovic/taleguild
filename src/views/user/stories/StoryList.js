@@ -63,6 +63,7 @@ export default function StoryList({
 			total={total}
 			className={CLASS}
 			NoItemsComponent={NoStories}
+			id="storyList"
 		>
 			<Typography>{title}</Typography>
 			{stories.map(item => (

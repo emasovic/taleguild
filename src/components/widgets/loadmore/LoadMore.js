@@ -18,12 +18,11 @@ export default function LoadMore({
 	noItemsComponentProps,
 	id,
 }) {
-	const isBottom = el => {
-		return el && el.getBoundingClientRect().bottom - 100 <= window.innerHeight;
-	};
+	const isBottom = el => el?.getBoundingClientRect().bottom - 100 <= window.innerHeight;
 
 	const trackScrolling = () => {
 		const wrappedElement = document.getElementById(id);
+
 		if (isBottom(wrappedElement) && shouldLoad) {
 			onLoadMore();
 		}
@@ -52,6 +51,10 @@ export default function LoadMore({
 		</div>
 	);
 }
+
+LoadMore.id = {
+	id: 'loadMore',
+};
 
 LoadMore.propTypes = {
 	children: PropTypes.any,

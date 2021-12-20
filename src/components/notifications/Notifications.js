@@ -78,7 +78,7 @@ export default function Notifications({isPage, isMobile}) {
 		return (
 			<MobileWrapper>
 				<LoadMore
-					id="notifications-page"
+					id="notificationPage"
 					onLoadMore={() =>
 						handleLoadNotifications(false, DEFAULT_OP.load_more, notificationIds.length)
 					}

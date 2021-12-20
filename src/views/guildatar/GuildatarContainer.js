@@ -210,7 +210,7 @@ export default function GuildatarContainer() {
 						/>
 
 						<LoadMore
-							id="user-items"
+							id="userItems"
 							total={total}
 							onLoadMore={() =>
 								handleLoadUserItems(
