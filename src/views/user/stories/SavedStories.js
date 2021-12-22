@@ -60,7 +60,7 @@ export default function SavedStories({shouldLoadMore, Component, to}) {
 			reduxState={REDUX_STATE.savedStories}
 			selector={selectUserSavedStories}
 			shouldTriggerLoad={!!userId}
-			title="My stories"
+			title="Saved stories"
 			loadItems={loadSavedStories}
 			to={to}
 		/>

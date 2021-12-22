@@ -9,9 +9,9 @@ import {REDUX_STATE} from 'types/redux';
 import LoadMore from 'components/widgets/loadmore/LoadMore';
 import NoStories from 'views/stories/NoStories';
 import Typography from 'components/widgets/typography/Typography';
+import Link, {UNDERLINE} from 'components/widgets/link/Link';
 
 import './StoryList.scss';
-import Link, {UNDERLINE} from 'components/widgets/link/Link';
 
 const CLASS = 'st-StoryList';
 
@@ -26,6 +26,8 @@ export default function StoryList({
 	title,
 	onDeleteStory,
 	componentSelector,
+	NoItemsComponent,
+	noItemsComponentProps,
 	to,
 }) {
 	const dispatch = useDispatch();
@@ -64,7 +66,8 @@ export default function StoryList({
 			shouldLoad={shouldLoad}
 			total={total}
 			className={CLASS}
-			NoItemsComponent={NoStories}
+			NoItemsComponent={NoItemsComponent}
+			noItemsComponentProps={noItemsComponentProps}
 			id="storyList"
 		>
 			<Typography>{title}</Typography>
@@ -85,7 +88,7 @@ export default function StoryList({
 					selector={componentSelector}
 				/>
 			))}
-			{stories.length && to && (
+			{!!stories.length && to && (
 				<Link to={to} className={CLASS + '-view-all'} underline={UNDERLINE.hover}>
 					View all
 				</Link>

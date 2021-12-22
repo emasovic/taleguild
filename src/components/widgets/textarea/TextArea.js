@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import FloatingInput from '../input/FloatingInput';
 
 export default function TextArea({value, maxLength, cols, ...rest}) {
-	const rows = value.length > 0 ? Math.ceil(value.length / cols) : 1;
+	const rows = value?.length > 0 ? Math.ceil(value.length / cols) : 1;
 
 	return (
 		<FloatingInput
