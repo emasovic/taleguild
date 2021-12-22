@@ -11,9 +11,10 @@ import {selectFollowing, loadFollowing, createOrDeleteFollowing} from 'redux/fol
 import {selectAuthUser} from 'redux/auth';
 
 import ConfirmModal from 'components/widgets/modals/Modal';
-import LoadMoreModal from 'components/widgets/loadmore/LoadMoreModal';
+import LoadMore from 'components/widgets/loadmore/LoadMore';
 import IconButton from 'components/widgets/button/IconButton';
 import Link, {UNDERLINE} from 'components/widgets/link/Link';
+import Typography from 'components/widgets/typography/Typography';
 
 import UserAvatar from '../UserAvatar';
 
@@ -25,53 +26,49 @@ export default function Following({id}) {
 	const dispatch = useDispatch();
 	const following = useSelector(selectFollowing);
 	const {data} = useSelector(selectAuthUser);
-	const {op, pages, total, currentPage} = useSelector(state => state.following);
+	const {op, total} = useSelector(state => state.following);
 
 	const [isOpen, setIsOpen] = useState(false);
 
 	const renderContent = () => {
 		return (
-			<LoadMoreModal
+			<LoadMore
 				className={CLASS + '-followers'}
 				onLoadMore={() =>
-					handleLoadFollowing(
-						false,
-						DEFAULT_OP.load_more,
-						currentPage * DEFAULT_LIMIT._limit
-					)
+					handleLoadFollowing(false, DEFAULT_OP.load_more, following.length)
 				}
-				loading={op === DEFAULT_OP.load_more}
-				shouldLoad={pages > currentPage}
+				loading={[DEFAULT_OP.loading, DEFAULT_OP.load_more].includes(op)}
+				showItems={op !== DEFAULT_OP.loading}
+				shouldLoad={total > following.length}
+				isModal
+				total={total}
+				NoItemsComponent={() => <Typography>No following</Typography>}
 				id="following"
 			>
-				{following.length ? (
-					following.map((item, key) => {
-						const {follower, user} = item;
+				{following.map((item, key) => {
+					const {follower, user} = item;
 
-						return (
-							<Link
-								underline={UNDERLINE.hover}
-								to={goToUser(user.username)}
-								key={key}
-								className={CLASS + '-followers-item'}
-							>
-								<UserAvatar user={user} />
-								<span>{user.display_name || user.username}</span>
-								{data && data.id === follower.id && (
-									<IconButton
-										color={COLOR.secondary}
-										onClick={e => handleFollow(e, item)}
-									>
-										Unfollow
-									</IconButton>
-								)}
-							</Link>
-						);
-					})
-				) : (
-					<p>No following</p>
-				)}
-			</LoadMoreModal>
+					return (
+						<Link
+							underline={UNDERLINE.hover}
+							to={goToUser(user.username)}
+							key={key}
+							className={CLASS + '-followers-item'}
+						>
+							<UserAvatar user={user} />
+							<span>{user.display_name || user.username}</span>
+							{data && data.id === follower.id && (
+								<IconButton
+									color={COLOR.secondary}
+									onClick={e => handleFollow(e, item)}
+								>
+									Unfollow
+								</IconButton>
+							)}
+						</Link>
+					);
+				})}
+			</LoadMore>
 		);
 	};
 
@@ -96,8 +93,8 @@ export default function Following({id}) {
 	return (
 		<div className={CLASS}>
 			<div className={CLASS + '-info'} onClick={() => setIsOpen(true)}>
-				<span>{op !== DEFAULT_OP.loading && total}</span>
-				<span>Following</span>
+				<Typography>{op !== DEFAULT_OP.loading && total}</Typography>
+				<Typography>Following</Typography>
 			</div>
 
 			{isOpen && (

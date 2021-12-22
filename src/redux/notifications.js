@@ -19,6 +19,7 @@ export const notificationsSlice = createSlice({
 		pages: null,
 		currentPage: 1,
 		unseen: 0,
+		total: 0,
 	}),
 	reducers: {
 		notificationsReceieved: (state, action) => {

@@ -1,8 +1,12 @@
-import React, {useLayoutEffect} from 'react';
+import React, {useCallback, useEffect, useLayoutEffect, useRef} from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
+import {isElementInViewport} from 'lib/util';
+
 import Loader from '../loader/Loader';
+
+import './LoadMore.scss';
 
 const CLASS = 'st-LoadMore';
 
@@ -19,37 +23,33 @@ export default function LoadMore({
 	id,
 	isModal,
 }) {
-	const isBottom = el => {
-		return isModal
-			? el?.scrollHeight - el?.scrollTop <= el?.clientHeight
-			: el?.getBoundingClientRect().bottom - 100 <= window.innerHeight;
-	};
+	const autoFillRef = useRef(null);
 
-	const trackScrolling = () => {
-		const wrappedElement = document.getElementById(id);
-
-		if (isBottom(wrappedElement) && shouldLoad) {
+	const checkLoadMore = useCallback(() => {
+		if (isElementInViewport(autoFillRef?.current) && shouldLoad && !loading) {
 			onLoadMore();
 		}
-	};
+	}, [onLoadMore, shouldLoad, loading]);
+
+	useEffect(() => {
+		checkLoadMore();
+	}, [checkLoadMore]);
 
 	useLayoutEffect(() => {
 		if (!isModal) {
-			document.addEventListener('scroll', trackScrolling);
+			document.addEventListener('scroll', checkLoadMore);
 			return () => {
-				document.removeEventListener('scroll', trackScrolling);
+				document.removeEventListener('scroll', checkLoadMore);
 			};
 		}
 	});
 
 	const classNames = classnames(CLASS, isModal && `${CLASS}-modal`, className);
-
 	const componentProps = {};
 
 	if (isModal) {
-		componentProps.onScroll = trackScrolling;
+		componentProps.onScroll = checkLoadMore;
 	}
-
 	return (
 		<div id={id} className={classNames} {...componentProps}>
 			{showItems && children}
@@ -61,11 +61,12 @@ export default function LoadMore({
 			{NoItemsComponent && !shouldLoad && !loading && !total && (
 				<NoItemsComponent {...noItemsComponentProps} />
 			)}
+			<div ref={autoFillRef} />
 		</div>
 	);
 }
 
-LoadMore.id = {
+LoadMore.defaultProps = {
 	id: 'loadMore',
 };
 

@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 import {Badge} from 'reactstrap';
@@ -15,7 +15,6 @@ import {selectAuthUser} from 'redux/auth';
 
 import FaIcon from 'components/widgets/fa-icon/FaIcon';
 import DropdownButton from 'components/widgets/button/DropdownButton';
-import LoadMoreModal from 'components/widgets/loadmore/LoadMoreModal';
 import LoadMore from 'components/widgets/loadmore/LoadMore';
 import Typography from 'components/widgets/typography/Typography';
 import MobileWrapper from 'components/widgets/mobile-wrapper/MobileWrapper';
@@ -31,9 +30,13 @@ export default function Notifications({isPage, isMobile}) {
 	const {push} = useHistory();
 	const {data} = useSelector(selectAuthUser);
 	const userId = data?.id;
-	const {unseen, currentPage, pages, op} = useSelector(state => state.notifications);
+	const {unseen, total, op} = useSelector(state => state.notifications);
 	const notificationIds = useSelector(selectNotificationIds);
 	const unseenBool = !!unseen;
+
+	const [isOpen, setIsOpen] = useState(false);
+
+	const toggle = () => setIsOpen(prevState => !prevState);
 
 	const handleLoadNotifications = useCallback(
 		(count, op, _start) =>
@@ -82,9 +85,10 @@ export default function Notifications({isPage, isMobile}) {
 					onLoadMore={() =>
 						handleLoadNotifications(false, DEFAULT_OP.load_more, notificationIds.length)
 					}
-					shouldLoad={pages > currentPage}
 					loading={[DEFAULT_OP.loading, DEFAULT_OP.load_more].includes(op)}
 					showItems={op !== DEFAULT_OP.loading}
+					shouldLoad={total > notificationIds.length}
+					total={total}
 				>
 					{header}
 					{!!notificationIds.length &&
@@ -115,22 +119,35 @@ export default function Notifications({isPage, isMobile}) {
 	return (
 		<DropdownButton
 			toggleItem={toggleItem}
+			isOpen={isOpen}
+			toggle={toggle}
 			className={CLASS}
 			outline={false}
 			{...dropDownProps}
 		>
-			{header}
-			<LoadMoreModal
-				id="notifications"
-				onLoadMore={() =>
-					handleLoadNotifications(false, DEFAULT_OP.load_more, notificationIds.length)
-				}
-				shouldLoad={pages > currentPage}
-				loading={op === DEFAULT_OP.load_more}
-			>
-				{!!notificationIds.length &&
-					notificationIds.map(i => <NotificationItem key={i} id={i} />)}
-			</LoadMoreModal>
+			{isOpen && !isMobile && (
+				<>
+					{header}
+					<LoadMore
+						id="notifications"
+						onLoadMore={() =>
+							handleLoadNotifications(
+								false,
+								DEFAULT_OP.load_more,
+								notificationIds.length
+							)
+						}
+						loading={[DEFAULT_OP.loading, DEFAULT_OP.load_more].includes(op)}
+						showItems={op !== DEFAULT_OP.loading}
+						shouldLoad={total > notificationIds.length}
+						isModal
+						total={total}
+					>
+						{!!notificationIds.length &&
+							notificationIds.map(i => <NotificationItem key={i} id={i} />)}
+					</LoadMore>
+				</>
+			)}
 		</DropdownButton>
 	);
 }
