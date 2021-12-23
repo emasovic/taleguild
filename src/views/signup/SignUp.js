@@ -1,95 +1,126 @@
-import React, {useState} from 'react';
-import {Form} from 'reactstrap';
+import React from 'react';
+
 import {useDispatch, useSelector} from 'react-redux';
 import {Link} from 'react-router-dom';
+import {boolean, object, string} from 'yup';
+import {useFormik} from 'formik';
 
 import {LOGIN} from 'lib/routes';
 
-import {Toast} from 'types/toast';
+import {FONTS, TYPOGRAPHY_VARIANTS} from 'types/typography';
 import {COLOR, BRAND} from 'types/button';
 
-import {emailRegExp} from 'lib/util';
+import {registerUser} from 'redux/auth';
 
-import {registerUser} from '../../redux/auth';
-import {addToast} from 'redux/toast';
-
-import FloatingInput from '../../components/widgets/input/FloatingInput';
-import IconButton from '../../components/widgets/button/IconButton';
+import FloatingInput from 'components/widgets/input/FloatingInput';
+import IconButton from 'components/widgets/button/IconButton';
 import BrandButton from 'components/widgets/button/BrandButton';
 import Checkbox from 'components/widgets/checkbox/Checkbox';
+import Typography from 'components/widgets/typography/Typography';
 
 import './SignUp.scss';
 
 const CLASS = 'st-SignUp';
 
+const validationSchema = object().shape({
+	username: string()
+		.min(2, 'Too Short!')
+		.max(50, 'Too Long!')
+		.required('Required'),
+	password: string()
+		.required('Please Enter your password')
+		.matches(
+			/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+			'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character'
+		),
+	email: string()
+		.required('Required')
+		.email('Must be a valid email'),
+	terms: boolean().oneOf([true], `You didn't accepted terms and conditions`),
+});
+
 export default function SignUp() {
-	const [username, setUsername] = useState('');
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
-	// const [repeatPassword, setRepeatPassword] = useState('');
-	const [accepted, setAccepted] = useState(false);
-
 	const dispatch = useDispatch();
-	const op = useSelector(state => state.auth.op);
+	const {op} = useSelector(state => state.auth);
 
-	const validate = () => {
-		const errors = [];
-
-		!accepted && errors.push('You didnt accepted terms and conditions! \n');
-		// password !== repeatPassword && errors.push('Passwords dont match!');
-		!emailRegExp.test(email) && errors.push('Invalid email! \n');
-
-		if (errors.length) {
-			return dispatch(addToast(Toast.error(errors)));
-		}
-
-		return true;
+	const handleSubmit = ({username, email, password}) => {
+		dispatch(registerUser({username, email, password}));
 	};
 
-	const submit = e => {
-		e.preventDefault();
-		if (validate()) {
-			dispatch(registerUser({username, email, password}));
-		}
-	};
+	const {
+		values,
+		dirty,
+		handleSubmit: formikSubmit,
+		errors,
+		setFieldValue,
+		handleChange,
+	} = useFormik({
+		validationSchema,
+		validateOnChange: false,
+		initialValues: {
+			username: '',
+			password: '',
+			email: '',
+			terms: false,
+		},
+		onSubmit: handleSubmit,
+	});
 
 	return (
-		<Form onSubmit={e => submit(e)} className={CLASS}>
-			<h4>Join our guild of writers and storytellers</h4>
-			<FloatingInput label="Username" value={username} onChange={val => setUsername(val)} />
+		<form onSubmit={formikSubmit} className={CLASS}>
+			<Typography
+				variant={TYPOGRAPHY_VARIANTS.h4}
+				component={TYPOGRAPHY_VARIANTS.h4}
+				font={FONTS.merri}
+			>
+				Join our guild of writers and storytellers
+			</Typography>
+			<FloatingInput
+				label="Username"
+				name="username"
+				value={values.username}
+				onChange={handleChange}
+				invalid={!!errors.username}
+				errorMessage={errors.username}
+				wholeEvent
+			/>
 
 			<FloatingInput
 				label="Email Address "
-				value={email}
+				value={values.email}
+				name="email"
 				type="email"
-				onChange={val => setEmail(val)}
+				onChange={handleChange}
+				invalid={!!errors.email}
+				errorMessage={errors.email}
+				wholeEvent
 			/>
 
 			<FloatingInput
 				label="Password"
-				value={password}
+				name="password"
+				value={values.password}
 				type="password"
 				autoComplete="on"
-				onChange={val => setPassword(val)}
-				// invalid={!!error}
-				// errorMessage={error}
+				onChange={handleChange}
+				invalid={!!errors.password}
+				errorMessage={errors.password}
+				wholeEvent
 			/>
-			{/* <FloatingInput
-						label="Repeat Password"
-						value={repeatPassword}
-						type="password"
-						onChange={val => setRepeatPassword(val)}
-						invalid={!!error}
-						errorMessage={error}
-					/> */}
+
 			<Checkbox
 				label="I agree to Terms of Service and Privacy Policy"
-				checked={accepted}
-				onChange={checked => setAccepted(checked)}
+				name="terms"
+				checked={values.terms}
+				onChange={val => setFieldValue('terms', val)}
+				invalid={!!errors.terms}
+				errorMessage={errors.terms}
 			/>
-			<IconButton loading={!!op}>Sign Up</IconButton>
+			<IconButton loading={!!op} disabled={!dirty}>
+				Sign Up
+			</IconButton>
 
-			<span className={CLASS + '-divider'}>OR</span>
+			<Typography className={CLASS + '-divider'}>OR</Typography>
 
 			<BrandButton loading={!!op} color={COLOR.secondary} brand={BRAND.google}>
 				Sign up with Google
@@ -117,6 +148,6 @@ export default function SignUp() {
 					Privacy Policy
 				</a>
 			</div>
-		</Form>
+		</form>
 	);
 }

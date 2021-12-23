@@ -4,13 +4,23 @@
 .st-Checkbox {
 	margin: 20px 0;
 	display: flex;
-	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+
+	&-wrapper {
+		display: flex;
+	}
 
 	&-border {
 		padding: 8px;
 		border: 1px solid;
 		border-radius: 6px;
 		@include theme-aware('border-color', 'G200');
+	}
+
+	.invalid-feedback {
+		display: block;
+		@include theme-aware('color', 'R58');
 	}
 
 	.form-check-input {

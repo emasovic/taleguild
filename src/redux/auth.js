@@ -157,16 +157,6 @@ export const forgotPassword = payload => async dispatch => {
 };
 
 export const resetPassword = payload => async (dispatch, getState, history) => {
-	if (payload.password !== payload.passwordConfirmation) {
-		return dispatch(
-			newToast({
-				...Toast.error(
-					'Passwords do not match',
-					'Please try re-entering the correct passwords.'
-				),
-			})
-		);
-	}
 	dispatch(opStart(USER_OP.reset_password));
 	const res = await api.resetPassword(payload);
 
@@ -175,7 +165,8 @@ export const resetPassword = payload => async (dispatch, getState, history) => {
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
 	localStorage.setItem('token', res.jwt);
-	dispatch(gotData(res));
+	const {jwt, user} = res;
+	dispatch(gotData({jwt, ...user}));
 	history.push(DASHBOARD);
 	dispatch(
 		newToast({
