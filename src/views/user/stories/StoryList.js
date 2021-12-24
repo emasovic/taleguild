@@ -97,7 +97,11 @@ export default function StoryList({
 	);
 }
 
+
 StoryList.defaultProps = {
+	shouldLoadMore: true,
+	shouldTriggerLoad: true,
+	Component: STORY_COMPONENTS.thumb,
 	NoItemsComponent: NoStories,
 	noItemsComponentProps: {},
 };
@@ -118,8 +122,3 @@ StoryList.propTypes = {
 	to: propTypes.string,
 };
 
-StoryList.defaultProps = {
-	shouldLoadMore: true,
-	shouldTriggerLoad: true,
-	Component: STORY_COMPONENTS.thumb,
-};
