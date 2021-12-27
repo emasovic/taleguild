@@ -37,11 +37,13 @@ export const draftSlice = createSlice({
 		draftStoryUpsert: (state, action) => {
 			draftStoriesAdapter.upsertOne(state, action.payload);
 			state.loading = null;
+			state.total += 1;
 			state.op = null;
 		},
 		draftStoryRemoved: (state, action) => {
 			draftStoriesAdapter.removeOne(state, action.payload);
 			state.loading = null;
+			state.total -= 1;
 			state.op = null;
 		},
 		gotPages: (state, {payload}) => {

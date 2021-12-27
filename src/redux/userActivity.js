@@ -29,6 +29,7 @@ export const userActivitySlice = createSlice({
 		},
 		userActivityUpsertOne: (state, {payload}) => {
 			userActivityAdapter.upsertOne(state, payload);
+			state.total += 1;
 			state.op = null;
 		},
 		loadingStart: state => {

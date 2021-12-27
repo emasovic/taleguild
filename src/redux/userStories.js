@@ -29,6 +29,8 @@ export const myStorySlice = createSlice({
 		userStoryRemoved: (state, action) => {
 			userStoriesAdapter.removeOne(state, action.payload);
 			state.loading = null;
+
+			state.total -= 1;
 			state.op = null;
 		},
 		gotPages: (state, {payload}) => {

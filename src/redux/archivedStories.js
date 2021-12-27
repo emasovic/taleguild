@@ -36,11 +36,13 @@ export const archivedStorySlice = createSlice({
 		archivedStoryUpsert: (state, {payload}) => {
 			archivedStoriesAdapter.upsertOne(state, payload);
 			state.loading = null;
+			state.total += 1;
 			state.op = null;
 		},
 		archivedStoryRemoved: (state, {payload}) => {
 			archivedStoriesAdapter.removeOne(state, payload.id);
 			state.loading = null;
+			state.total -= 1;
 			state.op = null;
 		},
 		gotPages: (state, {payload}) => {

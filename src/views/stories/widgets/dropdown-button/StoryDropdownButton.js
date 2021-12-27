@@ -27,8 +27,11 @@ export default function StoryDropdownButton({id, selector, onDeleteStory, keepAr
 
 	selector = selector || selectStory;
 
-	const story = useSelector(state => selector(state, id));
-	const {archived_at, published_at, title, storypages} = story || {};
+	const item = useSelector(state => selector(state, id));
+
+	let {archived_at, published_at, title, story, storypages} = item || {};
+
+	title = title || story?.title;
 
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -61,7 +64,7 @@ export default function StoryDropdownButton({id, selector, onDeleteStory, keepAr
 		</Typography>
 	);
 
-	if (!story) {
+	if (!item) {
 		return null;
 	}
 
