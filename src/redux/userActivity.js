@@ -94,7 +94,7 @@ export const createUserActivity = payload => async dispatch => {
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
 
-	return dispatch(userActivityUpsertOne(res));
+	res.id && dispatch(userActivityUpsertOne(res));
 };
 
 //SELECTORS
