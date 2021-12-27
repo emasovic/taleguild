@@ -44,7 +44,7 @@ export default function SignUp() {
 	const {op} = useSelector(state => state.auth);
 
 	const handleSubmit = ({username, email, password}) => {
-		dispatch(registerUser({username, email, password}));
+		dispatch(registerUser({username: username.toLowerCase(), email, password}));
 	};
 
 	const {
@@ -116,7 +116,7 @@ export default function SignUp() {
 				invalid={!!errors.terms}
 				errorMessage={errors.terms}
 			/>
-			<IconButton loading={!!op} disabled={!dirty}>
+			<IconButton loading={!!op} disabled={!dirty} type="submit">
 				Sign Up
 			</IconButton>
 
