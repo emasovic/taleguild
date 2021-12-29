@@ -12,21 +12,11 @@ export const applicationSlice = createSlice({
 	name: 'application',
 	initialState: {
 		initialized: null,
-		serviceWorkerInitialized: false,
-		serviceWorkerUpdated: false,
-		serviceWorkerRegistration: null,
 		loading: null,
 	},
 	reducers: {
 		initialized: state => {
 			state.initialized = true;
-		},
-		serviceWorkerInitialize: state => {
-			state.serviceWorkerInitialized = true;
-		},
-		serviceWorkerUpdate: (state, {payload}) => {
-			state.serviceWorkerUpdated = true;
-			state.serviceWorkerRegistration = payload;
 		},
 		loadingStart: state => {
 			state.loading = true;
@@ -37,13 +27,7 @@ export const applicationSlice = createSlice({
 	},
 });
 
-export const {
-	loadingStart,
-	loadingEnd,
-	serviceWorkerInitialize,
-	serviceWorkerUpdate,
-	initialized,
-} = applicationSlice.actions;
+export const {loadingStart, loadingEnd, initialized} = applicationSlice.actions;
 
 export const navigateToQuery = (queryOb, location, resetParamsOnChange) => (
 	dispatch,
