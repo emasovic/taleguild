@@ -101,7 +101,7 @@ export const loadSavedStories = (params, count, op = STORY_OP.loading) => async 
 };
 
 export const createOrDeleteSavedStory = (favourite, userId, storyId) => async dispatch => {
-	const op = favourite.id ? DEFAULT_OP.delete : DEFAULT_OP.create;
+	const op = favourite?.id ? DEFAULT_OP.delete : DEFAULT_OP.create;
 	dispatch(opStart(op));
 
 	const res = favourite
