@@ -2,94 +2,120 @@
 @import 'styles/themes/mixins.scss';
 
 .st-Typography {
-	word-break: break-word;
+	&-wrap {
+		&__break {
+			word-break: break-word;
+		}
 
-	&-merriweather {
-		font-family: $font-merriweather;
+		&__normal {
+			word-break: normal;
+		}
+
+		&__ellipsis {
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
 	}
 
-	&-bold {
-		font-weight: 900;
+	&-font {
+		&__merriweather {
+			font-family: $font-merriweather;
+		}
 	}
 
-	&-semi-bold {
-		font-weight: 600;
+	&-weight {
+		&__bold {
+			font-weight: 900;
+		}
+
+		&__semi-bold {
+			font-weight: 600;
+		}
 	}
 
-	&-primary {
-		@include theme-aware('color', 'G900');
+	&-color {
+		&__primary {
+			@include theme-aware('color', 'G900');
 
-		&_button {
-			@include theme-aware('color', 'T600');
+			&_button {
+				@include theme-aware('color', 'T600');
 
-			&:hover {
-				text-decoration: underline;
+				&:hover {
+					text-decoration: underline;
+				}
 			}
 		}
-	}
 
-	&-secondary {
-		@include theme-aware('color', 'G600');
-	}
+		&__secondary {
+			@include theme-aware('color', 'G600');
+		}
 
-	&-tertiary {
-		@include theme-aware('color', 'G400');
-	}
-
-	&-uppercase {
-		text-transform: uppercase;
-	}
-
-	&-lowercase {
-		text-transform: lowercase;
-	}
-
-	&-capitalize {
-		text-transform: capitalize;
-	}
-
-	&-pointer {
-		cursor: pointer;
-	}
-
-	&-disabled {
-		pointer-events: none;
-		cursor: not-allowed;
-		@include theme-aware('color', 'G400');
-	}
-
-	&-h1 {
-		font-size: 32px;
-		line-height: 60px;
-
-		@media (max-width: $breakpoint-sm) {
-			font-size: 18px;
-			line-height: 48px;
+		&__tertiary {
+			@include theme-aware('color', 'G400');
 		}
 	}
 
-	&-h2 {
-		font-size: 24px;
-		line-height: 48px;
+	&-transform {
+		&__uppercase {
+			text-transform: uppercase;
+		}
 
-		@media (max-width: $breakpoint-sm) {
-			font-size: 18px;
+		&__lowercase {
+			text-transform: lowercase;
+		}
+
+		&__capitalize {
+			text-transform: capitalize;
+		}
+	}
+
+	&-cursor {
+		&__pointer {
+			cursor: pointer;
+		}
+
+		&__disabled {
+			pointer-events: none;
+			cursor: not-allowed;
+			@include theme-aware('color', 'G400');
+		}
+	}
+
+	&-variant {
+		&__h1 {
+			font-size: 32px;
+			line-height: 60px;
+
+			@media (max-width: $breakpoint-sm) {
+				font-size: 18px;
+				line-height: 48px;
+			}
+		}
+
+		&__h2 {
+			font-size: 24px;
+			line-height: 48px;
+
+			@media (max-width: $breakpoint-sm) {
+				font-size: 18px;
+				line-height: 24px;
+			}
+		}
+
+		&__h3 {
+			font-size: 22px;
 			line-height: 24px;
 		}
-	}
 
-	&-h3 {
-		font-size: 22px;
-		line-height: 24px;
-	}
+		&__h4 {
+			font-size: 18px;
+			line-height: 24px;
+			font-weight: 900;
+		}
 
-	&-h4 {
-		font-size: 18px;
-		line-height: 24px;
-		font-weight: 900;
-	}
-
-	&-action1 {
-		font-size: 14px;
+		&__action1 {
+			font-size: 14px;
+		}
 	}
 }

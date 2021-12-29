@@ -17,17 +17,19 @@
 		@include theme-aware('background-color', 'B100');
 
 		.st-Typography {
-			&-h4 {
-				margin-bottom: 8px;
+			&-variant {
+				&__h4 {
+					margin-bottom: 8px;
 
-				&:hover {
-					text-decoration: underline;
+					&:hover {
+						text-decoration: underline;
+					}
 				}
-			}
 
-			&-action1 {
-				word-break: break-word;
-				display: flex;
+				&__action1 {
+					word-break: break-word;
+					display: flex;
+				}
 			}
 		}
 

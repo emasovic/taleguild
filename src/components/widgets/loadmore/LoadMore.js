@@ -16,6 +16,7 @@ export default function LoadMore({
 	onLoadMore,
 	loading,
 	className,
+	placeholderClassName,
 	NoItemsComponent,
 	total,
 	showItems,
@@ -53,6 +54,7 @@ export default function LoadMore({
 	});
 
 	const classNames = classnames(CLASS, isModal && `${CLASS}-modal`, className);
+	const placeholderClassNames = classnames(CLASS + '-placeholder', placeholderClassName);
 	const componentProps = {};
 
 	if (isModal) {
@@ -69,7 +71,7 @@ export default function LoadMore({
 			{NoItemsComponent && !shouldLoad && !loading && !total && (
 				<NoItemsComponent {...noItemsComponentProps} />
 			)}
-			<div ref={autoFillRef} />
+			<div ref={autoFillRef} className={placeholderClassNames} />
 		</div>
 	);
 }
@@ -89,6 +91,7 @@ LoadMore.propTypes = {
 	showItems: PropTypes.bool,
 	isModal: PropTypes.bool,
 	total: PropTypes.number.isRequired,
+	placeholderClassName: PropTypes.string,
 	autoFillViewport: PropTypes.bool,
 	NoItemsComponent: PropTypes.func,
 	noItemsComponentProps: PropTypes.object,

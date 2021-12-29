@@ -180,6 +180,7 @@ export default function Marketplace() {
 							<LoadMore
 								id="marketplace"
 								className={CLASS + '-market-items-loadmore'}
+								placeholderClassName={CLASS + '-market-items-loadmore-placeholder'}
 								total={marketplaceTotal}
 								onLoadMore={() =>
 									handleLoadMarketplace(false, DEFAULT_OP.load_more, items.length)

@@ -15,11 +15,6 @@
 	align-self: flex-start;
 	@include theme-aware('background-color', 'B100');
 
-	@media (max-width: $breakpoint-sm) {
-		width: $market-item-width-small;
-		margin-right: 0;
-	}
-
 	&:hover {
 		cursor: pointer;
 		@include theme-aware('background-color', 'B300');
@@ -45,8 +40,10 @@
 	}
 
 	.st-Typography {
-		&-tertiary {
-			margin-bottom: 8px;
+		&-color {
+			&__tertiary {
+				margin-bottom: 8px;
+			}
 		}
 	}
 }

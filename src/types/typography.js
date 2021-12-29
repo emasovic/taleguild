@@ -50,3 +50,9 @@ export const TEXT_CURSORS = {
 	default: 'default',
 	disabled: 'disabled',
 };
+
+export const TEXT_WRAP = {
+	break: 'break',
+	normal: 'normal',
+	ellipsis: 'ellipsis',
+};

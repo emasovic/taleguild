@@ -138,6 +138,14 @@
 		}
 
 		.nav-item {
+			@media (max-width: $breakpoint-m) {
+				&:first-child {
+					display: block;
+				}
+
+				display: none;
+			}
+
 			&:first-child {
 				.nav-link {
 					padding: 0;
@@ -155,10 +163,6 @@
 
 				@media (max-width: $breakpoint-m) {
 					margin-right: 24px;
-
-					span {
-						display: none;
-					}
 				}
 
 				@media (max-width: $breakpoint-sm) {

@@ -59,15 +59,21 @@
 				min-height: 230px;
 			}
 
-			.st-Typography-action1 {
-				margin-bottom: 8px;
-			}
+			.st-Typography {
+				&-variant {
+					&__action1 {
+						margin-bottom: 8px;
+					}
+				}
 
-			.st-Typography-secondary {
-				height: 60px;
-				text-overflow: ellipsis;
-				overflow: hidden;
-				text-align: center;
+				&-color {
+					&__secondary {
+						height: 60px;
+						text-overflow: ellipsis;
+						overflow: hidden;
+						text-align: center;
+					}
+				}
 			}
 
 			&:hover {

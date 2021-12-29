@@ -132,8 +132,14 @@
 				flex-wrap: wrap;
 				margin-top: 12px;
 
-				@media (max-width: $breakpoint-sm) {
-					justify-content: space-evenly;
+				@media (max-width: $breakpoint-m) {
+					justify-content: center;
+				}
+
+				&-placeholder {
+					width: $market-item-width-large;
+					height: $market-item-height;
+					margin: 0 16px 16px 0;
 				}
 			}
 
