@@ -73,7 +73,7 @@
 				flex-wrap: wrap;
 
 				@media (max-width: $breakpoint-sm) {
-					justify-content: space-evenly;
+					justify-content: left;
 				}
 			}
 

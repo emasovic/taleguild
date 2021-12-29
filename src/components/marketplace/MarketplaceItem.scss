@@ -10,19 +10,22 @@
 	height: $market-item-height;
 	box-shadow: $box-shadow-default;
 	margin: 0 16px 16px 0;
+	border: 1px solid;
 	border-radius: 6px;
 	padding: 16px;
 	align-self: flex-start;
 	@include theme-aware('background-color', 'B100');
+	@include theme-aware('border-color', 'B100');
 
 	@media (max-width: $breakpoint-sm) {
-		width: $market-item-width-small;
-		margin-right: 0;
+		margin-right: 8px;
+		margin-bottom: 8px;
+		width: 46%;
 	}
 
 	&:hover {
 		cursor: pointer;
-		@include theme-aware('background-color', 'B300');
+		@include theme-aware('border-color', 'T600');
 	}
 
 	&.active {

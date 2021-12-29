@@ -141,7 +141,7 @@ export default function DesktopNav({isMobile}) {
 								to={DASHBOARD}
 								active={location.pathname === DASHBOARD}
 							>
-								<span>Dashboard</span>
+								<span>Overview</span>
 							</NavLink>
 						</NavItem>
 

@@ -21,7 +21,16 @@
 	&-dialog {
 		.modal {
 			&-footer {
-				justify-content: space-between;
+				justify-content: center;
+
+				@media (max-width: $breakpoint-sm) {
+					.st-IconButton {
+						width: 136px;
+					}
+					.btn-secondary {
+						margin-left: 0;
+					}
+				}
 			}
 		}
 	}
