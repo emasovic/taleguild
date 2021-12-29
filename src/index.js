@@ -4,8 +4,9 @@ import {Provider} from 'react-redux';
 
 import {THEMES} from 'types/themes';
 
-import store from './redux/store';
+import store from 'redux/store';
 import {getUser} from 'redux/auth';
+import {serviceWorkerInitialize, serviceWorkerUpdate} from 'redux/application';
 
 import * as serviceWorker from './serviceWorker';
 
@@ -36,4 +37,7 @@ ReactDOM.render(
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.register();
+serviceWorker.register({
+	onSuccess: () => store.dispatch(serviceWorkerInitialize()),
+	onUpdate: reg => store.dispatch(serviceWorkerUpdate(reg)),
+});
