@@ -16,6 +16,7 @@
 
 			@media (max-width: $breakpoint-m) {
 				flex-direction: row-reverse;
+				width: 100%;
 			}
 
 			.st-FloatingInput {
@@ -78,8 +79,12 @@
 
 				&-placeholder {
 					width: $market-item-width-large;
-					height: $market-item-height;
+					height: $market-item-height-large;
 					margin: 0 16px 16px 0;
+
+					@media (max-width: $breakpoint-sm) {
+						height: unset;
+					}
 				}
 			}
 

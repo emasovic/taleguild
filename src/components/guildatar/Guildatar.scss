@@ -30,9 +30,9 @@
 		&-helmet {
 			z-index: 3;
 			width: 100px;
-			height: 150px;
-			top: -8px;
-			left: 50px;
+			height: 100px;
+			top: 2px;
+			left: 37px;
 
 			.st-Image {
 				&-container {
@@ -46,30 +46,30 @@
 			z-index: 2;
 			width: 100px;
 			height: 100px;
-			top: 50px;
-			left: 50px;
+			top: 24px;
+			left: 40px;
 		}
 
 		&-body {
-			width: 202px;
-			height: 150px;
-			top: 51px;
-			left: 0;
+			width: 140px;
+			height: 110px;
+			top: 90px;
+			left: 26px;
 			z-index: 1;
 		}
 
 		&-left_weapon {
 			width: 100px;
-			height: 150px;
-			top: 51px;
+			height: 120px;
+			top: 39px;
 			left: 100px;
 			z-index: 4;
 		}
 
 		&-right_weapon {
 			width: 100px;
-			height: 150px;
-			top: 51px;
+			height: 100px;
+			top: 103px;
 			left: 0;
 			z-index: 4;
 		}

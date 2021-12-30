@@ -79,7 +79,11 @@
 
 		&--is-disabled {
 			cursor: not-allowed;
-			@include theme-aware('background-color', 'G300');
+			@include theme-aware('background-color', 'B200');
+
+			.st-DefaultPicker__single-value {
+				@include theme-aware('color', 'G400');
+			}
 
 			.st-DefaultPicker__indicator {
 				@include theme-aware('color', 'G400');

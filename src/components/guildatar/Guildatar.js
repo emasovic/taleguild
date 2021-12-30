@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import {GENDERS} from 'types/guildatar';
 
+import femaleHead from 'images/guildatar/female-hair.svg';
+
 import femaleFace from 'images/guildatar/female-face.svg';
 import maleFace from 'images/guildatar/male-face.svg';
 
@@ -21,6 +23,7 @@ const DEFAULT_GUILDATARS = {
 		body: maleBody,
 	},
 	[GENDERS.female]: {
+		head: femaleHead,
 		face: femaleFace,
 		body: femaleBody,
 	},
@@ -28,6 +31,7 @@ const DEFAULT_GUILDATARS = {
 
 export default function Guildatar({head, face, body, leftArm, rightArm, gender}) {
 	const defaultGuildatar = DEFAULT_GUILDATARS[gender];
+	head = head || defaultGuildatar.head;
 	face = face || defaultGuildatar.face;
 	body = body || defaultGuildatar.body;
 	return (
