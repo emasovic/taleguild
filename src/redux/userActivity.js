@@ -86,7 +86,10 @@ export const loadUserActivity = (params, count, op = DEFAULT_OP.loading) => asyn
 	return dispatch(userActivityUpsertMany(res));
 };
 
-export const createUserActivity = payload => async dispatch => {
+export const createUserActivity = payload => async (dispatch, getState) => {
+	const {data} = getState().auth;
+	if (!data) return null;
+
 	dispatch(opStart(DEFAULT_OP.update));
 	const res = await api.createActivity(payload);
 	if (res.error) {

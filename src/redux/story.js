@@ -174,11 +174,11 @@ export const createOrUpdateStory = (payload, shouldChange = true) => async (
 };
 
 export const deleteStory = storyId => async (dispatch, getState, history) => {
-	dispatch(loadingStart());
+	dispatch(opStart(DEFAULT_OP.delete));
 
 	const res = await api.deleteStory(storyId);
 	if (res.error) {
-		dispatch(loadingEnd());
+		dispatch(opEnd());
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
 	dispatch(storyRemoved(storyId));

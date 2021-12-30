@@ -34,6 +34,7 @@ export default function StoryWritter() {
 	const {id: storyId, pageId} = useParams();
 
 	const pages = useSelector(selectStoryPages);
+
 	const story = useSelector(state => selectStory(state, storyId));
 	const {loading, op} = useSelector(state => state.storyPages);
 
@@ -44,6 +45,7 @@ export default function StoryWritter() {
 	const lastActivityVal = activities[lastActivityKey];
 
 	const published = !!story?.published_at;
+	const shouldTriggerEvent = published && story?.id;
 
 	const activitiesRef = useRef(activities);
 
@@ -114,9 +116,9 @@ export default function StoryWritter() {
 
 	useEffect(() => {
 		return () =>
-			!published &&
+			shouldTriggerEvent &&
 			dispatch(createUserActivity({activity: activitiesRef.current, story: storyId}));
-	}, [dispatch, storyId, published]);
+	}, [dispatch, shouldTriggerEvent, storyId]);
 
 	if (!pages || loading || !current || !story) {
 		return <Loader />;

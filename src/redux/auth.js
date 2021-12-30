@@ -42,6 +42,8 @@ export const userSlice = createSlice({
 		},
 		logOut: state => {
 			state.data = null;
+			state.stats = null;
+			state.op = null;
 		},
 	},
 	extraReducers: {
@@ -101,6 +103,7 @@ export const registerUser = payload => async (dispatch, getState, history) => {
 };
 
 export const logOutUser = () => dispatch => {
+	dispatch(opStart(USER_OP.logout));
 	localStorage.removeItem('token');
 	dispatch(logOut());
 };
@@ -119,7 +122,6 @@ export const getUser = () => async (dispatch, getState) => {
 		return localStorage.removeItem('token');
 	}
 
-	// dispatch(savedStoriesData(saved_stories));
 	dispatch(gotData({...res, jwt: token}));
 };
 
