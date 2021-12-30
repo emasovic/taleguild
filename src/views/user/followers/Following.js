@@ -1,6 +1,7 @@
 import React, {useEffect, useState, useCallback} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import {goToUser} from 'lib/routes';
 
@@ -89,10 +90,10 @@ export default function Following({id}) {
 			handleLoadFollowing(true, undefined, 0);
 		}
 	}, [dispatch, id, handleLoadFollowing]);
-
+	const followersClasses = classNames(CLASS + '-info', !data && CLASS + ' disabled');
 	return (
 		<div className={CLASS}>
-			<div className={CLASS + '-info'} onClick={() => setIsOpen(true)}>
+			<div className={followersClasses} onClick={() => setIsOpen(true)}>
 				<Typography>{op !== DEFAULT_OP.loading && total}</Typography>
 				<Typography>Following</Typography>
 			</div>

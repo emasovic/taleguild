@@ -33,6 +33,7 @@ const Stories = memo(
 		displaySearch,
 	}) => {
 		const dispatch = useDispatch();
+		const {title_contains} = useGetSearchParams();
 
 		const stories = useSelector(state => selectStories(state, activeSort));
 		const {op, total} = useSelector(state => state.stories);
@@ -63,63 +64,65 @@ const Stories = memo(
 			!isEqual(criteria, prevCriteria) && handleLoadStories(true, undefined, 0);
 		}, [handleLoadStories, criteria, prevCriteria]);
 
-		const nav = displayNav && (
-			<Nav className={CLASS + '-header'}>
-				<NavItem href="#" onClick={() => sortStories(STORY_SORT.published_at)}>
-					<NavLink active={activeSort.includes(STORY_SORT.published_at)}>
-						Recent stories
-					</NavLink>
-				</NavItem>
-				<NavItem href="#" onClick={() => sortStories(STORY_SORT.likes_count)}>
-					<NavLink active={activeSort.includes(STORY_SORT.likes_count)}>
-						Popular stories
-					</NavLink>
-				</NavItem>
-			</Nav>
-		);
-
 		return (
-			<LoadMore
-				id="stories"
-				className={CLASS}
-				onLoadMore={() => handleLoadStories(false, STORY_OP.load_more, stories.length)}
-				shouldLoad={shouldLoad}
-				total={total}
-				loading={[STORY_OP.loading, STORY_OP.load_more].includes(op)}
-				showItems={op !== STORY_OP.loading}
-				NoItemsComponent={NoItemsComponent}
-				noItemsComponentProps={noItemsComponentProps}
-			>
-				{nav}
-				{displaySearch && (
-					<SearchInput placeholder="Search stories" urlParamName="title_contains" />
+			<div className={CLASS}>
+				{displayNav && (
+					<Nav className={CLASS + '-header'}>
+						<NavItem href="#" onClick={() => sortStories(STORY_SORT.published_at)}>
+							<NavLink active={activeSort.includes(STORY_SORT.published_at)}>
+								Recent stories
+							</NavLink>
+						</NavItem>
+						<NavItem href="#" onClick={() => sortStories(STORY_SORT.likes_count)}>
+							<NavLink active={activeSort.includes(STORY_SORT.likes_count)}>
+								Popular stories
+							</NavLink>
+						</NavItem>
+					</Nav>
 				)}
-
-				<div className={CLASS + '-lastest'}>
-					{stories.map(item => (
-						<StoryItem
-							id={item.id}
-							image={item.image}
-							size={MEDIA_SIZE.small}
-							formats={item.image && item.image.formats}
-							title={item.title}
-							description={item.description}
-							key={item.id}
-							categories={item.categories}
-							likes={item.likes}
-							views={item.views}
-							comments={item.comments}
-							storypages={item.storypages}
-							author={item.user}
-							createdDate={item.published_at}
-							savedBy={item.saved_by}
-							slug={item.slug}
-							archivedAt={item.archived_at}
-							displayArchived={!!item.published_at}
-						/>
-					))}
-				</div>
-			</LoadMore>
+				{displaySearch && (
+					<SearchInput
+						placeholder="Search stories"
+						defaultValue={title_contains}
+						urlParamName="title_contains"
+					/>
+				)}
+				<LoadMore
+					id="stories"
+					onLoadMore={() => handleLoadStories(false, STORY_OP.load_more, stories.length)}
+					shouldLoad={shouldLoad}
+					total={total}
+					loading={[STORY_OP.loading, STORY_OP.load_more].includes(op)}
+					showItems={op !== STORY_OP.loading}
+					NoItemsComponent={NoItemsComponent}
+					noItemsComponentProps={noItemsComponentProps}
+				>
+					<div className={CLASS + '-lastest'}>
+						{stories.map(item => (
+							<StoryItem
+								id={item.id}
+								image={item.image}
+								size={MEDIA_SIZE.small}
+								formats={item.image && item.image.formats}
+								title={item.title}
+								description={item.description}
+								key={item.id}
+								categories={item.categories}
+								likes={item.likes}
+								views={item.views}
+								comments={item.comments}
+								storypages={item.storypages}
+								author={item.user}
+								createdDate={item.published_at}
+								savedBy={item.saved_by}
+								slug={item.slug}
+								archivedAt={item.archived_at}
+								displayArchived={!!item.published_at}
+							/>
+						))}
+					</div>
+				</LoadMore>
+			</div>
 		);
 	}
 );
