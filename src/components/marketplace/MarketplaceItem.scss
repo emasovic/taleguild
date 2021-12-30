@@ -7,7 +7,7 @@
 	align-items: center;
 	justify-content: center;
 	width: $market-item-width-large;
-	height: $market-item-height;
+	height: $market-item-height-large;
 	box-shadow: $box-shadow-default;
 	margin: 0 16px 16px 0;
 	border: 1px solid;
@@ -16,6 +16,14 @@
 	align-self: flex-start;
 	@include theme-aware('background-color', 'B100');
 	@include theme-aware('border-color', 'B100');
+
+	@media (max-width: $breakpoint-sm) {
+		flex-direction: row;
+		justify-content: flex-start;
+		width: 100%;
+		height: $market-item-height-small;
+		margin-right: 0;
+	}
 
 	&:hover {
 		cursor: pointer;
@@ -35,16 +43,38 @@
 
 	.st-Image {
 		&-container {
-			width: 100%;
-			height: 100%;
+			width: $market-image-width-large;
+			height: $market-image-height-large;
 			background-color: transparent;
+
+			@media (max-width: $breakpoint-sm) {
+				width: $market-image-width-small;
+				height: $market-image-height-small;
+			}
 		}
 	}
 
-	.st-Typography {
-		&-color {
-			&__tertiary {
-				margin-bottom: 8px;
+	&-info {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+
+		@media (max-width: $breakpoint-sm) {
+			align-items: flex-start;
+			margin-left: 24px;
+		}
+
+		&-price {
+			display: flex;
+			align-items: center;
+			margin-top: 12px;
+		}
+
+		.st-Typography {
+			&-color {
+				&__tertiary {
+					margin-bottom: 8px;
+				}
 			}
 		}
 	}

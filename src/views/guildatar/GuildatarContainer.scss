@@ -138,14 +138,18 @@
 
 				&-placeholder {
 					width: $market-item-width-large;
-					height: $market-item-height;
+					height: $market-item-height-large;
 					margin: 0 16px 16px 0;
+
+					@media (max-width: $breakpoint-sm) {
+						height: unset;
+					}
 				}
 			}
 
 			&-loader {
 				@media (max-width: $breakpoint-sm) {
-					min-height: 146px;
+					min-height: $market-item-height-large;
 				}
 			}
 		}

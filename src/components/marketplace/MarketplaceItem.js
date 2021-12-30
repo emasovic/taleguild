@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {useSelector} from 'react-redux';
 import classNames from 'classnames';
 
-import {FONT_WEIGHT, TEXT_COLORS, TEXT_TRASFORM, TYPOGRAPHY_VARIANTS} from 'types/typography';
+import {FONT_WEIGHT, TEXT_COLORS, TEXT_TRASFORM} from 'types/typography';
 
 import {selectMarketplaceById} from 'redux/marketplace';
 
@@ -18,24 +18,26 @@ const CLASS = 'st-MarketplaceItem';
 
 function MarketplaceItem({id, onClick, item, displayPrice, active, selector}) {
 	const {image, name, price, category} = useSelector(state => selector(state, id)) || item;
-
 	return (
 		<div className={classNames(CLASS, active && 'active')} onClick={() => onClick(id)}>
 			<ImageContainer image={image} width={100} height={100} />
-			<Typography
-				color={TEXT_COLORS.tertiary}
-				textTransform={TEXT_TRASFORM.uppercase}
-				fontWeight={FONT_WEIGHT.semiBold}
-			>
-				{category?.display_name}
-			</Typography>
-			<Typography component={TYPOGRAPHY_VARIANTS.p}>{name}</Typography>
-			{displayPrice && price && (
-				<Typography>
-					<Coin />
-					&nbsp;&nbsp;{price} <Typography color={TEXT_COLORS.secondary}>coins</Typography>
+			<div className={CLASS + '-info'}>
+				<Typography
+					color={TEXT_COLORS.tertiary}
+					textTransform={TEXT_TRASFORM.uppercase}
+					fontWeight={FONT_WEIGHT.semiBold}
+				>
+					{category?.display_name}
 				</Typography>
-			)}
+				<Typography>{name}</Typography>
+				{displayPrice && price && (
+					<Typography className={CLASS + '-info-price'}>
+						<Coin />
+						&nbsp;&nbsp;{price}&nbsp;
+						<Typography color={TEXT_COLORS.secondary}>coins</Typography>
+					</Typography>
+				)}
+			</div>
 		</div>
 	);
 }

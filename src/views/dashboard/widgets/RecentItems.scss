@@ -16,8 +16,8 @@
 
 		.st-Image {
 			&-container {
-				width: 80px;
-				height: 80px;
+				width: $market-image-width-small;
+				height: $market-image-height-small;
 				background: none;
 			}
 		}
