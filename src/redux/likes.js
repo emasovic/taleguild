@@ -27,10 +27,12 @@ export const likesSlice = createSlice({
 		likesUpsertOne: (state, {payload}) => {
 			likesAdapter.upsertOne(state, payload);
 			state.op = null;
+			state.total += 1;
 		},
 		likesRemoveOne: (state, {payload}) => {
 			likesAdapter.removeOne(state, payload.id);
 			state.op = null;
+			state.total -= 1;
 		},
 		loadingStart: state => {
 			state.loading = true;

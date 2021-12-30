@@ -31,6 +31,7 @@ export const userItemsSlice = createSlice({
 		},
 		userItemsUpsert: (state, {payload}) => {
 			userItemsAdapter.upsertOne(state, payload);
+			state.total += 1;
 			state.op = null;
 		},
 		gotPages: (state, {payload}) => {

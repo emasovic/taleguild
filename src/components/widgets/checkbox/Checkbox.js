@@ -28,7 +28,7 @@ export default function Checkbox({
 				/>
 				{label && <Label>{label}</Label>}
 			</div>
-			{invalid && <FormFeedback invalid>{errorMessage}</FormFeedback>}
+			{invalid && <FormFeedback>{errorMessage}</FormFeedback>}
 		</FormGroup>
 	);
 }

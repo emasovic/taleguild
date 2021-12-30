@@ -42,11 +42,13 @@ export const storySlice = createSlice({
 		storyRemoved: (state, action) => {
 			storyAdapter.removeOne(state, action.payload);
 			state.op = null;
+			state.total += 1;
 			state.loading = null;
 		},
 		storyUpsert: (state, action) => {
 			storyAdapter.upsertOne(state, action.payload);
 			state.op = null;
+			state.total -= 1;
 			state.loading = null;
 		},
 		gotPages: (state, {payload}) => {

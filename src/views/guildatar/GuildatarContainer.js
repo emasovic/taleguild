@@ -233,6 +233,7 @@ export default function GuildatarContainer() {
 							loading={[DEFAULT_OP.loading, DEFAULT_OP.load_more].includes(op)}
 							showItems={op !== DEFAULT_OP.loading}
 							className={CLASS + '-content-items-load_more'}
+							placeholderClassName={CLASS + '-content-items-load_more-placeholder'}
 						>
 							{defaultItems.map(i => (
 								<MarketplaceItem

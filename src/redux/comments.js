@@ -26,10 +26,12 @@ export const commentsSlice = createSlice({
 		},
 		commentsUpsertOne: (state, {payload}) => {
 			commentsAdapter.upsertOne(state, payload);
+			state.total += 1;
 			state.op = null;
 		},
 		commentsRemoveOne: (state, {payload}) => {
 			commentsAdapter.removeOne(state, payload.id);
+			state.total -= 1;
 			state.op = null;
 		},
 		loadingStart: state => {

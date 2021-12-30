@@ -69,7 +69,7 @@ export default function Login() {
 				Forgot password?
 			</Link>
 
-			<IconButton loading={!!op} disabled={!dirty}>
+			<IconButton loading={!!op} disabled={!dirty} type="submit">
 				Sign in
 			</IconButton>
 

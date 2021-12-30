@@ -65,7 +65,7 @@ export const secondsToHoursMinutes = seconds =>
 
 export const serializeTextEditorValue = (nodes, sliceAt) => {
 	let text = nodes.map(n => Node.string(n)).join('\n');
-	text = sliceAt ? (text.length > sliceAt ? `${text.slice(0, sliceAt)}...` : sliceAt) : sliceAt;
+	text = sliceAt ? (text.length > sliceAt ? `${text.slice(0, sliceAt)}...` : text) : text;
 	return text;
 };
 

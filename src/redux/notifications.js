@@ -57,6 +57,7 @@ export const notificationsSlice = createSlice({
 		},
 		notificationsAddOne: (state, {payload}) => {
 			notificationsAdapter.addOne(state, payload);
+			state.total += 1;
 
 			if (!payload.seen) {
 				state.unseen += 1;

@@ -6,6 +6,7 @@ import {useDispatch, useSelector, shallowEqual} from 'react-redux';
 import {goToUser} from 'lib/routes';
 
 import FA from 'types/font_awesome';
+import {TEXT_COLORS} from 'types/typography';
 
 import {createOrDeleteLike} from 'redux/likes';
 import {selectAuthUser} from 'redux/auth';
@@ -16,6 +17,7 @@ import IconButton from 'components/widgets/button/IconButton';
 import Image from 'components/widgets/image/Image';
 import FromNow from 'components/widgets/date-time/FromNow';
 import Link, {UNDERLINE} from 'components/widgets/link/Link';
+import Typography from 'components/widgets/typography/Typography';
 import StoryDropdownButton from './widgets/dropdown-button/StoryDropdownButton';
 
 import UserAvatar from 'views/user/UserAvatar';
@@ -87,9 +89,9 @@ export default function StoryItem({
 		categories && categories.length
 			? categories.map((item, key) => {
 					return (
-						<span key={key} onClick={() => getStoriesByCategoryId(item.id)}>
+						<Typography key={key} onClick={() => getStoriesByCategoryId(item.id)}>
 							{item.display_name}
-						</span>
+						</Typography>
 					);
 			  })
 			: null;
@@ -104,6 +106,7 @@ export default function StoryItem({
 
 	const likeIcon = liked ? FA.solid_heart : FA.heart;
 	const favouriteIcon = favourite ? FA.solid_bookmark : FA.bookmark;
+
 	return (
 		<div className={CLASS}>
 			{author?.id === data?.id && (
@@ -116,7 +119,7 @@ export default function StoryItem({
 			>
 				<UserAvatar user={author} />
 				<div className={CLASS + '-author-info'}>
-					<span>{author.display_name || author.username}</span>
+					<Typography>{author?.display_name || author?.username}</Typography>
 					<FromNow date={createdDate} />
 				</div>
 			</Link>
@@ -131,7 +134,7 @@ export default function StoryItem({
 					underline={UNDERLINE.none}
 					className={CLASS + '-footer-title'}
 				>
-					<span>{title}</span>
+					<Typography>{title}</Typography>
 				</Link>
 				<div className={CLASS + '-footer-categories'}>{renderCategories}</div>
 				<div className={CLASS + '-footer-actions'}>
@@ -166,18 +169,35 @@ export default function StoryItem({
 				<div className={CLASS + '-footer-stats'}>
 					<div className={CLASS + '-footer-stats-left'}>
 						{likes && (
-							<span onClick={() => setIsLikesOpen(true)}>{likes.length} likes</span>
+							<Typography
+								color={TEXT_COLORS.tertiary}
+								onClick={() => setIsLikesOpen(true)}
+							>
+								{likes.length} likes
+							</Typography>
 						)}
 						{comments && (
-							<span onClick={() => setIsCommentsOpen(true)}>
+							<Typography
+								color={TEXT_COLORS.tertiary}
+								onClick={() => setIsCommentsOpen(true)}
+							>
 								{comments.length} comments
-							</span>
+							</Typography>
 						)}
-						{views && <span>{views.length} views</span>}
+						{views && (
+							<Typography color={TEXT_COLORS.tertiary}>
+								{views.length} views
+							</Typography>
+						)}
 					</div>
 
 					{savedBy && (
-						<span onClick={() => setIsSavedOpen(true)}>{savedBy.length} saves</span>
+						<Typography
+							color={TEXT_COLORS.tertiary}
+							onClick={() => setIsSavedOpen(true)}
+						>
+							{savedBy.length} saves
+						</Typography>
 					)}
 				</div>
 			</div>

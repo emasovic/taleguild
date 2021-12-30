@@ -35,11 +35,13 @@ export const savedStorySlice = createSlice({
 		savedStoryUpsert: (state, action) => {
 			savedStoriesAdapter.upsertOne(state, action.payload);
 			state.loading = null;
+			state.total += 1;
 			state.op = null;
 		},
 		savedStoryRemoved: (state, action) => {
 			savedStoriesAdapter.removeOne(state, action.payload.savedId);
 			state.loading = null;
+			state.total -= 1;
 			state.op = null;
 		},
 		gotPages: (state, {payload}) => {
@@ -98,11 +100,9 @@ export const loadSavedStories = (params, count, op = STORY_OP.loading) => async 
 	return dispatch(savedStoryUpsertMany(res));
 };
 
-export const createOrDeleteSavedStory = (favourite, userId, storyId) => async (
-	dispatch,
-	getState
-) => {
-	dispatch(opStart(STORY_OP.loading));
+export const createOrDeleteSavedStory = (favourite, userId, storyId) => async dispatch => {
+	const op = favourite?.id ? DEFAULT_OP.delete : DEFAULT_OP.create;
+	dispatch(opStart(op));
 
 	const res = favourite
 		? await api.deleteSavedStory(favourite.id)

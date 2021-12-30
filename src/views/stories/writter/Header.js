@@ -1,10 +1,11 @@
-import React, {useState, useEffect, useMemo, useCallback} from 'react';
-
+import React, {useState, useMemo, useCallback} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import debounce from 'lodash.debounce';
 import {DropdownItem} from 'reactstrap';
 import PropTypes from 'prop-types';
 import {useHistory} from 'react-router';
+import {mixed, object, string, array} from 'yup';
+import {useFormik} from 'formik';
 
 import {editStory} from 'lib/routes';
 
@@ -29,6 +30,21 @@ import StoryPagePicker from '../widgets/page-picker/StoryPagePicker';
 import PublishStoryDialog from './PublishStoryDialog';
 import PreviewStoryDialog from './PreviewStoryDialog';
 
+const validationSchema = object().shape({
+	title: string()
+		.min(2, 'Too Short!')
+		.max(50, 'Too Long!')
+		.required('Required'),
+	description: string()
+		.min(2, 'Too Short!')
+		.max(250, 'Too Long!')
+		.required('Required'),
+	categories: array()
+		.required(`You didn't pick category`)
+		.max(3, 'You can pick maximum 3 categories.'),
+	language: mixed().required(`You didn't pick language.`),
+});
+
 export default function Header({
 	className,
 	pages,
@@ -50,24 +66,6 @@ export default function Header({
 	const [isDeleteStoryOpen, setIsDeleteStoryOpen] = useState(false);
 	const [isDeleteStoryPageOpen, setIsDeleteStoryPageOpen] = useState(false);
 	const [isPreviewStoryOpen, setIsPreviewStoryOpen] = useState(false);
-	const [title, setTitle] = useState('');
-	const [description, setDescription] = useState('');
-	const [categories, setCategories] = useState([]);
-	const [language, setLanguage] = useState(null);
-	const [image, setImage] = useState(null);
-	const [published, setPublished] = useState(false);
-
-	const stateStory = {
-		id: storyId,
-		title,
-		description,
-		categories,
-		language,
-		image,
-		published,
-		storypages: story?.storypages,
-		author: data,
-	};
 
 	const toggleDeleteStoryModal = () => setIsDeleteStoryOpen(prevState => !prevState);
 	const toggleDeleteStoryPageModal = () => setIsDeleteStoryPageOpen(prevState => !prevState);
@@ -75,6 +73,55 @@ export default function Header({
 	const togglePreviewStoryModal = () => setIsPreviewStoryOpen(prevState => !prevState);
 
 	const disabledActions = op === STORY_PAGE_OP.create || op === STORY_PAGE_OP.update;
+
+	const handleSubmit = ({
+		id,
+		title,
+		image,
+		description,
+		categories,
+		user,
+		language,
+		published,
+	}) => {
+		const payload = {
+			id,
+			title,
+			image: image && image.id,
+			user: user?.id,
+			description,
+			categories: categories.length && categories.map(item => item.value),
+			language: language && language.value,
+			published_at: !published ? new Date() : undefined,
+			archived_at: null,
+		};
+
+		handleCreateOrUpdateStory(payload);
+	};
+
+	const {
+		values,
+		errors,
+		handleSubmit: formikSubmit,
+		handleChange,
+		resetForm,
+		setFieldValue,
+	} = useFormik({
+		validationSchema,
+		enableReinitialize: true,
+		validateOnChange: false,
+		initialValues: {
+			id: story?.id,
+			title: story?.title || '',
+			user: story?.user || data,
+			description: story?.description || '',
+			categories: story?.categories.map(item => ({label: item.display_name, value: item.id})),
+			language: story?.language && {value: story?.language?.id, label: story?.language?.name},
+			image: story?.image,
+			published: story?.published_at,
+		},
+		onSubmit: handleSubmit,
+	});
 
 	const handlePageRemove = () => {
 		toggleDeleteStoryPageModal();
@@ -102,9 +149,9 @@ export default function Header({
 	);
 
 	const handleTitle = val => {
-		setTitle(val);
+		setFieldValue('title', val);
 		!isPublishStoryOpen &&
-			!story.published &&
+			!values.published &&
 			_onCreateOrUpdateStory({id: story.id, user: data?.id, title: val});
 	};
 
@@ -116,28 +163,15 @@ export default function Header({
 
 	const renderDeteleContent = () => (
 		<Typography font={FONTS.lato} variant={TYPOGRAPHY_VARIANTS.action1}>
-			Are you sure you want to delete <strong>{title || 'this story'}</strong>?
+			Are you sure you want to delete <strong>{values.title || 'this story'}</strong>?
 		</Typography>
 	);
-
-	useEffect(() => {
-		if (story) {
-			story.title && setTitle(story.title);
-			story.description && setDescription(story.description);
-			setCategories(
-				story.categories.map(item => ({label: item.display_name, value: item.id}))
-			);
-			setImage(story.image);
-			setPublished(story.published_at);
-			story.language && setLanguage({value: story.language.id, label: story.language.name});
-		}
-	}, [story]);
 
 	return (
 		<div className={className + '-header'}>
 			<FloatingInput
 				placeholder="Type title of your story here..."
-				value={title}
+				value={values.title}
 				onChange={val => handleTitle(val)}
 			/>
 			<div className={className + '-header-publish'}>
@@ -222,22 +256,23 @@ export default function Header({
 						togglePreviewStoryModal();
 					}}
 					className={className + '-header-previewModal'}
-					story={stateStory}
+					story={{...values, slug: story?.slug}}
 				/>
 			)}
 
 			{isPublishStoryOpen && (
 				<PublishStoryDialog
-					onCreateOrUpdateStory={handleCreateOrUpdateStory}
 					isOpen={isPublishStoryOpen}
-					onClose={togglePublishStoryModal}
+					onClose={() => {
+						togglePublishStoryModal();
+						resetForm();
+					}}
 					className={className + '-header-publishModal'}
-					story={stateStory}
-					setTitle={setTitle}
-					setDescription={setDescription}
-					setCategories={setCategories}
-					setLanguage={setLanguage}
-					setImage={setImage}
+					onChange={handleChange}
+					onFieldValue={setFieldValue}
+					errors={errors}
+					values={values}
+					onSubmit={formikSubmit}
 				/>
 			)}
 		</div>

@@ -22,6 +22,7 @@ import {kFormatter} from 'lib/util';
 
 import {COLOR} from 'types/button';
 import {ICONS} from 'types/icons';
+import {TEXT_WRAP} from 'types/typography';
 
 import {selectAuthUser, logOutUser} from 'redux/auth';
 import {newStory} from 'redux/story';
@@ -79,12 +80,12 @@ export default function DesktopNav({isMobile}) {
 		}
 		return (
 			<NavItem className={CLASS + '-status-signedIn'}>
-				<Typography className={CLASS + '-status-signedIn-icons'}>
+				<Typography className={CLASS + '-status-signedIn-icons'} wrap={TEXT_WRAP.normal}>
 					<Icon icon={ICONS.star} size={20} />
 					<strong>{kFormatter(stats?.points)}</strong>
 				</Typography>
 
-				<Typography className={CLASS + '-status-signedIn-icons'}>
+				<Typography className={CLASS + '-status-signedIn-icons'} wrap={TEXT_WRAP.normal}>
 					<Icon icon={ICONS.coin} size={20} />
 					<strong>{kFormatter(stats?.coins)}</strong>
 				</Typography>

@@ -7,14 +7,15 @@ import StoryItem from '../StoryItem';
 
 function PreviewStoryDialog({isOpen, className, onClose, onSubmit, story}) {
 	const renderPreviewContent = () => {
-		const {id, title, description, image, author} = story;
+		const {id, title, description, image, slug, user} = story;
 		return (
 			<StoryItem
 				id={id}
 				image={image}
 				description={description}
 				title={title}
-				author={author}
+				author={user}
+				slug={slug}
 				storypages={[]}
 			/>
 		);

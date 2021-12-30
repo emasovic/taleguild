@@ -17,12 +17,6 @@
 	@include theme-aware('background-color', 'B100');
 	@include theme-aware('border-color', 'B100');
 
-	@media (max-width: $breakpoint-sm) {
-		margin-right: 8px;
-		margin-bottom: 8px;
-		width: 46%;
-	}
-
 	&:hover {
 		cursor: pointer;
 		@include theme-aware('border-color', 'T600');
@@ -48,8 +42,10 @@
 	}
 
 	.st-Typography {
-		&-tertiary {
-			margin-bottom: 8px;
+		&-color {
+			&__tertiary {
+				margin-bottom: 8px;
+			}
 		}
 	}
 }
