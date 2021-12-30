@@ -1,7 +1,7 @@
 export const DASHBOARD = '/';
 
 export const _COMMUNITY = '/community/';
-export const COMMUNITY = '/community/:widget?';
+export const COMMUNITY = '/community/:widget';
 
 export const goToWidget = widget => `/community/${widget}`;
 
@@ -41,9 +41,9 @@ export const DELETED_STORY = '/deleted-story';
 
 export const GUILDATARS = '/guildatars';
 export const GUILDATAR = '/guildatar';
-export const GUILDATAR_ID = GUILDATAR + '/:id';
+export const GUILDATAR_ID = GUILDATARS + '/:id';
 export const GUILDATAR_PLAYGROUND = '/guildatar-playground';
 
-export const goToGuildatar = id => GUILDATAR + `/${id}`;
+export const goToGuildatar = id => GUILDATARS + `/${id}`;
 
 export const MARKETPLACE = '/marketplace';

@@ -1,5 +1,5 @@
 import React, {lazy, Suspense} from 'react';
-import {Route, Router, Switch} from 'react-router-dom';
+import {Route, BrowserRouter as Router, Routes as Switch} from 'react-router-dom';
 
 import * as routes from 'lib/routes';
 import history from 'lib/history';
@@ -49,29 +49,68 @@ const Routes = () => (
 		<Suspense fallback={<Loader />}>
 			<Nav />
 			<Switch>
-				<PrivateRoute exact path={routes.DASHBOARD} component={Dashboard} />
-				<PrivateRoute path={routes.COMMUNITY} component={Community} />
-				<PrivateRoute path={routes.WRITE_STORY} component={StoryWritter} />
-				<PrivateRoute path={routes.DELETED_STORY} component={DeletedStory} />
-				<Route path={routes.STORY_SLUG} component={Story} />
-				<PrivateRoute e path={routes.USER_STORIES_SAVED} component={SavedStoriesPage} />
-				<PrivateRoute path={routes.USER_STORIES_DRAFTS} component={DraftStoriesPage} />
-				<PrivateRoute path={routes.USER_STORIES_ARCHIVED} component={ArchivedStoriesPage} />
-				<PrivateRoute path={routes.USER_SETTINGS} component={UserSettings} />
-				<Route path={routes.USER_ID} component={UserProfile} />
-				<PublicRoute path={routes.REGISTER} component={SignUp} />
-				<PublicRoute path={routes.LOGIN} component={Login} />
-				<PublicRoute path={routes.FORGOT_PASSWORD} component={ForgotPassword} />
-				<PublicRoute path={routes.RESET_PASSWORD} component={ResetPassword} />
-				<Route path={routes.PROVIDER_LOGIN} component={ProviderLogin} />
-				<PublicRoute path={routes.WELCOME} component={Welcome} />
-				<PublicRoute path={routes.REGISTRATION_SUCCESS} component={RegistrationSuccess} />
-				<PrivateRoute path={routes.MARKETPLACE} component={Marketplace} />
-				<PrivateRoute path={routes.GUILDATAR_ID} component={GuildatarContainer} />
-				<PrivateRoute path={routes.GUILDATARS} component={Guildatars} />
-				<PrivateRoute path={routes.GUILDATAR_PLAYGROUND} component={GuildatarPlayground} />
-				<PrivateRoute path={routes.NOTIFICATIONS} component={NotificationsPage} />
-				<Route path="*" component={NotFound} />
+				<Route path={routes.DASHBOARD} element={<PrivateRoute component={Dashboard} />} />
+				<Route path={routes.COMMUNITY} element={<PrivateRoute component={Community} />} />
+				<Route
+					path={routes.WRITE_STORY}
+					element={<PrivateRoute component={StoryWritter} />}
+				/>
+				<Route
+					path={routes.DELETED_STORY}
+					element={<PrivateRoute component={DeletedStory} />}
+				/>
+				<Route path={routes.STORY_SLUG} element={<Story />} />
+				<Route
+					path={routes.USER_STORIES_SAVED}
+					element={<PrivateRoute component={SavedStoriesPage} />}
+				/>
+				<Route
+					path={routes.USER_STORIES_DRAFTS}
+					element={<PrivateRoute component={DraftStoriesPage} />}
+				/>
+				<Route
+					path={routes.USER_STORIES_ARCHIVED}
+					element={<PrivateRoute component={ArchivedStoriesPage} />}
+				/>
+				<Route
+					path={routes.USER_SETTINGS}
+					element={<PrivateRoute component={UserSettings} />}
+				/>
+				<Route path={routes.USER_ID} element={<UserProfile />} />
+				<Route path={routes.REGISTER} element={<PublicRoute component={SignUp} />} />
+				<Route path={routes.LOGIN} element={<PublicRoute component={Login} />} />
+				<Route
+					path={routes.FORGOT_PASSWORD}
+					element={<PublicRoute component={ForgotPassword} />}
+				/>
+				<Route
+					path={routes.RESET_PASSWORD}
+					element={<PublicRoute component={ResetPassword} />}
+				/>
+				<Route path={routes.PROVIDER_LOGIN} element={<ProviderLogin />} />
+				<Route path={routes.WELCOME} element={<PublicRoute component={Welcome} />} />
+				<Route
+					path={routes.REGISTRATION_SUCCESS}
+					element={<PublicRoute component={RegistrationSuccess} />}
+				/>
+				<Route
+					path={routes.MARKETPLACE}
+					element={<PrivateRoute component={Marketplace} />}
+				/>
+				<Route
+					path={routes.GUILDATAR_ID}
+					element={<PrivateRoute component={GuildatarContainer} />}
+				/>
+				<Route path={routes.GUILDATARS} element={<PrivateRoute component={Guildatars} />} />
+				<Route
+					path={routes.GUILDATAR_PLAYGROUND}
+					element={<PrivateRoute component={GuildatarPlayground} />}
+				/>
+				<Route
+					path={routes.NOTIFICATIONS}
+					element={<PrivateRoute component={NotificationsPage} />}
+				/>
+				<Route path="*" element={<NotFound />} />
 			</Switch>
 		</Suspense>
 	</Router>

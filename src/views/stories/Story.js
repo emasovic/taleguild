@@ -1,7 +1,7 @@
 import React, {useEffect, useState, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import orderBy from 'lodash.orderby';
-import {useHistory, useParams} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 
 import {goToStory, DASHBOARD} from 'lib/routes';
 
@@ -29,7 +29,7 @@ const CLASS = 'st-Story';
 
 export default function Story() {
 	const {slug} = useParams();
-	const history = useHistory();
+	const navigate = useNavigate();
 	const viewerRef = useRef(null);
 	const dispatch = useDispatch();
 
@@ -60,9 +60,9 @@ export default function Story() {
 
 	useEffect(() => {
 		if (story && story.slug) {
-			history.replace(goToStory(story.slug));
+			navigate(goToStory(story.slug), {replace: true});
 		}
-	}, [history, story]);
+	}, [navigate, story]);
 
 	if (!story) {
 		return (
