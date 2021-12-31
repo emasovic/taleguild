@@ -45,7 +45,7 @@ export default function StoryWritter() {
 	const lastActivityVal = activities[lastActivityKey];
 
 	const published = !!story?.published_at;
-	const shouldTriggerEvent = published && story?.id;
+	const shouldTriggerEvent = !published && story?.id;
 
 	const activitiesRef = useRef(activities);
 
