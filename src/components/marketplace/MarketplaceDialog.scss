@@ -21,9 +21,20 @@
 	&-dialog {
 		.modal {
 			&-footer {
-				justify-content: center;
+				justify-content: space-between;
+				align-items: center;
+				text-align: center;
+
+				div {
+					display: flex;
+
+					svg {
+						vertical-align: bottom;
+					}
+				}
 
 				@media (max-width: $breakpoint-sm) {
+					justify-content: center;
 					.st-IconButton {
 						width: 136px;
 					}

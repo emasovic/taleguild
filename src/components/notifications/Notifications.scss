@@ -38,7 +38,7 @@
 
 		&:hover {
 			@include theme-aware('color', 'T600');
-			@include theme-aware('background-color', 'B300');
+			@include theme-aware('background-color', 'B100');
 
 			@media (max-width: $breakpoint-sm) {
 				background-color: transparent !important;
