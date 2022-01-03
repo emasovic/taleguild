@@ -17,10 +17,10 @@ import './MarketplaceItem.scss';
 const CLASS = 'st-MarketplaceItem';
 
 function MarketplaceItem({id, onClick, item, displayPrice, active, selector}) {
-	const {image, name, price, category} = useSelector(state => selector(state, id)) || item;
+	const {preview, name, price, category} = useSelector(state => selector(state, id)) || item;
 	return (
 		<div className={classNames(CLASS, active && 'active')} onClick={() => onClick(id)}>
-			<ImageContainer image={image} width={100} height={100} />
+			<ImageContainer image={preview} width={100} height={100} />
 			<div className={CLASS + '-info'}>
 				<Typography
 					color={TEXT_COLORS.tertiary}

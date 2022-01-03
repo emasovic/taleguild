@@ -4,7 +4,7 @@ import * as api from '../lib/api';
 import {goToStory, editStory, DELETED_STORY} from '../lib/routes';
 
 import {Toast} from 'types/toast';
-import {DEFAULT_STORYPAGE_DATA, STORY_OP} from 'types/story';
+import {STORY_OP} from 'types/story';
 import {DEFAULT_OP} from 'types/default';
 
 import {newToast} from './toast';
@@ -42,13 +42,13 @@ export const storySlice = createSlice({
 		storyRemoved: (state, action) => {
 			storyAdapter.removeOne(state, action.payload);
 			state.op = null;
-			state.total += 1;
+			state.total -= 1;
 			state.loading = null;
 		},
 		storyUpsert: (state, action) => {
 			storyAdapter.upsertOne(state, action.payload);
 			state.op = null;
-			state.total -= 1;
+			state.total += 1;
 			state.loading = null;
 		},
 		gotPages: (state, {payload}) => {
@@ -141,14 +141,10 @@ export const newStory = payload => async (dispatch, getState, history) => {
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
 
-	const page = await api.createStoryPage({story: res.id, text: DEFAULT_STORYPAGE_DATA});
+	const page = res?.storypages?.[0];
 
-	if (page.error) {
-		dispatch(loadingEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
-	}
 	dispatch(storyUpsert(res));
-	return history.push(editStory(res.id, page.id));
+	return history.push(editStory(res.id, page?.id));
 };
 
 export const createOrUpdateStory = (payload, shouldChange = true) => async (

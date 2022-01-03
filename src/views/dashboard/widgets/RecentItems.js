@@ -7,6 +7,8 @@ import {ICONS} from 'types/icons';
 import {COLOR} from 'types/button';
 
 import {loadMarketplace, selectMarketplaceById, selectMarketplaceIds} from 'redux/marketplace';
+import {countAllGuildatars} from 'redux/guildatars';
+import {selectAuthUser} from 'redux/auth';
 
 import MarketplaceDialog from 'components/marketplace/MarketplaceDialog';
 import ImageContainer from 'components/widgets/image/Image';
@@ -18,16 +20,14 @@ import GuildatarDialog from 'components/guildatar/GuildatarDialog';
 import NoItemsPlaceholder from './NoItemsPlaceholder';
 
 import './RecentItems.scss';
-import {countAllGuildatars} from 'redux/guildatars';
-import {selectAuthUser} from 'redux/auth';
 
 const CLASS = 'st-RecentItems';
 
 const RecentItem = ({id, onClick}) => {
-	const {image, price, name, category} = useSelector(state => selectMarketplaceById(state, id));
+	const {preview, price, name, category} = useSelector(state => selectMarketplaceById(state, id));
 	return (
 		<div className={CLASS + '-item'} onClick={() => onClick(id)}>
-			<ImageContainer image={image} width={100} height={100} />
+			<ImageContainer image={preview} width={100} height={100} />
 			<div className={CLASS + '-item-data'}>
 				<Typography
 					color={TEXT_COLORS.tertiary}

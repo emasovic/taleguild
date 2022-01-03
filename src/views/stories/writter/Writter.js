@@ -56,9 +56,7 @@ export default function Writter({
 		shouldAutoSave && _onStoryPage(current.id, val);
 	};
 
-	if (op === STORY_PAGE_OP.create || op === DEFAULT_OP.loading) {
-		return <Loader />;
-	}
+	if (op === STORY_PAGE_OP.create || op === DEFAULT_OP.loading) return <Loader />;
 
 	return (
 		<div className={className + '-writter'} ref={editorRef}>

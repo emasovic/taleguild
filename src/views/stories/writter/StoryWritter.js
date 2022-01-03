@@ -45,7 +45,6 @@ export default function StoryWritter() {
 	const lastActivityVal = activities[lastActivityKey];
 
 	const published = !!story?.published_at;
-	const shouldTriggerEvent = !published && story?.id;
 
 	const activitiesRef = useRef(activities);
 
@@ -116,9 +115,9 @@ export default function StoryWritter() {
 
 	useEffect(() => {
 		return () =>
-			shouldTriggerEvent &&
+			!published &&
 			dispatch(createUserActivity({activity: activitiesRef.current, story: storyId}));
-	}, [dispatch, shouldTriggerEvent, storyId]);
+	}, [dispatch, published, storyId]);
 
 	if (!pages || loading || !current || !story) {
 		return <Loader />;
