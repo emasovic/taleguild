@@ -3,7 +3,7 @@ import {Route, Redirect} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 
-import {LOGIN} from 'lib/routes';
+import {LANDING} from 'lib/routes';
 
 import {selectAuthUser} from 'redux/auth';
 
@@ -29,7 +29,7 @@ const PrivateRoute = ({component: Component, ...rest}) => {
 		<Route
 			{...rest}
 			render={props =>
-				!isAuthenticated ? <Redirect to={LOGIN} /> : <Component {...props} />
+				!isAuthenticated ? <Redirect to={LANDING} /> : <Component {...props} />
 			}
 		/>
 	);

@@ -1,0 +1,128 @@
+@import 'styles/variables.scss';
+@import 'styles/themes/mixins.scss';
+
+.st-LandingPage {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 20px;
+
+	&-item {
+		&-title {
+			margin: 16px 0;
+		}
+
+		&-link {
+			display: flex;
+			margin-top: 36px;
+
+			&:hover {
+				text-decoration: none;
+			}
+		}
+	}
+
+	&-header {
+		&-actions {
+			display: flex;
+			margin-top: 36px;
+
+			.st-IconButton {
+				&:first-child {
+					margin-right: 24px;
+				}
+			}
+		}
+	}
+
+	&-video {
+		border-radius: 16px;
+		margin-top: 60px;
+		margin-bottom: 116px;
+
+		@media (max-width: $breakpoint-m) {
+			margin-bottom: 24px;
+		}
+	}
+
+	&-focus,
+	&-build-habit,
+	&-build-community {
+		display: flex;
+		padding: 48px;
+		border-radius: 8px;
+		border: 1px solid;
+		@include theme-aware('border-color', 'B100');
+
+		@media (max-width: $breakpoint-sm) {
+			padding: 8px;
+		}
+	}
+
+	&-focus,
+	&-build {
+		> div {
+			flex: 1;
+		}
+
+		@media (max-width: $breakpoint-m) {
+			flex-direction: column;
+		}
+	}
+
+	&-focus {
+		justify-content: space-between;
+		margin-bottom: 66px;
+
+		@media (max-width: $breakpoint-m) {
+			margin-bottom: 24px;
+		}
+
+		&-recent {
+			display: flex;
+			justify-content: flex-end;
+
+			@media (max-width: $breakpoint-m) {
+				justify-content: flex-start;
+			}
+
+			&-content {
+				display: flex;
+				align-items: flex-start;
+				flex-direction: column;
+
+				@media (max-width: $breakpoint-m) {
+					margin-top: 12px;
+				}
+
+				svg {
+					margin-left: -8px;
+				}
+			}
+		}
+	}
+
+	&-build {
+		display: flex;
+
+		&-habit {
+			display: flex;
+			flex-direction: column;
+			margin-right: 24px;
+
+			@media (max-width: $breakpoint-m) {
+				margin-right: 0;
+				margin-bottom: 24px;
+			}
+		}
+
+		&-community {
+			display: flex;
+			flex-direction: column;
+
+			&-image {
+				width: auto;
+				height: auto;
+			}
+		}
+	}
+}

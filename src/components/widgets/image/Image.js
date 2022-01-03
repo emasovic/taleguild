@@ -78,7 +78,7 @@ Image.defaultProps = {
 	thumb: logo,
 };
 
-const ImageContainer = props => {
+const ImageContainer = ({containerClassName, ...props}) => {
 	const ref = React.useRef();
 	const [isVisible, setIsVisible] = React.useState(false);
 
@@ -94,11 +94,26 @@ const ImageContainer = props => {
 		},
 	});
 
+	const className = classNames(CLASS + '-container', containerClassName);
 	return (
-		<div ref={ref} className={CLASS + '-container'}>
+		<div ref={ref} className={className}>
 			{isVisible && <Image {...props} />}
 		</div>
 	);
+};
+
+ImageContainer.propTypes = {
+	containerClassName: PropTypes.string,
+	image: PropTypes.object,
+	src: PropTypes.string,
+	width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+	height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+	alt: PropTypes.string,
+	formats: PropTypes.object,
+	size: PropTypes.string,
+	thumb: PropTypes.string,
+	thumbClassName: PropTypes.string,
+	imageClassName: PropTypes.string,
 };
 
 export default ImageContainer;
