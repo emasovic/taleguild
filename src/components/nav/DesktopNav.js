@@ -15,6 +15,7 @@ import {
 	DASHBOARD,
 	goToWidget,
 	_COMMUNITY,
+	LANDING,
 } from 'lib/routes';
 import {kFormatter} from 'lib/util';
 
@@ -160,7 +161,7 @@ export default function DesktopNav({isMobile}) {
 				</>
 			) : (
 				<NavItem className={CLASS + '-logged-out'}>
-					<NavLink tag={Link} to={DASHBOARD}>
+					<NavLink tag={Link} to={LANDING}>
 						<Icon icon={ICONS.logo} size={30} />
 					</NavLink>
 				</NavItem>
