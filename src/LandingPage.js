@@ -14,7 +14,7 @@ import {
 
 import Typography from 'components/widgets/typography/Typography';
 import IconButton from 'components/widgets/button/IconButton';
-import Link from 'components/widgets/link/Link';
+import Link, {UNDERLINE} from 'components/widgets/link/Link';
 import ImageContainer from 'components/widgets/image/Image';
 import MobileWrapper from 'components/widgets/mobile-wrapper/MobileWrapper';
 
@@ -46,13 +46,9 @@ const LandingItem = ({header, title, subtitle, link}) => (
 			{title}
 		</Typography>
 		<Typography>{subtitle}</Typography>
-		<Typography
-			color={TEXT_COLORS.buttonPrimary}
-			fontWeight={FONT_WEIGHT.semiBold}
-			className={CLASS + '-item-link'}
-		>
+		<Link to={REGISTER} underline={UNDERLINE.hover} className={CLASS + '-item-link'}>
 			{link}
-		</Typography>
+		</Link>
 	</div>
 );
 

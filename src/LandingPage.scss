@@ -4,7 +4,11 @@
 .st-LandingPage {
 	display: flex;
 	flex-direction: column;
-	margin-bottom: 20px;
+	margin: 0px 100px 20px 100px;
+
+	@media (max-width: $breakpoint-m) {
+		margin: 20px;
+	}
 
 	&-item {
 		&-title {
@@ -22,13 +26,53 @@
 	}
 
 	&-header {
+		margin-top: 50px;
+
+		span {
+			&:first-child {
+				font-size: 16px;
+				font-weight: 600;
+				letter-spacing: 2px;
+				@include theme-aware('color', 'T600');
+			}
+
+			font-size: 24px;
+			@include theme-aware('color', 'G600');
+
+			@media (max-width: $breakpoint-m) {
+				font-size: 20px;
+			}
+		}
+
+		h1 {
+			font-size: 48px;
+			margin: 20px 0;
+
+			@media (max-width: $breakpoint-m) {
+				font-size: 36px;
+			}
+		}
+
 		&-actions {
 			display: flex;
-			margin-top: 36px;
+			margin-top: 32px;
 
 			.st-IconButton {
+				padding: 12px 20px;
+				border-radius: 20px;
+
+				span {
+					font-size: 18px;
+					font-weight: 900;
+					letter-spacing: 0;
+				}
+
 				&:first-child {
 					margin-right: 24px;
+
+					span {
+						@include theme-aware('color', 'B100');
+					}
 				}
 			}
 		}
@@ -36,11 +80,13 @@
 
 	&-video {
 		border-radius: 16px;
-		margin-top: 60px;
+		margin-top: 100px;
 		margin-bottom: 116px;
+		box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.08);
 
 		@media (max-width: $breakpoint-m) {
-			margin-bottom: 24px;
+			border-radius: 8px;
+			margin: 48px 0;
 		}
 	}
 
@@ -48,13 +94,48 @@
 	&-build-habit,
 	&-build-community {
 		display: flex;
-		padding: 48px;
+		padding: 36px;
 		border-radius: 8px;
 		border: 1px solid;
-		@include theme-aware('border-color', 'B100');
+		@include theme-aware('border-color', 'G100');
+
+		h3 {
+			font-size: 24px;
+			margin: 20px 0;
+
+			@media (max-width: $breakpoint-sm) {
+				margin: 16px 0;
+			}
+		}
+
+		span {
+			font-size: 18px;
+			@include theme-aware('color', 'G600');
+
+			&:first-child {
+				font-size: 16px;
+				font-weight: 600;
+				letter-spacing: 2px;
+				@include theme-aware('color', 'G400');
+			}
+		}
+
+		a {
+			font-size: 16px;
+			font-weight: 600;
+
+			&:hover {
+				text-decoration: underline;
+				@include theme-aware('color', 'T600');
+			}
+
+			@media (max-width: $breakpoint-sm) {
+				margin: 16px 0;
+			}
+		}
 
 		@media (max-width: $breakpoint-sm) {
-			padding: 8px;
+			padding: 16px;
 		}
 	}
 
@@ -71,11 +152,7 @@
 
 	&-focus {
 		justify-content: space-between;
-		margin-bottom: 66px;
-
-		@media (max-width: $breakpoint-m) {
-			margin-bottom: 24px;
-		}
+		margin-bottom: 24px;
 
 		&-recent {
 			display: flex;
