@@ -22,7 +22,6 @@ const theme = localStorage.getItem('theme') || THEMES.dark;
 document.documentElement.classList.add(`theme-${theme}`);
 
 store.dispatch(getUser());
-
 ReactDOM.render(
 	<React.StrictMode>
 		<Provider store={store}>
