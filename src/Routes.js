@@ -39,6 +39,7 @@ const NotificationsPage = lazy(() => import('components/notifications/Notificati
 
 const Marketplace = lazy(() => import('views/marketplace/Marketplace'));
 
+const LandingPage = lazy(() => import('LandingPage'));
 const NotFound = lazy(() => import('NotFound'));
 const DeletedStory = lazy(() => import('DeletedStory'));
 const Welcome = lazy(() => import('Welcome'));
@@ -59,6 +60,7 @@ const Routes = () => (
 				<PrivateRoute path={routes.USER_STORIES_ARCHIVED} component={ArchivedStoriesPage} />
 				<PrivateRoute path={routes.USER_SETTINGS} component={UserSettings} />
 				<Route path={routes.USER_ID} component={UserProfile} />
+				<PublicRoute path={routes.LANDING} component={LandingPage} />
 				<PublicRoute path={routes.REGISTER} component={SignUp} />
 				<PublicRoute path={routes.LOGIN} component={Login} />
 				<PublicRoute path={routes.FORGOT_PASSWORD} component={ForgotPassword} />

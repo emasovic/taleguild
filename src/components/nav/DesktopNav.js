@@ -9,18 +9,16 @@ import {
 	USER_SETTINGS,
 	USER_STORIES_DRAFTS,
 	goToUser,
-	REGISTER,
-	LOGIN,
 	USER_STORIES_ARCHIVED,
 	MARKETPLACE,
 	GUILDATARS,
 	DASHBOARD,
 	goToWidget,
 	_COMMUNITY,
+	LANDING,
 } from 'lib/routes';
 import {kFormatter} from 'lib/util';
 
-import {COLOR} from 'types/button';
 import {ICONS} from 'types/icons';
 import {TEXT_WRAP} from 'types/typography';
 
@@ -54,22 +52,6 @@ export default function DesktopNav({isMobile}) {
 
 	const handleNewStory = () => {
 		dispatch(newStory({user: data && data.id, published_at: null}));
-	};
-
-	const userLoggedOut = () => {
-		return (
-			!isMobile && (
-				<NavItem className={CLASS + '-status-signedOut'}>
-					<IconButton tag={Link} color={COLOR.secondary} to={LOGIN}>
-						Sign in
-					</IconButton>
-
-					<IconButton tag={Link} to={REGISTER}>
-						Sign up
-					</IconButton>
-				</NavItem>
-			)
-		);
 	};
 
 	const userLoggedIn = () => {
@@ -122,20 +104,16 @@ export default function DesktopNav({isMobile}) {
 		);
 	};
 
-	if (isMobile && !data) {
-		return null;
-	}
-
 	return (
 		<Navbar className={CLASS}>
-			<Nav className={CLASS + '-feed'}>
-				<NavItem>
-					<NavLink tag={Link} to={DASHBOARD}>
-						<Icon icon={ICONS.logo} size={30} />
-					</NavLink>
-				</NavItem>
-				{data && (
-					<>
+			{data ? (
+				<>
+					<Nav className={CLASS + '-feed'}>
+						<NavItem>
+							<NavLink tag={Link} to={DASHBOARD}>
+								<Icon icon={ICONS.logo} size={30} />
+							</NavLink>
+						</NavItem>
 						<NavItem>
 							<NavLink
 								tag={Link}
@@ -174,20 +152,20 @@ export default function DesktopNav({isMobile}) {
 								<span>Community</span>
 							</NavLink>
 						</NavItem>
-					</>
-				)}
-			</Nav>
+					</Nav>
 
-			<Nav className={CLASS + '-status'}>
-				{data && data.token ? (
-					<>
+					<Nav className={CLASS + '-status'}>
 						{userLoggedIn()}
 						<MobileDrawer isOpen={isOpen} onClose={() => setIsOpen(false)} />
-					</>
-				) : (
-					userLoggedOut()
-				)}
-			</Nav>
+					</Nav>
+				</>
+			) : (
+				<NavItem className={CLASS + '-logged-out'}>
+					<NavLink tag={Link} to={LANDING}>
+						<Icon icon={ICONS.logo} size={30} />
+					</NavLink>
+				</NavItem>
+			)}
 		</Navbar>
 	);
 }
