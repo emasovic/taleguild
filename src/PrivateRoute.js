@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Navigate} from 'react-router-dom';
+import {Route, Redirect} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -21,11 +21,18 @@ const PrivateRoute = ({component: Component, ...rest}) => {
 		}
 	}, [user]);
 
-	if (isAuthenticated === null) return <Loader />;
+	if (isAuthenticated === null) {
+		return <Loader />;
+	}
 
-	if (!isAuthenticated) return <Navigate to={LANDING} />;
-
-	return <Component {...rest} />;
+	return (
+		<Route
+			{...rest}
+			render={props =>
+				!isAuthenticated ? <Redirect to={LOGIN} /> : <Component {...props} />
+			}
+		/>
+	);
 };
 
 PrivateRoute.propTypes = {

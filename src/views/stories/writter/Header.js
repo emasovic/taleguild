@@ -3,7 +3,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import debounce from 'lodash.debounce';
 import {DropdownItem} from 'reactstrap';
 import PropTypes from 'prop-types';
-import {useNavigate} from 'react-router';
+import {useHistory} from 'react-router';
 import {mixed, object, string, array} from 'yup';
 import {useFormik} from 'formik';
 
@@ -60,7 +60,7 @@ export default function Header({
 
 	const {data} = useSelector(selectAuthUser);
 
-	const navigate = useNavigate();
+	const {replace} = useHistory();
 
 	const [isPublishStoryOpen, setIsPublishStoryOpen] = useState(false);
 	const [isDeleteStoryOpen, setIsDeleteStoryOpen] = useState(false);
@@ -178,9 +178,7 @@ export default function Header({
 				<div className={className + '-header-publish-actions'}>
 					<StoryPagePicker
 						pages={pages}
-						onChange={item =>
-							item.value && navigate(editStory(storyId, item.value), {replace: true})
-						}
+						onChange={item => item.value && replace(editStory(storyId, item.value))}
 						onNewPageClick={() => onStoryPage(undefined)}
 						value={selectedPage}
 					/>

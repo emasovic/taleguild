@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 import {Badge} from 'reactstrap';
-import {useNavigate} from 'react-router';
+import {useHistory} from 'react-router';
 
 import {NOTIFICATIONS} from 'lib/routes';
 
@@ -27,7 +27,7 @@ const CLASS = 'st-Notifications';
 
 export default function Notifications({isPage, isMobile}) {
 	const dispatch = useDispatch();
-	const navigate = useNavigate();
+	const {push} = useHistory();
 	const {data} = useSelector(selectAuthUser);
 	const userId = data?.id;
 	const {unseen, total, op} = useSelector(state => state.notifications);
@@ -113,7 +113,7 @@ export default function Notifications({isPage, isMobile}) {
 
 	if (isMobile) {
 		dropDownProps.isOpen = false;
-		dropDownProps.onClick = () => navigate(NOTIFICATIONS);
+		dropDownProps.onClick = () => push(NOTIFICATIONS);
 	}
 
 	return (

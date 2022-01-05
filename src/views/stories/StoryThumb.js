@@ -1,5 +1,5 @@
 import React from 'react';
-import {useNavigate} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 
 import propTypes from 'prop-types';
 
@@ -30,11 +30,11 @@ export default function StoryThumb({
 	slug,
 	selector,
 }) {
-	const navigate = useNavigate();
+	const history = useHistory();
 
 	const handleGoToUser = e => {
 		e.preventDefault();
-		navigate(goToUser(author && author.username));
+		history.push(goToUser(author && author.username));
 	};
 	title = title && title.length > 36 ? title.slice(0, 36) + '...' : title;
 	image = image?.formats?.thumbnail || image;
