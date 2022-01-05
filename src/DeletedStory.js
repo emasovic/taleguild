@@ -24,7 +24,7 @@ export default function DeletedStory() {
 	const {data} = useSelector(selectAuthUser);
 
 	const handleNewStory = () => {
-		dispatch(newStory({user: data && data.id, published: false}));
+		dispatch(newStory({user: data && data.id, published: null}));
 	};
 	return (
 		<div className={CLASS}>

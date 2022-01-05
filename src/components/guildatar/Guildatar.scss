@@ -31,7 +31,7 @@
 			z-index: 3;
 			width: 100px;
 			height: 150px;
-			top: -8px;
+			top: 0;
 			left: 50px;
 
 			.st-Image {
@@ -53,7 +53,7 @@
 		&-body {
 			width: 202px;
 			height: 150px;
-			top: 51px;
+			top: 50px;
 			left: 0;
 			z-index: 1;
 		}
@@ -61,7 +61,7 @@
 		&-left_weapon {
 			width: 100px;
 			height: 150px;
-			top: 51px;
+			top: 50px;
 			left: 100px;
 			z-index: 4;
 		}
@@ -69,7 +69,7 @@
 		&-right_weapon {
 			width: 100px;
 			height: 150px;
-			top: 51px;
+			top: 50px;
 			left: 0;
 			z-index: 4;
 		}

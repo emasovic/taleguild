@@ -90,7 +90,7 @@ $toggle-switch-width: $toggle-width/2;
 				text-align: center;
 				font-weight: bold;
 				transform: translate3d(0, 0, 0);
-				@include theme-aware('background-color', 'G300');
+				@include theme-aware('background-color', 'T200');
 				@include theme-aware('color', 'T600');
 			}
 		}

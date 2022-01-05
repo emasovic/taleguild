@@ -22,6 +22,26 @@
 		.modal {
 			&-footer {
 				justify-content: space-between;
+				align-items: center;
+				text-align: center;
+
+				div {
+					display: flex;
+
+					svg {
+						vertical-align: bottom;
+					}
+				}
+
+				@media (max-width: $breakpoint-sm) {
+					justify-content: center;
+					.st-IconButton {
+						width: 136px;
+					}
+					.btn-secondary {
+						margin-left: 0;
+					}
+				}
 			}
 		}
 	}

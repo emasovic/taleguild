@@ -6,6 +6,8 @@ import {Toast} from 'types/toast';
 import {DEFAULT_OP} from 'types/default';
 
 import {newToast} from './toast';
+import {selectStory} from './story';
+import {selectAuthUser} from './auth';
 
 const userActivityAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
@@ -87,8 +89,10 @@ export const loadUserActivity = (params, count, op = DEFAULT_OP.loading) => asyn
 };
 
 export const createUserActivity = payload => async (dispatch, getState) => {
-	const {data} = getState().auth;
-	if (!data) return null;
+	const state = getState();
+	const {data} = selectAuthUser(state);
+	const story = selectStory(state, payload.story);
+	if (!data || !story) return null;
 
 	dispatch(opStart(DEFAULT_OP.update));
 	const res = await api.createActivity(payload);

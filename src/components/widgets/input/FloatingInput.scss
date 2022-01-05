@@ -20,6 +20,7 @@
 		@include theme-aware('border-color', 'G100');
 		&-text {
 			border: none;
+			padding-right: 2px;
 			@include theme-aware('background-color', 'B100');
 			@include theme-aware('color', 'G400');
 		}

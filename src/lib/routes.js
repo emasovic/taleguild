@@ -34,6 +34,7 @@ export const NOTIFICATIONS = '/notifications';
 
 export const REGISTER = '/register';
 export const LOGIN = '/login';
+export const LANDING = '/landing';
 
 export const PROVIDER_LOGIN = '/connect/:provider';
 

@@ -31,7 +31,13 @@
 		height: 20px;
 		border: 1px solid;
 		padding: 0;
+		cursor: pointer;
+		@include theme-aware('background-color', 'B100');
 		@include theme-aware('border-color', 'T600');
+
+		&:checked {
+			@include theme-aware('background-color', 'T600');
+		}
 	}
 
 	label {

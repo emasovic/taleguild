@@ -1,0 +1,183 @@
+@import 'styles/variables.scss';
+@import 'styles/themes/mixins.scss';
+
+$svg-max-width: 300px;
+
+.st-LandingPage {
+	display: flex;
+	flex-direction: column;
+	margin: 0px 100px 20px 100px;
+
+	@media (max-width: $breakpoint-m) {
+		margin: 20px auto;
+	}
+
+	&-item {
+		&-header {
+			font-size: 16px;
+			letter-spacing: 2px;
+		}
+
+		&-title {
+			margin: 16px 0;
+
+			font-size: 24px;
+			margin: 20px 0;
+
+			@media (max-width: $breakpoint-sm) {
+				margin: 16px 0;
+			}
+		}
+
+		&-subtitle {
+			font-size: 18px;
+		}
+
+		&-link {
+			display: flex;
+			margin-top: 36px;
+			font-size: 16px;
+			font-weight: 600;
+
+			@media (max-width: $breakpoint-sm) {
+				margin: 16px 0;
+			}
+		}
+	}
+
+	&-header {
+		margin-top: 50px;
+
+		&-title {
+			letter-spacing: 2px;
+		}
+
+		&-heading {
+			font-size: 48px;
+			margin: 20px 0;
+
+			@media (max-width: $breakpoint-m) {
+				font-size: 36px;
+			}
+		}
+
+		&-subheading {
+			font-size: 24px;
+		}
+
+		&-actions {
+			display: flex;
+			margin-top: 32px;
+
+			.st-IconButton {
+				padding: 12px 20px;
+				border-radius: 20px;
+
+				span {
+					font-size: 18px;
+					font-weight: 900;
+					letter-spacing: 0;
+				}
+
+				&:first-child {
+					margin-right: 24px;
+				}
+			}
+		}
+	}
+
+	&-video {
+		border-radius: 16px;
+		margin-top: 100px;
+		margin-bottom: 116px;
+		box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.08);
+
+		@media (max-width: $breakpoint-m) {
+			border-radius: 8px;
+			margin: 48px 0;
+		}
+	}
+
+	&-focus,
+	&-build-habit,
+	&-build-community {
+		display: flex;
+		padding: 36px;
+		border-radius: 8px;
+		border: 1px solid;
+		@include theme-aware('border-color', 'G100');
+
+		@media (max-width: $breakpoint-sm) {
+			padding: 16px;
+		}
+	}
+
+	&-focus,
+	&-build {
+		> div {
+			flex: 1;
+		}
+
+		@media (max-width: $breakpoint-m) {
+			flex-direction: column;
+		}
+	}
+
+	&-focus {
+		justify-content: space-between;
+		margin-bottom: 24px;
+
+		&-recent {
+			display: flex;
+			justify-content: flex-end;
+
+			@media (max-width: $breakpoint-m) {
+				justify-content: flex-start;
+			}
+
+			&-content {
+				display: flex;
+				align-items: flex-start;
+				flex-direction: column;
+
+				@media (max-width: $breakpoint-m) {
+					margin-top: 12px;
+				}
+
+				svg {
+					margin-left: -8px;
+					max-width: $svg-max-width;
+				}
+			}
+		}
+	}
+
+	&-build {
+		display: flex;
+
+		&-habit {
+			display: flex;
+			flex-direction: column;
+			margin-right: 24px;
+
+			@media (max-width: $breakpoint-m) {
+				margin-right: 0;
+				margin-bottom: 24px;
+			}
+
+			svg {
+				max-width: $svg-max-width;
+			}
+		}
+
+		&-community {
+			display: flex;
+			flex-direction: column;
+
+			&-image {
+				width: auto;
+				height: auto;
+			}
+		}
+	}
+}

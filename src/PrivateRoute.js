@@ -3,7 +3,7 @@ import {Navigate} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 
-import {LOGIN} from 'lib/routes';
+import {LANDING} from 'lib/routes';
 
 import {selectAuthUser} from 'redux/auth';
 
@@ -23,7 +23,7 @@ const PrivateRoute = ({component: Component, ...rest}) => {
 
 	if (isAuthenticated === null) return <Loader />;
 
-	if (!isAuthenticated) return <Navigate to={LOGIN} />;
+	if (!isAuthenticated) return <Navigate to={LANDING} />;
 
 	return <Component {...rest} />;
 };

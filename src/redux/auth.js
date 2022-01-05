@@ -42,7 +42,7 @@ export const userSlice = createSlice({
 		},
 		logOut: state => {
 			state.data = null;
-			state.stats = null;
+			// state.stats = null;
 			state.op = null;
 		},
 	},
