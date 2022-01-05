@@ -3,14 +3,15 @@ import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 
 import {THEMES} from 'types/themes';
+import {Toast} from 'types/toast';
 
 import store from 'redux/store';
 import {getUser} from 'redux/auth';
+import {newToast} from 'redux/toast';
 
 import * as serviceWorker from './serviceWorker';
 
 import App from 'App';
-import NewVersionAvailable from 'NewVersionAvailable';
 import Toasts from 'Toasts';
 import RealTimeUpdates from 'RealTimeUpdates';
 
@@ -28,7 +29,6 @@ ReactDOM.render(
 			<App />
 			<Toasts />
 			<RealTimeUpdates />
-			<NewVersionAvailable />
 		</Provider>
 	</React.StrictMode>,
 	document.getElementById('root')
@@ -37,4 +37,20 @@ ReactDOM.render(
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.register();
+const updateAction = registration => {
+	registration?.waiting?.postMessage({type: 'SKIP_WAITING'});
+	setTimeout(() => window.location.reload(true), 5000);
+};
+
+const onUpdate = registration => {
+	store.dispatch(
+		newToast({
+			...Toast.info(
+				`New version is available and the app will reload in the next few moments. Don't worry, your work will be saved.`,
+				'New version',
+				() => updateAction(registration)
+			),
+		})
+	);
+};
+serviceWorker.register({onUpdate});

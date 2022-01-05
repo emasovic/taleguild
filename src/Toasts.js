@@ -28,6 +28,9 @@ export default function Toasts() {
 
 	useEffect(() => {
 		toasts.forEach(toast => {
+			if (toast.action) {
+				toast.action();
+			}
 			if (toast.duration) {
 				setTimeout(() => {
 					dispatch(removeToast(toast.id));
