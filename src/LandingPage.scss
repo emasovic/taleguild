@@ -11,16 +11,34 @@
 	}
 
 	&-item {
+		&-header {
+			font-size: 16px;
+			letter-spacing: 2px;
+		}
+
 		&-title {
 			margin: 16px 0;
+
+			font-size: 24px;
+			margin: 20px 0;
+
+			@media (max-width: $breakpoint-sm) {
+				margin: 16px 0;
+			}
+		}
+
+		&-subtitle {
+			font-size: 18px;
 		}
 
 		&-link {
 			display: flex;
 			margin-top: 36px;
+			font-size: 16px;
+			font-weight: 600;
 
-			&:hover {
-				text-decoration: none;
+			@media (max-width: $breakpoint-sm) {
+				margin: 16px 0;
 			}
 		}
 	}
@@ -28,29 +46,21 @@
 	&-header {
 		margin-top: 50px;
 
-		span {
-			&:first-child {
-				font-size: 16px;
-				font-weight: 600;
-				letter-spacing: 2px;
-				@include theme-aware('color', 'T600');
-			}
-
-			font-size: 24px;
-			@include theme-aware('color', 'G600');
-
-			@media (max-width: $breakpoint-m) {
-				font-size: 20px;
-			}
+		&-title {
+			letter-spacing: 2px;
 		}
 
-		h1 {
+		&-heading {
 			font-size: 48px;
 			margin: 20px 0;
 
 			@media (max-width: $breakpoint-m) {
 				font-size: 36px;
 			}
+		}
+
+		&-subheading {
+			font-size: 24px;
 		}
 
 		&-actions {
@@ -69,10 +79,6 @@
 
 				&:first-child {
 					margin-right: 24px;
-
-					span {
-						@include theme-aware('color', 'B100');
-					}
 				}
 			}
 		}
@@ -98,41 +104,6 @@
 		border-radius: 8px;
 		border: 1px solid;
 		@include theme-aware('border-color', 'G100');
-
-		h3 {
-			font-size: 24px;
-			margin: 20px 0;
-
-			@media (max-width: $breakpoint-sm) {
-				margin: 16px 0;
-			}
-		}
-
-		span {
-			font-size: 18px;
-			@include theme-aware('color', 'G600');
-
-			&:first-child {
-				font-size: 16px;
-				font-weight: 600;
-				letter-spacing: 2px;
-				@include theme-aware('color', 'G400');
-			}
-		}
-
-		a {
-			font-size: 16px;
-			font-weight: 600;
-
-			&:hover {
-				text-decoration: underline;
-				@include theme-aware('color', 'T600');
-			}
-
-			@media (max-width: $breakpoint-sm) {
-				margin: 16px 0;
-			}
-		}
 
 		@media (max-width: $breakpoint-sm) {
 			padding: 16px;

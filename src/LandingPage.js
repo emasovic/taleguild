@@ -32,7 +32,8 @@ const LandingItem = ({header, title, subtitle, link}) => (
 		<Typography
 			textTransform={TEXT_TRASFORM.uppercase}
 			fontWeight={FONT_WEIGHT.bold}
-			color={TEXT_COLORS.secondary}
+			color={TEXT_COLORS.tertiary}
+			className={CLASS + '-item-header'}
 		>
 			{header}
 		</Typography>
@@ -45,7 +46,9 @@ const LandingItem = ({header, title, subtitle, link}) => (
 		>
 			{title}
 		</Typography>
-		<Typography>{subtitle}</Typography>
+		<Typography color={TEXT_COLORS.secondary} className={CLASS + '-item-subtitle'}>
+			{subtitle}
+		</Typography>
 		<Link to={REGISTER} underline={UNDERLINE.hover} className={CLASS + '-item-link'}>
 			{link}
 		</Link>
@@ -65,8 +68,9 @@ export default function LandingPage() {
 			<div className={CLASS + '-header'}>
 				<Typography
 					textTransform={TEXT_TRASFORM.uppercase}
-					fontWeight={FONT_WEIGHT.bold}
-					color={TEXT_COLORS.secondary}
+					fontWeight={FONT_WEIGHT.semiBold}
+					color={TEXT_COLORS.buttonPrimary}
+					className={CLASS + '-header-title'}
 				>
 					Gamified writing
 				</Typography>
@@ -75,10 +79,15 @@ export default function LandingPage() {
 					variant={TYPOGRAPHY_VARIANTS.h1}
 					fontWeight={FONT_WEIGHT.bold}
 					font={FONTS.merri}
+					className={CLASS + '-header-heading'}
 				>
 					Become master of your craft
 				</Typography>
-				<Typography>
+				<Typography
+					color={TEXT_COLORS.secondary}
+					component={TYPOGRAPHY_VARIANTS.h2}
+					variant={TYPOGRAPHY_VARIANTS.h2}
+				>
 					Taleguild is a writing tool that helps you create stories through gamified
 					experience.
 				</Typography>
