@@ -41,6 +41,7 @@ const validationSchema = object().shape({
 		.required('Required'),
 	categories: array()
 		.required(`You didn't pick category`)
+		.min(1, 'Required')
 		.max(3, 'You can pick maximum 3 categories.'),
 	language: mixed().required(`You didn't pick language.`),
 });
