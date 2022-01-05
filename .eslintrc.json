@@ -9,9 +9,10 @@
 		"jquery": true
 	},
 	"extends": ["eslint:recommended", "plugin:react/recommended", "react-app", "prettier"],
-	"parser": "babel-eslint",
+	"parser": "@babel/eslint-parser",
 	"parserOptions": {
-		"ecmaVersion": 2018,
+		"ecmaVersion": 8,
+		"requireConfigFile": false,
 		"ecmaFeatures": {
 			"jsx": true,
 			"modules": true,
