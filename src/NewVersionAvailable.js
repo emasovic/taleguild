@@ -25,6 +25,21 @@ export default function NewVersionAvailable() {
 
 	const reloadPage = () => {
 		waitingWorker?.postMessage({type: 'SKIP_WAITING'});
+		caches.keys().then(function(cacheNames) {
+			return Promise.all(
+				cacheNames
+					.filter(function(cacheName) {
+						return true;
+						// Return true if you want to remove this cache,
+						// but remember that caches are shared across
+						// the whole origin
+					})
+					.map(function(cacheName) {
+						return caches.delete(cacheName);
+					})
+			);
+		});
+
 		setShowReload(false);
 		window.location.reload(true);
 	};
