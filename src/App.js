@@ -9,7 +9,6 @@ import Helmet from 'components/widgets/helmet/Helmet';
 import ErrorPage from 'ErrorPage';
 
 import './App.scss';
-
 // const CLASS = 'st-App';
 
 function App() {
@@ -25,6 +24,7 @@ function App() {
 				title="Taleguild | Discover the Place with Top Writers"
 				description="Taleguild is the place where writers publish their work, gain inspiration, feedback, and community, and is your best place to discover and connect with writers worldwide."
 			/>
+
 			<Routes />
 		</ErrorPage>
 	);
