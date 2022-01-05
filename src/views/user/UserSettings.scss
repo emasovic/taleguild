@@ -1,4 +1,4 @@
-@import '../../styles/variables.scss';
+@import 'styles/variables.scss';
 
 .st-UserSettings {
 	display: flex;
@@ -12,30 +12,34 @@
 		padding-bottom: 120px;
 	}
 
-	.st-Uploader {
-		margin-bottom: 24px;
+	&-form {
 		width: 100%;
 
-		&-thumbs {
-			display: flex;
-			justify-content: center;
+		.st-Uploader {
+			margin-bottom: 24px;
+			width: 100%;
 
-			.st-Image {
-				&-container,
-				&-fallback {
-					border-radius: 50%;
-					height: 200px;
-					width: 200px;
+			&-thumbs {
+				display: flex;
+				justify-content: center;
+
+				.st-Image {
+					&-container,
+					&-fallback {
+						border-radius: 50%;
+						height: 200px;
+						width: 200px;
+					}
 				}
 			}
 		}
-	}
 
-	&-info {
-		width: 100%;
-
-		.st-IconButton {
+		&-info {
 			width: 100%;
+
+			.st-IconButton {
+				width: 100%;
+			}
 		}
 	}
 }

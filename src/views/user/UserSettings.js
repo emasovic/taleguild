@@ -82,14 +82,14 @@ export default function UserSettings() {
 
 	return (
 		<MobileWrapper className={CLASS}>
-			<form onSubmit={formikSubmit}>
+			<form onSubmit={formikSubmit} className={CLASS + '-form'}>
 				<Uploader
 					onUploaded={image => setFieldValue('avatar', image)}
 					files={avatar}
 					uploadlabel="Upload avatar"
 					onRemove={() => setFieldValue('avatar', null)}
 				/>
-				<div className={CLASS + '-info'}>
+				<div className={CLASS + '-form-info'}>
 					<FloatingInput
 						value={displayName}
 						label="Display name"
