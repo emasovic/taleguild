@@ -1,13 +1,15 @@
 @import 'styles/variables.scss';
 @import 'styles/themes/mixins.scss';
 
+$svg-max-width: 300px;
+
 .st-LandingPage {
 	display: flex;
 	flex-direction: column;
 	margin: 0px 100px 20px 100px;
 
 	@media (max-width: $breakpoint-m) {
-		margin: 20px;
+		margin: 20px auto;
 	}
 
 	&-item {
@@ -144,6 +146,7 @@
 
 				svg {
 					margin-left: -8px;
+					max-width: $svg-max-width;
 				}
 			}
 		}
@@ -160,6 +163,10 @@
 			@media (max-width: $breakpoint-m) {
 				margin-right: 0;
 				margin-bottom: 24px;
+			}
+
+			svg {
+				max-width: $svg-max-width;
 			}
 		}
 

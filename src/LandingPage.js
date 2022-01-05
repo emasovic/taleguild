@@ -116,8 +116,8 @@ export default function LandingPage() {
 						<Typography fontWeight={FONT_WEIGHT.bold} color={TEXT_COLORS.tertiary}>
 							Recent work
 						</Typography>
-						<RecentWork />
-						<RecentWork />
+						<RecentWork width="auto" height="auto" />
+						<RecentWork width="auto" height="auto" />
 					</div>
 				</div>
 			</div>
@@ -129,7 +129,7 @@ export default function LandingPage() {
 						subtitle="Get coins with distractions-free writing and unlock items such as swords, spears, helmets and magical clothes for your story characters."
 						link="Build your habits"
 					/>
-					<Items />
+					<Items width="auto" />
 				</div>
 				<div className={CLASS + '-build-community'}>
 					<ImageContainer
