@@ -45,7 +45,7 @@ const Stories = memo(
 			dispatch(navigateToQuery({_sort: sort + ':' + SORT_DIRECTION.desc}));
 
 		const handleLoadStories = useCallback(
-			(count, op, _start) =>
+			(op, _start) =>
 				criteria &&
 				dispatch(
 					loadStories(
@@ -53,7 +53,7 @@ const Stories = memo(
 							...criteria,
 							_start,
 						},
-						count,
+
 						op
 					)
 				),
@@ -61,7 +61,7 @@ const Stories = memo(
 		);
 
 		useEffect(() => {
-			!isEqual(criteria, prevCriteria) && handleLoadStories(true, undefined, 0);
+			!isEqual(criteria, prevCriteria) && handleLoadStories(undefined, 0);
 		}, [handleLoadStories, criteria, prevCriteria]);
 
 		return (
@@ -89,7 +89,7 @@ const Stories = memo(
 				)}
 				<LoadMore
 					id="stories"
-					onLoadMore={() => handleLoadStories(false, STORY_OP.load_more, stories.length)}
+					onLoadMore={() => handleLoadStories(STORY_OP.load_more, stories.length)}
 					shouldLoad={shouldLoad}
 					total={total}
 					loading={[STORY_OP.loading, STORY_OP.load_more].includes(op)}
@@ -99,26 +99,7 @@ const Stories = memo(
 				>
 					<div className={CLASS + '-lastest'}>
 						{stories.map(item => (
-							<StoryItem
-								id={item.id}
-								image={item.image}
-								size={MEDIA_SIZE.small}
-								formats={item.image && item.image.formats}
-								title={item.title}
-								description={item.description}
-								key={item.id}
-								categories={item.categories}
-								likes={item.likes}
-								views={item.views}
-								comments={item.comments}
-								storypages={item.storypages}
-								author={item.user}
-								createdDate={item.published_at}
-								savedBy={item.saved_by}
-								slug={item.slug}
-								archivedAt={item.archived_at}
-								displayArchived={!!item.published_at}
-							/>
+							<StoryItem id={item.id} size={MEDIA_SIZE.small} key={item.id} />
 						))}
 					</div>
 				</LoadMore>

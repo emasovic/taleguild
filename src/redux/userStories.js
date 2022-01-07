@@ -54,24 +54,16 @@ export const {
 	userStoryRemoved,
 } = myStorySlice.actions;
 
-export const loadStories = (params, count) => async dispatch => {
+export const loadStories = params => async dispatch => {
 	dispatch(loadingStart());
 	const res = await api.getStories(params);
 	if (res.error) {
 		dispatch(loadingEnd());
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
-	if (count) {
-		const countParams = {...params, _start: undefined, _limit: undefined};
 
-		const res = await api.countStories(countParams);
-		if (res.error) {
-			dispatch(loadingEnd());
-			return dispatch(newToast({...Toast.error(res.error)}));
-		}
-		dispatch(gotPages({total: res, limit: params._limit}));
-	}
-	return dispatch(userStoriesReceieved(res));
+	dispatch(gotPages({total: res.total, limit: params._limit}));
+	return dispatch(userStoriesReceieved(res.data));
 };
 
 //SELECTORS

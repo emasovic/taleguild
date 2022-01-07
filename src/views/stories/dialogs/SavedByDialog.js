@@ -24,7 +24,7 @@ function SavedByDialog({isOpen, title, onClose, storyId, className}) {
 		return (
 			<LoadMore
 				className={className + '-likes'}
-				onLoadMore={() => handleLoadSavedBy(false, DEFAULT_OP.load_more, savedBy.length)}
+				onLoadMore={() => handleLoadSavedBy(DEFAULT_OP.load_more, savedBy.length)}
 				loading={[DEFAULT_OP.loading, DEFAULT_OP.load_more].includes(op)}
 				showItems={op !== DEFAULT_OP.loading}
 				shouldLoad={total > savedBy.length}
@@ -52,7 +52,7 @@ function SavedByDialog({isOpen, title, onClose, storyId, className}) {
 	};
 
 	const handleLoadSavedBy = useCallback(
-		(count, op, _start) => {
+		(op, _start) => {
 			storyId &&
 				dispatch(
 					loadSavedBy(
@@ -61,7 +61,6 @@ function SavedByDialog({isOpen, title, onClose, storyId, className}) {
 							...DEFAULT_LIMIT,
 							_start,
 						},
-						count,
 						op
 					)
 				);
@@ -69,7 +68,7 @@ function SavedByDialog({isOpen, title, onClose, storyId, className}) {
 		[dispatch, storyId]
 	);
 
-	useEffect(() => handleLoadSavedBy(true, undefined, 0), [handleLoadSavedBy]);
+	useEffect(() => handleLoadSavedBy(undefined, 0), [handleLoadSavedBy]);
 	return (
 		<ConfirmModal
 			isOpen={isOpen}

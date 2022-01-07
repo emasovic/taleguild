@@ -60,28 +60,18 @@ export const {
 	opEnd,
 } = savedBySlice.actions;
 
-export const loadSavedBy = (params, count, op = DEFAULT_OP.loading) => async dispatch => {
+export const loadSavedBy = (params, op = DEFAULT_OP.loading) => async dispatch => {
 	dispatch(opStart(op));
 	const res = await api.getSavedStories(params);
 	if (res.error) {
 		dispatch(opEnd());
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
+	const action = !params._start ? savedByReceieved : savedByUpsertMany;
 
-	if (count) {
-		const countParams = {...params, _start: undefined, _limit: undefined};
+	dispatch(gotPages({total: res.total, limit: params._limit}));
 
-		const countRes = await api.countSavedStories(countParams);
-		if (countRes.error) {
-			dispatch(opEnd());
-			return dispatch(newToast({...Toast.error(countRes.error)}));
-		}
-		dispatch(gotPages({total: countRes, limit: params._limit}));
-
-		return dispatch(savedByReceieved(res));
-	}
-
-	return dispatch(savedByUpsertMany(res));
+	return dispatch(action(res.data));
 };
 
 //SELECTORS

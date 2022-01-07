@@ -76,27 +76,18 @@ export const {
 	archivedStoryRemoved,
 } = archivedStorySlice.actions;
 
-export const loadArchivedStories = (params, count, op = STORY_OP.loading) => async dispatch => {
+export const loadArchivedStories = (params, op = STORY_OP.loading) => async dispatch => {
 	dispatch(opStart(op));
 	const res = await api.getStories(params);
 	if (res.error) {
 		dispatch(loadingEnd());
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
-	if (count) {
-		const countParams = {...params, _start: undefined, _limit: undefined};
 
-		const countRes = await api.countStories(countParams);
-		if (countRes.error) {
-			dispatch(loadingEnd());
-			return dispatch(newToast({...Toast.error(countRes.error)}));
-		}
-		dispatch(gotPages({total: countRes, limit: params._limit}));
+	const action = !params._start ? archivedStoriesReceieved : archivedStoryUpsertMany;
 
-		return dispatch(archivedStoriesReceieved(res));
-	}
-
-	return dispatch(archivedStoryUpsertMany(res));
+	dispatch(gotPages({total: res.total, limit: params._limit}));
+	return dispatch(action(res.data));
 };
 
 export const updateArchivedStory = (payload, keepArchived) => async (dispatch, getState) => {

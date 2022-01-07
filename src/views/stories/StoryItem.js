@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import propTypes from 'prop-types';
 import {useLocation} from 'react-router-dom';
-import {useDispatch, useSelector, shallowEqual} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {goToUser} from 'lib/routes';
 
@@ -12,6 +12,7 @@ import {createOrDeleteLike} from 'redux/likes';
 import {selectAuthUser} from 'redux/auth';
 import {createOrDeleteSavedStory} from 'redux/savedStories';
 import {navigateToQuery} from 'redux/application';
+import {selectStory} from 'redux/story';
 
 import IconButton from 'components/widgets/button/IconButton';
 import Image from 'components/widgets/image/Image';
@@ -30,39 +31,34 @@ import './StoryItem.scss';
 
 const CLASS = 'st-StoryItem';
 
-export default function StoryItem({
-	id,
-	image,
-	formats,
-	size,
-	description,
-	title,
-	categories,
-	likes,
-	views,
-	comments,
-	author,
-	createdDate,
-	savedBy,
-	slug,
-	keepArchived,
-	selector,
-}) {
+function StoryItem({id, size, selector}) {
+	selector = selector || selectStory;
 	const dispatch = useDispatch();
 	const location = useLocation();
-	const {loggedUser} = useSelector(
-		state => ({
-			loading: state.stories.loading,
-			loggedUser: selectAuthUser(state),
-		}),
-		shallowEqual
-	);
+	const {data} = useSelector(selectAuthUser);
+	const {
+		image,
+		description,
+		title,
+		categories,
+		likes,
+		slug,
+		user: author,
+		created_at: createdDate,
+		saved_by: savedBy,
+		views_count: viewsCount,
+		comments_count: commentsCount,
+		savedstories_count: savedByCount,
+		likes_count: likesCount,
+	} = useSelector(state => selector(state, id));
+	const {op: likeOp} = useSelector(state => state.likes);
+	const {op: savedStoriesOp} = useSelector(state => state.savedStories);
+
+	const formats = image?.formats;
 
 	const [isCommentsOpen, setIsCommentsOpen] = useState(false);
 	const [isLikesOpen, setIsLikesOpen] = useState(false);
 	const [isSavedOpen, setIsSavedOpen] = useState(false);
-
-	const {data} = loggedUser;
 
 	const handleLike = (e, liked, storyId) => {
 		if (!data) {
@@ -109,9 +105,7 @@ export default function StoryItem({
 
 	return (
 		<div className={CLASS}>
-			{author?.id === data?.id && (
-				<StoryDropdownButton id={id} keepArchived={keepArchived} selector={selector} />
-			)}
+			{author?.id === data?.id && <StoryDropdownButton id={id} selector={selector} />}
 			<Link
 				to={goToUser(author?.username)}
 				underline={UNDERLINE.none}
@@ -147,6 +141,7 @@ export default function StoryItem({
 									icon={likeIcon}
 									onClick={e => handleLike(e, liked, id)}
 									aria-label="like"
+									disabled={!!likeOp}
 								/>
 								<IconButton
 									outline
@@ -161,6 +156,7 @@ export default function StoryItem({
 								icon={favouriteIcon}
 								onClick={e => handleFavourite(e, favourite, id)}
 								aria-label="save"
+								disabled={!!savedStoriesOp}
 							/>
 						</>
 					)}
@@ -168,37 +164,26 @@ export default function StoryItem({
 
 				<div className={CLASS + '-footer-stats'}>
 					<div className={CLASS + '-footer-stats-left'}>
-						{likes && (
-							<Typography
-								color={TEXT_COLORS.tertiary}
-								onClick={() => setIsLikesOpen(true)}
-							>
-								{likes.length} likes
-							</Typography>
-						)}
-						{comments && (
-							<Typography
-								color={TEXT_COLORS.tertiary}
-								onClick={() => setIsCommentsOpen(true)}
-							>
-								{comments.length} comments
-							</Typography>
-						)}
-						{views && (
-							<Typography color={TEXT_COLORS.tertiary}>
-								{views.length} views
-							</Typography>
-						)}
-					</div>
-
-					{savedBy && (
 						<Typography
 							color={TEXT_COLORS.tertiary}
-							onClick={() => setIsSavedOpen(true)}
+							onClick={() => setIsLikesOpen(true)}
 						>
-							{savedBy.length} saves
+							{likesCount} likes
 						</Typography>
-					)}
+
+						<Typography
+							color={TEXT_COLORS.tertiary}
+							onClick={() => setIsCommentsOpen(true)}
+						>
+							{commentsCount} comments
+						</Typography>
+
+						<Typography color={TEXT_COLORS.tertiary}>{viewsCount} views</Typography>
+					</div>
+
+					<Typography color={TEXT_COLORS.tertiary} onClick={() => setIsSavedOpen(true)}>
+						{savedByCount} saves
+					</Typography>
 				</div>
 			</div>
 			{isLikesOpen && (
@@ -234,19 +219,8 @@ export default function StoryItem({
 
 StoryItem.propTypes = {
 	id: propTypes.number,
-	image: propTypes.object,
-	categories: propTypes.array,
-	likes: propTypes.array,
-	comments: propTypes.array,
-	formats: propTypes.object,
 	size: propTypes.string,
-	description: propTypes.string,
-	title: propTypes.string,
-	createdDate: propTypes.string,
-	author: propTypes.object,
-	views: propTypes.array,
-	savedBy: propTypes.array,
-	slug: propTypes.string,
-	keepArchived: propTypes.bool,
 	selector: propTypes.func,
 };
+
+export default StoryItem;

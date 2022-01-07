@@ -77,27 +77,18 @@ export const {
 	draftStoryRemoved,
 } = draftSlice.actions;
 
-export const loadStories = (params, count, op = STORY_OP.loading) => async dispatch => {
+export const loadStories = (params, op = STORY_OP.loading) => async dispatch => {
 	dispatch(opStart(op));
 	const res = await api.getStories(params);
 	if (res.error) {
 		dispatch(loadingEnd());
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
-	if (count) {
-		const countParams = {...params, _start: undefined, _limit: undefined};
 
-		const countRes = await api.countStories(countParams);
-		if (countRes.error) {
-			dispatch(loadingEnd());
-			return dispatch(newToast({...Toast.error(countRes.error)}));
-		}
-		dispatch(gotPages({total: countRes, limit: params._limit}));
+	const action = !params._start ? draftStoriesReceieved : draftStoryUpsertMany;
 
-		return dispatch(draftStoriesReceieved(res));
-	}
-
-	return dispatch(draftStoryUpsertMany(res));
+	dispatch(gotPages({total: res.total, limit: params._limit}));
+	return dispatch(action(res.data));
 };
 
 export const deleteStory = storyId => async dispatch => {

@@ -14,7 +14,7 @@ const likesAdapter = createEntityAdapter({
 
 export const likesSlice = createSlice({
 	name: 'likes',
-	initialState: likesAdapter.getInitialState({op: DEFAULT_OP.loading, total: 0, pages: null}),
+	initialState: likesAdapter.getInitialState({op: null, total: 0, pages: null}),
 	reducers: {
 		likesReceieved: (state, action) => {
 			likesAdapter.setAll(state, action.payload);
@@ -89,6 +89,8 @@ export const loadLikes = (params, count, op = DEFAULT_OP.loading) => async dispa
 };
 
 export const createOrDeleteLike = (like, userId, storyId) => async dispatch => {
+	const op = like ? DEFAULT_OP.delete : DEFAULT_OP.create;
+	dispatch(opStart(op));
 	const res = like
 		? await api.deleteLike(like.id)
 		: await api.createLike({user: userId, story: storyId});
@@ -96,6 +98,8 @@ export const createOrDeleteLike = (like, userId, storyId) => async dispatch => {
 	if (res.error) {
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
+
+	dispatch(opEnd());
 
 	if (res.id && !like) {
 		return dispatch(likesUpsertOne({storyId, ...res}));

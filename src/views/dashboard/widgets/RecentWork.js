@@ -84,7 +84,7 @@ function RecentWork({shouldLoadMore, title, titleProps, placeholderProps}) {
 	const userId = data?.id;
 
 	const handleLoadStories = useCallback(
-		(op, count, _start) => {
+		(op, _start) => {
 			userId &&
 				dispatch(
 					loadStories(
@@ -97,7 +97,7 @@ function RecentWork({shouldLoadMore, title, titleProps, placeholderProps}) {
 							_sort: 'created_at:DESC',
 							_start,
 						},
-						count,
+
 						op
 					)
 				);
@@ -105,7 +105,7 @@ function RecentWork({shouldLoadMore, title, titleProps, placeholderProps}) {
 		[dispatch, userId]
 	);
 
-	useEffect(() => handleLoadStories(undefined, true, 0), [handleLoadStories]);
+	useEffect(() => handleLoadStories(undefined, 0), [handleLoadStories]);
 
 	return (
 		<div className={CLASS}>
@@ -120,11 +120,7 @@ function RecentWork({shouldLoadMore, title, titleProps, placeholderProps}) {
 				showItems={op !== DEFAULT_OP.loading}
 				shouldLoad={shouldLoadMore && pages > currentPage}
 				onLoadMore={() =>
-					handleLoadStories(
-						DEFAULT_OP.load_more,
-						false,
-						currentPage * DEFAULT_LIMIT._limit
-					)
+					handleLoadStories(DEFAULT_OP.load_more, currentPage * DEFAULT_LIMIT._limit)
 				}
 				NoItemsComponent={NoItemsPlaceholder}
 				noItemsComponentProps={{

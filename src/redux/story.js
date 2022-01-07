@@ -72,6 +72,7 @@ export const storySlice = createSlice({
 		[savedStoryUpsert]: (state, {payload}) => {
 			const {storyId, ...rest} = payload;
 			state.entities[storyId].saved_by.push({...rest});
+			state.entities[storyId].savedstories_count += 1;
 		},
 		[savedStoryRemoved]: (state, {payload}) => {
 			const {storyId, savedId} = payload;
@@ -80,6 +81,7 @@ export const storySlice = createSlice({
 					...state.entities[storyId],
 					saved_by: state.entities[storyId].saved_by.filter(s => s.id !== savedId),
 				};
+				state.entities[storyId].savedstories_count -= 1;
 			}
 		},
 		[storyPagesReceieved]: (state, {payload}) => {
@@ -98,6 +100,7 @@ export const storySlice = createSlice({
 		[likesUpsertOne]: (state, {payload}) => {
 			const {storyId, ...rest} = payload;
 			state.entities[storyId].likes.push({...rest});
+			state.entities[storyId].likes_count += 1;
 		},
 		[likesRemoveOne]: (state, {payload}) => {
 			const {storyId, id: likeId} = payload;
@@ -105,10 +108,12 @@ export const storySlice = createSlice({
 				...state.entities[storyId],
 				likes: state.entities[storyId].likes.filter(l => l.id !== likeId),
 			};
+			state.entities[storyId].likes_count -= 1;
 		},
 		[commentsUpsertOne]: (state, {payload}) => {
 			const {storyId, ...rest} = payload;
 			state.entities[storyId].comments.push({...rest});
+			state.entities[storyId].comments_count += 1;
 		},
 		[commentsRemoveOne]: (state, {payload}) => {
 			const {storyId, id: commentId} = payload;
@@ -116,6 +121,7 @@ export const storySlice = createSlice({
 				...state.entities[storyId],
 				comments: state.entities[storyId].comments.filter(c => c.id !== commentId),
 			};
+			state.entities[storyId].comments_count -= 1;
 		},
 	},
 });
@@ -182,27 +188,18 @@ export const deleteStory = storyId => async (dispatch, getState, history) => {
 	return history.push(DELETED_STORY);
 };
 
-export const loadStories = (params, count, op = STORY_OP.loading) => async (dispatch, getState) => {
+export const loadStories = (params, op = STORY_OP.loading) => async (dispatch, getState) => {
 	dispatch(opStart(op));
 	const res = await api.getStories(params);
 	if (res.error) {
 		dispatch(loadingEnd());
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
-	if (count) {
-		const countParams = {...params, _start: undefined, _limit: undefined};
 
-		const countRes = await api.countStories(countParams);
-		if (countRes.error) {
-			dispatch(opEnd());
-			return dispatch(newToast({...Toast.error(countRes.error)}));
-		}
-		dispatch(gotPages({total: countRes, limit: params._limit}));
+	const action = !params._start ? storiesReceieved : storiesUpsertMany;
 
-		return dispatch(storiesReceieved(res));
-	}
-
-	return dispatch(storiesUpsertMany(res));
+	dispatch(gotPages({total: res.total, limit: params._limit}));
+	return dispatch(action(res.data));
 };
 
 export const loadStory = id => async dispatch => {

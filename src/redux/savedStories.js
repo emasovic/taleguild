@@ -16,7 +16,7 @@ const savedStoriesAdapter = createEntityAdapter({
 export const savedStorySlice = createSlice({
 	name: 'savedStories',
 	initialState: savedStoriesAdapter.getInitialState({
-		op: DEFAULT_OP.loading,
+		op: null,
 		pages: null,
 		loading: null,
 		total: 0,
@@ -75,29 +75,18 @@ export const {
 	savedStoryRemoved,
 } = savedStorySlice.actions;
 
-export const loadSavedStories = (params, count, op = STORY_OP.loading) => async dispatch => {
+export const loadSavedStories = (params, op = STORY_OP.loading) => async dispatch => {
 	dispatch(opStart(op));
 	const res = await api.getSavedStories(params);
 	if (res.error) {
 		dispatch(opEnd());
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
+	const action = !params._start ? savedStoriesReceieved : savedStoryUpsertMany;
 
-	if (count) {
-		const countParams = {...params, _start: undefined, _limit: undefined};
+	dispatch(gotPages({total: res.total, limit: params._limit}));
 
-		const countRes = await api.countSavedStories(countParams);
-
-		if (countRes.error) {
-			dispatch(opEnd());
-			return dispatch(newToast({...Toast.error(countRes.error)}));
-		}
-		dispatch(gotPages({total: countRes, limit: params._limit}));
-
-		return dispatch(savedStoriesReceieved(res));
-	}
-
-	return dispatch(savedStoryUpsertMany(res));
+	return dispatch(action(res.data));
 };
 
 export const createOrDeleteSavedStory = (favourite, userId, storyId) => async dispatch => {
@@ -113,11 +102,8 @@ export const createOrDeleteSavedStory = (favourite, userId, storyId) => async di
 		return dispatch(newToast({...Toast.error(res.error)}));
 	}
 
-	if (res.id) {
-		return dispatch(savedStoryUpsert({...res, storyId}));
-	}
-
-	return dispatch(savedStoryRemoved({storyId, savedId: favourite.id}));
+	if (favourite?.id) return dispatch(savedStoryRemoved({storyId, savedId: favourite.id}));
+	return dispatch(savedStoryUpsert({...res, storyId}));
 };
 
 //SELECTORS

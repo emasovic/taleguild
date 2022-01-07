@@ -40,7 +40,7 @@ export default function StoryList({
 	const shouldLoad = total > stories.length && shouldLoadMore && !op;
 
 	const handleLoadStories = useCallback(
-		(count, op, _start) => {
+		(op, _start) => {
 			shouldTriggerLoad &&
 				dispatch(
 					loadItems(
@@ -48,7 +48,6 @@ export default function StoryList({
 							...criteria,
 							_start,
 						},
-						count,
 						op
 					)
 				);
@@ -56,11 +55,11 @@ export default function StoryList({
 		[dispatch, loadItems, shouldTriggerLoad, criteria]
 	);
 
-	useEffect(() => handleLoadStories(true, undefined, 0), [dispatch, handleLoadStories]);
+	useEffect(() => handleLoadStories(undefined, 0), [dispatch, handleLoadStories]);
 
 	return (
 		<LoadMore
-			onLoadMore={() => handleLoadStories(false, DEFAULT_OP.load_more, stories.length)}
+			onLoadMore={() => handleLoadStories(DEFAULT_OP.load_more, stories.length)}
 			loading={[DEFAULT_OP.loading, DEFAULT_OP.load_more].includes(op)}
 			showItems={op !== DEFAULT_OP.loading}
 			shouldLoad={shouldLoad}
@@ -79,7 +78,7 @@ export default function StoryList({
 					title={item.title}
 					description={item.description}
 					key={item.id}
-					author={item.user}
+					author={item?.story?.user || item.user}
 					createdDate={item.published_at}
 					archivedAt={item.archived_at}
 					slug={item.slug}
@@ -96,7 +95,6 @@ export default function StoryList({
 		</LoadMore>
 	);
 }
-
 
 StoryList.defaultProps = {
 	shouldLoadMore: true,
@@ -121,4 +119,3 @@ StoryList.propTypes = {
 	componentSelector: propTypes.func,
 	to: propTypes.string,
 };
-
