@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import {COLOR} from 'types/button';
 
 import {selectAuthUser} from 'redux/auth';
-import {selectFollowers, createOrDeleteFollower} from 'redux/followers';
+import {createOrDeleteFollower} from 'redux/followers';
 
 import IconButton from 'components/widgets/button/IconButton';
 import Helmet from 'components/widgets/helmet/Helmet';
@@ -20,18 +20,13 @@ export default function UserProfileInfo({user, className}) {
 
 	const {op, total} = useSelector(state => state.stories);
 	const {data: loggedUser} = useSelector(selectAuthUser);
-	const followers = useSelector(selectFollowers);
-	const {loading: followersLoading} = useSelector(state => state.followers);
 
 	let follower = null;
 
-	const {display_name, username, description, id} = user;
+	const {display_name, username, description, id, followers} = user;
 
 	if (loggedUser) {
-		follower =
-			followers &&
-			followers.length &&
-			followers.find(item => item.follower.id === loggedUser.id);
+		follower = followers?.find(item => item.follower === loggedUser.id);
 	}
 
 	const handleFollow = () => {
@@ -53,11 +48,7 @@ export default function UserProfileInfo({user, className}) {
 				<FollowedBy id={id} />
 			</div>
 			{loggedUser && Number(id) !== loggedUser.id && (
-				<IconButton
-					color={COLOR.secondary}
-					disabled={followersLoading}
-					onClick={handleFollow}
-				>
+				<IconButton color={COLOR.secondary} onClick={handleFollow}>
 					{label}
 				</IconButton>
 			)}

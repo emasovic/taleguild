@@ -2,8 +2,10 @@ import {createSlice, createEntityAdapter} from '@reduxjs/toolkit';
 
 import * as api from '../lib/api';
 
-import {newToast} from './toast';
 import {Toast} from 'types/toast';
+
+import {newToast} from './toast';
+import {followersRemoveOne, followersUpsertOne} from './followers';
 
 const usersAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
@@ -23,6 +25,22 @@ export const usersSlice = createSlice({
 		},
 		loadingEnd: state => {
 			state.loading = null;
+		},
+	},
+	extraReducers: {
+		[followersRemoveOne]: (state, {payload}) => {
+			if (state.entities[payload.user].followers?.length) {
+				state.entities[payload.user].followers = [];
+			}
+		},
+		[followersUpsertOne]: (state, {payload}) => {
+			if (payload?.user) {
+				state.entities[payload.user?.id].followers.push({
+					...payload,
+					follower: payload?.follower?.id,
+					user: payload?.user?.id,
+				});
+			}
 		},
 	},
 });

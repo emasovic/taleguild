@@ -35,7 +35,7 @@ export const followersSlice = createSlice({
 			state.op = null;
 		},
 		followersRemoveOne: (state, {payload}) => {
-			followersAdapter.removeOne(state, payload);
+			followersAdapter.removeOne(state, payload.id);
 			state.total -= 1;
 			state.op = null;
 		},
@@ -101,7 +101,7 @@ export const createOrDeleteFollower = ({follower, userId, followerId}, op) => as
 		return dispatch(followersUpsertOne(res));
 	}
 
-	return dispatch(followersRemoveOne(follower.id));
+	return dispatch(followersRemoveOne({id: follower.id, user: userId}));
 };
 
 //SELECTORS
