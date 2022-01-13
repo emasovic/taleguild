@@ -1,4 +1,4 @@
-# Taleguild frontend
+# Taleguild frontend 
 
 ## Available Scripts
 
