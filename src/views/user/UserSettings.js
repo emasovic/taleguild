@@ -77,9 +77,7 @@ export default function UserSettings() {
 		onSubmit: handleSubmit,
 	});
 
-	if (!data) {
-		return <Loader />;
-	}
+	if (!data) return <Loader />;
 
 	return (
 		<MobileWrapper className={CLASS}>

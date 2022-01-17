@@ -103,26 +103,7 @@ export default function Story() {
 	return (
 		<MobileWrapper className={CLASS} ref={viewerRef}>
 			<Helmet title={story.title} description={story.description} />
-			<StoryItem
-				id={story.id}
-				image={story.image}
-				formats={story?.image?.formats}
-				title={story.title}
-				description={story.description}
-				key={story.id}
-				categories={story.categories}
-				likes={story.likes}
-				comments={story.comments}
-				storypages={story.storypages}
-				views={story.views}
-				author={story.user}
-				createdDate={story.published_at}
-				savedBy={story.saved_by}
-				slug={story.slug}
-				archivedAt={story.archived_at}
-				displayArchived={!!story.published_at}
-				keepArchived
-			/>
+			<StoryItem id={story.id} keepArchived />
 
 			{storypages[activePage] && <TextViewer value={storypages[activePage].text} />}
 

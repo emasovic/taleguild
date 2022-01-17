@@ -15,8 +15,8 @@ import MarketplaceDialog from 'components/marketplace/MarketplaceDialog';
 import ImageContainer from 'components/widgets/image/Image';
 import Typography from 'components/widgets/typography/Typography';
 import Icon from 'components/widgets/icon/Icon';
-import Loader from 'components/widgets/loader/Loader';
 import GuildatarDialog from 'components/guildatar/GuildatarDialog';
+import LoadMore from 'components/widgets/loadmore/LoadMore';
 
 import NoItemsPlaceholder from './NoItemsPlaceholder';
 
@@ -83,7 +83,7 @@ export default function RecentItems() {
 		[dispatch, total]
 	);
 
-	if (!total && !guildatarOp[DEFAULT_OP.loading].loading) {
+	if (!total && guildatarOp[DEFAULT_OP.loading].success) {
 		return (
 			<div>
 				<NoItemsPlaceholder
@@ -101,11 +101,17 @@ export default function RecentItems() {
 			<Typography color={TEXT_COLORS.secondary} fontWeight={FONT_WEIGHT.bold}>
 				New items
 			</Typography>
-			{!op[DEFAULT_OP.loading].loading && !guildatarOp[DEFAULT_OP.loading].loading ? (
-				marketplace.map(i => <RecentItem key={i} id={i} onClick={setSelectedItem} />)
-			) : (
-				<Loader />
-			)}
+			<LoadMore
+				id="recentItems"
+				loading={!op[DEFAULT_OP.loading].success}
+				showItems={op[DEFAULT_OP.loading].success}
+				shouldLoad={false}
+			>
+				{marketplace.map(i => (
+					<RecentItem key={i} id={i} onClick={setSelectedItem} />
+				))}
+			</LoadMore>
+
 			{selectedItem && (
 				<MarketplaceDialog
 					isOpen={!!selectedItem}

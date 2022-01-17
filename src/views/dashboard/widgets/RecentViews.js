@@ -17,7 +17,7 @@ import StoryListItem from 'views/stories/StoryListItem';
 import {WIDGETS} from 'views/community/Community';
 
 import Typography from 'components/widgets/typography/Typography';
-import Loader from 'components/widgets/loader/Loader';
+import LoadMore from 'components/widgets/loadmore/LoadMore';
 
 import NoItemsPlaceholder from './NoItemsPlaceholder';
 
@@ -63,7 +63,7 @@ export default function RecentViews() {
 			);
 	}, [dispatch, userId]);
 
-	if (!views.length && !op[DEFAULT_OP.loading].loading) {
+	if (!views.length && op[DEFAULT_OP.loading].success) {
 		return (
 			<div>
 				<NoItemsPlaceholder
@@ -84,11 +84,16 @@ export default function RecentViews() {
 			<Typography color={TEXT_COLORS.secondary} fontWeight={FONT_WEIGHT.bold}>
 				Recent readings
 			</Typography>
-			{!op[DEFAULT_OP.loading].loading ? (
-				views.map(i => <RecentView key={i} id={i} />)
-			) : (
-				<Loader />
-			)}
+			<LoadMore
+				id="recentItems"
+				loading={!op[DEFAULT_OP.loading].success}
+				showItems={op[DEFAULT_OP.loading].success}
+				shouldLoad={false}
+			>
+				{views.map(i => (
+					<RecentView key={i} id={i} />
+				))}
+			</LoadMore>
 		</div>
 	);
 }

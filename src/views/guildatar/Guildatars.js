@@ -15,9 +15,9 @@ import GuildatarDialog from 'components/guildatar/GuildatarDialog';
 import IconButton from 'components/widgets/button/IconButton';
 import Guildatar from 'components/guildatar/Guildatar';
 import Link, {UNDERLINE} from 'components/widgets/link/Link';
-import Loader from 'components/widgets/loader/Loader';
 import MobileWrapper from 'components/widgets/mobile-wrapper/MobileWrapper';
 import PagePlaceholder from 'components/widgets/page-placeholder/PagePlaceholder';
+import LoadMore from 'components/widgets/loadmore/LoadMore';
 
 import './Guildatars.scss';
 
@@ -28,7 +28,7 @@ function Guildatars() {
 
 	const {data} = useSelector(selectAuthUser);
 	const guildatars = useSelector(selectGuildatars);
-	const {op} = useSelector(state => state.guildatars);
+	const {op, total} = useSelector(state => state.guildatars);
 
 	const [isOpen, setIsOpen] = useState(false);
 
@@ -62,43 +62,47 @@ function Guildatars() {
 					)}
 				</div>
 			</div>
-			<div className={CLASS + '-avatars'}>
-				{op[DEFAULT_OP.loading].loading ? (
-					<Loader />
-				) : guildatars.length ? (
-					guildatars.map(i => (
-						<Link
-							key={i.id}
-							underline={UNDERLINE.none}
-							to={goToGuildatar(i.id)}
-							className={CLASS + '-avatars-avatar'}
-						>
-							<Guildatar
-								head={getImageUrl(i?.head?.item?.image?.url)}
-								face={getImageUrl(i?.face?.item?.image?.url)}
-								body={getImageUrl(i?.body?.item?.image?.url)}
-								leftArm={getImageUrl(i?.left_arm?.item?.image?.url)}
-								rightArm={getImageUrl(i?.right_arm?.item?.image?.url)}
-								gender={i.gender?.gender}
-							/>
-							<Typography fontWeight={FONT_WEIGHT.bold}>{i.name}</Typography>
-							<Typography color={TEXT_COLORS.secondary}>{i.description}</Typography>
-						</Link>
-					))
-				) : (
-					<PagePlaceholder
-						className={CLASS + '-avatars-placeholder'}
-						title="Create your first Guildatar"
-						subtitle="Start building your first Guildatar, a character from your stories or an avatar who represents you"
-						buttonLabel="Create Guildatar"
-						buttonProps={{
-							to: undefined,
-							tag: undefined,
-							onClick: toggleOpen,
-						}}
-					/>
-				)}
-			</div>
+			<LoadMore
+				id="guildatars"
+				className={CLASS + '-avatars'}
+				NoItemsComponent={PagePlaceholder}
+				loading={op[DEFAULT_OP.loading].loading}
+				showItems={op[DEFAULT_OP.loading].success}
+				shouldLoad={false}
+				total={total}
+				noItemsComponentProps={{
+					className: CLASS + '-avatars-placeholder',
+					title: 'Create your first Guildatar',
+					subtitle:
+						'Start building your first Guildatar, a character from your stories or an avatar who represents you',
+					buttonLabel: 'Create Guildatar',
+					buttonProps: {
+						to: undefined,
+						tag: undefined,
+						onClick: toggleOpen,
+					},
+				}}
+			>
+				{guildatars.map(i => (
+					<Link
+						key={i.id}
+						underline={UNDERLINE.none}
+						to={goToGuildatar(i.id)}
+						className={CLASS + '-avatars-avatar'}
+					>
+						<Guildatar
+							head={getImageUrl(i?.head?.item?.image?.url)}
+							face={getImageUrl(i?.face?.item?.image?.url)}
+							body={getImageUrl(i?.body?.item?.image?.url)}
+							leftArm={getImageUrl(i?.left_arm?.item?.image?.url)}
+							rightArm={getImageUrl(i?.right_arm?.item?.image?.url)}
+							gender={i.gender?.gender}
+						/>
+						<Typography fontWeight={FONT_WEIGHT.bold}>{i.name}</Typography>
+						<Typography color={TEXT_COLORS.secondary}>{i.description}</Typography>
+					</Link>
+				))}
+			</LoadMore>
 			{isOpen && <GuildatarDialog onClose={toggleOpen} isOpen={isOpen} />}
 		</MobileWrapper>
 	);

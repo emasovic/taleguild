@@ -1,22 +1,21 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
 
-import Routes from './Routes';
+import {DEFAULT_OP} from 'types/default';
 
 import Loader from 'components/widgets/loader/Loader';
 import Helmet from 'components/widgets/helmet/Helmet';
 
 import ErrorPage from 'ErrorPage';
 
+import Routes from './Routes';
+
 import './App.scss';
-// const CLASS = 'st-App';
 
 function App() {
-	const {loading} = useSelector(state => state.auth);
+	const {op} = useSelector(state => state.auth);
 
-	if (loading) {
-		return <Loader />;
-	}
+	if (op[DEFAULT_OP.loading].loading) return <Loader />;
 
 	return (
 		<ErrorPage>

@@ -158,7 +158,7 @@ export default function Marketplace() {
 					/>
 				</div>
 				<div className={CLASS + '-market-items'}>
-					{!total && !guildatarOp[DEFAULT_OP.loading].loading ? (
+					{!total && guildatarOp[DEFAULT_OP.loading].success ? (
 						<PagePlaceholder
 							title="Create your first Guildatar"
 							subtitle="In order to access the Market, you first need to create your guildarter for whom you will buy items with coins"

@@ -51,9 +51,8 @@ export default function UserProfile() {
 		dispatch(loadUser(username));
 	}, [dispatch, username]);
 
-	if (!user) {
-		return <Loader />;
-	}
+	if (!user) return <Loader />;
+
 	return (
 		<div className={CLASS}>
 			<UserProfileInfo user={user} className={CLASS} />

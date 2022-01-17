@@ -119,9 +119,7 @@ export default function StoryWritter() {
 			dispatch(createUserActivity({activity: activitiesRef.current, story: storyId}));
 	}, [dispatch, published, storyId]);
 
-	if (!pages || loading || !current || !story) {
-		return <Loader />;
-	}
+	if (!pages || loading || !current || !story) return <Loader />;
 
 	return (
 		<div className={CLASS}>

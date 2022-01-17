@@ -32,7 +32,7 @@ import './StoryItem.scss';
 
 const CLASS = 'st-StoryItem';
 
-function StoryItem({id, size, selector}) {
+function StoryItem({id, size, selector, keepArchived}) {
 	selector = selector || selectStory;
 	const dispatch = useDispatch();
 	const location = useLocation();
@@ -106,7 +106,9 @@ function StoryItem({id, size, selector}) {
 
 	return (
 		<div className={CLASS}>
-			{author?.id === data?.id && <StoryDropdownButton id={id} selector={selector} />}
+			{author?.id === data?.id && (
+				<StoryDropdownButton id={id} selector={selector} keepArchived={keepArchived} />
+			)}
 			<Link
 				to={goToUser(author?.username)}
 				underline={UNDERLINE.none}
@@ -222,6 +224,7 @@ StoryItem.propTypes = {
 	id: propTypes.number,
 	size: propTypes.string,
 	selector: propTypes.func,
+	keepArchived: propTypes.bool,
 };
 
 export default StoryItem;
