@@ -205,9 +205,6 @@ export default function GuildatarContainer() {
 							loading={false}
 							title="Items"
 							urlParamName="body_part"
-							childrenloading={
-								op[DEFAULT_OP.loading].loading || op[DEFAULT_OP.load_more].loading
-							}
 						/>
 
 						<LoadMore
@@ -223,7 +220,9 @@ export default function GuildatarContainer() {
 								buttonLabel: 'Visit market',
 								to: {
 									pathname: MARKETPLACE,
-									search: bodyPart && `?body_part=${bodyPart}`,
+									search:
+										bodyPart &&
+										`?body_part=${bodyPart}&gender=${guildatar?.gender?.id}`,
 								},
 							}}
 							shouldLoad={total > items.length}

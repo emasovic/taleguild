@@ -66,8 +66,8 @@ function Guildatars() {
 				id="guildatars"
 				className={CLASS + '-avatars'}
 				NoItemsComponent={PagePlaceholder}
-				loading={op[DEFAULT_OP.loading].loading}
-				showItems={op[DEFAULT_OP.loading].success}
+				loading={op[DEFAULT_OP.loading].loading || op[DEFAULT_OP.create].loading}
+				showItems={op[DEFAULT_OP.loading].success && !op[DEFAULT_OP.create].loading}
 				shouldLoad={false}
 				total={total}
 				noItemsComponentProps={{
