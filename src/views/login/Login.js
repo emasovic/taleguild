@@ -6,6 +6,8 @@ import {FORGOT_PASSWORD, REGISTER} from 'lib/routes';
 
 import {COLOR, BRAND} from 'types/button';
 import {FONTS, TYPOGRAPHY_VARIANTS} from 'types/typography';
+import {DEFAULT_OP} from 'types/default';
+import {USER_OP} from 'types/user';
 
 import {loginUser, selectAuthUser} from '../../redux/auth';
 
@@ -69,17 +71,25 @@ export default function Login() {
 				Forgot password?
 			</Link>
 
-			<IconButton loading={!!op} disabled={!dirty} type="submit">
+			<IconButton loading={op[USER_OP.login].loading} disabled={!dirty} type="submit">
 				Sign in
 			</IconButton>
 
 			<Typography className={CLASS + '-divider'}>OR</Typography>
 
-			<BrandButton loading={!!op} color={COLOR.secondary} brand={BRAND.google}>
+			<BrandButton
+				loading={op[DEFAULT_OP.loading].loading || op[DEFAULT_OP.load_more].loading}
+				color={COLOR.secondary}
+				brand={BRAND.google}
+			>
 				Sign in with Google
 			</BrandButton>
 
-			<BrandButton loading={!!op} color={COLOR.secondary} brand={BRAND.facebook}>
+			<BrandButton
+				loading={op[DEFAULT_OP.loading].loading || op[DEFAULT_OP.load_more].loading}
+				color={COLOR.secondary}
+				brand={BRAND.facebook}
+			>
 				Sign in with Facebook
 			</BrandButton>
 

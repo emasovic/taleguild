@@ -6,6 +6,7 @@ import {Toast} from 'types/toast';
 import {DEFAULT_OP} from 'types/default';
 
 import {newToast} from './toast';
+import {createOperations, endOperation, startOperation} from './hepler';
 
 const followingAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
@@ -14,40 +15,34 @@ const followingAdapter = createEntityAdapter({
 export const followingSlice = createSlice({
 	name: 'following',
 	initialState: followingAdapter.getInitialState({
-		op: DEFAULT_OP.loading,
+		op: createOperations(),
 		pages: null,
 		total: 0,
-		currentPage: 1,
 	}),
 	reducers: {
 		followingReceieved: (state, action) => {
 			followingAdapter.setAll(state, action.payload);
-			state.op = null;
 		},
 		followingUpsertMany: (state, action) => {
 			followingAdapter.upsertMany(state, action.payload);
-			if (state.op === DEFAULT_OP.load_more) state.currentPage += 1;
-			state.op = null;
 		},
 		followingUpsertOne: (state, {payload}) => {
 			followingAdapter.upsertOne(state, payload);
 			state.total += 1;
-			state.op = null;
 		},
 		followingRemoveOne: (state, {payload}) => {
 			followingAdapter.removeOne(state, payload);
 			state.total -= 1;
-			state.op = null;
 		},
 		gotPages: (state, {payload}) => {
 			state.pages = Math.ceil(payload.total / payload.limit);
 			state.total = payload.total;
 		},
-		opStart: (state, action) => {
-			state.op = action.payload;
+		opStart: (state, {payload}) => {
+			state.op[payload] = startOperation();
 		},
-		opEnd: state => {
-			state.op = null;
+		opEnd: (state, {payload}) => {
+			state.op[payload.op] = endOperation(payload.error);
 		},
 	},
 });
@@ -66,23 +61,26 @@ export const loadFollowing = (params, count, op = DEFAULT_OP.loading) => async d
 	dispatch(opStart(op));
 	const res = await api.getFollowers(params);
 	if (res.error) {
-		dispatch(opEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
+		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
 	}
 	if (count) {
 		const countParams = {...params, _start: undefined, _limit: undefined};
 
 		const countRes = await api.countFollowers(countParams);
 		if (countRes.error) {
-			dispatch(opEnd());
-			return dispatch(newToast({...Toast.error(countRes.error)}));
+			return dispatch([
+				opEnd({op, error: countRes.error}),
+				newToast({...Toast.error(countRes.error)}),
+			]);
 		}
-		dispatch(gotPages({total: countRes, limit: params._limit}));
 
-		return dispatch(followingReceieved(res));
+		return dispatch([
+			gotPages({total: countRes, limit: params._limit}),
+			followingReceieved(res),
+			opEnd({op}),
+		]);
 	}
-
-	return dispatch(followingUpsertMany(res));
+	return dispatch([followingUpsertMany(res), opEnd({op})]);
 };
 
 export const createOrDeleteFollowing = ({follower, userId, followerId}, op) => async dispatch => {
@@ -93,15 +91,18 @@ export const createOrDeleteFollowing = ({follower, userId, followerId}, op) => a
 		: await api.createFollower({user: userId, follower: followerId});
 
 	if (res.error) {
-		dispatch(opEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
+		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
 	}
+
+	const actions = [opEnd({op})];
 
 	if (res.id) {
-		return dispatch(followingUpsertOne(res));
+		actions.unshift(followingUpsertOne(res));
+	} else {
+		actions.unshift(followingRemoveOne({id: follower.id, user: userId}));
 	}
 
-	return dispatch(followingRemoveOne(follower.id));
+	return dispatch(actions);
 };
 
 //SELECTORS

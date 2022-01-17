@@ -7,6 +7,7 @@ import {goToUser} from 'lib/routes';
 
 import FA from 'types/font_awesome';
 import {TEXT_COLORS} from 'types/typography';
+import {DEFAULT_OP} from 'types/default';
 
 import {createOrDeleteLike} from 'redux/likes';
 import {selectAuthUser} from 'redux/auth';
@@ -141,7 +142,7 @@ function StoryItem({id, size, selector}) {
 									icon={likeIcon}
 									onClick={e => handleLike(e, liked, id)}
 									aria-label="like"
-									disabled={!!likeOp}
+									disabled={!!likeOp[DEFAULT_OP.create].loading}
 								/>
 								<IconButton
 									outline
@@ -156,7 +157,7 @@ function StoryItem({id, size, selector}) {
 								icon={favouriteIcon}
 								onClick={e => handleFavourite(e, favourite, id)}
 								aria-label="save"
-								disabled={!!savedStoriesOp}
+								disabled={!!savedStoriesOp[DEFAULT_OP.create].loading}
 							/>
 						</>
 					)}

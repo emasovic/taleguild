@@ -6,6 +6,7 @@ import {Toast} from 'types/toast';
 import {DEFAULT_OP} from 'types/default';
 
 import {newToast} from './toast';
+import {createOperations, endOperation, startOperation} from './hepler';
 
 const savedByAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
@@ -15,7 +16,7 @@ const savedByAdapter = createEntityAdapter({
 export const savedBySlice = createSlice({
 	name: 'savedBy',
 	initialState: savedByAdapter.getInitialState({
-		op: DEFAULT_OP.loading,
+		op: createOperations(),
 		pages: null,
 		loading: null,
 		total: 0,
@@ -23,25 +24,15 @@ export const savedBySlice = createSlice({
 	reducers: {
 		savedByReceieved: (state, action) => {
 			savedByAdapter.setAll(state, action.payload);
-			state.loading = null;
-			state.op = null;
 		},
 		savedByUpsertMany: (state, action) => {
 			savedByAdapter.upsertMany(state, action.payload);
-			state.loading = null;
-			state.op = null;
 		},
-		loadingStart: state => {
-			state.loading = true;
+		opStart: (state, {payload}) => {
+			state.op[payload] = startOperation();
 		},
-		loadingEnd: state => {
-			state.loading = false;
-		},
-		opStart: (state, action) => {
-			state.op = action.payload;
-		},
-		opEnd: state => {
-			state.op = null;
+		opEnd: (state, {payload}) => {
+			state.op[payload.op] = endOperation(payload.error);
 		},
 		gotPages: (state, {payload}) => {
 			state.pages = Math.ceil(payload.total / payload.limit);
@@ -64,14 +55,15 @@ export const loadSavedBy = (params, op = DEFAULT_OP.loading) => async dispatch =
 	dispatch(opStart(op));
 	const res = await api.getSavedStories(params);
 	if (res.error) {
-		dispatch(opEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
+		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
 	}
 	const action = !params._start ? savedByReceieved : savedByUpsertMany;
 
-	dispatch(gotPages({total: res.total, limit: params._limit}));
-
-	return dispatch(action(res.data));
+	return dispatch([
+		gotPages({total: res.total, limit: params._limit}),
+		action(res.data),
+		opEnd({op}),
+	]);
 };
 
 //SELECTORS

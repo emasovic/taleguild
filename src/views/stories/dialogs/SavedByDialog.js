@@ -25,8 +25,8 @@ function SavedByDialog({isOpen, title, onClose, storyId, className}) {
 			<LoadMore
 				className={className + '-likes'}
 				onLoadMore={() => handleLoadSavedBy(DEFAULT_OP.load_more, savedBy.length)}
-				loading={[DEFAULT_OP.loading, DEFAULT_OP.load_more].includes(op)}
-				showItems={op !== DEFAULT_OP.loading}
+				loading={op[DEFAULT_OP.loading].loading || op[DEFAULT_OP.load_more].loading}
+				showItems={op[DEFAULT_OP.loading].success}
 				shouldLoad={total > savedBy.length}
 				isModal
 				total={total}
@@ -58,6 +58,7 @@ function SavedByDialog({isOpen, title, onClose, storyId, className}) {
 					loadSavedBy(
 						{
 							story: storyId,
+							_sort: 'created_at:DESC',
 							...DEFAULT_LIMIT,
 							_start,
 						},

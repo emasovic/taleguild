@@ -19,13 +19,13 @@ export default function RecentXp() {
 	const [{data, error, isLoading}] = useLoadItems(getLevels);
 
 	const currentLevel = data?.find(
-		l => stats.points >= l.min_points && stats.points <= l.max_points
+		l => stats?.points >= l.min_points && stats?.points <= l.max_points
 	);
 
 	const topStats = (
 		<>
 			<Typography variant={TYPOGRAPHY_VARIANTS.h3} font={FONTS.merri}>
-				{stats.points}/{currentLevel?.max_points}
+				{stats?.points}/{currentLevel?.max_points}
 			</Typography>
 			<Icon icon={ICONS.star} />
 		</>

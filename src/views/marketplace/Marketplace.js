@@ -44,9 +44,9 @@ export default function Marketplace() {
 	const items = useSelector(selectMarketplaceIds);
 	const {data} = useSelector(selectAuthUser);
 	const {op, total: marketplaceTotal} = useSelector(state => state.marketplace);
-	const {total} = useSelector(state => state.guildatars);
+	const {total, op: guildatarOp} = useSelector(state => state.guildatars);
 	const marketCategories = useSelector(selectCategories);
-	const {loading} = useSelector(state => state.categories);
+	const {op: categoryOp} = useSelector(state => state.categories);
 	const [{data: genders}] = useLoadItems(getGenders);
 
 	const [selectedItem, setSelectedItem] = useState(null);
@@ -63,7 +63,8 @@ export default function Marketplace() {
 			id: i.id,
 			name: i.display_name,
 		}));
-	const shouldLoad = marketplaceTotal > items.length && !op;
+
+	const shouldLoad = marketplaceTotal > items.length;
 
 	const handleSwitch = val => {
 		const gender = genders.find(g =>
@@ -87,6 +88,7 @@ export default function Marketplace() {
 							category,
 							name_contains: name,
 							genders: selectedGender?.id,
+							_sort: 'created_at:DESC',
 							...DEFAULT_LIMIT,
 							_start,
 						},
@@ -107,8 +109,8 @@ export default function Marketplace() {
 	}, [dispatch, data]);
 
 	useEffect(() => {
-		handleLoadMarketplace(true, undefined, 0);
-	}, [dispatch, handleLoadMarketplace]);
+		total && handleLoadMarketplace(true, undefined, 0);
+	}, [dispatch, handleLoadMarketplace, total]);
 
 	return (
 		<MobileWrapper className={CLASS}>
@@ -150,13 +152,13 @@ export default function Marketplace() {
 				<div className={CLASS + '-market-categories'}>
 					<SideNav
 						items={categories}
-						loading={!!loading}
+						loading={categoryOp[DEFAULT_OP.loading].loading}
 						title="Categories"
 						urlParamName="category"
 					/>
 				</div>
 				<div className={CLASS + '-market-items'}>
-					{!total && !op ? (
+					{!total && !guildatarOp[DEFAULT_OP.loading].loading ? (
 						<PagePlaceholder
 							title="Create your first Guildatar"
 							subtitle="In order to access the Market, you first need to create your guildarter for whom you will buy items with coins"
@@ -186,8 +188,11 @@ export default function Marketplace() {
 									handleLoadMarketplace(false, DEFAULT_OP.load_more, items.length)
 								}
 								shouldLoad={shouldLoad}
-								loading={[DEFAULT_OP.loading, DEFAULT_OP.load_more].includes(op)}
-								showItems={op !== DEFAULT_OP.loading}
+								loading={
+									op[DEFAULT_OP.loading].loading ||
+									op[DEFAULT_OP.load_more].loading
+								}
+								showItems={op[DEFAULT_OP.loading].success}
 								NoItemsComponent={PagePlaceholder}
 								noItemsComponentProps={{
 									IconComponent: NoSearchResults,

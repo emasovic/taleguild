@@ -48,7 +48,7 @@ function MarketplaceDialog({isOpen, itemId, gender, onClose}) {
 		<div>
 			<Typography>
 				<Coin />
-				&nbsp;&nbsp;{kFormatter(stats.coins)}&nbsp;
+				&nbsp;&nbsp;{kFormatter(stats?.coins)}&nbsp;
 			</Typography>
 			<Typography color={TEXT_COLORS.secondary}>in your chest</Typography>
 		</div>

@@ -30,7 +30,6 @@ export default function LoadMore({
 
 	const checkLoadMore = useCallback(() => {
 		if (!isElementInViewport(autoFillRef?.current) && isInViewport) setIsInViewport(false);
-
 		if (isElementInViewport(autoFillRef?.current) && shouldLoad && !loading) {
 			onLoadMore();
 		}
@@ -60,6 +59,7 @@ export default function LoadMore({
 	if (isModal) {
 		componentProps.onScroll = checkLoadMore;
 	}
+
 	return (
 		<div id={id} className={classNames} {...componentProps}>
 			{showItems && children}
@@ -68,7 +68,7 @@ export default function LoadMore({
 					<Loader />
 				</div>
 			)}
-			{NoItemsComponent && !shouldLoad && !loading && !total && (
+			{NoItemsComponent && !shouldLoad && !loading && !total && showItems && (
 				<NoItemsComponent {...noItemsComponentProps} />
 			)}
 			<div ref={autoFillRef} className={placeholderClassNames} />

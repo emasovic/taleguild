@@ -80,7 +80,7 @@ export default function ResetPassword() {
 					errorMessage={errors.passwordConfirmation}
 					wholeEvent
 				/>
-				<IconButton loading={op === USER_OP.reset_password} disabled={!dirty}>
+				<IconButton loading={op[USER_OP.reset_password].loading} disabled={!dirty}>
 					Reset password
 				</IconButton>
 			</form>

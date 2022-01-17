@@ -3,6 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 
 import {FONT_WEIGHT, TEXT_COLORS, TEXT_TRASFORM} from 'types/typography';
+import {DEFAULT_OP} from 'types/default';
 import {ICONS} from 'types/icons';
 import {COLOR} from 'types/button';
 
@@ -82,7 +83,7 @@ export default function RecentItems() {
 		[dispatch, total]
 	);
 
-	if (!total && !guildatarOp) {
+	if (!total && !guildatarOp[DEFAULT_OP.loading].loading) {
 		return (
 			<div>
 				<NoItemsPlaceholder
@@ -100,7 +101,7 @@ export default function RecentItems() {
 			<Typography color={TEXT_COLORS.secondary} fontWeight={FONT_WEIGHT.bold}>
 				New items
 			</Typography>
-			{!op && !guildatarOp ? (
+			{!op[DEFAULT_OP.loading].loading && !guildatarOp[DEFAULT_OP.loading].loading ? (
 				marketplace.map(i => <RecentItem key={i} id={i} onClick={setSelectedItem} />)
 			) : (
 				<Loader />

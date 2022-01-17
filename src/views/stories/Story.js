@@ -8,7 +8,8 @@ import {goToStory, DASHBOARD} from 'lib/routes';
 import {getIdFromSlug} from 'types/story';
 import {COLOR} from 'types/button';
 
-import {createOrUpdateViews, loadStory, selectStory} from 'redux/story';
+import {loadStory, selectStory} from 'redux/story';
+import {createOrUpdateViews} from 'redux/views';
 import {selectUserId} from 'redux/auth';
 
 import TextViewer from 'components/widgets/text-editor/TextViewer';

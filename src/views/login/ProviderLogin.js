@@ -29,9 +29,7 @@ export default function ProviderLogin() {
 		dispatch(providerLogin(provider, query));
 	}, [provider, query, dispatch]);
 
-	if (op === USER_OP.provider_login) {
-		return <Loader />;
-	}
+	if (op[USER_OP.provider_login].loading) return <Loader />;
 
 	return (
 		<div className={CLASS}>

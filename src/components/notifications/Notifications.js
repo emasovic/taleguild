@@ -85,8 +85,8 @@ export default function Notifications({isPage, isMobile}) {
 					onLoadMore={() =>
 						handleLoadNotifications(false, DEFAULT_OP.load_more, notificationIds.length)
 					}
-					loading={[DEFAULT_OP.loading, DEFAULT_OP.load_more].includes(op)}
-					showItems={op !== DEFAULT_OP.loading}
+					loading={op[DEFAULT_OP.loading].loading || op[DEFAULT_OP.load_more].loading}
+					showItems={op[DEFAULT_OP.loading].success}
 					shouldLoad={total > notificationIds.length}
 					total={total}
 				>
@@ -137,8 +137,8 @@ export default function Notifications({isPage, isMobile}) {
 								notificationIds.length
 							)
 						}
-						loading={[DEFAULT_OP.loading, DEFAULT_OP.load_more].includes(op)}
-						showItems={op !== DEFAULT_OP.loading}
+						loading={op[DEFAULT_OP.loading].loading || op[DEFAULT_OP.load_more].loading}
+						showItems={op[DEFAULT_OP.loading].success}
 						shouldLoad={total > notificationIds.length}
 						isModal
 						total={total}

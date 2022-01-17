@@ -8,6 +8,7 @@ import {goToWidget} from 'lib/routes';
 import {COLOR} from 'types/button';
 import {FONT_WEIGHT, TEXT_COLORS} from 'types/typography';
 import {PUBLISH_STATES} from 'types/story';
+import {DEFAULT_OP} from 'types/default';
 
 import {selectAuthUser} from 'redux/auth';
 import {loadViews, selectViewsById, selectViewsIds} from 'redux/views';
@@ -62,7 +63,7 @@ export default function RecentViews() {
 			);
 	}, [dispatch, userId]);
 
-	if (!views.length && !op) {
+	if (!views.length && !op[DEFAULT_OP.loading].loading) {
 		return (
 			<div>
 				<NoItemsPlaceholder
@@ -83,7 +84,11 @@ export default function RecentViews() {
 			<Typography color={TEXT_COLORS.secondary} fontWeight={FONT_WEIGHT.bold}>
 				Recent readings
 			</Typography>
-			{!op ? views.map(i => <RecentView key={i} id={i} />) : <Loader />}
+			{!op[DEFAULT_OP.loading].loading ? (
+				views.map(i => <RecentView key={i} id={i} />)
+			) : (
+				<Loader />
+			)}
 		</div>
 	);
 }

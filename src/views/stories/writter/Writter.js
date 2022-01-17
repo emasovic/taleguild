@@ -56,7 +56,7 @@ export default function Writter({
 		shouldAutoSave && _onStoryPage(current.id, val);
 	};
 
-	if (op === STORY_PAGE_OP.create || op === DEFAULT_OP.loading) return <Loader />;
+	if (op[STORY_PAGE_OP.create].loading || op[DEFAULT_OP.loading].loading) return <Loader />;
 
 	return (
 		<div className={className + '-writter'} ref={editorRef}>
@@ -80,5 +80,5 @@ Writter.propTypes = {
 	onStartAt: PropTypes.func,
 	published: PropTypes.bool,
 	archived: PropTypes.bool,
-	op: PropTypes.string,
+	op: PropTypes.object,
 };

@@ -4,10 +4,11 @@ import {useDispatch, useSelector} from 'react-redux';
 import propTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
 
-import {DEFAULT_CRITERIA, SORT_DIRECTION, STORY_OP, STORY_SORT} from 'types/story';
+import {DEFAULT_CRITERIA, SORT_DIRECTION, STORY_SORT} from 'types/story';
+import {DEFAULT_OP} from 'types/default';
 import {MEDIA_SIZE} from 'types/media';
 
-import {loadStories, selectStories} from '../../redux/story';
+import {loadStories, selectStoryIds} from '../../redux/story';
 import {navigateToQuery} from 'redux/application';
 
 import {useGetSearchParams} from 'hooks/getSearchParams';
@@ -35,11 +36,11 @@ const Stories = memo(
 		const dispatch = useDispatch();
 		const {title_contains} = useGetSearchParams();
 
-		const stories = useSelector(state => selectStories(state, activeSort));
+		const stories = useSelector(state => selectStoryIds(state));
 		const {op, total} = useSelector(state => state.stories);
 
 		const prevCriteria = usePrevious(criteria);
-		const shouldLoad = total > stories.length && !op;
+		const shouldLoad = total > stories.length;
 
 		const sortStories = sort =>
 			dispatch(navigateToQuery({_sort: sort + ':' + SORT_DIRECTION.desc}));
@@ -89,17 +90,17 @@ const Stories = memo(
 				)}
 				<LoadMore
 					id="stories"
-					onLoadMore={() => handleLoadStories(STORY_OP.load_more, stories.length)}
+					onLoadMore={() => handleLoadStories(DEFAULT_OP.load_more, stories.length)}
 					shouldLoad={shouldLoad}
 					total={total}
-					loading={[STORY_OP.loading, STORY_OP.load_more].includes(op)}
-					showItems={op !== STORY_OP.loading}
+					loading={op[DEFAULT_OP.loading].loading || op[DEFAULT_OP.load_more].loading}
+					showItems={op[DEFAULT_OP.loading].success}
 					NoItemsComponent={NoItemsComponent}
 					noItemsComponentProps={noItemsComponentProps}
 				>
 					<div className={CLASS + '-lastest'}>
 						{stories.map(item => (
-							<StoryItem id={item.id} size={MEDIA_SIZE.small} key={item.id} />
+							<StoryItem id={item} size={MEDIA_SIZE.small} key={item} />
 						))}
 					</div>
 				</LoadMore>

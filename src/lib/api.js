@@ -166,7 +166,7 @@ export const countViews = filter => {
 	return http.get('views/count', filter);
 };
 
-export const createOrUpdateViews = payload => {
+export const createViews = payload => {
 	return http.post('views', null, payload);
 };
 

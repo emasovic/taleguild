@@ -6,6 +6,7 @@ import {Toast} from 'types/toast';
 import {DEFAULT_OP} from 'types/default';
 
 import {newToast} from './toast';
+import {createOperations, endOperation, startOperation} from './hepler';
 
 const likesAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
@@ -14,37 +15,29 @@ const likesAdapter = createEntityAdapter({
 
 export const likesSlice = createSlice({
 	name: 'likes',
-	initialState: likesAdapter.getInitialState({op: null, total: 0, pages: null}),
+	initialState: likesAdapter.getInitialState({op: createOperations(), total: 0, pages: null}),
 	reducers: {
 		likesReceieved: (state, action) => {
 			likesAdapter.setAll(state, action.payload);
-			state.op = null;
 		},
 		likesUpsertMany: (state, action) => {
 			likesAdapter.upsertMany(state, action.payload);
-			state.op = null;
 		},
 		likesUpsertOne: (state, {payload}) => {
 			likesAdapter.upsertOne(state, payload);
-			state.op = null;
+
 			state.total += 1;
 		},
 		likesRemoveOne: (state, {payload}) => {
 			likesAdapter.removeOne(state, payload.id);
-			state.op = null;
+
 			state.total -= 1;
 		},
-		loadingStart: state => {
-			state.loading = true;
+		opStart: (state, {payload}) => {
+			state.op[payload] = startOperation();
 		},
-		loadingEnd: state => {
-			state.loading = false;
-		},
-		opStart: (state, action) => {
-			state.op = action.payload;
-		},
-		opEnd: state => {
-			state.op = null;
+		opEnd: (state, {payload}) => {
+			state.op[payload.op] = endOperation(payload.error);
 		},
 		gotPages: (state, {payload}) => {
 			state.pages = Math.ceil(payload.total / payload.limit);
@@ -69,8 +62,7 @@ export const loadLikes = (params, count, op = DEFAULT_OP.loading) => async dispa
 	dispatch(opStart(op));
 	const res = await api.getLikes(params);
 	if (res.error) {
-		dispatch(opEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
+		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
 	}
 
 	if (count) {
@@ -78,14 +70,20 @@ export const loadLikes = (params, count, op = DEFAULT_OP.loading) => async dispa
 
 		const countRes = await api.countLikes(countParams);
 		if (countRes.error) {
-			dispatch(opEnd());
-			return dispatch(newToast({...Toast.error(countRes.error)}));
+			return dispatch([
+				opEnd({op, error: countRes.error}),
+				newToast({...Toast.error(countRes.error)}),
+			]);
 		}
-		dispatch(gotPages({total: countRes, limit: params._limit}));
-		return dispatch(likesReceieved(res));
+
+		return dispatch([
+			gotPages({total: countRes, limit: params._limit}),
+			likesReceieved(res),
+			opEnd({op}),
+		]);
 	}
 
-	return dispatch(likesUpsertMany(res));
+	return dispatch([likesUpsertMany(res), opEnd({op})]);
 };
 
 export const createOrDeleteLike = (like, userId, storyId) => async dispatch => {
@@ -96,16 +94,18 @@ export const createOrDeleteLike = (like, userId, storyId) => async dispatch => {
 		: await api.createLike({user: userId, story: storyId});
 
 	if (res.error) {
-		return dispatch(newToast({...Toast.error(res.error)}));
+		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
 	}
 
-	dispatch(opEnd());
+	const actions = [opEnd({op})];
 
 	if (res.id && !like) {
-		return dispatch(likesUpsertOne({storyId, ...res}));
+		actions.unshift(likesUpsertOne({storyId, ...res}));
+	} else {
+		actions.unshift(likesRemoveOne({storyId, id: like.id}));
 	}
 
-	return dispatch(likesRemoveOne({storyId, id: like.id}));
+	return dispatch(actions);
 };
 
 //SELECTORS

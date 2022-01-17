@@ -6,6 +6,7 @@ import {Toast} from 'types/toast';
 import {DEFAULT_OP} from 'types/default';
 
 import {newToast} from './toast';
+import {createOperations, endOperation, startOperation} from './hepler';
 
 const userStoriesAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
@@ -15,7 +16,7 @@ const userStoriesAdapter = createEntityAdapter({
 export const myStorySlice = createSlice({
 	name: 'userStories',
 	initialState: userStoriesAdapter.getInitialState({
-		op: DEFAULT_OP.loading,
+		op: createOperations(),
 		pages: null,
 		loading: null,
 		total: 0,
@@ -23,47 +24,45 @@ export const myStorySlice = createSlice({
 	reducers: {
 		userStoriesReceieved: (state, action) => {
 			userStoriesAdapter.setAll(state, action.payload);
-			state.loading = null;
-			state.op = null;
 		},
 		userStoryRemoved: (state, action) => {
 			userStoriesAdapter.removeOne(state, action.payload);
-			state.loading = null;
-
 			state.total -= 1;
-			state.op = null;
 		},
 		gotPages: (state, {payload}) => {
 			state.pages = Math.ceil(payload.total / payload.limit);
 			state.total = payload.total;
 		},
-		loadingStart: state => {
-			state.loading = true;
+		opStart: (state, {payload}) => {
+			state.op[payload] = startOperation();
 		},
-		loadingEnd: state => {
-			state.loading = false;
+		opEnd: (state, {payload}) => {
+			state.op[payload.op] = endOperation(payload.error);
 		},
 	},
 });
 
 export const {
-	loadingStart,
-	loadingEnd,
+	opStart,
+	opEnd,
 	gotPages,
 	userStoriesReceieved,
 	userStoryRemoved,
 } = myStorySlice.actions;
 
 export const loadStories = params => async dispatch => {
-	dispatch(loadingStart());
+	const op = DEFAULT_OP.loading;
+	dispatch(opStart(op));
 	const res = await api.getStories(params);
 	if (res.error) {
-		dispatch(loadingEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
+		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
 	}
 
-	dispatch(gotPages({total: res.total, limit: params._limit}));
-	return dispatch(userStoriesReceieved(res.data));
+	return dispatch([
+		userStoriesReceieved(res.data),
+		gotPages({total: res.total, limit: params._limit}),
+		opEnd({op}),
+	]);
 };
 
 //SELECTORS

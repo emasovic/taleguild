@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {FONTS, FONT_WEIGHT, TEXT_COLORS, TYPOGRAPHY_VARIANTS} from 'types/typography';
+import {DEFAULT_OP} from 'types/default';
 
 import {getImageUrl} from 'lib/util';
 import {goToGuildatar} from 'lib/routes';
@@ -56,13 +57,13 @@ function Guildatars() {
 				</div>
 
 				<div className={CLASS + '-header-action'}>
-					{guildatars.length < 3 && (
+					{guildatars.length < 3 && !op[DEFAULT_OP.loading].loading && (
 						<IconButton onClick={toggleOpen}>New Guildatar</IconButton>
 					)}
 				</div>
 			</div>
 			<div className={CLASS + '-avatars'}>
-				{op ? (
+				{op[DEFAULT_OP.loading].loading ? (
 					<Loader />
 				) : guildatars.length ? (
 					guildatars.map(i => (

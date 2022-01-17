@@ -7,6 +7,7 @@ import {Toast} from 'types/toast';
 import {DEFAULT_OP} from 'types/default';
 
 import {newToast} from './toast';
+import {createOperations, endOperation, startOperation} from './hepler';
 
 const archivedStoriesAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
@@ -15,51 +16,35 @@ const archivedStoriesAdapter = createEntityAdapter({
 export const archivedStorySlice = createSlice({
 	name: 'archivedStories',
 	initialState: archivedStoriesAdapter.getInitialState({
-		op: DEFAULT_OP.loading,
+		op: createOperations(),
 		pages: null,
 		loading: null,
-		currentPage: 1,
 		total: 0,
 	}),
 	reducers: {
-		archivedStoriesReceieved: (state, action) => {
-			archivedStoriesAdapter.setAll(state, action.payload);
-			state.loading = null;
-			state.op = null;
+		archivedStoriesReceieved: (state, {payload}) => {
+			archivedStoriesAdapter.setAll(state, payload);
 		},
-		archivedStoryUpsertMany: (state, action) => {
-			archivedStoriesAdapter.upsertMany(state, action.payload);
-			if (state.op === DEFAULT_OP.load_more) state.currentPage += 1;
-			state.loading = null;
-			state.op = null;
+		archivedStoryUpsertMany: (state, {payload}) => {
+			archivedStoriesAdapter.upsertMany(state, payload);
 		},
 		archivedStoryUpsert: (state, {payload}) => {
 			archivedStoriesAdapter.upsertOne(state, payload);
-			state.loading = null;
 			state.total += 1;
-			state.op = null;
 		},
 		archivedStoryRemoved: (state, {payload}) => {
 			archivedStoriesAdapter.removeOne(state, payload.id);
-			state.loading = null;
 			state.total -= 1;
-			state.op = null;
 		},
 		gotPages: (state, {payload}) => {
 			state.pages = Math.ceil(payload.total / payload.limit);
 			state.total = payload.total;
 		},
-		loadingStart: state => {
-			state.loading = true;
+		opStart: (state, {payload}) => {
+			state.op[payload] = startOperation();
 		},
-		loadingEnd: state => {
-			state.loading = null;
-		},
-		opStart: (state, action) => {
-			state.op = action.payload;
-		},
-		opEnd: state => {
-			state.op = null;
+		opEnd: (state, {payload}) => {
+			state.op[payload.op] = endOperation(payload.error);
 		},
 	},
 });
@@ -80,40 +65,43 @@ export const loadArchivedStories = (params, op = STORY_OP.loading) => async disp
 	dispatch(opStart(op));
 	const res = await api.getStories(params);
 	if (res.error) {
-		dispatch(loadingEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
+		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
 	}
 
 	const action = !params._start ? archivedStoriesReceieved : archivedStoryUpsertMany;
 
-	dispatch(gotPages({total: res.total, limit: params._limit}));
-	return dispatch(action(res.data));
+	return dispatch([
+		action(res.data),
+		gotPages({total: res.total, limit: params._limit}),
+		opEnd({op}),
+	]);
 };
 
 export const updateArchivedStory = (payload, keepArchived) => async (dispatch, getState) => {
-	dispatch(opStart(STORY_OP.loading));
+	const op = DEFAULT_OP.update;
+	dispatch(opStart(op));
 
 	const res = await api.updateStory(payload);
 
 	if (res.error) {
-		dispatch(opEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
+		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
 	}
 
 	res.archived_at
 		? dispatch(archivedStoryUpsert({...res, keepArchived}))
 		: dispatch(archivedStoryRemoved(res));
+	dispatch(opEnd({op}));
 };
 
 export const removeArchivedStory = storyId => async (dispatch, getState, history) => {
-	dispatch(loadingStart());
+	const op = DEFAULT_OP.delete;
+	dispatch(opStart(op));
 
 	const res = await api.deleteStory(storyId);
 	if (res.error) {
-		dispatch(loadingEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
+		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
 	}
-	dispatch(archivedStoryRemoved({id: storyId}));
+	return dispatch([archivedStoryRemoved({id: storyId}), opEnd({op})]);
 };
 
 //SELECTORS

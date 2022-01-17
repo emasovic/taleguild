@@ -6,6 +6,7 @@ import {Toast} from 'types/toast';
 import {DEFAULT_OP} from 'types/default';
 
 import {newToast} from './toast';
+import {createOperations, endOperation, startOperation} from './hepler';
 
 const commentsAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
@@ -14,37 +15,27 @@ const commentsAdapter = createEntityAdapter({
 
 export const commentsSlice = createSlice({
 	name: 'comments',
-	initialState: commentsAdapter.getInitialState({op: DEFAULT_OP.loading, pages: null, total: 0}),
+	initialState: commentsAdapter.getInitialState({op: createOperations(), pages: null, total: 0}),
 	reducers: {
 		commentsReceieved: (state, action) => {
 			commentsAdapter.setAll(state, action.payload);
-			state.op = null;
 		},
 		commentsUpsertMany: (state, action) => {
 			commentsAdapter.upsertMany(state, action.payload);
-			state.op = null;
 		},
 		commentsUpsertOne: (state, {payload}) => {
 			commentsAdapter.upsertOne(state, payload);
 			state.total += 1;
-			state.op = null;
 		},
 		commentsRemoveOne: (state, {payload}) => {
 			commentsAdapter.removeOne(state, payload.id);
 			state.total -= 1;
-			state.op = null;
 		},
-		loadingStart: state => {
-			state.loading = true;
+		opStart: (state, {payload}) => {
+			state.op[payload] = startOperation();
 		},
-		loadingEnd: state => {
-			state.loading = false;
-		},
-		opStart: (state, action) => {
-			state.op = action.payload;
-		},
-		opEnd: state => {
-			state.op = null;
+		opEnd: (state, {payload}) => {
+			state.op[payload.op] = endOperation(payload.error);
 		},
 		gotPages: (state, {payload}) => {
 			state.pages = Math.ceil(payload.total / payload.limit);
@@ -69,8 +60,7 @@ export const loadComments = (params, count, op = DEFAULT_OP.loading) => async di
 	dispatch(opStart(op));
 	const res = await api.getComments(params);
 	if (res.error) {
-		dispatch(opEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
+		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
 	}
 
 	if (count) {
@@ -78,28 +68,38 @@ export const loadComments = (params, count, op = DEFAULT_OP.loading) => async di
 
 		const countRes = await api.countComments(countParams);
 		if (countRes.error) {
-			dispatch(opEnd());
-			return dispatch(newToast({...Toast.error(countRes.error)}));
+			return dispatch([
+				opEnd({op, error: countRes.error}),
+				newToast({...Toast.error(countRes.error)}),
+			]);
 		}
-		dispatch(gotPages({total: countRes, limit: params._limit}));
-		return dispatch(commentsReceieved(res));
+		return dispatch([
+			commentsReceieved(res),
+			gotPages({total: countRes, limit: params._limit}),
+			opEnd({op}),
+		]);
 	}
-
-	return dispatch(commentsUpsertMany(res));
+	return dispatch([commentsUpsertMany(res), opEnd({op})]);
 };
 
 export const createOrDeleteComment = payload => async (dispatch, getState) => {
-	dispatch(opStart());
+	const op = payload.id ? DEFAULT_OP.delete : DEFAULT_OP.create;
+	dispatch(opStart(op));
 
 	const res = payload.id ? await api.deleteComment(payload.id) : await api.createComment(payload);
 	if (res.error) {
-		dispatch(opEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
+		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
 	}
 
-	if (!payload.id) return dispatch(commentsUpsertOne({storyId: payload.story, ...res}));
+	const actions = [opEnd({op})];
 
-	dispatch(commentsRemoveOne({storyId: payload.story, id: payload.id}));
+	if (!payload.id) {
+		actions.unshift(commentsUpsertOne({storyId: payload.story, ...res}));
+	} else {
+		actions.unshift(commentsRemoveOne({storyId: payload.story, id: payload.id}));
+	}
+
+	return dispatch(actions);
 };
 
 //SELECTORS

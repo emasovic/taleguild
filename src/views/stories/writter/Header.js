@@ -73,7 +73,7 @@ export default function Header({
 	const togglePublishStoryModal = () => setIsPublishStoryOpen(prevState => !prevState);
 	const togglePreviewStoryModal = () => setIsPreviewStoryOpen(prevState => !prevState);
 
-	const disabledActions = op === STORY_PAGE_OP.create || op === STORY_PAGE_OP.update;
+	const disabledActions = op[STORY_PAGE_OP.create].loading || op[STORY_PAGE_OP.update].loading;
 
 	const handleSubmit = ({
 		id,
@@ -218,7 +218,7 @@ export default function Header({
 				<div>
 					<IconButton
 						color={COLOR.secondary}
-						disabled={op === STORY_PAGE_OP.save}
+						disabled={op[STORY_PAGE_OP.update].loading}
 						onClick={togglePublishStoryModal}
 					>
 						Publish
@@ -283,7 +283,7 @@ export default function Header({
 Header.propTypes = {
 	className: PropTypes.string.isRequired,
 	pages: PropTypes.array.isRequired,
-	op: PropTypes.string,
+	op: PropTypes.object,
 	currentEditing: PropTypes.object.isRequired,
 	selectedPage: PropTypes.number.isRequired,
 	onStoryPage: PropTypes.func.isRequired,

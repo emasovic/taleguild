@@ -9,6 +9,7 @@ import {getGenders} from 'lib/api';
 
 import {createOrUpdateGuildatar, selectGuildatarById} from 'redux/guildatars';
 import {selectAuthUser} from 'redux/auth';
+import {DEFAULT_OP} from 'types/default';
 
 import {useLoadItems} from 'hooks/getItems';
 
@@ -151,7 +152,10 @@ function GuildatarDialog({isOpen, onClose, id}) {
 				confirmLabel="Save"
 				isOpen={isOpen}
 				onClose={onClose}
-				submitButtonProps={{disabled: !!op || !dirty, loading: !!op}}
+				submitButtonProps={{
+					disabled: op[DEFAULT_OP.create].loading || !dirty,
+					loading: op[DEFAULT_OP.create].loading,
+				}}
 				content={renderContent()}
 				onSubmit={formikSubmit}
 			/>

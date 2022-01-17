@@ -7,6 +7,7 @@ import {Toast} from 'types/toast';
 import {DEFAULT_OP} from 'types/default';
 
 import {newToast} from './toast';
+import {createOperations, endOperation, startOperation} from './hepler';
 
 const savedStoriesAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
@@ -16,7 +17,7 @@ const savedStoriesAdapter = createEntityAdapter({
 export const savedStorySlice = createSlice({
 	name: 'savedStories',
 	initialState: savedStoriesAdapter.getInitialState({
-		op: null,
+		op: createOperations(),
 		pages: null,
 		loading: null,
 		total: 0,
@@ -24,41 +25,27 @@ export const savedStorySlice = createSlice({
 	reducers: {
 		savedStoriesReceieved: (state, action) => {
 			savedStoriesAdapter.setAll(state, action.payload);
-			state.loading = null;
-			state.op = null;
 		},
 		savedStoryUpsertMany: (state, action) => {
 			savedStoriesAdapter.upsertMany(state, action.payload);
-			state.loading = null;
-			state.op = null;
 		},
 		savedStoryUpsert: (state, action) => {
 			savedStoriesAdapter.upsertOne(state, action.payload);
-			state.loading = null;
 			state.total += 1;
-			state.op = null;
 		},
 		savedStoryRemoved: (state, action) => {
 			savedStoriesAdapter.removeOne(state, action.payload.savedId);
-			state.loading = null;
 			state.total -= 1;
-			state.op = null;
 		},
 		gotPages: (state, {payload}) => {
 			state.pages = Math.ceil(payload.total / payload.limit);
 			state.total = payload.total;
 		},
-		loadingStart: state => {
-			state.loading = true;
+		opStart: (state, {payload}) => {
+			state.op[payload] = startOperation();
 		},
-		loadingEnd: state => {
-			state.loading = null;
-		},
-		opStart: (state, action) => {
-			state.op = action.payload;
-		},
-		opEnd: state => {
-			state.op = null;
+		opEnd: (state, {payload}) => {
+			state.op[payload.op] = endOperation(payload.error);
 		},
 	},
 });
@@ -79,14 +66,15 @@ export const loadSavedStories = (params, op = STORY_OP.loading) => async dispatc
 	dispatch(opStart(op));
 	const res = await api.getSavedStories(params);
 	if (res.error) {
-		dispatch(opEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
+		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
 	}
 	const action = !params._start ? savedStoriesReceieved : savedStoryUpsertMany;
 
-	dispatch(gotPages({total: res.total, limit: params._limit}));
-
-	return dispatch(action(res.data));
+	return dispatch([
+		action(res.data),
+		gotPages({total: res.total, limit: params._limit}),
+		opEnd({op}),
+	]);
 };
 
 export const createOrDeleteSavedStory = (favourite, userId, storyId) => async dispatch => {
@@ -98,12 +86,18 @@ export const createOrDeleteSavedStory = (favourite, userId, storyId) => async di
 		: await api.createSavedStory({user: userId, story: storyId});
 
 	if (res.error) {
-		dispatch(opEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
+		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
 	}
 
-	if (favourite?.id) return dispatch(savedStoryRemoved({storyId, savedId: favourite.id}));
-	return dispatch(savedStoryUpsert({...res, storyId}));
+	const actions = [opEnd({op})];
+
+	if (favourite?.id) {
+		actions.unshift(savedStoryRemoved({storyId, savedId: favourite.id}));
+	} else {
+		actions.unshift(savedStoryUpsert({...res, storyId}));
+	}
+
+	return dispatch(actions);
 };
 
 //SELECTORS

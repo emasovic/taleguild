@@ -8,6 +8,7 @@ import {DEFAULT_OP} from 'types/default';
 import {newToast} from './toast';
 import {selectStory} from './story';
 import {selectAuthUser} from './auth';
+import {createOperations, endOperation, startOperation} from './hepler';
 
 const userActivityAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
@@ -17,34 +18,25 @@ const userActivityAdapter = createEntityAdapter({
 export const userActivitySlice = createSlice({
 	name: 'userActivity',
 	initialState: userActivityAdapter.getInitialState({
-		op: DEFAULT_OP.loading,
+		op: createOperations(),
 		pages: null,
 	}),
 	reducers: {
 		userActivityReceieved: (state, {payload}) => {
 			userActivityAdapter.setAll(state, payload);
-			state.op = null;
 		},
 		userActivityUpsertMany: (state, {payload}) => {
 			userActivityAdapter.upsertMany(state, payload);
-			state.op = null;
 		},
 		userActivityUpsertOne: (state, {payload}) => {
 			userActivityAdapter.upsertOne(state, payload);
 			state.total += 1;
-			state.op = null;
-		},
-		loadingStart: state => {
-			state.loading = true;
-		},
-		loadingEnd: state => {
-			state.loading = false;
 		},
 		opStart: (state, {payload}) => {
-			state.op = payload;
+			state.op[payload] = startOperation();
 		},
-		opEnd: state => {
-			state.op = null;
+		opEnd: (state, {payload}) => {
+			state.op[payload.op] = endOperation(payload.error);
 		},
 		gotPages: (state, {payload}) => {
 			state.pages = Math.ceil(payload.total / payload.limit);
@@ -68,8 +60,7 @@ export const loadUserActivity = (params, count, op = DEFAULT_OP.loading) => asyn
 	dispatch(opStart(op));
 	const res = await api.getActivity(params);
 	if (res.error) {
-		dispatch(opEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
+		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
 	}
 
 	if (count) {
@@ -77,15 +68,19 @@ export const loadUserActivity = (params, count, op = DEFAULT_OP.loading) => asyn
 
 		const countRes = await api.countActivity(countParams);
 		if (countRes.error) {
-			dispatch(opEnd());
-			return dispatch(newToast({...Toast.error(countRes.error)}));
+			return dispatch([
+				opEnd({op, error: countRes.error}),
+				newToast({...Toast.error(countRes.error)}),
+			]);
 		}
-
-		dispatch(gotPages({total: countRes, limit: params._limit}));
-		return dispatch(userActivityReceieved(res));
+		return dispatch([
+			userActivityReceieved(res),
+			gotPages({total: countRes, limit: params._limit}),
+			opEnd({op}),
+		]);
 	}
 
-	return dispatch(userActivityUpsertMany(res));
+	return dispatch([userActivityUpsertMany(res), opEnd({op})]);
 };
 
 export const createUserActivity = payload => async (dispatch, getState) => {
@@ -94,14 +89,17 @@ export const createUserActivity = payload => async (dispatch, getState) => {
 	const story = selectStory(state, payload.story);
 	if (!data || !story) return null;
 
-	dispatch(opStart(DEFAULT_OP.update));
+	const op = DEFAULT_OP.update;
+	dispatch(opStart(op));
 	const res = await api.createActivity(payload);
 	if (res.error) {
-		dispatch(opEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
+		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
 	}
 
-	res.id && dispatch(userActivityUpsertOne(res));
+	const actions = [opEnd({op})];
+
+	res.id && actions.unshift(userActivityUpsertOne(res));
+	dispatch(actions);
 };
 
 //SELECTORS

@@ -37,7 +37,11 @@ export default function StoryList({
 	stories =
 		reduxState === REDUX_STATE.savedStories ? stories.map(i => ({...i?.story, ...i})) : stories;
 
-	const shouldLoad = total > stories.length && shouldLoadMore && !op;
+	const shouldLoad =
+		total > stories.length &&
+		shouldLoadMore &&
+		!op[DEFAULT_OP.loading].loading &&
+		!op[DEFAULT_OP.load_more].loading;
 
 	const handleLoadStories = useCallback(
 		(op, _start) => {
@@ -60,8 +64,8 @@ export default function StoryList({
 	return (
 		<LoadMore
 			onLoadMore={() => handleLoadStories(DEFAULT_OP.load_more, stories.length)}
-			loading={[DEFAULT_OP.loading, DEFAULT_OP.load_more].includes(op)}
-			showItems={op !== DEFAULT_OP.loading}
+			loading={op[DEFAULT_OP.loading].loading || op[DEFAULT_OP.load_more].loading}
+			showItems={op[DEFAULT_OP.loading].success}
 			shouldLoad={shouldLoad}
 			total={total}
 			className={CLASS}

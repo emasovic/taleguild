@@ -6,6 +6,7 @@ import {DEFAULT_OP} from 'types/default';
 import {Toast} from 'types/toast';
 
 import {newToast} from './toast';
+import {createOperations, endOperation, startOperation} from './hepler';
 
 const marketplaceAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
@@ -15,30 +16,29 @@ const marketplaceAdapter = createEntityAdapter({
 export const marketplaceSlice = createSlice({
 	name: 'marketplace',
 	initialState: marketplaceAdapter.getInitialState({
-		op: DEFAULT_OP.loading,
+		op: createOperations(),
 		pages: null,
 		total: 0,
-		currentPage: 1,
 	}),
 	reducers: {
 		marketplaceReceieved: (state, action) => {
 			marketplaceAdapter.setAll(state, action.payload);
-			state.op = null;
+			state.op[DEFAULT_OP.loading] = endOperation();
 		},
 		marketplaceUpsertMany: (state, action) => {
 			marketplaceAdapter.upsertMany(state, action.payload);
-			if (state.op === DEFAULT_OP.load_more) state.currentPage += 1;
-			state.op = null;
+
+			state.op[DEFAULT_OP.loading] = endOperation();
 		},
 		gotPages: (state, {payload}) => {
 			state.pages = Math.ceil(payload.total / payload.limit);
 			state.total = payload.total;
 		},
-		opStart: (state, action) => {
-			state.op = action.payload;
+		opStart: (state, {payload}) => {
+			state.op[payload] = startOperation();
 		},
-		opEnd: state => {
-			state.op = null;
+		opEnd: (state, {payload}) => {
+			state.op[payload.op] = endOperation(payload.error);
 		},
 	},
 });
@@ -55,8 +55,7 @@ export const loadMarketplace = (params, count, op = DEFAULT_OP.loading) => async
 	dispatch(opStart(op));
 	const res = await getMarketplace(params);
 	if (res.error) {
-		dispatch(opEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
+		return dispatch([opEnd({op, error: res.error}), newToast({...Toast.error(res.error)})]);
 	}
 
 	if (count) {
@@ -64,15 +63,20 @@ export const loadMarketplace = (params, count, op = DEFAULT_OP.loading) => async
 
 		const countRes = await countMarketplace(countParams);
 		if (countRes.error) {
-			dispatch(opEnd());
-			return dispatch(newToast({...Toast.error(countRes.error)}));
+			return dispatch([
+				opEnd({op, error: countRes.error}),
+				newToast({...Toast.error(countRes.error)}),
+			]);
 		}
-		dispatch(gotPages({total: countRes, limit: params._limit}));
 
-		return dispatch(marketplaceReceieved(res));
+		return dispatch([
+			dispatch(gotPages({total: countRes, limit: params._limit})),
+			dispatch(marketplaceReceieved(res)),
+			opEnd({op}),
+		]);
 	}
 
-	return dispatch(marketplaceUpsertMany(res));
+	return dispatch([marketplaceUpsertMany(res), opEnd({op})]);
 };
 
 //SELECTORS

@@ -11,13 +11,14 @@ import {DEFAULT_OP} from 'types/default';
 import {newToast} from './toast';
 import {notificationsAddOne} from './notifications';
 import {userItemsUpsert} from './userItems';
+import {createOperations, endOperation, startOperation} from './hepler';
 
 export const userSlice = createSlice({
 	name: 'auth',
 	initialState: {
 		data: null,
 		stats: null,
-		op: null,
+		op: createOperations(Object.keys(USER_OP)),
 		loading: false,
 	},
 	reducers: {
@@ -25,25 +26,16 @@ export const userSlice = createSlice({
 			const {jwt, points, coins, ...rest} = action.payload;
 			state.data = {...rest, token: jwt};
 			state.stats = {points, coins};
-			state.loading = null;
-			state.op = null;
 		},
-		opStart: (state, action) => {
-			state.op = action.payload || true;
+		opStart: (state, {payload}) => {
+			state.op[payload] = startOperation();
 		},
-		opEnd: state => {
-			state.op = null;
-		},
-		loadingStart: state => {
-			state.loading = true;
-		},
-		loadingEnd: state => {
-			state.loading = false;
+		opEnd: (state, {payload}) => {
+			state.op[payload.op] = endOperation(payload.error);
 		},
 		logOut: state => {
 			state.data = null;
-			// state.stats = null;
-			state.op = null;
+			state.stats = {};
 		},
 	},
 	extraReducers: {
@@ -70,27 +62,27 @@ export const userSlice = createSlice({
 export const {logOut, opStart, opEnd, gotData, loadingStart, loadingEnd} = userSlice.actions;
 
 export const loginUser = payload => async dispatch => {
-	dispatch(opStart(USER_OP.login));
+	const op = USER_OP.login;
+	dispatch(opStart(op));
 	const res = await api.loginUser(payload);
 	if (res.error) {
-		dispatch(opEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
+		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
 	}
 	const {jwt, user} = res;
 	const {saved_stories, ...rest} = user;
 
 	localStorage.setItem('token', res.jwt);
 
-	dispatch(gotData({jwt, ...rest}));
+	return dispatch([gotData({jwt, ...rest}), opEnd({op})]);
 };
 
 export const registerUser = payload => async (dispatch, getState, history) => {
-	dispatch(opStart(USER_OP.registring));
+	const op = USER_OP.registring;
+	dispatch(opStart(op));
 	const res = await api.registerUser(payload);
 
 	if (res.error) {
-		dispatch(opEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
+		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
 	}
 
 	const {jwt, user} = res;
@@ -98,91 +90,100 @@ export const registerUser = payload => async (dispatch, getState, history) => {
 
 	localStorage.setItem('token', res.jwt);
 
-	dispatch(gotData({jwt, ...rest}));
+	dispatch([gotData({jwt, ...rest}), opEnd({op})]);
 	history.push(DASHBOARD);
 };
 
 export const logOutUser = () => dispatch => {
-	dispatch(opStart(USER_OP.logout));
+	const op = USER_OP.logout;
+	dispatch(opStart(op));
+
 	localStorage.removeItem('token');
-	dispatch(logOut());
+
+	return dispatch([logOut(), opEnd({op})]);
 };
 
 export const getUser = () => async (dispatch, getState) => {
 	const token = localStorage.getItem('token');
 
-	if (!token) {
-		return null;
-	}
+	if (!token) return null;
 
-	dispatch(loadingStart());
+	const op = USER_OP.loading;
+	dispatch(opStart(op));
 	const res = await api.getUserInfo(token);
 	if (res.error) {
-		dispatch(loadingEnd());
+		dispatch(opEnd({op, error: res.error}));
 		return localStorage.removeItem('token');
 	}
 
-	dispatch(gotData({...res, jwt: token}));
+	dispatch([gotData({...res, jwt: token}), opEnd({op})]);
 };
 
 export const updateUser = (token, payload) => async dispatch => {
-	dispatch(opStart(DEFAULT_OP.update));
+	const op = DEFAULT_OP.update;
+	dispatch(opStart(op));
 	const res = await api.updateUser(token, payload);
 	if (res.error) {
-		dispatch(opEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
+		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
 	}
-	dispatch(
+
+	return dispatch([
+		gotData({...res, jwt: token}),
+		opEnd({op}),
 		newToast({
 			...Toast.success('The settings have been successfully updated.', 'Account Settings'),
-		})
-	);
-	dispatch(gotData({...res, jwt: token}));
+		}),
+	]);
 };
 
 export const forgotPassword = payload => async dispatch => {
-	dispatch(opStart(USER_OP.forgot_password));
+	const op = USER_OP.forgot_password;
+	dispatch(opStart(op));
 	const res = await api.forgotPassword(payload);
 	if (res.error) {
-		dispatch(opEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
+		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
 	}
-	dispatch(opEnd());
-	dispatch(
+
+	return dispatch([
+		opEnd({op}),
 		newToast({
 			...Toast.success(
 				'We have sent a password recover instructions to your email. Please check your Spam folder if you cannot find it.',
 				'Check your email'
 			),
-		})
-	);
+		}),
+	]);
 };
 
 export const resetPassword = payload => async (dispatch, getState, history) => {
-	dispatch(opStart(USER_OP.reset_password));
+	const op = USER_OP.reset_password;
+	dispatch(opStart(op));
 	const res = await api.resetPassword(payload);
 
 	if (res.error) {
-		dispatch(opEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
+		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
 	}
 	localStorage.setItem('token', res.jwt);
 	const {jwt, user} = res;
-	dispatch(gotData({jwt, ...user}));
-	history.push(DASHBOARD);
-	dispatch(
+
+	dispatch([
+		gotData({jwt, ...user}),
+		opEnd({op}),
 		newToast({
 			...Toast.success('The password has been successfully reset.', 'Password recovered'),
-		})
-	);
+		}),
+	]);
+
+	history.push(DASHBOARD);
 };
 
 export const providerLogin = (provider, token) => async (dispatch, getState, history) => {
-	dispatch(opStart(USER_OP.provider_login));
+	const op = USER_OP.provider_login;
+	dispatch(opStart());
 	const res = await api.loginProvider(provider, token);
 
 	if (res.error) {
-		dispatch(opEnd());
+		dispatch(opEnd({op, error: res.error}));
 		return dispatch(newToast({...Toast.error(res.error.detail || res.error)}));
 	}
 	const {jwt, user} = res;
@@ -190,7 +191,7 @@ export const providerLogin = (provider, token) => async (dispatch, getState, his
 
 	localStorage.setItem('token', res.jwt);
 
-	dispatch(gotData({jwt, ...rest}));
+	dispatch([gotData({jwt, ...rest}), opEnd({op})]);
 	history.push(WELCOME);
 };
 

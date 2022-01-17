@@ -38,8 +38,8 @@ export default function Following({id}) {
 				onLoadMore={() =>
 					handleLoadFollowing(false, DEFAULT_OP.load_more, following.length)
 				}
-				loading={[DEFAULT_OP.loading, DEFAULT_OP.load_more].includes(op)}
-				showItems={op !== DEFAULT_OP.loading}
+				loading={op[DEFAULT_OP.loading].loading || op[DEFAULT_OP.load_more].loading}
+				showItems={op[DEFAULT_OP.loading].success}
 				shouldLoad={total > following.length}
 				isModal
 				total={total}
@@ -80,7 +80,13 @@ export default function Following({id}) {
 
 	const handleLoadFollowing = useCallback(
 		(count, op, _start) => {
-			dispatch(loadFollowing({follower: id, ...DEFAULT_LIMIT, _start}, count, op));
+			dispatch(
+				loadFollowing(
+					{follower: id, ...DEFAULT_LIMIT, _sort: 'created_at:DESC', _start},
+					count,
+					op
+				)
+			);
 		},
 		[dispatch, id]
 	);
@@ -94,7 +100,7 @@ export default function Following({id}) {
 	return (
 		<div className={CLASS}>
 			<div className={followersClasses} onClick={() => setIsOpen(true)}>
-				<Typography>{op !== DEFAULT_OP.loading && total}</Typography>
+				<Typography>{!op[DEFAULT_OP.loading].loading && total}</Typography>
 				<Typography>Following</Typography>
 			</div>
 

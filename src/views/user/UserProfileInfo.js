@@ -3,6 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 
 import {COLOR} from 'types/button';
+import {DEFAULT_OP} from 'types/default';
 
 import {selectAuthUser} from 'redux/auth';
 import {createOrDeleteFollower} from 'redux/followers';
@@ -40,7 +41,7 @@ export default function UserProfileInfo({user, className}) {
 		<>
 			<div className={className + '-user-info-stats'}>
 				<div className={className + '-user-info-stats-stories'}>
-					<span>{!op && total}</span>
+					<span>{!op[DEFAULT_OP.loading].loading && total}</span>
 					<span>Stories</span>
 				</div>
 

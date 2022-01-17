@@ -6,6 +6,7 @@ import {DEFAULT_OP} from 'types/default';
 import {Toast} from 'types/toast';
 
 import {newToast} from './toast';
+import {createOperations, endOperation, startOperation} from './hepler';
 
 const userItemsAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
@@ -14,35 +15,30 @@ const userItemsAdapter = createEntityAdapter({
 export const userItemsSlice = createSlice({
 	name: 'userItems',
 	initialState: userItemsAdapter.getInitialState({
-		op: DEFAULT_OP.loading,
+		op: createOperations(),
 		pages: null,
 		total: 0,
-		currentPage: 1,
 	}),
 	reducers: {
 		userItemsReceieved: (state, action) => {
 			userItemsAdapter.setAll(state, action.payload);
-			state.op = null;
 		},
 		userItemsUpsertMany: (state, action) => {
 			userItemsAdapter.upsertMany(state, action.payload);
-			if (state.op === DEFAULT_OP.load_more) state.currentPage += 1;
-			state.op = null;
 		},
 		userItemsUpsert: (state, {payload}) => {
 			userItemsAdapter.upsertOne(state, payload);
 			state.total += 1;
-			state.op = null;
 		},
 		gotPages: (state, {payload}) => {
 			state.pages = Math.ceil(payload.total / payload.limit);
 			state.total = payload.total;
 		},
-		opStart: (state, action) => {
-			state.op = action.payload;
+		opStart: (state, {payload}) => {
+			state.op[payload] = startOperation();
 		},
-		opEnd: state => {
-			state.op = null;
+		opEnd: (state, {payload}) => {
+			state.op[payload.op] = endOperation(payload.error);
 		},
 	},
 });
@@ -57,27 +53,28 @@ export const {
 } = userItemsSlice.actions;
 
 export const purchaseUserItem = payload => async (dispatch, getState) => {
-	dispatch(opStart(DEFAULT_OP.loading));
+	const op = DEFAULT_OP.loading;
+	dispatch(opStart(op));
 	const res = await createUserItem(payload);
 
 	if (res.error) {
-		dispatch(opEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
+		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
 	}
-	dispatch(
+
+	return dispatch([
+		userItemsUpsert(res),
+		opEnd({op}),
 		newToast({
 			...Toast.success(`- ${res?.item?.price} coins`, `${res?.item?.name} bought`),
-		})
-	);
-	dispatch(userItemsUpsert(res));
+		}),
+	]);
 };
 
 export const loadUserItems = (params, count, op = DEFAULT_OP.loading) => async dispatch => {
 	dispatch(opStart(op));
 	const res = await getUserItems(params);
 	if (res.error) {
-		dispatch(opEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
+		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
 	}
 
 	if (count) {
@@ -85,15 +82,20 @@ export const loadUserItems = (params, count, op = DEFAULT_OP.loading) => async d
 
 		const countRes = await countUserItems(countParams);
 		if (countRes.error) {
-			dispatch(opEnd());
-			return dispatch(newToast({...Toast.error(countRes.error)}));
+			return dispatch([
+				opEnd({op, error: countRes.error}),
+				newToast({...Toast.error(countRes.error)}),
+			]);
 		}
-		dispatch(gotPages({total: countRes, limit: params._limit}));
 
-		return dispatch(userItemsReceieved(res));
+		return dispatch([
+			userItemsReceieved(res),
+			gotPages({total: countRes, limit: params._limit}),
+			opEnd({op}),
+		]);
 	}
 
-	return dispatch(userItemsUpsertMany(res));
+	return dispatch([userItemsUpsertMany(res), opEnd({op})]);
 };
 
 //SELECTORS

@@ -1,4 +1,5 @@
 import {configureStore} from '@reduxjs/toolkit';
+import {reduxBatch} from '@manaflair/redux-batch';
 
 import history from 'lib/history';
 
@@ -59,6 +60,7 @@ const store = configureStore({
 			},
 			serializableCheck: false,
 		}),
+	enhancers: [reduxBatch],
 });
 
 export default store;

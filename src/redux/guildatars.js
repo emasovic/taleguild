@@ -12,6 +12,7 @@ import {DEFAULT_OP} from 'types/default';
 import {Toast} from 'types/toast';
 
 import {newToast} from './toast';
+import {createOperations, endOperation, startOperation} from './hepler';
 
 const guildatarsAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
@@ -21,24 +22,19 @@ const guildatarsAdapter = createEntityAdapter({
 export const guildatarsSlice = createSlice({
 	name: 'guildatars',
 	initialState: guildatarsAdapter.getInitialState({
-		op: DEFAULT_OP.loading,
+		op: createOperations(),
 		pages: null,
 		total: 0,
-		currentPage: 1,
 	}),
 	reducers: {
 		guildatarsReceieved: (state, action) => {
 			guildatarsAdapter.setAll(state, action.payload);
-			state.op = null;
 		},
 		guildatarsUpsertMany: (state, action) => {
 			guildatarsAdapter.upsertMany(state, action.payload);
-			if (state.op === DEFAULT_OP.load_more) state.currentPage += 1;
-			state.op = null;
 		},
 		guildatarUpsert: (state, {payload}) => {
 			guildatarsAdapter.upsertOne(state, payload);
-			state.op = null;
 
 			if (payload.isNew) {
 				state.total += 1;
@@ -48,11 +44,11 @@ export const guildatarsSlice = createSlice({
 			state.pages = Math.ceil(payload.total / payload.limit);
 			state.total = payload.total;
 		},
-		opStart: (state, action) => {
-			state.op = action.payload || DEFAULT_OP.loading;
+		opStart: (state, {payload}) => {
+			state.op[payload] = startOperation();
 		},
-		opEnd: state => {
-			state.op = null;
+		opEnd: (state, {payload}) => {
+			state.op[payload.op] = endOperation(payload.error);
 		},
 	},
 });
@@ -67,18 +63,19 @@ export const {
 } = guildatarsSlice.actions;
 
 export const createOrUpdateGuildatar = payload => async (dispatch, getState, history) => {
-	dispatch(opStart());
+	const op = payload.id ? DEFAULT_OP.update : DEFAULT_OP.delete;
+	dispatch(opStart(op));
 
 	const res = payload.id ? await updateGuildatar(payload) : await createGuildatar(payload);
 	if (res.error) {
-		dispatch(opEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
+		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
 	}
 	const message = payload.id
 		? 'The guildatar has been successfully updated.'
 		: 'The guildatar has been successfully created.';
 
 	dispatch(guildatarUpsert({...res, isNew: payload.id ? false : true}));
+	dispatch(opEnd({op}));
 	dispatch(newToast({...Toast.success(message)}));
 };
 
@@ -86,8 +83,7 @@ export const loadGuildatars = (params, count, op = DEFAULT_OP.loading) => async 
 	dispatch(opStart(op));
 	const res = await getGuildatars(params);
 	if (res.error) {
-		dispatch(opEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
+		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
 	}
 
 	if (count) {
@@ -95,38 +91,39 @@ export const loadGuildatars = (params, count, op = DEFAULT_OP.loading) => async 
 
 		const countRes = await countGuildatars(countParams);
 		if (countRes.error) {
-			dispatch(opEnd());
-			return dispatch(newToast({...Toast.error(countRes.error)}));
+			return dispatch([
+				opEnd({op, error: countRes.error}),
+				newToast({...Toast.error(countRes.error)}),
+			]);
 		}
-		dispatch(gotPages({total: countRes, limit: params._limit}));
-
-		return dispatch(guildatarsReceieved(res));
+		return dispatch([
+			gotPages({total: countRes, limit: params._limit}),
+			guildatarsReceieved(res),
+			opEnd({op}),
+		]);
 	}
-
-	return dispatch(guildatarsUpsertMany(res));
+	return dispatch([guildatarsUpsertMany(res), opEnd({op})]);
 };
 
 export const countAllGuildatars = (params, op = DEFAULT_OP.loading) => async dispatch => {
 	dispatch(opStart(op));
 	const res = await countGuildatars(params);
 	if (res.error) {
-		dispatch(opEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
+		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
 	}
-	dispatch(opEnd());
-	dispatch(gotPages({total: res}));
+	return dispatch([gotPages({total: res}), opEnd({op})]);
 };
 
 export const loadGuildatar = id => async dispatch => {
-	dispatch(opStart());
+	const op = DEFAULT_OP.loading;
+	dispatch(opStart(op));
 
 	const res = await getGuildatar(id);
 
 	if (res.error) {
-		dispatch(opEnd());
-		dispatch(newToast({...Toast.error(res.error)}));
+		return dispatch([opEnd({op, error: res.error}), newToast({...Toast.error(res.error)})]);
 	}
-	dispatch(guildatarUpsert(res));
+	return dispatch([guildatarUpsert(res), opEnd({op})]);
 };
 
 //SELECTORS

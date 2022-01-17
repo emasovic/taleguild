@@ -41,7 +41,7 @@ export default function GuildatarContainer() {
 	const {id} = useParams();
 	const dispatch = useDispatch();
 	const guildatar = useSelector(state => selectGuildatarById(state, id));
-	const {op, pages, currentPage} = useSelector(state => state.userItems);
+	const {op, total} = useSelector(state => state.userItems);
 	const items = useSelector(selectUserItems);
 
 	const [isOpen, setIsOpen] = useState(false);
@@ -127,7 +127,6 @@ export default function GuildatarContainer() {
 		? defaultItems.filter(i => i?.item?.body_part === bodyPart)
 		: defaultItems;
 
-	const total = defaultItems.length + items.length;
 	return (
 		<MobileWrapper className={CLASS}>
 			<form onSubmit={formikSubmit}>
@@ -206,18 +205,16 @@ export default function GuildatarContainer() {
 							loading={false}
 							title="Items"
 							urlParamName="body_part"
-							childrenLoading={op === DEFAULT_OP.loading}
+							childrenloading={
+								op[DEFAULT_OP.loading].loading || op[DEFAULT_OP.load_more].loading
+							}
 						/>
 
 						<LoadMore
 							id="userItems"
 							total={total}
 							onLoadMore={() =>
-								handleLoadUserItems(
-									false,
-									DEFAULT_OP.load_more,
-									currentPage * DEFAULT_LIMIT._limit
-								)
+								handleLoadUserItems(false, DEFAULT_OP.load_more, items.length)
 							}
 							NoItemsComponent={PagePlaceholder}
 							noItemsComponentProps={{
@@ -229,9 +226,11 @@ export default function GuildatarContainer() {
 									search: bodyPart && `?body_part=${bodyPart}`,
 								},
 							}}
-							shouldLoad={pages > currentPage}
-							loading={[DEFAULT_OP.loading, DEFAULT_OP.load_more].includes(op)}
-							showItems={op !== DEFAULT_OP.loading}
+							shouldLoad={total > items.length}
+							loading={
+								op[DEFAULT_OP.loading].loading || op[DEFAULT_OP.load_more].loading
+							}
+							showItems={op[DEFAULT_OP.loading].success}
 							className={CLASS + '-content-items-load_more'}
 							placeholderClassName={CLASS + '-content-items-load_more-placeholder'}
 						>

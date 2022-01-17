@@ -3,10 +3,11 @@ import React from 'react';
 import {useSelector} from 'react-redux';
 
 import FA from 'types/font_awesome';
+import {DEFAULT_OP} from 'types/default';
 
 import {selectCategories} from 'redux/categories';
 
-import SideNav from '../../../../components/widgets/side-nav/SideNav';
+import SideNav from 'components/widgets/side-nav/SideNav';
 
 const CATEGORY_ICONS = {
 	adult: FA.solid_ban,
@@ -35,10 +36,8 @@ const CATEGORY_ICONS = {
 };
 
 export default function Categories() {
-	let {categories, loading} = useSelector(state => ({
-		loading: state.categories.loading,
-		categories: selectCategories(state),
-	}));
+	const {op} = useSelector(state => state.categories);
+	let categories = useSelector(selectCategories);
 
 	categories = categories.map(i => ({...i, icon: CATEGORY_ICONS[i.name]}));
 
@@ -46,7 +45,7 @@ export default function Categories() {
 		<SideNav
 			items={categories}
 			urlParamName="categories"
-			loading={!!loading}
+			loading={op[DEFAULT_OP.loading].loading || op[DEFAULT_OP.load_more].loading}
 			allIcon={FA.solid_box_open}
 		/>
 	);

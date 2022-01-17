@@ -61,8 +61,8 @@ function CommentsDialog({isOpen, title, onClose, storyId, className}) {
 					onLoadMore={() =>
 						handleLoadComments(false, DEFAULT_OP.load_more, comments.length)
 					}
-					loading={[DEFAULT_OP.loading, DEFAULT_OP.load_more].includes(op)}
-					showItems={op !== DEFAULT_OP.loading}
+					loading={op[DEFAULT_OP.loading].loading || op[DEFAULT_OP.load_more].loading}
+					showItems={op[DEFAULT_OP.loading].success}
 					shouldLoad={total > comments.length}
 					isModal
 					total={total}
@@ -90,7 +90,7 @@ function CommentsDialog({isOpen, title, onClose, storyId, className}) {
 										<IconButton
 											color={COLOR.secondary}
 											icon={FA.solid_times}
-											disabled={!!op}
+											disabled={op[DEFAULT_OP.delete].loading}
 											onClick={e => {
 												e.preventDefault();
 												handleSubmit({id: item.id});
@@ -121,7 +121,10 @@ function CommentsDialog({isOpen, title, onClose, storyId, className}) {
 								<IconButton
 									type="submit"
 									color={COLOR.secondary}
-									loading={!!op}
+									loading={
+										op[DEFAULT_OP.loading].loading ||
+										op[DEFAULT_OP.load_more].loading
+									}
 									disabled={!dirty}
 								>
 									Post
@@ -141,6 +144,7 @@ function CommentsDialog({isOpen, title, onClose, storyId, className}) {
 					loadComments(
 						{
 							story: storyId,
+							_sort: 'created_at:DESC',
 							...DEFAULT_LIMIT,
 							_start,
 						},

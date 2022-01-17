@@ -6,44 +6,44 @@ import {Toast} from 'types/toast';
 import {DEFAULT_OP} from 'types/default';
 
 import {newToast} from './toast';
+import {createOperations, endOperation, startOperation} from './hepler';
 
 const categoryAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
-	sortComparer: (a, b) => a.created_at.localeCompare(b.created_at),
+	sortComparer: (a, b) => a.name.localeCompare(b.name),
 });
 
 export const categorySlice = createSlice({
 	name: 'categories',
 	initialState: categoryAdapter.getInitialState({
-		op: DEFAULT_OP.loading,
+		op: createOperations(),
 		pages: null,
 		loading: null,
 	}),
 	reducers: {
 		categoriesReceieved: (state, action) => {
 			categoryAdapter.setAll(state, action.payload);
-			state.loading = null;
 		},
-		loadingStart: state => {
-			state.loading = true;
+		opStart: (state, {payload}) => {
+			state.op[payload] = startOperation();
 		},
-		loadingEnd: state => {
-			state.loading = false;
+		opEnd: (state, {payload}) => {
+			state.op[payload.op] = endOperation(payload.error);
 		},
 	},
 });
 
-export const {loadingStart, loadingEnd, categoriesReceieved} = categorySlice.actions;
+export const {opStart, opEnd, categoriesReceieved} = categorySlice.actions;
 
 export const loadCategories = params => async dispatch => {
-	dispatch(loadingStart());
+	const op = DEFAULT_OP.loading;
+	dispatch(opStart(op));
 	const res = await api.getCategories(params);
 	if (res.error) {
-		dispatch(loadingEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
+		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
 	}
 
-	return dispatch(categoriesReceieved(res));
+	return dispatch([categoriesReceieved(res), opEnd({op})]);
 };
 
 //SELECTORS

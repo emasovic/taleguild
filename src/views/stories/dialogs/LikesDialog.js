@@ -24,8 +24,8 @@ function LikesDialog({isOpen, title, onClose, storyId, className}) {
 			<LoadMore
 				className={className + '-likes'}
 				onLoadMore={() => handleLoadLikes(false, DEFAULT_OP.load_more, likes.length)}
-				loading={[DEFAULT_OP.loading, DEFAULT_OP.load_more].includes(op)}
-				showItems={op !== DEFAULT_OP.loading}
+				loading={op[DEFAULT_OP.loading].loading || op[DEFAULT_OP.load_more].loading}
+				showItems={op[DEFAULT_OP.loading].success}
 				shouldLoad={total > likes.length}
 				isModal
 				total={total}
@@ -57,6 +57,7 @@ function LikesDialog({isOpen, title, onClose, storyId, className}) {
 					loadLikes(
 						{
 							story: storyId,
+							_sort: 'created_at:DESC',
 							...DEFAULT_LIMIT,
 							_start,
 						},

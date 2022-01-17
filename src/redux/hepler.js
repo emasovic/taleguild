@@ -1,3 +1,5 @@
+import {DEFAULT_OP} from 'types/default';
+
 export const hepler = arr => {
 	const obj = {};
 
@@ -38,6 +40,23 @@ export const gotDataHelper = (state, data, invalidate, key) => {
 		...state,
 		...data,
 	};
+};
+
+export const createOperations = (ops = []) => {
+	const allOps = [...Object.keys(DEFAULT_OP), ...ops];
+	return allOps.reduce(
+		(acc, val) => ({
+			...acc,
+			[val]: {loading: false, success: false, error: false},
+		}),
+		{}
+	);
+};
+
+export const startOperation = () => ({loading: true, success: false, error: false});
+export const endOperation = err => {
+	if (err) return {loading: false, success: false, error: err};
+	return {loading: false, success: true, error: null};
 };
 
 // SELECTORS

@@ -1,11 +1,12 @@
 import {createSlice, createEntityAdapter} from '@reduxjs/toolkit';
 
-import {getViews, countViews} from '../lib/api';
+import {getViews, countViews, createViews} from '../lib/api';
 
 import {DEFAULT_OP} from 'types/default';
 import {Toast} from 'types/toast';
 
 import {newToast} from './toast';
+import {createOperations, endOperation, startOperation} from './hepler';
 
 const viewsAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
@@ -14,30 +15,26 @@ const viewsAdapter = createEntityAdapter({
 export const viewsSlice = createSlice({
 	name: 'views',
 	initialState: viewsAdapter.getInitialState({
-		op: DEFAULT_OP.loading,
+		op: createOperations(),
 		pages: null,
 		total: 0,
-		currentPage: 1,
 	}),
 	reducers: {
 		viewsReceieved: (state, action) => {
 			viewsAdapter.setAll(state, action.payload);
-			state.op = null;
 		},
 		viewsUpsertMany: (state, action) => {
 			viewsAdapter.upsertMany(state, action.payload);
-			if (state.op === DEFAULT_OP.load_more) state.currentPage += 1;
-			state.op = null;
 		},
 		gotPages: (state, {payload}) => {
 			state.pages = Math.ceil(payload.total / payload.limit);
 			state.total = payload.total;
 		},
-		opStart: (state, action) => {
-			state.op = action.payload;
+		opStart: (state, {payload}) => {
+			state.op[payload] = startOperation();
 		},
-		opEnd: state => {
-			state.op = null;
+		opEnd: (state, {payload}) => {
+			state.op[payload.op] = endOperation(payload.error);
 		},
 	},
 });
@@ -48,8 +45,7 @@ export const loadViews = (params, count, op = DEFAULT_OP.loading) => async dispa
 	dispatch(opStart(op));
 	const res = await getViews(params);
 	if (res.error) {
-		dispatch(opEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
+		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
 	}
 
 	if (count) {
@@ -57,15 +53,36 @@ export const loadViews = (params, count, op = DEFAULT_OP.loading) => async dispa
 
 		const countRes = await countViews(countParams);
 		if (countRes.error) {
-			dispatch(opEnd());
-			return dispatch(newToast({...Toast.error(countRes.error)}));
+			return dispatch([
+				opEnd({op, error: countRes.error}),
+				newToast({...Toast.error(countRes.error)}),
+			]);
 		}
-		dispatch(gotPages({total: countRes, limit: params._limit}));
 
-		return dispatch(viewsReceieved(res));
+		return dispatch([
+			viewsReceieved(res),
+			gotPages({total: countRes, limit: params._limit}),
+			opEnd({op}),
+		]);
 	}
 
-	return dispatch(viewsUpsertMany(res));
+	return dispatch([viewsUpsertMany(res), opEnd({op})]);
+};
+
+export const createOrUpdateViews = (id, userId) => async dispatch => {
+	const op = DEFAULT_OP.create;
+	dispatch(opStart(op));
+
+	const res = await createViews({
+		storyId: id,
+		userAgent: navigator.userAgent,
+		userId,
+	});
+	if (res.error) {
+		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
+	}
+
+	return dispatch(opEnd({op}));
 };
 
 //SELECTORS

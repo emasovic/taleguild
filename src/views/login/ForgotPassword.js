@@ -62,7 +62,7 @@ export default function ForgotPassword() {
 					invalid={!!errors.email}
 					wholeEvent
 				/>
-				<IconButton loading={op === USER_OP.forgot_password} disabled={!dirty}>
+				<IconButton loading={op[USER_OP.forgot_password].loading} disabled={!dirty}>
 					Send
 				</IconButton>
 			</form>

@@ -78,7 +78,7 @@ function RecentWork({shouldLoadMore, title, titleProps, placeholderProps}) {
 	const dispatch = useDispatch();
 
 	const stories = useSelector(selectStoryIds);
-	const {op, pages, currentPage, total} = useSelector(state => state.draftStories);
+	const {op, total} = useSelector(state => state.draftStories);
 	const {data} = useSelector(selectAuthUser);
 
 	const userId = data?.id;
@@ -97,7 +97,6 @@ function RecentWork({shouldLoadMore, title, titleProps, placeholderProps}) {
 							_sort: 'created_at:DESC',
 							_start,
 						},
-
 						op
 					)
 				);
@@ -116,12 +115,10 @@ function RecentWork({shouldLoadMore, title, titleProps, placeholderProps}) {
 			<LoadMore
 				id="recentWork"
 				total={total}
-				loading={[DEFAULT_OP.loading, DEFAULT_OP.load_more].includes(op)}
-				showItems={op !== DEFAULT_OP.loading}
-				shouldLoad={shouldLoadMore && pages > currentPage}
-				onLoadMore={() =>
-					handleLoadStories(DEFAULT_OP.load_more, currentPage * DEFAULT_LIMIT._limit)
-				}
+				loading={op[DEFAULT_OP.loading].loading || op[DEFAULT_OP.load_more].loading}
+				showItems={op[DEFAULT_OP.loading].success}
+				shouldLoad={shouldLoadMore && total > stories.length}
+				onLoadMore={() => handleLoadStories(DEFAULT_OP.load_more, stories.length)}
 				NoItemsComponent={NoItemsPlaceholder}
 				noItemsComponentProps={{
 					title: 'Create your first story',

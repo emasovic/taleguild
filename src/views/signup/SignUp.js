@@ -9,6 +9,8 @@ import {LOGIN} from 'lib/routes';
 
 import {FONTS, TYPOGRAPHY_VARIANTS} from 'types/typography';
 import {COLOR, BRAND} from 'types/button';
+import {USER_OP} from 'types/user';
+import {DEFAULT_OP} from 'types/default';
 
 import {registerUser} from 'redux/auth';
 
@@ -116,17 +118,25 @@ export default function SignUp() {
 				invalid={!!errors.terms}
 				errorMessage={errors.terms}
 			/>
-			<IconButton loading={!!op} disabled={!dirty} type="submit">
+			<IconButton loading={op[USER_OP.registring].loading} disabled={!dirty} type="submit">
 				Sign Up
 			</IconButton>
 
 			<Typography className={CLASS + '-divider'}>OR</Typography>
 
-			<BrandButton loading={!!op} color={COLOR.secondary} brand={BRAND.google}>
+			<BrandButton
+				loading={op[DEFAULT_OP.loading].loading || op[DEFAULT_OP.load_more].loading}
+				color={COLOR.secondary}
+				brand={BRAND.google}
+			>
 				Sign up with Google
 			</BrandButton>
 
-			<BrandButton loading={!!op} color={COLOR.secondary} brand={BRAND.facebook}>
+			<BrandButton
+				loading={op[DEFAULT_OP.loading].loading || op[DEFAULT_OP.load_more].loading}
+				color={COLOR.secondary}
+				brand={BRAND.facebook}
+			>
 				Sign up with Facebook
 			</BrandButton>
 

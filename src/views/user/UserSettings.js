@@ -4,6 +4,7 @@ import {useFormik} from 'formik';
 import {object, string} from 'yup';
 
 import {THEMES} from 'types/themes';
+import {DEFAULT_OP} from 'types/default';
 
 import {selectAuthUser, updateUser} from 'redux/auth';
 
@@ -132,7 +133,7 @@ export default function UserSettings() {
 
 					<ThemePicker value={theme} onChange={val => setFieldValue('theme', val)} />
 
-					<IconButton loading={!!op} disabled={!dirty}>
+					<IconButton loading={op[DEFAULT_OP.update].loading} disabled={!dirty}>
 						Save changes
 					</IconButton>
 				</div>

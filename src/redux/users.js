@@ -6,6 +6,8 @@ import {Toast} from 'types/toast';
 
 import {newToast} from './toast';
 import {followersRemoveOne, followersUpsertOne} from './followers';
+import {createOperations, endOperation, startOperation} from './hepler';
+import {DEFAULT_OP} from 'types/default';
 
 const usersAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
@@ -14,17 +16,16 @@ const usersAdapter = createEntityAdapter({
 
 export const usersSlice = createSlice({
 	name: 'users',
-	initialState: usersAdapter.getInitialState({loading: null}),
+	initialState: usersAdapter.getInitialState({op: createOperations()}),
 	reducers: {
 		usersReceieved: (state, action) => {
 			usersAdapter.upsertOne(state, action.payload);
-			state.loading = null;
 		},
-		loadingStart: state => {
-			state.loading = true;
+		opStart: (state, {payload}) => {
+			state.op[payload] = startOperation();
 		},
-		loadingEnd: state => {
-			state.loading = null;
+		opEnd: (state, {payload}) => {
+			state.op[payload.op] = endOperation(payload.error);
 		},
 	},
 	extraReducers: {
@@ -45,17 +46,17 @@ export const usersSlice = createSlice({
 	},
 });
 
-export const {usersReceieved, loadingStart, loadingEnd} = usersSlice.actions;
+export const {usersReceieved, opStart, opEnd} = usersSlice.actions;
 
-export const loadUser = id => async dispatch => {
-	dispatch(loadingStart());
-	const res = await api.getUser(id);
+export const loadUser = username => async dispatch => {
+	const op = DEFAULT_OP.loading;
+	dispatch(opStart(op));
+	const res = await api.getUser(username);
 	if (res.error) {
-		dispatch(loadingEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
+		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
 	}
 
-	dispatch(usersReceieved(res));
+	return dispatch([usersReceieved(res), opEnd({op})]);
 };
 
 const usersSelector = usersAdapter.getSelectors(state => state.users);

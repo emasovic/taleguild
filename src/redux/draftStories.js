@@ -7,6 +7,7 @@ import {Toast} from 'types/toast';
 import {DEFAULT_OP} from 'types/default';
 
 import {newToast} from './toast';
+import {createOperations, endOperation, startOperation} from './hepler';
 
 const draftStoriesAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
@@ -16,51 +17,36 @@ const draftStoriesAdapter = createEntityAdapter({
 export const draftSlice = createSlice({
 	name: 'draftStories',
 	initialState: draftStoriesAdapter.getInitialState({
-		op: DEFAULT_OP.loading,
+		op: createOperations(),
 		pages: null,
 		loading: null,
-		currentPage: 1,
+
 		total: 0,
 	}),
 	reducers: {
 		draftStoriesReceieved: (state, action) => {
 			draftStoriesAdapter.setAll(state, action.payload);
-			state.loading = null;
-			state.op = null;
 		},
 		draftStoryUpsertMany: (state, action) => {
 			draftStoriesAdapter.upsertMany(state, action.payload);
-			if (state.op === DEFAULT_OP.load_more) state.currentPage += 1;
-			state.loading = null;
-			state.op = null;
 		},
 		draftStoryUpsert: (state, action) => {
 			draftStoriesAdapter.upsertOne(state, action.payload);
-			state.loading = null;
 			state.total += 1;
-			state.op = null;
 		},
 		draftStoryRemoved: (state, action) => {
 			draftStoriesAdapter.removeOne(state, action.payload);
-			state.loading = null;
 			state.total -= 1;
-			state.op = null;
 		},
 		gotPages: (state, {payload}) => {
 			state.pages = Math.ceil(payload.total / payload.limit);
 			state.total = payload.total;
 		},
-		loadingStart: state => {
-			state.loading = true;
+		opStart: (state, {payload}) => {
+			state.op[payload] = startOperation();
 		},
-		loadingEnd: state => {
-			state.loading = false;
-		},
-		opStart: (state, action) => {
-			state.op = action.payload;
-		},
-		opEnd: state => {
-			state.op = null;
+		opEnd: (state, {payload}) => {
+			state.op[payload.op] = endOperation(payload.error);
 		},
 	},
 });
@@ -81,25 +67,28 @@ export const loadStories = (params, op = STORY_OP.loading) => async dispatch => 
 	dispatch(opStart(op));
 	const res = await api.getStories(params);
 	if (res.error) {
-		dispatch(loadingEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
+		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
 	}
 
 	const action = !params._start ? draftStoriesReceieved : draftStoryUpsertMany;
 
-	dispatch(gotPages({total: res.total, limit: params._limit}));
-	return dispatch(action(res.data));
+	return dispatch([
+		action(res.data),
+		gotPages({total: res.total, limit: params._limit}),
+		opEnd({op}),
+	]);
 };
 
 export const deleteStory = storyId => async dispatch => {
-	dispatch(loadingStart());
+	const op = DEFAULT_OP.delete;
+	dispatch(opStart(op));
 
 	const res = await api.deleteStory(storyId);
 	if (res.error) {
-		dispatch(loadingEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
+		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
 	}
-	dispatch(draftStoryRemoved(storyId));
+
+	return dispatch([draftStoryRemoved(storyId), opEnd({op})]);
 };
 
 //SELECTORS

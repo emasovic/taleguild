@@ -6,6 +6,7 @@ import {Toast} from 'types/toast';
 import {DEFAULT_OP} from 'types/default';
 
 import {newToast} from './toast';
+import {createOperations, endOperation, startOperation} from './hepler';
 
 const notificationsAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
@@ -15,25 +16,17 @@ const notificationsAdapter = createEntityAdapter({
 export const notificationsSlice = createSlice({
 	name: 'notifications',
 	initialState: notificationsAdapter.getInitialState({
-		op: DEFAULT_OP.loading,
+		op: createOperations(),
 		pages: null,
-		currentPage: 1,
 		unseen: 0,
 		total: 0,
 	}),
 	reducers: {
 		notificationsReceieved: (state, action) => {
 			notificationsAdapter.setAll(state, action.payload);
-			state.op = null;
 		},
 		notificationsUpsertMany: (state, {payload}) => {
 			notificationsAdapter.upsertMany(state, payload);
-
-			if (state.op === DEFAULT_OP.load_more) {
-				state.currentPage += 1;
-			}
-
-			state.op = null;
 		},
 		notificationsMarkAllAsRead: state => {
 			const {entities} = current(state);
@@ -52,8 +45,6 @@ export const notificationsSlice = createSlice({
 			} else {
 				state.unseen -= 1;
 			}
-
-			state.op = null;
 		},
 		notificationsAddOne: (state, {payload}) => {
 			notificationsAdapter.addOne(state, payload);
@@ -65,17 +56,12 @@ export const notificationsSlice = createSlice({
 				state.unseen -= 1;
 			}
 		},
-		loadingStart: state => {
-			state.loading = true;
+
+		opStart: (state, {payload}) => {
+			state.op[payload] = startOperation();
 		},
-		loadingEnd: state => {
-			state.loading = false;
-		},
-		opStart: (state, action) => {
-			state.op = action.payload;
-		},
-		opEnd: state => {
-			state.op = null;
+		opEnd: (state, {payload}) => {
+			state.op[payload.op] = endOperation(payload.error);
 		},
 		gotPages: (state, {payload}) => {
 			state.pages = Math.ceil(payload.total / payload.limit);
@@ -102,8 +88,7 @@ export const loadNotifications = (params, count, op = DEFAULT_OP.loading) => asy
 	dispatch(opStart(op));
 	const res = await api.getNotifications(params);
 	if (res.error) {
-		dispatch(opEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
+		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
 	}
 
 	if (count) {
@@ -111,37 +96,40 @@ export const loadNotifications = (params, count, op = DEFAULT_OP.loading) => asy
 
 		const countRes = await api.countNotifications(countParams);
 		if (countRes.error) {
-			dispatch(opEnd());
-			return dispatch(newToast({...Toast.error(countRes.error)}));
+			return dispatch([
+				opEnd({op, error: countRes.error}),
+				newToast({...Toast.error(countRes.error)}),
+			]);
 		}
 
-		dispatch(gotPages({total: countRes.total, unseen: countRes.unseen, limit: params._limit}));
-		return dispatch(notificationsReceieved(res));
+		return dispatch([
+			gotPages({total: countRes.total, unseen: countRes.unseen, limit: params._limit}),
+			notificationsReceieved(res),
+			opEnd({op}),
+		]);
 	}
-
-	return dispatch(notificationsUpsertMany(res));
+	return dispatch([notificationsUpsertMany(res), opEnd({op})]);
 };
 
 export const updateNotification = payload => async dispatch => {
-	dispatch(opStart(DEFAULT_OP.update));
+	const op = DEFAULT_OP.update;
+	dispatch(opStart(op));
 	const res = await api.updateNotification(payload);
 	if (res.error) {
-		dispatch(opEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
+		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
 	}
-
-	return dispatch(notificationsUpsertOne(res));
+	return dispatch([notificationsUpsertOne(res), opEnd({op})]);
 };
 
 export const updateNotifications = payload => async (dispatch, getState) => {
-	dispatch(opStart(DEFAULT_OP.update));
+	const op = DEFAULT_OP.update;
+	dispatch(opStart(op));
 	const res = await api.updateNotifications(payload);
 	if (res.error) {
-		dispatch(opEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
+		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
 	}
 
-	return dispatch(notificationsMarkAllAsRead(res));
+	return dispatch([notificationsMarkAllAsRead(res), opEnd({op})]);
 };
 
 //SELECTORS

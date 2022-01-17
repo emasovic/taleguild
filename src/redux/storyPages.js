@@ -4,10 +4,10 @@ import * as api from '../lib/api';
 import {editStory} from '../lib/routes';
 
 import {Toast} from 'types/toast';
-import {STORY_PAGE_OP} from 'types/story_page';
 import {DEFAULT_OP} from 'types/default';
 
 import {newToast} from './toast';
+import {createOperations, endOperation, startOperation} from './hepler';
 
 const storyPageAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
@@ -17,37 +17,25 @@ const storyPageAdapter = createEntityAdapter({
 export const storyPageSlice = createSlice({
 	name: 'storyPages',
 	initialState: storyPageAdapter.getInitialState({
-		op: DEFAULT_OP.loading,
+		op: createOperations(),
 		pages: null,
 		loading: null,
 	}),
 	reducers: {
 		storyPagesReceieved: (state, action) => {
 			storyPageAdapter.setAll(state, action.payload);
-			state.loading = null;
-			state.op = null;
 		},
 		storyPageUpsert: (state, action) => {
 			storyPageAdapter.upsertOne(state, action.payload);
-			state.loading = null;
-			state.op = null;
 		},
 		storyPageRemoved: (state, action) => {
 			storyPageAdapter.removeOne(state, action.payload);
-			state.loading = null;
-			state.op = null;
 		},
-		opStart: (state, action) => {
-			state.op = action.payload;
+		opStart: (state, {payload}) => {
+			state.op[payload] = startOperation();
 		},
-		opEnd: state => {
-			state.op = null;
-		},
-		loadingStart: state => {
-			state.loading = true;
-		},
-		loadingEnd: state => {
-			state.loading = false;
+		opEnd: (state, {payload}) => {
+			state.op[payload.op] = endOperation(payload.error);
 		},
 	},
 });
@@ -63,65 +51,64 @@ export const {
 } = storyPageSlice.actions;
 
 export const loadStoryPages = filter => async dispatch => {
-	dispatch(loadingStart());
+	const op = DEFAULT_OP.loading;
+	dispatch(opStart(op));
 
 	const res = await api.getStoryPages(filter);
 
 	if (res.error) {
-		dispatch(loadingEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
+		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
 	}
-
-	dispatch(storyPagesReceieved(res));
+	return dispatch([storyPagesReceieved(res), opEnd({op})]);
 };
 
 export const loadStoryPage = payload => async dispatch => {
-	if (!payload.id) {
-		return null;
-	}
-	dispatch(loadingStart());
+	if (!payload.id) return null;
+
+	const op = DEFAULT_OP.loading;
+	dispatch(opStart(op));
 
 	const res = await api.getStoryPage(payload.id);
 
 	if (res.error) {
-		dispatch(loadingEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
+		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
 	}
 
-	dispatch(storyPageUpsert(res));
+	return dispatch([storyPageUpsert(res), opEnd({op})]);
 };
 
 export const createOrUpdateStoryPage = payload => async (dispatch, getState, history) => {
-	const op = payload.id ? STORY_PAGE_OP.update : STORY_PAGE_OP.create;
+	const op = payload.id ? DEFAULT_OP.update : DEFAULT_OP.create;
 	dispatch(opStart(op));
 
 	const res = payload.id
 		? await api.updateStoryPage(payload)
 		: await api.createStoryPage(payload);
 	if (res.error) {
-		dispatch(opEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
+		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
 	}
+
+	const actions = [opEnd({op})];
 
 	if (!payload.id) {
 		history.push(editStory(payload.story, res.id));
 
-		return dispatch(storyPageUpsert(res));
+		actions.unshift(storyPageUpsert(res));
 	}
-	return dispatch(opEnd());
+	return dispatch(actions);
 };
 
 export const deleteStoryPage = (storyId, pageId) => async (dispatch, getState, history) => {
-	dispatch(opStart(STORY_PAGE_OP.remove));
+	const op = DEFAULT_OP.delete;
+	dispatch(opStart(op));
 
 	const res = await api.deleteStoryPage(pageId);
 
 	if (res.error) {
-		dispatch(opEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
+		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
 	}
 
-	dispatch(storyPageRemoved(pageId));
+	dispatch([storyPageRemoved(pageId), opEnd({op})]);
 
 	const {
 		storyPages: {ids},
