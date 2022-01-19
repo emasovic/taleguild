@@ -44,7 +44,7 @@ export default function RecentViews() {
 	const userId = data?.id;
 
 	const views = useSelector(selectViewsIds);
-	const {op} = useSelector(state => state.views);
+	const {op, total} = useSelector(state => state.views);
 
 	useEffect(() => {
 		userId &&
@@ -88,6 +88,7 @@ export default function RecentViews() {
 				id="recentItems"
 				loading={!op[DEFAULT_OP.loading].success}
 				showItems={op[DEFAULT_OP.loading].success}
+				total={total}
 				shouldLoad={false}
 			>
 				{views.map(i => (

@@ -6,7 +6,7 @@ import {DEFAULT_OP} from 'types/default';
 import {Toast} from 'types/toast';
 
 import {newToast} from './toast';
-import {createOperations, endOperation, startOperation} from './hepler';
+import {batchDispatch, createOperations, endOperation, startOperation} from './hepler';
 
 const userItemsAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
@@ -58,10 +58,12 @@ export const purchaseUserItem = payload => async (dispatch, getState) => {
 	const res = await createUserItem(payload);
 
 	if (res.error) {
-		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
+		return batchDispatch([
+			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+		]);
 	}
 
-	return dispatch([
+	return batchDispatch([
 		userItemsUpsert(res),
 		opEnd({op}),
 		newToast({
@@ -74,7 +76,9 @@ export const loadUserItems = (params, count, op = DEFAULT_OP.loading) => async d
 	dispatch(opStart(op));
 	const res = await getUserItems(params);
 	if (res.error) {
-		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
+		return batchDispatch([
+			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+		]);
 	}
 
 	if (count) {
@@ -82,20 +86,20 @@ export const loadUserItems = (params, count, op = DEFAULT_OP.loading) => async d
 
 		const countRes = await countUserItems(countParams);
 		if (countRes.error) {
-			return dispatch([
+			return batchDispatch([
 				opEnd({op, error: countRes.error}),
 				newToast({...Toast.error(countRes.error)}),
 			]);
 		}
 
-		return dispatch([
+		return batchDispatch([
 			userItemsReceieved(res),
 			gotPages({total: countRes, limit: params._limit}),
 			opEnd({op}),
 		]);
 	}
 
-	return dispatch([userItemsUpsertMany(res), opEnd({op})]);
+	return batchDispatch([userItemsUpsertMany(res), opEnd({op})]);
 };
 
 //SELECTORS

@@ -6,7 +6,7 @@ import {DEFAULT_OP} from 'types/default';
 import {Toast} from 'types/toast';
 
 import {newToast} from './toast';
-import {createOperations, endOperation, startOperation} from './hepler';
+import {batchDispatch, createOperations, endOperation, startOperation} from './hepler';
 
 const marketplaceAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
@@ -23,12 +23,9 @@ export const marketplaceSlice = createSlice({
 	reducers: {
 		marketplaceReceieved: (state, action) => {
 			marketplaceAdapter.setAll(state, action.payload);
-			state.op[DEFAULT_OP.loading] = endOperation();
 		},
 		marketplaceUpsertMany: (state, action) => {
 			marketplaceAdapter.upsertMany(state, action.payload);
-
-			state.op[DEFAULT_OP.loading] = endOperation();
 		},
 		gotPages: (state, {payload}) => {
 			state.pages = Math.ceil(payload.total / payload.limit);
@@ -55,28 +52,29 @@ export const loadMarketplace = (params, count, op = DEFAULT_OP.loading) => async
 	dispatch(opStart(op));
 	const res = await getMarketplace(params);
 	if (res.error) {
-		return dispatch([opEnd({op, error: res.error}), newToast({...Toast.error(res.error)})]);
+		return batchDispatch([
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
+		]);
 	}
 
 	if (count) {
-		const countParams = {...params, _start: undefined, _limit: undefined};
-
-		const countRes = await countMarketplace(countParams);
+		const countRes = await countMarketplace(params);
 		if (countRes.error) {
-			return dispatch([
+			return batchDispatch([
 				opEnd({op, error: countRes.error}),
 				newToast({...Toast.error(countRes.error)}),
 			]);
 		}
 
-		return dispatch([
-			dispatch(gotPages({total: countRes, limit: params._limit})),
+		return batchDispatch([
 			dispatch(marketplaceReceieved(res)),
+			dispatch(gotPages({total: countRes, limit: params._limit})),
 			opEnd({op}),
 		]);
 	}
 
-	return dispatch([marketplaceUpsertMany(res), opEnd({op})]);
+	return batchDispatch([marketplaceUpsertMany(res), opEnd({op})]);
 };
 
 //SELECTORS

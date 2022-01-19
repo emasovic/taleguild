@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import propTypes from 'prop-types';
-import {useLocation} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {goToUser} from 'lib/routes';
@@ -12,7 +11,7 @@ import {DEFAULT_OP} from 'types/default';
 import {createOrDeleteLike} from 'redux/likes';
 import {selectAuthUser} from 'redux/auth';
 import {createOrDeleteSavedStory} from 'redux/savedStories';
-import {navigateToQuery} from 'redux/application';
+import {navigateToQuery} from 'redux/router';
 import {selectStory} from 'redux/story';
 
 import IconButton from 'components/widgets/button/IconButton';
@@ -35,7 +34,6 @@ const CLASS = 'st-StoryItem';
 function StoryItem({id, size, selector, keepArchived}) {
 	selector = selector || selectStory;
 	const dispatch = useDispatch();
-	const location = useLocation();
 	const {data} = useSelector(selectAuthUser);
 	const {
 		image,
@@ -79,7 +77,7 @@ function StoryItem({id, size, selector, keepArchived}) {
 	};
 
 	const getStoriesByCategoryId = categoryId => {
-		dispatch(navigateToQuery({categories: categoryId}, location));
+		dispatch(navigateToQuery({categories: categoryId}));
 	};
 
 	const renderCategories =

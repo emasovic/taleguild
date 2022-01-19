@@ -9,7 +9,7 @@ import {DEFAULT_OP} from 'types/default';
 import {MEDIA_SIZE} from 'types/media';
 
 import {loadStories, selectStoryIds} from '../../redux/story';
-import {navigateToQuery} from 'redux/application';
+import {navigateToQuery} from 'redux/router';
 
 import {useGetSearchParams} from 'hooks/getSearchParams';
 import {usePrevious} from 'hooks/compare';

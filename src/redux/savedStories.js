@@ -7,7 +7,7 @@ import {Toast} from 'types/toast';
 import {DEFAULT_OP} from 'types/default';
 
 import {newToast} from './toast';
-import {createOperations, endOperation, startOperation} from './hepler';
+import {batchDispatch, createOperations, endOperation, startOperation} from './hepler';
 
 const savedStoriesAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
@@ -66,11 +66,13 @@ export const loadSavedStories = (params, op = STORY_OP.loading) => async dispatc
 	dispatch(opStart(op));
 	const res = await api.getSavedStories(params);
 	if (res.error) {
-		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
+		return batchDispatch([
+			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+		]);
 	}
 	const action = !params._start ? savedStoriesReceieved : savedStoryUpsertMany;
 
-	return dispatch([
+	return batchDispatch([
 		action(res.data),
 		gotPages({total: res.total, limit: params._limit}),
 		opEnd({op}),
@@ -86,7 +88,9 @@ export const createOrDeleteSavedStory = (favourite, userId, storyId) => async di
 		: await api.createSavedStory({user: userId, story: storyId});
 
 	if (res.error) {
-		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
+		return batchDispatch([
+			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+		]);
 	}
 
 	const actions = [opEnd({op})];

@@ -7,7 +7,7 @@ import {Toast} from 'types/toast';
 import {DEFAULT_OP} from 'types/default';
 
 import {newToast} from './toast';
-import {createOperations, endOperation, startOperation} from './hepler';
+import {batchDispatch, createOperations, endOperation, startOperation} from './hepler';
 
 const draftStoriesAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
@@ -67,12 +67,14 @@ export const loadStories = (params, op = STORY_OP.loading) => async dispatch => 
 	dispatch(opStart(op));
 	const res = await api.getStories(params);
 	if (res.error) {
-		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
+		return batchDispatch([
+			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+		]);
 	}
 
 	const action = !params._start ? draftStoriesReceieved : draftStoryUpsertMany;
 
-	return dispatch([
+	return batchDispatch([
 		action(res.data),
 		gotPages({total: res.total, limit: params._limit}),
 		opEnd({op}),
@@ -85,10 +87,12 @@ export const deleteStory = storyId => async dispatch => {
 
 	const res = await api.deleteStory(storyId);
 	if (res.error) {
-		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
+		return batchDispatch([
+			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+		]);
 	}
 
-	return dispatch([draftStoryRemoved(storyId), opEnd({op})]);
+	return batchDispatch([draftStoryRemoved(storyId), opEnd({op})]);
 };
 
 //SELECTORS

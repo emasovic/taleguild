@@ -6,7 +6,7 @@ import {DEFAULT_OP} from 'types/default';
 import {Toast} from 'types/toast';
 
 import {newToast} from './toast';
-import {createOperations, endOperation, startOperation} from './hepler';
+import {batchDispatch, createOperations, endOperation, startOperation} from './hepler';
 
 const viewsAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
@@ -45,7 +45,9 @@ export const loadViews = (params, count, op = DEFAULT_OP.loading) => async dispa
 	dispatch(opStart(op));
 	const res = await getViews(params);
 	if (res.error) {
-		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
+		return batchDispatch([
+			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+		]);
 	}
 
 	if (count) {
@@ -53,20 +55,20 @@ export const loadViews = (params, count, op = DEFAULT_OP.loading) => async dispa
 
 		const countRes = await countViews(countParams);
 		if (countRes.error) {
-			return dispatch([
+			return batchDispatch([
 				opEnd({op, error: countRes.error}),
 				newToast({...Toast.error(countRes.error)}),
 			]);
 		}
 
-		return dispatch([
+		return batchDispatch([
 			viewsReceieved(res),
 			gotPages({total: countRes, limit: params._limit}),
 			opEnd({op}),
 		]);
 	}
 
-	return dispatch([viewsUpsertMany(res), opEnd({op})]);
+	return batchDispatch([viewsUpsertMany(res), opEnd({op})]);
 };
 
 export const createOrUpdateViews = (id, userId) => async dispatch => {
@@ -79,7 +81,9 @@ export const createOrUpdateViews = (id, userId) => async dispatch => {
 		userId,
 	});
 	if (res.error) {
-		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
+		return batchDispatch([
+			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+		]);
 	}
 
 	return dispatch(opEnd({op}));

@@ -6,7 +6,7 @@ import {Toast} from 'types/toast';
 import {DEFAULT_OP} from 'types/default';
 
 import {newToast} from './toast';
-import {createOperations, endOperation, startOperation} from './hepler';
+import {batchDispatch, createOperations, endOperation, startOperation} from './hepler';
 
 const followingAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
@@ -61,26 +61,28 @@ export const loadFollowing = (params, count, op = DEFAULT_OP.loading) => async d
 	dispatch(opStart(op));
 	const res = await api.getFollowers(params);
 	if (res.error) {
-		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
+		return batchDispatch([
+			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+		]);
 	}
 	if (count) {
 		const countParams = {...params, _start: undefined, _limit: undefined};
 
 		const countRes = await api.countFollowers(countParams);
 		if (countRes.error) {
-			return dispatch([
+			return batchDispatch([
 				opEnd({op, error: countRes.error}),
 				newToast({...Toast.error(countRes.error)}),
 			]);
 		}
 
-		return dispatch([
+		return batchDispatch([
 			gotPages({total: countRes, limit: params._limit}),
 			followingReceieved(res),
 			opEnd({op}),
 		]);
 	}
-	return dispatch([followingUpsertMany(res), opEnd({op})]);
+	return batchDispatch([followingUpsertMany(res), opEnd({op})]);
 };
 
 export const createOrDeleteFollowing = ({follower, userId, followerId}, op) => async dispatch => {
@@ -91,7 +93,9 @@ export const createOrDeleteFollowing = ({follower, userId, followerId}, op) => a
 		: await api.createFollower({user: userId, follower: followerId});
 
 	if (res.error) {
-		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
+		return batchDispatch([
+			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+		]);
 	}
 
 	const actions = [opEnd({op})];

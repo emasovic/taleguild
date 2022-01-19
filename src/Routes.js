@@ -1,5 +1,6 @@
 import React, {lazy, Suspense} from 'react';
-import {Route, Router, Switch} from 'react-router-dom';
+import {Route, Switch} from 'react-router-dom';
+import {ConnectedRouter} from 'connected-react-router';
 
 import * as routes from 'lib/routes';
 import history from 'lib/history';
@@ -46,7 +47,7 @@ const Welcome = lazy(() => import('Welcome'));
 const RegistrationSuccess = lazy(() => import('RegistrationSuccess'));
 
 const Routes = () => (
-	<Router history={history}>
+	<ConnectedRouter history={history}>
 		<Suspense fallback={<Loader />}>
 			<Nav />
 			<Switch>
@@ -76,7 +77,7 @@ const Routes = () => (
 				<Route path="*" component={NotFound} />
 			</Switch>
 		</Suspense>
-	</Router>
+	</ConnectedRouter>
 );
 
 export default Routes;

@@ -6,7 +6,7 @@ import {Toast} from 'types/toast';
 
 import {newToast} from './toast';
 import {followersRemoveOne, followersUpsertOne} from './followers';
-import {createOperations, endOperation, startOperation} from './hepler';
+import {batchDispatch, createOperations, endOperation, startOperation} from './hepler';
 import {DEFAULT_OP} from 'types/default';
 
 const usersAdapter = createEntityAdapter({
@@ -53,10 +53,12 @@ export const loadUser = username => async dispatch => {
 	dispatch(opStart(op));
 	const res = await api.getUser(username);
 	if (res.error) {
-		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
+		return batchDispatch([
+			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+		]);
 	}
 
-	return dispatch([usersReceieved(res), opEnd({op})]);
+	return batchDispatch([usersReceieved(res), opEnd({op})]);
 };
 
 const usersSelector = usersAdapter.getSelectors(state => state.users);

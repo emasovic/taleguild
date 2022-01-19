@@ -1,5 +1,4 @@
 import {createSlice} from '@reduxjs/toolkit';
-import queryString from 'query-string';
 
 import {Toast} from 'types/toast';
 
@@ -9,7 +8,7 @@ import {loadLanguages} from './languages';
 import {newToast} from './toast';
 
 export const applicationSlice = createSlice({
-	name: 'application',
+	name: 'app',
 	initialState: {
 		initialized: null,
 		loading: null,
@@ -28,21 +27,6 @@ export const applicationSlice = createSlice({
 });
 
 export const {loadingStart, loadingEnd, initialized} = applicationSlice.actions;
-
-export const navigateToQuery = (queryOb, location, resetParamsOnChange) => (
-	dispatch,
-	getState,
-	history
-) => {
-	const {location, push} = history;
-	const query = queryString.parse(location.search);
-
-	const q = resetParamsOnChange
-		? queryString.stringify(queryOb)
-		: queryString.stringify({...query, ...queryOb});
-
-	push({pathname: location.path, search: q});
-};
 
 export const initialize = () => dispatch => {
 	dispatch(loadingStart());

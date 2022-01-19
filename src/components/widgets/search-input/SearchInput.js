@@ -5,7 +5,7 @@ import {useDispatch} from 'react-redux';
 
 import FA from 'types/font_awesome';
 
-import {navigateToQuery} from 'redux/application';
+import {navigateToQuery} from 'redux/router';
 
 import FloatingInput from 'components/widgets/input/FloatingInput';
 

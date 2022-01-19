@@ -6,7 +6,7 @@ import {Toast} from 'types/toast';
 import {DEFAULT_OP} from 'types/default';
 
 import {newToast} from './toast';
-import {createOperations, endOperation, startOperation} from './hepler';
+import {batchDispatch, createOperations, endOperation, startOperation} from './hepler';
 
 const categoryAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
@@ -40,10 +40,12 @@ export const loadCategories = params => async dispatch => {
 	dispatch(opStart(op));
 	const res = await api.getCategories(params);
 	if (res.error) {
-		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
+		return batchDispatch([
+			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+		]);
 	}
 
-	return dispatch([categoriesReceieved(res), opEnd({op})]);
+	return batchDispatch([categoriesReceieved(res), opEnd({op})]);
 };
 
 //SELECTORS

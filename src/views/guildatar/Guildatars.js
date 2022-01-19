@@ -57,7 +57,7 @@ function Guildatars() {
 				</div>
 
 				<div className={CLASS + '-header-action'}>
-					{guildatars.length < 3 && !op[DEFAULT_OP.loading].loading && (
+					{guildatars.length < 3 && op[DEFAULT_OP.loading].success && (
 						<IconButton onClick={toggleOpen}>New Guildatar</IconButton>
 					)}
 				</div>

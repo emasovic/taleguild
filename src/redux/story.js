@@ -1,4 +1,5 @@
 import {createSlice, createEntityAdapter} from '@reduxjs/toolkit';
+import {push} from 'connected-react-router';
 
 import * as api from '../lib/api';
 import {goToStory, editStory, DELETED_STORY} from '../lib/routes';
@@ -13,7 +14,7 @@ import {storyPagesReceieved} from './storyPages';
 import {archivedStoryRemoved, archivedStoryUpsert} from './archivedStories';
 import {likesRemoveOne, likesUpsertOne} from './likes';
 import {commentsRemoveOne, commentsUpsertOne} from './comments';
-import {createOperations, endOperation, startOperation} from './hepler';
+import {batchDispatch, createOperations, endOperation, startOperation} from './hepler';
 
 const storyAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
@@ -122,58 +123,59 @@ export const {
 	gotPages,
 } = storySlice.actions;
 
-export const newStory = payload => async (dispatch, getState, history) => {
+export const newStory = payload => async (dispatch, getState) => {
 	const op = DEFAULT_OP.create;
 	dispatch(opStart(op));
 
 	const res = await api.createStory(payload);
 	if (res.error) {
-		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
+		return batchDispatch([
+			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+		]);
 	}
 
 	const page = res?.storypages?.[0];
 
-	dispatch([storyUpsert(res), opEnd({op})]);
-	return history.push(editStory(res.id, page?.id));
+	batchDispatch([storyUpsert(res), opEnd({op}), push(editStory(res.id, page?.id))], dispatch);
 };
 
-export const createOrUpdateStory = (payload, shouldChange = true) => async (
-	dispatch,
-	getState,
-	history
-) => {
+export const createOrUpdateStory = (payload, shouldChange = true) => async (dispatch, getState) => {
 	const op = payload.id ? DEFAULT_OP.update : DEFAULT_OP.create;
 	dispatch(opStart(op));
 
 	const res = payload.id ? await api.updateStory(payload) : await api.createStory(payload);
 	if (res.error) {
-		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
+		return batchDispatch([
+			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+		]);
 	}
 
-	dispatch([storyUpsert(res), opEnd({op})]);
+	const actions = [storyUpsert(res), opEnd({op})];
 
-	if (shouldChange) {
-		history.push(goToStory(res.id));
-		dispatch(
+	shouldChange &&
+		actions.push(
+			push(goToStory(res.id)),
 			newToast({
 				...Toast.success(
 					'Your story has been successfully published in the Community and is now public.'
 				),
 			})
 		);
-	}
+
+	batchDispatch(actions, dispatch);
 };
 
-export const deleteStory = storyId => async (dispatch, getState, history) => {
+export const deleteStory = storyId => async (dispatch, getState) => {
 	const op = DEFAULT_OP.delete;
 	dispatch(opStart(op));
 
 	const res = await api.deleteStory(storyId);
 	if (res.error) {
-		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
+		return batchDispatch([
+			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+		]);
 	}
-	dispatch([storyRemoved(storyId), opEnd({op})]);
-	return history.push(DELETED_STORY);
+	batchDispatch([storyRemoved(storyId), opEnd({op}), push(DELETED_STORY)]);
 };
 
 export const loadStories = (params, op = STORY_OP.loading) => async (dispatch, getState) => {
@@ -181,12 +183,14 @@ export const loadStories = (params, op = STORY_OP.loading) => async (dispatch, g
 	const res = await api.getStories(params);
 
 	if (res.error) {
-		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
+		return batchDispatch([
+			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+		]);
 	}
 
 	const action = !params._start ? storiesReceieved : storiesUpsertMany;
 
-	return dispatch([
+	return batchDispatch([
 		action(res.data),
 		gotPages({total: res.total, limit: params._limit}),
 		opEnd({op}),
@@ -200,9 +204,11 @@ export const loadStory = id => async dispatch => {
 	const res = await api.getStory(id);
 
 	if (res.error) {
-		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
+		return batchDispatch([
+			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+		]);
 	}
-	return dispatch([storyUpsert(res), opEnd({op})]);
+	return batchDispatch([storyUpsert(res), opEnd({op})]);
 };
 
 //SELECTORS

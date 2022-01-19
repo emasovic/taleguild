@@ -6,11 +6,10 @@ import {Toast} from 'types/toast';
 import {DEFAULT_OP} from 'types/default';
 
 import {newToast} from './toast';
-import {createOperations, endOperation, startOperation} from './hepler';
+import {batchDispatch, createOperations, endOperation, startOperation} from './hepler';
 
 const likesAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
-	sortComparer: (a, b) => a.created_at.localeCompare(b.created_at),
 });
 
 export const likesSlice = createSlice({
@@ -25,12 +24,10 @@ export const likesSlice = createSlice({
 		},
 		likesUpsertOne: (state, {payload}) => {
 			likesAdapter.upsertOne(state, payload);
-
 			state.total += 1;
 		},
 		likesRemoveOne: (state, {payload}) => {
 			likesAdapter.removeOne(state, payload.id);
-
 			state.total -= 1;
 		},
 		opStart: (state, {payload}) => {
@@ -62,7 +59,9 @@ export const loadLikes = (params, count, op = DEFAULT_OP.loading) => async dispa
 	dispatch(opStart(op));
 	const res = await api.getLikes(params);
 	if (res.error) {
-		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
+		return batchDispatch([
+			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+		]);
 	}
 
 	if (count) {
@@ -70,20 +69,20 @@ export const loadLikes = (params, count, op = DEFAULT_OP.loading) => async dispa
 
 		const countRes = await api.countLikes(countParams);
 		if (countRes.error) {
-			return dispatch([
+			return batchDispatch([
 				opEnd({op, error: countRes.error}),
 				newToast({...Toast.error(countRes.error)}),
 			]);
 		}
 
-		return dispatch([
+		return batchDispatch([
 			gotPages({total: countRes, limit: params._limit}),
 			likesReceieved(res),
 			opEnd({op}),
 		]);
 	}
 
-	return dispatch([likesUpsertMany(res), opEnd({op})]);
+	return batchDispatch([likesUpsertMany(res), opEnd({op})]);
 };
 
 export const createOrDeleteLike = (like, userId, storyId) => async dispatch => {
@@ -94,7 +93,9 @@ export const createOrDeleteLike = (like, userId, storyId) => async dispatch => {
 		: await api.createLike({user: userId, story: storyId});
 
 	if (res.error) {
-		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
+		return batchDispatch([
+			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+		]);
 	}
 
 	const actions = [opEnd({op})];

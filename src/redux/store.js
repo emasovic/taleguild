@@ -1,9 +1,11 @@
 import {configureStore} from '@reduxjs/toolkit';
-import {reduxBatch} from '@manaflair/redux-batch';
+import {routerMiddleware} from 'connected-react-router';
+import {combineReducers} from 'redux';
+import {connectRouter} from 'connected-react-router';
 
 import history from 'lib/history';
 
-import application from './application';
+import app from './app';
 import auth from './auth';
 import stories from './story';
 import archivedStories from './archivedStories';
@@ -27,10 +29,10 @@ import userItems from './userItems';
 import toast from './toast';
 import views from './views';
 
-const store = configureStore({
-	reducer: {
+const createRootReducer = history =>
+	combineReducers({
 		auth,
-		application,
+		app,
 		archivedStories,
 		categories,
 		comments,
@@ -51,16 +53,13 @@ const store = configureStore({
 		userStories,
 		users,
 		views,
+		router: connectRouter(history),
 		toast,
-	},
-	middleware: getDefaultMiddleware =>
-		getDefaultMiddleware({
-			thunk: {
-				extraArgument: history,
-			},
-			serializableCheck: false,
-		}),
-	enhancers: [reduxBatch],
+	});
+
+const store = configureStore({
+	reducer: createRootReducer(history),
+	middleware: getDefaultMiddleware => getDefaultMiddleware().concat(routerMiddleware(history)),
 });
 
 export default store;

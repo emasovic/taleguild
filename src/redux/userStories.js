@@ -6,7 +6,7 @@ import {Toast} from 'types/toast';
 import {DEFAULT_OP} from 'types/default';
 
 import {newToast} from './toast';
-import {createOperations, endOperation, startOperation} from './hepler';
+import {batchDispatch, createOperations, endOperation, startOperation} from './hepler';
 
 const userStoriesAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
@@ -55,10 +55,12 @@ export const loadStories = params => async dispatch => {
 	dispatch(opStart(op));
 	const res = await api.getStories(params);
 	if (res.error) {
-		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
+		return batchDispatch([
+			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+		]);
 	}
 
-	return dispatch([
+	return batchDispatch([
 		userStoriesReceieved(res.data),
 		gotPages({total: res.total, limit: params._limit}),
 		opEnd({op}),

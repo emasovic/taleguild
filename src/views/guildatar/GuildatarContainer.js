@@ -127,6 +127,7 @@ export default function GuildatarContainer() {
 		? defaultItems.filter(i => i?.item?.body_part === bodyPart)
 		: defaultItems;
 
+	const totalItems = defaultItems.length + items.length;
 	return (
 		<MobileWrapper className={CLASS}>
 			<form onSubmit={formikSubmit}>
@@ -153,7 +154,9 @@ export default function GuildatarContainer() {
 						<IconButton color={COLOR.secondary} disabled={!dirty} onClick={handleReset}>
 							Cancel
 						</IconButton>
-						<IconButton disabled={!dirty}>Save</IconButton>
+						<IconButton disabled={!dirty} type="submit">
+							Save
+						</IconButton>
 					</div>
 				</div>
 				<div className={CLASS + '-content'}>
@@ -209,7 +212,7 @@ export default function GuildatarContainer() {
 
 						<LoadMore
 							id="userItems"
-							total={total}
+							total={totalItems}
 							onLoadMore={() =>
 								handleLoadUserItems(false, DEFAULT_OP.load_more, items.length)
 							}

@@ -7,7 +7,7 @@ import {Toast} from 'types/toast';
 import {DEFAULT_OP} from 'types/default';
 
 import {newToast} from './toast';
-import {createOperations, endOperation, startOperation} from './hepler';
+import {batchDispatch, createOperations, endOperation, startOperation} from './hepler';
 
 const storyPageAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
@@ -57,9 +57,11 @@ export const loadStoryPages = filter => async dispatch => {
 	const res = await api.getStoryPages(filter);
 
 	if (res.error) {
-		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
+		return batchDispatch([
+			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+		]);
 	}
-	return dispatch([storyPagesReceieved(res), opEnd({op})]);
+	return batchDispatch([storyPagesReceieved(res), opEnd({op})]);
 };
 
 export const loadStoryPage = payload => async dispatch => {
@@ -71,10 +73,12 @@ export const loadStoryPage = payload => async dispatch => {
 	const res = await api.getStoryPage(payload.id);
 
 	if (res.error) {
-		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
+		return batchDispatch([
+			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+		]);
 	}
 
-	return dispatch([storyPageUpsert(res), opEnd({op})]);
+	return batchDispatch([storyPageUpsert(res), opEnd({op})]);
 };
 
 export const createOrUpdateStoryPage = payload => async (dispatch, getState, history) => {
@@ -85,7 +89,9 @@ export const createOrUpdateStoryPage = payload => async (dispatch, getState, his
 		? await api.updateStoryPage(payload)
 		: await api.createStoryPage(payload);
 	if (res.error) {
-		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
+		return batchDispatch([
+			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+		]);
 	}
 
 	const actions = [opEnd({op})];
@@ -105,10 +111,12 @@ export const deleteStoryPage = (storyId, pageId) => async (dispatch, getState, h
 	const res = await api.deleteStoryPage(pageId);
 
 	if (res.error) {
-		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
+		return batchDispatch([
+			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+		]);
 	}
 
-	dispatch([storyPageRemoved(pageId), opEnd({op})]);
+	batchDispatch([storyPageRemoved(pageId), opEnd({op})]);
 
 	const {
 		storyPages: {ids},

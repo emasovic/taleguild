@@ -6,11 +6,10 @@ import {Toast} from 'types/toast';
 import {DEFAULT_OP} from 'types/default';
 
 import {newToast} from './toast';
-import {createOperations, endOperation, startOperation} from './hepler';
+import {batchDispatch, createOperations, endOperation, startOperation} from './hepler';
 
 const savedByAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
-	sortComparer: (a, b) => a.created_at.localeCompare(b.created_at),
 });
 
 export const savedBySlice = createSlice({
@@ -55,11 +54,13 @@ export const loadSavedBy = (params, op = DEFAULT_OP.loading) => async dispatch =
 	dispatch(opStart(op));
 	const res = await api.getSavedStories(params);
 	if (res.error) {
-		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
+		return batchDispatch([
+			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+		]);
 	}
 	const action = !params._start ? savedByReceieved : savedByUpsertMany;
 
-	return dispatch([
+	return batchDispatch([
 		gotPages({total: res.total, limit: params._limit}),
 		action(res.data),
 		opEnd({op}),

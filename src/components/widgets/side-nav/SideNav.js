@@ -6,7 +6,7 @@ import {useDispatch} from 'react-redux';
 
 import {FONT_WEIGHT, TEXT_COLORS, TYPOGRAPHY_VARIANTS} from 'types/typography';
 
-import {navigateToQuery} from 'redux/application';
+import {navigateToQuery} from 'redux/router';
 
 import Loader from 'components/widgets/loader/Loader';
 import Typography from 'components/widgets/typography/Typography';
@@ -17,14 +17,12 @@ import './SideNav.scss';
 const CLASS = 'st-SideNav';
 
 function SideNav({items, loading, title, urlParamName, allIcon}) {
-	const location = useLocation();
 	const dispatch = useDispatch();
 	const [activeItem, setActiveItem] = useState(null);
 
 	const item = new URLSearchParams(useLocation().search).get(urlParamName);
 
-	const updateQueryParams = itemId =>
-		dispatch(navigateToQuery({[urlParamName]: itemId}, location));
+	const updateQueryParams = itemId => dispatch(navigateToQuery({[urlParamName]: itemId}));
 
 	useEffect(() => {
 		setActiveItem(item);

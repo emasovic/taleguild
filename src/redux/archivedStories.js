@@ -7,7 +7,7 @@ import {Toast} from 'types/toast';
 import {DEFAULT_OP} from 'types/default';
 
 import {newToast} from './toast';
-import {createOperations, endOperation, startOperation} from './hepler';
+import {batchDispatch, createOperations, endOperation, startOperation} from './hepler';
 
 const archivedStoriesAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
@@ -65,12 +65,14 @@ export const loadArchivedStories = (params, op = STORY_OP.loading) => async disp
 	dispatch(opStart(op));
 	const res = await api.getStories(params);
 	if (res.error) {
-		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
+		return batchDispatch([
+			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+		]);
 	}
 
 	const action = !params._start ? archivedStoriesReceieved : archivedStoryUpsertMany;
 
-	return dispatch([
+	return batchDispatch([
 		action(res.data),
 		gotPages({total: res.total, limit: params._limit}),
 		opEnd({op}),
@@ -84,7 +86,9 @@ export const updateArchivedStory = (payload, keepArchived) => async (dispatch, g
 	const res = await api.updateStory(payload);
 
 	if (res.error) {
-		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
+		return batchDispatch([
+			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+		]);
 	}
 
 	res.archived_at
@@ -99,9 +103,11 @@ export const removeArchivedStory = storyId => async (dispatch, getState, history
 
 	const res = await api.deleteStory(storyId);
 	if (res.error) {
-		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
+		return batchDispatch([
+			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+		]);
 	}
-	return dispatch([archivedStoryRemoved({id: storyId}), opEnd({op})]);
+	return batchDispatch([archivedStoryRemoved({id: storyId}), opEnd({op})]);
 };
 
 //SELECTORS

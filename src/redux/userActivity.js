@@ -8,7 +8,7 @@ import {DEFAULT_OP} from 'types/default';
 import {newToast} from './toast';
 import {selectStory} from './story';
 import {selectAuthUser} from './auth';
-import {createOperations, endOperation, startOperation} from './hepler';
+import {batchDispatch, createOperations, endOperation, startOperation} from './hepler';
 
 const userActivityAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
@@ -60,7 +60,9 @@ export const loadUserActivity = (params, count, op = DEFAULT_OP.loading) => asyn
 	dispatch(opStart(op));
 	const res = await api.getActivity(params);
 	if (res.error) {
-		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
+		return batchDispatch([
+			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+		]);
 	}
 
 	if (count) {
@@ -68,19 +70,19 @@ export const loadUserActivity = (params, count, op = DEFAULT_OP.loading) => asyn
 
 		const countRes = await api.countActivity(countParams);
 		if (countRes.error) {
-			return dispatch([
+			return batchDispatch([
 				opEnd({op, error: countRes.error}),
 				newToast({...Toast.error(countRes.error)}),
 			]);
 		}
-		return dispatch([
+		return batchDispatch([
 			userActivityReceieved(res),
 			gotPages({total: countRes, limit: params._limit}),
 			opEnd({op}),
 		]);
 	}
 
-	return dispatch([userActivityUpsertMany(res), opEnd({op})]);
+	return batchDispatch([userActivityUpsertMany(res), opEnd({op})]);
 };
 
 export const createUserActivity = payload => async (dispatch, getState) => {
@@ -93,7 +95,9 @@ export const createUserActivity = payload => async (dispatch, getState) => {
 	dispatch(opStart(op));
 	const res = await api.createActivity(payload);
 	if (res.error) {
-		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
+		return batchDispatch([
+			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+		]);
 	}
 
 	const actions = [opEnd({op})];

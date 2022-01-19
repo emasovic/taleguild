@@ -37,10 +37,6 @@ export default function LoadMore({
 
 	useEffect(() => {
 		autoFillViewport && isInViewport && checkLoadMore();
-
-		return () => {
-			!isInViewport && setIsInViewport(true);
-		};
 	}, [checkLoadMore, autoFillViewport, isInViewport]);
 
 	useLayoutEffect(() => {

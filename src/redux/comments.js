@@ -6,11 +6,10 @@ import {Toast} from 'types/toast';
 import {DEFAULT_OP} from 'types/default';
 
 import {newToast} from './toast';
-import {createOperations, endOperation, startOperation} from './hepler';
+import {batchDispatch, createOperations, endOperation, startOperation} from './hepler';
 
 const commentsAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
-	sortComparer: (a, b) => a.created_at.localeCompare(b.created_at),
 });
 
 export const commentsSlice = createSlice({
@@ -60,7 +59,9 @@ export const loadComments = (params, count, op = DEFAULT_OP.loading) => async di
 	dispatch(opStart(op));
 	const res = await api.getComments(params);
 	if (res.error) {
-		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
+		return batchDispatch([
+			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+		]);
 	}
 
 	if (count) {
@@ -68,18 +69,18 @@ export const loadComments = (params, count, op = DEFAULT_OP.loading) => async di
 
 		const countRes = await api.countComments(countParams);
 		if (countRes.error) {
-			return dispatch([
+			return batchDispatch([
 				opEnd({op, error: countRes.error}),
 				newToast({...Toast.error(countRes.error)}),
 			]);
 		}
-		return dispatch([
+		return batchDispatch([
 			commentsReceieved(res),
 			gotPages({total: countRes, limit: params._limit}),
 			opEnd({op}),
 		]);
 	}
-	return dispatch([commentsUpsertMany(res), opEnd({op})]);
+	return batchDispatch([commentsUpsertMany(res), opEnd({op})]);
 };
 
 export const createOrDeleteComment = payload => async (dispatch, getState) => {
@@ -88,7 +89,9 @@ export const createOrDeleteComment = payload => async (dispatch, getState) => {
 
 	const res = payload.id ? await api.deleteComment(payload.id) : await api.createComment(payload);
 	if (res.error) {
-		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
+		return batchDispatch([
+			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+		]);
 	}
 
 	const actions = [opEnd({op})];

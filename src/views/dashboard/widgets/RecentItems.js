@@ -103,6 +103,7 @@ export default function RecentItems() {
 			</Typography>
 			<LoadMore
 				id="recentItems"
+				total={total}
 				loading={!op[DEFAULT_OP.loading].success}
 				showItems={op[DEFAULT_OP.loading].success}
 				shouldLoad={false}

@@ -12,7 +12,7 @@ import {DEFAULT_OP} from 'types/default';
 import {Toast} from 'types/toast';
 
 import {newToast} from './toast';
-import {createOperations, endOperation, startOperation} from './hepler';
+import {batchDispatch, createOperations, endOperation, startOperation} from './hepler';
 
 const guildatarsAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
@@ -62,13 +62,15 @@ export const {
 	guildatarsReceieved,
 } = guildatarsSlice.actions;
 
-export const createOrUpdateGuildatar = payload => async (dispatch, getState, history) => {
+export const createOrUpdateGuildatar = payload => async dispatch => {
 	const op = payload.id ? DEFAULT_OP.update : DEFAULT_OP.delete;
 	dispatch(opStart(op));
 
 	const res = payload.id ? await updateGuildatar(payload) : await createGuildatar(payload);
 	if (res.error) {
-		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
+		return batchDispatch([
+			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+		]);
 	}
 	const message = payload.id
 		? 'The guildatar has been successfully updated.'
@@ -83,7 +85,9 @@ export const loadGuildatars = (params, count, op = DEFAULT_OP.loading) => async 
 	dispatch(opStart(op));
 	const res = await getGuildatars(params);
 	if (res.error) {
-		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
+		return batchDispatch([
+			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+		]);
 	}
 
 	if (count) {
@@ -91,27 +95,29 @@ export const loadGuildatars = (params, count, op = DEFAULT_OP.loading) => async 
 
 		const countRes = await countGuildatars(countParams);
 		if (countRes.error) {
-			return dispatch([
+			return batchDispatch([
 				opEnd({op, error: countRes.error}),
 				newToast({...Toast.error(countRes.error)}),
 			]);
 		}
-		return dispatch([
+		return batchDispatch([
 			gotPages({total: countRes, limit: params._limit}),
 			guildatarsReceieved(res),
 			opEnd({op}),
 		]);
 	}
-	return dispatch([guildatarsUpsertMany(res), opEnd({op})]);
+	return batchDispatch([guildatarsUpsertMany(res), opEnd({op})]);
 };
 
 export const countAllGuildatars = (params, op = DEFAULT_OP.loading) => async dispatch => {
 	dispatch(opStart(op));
 	const res = await countGuildatars(params);
 	if (res.error) {
-		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
+		return batchDispatch([
+			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+		]);
 	}
-	return dispatch([gotPages({total: res}), opEnd({op})]);
+	return batchDispatch([gotPages({total: res}), opEnd({op})]);
 };
 
 export const loadGuildatar = id => async dispatch => {
@@ -121,9 +127,12 @@ export const loadGuildatar = id => async dispatch => {
 	const res = await getGuildatar(id);
 
 	if (res.error) {
-		return dispatch([opEnd({op, error: res.error}), newToast({...Toast.error(res.error)})]);
+		return batchDispatch([
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
+		]);
 	}
-	return dispatch([guildatarUpsert(res), opEnd({op})]);
+	return batchDispatch([guildatarUpsert(res), opEnd({op})]);
 };
 
 //SELECTORS

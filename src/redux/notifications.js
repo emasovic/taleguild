@@ -6,7 +6,7 @@ import {Toast} from 'types/toast';
 import {DEFAULT_OP} from 'types/default';
 
 import {newToast} from './toast';
-import {createOperations, endOperation, startOperation} from './hepler';
+import {batchDispatch, createOperations, endOperation, startOperation} from './hepler';
 
 const notificationsAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
@@ -88,7 +88,9 @@ export const loadNotifications = (params, count, op = DEFAULT_OP.loading) => asy
 	dispatch(opStart(op));
 	const res = await api.getNotifications(params);
 	if (res.error) {
-		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
+		return batchDispatch([
+			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+		]);
 	}
 
 	if (count) {
@@ -96,19 +98,19 @@ export const loadNotifications = (params, count, op = DEFAULT_OP.loading) => asy
 
 		const countRes = await api.countNotifications(countParams);
 		if (countRes.error) {
-			return dispatch([
+			return batchDispatch([
 				opEnd({op, error: countRes.error}),
 				newToast({...Toast.error(countRes.error)}),
 			]);
 		}
 
-		return dispatch([
+		return batchDispatch([
 			gotPages({total: countRes.total, unseen: countRes.unseen, limit: params._limit}),
 			notificationsReceieved(res),
 			opEnd({op}),
 		]);
 	}
-	return dispatch([notificationsUpsertMany(res), opEnd({op})]);
+	return batchDispatch([notificationsUpsertMany(res), opEnd({op})]);
 };
 
 export const updateNotification = payload => async dispatch => {
@@ -116,9 +118,11 @@ export const updateNotification = payload => async dispatch => {
 	dispatch(opStart(op));
 	const res = await api.updateNotification(payload);
 	if (res.error) {
-		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
+		return batchDispatch([
+			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+		]);
 	}
-	return dispatch([notificationsUpsertOne(res), opEnd({op})]);
+	return batchDispatch([notificationsUpsertOne(res), opEnd({op})]);
 };
 
 export const updateNotifications = payload => async (dispatch, getState) => {
@@ -126,10 +130,12 @@ export const updateNotifications = payload => async (dispatch, getState) => {
 	dispatch(opStart(op));
 	const res = await api.updateNotifications(payload);
 	if (res.error) {
-		return dispatch([opEnd({op, error: res.error}, newToast({...Toast.error(res.error)}))]);
+		return batchDispatch([
+			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+		]);
 	}
 
-	return dispatch([notificationsMarkAllAsRead(res), opEnd({op})]);
+	return batchDispatch([notificationsMarkAllAsRead(res), opEnd({op})]);
 };
 
 //SELECTORS

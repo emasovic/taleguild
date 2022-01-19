@@ -12,7 +12,7 @@ import {loadMarketplace, selectMarketplaceIds} from 'redux/marketplace';
 import {countAllGuildatars} from 'redux/guildatars';
 import {selectAuthUser} from 'redux/auth';
 import {loadCategories, selectCategories} from 'redux/categories';
-import {navigateToQuery} from 'redux/application';
+import {navigateToQuery} from 'redux/router';
 
 import {useLoadItems} from 'hooks/getItems';
 import {useGetSearchParams} from 'hooks/getSearchParams';
@@ -88,7 +88,7 @@ export default function Marketplace() {
 							category,
 							name_contains: name,
 							genders: selectedGender?.id,
-							_sort: 'created_at:DESC',
+							_sort: 'created_at:DESC, id:ASC',
 							...DEFAULT_LIMIT,
 							_start,
 						},
@@ -192,7 +192,10 @@ export default function Marketplace() {
 									op[DEFAULT_OP.loading].loading ||
 									op[DEFAULT_OP.load_more].loading
 								}
-								showItems={op[DEFAULT_OP.loading].success}
+								showItems={
+									op[DEFAULT_OP.loading].success &&
+									categoryOp[DEFAULT_OP.loading].success
+								}
 								NoItemsComponent={PagePlaceholder}
 								noItemsComponentProps={{
 									IconComponent: NoSearchResults,

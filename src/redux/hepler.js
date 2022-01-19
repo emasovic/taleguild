@@ -1,4 +1,7 @@
 import {DEFAULT_OP} from 'types/default';
+import {batch} from 'react-redux';
+
+import store from './store';
 
 export const hepler = arr => {
 	const obj = {};
@@ -58,6 +61,9 @@ export const endOperation = err => {
 	if (err) return {loading: false, success: false, error: err};
 	return {loading: false, success: true, error: null};
 };
+
+export const batchDispatch = actions =>
+	batch(() => actions.forEach(action => store.dispatch(action)));
 
 // SELECTORS
 
