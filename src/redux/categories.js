@@ -41,7 +41,8 @@ export const loadCategories = params => async dispatch => {
 	const res = await api.getCategories(params);
 	if (res.error) {
 		return batchDispatch([
-			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
 		]);
 	}
 

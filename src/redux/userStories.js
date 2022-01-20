@@ -56,7 +56,8 @@ export const loadStories = params => async dispatch => {
 	const res = await api.getStories(params);
 	if (res.error) {
 		return batchDispatch([
-			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
 		]);
 	}
 

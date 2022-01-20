@@ -10,6 +10,7 @@ import {batchDispatch, createOperations, endOperation, startOperation} from './h
 
 const commentsAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
+	sortComparer: (a, b) => a.created_at.localeCompare(b.created_at),
 });
 
 export const commentsSlice = createSlice({
@@ -60,7 +61,8 @@ export const loadComments = (params, count, op = DEFAULT_OP.loading) => async di
 	const res = await api.getComments(params);
 	if (res.error) {
 		return batchDispatch([
-			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
 		]);
 	}
 
@@ -90,7 +92,8 @@ export const createOrDeleteComment = payload => async (dispatch, getState) => {
 	const res = payload.id ? await api.deleteComment(payload.id) : await api.createComment(payload);
 	if (res.error) {
 		return batchDispatch([
-			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
 		]);
 	}
 

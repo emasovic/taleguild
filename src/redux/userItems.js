@@ -59,7 +59,8 @@ export const purchaseUserItem = payload => async (dispatch, getState) => {
 
 	if (res.error) {
 		return batchDispatch([
-			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
 		]);
 	}
 
@@ -77,7 +78,8 @@ export const loadUserItems = (params, count, op = DEFAULT_OP.loading) => async d
 	const res = await getUserItems(params);
 	if (res.error) {
 		return batchDispatch([
-			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
 		]);
 	}
 

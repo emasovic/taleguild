@@ -68,7 +68,8 @@ export const loginUser = payload => async dispatch => {
 	const res = await api.loginUser(payload);
 	if (res.error) {
 		return batchDispatch([
-			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
 		]);
 	}
 	const {jwt, user} = res;
@@ -86,7 +87,8 @@ export const registerUser = payload => async dispatch => {
 
 	if (res.error) {
 		return batchDispatch([
-			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
 		]);
 	}
 
@@ -129,7 +131,8 @@ export const updateUser = (token, payload) => async dispatch => {
 	const res = await api.updateUser(token, payload);
 	if (res.error) {
 		return batchDispatch([
-			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
 		]);
 	}
 
@@ -148,7 +151,8 @@ export const forgotPassword = payload => async dispatch => {
 	const res = await api.forgotPassword(payload);
 	if (res.error) {
 		return batchDispatch([
-			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
 		]);
 	}
 
@@ -170,7 +174,8 @@ export const resetPassword = payload => async dispatch => {
 
 	if (res.error) {
 		return batchDispatch([
-			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
 		]);
 	}
 	localStorage.setItem('token', res.jwt);

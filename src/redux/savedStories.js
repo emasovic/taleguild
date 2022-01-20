@@ -67,7 +67,8 @@ export const loadSavedStories = (params, op = STORY_OP.loading) => async dispatc
 	const res = await api.getSavedStories(params);
 	if (res.error) {
 		return batchDispatch([
-			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
 		]);
 	}
 	const action = !params._start ? savedStoriesReceieved : savedStoryUpsertMany;
@@ -89,7 +90,8 @@ export const createOrDeleteSavedStory = (favourite, userId, storyId) => async di
 
 	if (res.error) {
 		return batchDispatch([
-			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
 		]);
 	}
 

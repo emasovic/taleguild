@@ -19,6 +19,7 @@ function HorizontalList({
 	items,
 	loading,
 	title,
+	additionalParams,
 	urlParamName,
 	titleProps,
 	resetParamsOnChange,
@@ -30,7 +31,9 @@ function HorizontalList({
 	const item = new URLSearchParams(useLocation().search).get(urlParamName);
 
 	const updateQueryParams = itemId =>
-		dispatch(navigateToQuery({[urlParamName]: itemId}, resetParamsOnChange));
+		dispatch(
+			navigateToQuery({[urlParamName]: itemId, ...additionalParams}, resetParamsOnChange)
+		);
 
 	useEffect(() => {
 		setActiveItem(item);
@@ -79,9 +82,11 @@ function HorizontalList({
 
 HorizontalList.defaultProps = {
 	titleProps: {},
+	additionalParams: {},
 };
 
 HorizontalList.propTypes = {
+	additionalParams: PropTypes.object,
 	items: PropTypes.array.isRequired,
 	loading: PropTypes.bool.isRequired,
 	title: PropTypes.string,

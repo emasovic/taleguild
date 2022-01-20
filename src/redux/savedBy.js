@@ -55,7 +55,8 @@ export const loadSavedBy = (params, op = DEFAULT_OP.loading) => async dispatch =
 	const res = await api.getSavedStories(params);
 	if (res.error) {
 		return batchDispatch([
-			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
 		]);
 	}
 	const action = !params._start ? savedByReceieved : savedByUpsertMany;

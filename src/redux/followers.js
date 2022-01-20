@@ -62,7 +62,8 @@ export const loadFollowers = (params, count, op = DEFAULT_OP.loading) => async d
 	const res = await api.getFollowers(params);
 	if (res.error) {
 		return batchDispatch([
-			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
 		]);
 	}
 	if (count) {
@@ -93,7 +94,8 @@ export const createOrDeleteFollower = ({follower, userId, followerId}, op) => as
 
 	if (res.error) {
 		return batchDispatch([
-			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
 		]);
 	}
 

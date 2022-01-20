@@ -60,7 +60,8 @@ export const loadLikes = (params, count, op = DEFAULT_OP.loading) => async dispa
 	const res = await api.getLikes(params);
 	if (res.error) {
 		return batchDispatch([
-			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
 		]);
 	}
 
@@ -94,7 +95,8 @@ export const createOrDeleteLike = (like, userId, storyId) => async dispatch => {
 
 	if (res.error) {
 		return batchDispatch([
-			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
 		]);
 	}
 

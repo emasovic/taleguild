@@ -61,7 +61,8 @@ export const loadUserActivity = (params, count, op = DEFAULT_OP.loading) => asyn
 	const res = await api.getActivity(params);
 	if (res.error) {
 		return batchDispatch([
-			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
 		]);
 	}
 
@@ -96,7 +97,8 @@ export const createUserActivity = payload => async (dispatch, getState) => {
 	const res = await api.createActivity(payload);
 	if (res.error) {
 		return batchDispatch([
-			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
 		]);
 	}
 

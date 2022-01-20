@@ -69,16 +69,19 @@ export const createOrUpdateGuildatar = payload => async dispatch => {
 	const res = payload.id ? await updateGuildatar(payload) : await createGuildatar(payload);
 	if (res.error) {
 		return batchDispatch([
-			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
 		]);
 	}
 	const message = payload.id
 		? 'The guildatar has been successfully updated.'
 		: 'The guildatar has been successfully created.';
 
-	dispatch(guildatarUpsert({...res, isNew: payload.id ? false : true}));
-	dispatch(opEnd({op}));
-	dispatch(newToast({...Toast.success(message)}));
+	batchDispatch([
+		guildatarUpsert({...res, isNew: payload.id ? false : true}),
+		opEnd({op}),
+		newToast({...Toast.success(message)}),
+	]);
 };
 
 export const loadGuildatars = (params, count, op = DEFAULT_OP.loading) => async dispatch => {
@@ -86,7 +89,8 @@ export const loadGuildatars = (params, count, op = DEFAULT_OP.loading) => async 
 	const res = await getGuildatars(params);
 	if (res.error) {
 		return batchDispatch([
-			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
 		]);
 	}
 
@@ -114,7 +118,8 @@ export const countAllGuildatars = (params, op = DEFAULT_OP.loading) => async dis
 	const res = await countGuildatars(params);
 	if (res.error) {
 		return batchDispatch([
-			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
 		]);
 	}
 	return batchDispatch([gotPages({total: res}), opEnd({op})]);

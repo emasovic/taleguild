@@ -89,7 +89,8 @@ export const loadNotifications = (params, count, op = DEFAULT_OP.loading) => asy
 	const res = await api.getNotifications(params);
 	if (res.error) {
 		return batchDispatch([
-			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
 		]);
 	}
 
@@ -119,7 +120,8 @@ export const updateNotification = payload => async dispatch => {
 	const res = await api.updateNotification(payload);
 	if (res.error) {
 		return batchDispatch([
-			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
 		]);
 	}
 	return batchDispatch([notificationsUpsertOne(res), opEnd({op})]);
@@ -131,7 +133,8 @@ export const updateNotifications = payload => async (dispatch, getState) => {
 	const res = await api.updateNotifications(payload);
 	if (res.error) {
 		return batchDispatch([
-			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
 		]);
 	}
 

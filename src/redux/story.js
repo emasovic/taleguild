@@ -130,7 +130,8 @@ export const newStory = payload => async (dispatch, getState) => {
 	const res = await api.createStory(payload);
 	if (res.error) {
 		return batchDispatch([
-			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
 		]);
 	}
 
@@ -146,7 +147,8 @@ export const createOrUpdateStory = (payload, shouldChange = true) => async (disp
 	const res = payload.id ? await api.updateStory(payload) : await api.createStory(payload);
 	if (res.error) {
 		return batchDispatch([
-			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
 		]);
 	}
 
@@ -172,7 +174,8 @@ export const deleteStory = storyId => async (dispatch, getState) => {
 	const res = await api.deleteStory(storyId);
 	if (res.error) {
 		return batchDispatch([
-			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
 		]);
 	}
 	batchDispatch([storyRemoved(storyId), opEnd({op}), push(DELETED_STORY)]);
@@ -184,7 +187,8 @@ export const loadStories = (params, op = STORY_OP.loading) => async (dispatch, g
 
 	if (res.error) {
 		return batchDispatch([
-			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
 		]);
 	}
 
@@ -205,7 +209,8 @@ export const loadStory = id => async dispatch => {
 
 	if (res.error) {
 		return batchDispatch([
-			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
 		]);
 	}
 	return batchDispatch([storyUpsert(res), opEnd({op})]);

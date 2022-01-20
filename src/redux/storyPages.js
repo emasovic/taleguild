@@ -58,7 +58,8 @@ export const loadStoryPages = filter => async dispatch => {
 
 	if (res.error) {
 		return batchDispatch([
-			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
 		]);
 	}
 	return batchDispatch([storyPagesReceieved(res), opEnd({op})]);
@@ -74,7 +75,8 @@ export const loadStoryPage = payload => async dispatch => {
 
 	if (res.error) {
 		return batchDispatch([
-			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
 		]);
 	}
 
@@ -90,7 +92,8 @@ export const createOrUpdateStoryPage = payload => async (dispatch, getState, his
 		: await api.createStoryPage(payload);
 	if (res.error) {
 		return batchDispatch([
-			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
 		]);
 	}
 
@@ -112,7 +115,8 @@ export const deleteStoryPage = (storyId, pageId) => async (dispatch, getState, h
 
 	if (res.error) {
 		return batchDispatch([
-			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
 		]);
 	}
 

@@ -66,7 +66,8 @@ export const loadArchivedStories = (params, op = STORY_OP.loading) => async disp
 	const res = await api.getStories(params);
 	if (res.error) {
 		return batchDispatch([
-			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
 		]);
 	}
 
@@ -87,7 +88,8 @@ export const updateArchivedStory = (payload, keepArchived) => async (dispatch, g
 
 	if (res.error) {
 		return batchDispatch([
-			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
 		]);
 	}
 
@@ -104,7 +106,8 @@ export const removeArchivedStory = storyId => async (dispatch, getState, history
 	const res = await api.deleteStory(storyId);
 	if (res.error) {
 		return batchDispatch([
-			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
 		]);
 	}
 	return batchDispatch([archivedStoryRemoved({id: storyId}), opEnd({op})]);

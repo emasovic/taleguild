@@ -54,7 +54,8 @@ export const loadUser = username => async dispatch => {
 	const res = await api.getUser(username);
 	if (res.error) {
 		return batchDispatch([
-			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
 		]);
 	}
 

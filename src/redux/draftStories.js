@@ -68,7 +68,8 @@ export const loadStories = (params, op = STORY_OP.loading) => async dispatch => 
 	const res = await api.getStories(params);
 	if (res.error) {
 		return batchDispatch([
-			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
 		]);
 	}
 
@@ -88,7 +89,8 @@ export const deleteStory = storyId => async dispatch => {
 	const res = await api.deleteStory(storyId);
 	if (res.error) {
 		return batchDispatch([
-			opEnd({op, error: res.error}, newToast({...Toast.error(res.error)})),
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
 		]);
 	}
 
