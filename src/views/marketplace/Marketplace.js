@@ -129,6 +129,7 @@ export default function Marketplace() {
 				<HorizontalList
 					items={BODY_PARTS}
 					loading={false}
+					additionalParams={{gender: selectedGender?.id}}
 					urlParamName="body_part"
 					resetParamsOnChange
 				/>

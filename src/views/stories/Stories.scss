@@ -39,28 +39,4 @@
 			@include tab-link;
 		}
 	}
-
-	&-lastest {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-
-		@media (max-width: $breakpoint-m) {
-			justify-content: center;
-			margin-bottom: 60px;
-		}
-
-		h2 {
-			margin: 12px 0;
-			min-width: $story-preview-width-medium;
-			text-align: center;
-			@include theme-aware('color', 'G400');
-		}
-	}
-
-	&-pagination {
-		display: flex;
-		justify-content: center;
-		margin: 16px 0;
-	}
 }

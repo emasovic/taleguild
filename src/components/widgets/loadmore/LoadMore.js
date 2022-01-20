@@ -1,10 +1,11 @@
-import React, {useCallback, useEffect, useLayoutEffect, useRef, useState} from 'react';
+import React, {useCallback, useLayoutEffect} from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
-import {isElementInViewport} from 'lib/util';
+import useInView from 'hooks/useInView';
 
 import Loader from '../loader/Loader';
+import IconButton from '../button/IconButton';
 
 import './LoadMore.scss';
 
@@ -23,21 +24,14 @@ export default function LoadMore({
 	noItemsComponentProps,
 	id,
 	isModal,
-	autoFillViewport,
 }) {
-	const autoFillRef = useRef(null);
-	const [isInViewport, setIsInViewport] = useState(true);
+	const [ref, isVisible] = useInView();
 
-	const checkLoadMore = useCallback(() => {
-		if (!isElementInViewport(autoFillRef?.current) && isInViewport) setIsInViewport(false);
-		if (isElementInViewport(autoFillRef?.current) && shouldLoad && !loading) {
-			onLoadMore();
-		}
-	}, [onLoadMore, shouldLoad, isInViewport, loading]);
+	const checkLoadMore = useCallback(
+		() => isVisible && shouldLoad && !loading && onLoadMore(),
 
-	useEffect(() => {
-		autoFillViewport && isInViewport && checkLoadMore();
-	}, [checkLoadMore, autoFillViewport, isInViewport]);
+		[onLoadMore, shouldLoad, isVisible, loading]
+	);
 
 	useLayoutEffect(() => {
 		if (!isModal) {
@@ -60,14 +54,21 @@ export default function LoadMore({
 		<div id={id} className={classNames} {...componentProps}>
 			{showItems && children}
 			{loading && (
-				<div className={CLASS + '-pagination'}>
+				<div className={CLASS + '-loader'}>
 					<Loader />
 				</div>
 			)}
 			{NoItemsComponent && !shouldLoad && !loading && !total && showItems && (
 				<NoItemsComponent {...noItemsComponentProps} />
 			)}
-			<div ref={autoFillRef} className={placeholderClassNames} />
+			{!loading && <div ref={ref} className={placeholderClassNames} />}
+			{shouldLoad && showItems && !loading && (
+				<div className={CLASS + '-loadmore'}>
+					<IconButton loading={loading} onClick={checkLoadMore}>
+						Load more
+					</IconButton>
+				</div>
+			)}
 		</div>
 	);
 }
