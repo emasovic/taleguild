@@ -7,8 +7,8 @@ import {goToWidget} from 'lib/routes';
 
 import {DEFAULT_CRITERIA} from 'types/story';
 import {FONTS, TEXT_COLORS, TYPOGRAPHY_VARIANTS} from 'types/typography';
-import FA from 'types/font_awesome';
 import {CATEGORY_TYPES} from 'types/category';
+import FA from 'types/font_awesome';
 
 import {loadCategories} from 'redux/categories';
 import {loadLanguages} from 'redux/languages';
@@ -19,6 +19,7 @@ import Stories from 'views/stories/Stories';
 import StoryTabs from 'views/stories/StoryTabs';
 import Typography from 'components/widgets/typography/Typography';
 import IconButton from 'components/widgets/button/IconButton';
+import MobileWrapper from 'components/widgets/mobile-wrapper/MobileWrapper';
 
 import './Community.scss';
 
@@ -42,7 +43,7 @@ export default function Community() {
 		dispatch(loadLanguages());
 	}, [dispatch]);
 	return (
-		<div className={CLASS}>
+		<MobileWrapper className={CLASS}>
 			<div className={CLASS + '-header'}>
 				<div className={CLASS + '-header-title'}>
 					<Typography
@@ -91,6 +92,6 @@ export default function Community() {
 					<StoryTabs />
 				</div>
 			</div>
-		</div>
+		</MobileWrapper>
 	);
 }
