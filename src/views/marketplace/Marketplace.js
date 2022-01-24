@@ -57,12 +57,7 @@ export default function Marketplace() {
 	const selectedGender =
 		genders.find(g => g.id === Number(gender)) || genders.find(g => g.gender === GENDERS.male);
 
-	const categories = marketCategories
-		.filter(i => (body_part ? i.body_part === body_part : i))
-		.map(i => ({
-			id: i.id,
-			name: i.display_name,
-		}));
+	const categories = marketCategories.filter(i => (body_part ? i.body_part === body_part : i));
 
 	const shouldLoad = marketplaceTotal > items.length;
 
