@@ -63,22 +63,6 @@ export default function RecentViews() {
 			);
 	}, [dispatch, userId]);
 
-	if (!views.length && op[DEFAULT_OP.loading].success) {
-		return (
-			<div>
-				<NoItemsPlaceholder
-					title="Find people to follow"
-					subtitle="With your writing you can collect coins and create characters from Market"
-					buttonText="Visit our community"
-					buttonProps={{
-						tag: Link,
-						to: goToWidget(WIDGETS.explore),
-						color: COLOR.secondary,
-					}}
-				/>
-			</div>
-		);
-	}
 	return (
 		<div className={CLASS}>
 			<Typography color={TEXT_COLORS.secondary} fontWeight={FONT_WEIGHT.bold}>
@@ -89,6 +73,18 @@ export default function RecentViews() {
 				loading={!op[DEFAULT_OP.loading].success}
 				showItems={op[DEFAULT_OP.loading].success}
 				total={total}
+				noItemsComponentProps={{
+					title: 'Find people to follow',
+					subtitle:
+						'With your writing you can collect coins and create characters from Market',
+					buttonText: 'Visit our community',
+					buttonProps: {
+						tag: Link,
+						to: goToWidget(WIDGETS.explore),
+						color: COLOR.secondary,
+					},
+				}}
+				NoItemsComponent={NoItemsPlaceholder}
 				shouldLoad={false}
 			>
 				{views.map(i => (

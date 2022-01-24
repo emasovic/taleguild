@@ -14,7 +14,9 @@ const CLASS = 'st-NoItemsPlaceholder';
 function NoItemsPlaceholder({
 	buttonProps,
 	title,
+	titleProps,
 	subtitle,
+	subtitleProps,
 	className,
 	withBackground,
 	withBorder,
@@ -33,11 +35,16 @@ function NoItemsPlaceholder({
 				variant={TYPOGRAPHY_VARIANTS.h4}
 				component={TYPOGRAPHY_VARIANTS.h4}
 				font={FONTS.merri}
+				{...titleProps}
 			>
 				{title}
 			</Typography>
 			{subtitle && (
-				<Typography variant={TYPOGRAPHY_VARIANTS.action1} color={TEXT_COLORS.secondary}>
+				<Typography
+					variant={TYPOGRAPHY_VARIANTS.action1}
+					color={TEXT_COLORS.secondary}
+					{...subtitleProps}
+				>
 					{subtitle}
 				</Typography>
 			)}
@@ -48,6 +55,8 @@ function NoItemsPlaceholder({
 
 NoItemsPlaceholder.defaultProps = {
 	buttonProps: {},
+	titleProps: {},
+	subtitleProps: {},
 };
 
 NoItemsPlaceholder.propTypes = {
@@ -58,6 +67,8 @@ NoItemsPlaceholder.propTypes = {
 	withBorder: PropTypes.bool,
 	subtitle: PropTypes.string,
 	className: PropTypes.string,
+	titleProps: PropTypes.object,
+	subtitleProps: PropTypes.object,
 };
 
 export default NoItemsPlaceholder;

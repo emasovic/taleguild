@@ -75,7 +75,6 @@ export default function LoadMore({
 
 LoadMore.defaultProps = {
 	id: 'loadMore',
-	autoFillViewport: true,
 };
 
 LoadMore.propTypes = {
@@ -89,7 +88,6 @@ LoadMore.propTypes = {
 	isModal: PropTypes.bool,
 	total: PropTypes.number.isRequired,
 	placeholderClassName: PropTypes.string,
-	autoFillViewport: PropTypes.bool,
 	NoItemsComponent: PropTypes.func,
 	noItemsComponentProps: PropTypes.object,
 };

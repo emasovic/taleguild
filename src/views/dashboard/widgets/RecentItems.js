@@ -83,19 +83,6 @@ export default function RecentItems() {
 		[dispatch, total]
 	);
 
-	if (!total && guildatarOp[DEFAULT_OP.loading].success) {
-		return (
-			<div>
-				<NoItemsPlaceholder
-					title="Build your characters"
-					subtitle="With your writing you can collect coins and create characters from Market"
-					buttonText="Create guildatar"
-					buttonProps={{onClick: () => setIsOpen(true), color: COLOR.secondary}}
-				/>
-				{isOpen && <GuildatarDialog isOpen={isOpen} onClose={() => setIsOpen(false)} />}
-			</div>
-		);
-	}
 	return (
 		<div className={CLASS}>
 			<Typography color={TEXT_COLORS.secondary} fontWeight={FONT_WEIGHT.bold}>
@@ -104,15 +91,24 @@ export default function RecentItems() {
 			<LoadMore
 				id="recentItems"
 				total={total}
-				loading={!op[DEFAULT_OP.loading].success}
-				showItems={op[DEFAULT_OP.loading].success}
+				loading={op[DEFAULT_OP.loading].loading || !guildatarOp[DEFAULT_OP.loading].success}
+				showItems={
+					!op[DEFAULT_OP.loading].loading && guildatarOp[DEFAULT_OP.loading].success
+				}
+				NoItemsComponent={NoItemsPlaceholder}
+				noItemsComponentProps={{
+					title: 'Build your characters',
+					subtitle:
+						'With your writing you can collect coins and create characters from Market',
+					buttonText: 'Create guildatar',
+					buttonProps: {onClick: () => setIsOpen(true), color: COLOR.secondary},
+				}}
 				shouldLoad={false}
 			>
-				{marketplace.map(i => (
-					<RecentItem key={i} id={i} onClick={setSelectedItem} />
-				))}
+				{!!total &&
+					marketplace.map(i => <RecentItem key={i} id={i} onClick={setSelectedItem} />)}
 			</LoadMore>
-
+			{isOpen && <GuildatarDialog isOpen={isOpen} onClose={() => setIsOpen(false)} />}
 			{selectedItem && (
 				<MarketplaceDialog
 					isOpen={!!selectedItem}
