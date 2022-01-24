@@ -16,7 +16,7 @@ import './SideNav.scss';
 
 const CLASS = 'st-SideNav';
 
-function SideNav({items, loading, title, urlParamName, allIcon}) {
+function SideNav({items, loading, title, urlParamName, allIcon, nameKey}) {
 	const dispatch = useDispatch();
 	const [activeItem, setActiveItem] = useState(null);
 
@@ -56,7 +56,7 @@ function SideNav({items, loading, title, urlParamName, allIcon}) {
 											}
 										>
 											{item.icon && <FaIcon icon={item.icon} />}
-											{item.name}
+											{item[nameKey]}
 										</NavLink>
 									</NavItem>
 								);
@@ -70,11 +70,13 @@ function SideNav({items, loading, title, urlParamName, allIcon}) {
 
 SideNav.defaultProps = {
 	title: '',
+	nameKey: 'name',
 };
 
 SideNav.propTypes = {
 	allIcon: PropTypes.object,
 	items: PropTypes.array.isRequired,
+	nameKey: PropTypes.string,
 	loading: PropTypes.bool.isRequired,
 	title: PropTypes.string.isRequired,
 	urlParamName: PropTypes.string.isRequired,

@@ -154,6 +154,7 @@ export default function Marketplace() {
 					<SideNav
 						items={categories}
 						loading={categoryOp[DEFAULT_OP.loading].loading}
+						nameKey="display_name"
 						title="Categories"
 						urlParamName="category"
 					/>

@@ -15,6 +15,7 @@ export default function Categories() {
 	return (
 		<SideNav
 			items={categories}
+			nameKey="display_name"
 			urlParamName="categories"
 			loading={op[DEFAULT_OP.loading].loading || op[DEFAULT_OP.load_more].loading}
 		/>
