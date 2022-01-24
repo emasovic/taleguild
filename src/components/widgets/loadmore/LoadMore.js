@@ -61,7 +61,7 @@ export default function LoadMore({
 			{NoItemsComponent && !shouldLoad && !loading && !total && showItems && (
 				<NoItemsComponent {...noItemsComponentProps} />
 			)}
-			{!loading && <div ref={ref} className={placeholderClassNames} />}
+			{!loading && shouldLoad && <div ref={ref} className={placeholderClassNames} />}
 			{shouldLoad && showItems && !loading && (
 				<div className={CLASS + '-loadmore'}>
 					<IconButton loading={loading} tertiary outline onClick={checkLoadMore}>

@@ -83,7 +83,7 @@ function LikesDialog({isOpen, title, onClose, storyId, className}) {
 
 LikesDialog.propTypes = {
 	isOpen: PropTypes.bool.isRequired,
-	title: PropTypes.string.isRequired,
+	title: PropTypes.string,
 	onClose: PropTypes.func.isRequired,
 	storyId: PropTypes.number.isRequired,
 	className: PropTypes.string,
