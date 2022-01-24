@@ -73,7 +73,7 @@ export default function StoryList({
 			noItemsComponentProps={noItemsComponentProps}
 			id="storyList"
 		>
-			<Typography>{title}</Typography>
+			<Typography>{!!total && title}</Typography>
 			{stories.map(item => (
 				<Component
 					id={item.id}

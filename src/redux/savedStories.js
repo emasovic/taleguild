@@ -103,7 +103,7 @@ export const createOrDeleteSavedStory = (favourite, userId, storyId) => async di
 		actions.unshift(savedStoryUpsert({...res, storyId}));
 	}
 
-	return dispatch(actions);
+	return batchDispatch(actions);
 };
 
 //SELECTORS

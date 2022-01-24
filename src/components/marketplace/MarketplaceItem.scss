@@ -64,6 +64,10 @@
 			margin-left: 24px;
 		}
 
+		&-name {
+			max-width: $market-item-width-small;
+		}
+
 		&-price {
 			display: flex;
 			align-items: center;

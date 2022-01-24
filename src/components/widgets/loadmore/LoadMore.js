@@ -64,7 +64,7 @@ export default function LoadMore({
 			{!loading && <div ref={ref} className={placeholderClassNames} />}
 			{shouldLoad && showItems && !loading && (
 				<div className={CLASS + '-loadmore'}>
-					<IconButton loading={loading} onClick={checkLoadMore}>
+					<IconButton loading={loading} tertiary outline onClick={checkLoadMore}>
 						Load more
 					</IconButton>
 				</div>

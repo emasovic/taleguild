@@ -108,7 +108,7 @@ export const createOrDeleteLike = (like, userId, storyId) => async dispatch => {
 		actions.unshift(likesRemoveOne({storyId, id: like.id}));
 	}
 
-	return dispatch(actions);
+	return batchDispatch(actions);
 };
 
 //SELECTORS

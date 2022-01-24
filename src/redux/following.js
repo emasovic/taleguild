@@ -108,7 +108,7 @@ export const createOrDeleteFollowing = ({follower, userId, followerId}, op) => a
 		actions.unshift(followingRemoveOne({id: follower.id, user: userId}));
 	}
 
-	return dispatch(actions);
+	return batchDispatch(actions);
 };
 
 //SELECTORS

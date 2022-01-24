@@ -1,4 +1,5 @@
 import {createSlice, createSelector, createEntityAdapter} from '@reduxjs/toolkit';
+import {push} from 'connected-react-router';
 
 import * as api from '../lib/api';
 import {editStory} from '../lib/routes';
@@ -83,7 +84,7 @@ export const loadStoryPage = payload => async dispatch => {
 	return batchDispatch([storyPageUpsert(res), opEnd({op})]);
 };
 
-export const createOrUpdateStoryPage = payload => async (dispatch, getState, history) => {
+export const createOrUpdateStoryPage = payload => async dispatch => {
 	const op = payload.id ? DEFAULT_OP.update : DEFAULT_OP.create;
 	dispatch(opStart(op));
 
@@ -100,14 +101,14 @@ export const createOrUpdateStoryPage = payload => async (dispatch, getState, his
 	const actions = [opEnd({op})];
 
 	if (!payload.id) {
-		history.push(editStory(payload.story, res.id));
+		actions.push(push(editStory(payload.story, res.id)));
 
 		actions.unshift(storyPageUpsert(res));
 	}
-	return dispatch(actions);
+	return batchDispatch(actions);
 };
 
-export const deleteStoryPage = (storyId, pageId) => async (dispatch, getState, history) => {
+export const deleteStoryPage = (storyId, pageId) => async (dispatch, getState) => {
 	const op = DEFAULT_OP.delete;
 	dispatch(opStart(op));
 
@@ -120,7 +121,7 @@ export const deleteStoryPage = (storyId, pageId) => async (dispatch, getState, h
 		]);
 	}
 
-	batchDispatch([storyPageRemoved(pageId), opEnd({op})]);
+	const actions = [storyPageRemoved(pageId), opEnd({op})];
 
 	const {
 		storyPages: {ids},
@@ -128,7 +129,9 @@ export const deleteStoryPage = (storyId, pageId) => async (dispatch, getState, h
 
 	const page = ids[ids.length - 1];
 
-	page && history.push(editStory(storyId, page));
+	page && actions.push(push(editStory(storyId, page)));
+
+	batchDispatch(actions);
 };
 
 //SELECTORS

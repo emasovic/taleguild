@@ -105,7 +105,7 @@ export const createOrDeleteComment = payload => async (dispatch, getState) => {
 		actions.unshift(commentsRemoveOne({storyId: payload.story, id: payload.id}));
 	}
 
-	return dispatch(actions);
+	return batchDispatch(actions);
 };
 
 //SELECTORS

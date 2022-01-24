@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {useSelector} from 'react-redux';
 import classNames from 'classnames';
 
-import {FONT_WEIGHT, TEXT_COLORS, TEXT_TRASFORM} from 'types/typography';
+import {FONT_WEIGHT, TEXT_COLORS, TEXT_TRASFORM, TEXT_WRAP} from 'types/typography';
 
 import {selectMarketplaceById} from 'redux/marketplace';
 
@@ -29,7 +29,9 @@ function MarketplaceItem({id, onClick, item, displayPrice, active, selector}) {
 				>
 					{category?.display_name}
 				</Typography>
-				<Typography>{name}</Typography>
+				<Typography wrap={TEXT_WRAP.ellipsis} className={CLASS + '-info-name'}>
+					{name}
+				</Typography>
 				{displayPrice && price && (
 					<Typography className={CLASS + '-info-price'}>
 						<Coin />

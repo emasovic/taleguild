@@ -105,7 +105,7 @@ export const createUserActivity = payload => async (dispatch, getState) => {
 	const actions = [opEnd({op})];
 
 	res.id && actions.unshift(userActivityUpsertOne(res));
-	dispatch(actions);
+	batchDispatch(actions);
 };
 
 //SELECTORS
