@@ -76,7 +76,7 @@ export default function RecentViews() {
 				noItemsComponentProps={{
 					title: 'Find people to follow',
 					subtitle:
-						'With your writing you can collect coins and create characters from Market',
+						'Follow other writers from the guild, read their stories and ask for advice on writing and acquiring new skills',
 					buttonText: 'Visit our community',
 					buttonProps: {
 						tag: Link,

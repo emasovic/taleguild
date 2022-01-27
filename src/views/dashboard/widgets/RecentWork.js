@@ -123,7 +123,7 @@ function RecentWork({shouldLoadMore, title, titleProps, placeholderProps}) {
 				noItemsComponentProps={{
 					title: 'Create your first story',
 					subtitle:
-						'With your writing you can collect coins and create characters from Market',
+						'Start writing your first story and collect coins and XP to upgrade your productivity level',
 					buttonText: 'Write your first story',
 					withBackground: true,
 					buttonProps: {

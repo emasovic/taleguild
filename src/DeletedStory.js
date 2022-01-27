@@ -24,7 +24,7 @@ export default function DeletedStory() {
 	const {data} = useSelector(selectAuthUser);
 
 	const handleNewStory = () => {
-		dispatch(newStory({user: data && data.id, published: null}));
+		dispatch(newStory({user: data && data.id, published_at: null}));
 	};
 	return (
 		<div className={CLASS}>
@@ -34,11 +34,13 @@ export default function DeletedStory() {
 					variant={TYPOGRAPHY_VARIANTS.h1}
 					fontWeight={FONT_WEIGHT.bold}
 				>
-					And that was the end of your story. Literally end. You delete it.
+					And that is the end of your story. You deleted it.
 				</Typography>
 				<Typography font={FONTS.lato} variant={TYPOGRAPHY_VARIANTS.action1}>
-					But you can create other one. Hope that you will not delete that one too. You
-					can also read other stories in mean time, just back to home.
+					But don't worry, your coins and XP have been saved. Deleting a story is another
+					important experience in acquiring a writing skills. Many great stories are made
+					up of deleted pieces. You can create another story or you can continue to
+					explore our guild and meet other writers.
 				</Typography>
 				<div className={CLASS + '-description-buttons'}>
 					<IconButton tag={Link} to={DASHBOARD} color={COLOR.secondary}>

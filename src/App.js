@@ -20,7 +20,7 @@ function App() {
 	return (
 		<ErrorPage>
 			<Helmet
-				title="Taleguild | Discover the Place with Top Writers"
+				title="Taleguild | Gamified Experience for Productive Writing"
 				description="Taleguild is the place where writers publish their work, gain inspiration, feedback, and community, and is your best place to discover and connect with writers worldwide."
 			/>
 

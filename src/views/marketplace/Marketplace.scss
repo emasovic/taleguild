@@ -1,4 +1,5 @@
 @import 'styles/variables.scss';
+@import 'styles/themes/mixins.scss';
 
 .st-Marketplace {
 	display: flex;
@@ -76,6 +77,14 @@
 
 				@media (max-width: $breakpoint-m) {
 					justify-content: center;
+				}
+
+				&-nosearch {
+					svg {
+						> rect {
+							@include theme-aware('fill', 'B100');
+						}
+					}
 				}
 
 				&-placeholder {

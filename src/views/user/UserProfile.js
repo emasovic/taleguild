@@ -43,7 +43,6 @@ export default function UserProfile() {
 					'You can make your stories public and it will be visible here on your profile and in the Community. If you want to publish a story, choose from Drafts.',
 				buttonText: 'Visit Drafts',
 				buttonProps: {to: USER_STORIES_DRAFTS, tag: Link, color: COLOR.secondary},
-				withBorder: true,
 		  }
 		: {};
 

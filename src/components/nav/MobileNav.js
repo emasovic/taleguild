@@ -24,50 +24,38 @@ export default function MobileNav() {
 	const {data} = user;
 
 	return (
-		<>
+		data && (
 			<Nav className={CLASS}>
-				{data && (
-					<>
-						<NavItem>
-							<NavLink
-								tag={Link}
-								to={DASHBOARD}
-								active={location.pathname === DASHBOARD}
-							>
-								<FontAwesomeIcon size="lg" icon={FA.solid_th_large} />
-							</NavLink>
-						</NavItem>
+				<NavItem>
+					<NavLink tag={Link} to={DASHBOARD} active={location.pathname === DASHBOARD}>
+						<FontAwesomeIcon size="lg" icon={FA.solid_th_large} />
+					</NavLink>
+				</NavItem>
 
-						<NavItem>
-							<NavLink
-								tag={Link}
-								to={MARKETPLACE}
-								active={location.pathname === MARKETPLACE}
-							>
-								<FontAwesomeIcon size="lg" icon={FA.solid_store} />
-							</NavLink>
-						</NavItem>
-						<NavItem>
-							<NavLink
-								tag={Link}
-								to={GUILDATARS}
-								active={location.pathname.includes(GUILDATAR)}
-							>
-								<FontAwesomeIcon size="lg" icon={FA.solid_user_ninja} />
-							</NavLink>
-						</NavItem>
-						<NavItem>
-							<NavLink
-								tag={Link}
-								to={goToWidget(WIDGETS.explore)}
-								active={location.pathname.includes(_COMMUNITY)}
-							>
-								<FontAwesomeIcon size="lg" icon={FA.solid_users} />
-							</NavLink>
-						</NavItem>
-					</>
-				)}
+				<NavItem>
+					<NavLink tag={Link} to={MARKETPLACE} active={location.pathname === MARKETPLACE}>
+						<FontAwesomeIcon size="lg" icon={FA.solid_store} />
+					</NavLink>
+				</NavItem>
+				<NavItem>
+					<NavLink
+						tag={Link}
+						to={GUILDATARS}
+						active={location.pathname.includes(GUILDATAR)}
+					>
+						<FontAwesomeIcon size="lg" icon={FA.solid_user_ninja} />
+					</NavLink>
+				</NavItem>
+				<NavItem>
+					<NavLink
+						tag={Link}
+						to={goToWidget(WIDGETS.explore)}
+						active={location.pathname.includes(_COMMUNITY)}
+					>
+						<FontAwesomeIcon size="lg" icon={FA.solid_users} />
+					</NavLink>
+				</NavItem>
 			</Nav>
-		</>
+		)
 	);
 }

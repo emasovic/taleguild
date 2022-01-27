@@ -37,7 +37,7 @@ export default function Dashboard() {
 				Welcome {displayName}!
 			</Typography>
 			<Typography variant={TYPOGRAPHY_VARIANTS.action1} color={TEXT_COLORS.secondary}>
-				It’s {format(new Date(), 'EEEE')}, great day to start working on you next story.
+				It’s {format(new Date(), 'EEEE')}, a great day to start working on the next story.
 			</Typography>
 			<div className={CLASS + '-content'}>
 				<RecentCoins />

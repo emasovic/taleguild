@@ -24,17 +24,17 @@ export default function RecentXp() {
 
 	const topStats = (
 		<>
-			<Typography variant={TYPOGRAPHY_VARIANTS.h3} font={FONTS.merri}>
-				{stats?.points}/{currentLevel?.max_points}
+			<Typography>
+				{ordinalSuffixOf(currentLevel?.level)}
+				<Typography color={TEXT_COLORS.secondary}> level</Typography>
 			</Typography>
 			<Icon icon={ICONS.star} />
 		</>
 	);
 
 	const bottomStats = (
-		<Typography>
-			{ordinalSuffixOf(currentLevel?.level)}
-			<Typography color={TEXT_COLORS.secondary}> level</Typography>
+		<Typography variant={TYPOGRAPHY_VARIANTS.h3} font={FONTS.merri}>
+			{stats?.points}/{currentLevel?.max_points}
 		</Typography>
 	);
 

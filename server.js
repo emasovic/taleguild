@@ -113,7 +113,7 @@ app.get('/', function(req, res) {
 		}
 
 		data = data
-			.replace(/__TITLE__/g, 'Taleguild | Discover the Place with Top Writers')
+			.replace(/__TITLE__/g, 'Taleguild | Gamified Experience for Productive Writing')
 			.replace(
 				/__DESCRIPTION__/g,
 				'Taleguild is the place where writers publish their work, gain inspiration, feedback, and community, and is your best place to discover and connect with writers worldwide.'
@@ -133,7 +133,7 @@ app.get('/*', function(req, res) {
 		}
 
 		data = data
-			.replace(/__TITLE__/g, 'Taleguild | Discover the Place with Top Writers')
+			.replace(/__TITLE__/g, 'Taleguild | Gamified Experience for Productive Writing')
 			.replace(
 				/__DESCRIPTION__/g,
 				'Taleguild is the place where writers publish their work, gain inspiration, feedback, and community, and is your best place to discover and connect with writers worldwide.'

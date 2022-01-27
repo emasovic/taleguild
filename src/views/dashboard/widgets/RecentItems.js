@@ -97,9 +97,9 @@ export default function RecentItems() {
 				}
 				NoItemsComponent={NoItemsPlaceholder}
 				noItemsComponentProps={{
-					title: 'Build your characters',
+					title: 'Build your Guildatars',
 					subtitle:
-						'With your writing you can collect coins and create characters from Market',
+						'Collect coins to buy items such as armors, swords, shields and more, and upgrade your Guildatar',
 					buttonText: 'Create guildatar',
 					buttonProps: {onClick: () => setIsOpen(true), color: COLOR.secondary},
 				}}

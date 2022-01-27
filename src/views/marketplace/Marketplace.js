@@ -158,7 +158,7 @@ export default function Marketplace() {
 					{!total && guildatarOp[DEFAULT_OP.loading].success ? (
 						<PagePlaceholder
 							title="Create your first Guildatar"
-							subtitle="In order to access the Market, you first need to create your guildarter for whom you will buy items with coins"
+							subtitle="To access the market, you must first create your Guildatar for whom you will buy items with coins"
 							buttonLabel="Create Guildatar"
 							buttonProps={{
 								to: undefined,
@@ -196,6 +196,7 @@ export default function Marketplace() {
 								NoItemsComponent={PagePlaceholder}
 								noItemsComponentProps={{
 									IconComponent: NoSearchResults,
+									className: CLASS + '-market-items-loadmore-nosearch',
 									title: 'No results found',
 									subtitle: 'We couldn’t find what you are looking for',
 								}}

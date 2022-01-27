@@ -72,7 +72,7 @@ export default function UserSettings() {
 			description: data?.description || '',
 			displayName: data?.display_name || '',
 			avatar: data?.avatar,
-			theme: localStorage.getItem('theme') || THEMES.dark,
+			theme: localStorage.getItem('theme') || THEMES.light,
 		},
 		onSubmit: handleSubmit,
 	});
