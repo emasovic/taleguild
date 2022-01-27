@@ -61,7 +61,6 @@ export default function Writter({
 	return (
 		<div className={className + '-writter'} ref={editorRef}>
 			<TextEditor
-				pageId={currentEditing.id}
 				value={currentEditing.text}
 				onChange={handleEditPage}
 				onKeyUp={onEndAt}

@@ -1776,11 +1776,6 @@
     "@types/estree" "*"
     "@types/json-schema" "*"
 
-"@types/esrever@^0.2.0":
-  version "0.2.1"
-  resolved "https://npm.xrview.io/@types%2fesrever/-/esrever-0.2.1.tgz#9ff5155ef412848270ead4aaa611a8cdadcb9ab0"
-  integrity sha512-vRLFhQxGVkyUF7opxv66MQHoRSOBkbbitj1OGd6My4XR6HwCorUZxSiJejF3s4OxmEFTjfRRGwm6GUhuQETP6Q==
-
 "@types/estree@*", "@types/estree@^0.0.50":
   version "0.0.50"
   resolved "https://npm.xrview.io/@types%2festree/-/estree-0.0.50.tgz#1e0caa9364d3fccd2931c3ed96fdbeaa5d4cca83"
@@ -4727,11 +4722,6 @@ esrecurse@^4.3.0:
   dependencies:
     estraverse "^5.2.0"
 
-esrever@^0.2.0:
-  version "0.2.0"
-  resolved "https://npm.xrview.io/esrever/-/esrever-0.2.0.tgz#96e9d28f4f1b1a76784cd5d490eaae010e7407b8"
-  integrity sha1-lunSj08bGnZ4TNXUkOquAQ50B7g=
-
 estraverse@^4.1.1:
   version "4.3.0"
   resolved "https://npm.xrview.io/estraverse/-/estraverse-4.3.0.tgz#398ad3f3c5a24948be7725e83d11a7de28cdbd1d"
@@ -5881,10 +5871,10 @@ ignore@^5.1.4, ignore@^5.1.8, ignore@^5.2.0:
   resolved "https://npm.xrview.io/ignore/-/ignore-5.2.0.tgz#6d3bac8fa7fe0d45d9f9be7bac2fc279577e345a"
   integrity sha512-CmxgYGiEPCLhfLnpPp1MoRmifwEIOgjcHXxOBjv7mY96c+eWScsOP9c112ZyLdWHi0FxHjI+4uVhKYp/gcdRmQ==
 
-immer@^8.0.1:
-  version "8.0.4"
-  resolved "https://npm.xrview.io/immer/-/immer-8.0.4.tgz#3a21605a4e2dded852fb2afd208ad50969737b7a"
-  integrity sha512-jMfL18P+/6P6epANRvRk6q8t+3gGhqsJ9EuJ25AXE+9bNTYtssvzeYbEd0mXRYWCmmXSIbnlpz6vd6iJlmGGGQ==
+immer@^9.0.6:
+  version "9.0.12"
+  resolved "https://npm.xrview.io/immer/-/immer-9.0.12.tgz#2d33ddf3ee1d247deab9d707ca472c8c942a0f20"
+  integrity sha512-lk7UNmSbAukB5B6dh9fnh5D0bJTOFKxVg2cyJWTYrWRfhLrLMBquONcUs3aFq507hNoIZEDDh8lb8UtOizSMhA==
 
 immer@^9.0.7:
   version "9.0.7"
@@ -6277,11 +6267,6 @@ is-plain-obj@^3.0.0:
   version "3.0.0"
   resolved "https://npm.xrview.io/is-plain-obj/-/is-plain-obj-3.0.0.tgz#af6f2ea14ac5a646183a5bbdb5baabbc156ad9d7"
   integrity sha512-gwsOE28k+23GP1B6vFl1oVh/WOzmawBrKwo5Ev6wMKzPkaXaCDIQKzLnvsA42DRlbVTWorkgTKIviAKCWkfUwA==
-
-is-plain-object@^3.0.0:
-  version "3.0.1"
-  resolved "https://npm.xrview.io/is-plain-object/-/is-plain-object-3.0.1.tgz#662d92d24c0aa4302407b0d45d21f2251c85f85b"
-  integrity sha512-Xnpx182SBMrr/aBik8y+GuR4U1L9FqMSojwDQwPMmxyC6bvEqly9UBCxhauBF5vNh2gwWJNX6oDV7O+OM4z34g==
 
 is-plain-object@^5.0.0:
   version "5.0.0"
@@ -10418,37 +10403,34 @@ slash@^4.0.0:
   resolved "https://npm.xrview.io/slash/-/slash-4.0.0.tgz#2422372176c4c6c5addb5e2ada885af984b396a7"
   integrity sha512-3dOsAHXXUkQTpOYcoAxLIorMTp4gIQr5IW3iVb7A7lFIp0VHhnynm9izx6TssdrIcVIESAlVjtnO2K8bg+Coew==
 
-slate-history@^0.65.3:
-  version "0.65.3"
-  resolved "https://npm.xrview.io/slate-history/-/slate-history-0.65.3.tgz#f6583a6ba042e2abfc97fa0f7ca9cb9098016df2"
-  integrity sha512-9OSZun3Y0OmonTBSe0vw9EK+Gc9/s49i1bB2U0UxhWvc1hMNbvvu4YGr3eWbtb3gX1VBcGVIiJgawDE4foOVAQ==
+slate-history@^0.66.0:
+  version "0.66.0"
+  resolved "https://npm.xrview.io/slate-history/-/slate-history-0.66.0.tgz#ac63fddb903098ceb4c944433e3f75fe63acf940"
+  integrity sha512-6MWpxGQZiMvSINlCbMW43E2YBSVMCMCIwQfBzGssjWw4kb0qfvj0pIdblWNRQZD0hR6WHP+dHHgGSeVdMWzfng==
   dependencies:
-    is-plain-object "^3.0.0"
+    is-plain-object "^5.0.0"
 
-slate-react@^0.65.2:
-  version "0.65.3"
-  resolved "https://npm.xrview.io/slate-react/-/slate-react-0.65.3.tgz#f652e4780b4304189a8a8ecc8feca723f31173a3"
-  integrity sha512-lyiZD7Rrt0LInvK4xhIemnCEx/N7jt+e/eHlsFor+rif/K0RT9wSPXWajTI9RglbvN9XHTEuB2BFx2cQLKiomw==
+slate-react@^0.72.6:
+  version "0.72.6"
+  resolved "https://npm.xrview.io/slate-react/-/slate-react-0.72.6.tgz#05829d1d53e4332c497e8302ab0a3fb0898f4528"
+  integrity sha512-WIKyWsjrTeQLxLCQWk40edFOrl0vUu4owFVC2MbpjizSiv3RjtIYeYex6ExWFAuSU3Uh/s9A5SphIZbNpiUePQ==
   dependencies:
     "@types/is-hotkey" "^0.1.1"
     "@types/lodash" "^4.14.149"
     direction "^1.0.3"
     is-hotkey "^0.1.6"
-    is-plain-object "^3.0.0"
+    is-plain-object "^5.0.0"
     lodash "^4.17.4"
     scroll-into-view-if-needed "^2.2.20"
     tiny-invariant "1.0.6"
 
-slate@^0.65.3:
-  version "0.65.3"
-  resolved "https://npm.xrview.io/slate/-/slate-0.65.3.tgz#8178cdf28a10a3a4e6858b13bc2ffa7c3d003e7a"
-  integrity sha512-n8wa2MKyWhCMRyVkXuMf67MmOYSeoHnqS1qYivor+/y0puNvQgXDUjC7TJJqUjhVqJ6zg2IeuYd0WfSYdAJs4g==
+slate@^0.72.3:
+  version "0.72.3"
+  resolved "https://npm.xrview.io/slate/-/slate-0.72.3.tgz#c74eb85133b975b2d44d219462c127cdb992e76b"
+  integrity sha512-ALsYQHKTN4rC+iHnOJzV+aC4AHdhoPkBWrfEK3W/LbXOzPrR+wL80a66OZiYg9Xb0QeGzlLSGdOOFQd2ix9Wmg==
   dependencies:
-    "@types/esrever" "^0.2.0"
-    esrever "^0.2.0"
-    fast-deep-equal "^3.1.3"
-    immer "^8.0.1"
-    is-plain-object "^3.0.0"
+    immer "^9.0.6"
+    is-plain-object "^5.0.0"
     tiny-warning "^1.0.3"
 
 slice-ansi@1.0.0:
