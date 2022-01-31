@@ -7,3 +7,8 @@ export const NOTIFICATION_TYPES = {
 	WRITTING_ACTIVITY: 'writting_activity',
 	ITEM_BOUGHT: 'item_bought',
 };
+
+export const NOTIFICATION_ACTIONS = {
+	markAllRead: 'markAllRead',
+	markAllNotNew: 'markAllNotNew',
+};

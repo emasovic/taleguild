@@ -8,6 +8,7 @@ import {NOTIFICATIONS} from 'lib/routes';
 
 import {DEFAULT_LIMIT, DEFAULT_OP} from 'types/default';
 import {FONT_WEIGHT, TEXT_COLORS, TEXT_CURSORS, TEXT_TRASFORM} from 'types/typography';
+import {NOTIFICATION_ACTIONS} from 'types/notifications';
 import FA from 'types/font_awesome';
 
 import {loadNotifications, updateNotifications, selectNotificationIds} from 'redux/notifications';
@@ -30,13 +31,15 @@ export default function Notifications({isPage, isMobile}) {
 	const {push} = useHistory();
 	const {data} = useSelector(selectAuthUser);
 	const userId = data?.id;
-	const {unseen, total, op} = useSelector(state => state.notifications);
+	const {totalNew, total, op} = useSelector(state => state.notifications);
 	const notificationIds = useSelector(selectNotificationIds);
-	const unseenBool = !!unseen;
 
 	const [isOpen, setIsOpen] = useState(false);
 
-	const toggle = () => setIsOpen(prevState => !prevState);
+	const toggle = () => {
+		totalNew && dispatch(updateNotifications({action: NOTIFICATION_ACTIONS.markAllNotNew}));
+		setIsOpen(prevState => !prevState);
+	};
 
 	const handleLoadNotifications = useCallback(
 		(count, op, _start) =>
@@ -56,7 +59,8 @@ export default function Notifications({isPage, isMobile}) {
 		[dispatch, userId]
 	);
 
-	const handleMarkAllAsRead = () => dispatch(updateNotifications({markAllAsRead: true}));
+	const handleMarkAllAsRead = () =>
+		dispatch(updateNotifications({action: NOTIFICATION_ACTIONS.markAllRead}));
 
 	useEffect(() => handleLoadNotifications(true, undefined, 0), [handleLoadNotifications]);
 
@@ -66,7 +70,6 @@ export default function Notifications({isPage, isMobile}) {
 				Notifications
 			</Typography>
 			<Typography
-				disabled={!unseenBool}
 				onClick={handleMarkAllAsRead}
 				color={TEXT_COLORS.buttonPrimary}
 				fontWeight={FONT_WEIGHT.bold}
@@ -101,9 +104,9 @@ export default function Notifications({isPage, isMobile}) {
 	const toggleItem = (
 		<div className={CLASS + '-bell'}>
 			<FaIcon icon={FA.bell} />
-			{!!unseen && (
+			{!!totalNew && (
 				<sup>
-					<Badge>{unseen}</Badge>
+					<Badge>{totalNew}</Badge>
 				</sup>
 			)}
 		</div>
@@ -113,7 +116,10 @@ export default function Notifications({isPage, isMobile}) {
 
 	if (isMobile) {
 		dropDownProps.isOpen = false;
-		dropDownProps.onClick = () => push(NOTIFICATIONS);
+		dropDownProps.onClick = () => {
+			totalNew && dispatch(updateNotifications({action: NOTIFICATION_ACTIONS.markAllNotNew}));
+			push(NOTIFICATIONS);
+		};
 	}
 
 	return (

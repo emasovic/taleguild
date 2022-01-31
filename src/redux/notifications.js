@@ -4,6 +4,7 @@ import * as api from '../lib/api';
 
 import {Toast} from 'types/toast';
 import {DEFAULT_OP} from 'types/default';
+import {NOTIFICATION_ACTIONS} from 'types/notifications';
 
 import {newToast} from './toast';
 import {batchDispatch, createOperations, endOperation, startOperation} from './hepler';
@@ -18,7 +19,7 @@ export const notificationsSlice = createSlice({
 	initialState: notificationsAdapter.getInitialState({
 		op: createOperations(),
 		pages: null,
-		unseen: 0,
+		totalNew: 0,
 		total: 0,
 	}),
 	reducers: {
@@ -28,32 +29,33 @@ export const notificationsSlice = createSlice({
 		notificationsUpsertMany: (state, {payload}) => {
 			notificationsAdapter.upsertMany(state, payload);
 		},
-		notificationsMarkAllAsRead: state => {
+		notificationsMarkAll: (state, {payload}) => {
 			const {entities} = current(state);
 
-			notificationsAdapter.upsertMany(
-				state,
-				Object.values(entities).map(i => ({...i, seen: true}))
-			);
-			state.unseen = 0;
+			switch (payload.action) {
+				case NOTIFICATION_ACTIONS.markAllNotNew:
+					state.totalNew = 0;
+					break;
+				case NOTIFICATION_ACTIONS.markAllRead:
+					notificationsAdapter.upsertMany(
+						state,
+						Object.values(entities).map(i => ({...i, read: true}))
+					);
+				default:
+					break;
+			}
 		},
 		notificationsUpsertOne: (state, {payload}) => {
 			notificationsAdapter.upsertOne(state, payload);
-
-			if (!payload.seen) {
-				state.unseen += 1;
-			} else {
-				state.unseen -= 1;
-			}
 		},
 		notificationsAddOne: (state, {payload}) => {
 			notificationsAdapter.addOne(state, payload);
 			state.total += 1;
 
-			if (!payload.seen) {
-				state.unseen += 1;
+			if (payload.new) {
+				state.totalNew += 1;
 			} else {
-				state.unseen -= 1;
+				state.totalNew -= 1;
 			}
 		},
 
@@ -65,7 +67,7 @@ export const notificationsSlice = createSlice({
 		},
 		gotPages: (state, {payload}) => {
 			state.pages = Math.ceil(payload.total / payload.limit);
-			state.unseen = payload.unseen;
+			state.totalNew = payload.totalNew;
 			state.total = payload.total;
 		},
 	},
@@ -76,7 +78,7 @@ export const {
 	loadingEnd,
 	notificationsReceieved,
 	notificationsUpsertMany,
-	notificationsMarkAllAsRead,
+	notificationsMarkAll,
 	notificationsUpsertOne,
 	notificationsAddOne,
 	gotPages,
@@ -106,7 +108,7 @@ export const loadNotifications = (params, count, op = DEFAULT_OP.loading) => asy
 		}
 
 		return batchDispatch([
-			gotPages({total: countRes.total, unseen: countRes.unseen, limit: params._limit}),
+			gotPages({total: countRes.total, totalNew: countRes.totalNew, limit: params._limit}),
 			notificationsReceieved(res),
 			opEnd({op}),
 		]);
@@ -127,7 +129,7 @@ export const updateNotification = payload => async dispatch => {
 	return batchDispatch([notificationsUpsertOne(res), opEnd({op})]);
 };
 
-export const updateNotifications = payload => async (dispatch, getState) => {
+export const updateNotifications = payload => async dispatch => {
 	const op = DEFAULT_OP.update;
 	dispatch(opStart(op));
 	const res = await api.updateNotifications(payload);
@@ -138,7 +140,7 @@ export const updateNotifications = payload => async (dispatch, getState) => {
 		]);
 	}
 
-	return batchDispatch([notificationsMarkAllAsRead(res), opEnd({op})]);
+	return batchDispatch([notificationsMarkAll({action: payload.action}), opEnd({op})]);
 };
 
 //SELECTORS
