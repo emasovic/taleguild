@@ -12,6 +12,8 @@ import Typography from 'components/widgets/typography/Typography';
 import Link, {UNDERLINE} from 'components/widgets/link/Link';
 
 import './StoryList.scss';
+import {usePrevious} from 'hooks/compare';
+import isEqual from 'lodash.isequal';
 
 const CLASS = 'st-StoryList';
 
@@ -33,6 +35,7 @@ export default function StoryList({
 	const dispatch = useDispatch();
 	let stories = useSelector(selector);
 	const {op, total} = useSelector(state => state[reduxState]);
+	const previousCriteria = usePrevious(criteria);
 
 	stories =
 		reduxState === REDUX_STATE.savedStories ? stories.map(i => ({...i?.story, ...i})) : stories;
@@ -45,18 +48,13 @@ export default function StoryList({
 
 	const handleLoadStories = useCallback(
 		(op, _start) => {
+			const newCriteria = {...criteria, _start};
+
 			shouldTriggerLoad &&
-				dispatch(
-					loadItems(
-						{
-							...criteria,
-							_start,
-						},
-						op
-					)
-				);
+				!isEqual(previousCriteria, newCriteria) &&
+				dispatch(loadItems(newCriteria, op));
 		},
-		[dispatch, loadItems, shouldTriggerLoad, criteria]
+		[dispatch, loadItems, shouldTriggerLoad, criteria, previousCriteria]
 	);
 
 	useEffect(() => handleLoadStories(undefined, 0), [dispatch, handleLoadStories]);
