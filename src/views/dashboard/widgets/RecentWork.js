@@ -108,9 +108,15 @@ function RecentWork({shouldLoadMore, title, titleProps, placeholderProps}) {
 
 	return (
 		<div className={CLASS}>
-			<Typography color={TEXT_COLORS.secondary} fontWeight={FONT_WEIGHT.bold} {...titleProps}>
-				{title}
-			</Typography>
+			{!!total && (
+				<Typography
+					color={TEXT_COLORS.secondary}
+					fontWeight={FONT_WEIGHT.bold}
+					{...titleProps}
+				>
+					{title}
+				</Typography>
+			)}
 
 			<LoadMore
 				id="recentWork"

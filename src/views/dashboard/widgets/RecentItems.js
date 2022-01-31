@@ -85,9 +85,11 @@ export default function RecentItems() {
 
 	return (
 		<div className={CLASS}>
-			<Typography color={TEXT_COLORS.secondary} fontWeight={FONT_WEIGHT.bold}>
-				New items
-			</Typography>
+			{!!total && (
+				<Typography color={TEXT_COLORS.secondary} fontWeight={FONT_WEIGHT.bold}>
+					New items
+				</Typography>
+			)}
 			<LoadMore
 				id="recentItems"
 				total={total}

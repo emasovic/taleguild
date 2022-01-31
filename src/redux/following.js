@@ -105,7 +105,7 @@ export const createOrDeleteFollowing = ({follower, userId, followerId}, op) => a
 	if (res.id) {
 		actions.unshift(followingUpsertOne(res));
 	} else {
-		actions.unshift(followingRemoveOne({id: follower.id, user: userId}));
+		actions.unshift(followingRemoveOne(follower.id));
 	}
 
 	return batchDispatch(actions);

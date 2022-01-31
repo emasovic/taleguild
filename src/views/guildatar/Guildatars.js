@@ -49,10 +49,11 @@ function Guildatars() {
 						component={TYPOGRAPHY_VARIANTS.h4}
 						font={FONTS.merri}
 					>
-						Space with your Guildatars
+						Collections of your Guildatars
 					</Typography>
 					<Typography variant={TYPOGRAPHY_VARIANTS.action1} color={TEXT_COLORS.secondary}>
-						Here you can store and create characters from your stories.
+						Here you can create and store Guildatars, characters from your stories or
+						heroes who help you become a master of writing.
 					</Typography>
 				</div>
 

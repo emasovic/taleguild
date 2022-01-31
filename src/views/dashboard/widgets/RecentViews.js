@@ -65,9 +65,11 @@ export default function RecentViews() {
 
 	return (
 		<div className={CLASS}>
-			<Typography color={TEXT_COLORS.secondary} fontWeight={FONT_WEIGHT.bold}>
-				Recent readings
-			</Typography>
+			{!!total && (
+				<Typography color={TEXT_COLORS.secondary} fontWeight={FONT_WEIGHT.bold}>
+					Recent readings
+				</Typography>
+			)}
 			<LoadMore
 				id="recentItems"
 				loading={!op[DEFAULT_OP.loading].success}

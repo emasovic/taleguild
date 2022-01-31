@@ -114,10 +114,10 @@ export default function Marketplace() {
 				component={TYPOGRAPHY_VARIANTS.h4}
 				font={FONTS.merri}
 			>
-				Welcome to Market
+				Store of unique items
 			</Typography>
 			<Typography variant={TYPOGRAPHY_VARIANTS.action1} color={TEXT_COLORS.secondary}>
-				Here you can find amazing items for your Guildatar
+				Here you can find amazing items for your Guildatars
 			</Typography>
 
 			<div className={CLASS + '-nav'}>

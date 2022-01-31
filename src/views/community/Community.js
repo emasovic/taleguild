@@ -51,10 +51,11 @@ export default function Community() {
 						component={TYPOGRAPHY_VARIANTS.h4}
 						font={FONTS.merri}
 					>
-						Place where you can gain knowledge
+						Place where you can gain knowledge and make friends
 					</Typography>
 					<Typography variant={TYPOGRAPHY_VARIANTS.action1} color={TEXT_COLORS.secondary}>
-						Here you can find amazing stories from other writers and get feedback
+						Here you can find amazing stories from other writers and get feedback on
+						your work
 					</Typography>
 				</div>
 

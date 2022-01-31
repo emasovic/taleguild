@@ -16,7 +16,10 @@ import RecentStats from './RecentStats';
 
 export default function RecentXp() {
 	const {stats} = useSelector(state => state.auth);
-	const [{data, error, isLoading}] = useLoadItems(getLevels);
+	const [{data, error, isLoading}] = useLoadItems(getLevels, {
+		max_points_gte: stats?.points,
+		min_points_lte: stats?.points,
+	});
 
 	const currentLevel = data?.find(
 		l => stats?.points >= l.min_points && stats?.points <= l.max_points
@@ -24,7 +27,7 @@ export default function RecentXp() {
 
 	const topStats = (
 		<>
-			<Typography>
+			<Typography variant={TYPOGRAPHY_VARIANTS.h3} font={FONTS.merri}>
 				{ordinalSuffixOf(currentLevel?.level)}
 				<Typography color={TEXT_COLORS.secondary}> level</Typography>
 			</Typography>
@@ -33,7 +36,7 @@ export default function RecentXp() {
 	);
 
 	const bottomStats = (
-		<Typography variant={TYPOGRAPHY_VARIANTS.h3} font={FONTS.merri}>
+		<Typography>
 			{stats?.points}/{currentLevel?.max_points}
 		</Typography>
 	);
