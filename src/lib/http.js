@@ -54,22 +54,22 @@ export const request = opts => {
 			return res.data;
 		})
 		.catch(res => {
-			let err = null;
+			let err = {};
 			let response = res.response;
 			if (response?.data?.error) {
-				err = Array.isArray(response.data.message)
+				err.error = Array.isArray(response.data.message)
 					? response.data.message[0]?.messages[0]?.message
 					: typeof response.data.message === 'string'
 					? response.data.message
 					: response.data.error;
 			} else if (response) {
-				err = new Error(response.statusText);
+				err.error = response.statusText;
 				err.status = response.status;
 			} else {
-				err = new Error(res.message || 'HTTP Error');
+				err.error = res.message || 'HTTP Error';
 				err.status = 0;
 			}
-			return {error: err};
+			return err;
 		});
 };
 
