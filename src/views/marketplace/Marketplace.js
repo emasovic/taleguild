@@ -112,6 +112,7 @@ export default function Marketplace() {
 			<Typography
 				variant={TYPOGRAPHY_VARIANTS.h4}
 				component={TYPOGRAPHY_VARIANTS.h4}
+				fontWeight={FONT_WEIGHT.bold}
 				font={FONTS.merri}
 			>
 				Store of unique items

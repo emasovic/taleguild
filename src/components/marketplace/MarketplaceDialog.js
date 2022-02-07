@@ -71,6 +71,7 @@ function MarketplaceDialog({isOpen, itemId, gender, onClose}) {
 			<Typography
 				component={TYPOGRAPHY_VARIANTS.h4}
 				variant={TYPOGRAPHY_VARIANTS.h4}
+				fontWeight={FONT_WEIGHT.bold}
 				font={FONTS.merri}
 			>
 				{name}

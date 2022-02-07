@@ -13,6 +13,8 @@ $svg-max-width: 300px;
 	}
 
 	&-item {
+		height: 100%;
+
 		&-header {
 			font-size: 16px;
 			letter-spacing: 2px;
@@ -30,7 +32,7 @@ $svg-max-width: 300px;
 		}
 
 		&-subtitle {
-			font-size: 18px;
+			font-size: 16px;
 		}
 
 		&-link {
@@ -43,10 +45,18 @@ $svg-max-width: 300px;
 				margin: 16px 0;
 			}
 		}
+
+		&-image {
+			margin-top: 48px;
+		}
 	}
 
 	&-header {
 		margin-top: 50px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
 
 		&-title {
 			letter-spacing: 2px;
@@ -62,7 +72,8 @@ $svg-max-width: 300px;
 		}
 
 		&-subheading {
-			font-size: 24px;
+			font-weight: 500;
+			max-width: $story-preview-width-large;
 		}
 
 		&-actions {
@@ -86,15 +97,14 @@ $svg-max-width: 300px;
 		}
 	}
 
-	&-video {
-		border-radius: 16px;
-		margin-top: 100px;
-		margin-bottom: 116px;
-		box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.08);
+	&-landing {
+		display: flex;
+		justify-content: center;
+		margin: 24px 0;
 
-		@media (max-width: $breakpoint-m) {
-			border-radius: 8px;
-			margin: 48px 0;
+		&-image {
+			width: 100%;
+			height: 100%;
 		}
 	}
 
@@ -102,6 +112,7 @@ $svg-max-width: 300px;
 	&-build-habit,
 	&-build-community {
 		display: flex;
+		overflow: hidden;
 		padding: 36px;
 		border-radius: 8px;
 		border: 1px solid;
@@ -118,6 +129,31 @@ $svg-max-width: 300px;
 			flex: 1;
 		}
 
+		padding-bottom: 0;
+
+		&-habit {
+			position: relative;
+
+			.st-LandingPage-item-image {
+				position: absolute;
+				right: 0;
+
+				@media (max-width: $breakpoint-m) {
+					position: relative;
+				}
+			}
+		}
+
+		&-community {
+			padding-bottom: 0;
+
+			.st-LandingPage-item-image {
+				@media (max-width: $breakpoint-m) {
+					width: 100%;
+				}
+			}
+		}
+
 		@media (max-width: $breakpoint-m) {
 			flex-direction: column;
 		}
@@ -127,26 +163,29 @@ $svg-max-width: 300px;
 		justify-content: space-between;
 		margin-bottom: 24px;
 
-		&-recent {
-			display: flex;
-			justify-content: flex-end;
+		&-text {
+			position: relative;
 
-			@media (max-width: $breakpoint-m) {
-				justify-content: flex-start;
-			}
-
-			&-content {
-				display: flex;
-				align-items: flex-start;
-				flex-direction: column;
+			.st-LandingPage-item-image {
+				position: absolute;
+				bottom: 0;
 
 				@media (max-width: $breakpoint-m) {
-					margin-top: 12px;
+					display: none;
 				}
+			}
+		}
 
-				svg {
-					margin-left: -8px;
-					max-width: $svg-max-width;
+		&-recent {
+			&-container {
+				display: flex;
+				justify-content: flex-end;
+			}
+			&-image {
+				height: 100%;
+
+				@media (max-width: $breakpoint-m) {
+					width: 100%;
 				}
 			}
 		}
@@ -178,6 +217,23 @@ $svg-max-width: 300px;
 				width: auto;
 				height: auto;
 			}
+		}
+	}
+
+	&-footer {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+
+		&-heading {
+			@media (max-width: $breakpoint-m) {
+				font-size: 36px;
+			}
+		}
+
+		&-action {
+			padding: 12px 20px;
+			margin-bottom: 96px;
 		}
 	}
 }

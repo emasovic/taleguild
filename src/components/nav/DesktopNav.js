@@ -15,12 +15,14 @@ import {
 	DASHBOARD,
 	goToWidget,
 	_COMMUNITY,
-	LANDING,
+	LOGIN,
+	REGISTER,
 } from 'lib/routes';
 import {kFormatter} from 'lib/util';
 
 import {ICONS} from 'types/icons';
 import {TEXT_WRAP} from 'types/typography';
+import {COLOR} from 'types/button';
 
 import {selectAuthUser, logOutUser} from 'redux/auth';
 import {newStory} from 'redux/story';
@@ -52,6 +54,20 @@ export default function DesktopNav({isMobile}) {
 
 	const handleNewStory = () => {
 		dispatch(newStory({user: data && data.id, published_at: null}));
+	};
+
+	const userLoggedOut = () => {
+		return (
+			<NavItem className={CLASS + '-status-signedOut'}>
+				<IconButton tag={Link} color={COLOR.secondary} to={LOGIN}>
+					Sign in
+				</IconButton>
+
+				<IconButton tag={Link} to={REGISTER}>
+					Create account
+				</IconButton>
+			</NavItem>
+		);
 	};
 
 	const userLoggedIn = () => {
@@ -106,14 +122,15 @@ export default function DesktopNav({isMobile}) {
 
 	return (
 		<Navbar className={CLASS}>
-			{data ? (
-				<>
-					<Nav className={CLASS + '-feed'}>
-						<NavItem>
-							<NavLink tag={Link} to={DASHBOARD}>
-								<Icon icon={ICONS.logo} size={30} />
-							</NavLink>
-						</NavItem>
+			<Nav className={CLASS + '-feed'}>
+				<NavItem>
+					<NavLink tag={Link} to={DASHBOARD}>
+						<Icon icon={ICONS.logo} size={30} />
+					</NavLink>
+				</NavItem>
+
+				{data && (
+					<>
 						<NavItem>
 							<NavLink
 								tag={Link}
@@ -152,20 +169,20 @@ export default function DesktopNav({isMobile}) {
 								<span>Community</span>
 							</NavLink>
 						</NavItem>
-					</Nav>
+					</>
+				)}
+			</Nav>
 
-					<Nav className={CLASS + '-status'}>
+			<Nav className={CLASS + '-status'}>
+				{data ? (
+					<>
 						{userLoggedIn()}
 						<MobileDrawer isOpen={isOpen} onClose={() => setIsOpen(false)} />
-					</Nav>
-				</>
-			) : (
-				<NavItem className={CLASS + '-logged-out'}>
-					<NavLink tag={Link} to={LANDING}>
-						<Icon icon={ICONS.logo} size={30} />
-					</NavLink>
-				</NavItem>
-			)}
+					</>
+				) : (
+					userLoggedOut()
+				)}
+			</Nav>
 		</Navbar>
 	);
 }

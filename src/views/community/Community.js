@@ -6,7 +6,7 @@ import {useDispatch} from 'react-redux';
 import {goToWidget} from 'lib/routes';
 
 import {DEFAULT_CRITERIA} from 'types/story';
-import {FONTS, TEXT_COLORS, TYPOGRAPHY_VARIANTS} from 'types/typography';
+import {FONTS, FONT_WEIGHT, TEXT_COLORS, TYPOGRAPHY_VARIANTS} from 'types/typography';
 import {CATEGORY_TYPES} from 'types/category';
 import FA from 'types/font_awesome';
 
@@ -49,6 +49,7 @@ export default function Community() {
 					<Typography
 						variant={TYPOGRAPHY_VARIANTS.h4}
 						component={TYPOGRAPHY_VARIANTS.h4}
+						fontWeight={FONT_WEIGHT.bold}
 						font={FONTS.merri}
 					>
 						Place where you can gain knowledge and make friends

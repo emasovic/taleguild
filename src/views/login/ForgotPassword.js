@@ -6,7 +6,7 @@ import {useFormik} from 'formik';
 import {RESET_PASSWORD} from 'lib/routes';
 
 import {USER_OP} from 'types/user';
-import {FONTS, TYPOGRAPHY_VARIANTS} from 'types/typography';
+import {FONTS, FONT_WEIGHT, TYPOGRAPHY_VARIANTS} from 'types/typography';
 
 import {forgotPassword} from 'redux/auth';
 
@@ -47,6 +47,7 @@ export default function ForgotPassword() {
 				<Typography
 					variant={TYPOGRAPHY_VARIANTS.h4}
 					component={TYPOGRAPHY_VARIANTS.h4}
+					fontWeight={FONT_WEIGHT.bold}
 					font={FONTS.merri}
 				>
 					Forgot password?

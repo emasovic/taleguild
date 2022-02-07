@@ -61,7 +61,6 @@
 
 		.st-IconButton {
 			margin-right: 12px;
-			width: 112px;
 
 			&-link {
 				margin-right: 24px;
@@ -140,7 +139,6 @@
 		justify-content: flex-start;
 
 		@media (max-width: $breakpoint-sm) {
-			width: calc(100% - 98px);
 			justify-content: space-between;
 		}
 

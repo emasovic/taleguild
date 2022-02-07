@@ -47,6 +47,7 @@ function Guildatars() {
 					<Typography
 						variant={TYPOGRAPHY_VARIANTS.h4}
 						component={TYPOGRAPHY_VARIANTS.h4}
+						fontWeight={FONT_WEIGHT.bold}
 						font={FONTS.merri}
 					>
 						Collections of your Guildatars

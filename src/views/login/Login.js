@@ -5,7 +5,7 @@ import {useFormik} from 'formik';
 import {FORGOT_PASSWORD, REGISTER} from 'lib/routes';
 
 import {COLOR, BRAND} from 'types/button';
-import {FONTS, TYPOGRAPHY_VARIANTS} from 'types/typography';
+import {FONTS, FONT_WEIGHT, TYPOGRAPHY_VARIANTS} from 'types/typography';
 import {DEFAULT_OP} from 'types/default';
 import {USER_OP} from 'types/user';
 
@@ -44,6 +44,7 @@ export default function Login() {
 			<Typography
 				variant={TYPOGRAPHY_VARIANTS.h4}
 				component={TYPOGRAPHY_VARIANTS.h4}
+				fontWeight={FONT_WEIGHT.bold}
 				font={FONTS.merri}
 			>
 				Welcome Back

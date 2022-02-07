@@ -24,6 +24,7 @@ const FONT_CLASSES = {
 const FONT_WEIGHT_CLASSES = {
 	[FONT_WEIGHT.bold]: `${CLASS}-weight__bold`,
 	[FONT_WEIGHT.semiBold]: `${CLASS}-weight__semi-bold`,
+	[FONT_WEIGHT.normal]: `${CLASS}-weight__normal`,
 };
 
 const TEXT_TRANSFORM_CLASSES = {
@@ -75,9 +76,9 @@ function Typography({
 	const Component = component;
 	const tClassName = classNames(
 		font && FONT_CLASSES[font],
-		fontWeight && FONT_WEIGHT_CLASSES[fontWeight],
 		textTransform && TEXT_TRANSFORM_CLASSES[textTransform],
 		variant && VARIANT_CLASSES[variant],
+		fontWeight && FONT_WEIGHT_CLASSES[fontWeight],
 		color && COLOR_CLASSES[color],
 		cursor && CURSOR_CLASSES[cursor],
 		disabled && CURSOR_CLASSES[TEXT_CURSORS.disabled],

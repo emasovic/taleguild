@@ -4,7 +4,7 @@ import {object, string, ref} from 'yup';
 import {useFormik} from 'formik';
 
 import {USER_OP} from 'types/user';
-import {FONTS, TYPOGRAPHY_VARIANTS} from 'types/typography';
+import {FONTS, FONT_WEIGHT, TYPOGRAPHY_VARIANTS} from 'types/typography';
 
 import {resetPassword} from 'redux/auth';
 
@@ -54,6 +54,7 @@ export default function ResetPassword() {
 				<Typography
 					variant={TYPOGRAPHY_VARIANTS.h4}
 					component={TYPOGRAPHY_VARIANTS.h4}
+					fontWeight={FONT_WEIGHT.bold}
 					font={FONTS.merri}
 				>
 					Reset password

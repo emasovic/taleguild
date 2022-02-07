@@ -4,7 +4,7 @@ import {format} from 'date-fns';
 
 import {isMobile} from 'lib/util';
 
-import {FONTS, TEXT_COLORS, TYPOGRAPHY_VARIANTS} from 'types/typography';
+import {FONTS, FONT_WEIGHT, TEXT_COLORS, TYPOGRAPHY_VARIANTS} from 'types/typography';
 
 import {selectAuthUser} from 'redux/auth';
 
@@ -32,6 +32,7 @@ export default function Dashboard() {
 			<Typography
 				variant={TYPOGRAPHY_VARIANTS.h4}
 				component={TYPOGRAPHY_VARIANTS.h4}
+				fontWeight={FONT_WEIGHT.bold}
 				font={FONTS.merri}
 			>
 				Welcome {displayName}!

@@ -11,23 +11,45 @@ import {
 	TEXT_TRASFORM,
 	TYPOGRAPHY_VARIANTS,
 } from 'types/typography';
+import {THEMES} from 'types/themes';
 
 import Typography from 'components/widgets/typography/Typography';
 import IconButton from 'components/widgets/button/IconButton';
 import Link, {UNDERLINE} from 'components/widgets/link/Link';
 import ImageContainer from 'components/widgets/image/Image';
 import MobileWrapper from 'components/widgets/mobile-wrapper/MobileWrapper';
+import PagePlaceholder from 'components/widgets/page-placeholder/PagePlaceholder';
 
-import {ReactComponent as RecentWork} from 'images/recent-work.svg';
-import {ReactComponent as Items} from 'images/items.svg';
-import feedback from 'images/feedback.png';
-import landing from 'images/landing-video.mp4';
+import archer from 'images/archer-focus.png';
+import focusLight from 'images/focus-image-light.png';
+import habitsLight from 'images/habits-image-light.png';
+import landingLight from 'images/landing-image-light.png';
+import socialLight from 'images/social-image-light.png';
+import focusDark from 'images/focus-image-dark.png';
+import habitsDark from 'images/habits-image-dark.png';
+import landingDark from 'images/landing-image-dark.png';
+import socialDark from 'images/social-image-dark.png';
 
 import './LandingPage.scss';
 
 const CLASS = 'st-LandingPage';
 
-const LandingItem = ({header, title, subtitle, link}) => (
+const THEME_ITEMS = {
+	light: {
+		landing: landingLight,
+		focus: focusLight,
+		habits: habitsLight,
+		social: socialLight,
+	},
+	dark: {
+		landing: landingDark,
+		focus: focusDark,
+		habits: habitsDark,
+		social: socialDark,
+	},
+};
+
+const LandingItem = ({header, title, subtitle, link, src}) => (
 	<div className={CLASS + '-item'}>
 		<Typography
 			textTransform={TEXT_TRASFORM.uppercase}
@@ -52,6 +74,7 @@ const LandingItem = ({header, title, subtitle, link}) => (
 		<Link to={REGISTER} underline={UNDERLINE.hover} className={CLASS + '-item-link'}>
 			{link}
 		</Link>
+		{src && <img src={src} className={CLASS + '-item-image'} />}
 	</div>
 );
 
@@ -60,9 +83,12 @@ LandingItem.propTypes = {
 	title: PropTypes.string,
 	subtitle: PropTypes.string,
 	link: PropTypes.string,
+	src: PropTypes.string,
 };
 
 export default function LandingPage() {
+	const theme = localStorage.getItem('theme') || THEMES.light;
+	const themeItems = THEME_ITEMS[theme];
 	return (
 		<MobileWrapper className={CLASS}>
 			<div className={CLASS + '-header'}>
@@ -81,15 +107,16 @@ export default function LandingPage() {
 					font={FONTS.merri}
 					className={CLASS + '-header-heading'}
 				>
-					Become master of your craft
+					Build your writing habits
 				</Typography>
 				<Typography
 					color={TEXT_COLORS.secondary}
-					component={TYPOGRAPHY_VARIANTS.h2}
-					variant={TYPOGRAPHY_VARIANTS.h2}
+					component={TYPOGRAPHY_VARIANTS.h4}
+					variant={TYPOGRAPHY_VARIANTS.h4}
+					className={CLASS + '-header-subheading'}
 				>
-					Taleguild is a writing tool that helps you create stories through gamified
-					experience.
+					Taleguild is a writing tool that helps you be motivated to write stories through
+					a gamified experience.
 				</Typography>
 				<div className={CLASS + '-header-actions'}>
 					<IconButton tag={Link} to={REGISTER}>
@@ -100,50 +127,83 @@ export default function LandingPage() {
 					</IconButton>
 				</div>
 			</div>
-			<video src={landing} className={CLASS + '-video'} loop autoPlay muted />
+			<div className={CLASS + '-landing'}>
+				<ImageContainer src={themeItems.landing} className={CLASS + '-landing-image'} />
+			</div>
 			<div className={CLASS + '-focus'}>
 				<div className={CLASS + '-focus-text'}>
 					<LandingItem
 						header="Improve productivity"
 						title="Focus on what is matter"
-						subtitle="An ideal setting for focusing solely on your words, thanks to its minimalist
-						design and its having only the basic functions required for your writing."
+						subtitle="Our minimalist design and productivity-based text editor allow you to stay focused solely on your words and work. Stay motivated while writing your stories and articles without distractions, and become master of your art."
 						link="Start writing"
+						src={archer}
 					/>
 				</div>
-				<div className={CLASS + '-focus-recent'}>
-					<div className={CLASS + '-focus-recent-content'}>
-						<Typography fontWeight={FONT_WEIGHT.bold} color={TEXT_COLORS.tertiary}>
-							Recent work
-						</Typography>
-						<RecentWork width="100%" height="100%" />
-						<RecentWork width="100%" height="100%" />
-					</div>
-				</div>
+				<ImageContainer
+					src={themeItems.focus}
+					className={CLASS + '-focus-recent-image'}
+					containerClassName={CLASS + '-focus-recent-container'}
+				/>
 			</div>
 			<div className={CLASS + '-build'}>
 				<div className={CLASS + '-build-habit'}>
 					<LandingItem
 						header="Build habits"
 						title="Earn rewards for your writing"
-						subtitle="Get coins with distractions-free writing and unlock items such as swords, spears, helmets and magical clothes for your story characters."
+						subtitle="Get coins with focused-based writing and unlock items such as swords, spears, helmets and magical clothes for your story characters."
 						link="Build your habits"
+						src={themeItems.habits}
 					/>
-					<Items width="100%" />
 				</div>
 				<div className={CLASS + '-build-community'}>
-					<ImageContainer
-						src={feedback}
-						thumbClassName={CLASS + '-build-community-image'}
-						imageClassName={CLASS + '-build-community-image'}
-					/>
 					<LandingItem
 						header="Get feedback"
 						title="Community to inspire you"
-						subtitle="Our guild is here to help you shape your art and craft. Share your work with other writers on our app and get feedback from them about your work."
+						subtitle="Our guild is here to help you shape your art and craft. Share your work with other writers on our app and get feedback from them about your work. "
 						link="Join our community"
+						src={themeItems.social}
 					/>
 				</div>
+			</div>
+
+			<div className={CLASS + '-footer'}>
+				<PagePlaceholder
+					title="Join us today"
+					titleProps={{className: CLASS + '-footer-heading'}}
+					subtitle="Start building your productive habits with our FREE gamified writing editor and community platform."
+					subtitleProps={{
+						component: TYPOGRAPHY_VARIANTS.h4,
+						variant: TYPOGRAPHY_VARIANTS.h4,
+						color: TEXT_COLORS.secondary,
+						className: CLASS + '-header-subheading',
+					}}
+					buttonLabel="Create free account"
+					buttonProps={{className: CLASS + '-footer-action'}}
+					to={REGISTER}
+				/>
+
+				<Typography component={TYPOGRAPHY_VARIANTS.h4} variant={TYPOGRAPHY_VARIANTS.h4}>
+					© {new Date().getFullYear()} Taleguild.
+				</Typography>
+
+				<Typography component={TYPOGRAPHY_VARIANTS.h4} variant={TYPOGRAPHY_VARIANTS.h4}>
+					<a
+						href="https://join.taleguild.com/terms-of-service"
+						target="_blank"
+						rel="noreferrer"
+					>
+						Terms of Service
+					</a>
+					&nbsp; · &nbsp;
+					<a
+						href="https://join.taleguild.com/privacy-policy"
+						target="_blank"
+						rel="noreferrer"
+					>
+						Privacy policy
+					</a>
+				</Typography>
 			</div>
 		</MobileWrapper>
 	);

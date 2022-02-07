@@ -15,7 +15,9 @@ const CLASS = 'st-PagePlaceholder';
 function PagePlaceholder({
 	IconComponent,
 	title,
+	titleProps,
 	subtitle,
+	subtitleProps,
 	to,
 	buttonLabel,
 	className,
@@ -29,10 +31,11 @@ function PagePlaceholder({
 				font={FONTS.merri}
 				variant={TYPOGRAPHY_VARIANTS.h1}
 				fontWeight={FONT_WEIGHT.bold}
+				{...titleProps}
 			>
 				{title}
 			</Typography>
-			<Typography font={FONTS.lato} variant={TYPOGRAPHY_VARIANTS.action1}>
+			<Typography font={FONTS.lato} variant={TYPOGRAPHY_VARIANTS.action1} {...subtitleProps}>
 				{subtitle}
 			</Typography>
 
@@ -48,7 +51,9 @@ function PagePlaceholder({
 PagePlaceholder.propTypes = {
 	IconComponent: PropTypes.object,
 	title: PropTypes.string.isRequired,
+	titleProps: PropTypes.object,
 	subtitle: PropTypes.string.isRequired,
+	subtitleProps: PropTypes.object,
 	buttonLabel: PropTypes.string,
 	to: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 	className: PropTypes.string,
@@ -57,6 +62,8 @@ PagePlaceholder.propTypes = {
 
 PagePlaceholder.defaultProps = {
 	buttonProps: {},
+	subtitleProps: {},
+	titleProps: {},
 };
 
 export default PagePlaceholder;

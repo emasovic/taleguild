@@ -52,7 +52,11 @@ const RecentItem = ({id}) => {
 			underline={UNDERLINE.none}
 			className={CLASS + '-item'}
 		>
-			<Typography variant={TYPOGRAPHY_VARIANTS.h4} font={FONTS.merri}>
+			<Typography
+				variant={TYPOGRAPHY_VARIANTS.h4}
+				font={FONTS.merri}
+				fontWeight={FONT_WEIGHT.bold}
+			>
 				{title || 'Untitled'}
 			</Typography>
 			<Typography color={TEXT_COLORS.secondary}>{text}</Typography>

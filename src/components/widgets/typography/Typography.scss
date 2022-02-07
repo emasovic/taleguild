@@ -32,6 +32,10 @@
 		&__semi-bold {
 			font-weight: 600;
 		}
+
+		&__normal {
+			font-weight: normal;
+		}
 	}
 
 	&-color {
@@ -111,7 +115,6 @@
 		&__h4 {
 			font-size: 18px;
 			line-height: 24px;
-			font-weight: 900;
 		}
 
 		&__action1 {

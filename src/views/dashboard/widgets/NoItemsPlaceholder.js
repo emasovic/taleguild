@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import {FONTS, TEXT_COLORS, TYPOGRAPHY_VARIANTS} from 'types/typography';
+import {FONTS, FONT_WEIGHT, TEXT_COLORS, TYPOGRAPHY_VARIANTS} from 'types/typography';
 
 import Typography from 'components/widgets/typography/Typography';
 import IconButton from 'components/widgets/button/IconButton';
@@ -34,6 +34,7 @@ function NoItemsPlaceholder({
 			<Typography
 				variant={TYPOGRAPHY_VARIANTS.h4}
 				component={TYPOGRAPHY_VARIANTS.h4}
+				fontWeight={FONT_WEIGHT.bold}
 				font={FONTS.merri}
 				{...titleProps}
 			>

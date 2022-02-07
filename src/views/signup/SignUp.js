@@ -7,7 +7,7 @@ import {useFormik} from 'formik';
 
 import {LOGIN} from 'lib/routes';
 
-import {FONTS, TYPOGRAPHY_VARIANTS} from 'types/typography';
+import {FONTS, FONT_WEIGHT, TYPOGRAPHY_VARIANTS} from 'types/typography';
 import {COLOR, BRAND} from 'types/button';
 import {USER_OP} from 'types/user';
 import {DEFAULT_OP} from 'types/default';
@@ -73,6 +73,7 @@ export default function SignUp() {
 			<Typography
 				variant={TYPOGRAPHY_VARIANTS.h4}
 				component={TYPOGRAPHY_VARIANTS.h4}
+				fontWeight={FONT_WEIGHT.bold}
 				font={FONTS.merri}
 			>
 				Join our guild of writers and storytellers
