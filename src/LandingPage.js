@@ -169,6 +169,7 @@ export default function LandingPage() {
 
 			<div className={CLASS + '-footer'}>
 				<PagePlaceholder
+					className={CLASS + '-footer-placeholder'}
 					title="Join us today"
 					titleProps={{className: CLASS + '-footer-heading'}}
 					subtitle="Start building your productive habits with our FREE gamified writing editor and community platform."
@@ -187,16 +188,18 @@ export default function LandingPage() {
 					© {new Date().getFullYear()} Taleguild.
 				</Typography>
 
-				<Typography component={TYPOGRAPHY_VARIANTS.h4} variant={TYPOGRAPHY_VARIANTS.h4}>
+				<Typography>
 					<a
 						href="https://join.taleguild.com/terms-of-service"
 						target="_blank"
 						rel="noreferrer"
+						className={CLASS + '-footer-link'}
 					>
 						Terms of Service
 					</a>
 					&nbsp; · &nbsp;
 					<a
+						className={CLASS + '-footer-link'}
 						href="https://join.taleguild.com/privacy-policy"
 						target="_blank"
 						rel="noreferrer"
