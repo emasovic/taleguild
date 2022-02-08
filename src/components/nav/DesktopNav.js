@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {Navbar, Nav, NavItem, NavLink, DropdownItem} from 'reactstrap';
-import {Link, useLocation} from 'react-router-dom';
+import {useLocation} from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import {
@@ -32,6 +32,7 @@ import IconButton from 'components/widgets/button/IconButton';
 import Notifications from 'components/notifications/Notifications';
 import Icon from 'components/widgets/icon/Icon';
 import Typography from 'components/widgets/typography/Typography';
+import Link, {UNDERLINE} from 'components/widgets/link/Link';
 
 import UserAvatar from 'views/user/UserAvatar';
 
@@ -59,11 +60,15 @@ export default function DesktopNav({isMobile}) {
 	const userLoggedOut = () => {
 		return (
 			<NavItem className={CLASS + '-status-signedOut'}>
-				<IconButton tag={Link} color={COLOR.secondary} to={LOGIN}>
+				<Link
+					to={LOGIN}
+					underline={UNDERLINE.hover}
+					className={CLASS + '-status-signedOut-link'}
+				>
 					Sign in
-				</IconButton>
+				</Link>
 
-				<IconButton tag={Link} to={REGISTER}>
+				<IconButton tag={Link} color={COLOR.secondary} to={REGISTER}>
 					Create account
 				</IconButton>
 			</NavItem>
