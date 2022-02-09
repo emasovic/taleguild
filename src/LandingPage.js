@@ -9,6 +9,7 @@ import {
 	FONT_WEIGHT,
 	TEXT_COLORS,
 	TEXT_TRASFORM,
+	TEXT_WRAP,
 	TYPOGRAPHY_VARIANTS,
 } from 'types/typography';
 import {THEMES} from 'types/themes';
@@ -96,6 +97,7 @@ export default function LandingPage() {
 					textTransform={TEXT_TRASFORM.uppercase}
 					fontWeight={FONT_WEIGHT.semiBold}
 					color={TEXT_COLORS.buttonPrimary}
+					wrap={TEXT_WRAP.normal}
 					className={CLASS + '-header-title'}
 				>
 					Gamified writing
@@ -184,11 +186,15 @@ export default function LandingPage() {
 					to={REGISTER}
 				/>
 
-				<Typography component={TYPOGRAPHY_VARIANTS.h4} variant={TYPOGRAPHY_VARIANTS.h4}>
+				<Typography
+					component={TYPOGRAPHY_VARIANTS.h4}
+					variant={TYPOGRAPHY_VARIANTS.h4}
+					wrap={TEXT_WRAP.normal}
+				>
 					© {new Date().getFullYear()} Taleguild.
 				</Typography>
 
-				<Typography>
+				<Typography wrap={TEXT_WRAP.normal}>
 					<a
 						href="https://join.taleguild.com/terms-of-service"
 						target="_blank"
