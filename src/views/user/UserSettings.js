@@ -15,6 +15,7 @@ import Loader from 'components/widgets/loader/Loader';
 import TextArea from 'components/widgets/textarea/TextArea';
 import ThemePicker from 'components/widgets/pickers/theme/ThemePicker';
 import MobileWrapper from 'components/widgets/mobile-wrapper/MobileWrapper';
+import CopyToClipboard from 'components/widgets/copy-to-clipboard/CopyToClipboard';
 
 import './UserSettings.scss';
 
@@ -79,6 +80,8 @@ export default function UserSettings() {
 
 	if (!data) return <Loader />;
 
+	const url = `${location.origin}/register?referral=${username}`;
+
 	return (
 		<MobileWrapper className={CLASS}>
 			<form onSubmit={formikSubmit} className={CLASS + '-form'}>
@@ -136,6 +139,7 @@ export default function UserSettings() {
 					</IconButton>
 				</div>
 			</form>
+			<CopyToClipboard url={url} title="Url to share with your friends and receive reward" />
 		</MobileWrapper>
 	);
 }

@@ -106,6 +106,60 @@ app.get('/user/:username', async (req, res) => {
 	}
 });
 
+app.get('/register', async (req, res) => {
+	const username = req.query.referral;
+
+	if (!username) {
+		fs.readFile(filePath, 'utf8', (err, data) => {
+			if (err) {
+				return console.log(err);
+			}
+
+			res.send(data);
+		});
+	}
+
+	try {
+		let user = await new User({username}).fetch();
+		user = user.toJSON();
+		let image;
+		try {
+			image = await new File({
+				related_id: user.id,
+				related_type: 'users-permissions_user',
+			}).fetch({
+				withRelated: ['upload_file_id'],
+			});
+			image = image.toJSON();
+
+			image =
+				image && image.upload_file_id
+					? env.API_URL + image.upload_file_id.url
+					: DEFAULT_IMAGE_URL;
+		} catch (error) {
+			image = DEFAULT_IMAGE_URL;
+		}
+
+		fs.readFile(filePath, 'utf8', (err, data) => {
+			if (err) {
+				return console.log(err);
+			}
+
+			const name = user.display_name || user.username;
+
+			data = data
+				.replace(/__TITLE__/g, 'Join our guild')
+				.replace(/__DESCRIPTION__/g, `${name} is inviting you to join our guild.`)
+				.replace(/__IMAGE_URL__/g, image);
+
+			res.send(data);
+		});
+	} catch (error) {
+		console.log(error);
+		res.sendFile(filePath);
+	}
+});
+
 app.get('/', function(req, res) {
 	fs.readFile(filePath, 'utf8', (err, data) => {
 		if (err) {

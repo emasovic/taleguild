@@ -4,7 +4,28 @@
 .st-FloatingInput {
 	display: flex;
 	flex-flow: column;
+	justify-content: center;
 	min-height: 50px;
+
+	&-margin {
+		&__normal {
+			&.st-FloatingInput {
+				margin-bottom: 12px !important;
+			}
+		}
+
+		&__dense {
+			&.st-FloatingInput {
+				margin-bottom: 6px !important;
+			}
+		}
+
+		&__none {
+			&.st-FloatingInput {
+				margin-bottom: 0 !important;
+			}
+		}
+	}
 
 	label {
 		@include theme-aware('color', 'G600');

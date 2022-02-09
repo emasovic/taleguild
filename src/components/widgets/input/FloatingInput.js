@@ -1,13 +1,25 @@
 import React, {Fragment} from 'react';
 import propTypes from 'prop-types';
 import {Input, Label, FormGroup, FormFeedback, InputGroup, InputGroupText} from 'reactstrap';
-import classnames from 'classnames';
+import classNames from 'classnames';
 
 import FaIcon from '../fa-icon/FaIcon';
 
 import './FloatingInput.scss';
 
 const CLASS = 'st-FloatingInput';
+
+export const INPUT_MARGIN = {
+	normal: 'normal',
+	dense: 'dense',
+	none: 'none',
+};
+
+const MARGIN_CLASSES = {
+	[INPUT_MARGIN.normal]: CLASS + '-margin__normal',
+	[INPUT_MARGIN.dense]: CLASS + '-margin__dense',
+	[INPUT_MARGIN.none]: CLASS + '-margin__none',
+};
 
 export default function FloatingInput({
 	onChange,
@@ -19,13 +31,13 @@ export default function FloatingInput({
 	className,
 	wholeEvent,
 	icon,
+	margin,
 	...rest
 }) {
-	const classNames = className ? classnames(CLASS, className) : CLASS;
 	const Wrapper = !icon ? Fragment : InputGroup;
 	return (
-		<FormGroup className={classNames}>
-			<Label>{label}</Label>
+		<FormGroup className={classNames(CLASS, className, margin && MARGIN_CLASSES[margin])}>
+			{label && <Label>{label}</Label>}
 			<Wrapper>
 				{icon && (
 					<InputGroupText>
@@ -55,6 +67,7 @@ FloatingInput.propTypes = {
 	className: propTypes.string,
 	icon: propTypes.object,
 	wholeEvent: propTypes.bool,
+	margin: propTypes.string,
 };
 
 FloatingInput.defaultProps = {

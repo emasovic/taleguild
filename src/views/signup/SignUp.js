@@ -21,6 +21,7 @@ import Checkbox from 'components/widgets/checkbox/Checkbox';
 import Typography from 'components/widgets/typography/Typography';
 
 import './SignUp.scss';
+import {useGetSearchParams} from 'hooks/getSearchParams';
 
 const CLASS = 'st-SignUp';
 
@@ -44,9 +45,10 @@ const validationSchema = object().shape({
 export default function SignUp() {
 	const dispatch = useDispatch();
 	const {op} = useSelector(state => state.auth);
+	const {referral} = useGetSearchParams();
 
 	const handleSubmit = ({username, email, password}) => {
-		dispatch(registerUser({username: username.toLowerCase(), email, password}));
+		dispatch(registerUser({username: username.toLowerCase(), email, password, referral}));
 	};
 
 	const {
