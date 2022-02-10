@@ -125,23 +125,27 @@ export default function SignUp() {
 				Sign Up
 			</IconButton>
 
-			<Typography className={CLASS + '-divider'}>OR</Typography>
+			{!referral && (
+				<>
+					<Typography className={CLASS + '-divider'}>OR</Typography>
 
-			<BrandButton
-				loading={op[DEFAULT_OP.loading].loading || op[DEFAULT_OP.load_more].loading}
-				color={COLOR.secondary}
-				brand={BRAND.google}
-			>
-				Sign up with Google
-			</BrandButton>
+					<BrandButton
+						loading={op[DEFAULT_OP.loading].loading || op[DEFAULT_OP.load_more].loading}
+						color={COLOR.secondary}
+						brand={BRAND.google}
+					>
+						Sign up with Google
+					</BrandButton>
 
-			<BrandButton
-				loading={op[DEFAULT_OP.loading].loading || op[DEFAULT_OP.load_more].loading}
-				color={COLOR.secondary}
-				brand={BRAND.facebook}
-			>
-				Sign up with Facebook
-			</BrandButton>
+					<BrandButton
+						loading={op[DEFAULT_OP.loading].loading || op[DEFAULT_OP.load_more].loading}
+						color={COLOR.secondary}
+						brand={BRAND.facebook}
+					>
+						Sign up with Facebook
+					</BrandButton>
+				</>
+			)}
 
 			<Link to={LOGIN}>Already have an account? Sign in now.</Link>
 

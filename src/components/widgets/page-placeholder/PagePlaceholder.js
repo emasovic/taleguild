@@ -14,6 +14,7 @@ const CLASS = 'st-PagePlaceholder';
 
 function PagePlaceholder({
 	IconComponent,
+	iconComponentProps,
 	title,
 	titleProps,
 	subtitle,
@@ -25,7 +26,7 @@ function PagePlaceholder({
 }) {
 	return (
 		<div className={classNames(CLASS, className)}>
-			{IconComponent && <IconComponent />}
+			{IconComponent && <IconComponent {...iconComponentProps} />}
 
 			<Typography
 				font={FONTS.merri}
@@ -50,6 +51,7 @@ function PagePlaceholder({
 
 PagePlaceholder.propTypes = {
 	IconComponent: PropTypes.object,
+	iconComponentProps: PropTypes.object,
 	title: PropTypes.string.isRequired,
 	titleProps: PropTypes.object,
 	subtitle: PropTypes.string.isRequired,
@@ -64,6 +66,7 @@ PagePlaceholder.defaultProps = {
 	buttonProps: {},
 	subtitleProps: {},
 	titleProps: {},
+	iconComponentProps: {},
 };
 
 export default PagePlaceholder;
