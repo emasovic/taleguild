@@ -2,6 +2,26 @@
 @import 'styles/themes/mixins.scss';
 
 .st-Dashboard {
+	&-header {
+		display: flex;
+		align-items: center;
+
+		> div {
+			flex: 1;
+		}
+
+		&-welcome {
+			@media (max-width: $breakpoint-m) {
+				width: 100%;
+				margin-bottom: 12px;
+			}
+		}
+
+		@media (max-width: $breakpoint-m) {
+			flex-direction: column;
+		}
+	}
+
 	&-content {
 		display: flex;
 		justify-content: space-between;
