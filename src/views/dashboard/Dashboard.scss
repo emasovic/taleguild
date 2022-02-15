@@ -17,6 +17,10 @@
 			}
 		}
 
+		&-copy {
+			max-width: $story-preview-width-medium;
+		}
+
 		@media (max-width: $breakpoint-m) {
 			flex-direction: column;
 		}

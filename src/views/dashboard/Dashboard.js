@@ -5,6 +5,7 @@ import {format} from 'date-fns';
 import {isMobile} from 'lib/util';
 
 import {FONTS, FONT_WEIGHT, TEXT_COLORS, TYPOGRAPHY_VARIANTS} from 'types/typography';
+import {COLOR} from 'types/button';
 
 import {selectAuthUser} from 'redux/auth';
 
@@ -48,6 +49,8 @@ export default function Dashboard() {
 				<CopyToClipboard
 					url={url}
 					title="Share your referral link with friends and get coins"
+					className={CLASS + '-header-copy'}
+					buttonProps={{color: COLOR.secondary}}
 				/>
 			</div>
 

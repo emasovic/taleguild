@@ -12,7 +12,7 @@ import './CopyToClipboard.scss';
 
 const CLASS = 'st-CopyToClipboard';
 
-function CopyToClipboard({url, title, copyText, copiedText, className}) {
+function CopyToClipboard({url, title, copyText, copiedText, buttonProps, className}) {
 	const [isCopied, handleCopy] = useCopyToClipboard(10000);
 	const text = isCopied ? copiedText : copyText;
 	return (
@@ -20,7 +20,9 @@ function CopyToClipboard({url, title, copyText, copiedText, className}) {
 			{title && <Typography>{title}</Typography>}
 			<div className={CLASS + '-action'}>
 				<FloatingInput value={url} disabled margin={INPUT_MARGIN.none} />
-				<IconButton onClick={() => handleCopy(url)}>{text}</IconButton>
+				<IconButton onClick={() => handleCopy(url)} {...buttonProps}>
+					{text}
+				</IconButton>
 			</div>
 		</div>
 	);
@@ -32,11 +34,13 @@ CopyToClipboard.propTypes = {
 	className: PropTypes.string,
 	copyText: PropTypes.string,
 	copiedText: PropTypes.string,
+	buttonProps: PropTypes.object,
 };
 
 CopyToClipboard.defaultProps = {
 	copyText: 'Copy',
 	copiedText: 'Copied',
+	buttonProps: {},
 };
 
 export default CopyToClipboard;
