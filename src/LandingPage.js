@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {LOGIN, REGISTER} from 'lib/routes';
+import {LOGIN, PRIVACY_POLICY, REGISTER, TERMS_OF_SERVICE} from 'lib/routes';
 
 import {COLOR} from 'types/button';
 import {
@@ -195,23 +195,13 @@ export default function LandingPage() {
 				</Typography>
 
 				<Typography wrap={TEXT_WRAP.normal}>
-					<a
-						href="https://join.taleguild.com/terms-of-service"
-						target="_blank"
-						rel="noreferrer"
-						className={CLASS + '-footer-link'}
-					>
+					<Link to={TERMS_OF_SERVICE} className={CLASS + '-footer-link'}>
 						Terms of Service
-					</a>
+					</Link>
 					&nbsp; · &nbsp;
-					<a
-						className={CLASS + '-footer-link'}
-						href="https://join.taleguild.com/privacy-policy"
-						target="_blank"
-						rel="noreferrer"
-					>
-						Privacy policy
-					</a>
+					<Link to={PRIVACY_POLICY} className={CLASS + '-footer-link'}>
+						Privacy Policy
+					</Link>
 				</Typography>
 			</div>
 		</MobileWrapper>

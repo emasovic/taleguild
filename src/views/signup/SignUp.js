@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom';
 import {boolean, object, string} from 'yup';
 import {useFormik} from 'formik';
 
-import {LOGIN} from 'lib/routes';
+import {LOGIN, PRIVACY_POLICY, TERMS_OF_SERVICE} from 'lib/routes';
 
 import {FONTS, FONT_WEIGHT, TYPOGRAPHY_VARIANTS} from 'types/typography';
 import {COLOR, BRAND} from 'types/button';
@@ -14,6 +14,8 @@ import {DEFAULT_OP} from 'types/default';
 
 import {registerUser} from 'redux/auth';
 
+import {useGetSearchParams} from 'hooks/getSearchParams';
+
 import FloatingInput from 'components/widgets/input/FloatingInput';
 import IconButton from 'components/widgets/button/IconButton';
 import BrandButton from 'components/widgets/button/BrandButton';
@@ -21,7 +23,6 @@ import Checkbox from 'components/widgets/checkbox/Checkbox';
 import Typography from 'components/widgets/typography/Typography';
 
 import './SignUp.scss';
-import {useGetSearchParams} from 'hooks/getSearchParams';
 
 const CLASS = 'st-SignUp';
 
@@ -150,20 +151,8 @@ export default function SignUp() {
 			<Link to={LOGIN}>Already have an account? Sign in now.</Link>
 
 			<div className={CLASS + '-terms'}>
-				<a
-					href="https://join.taleguild.com/terms-of-service"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					Terms of Service
-				</a>
-				<a
-					href="https://join.taleguild.com/privacy-policy"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					Privacy Policy
-				</a>
+				<Link to={TERMS_OF_SERVICE}>Terms of Service</Link>
+				<Link to={PRIVACY_POLICY}>Privacy Policy</Link>
 			</div>
 		</form>
 	);

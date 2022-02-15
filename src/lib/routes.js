@@ -25,6 +25,9 @@ export const USER_STORIES_SAVED = USER + '/stories/saved';
 export const goToUser = username => USER + `/${username}`;
 export const goToUserStories = username => USER + `/${username}/stories`;
 
+export const PRIVACY_POLICY = '/privacy-policy';
+export const TERMS_OF_SERVICE = '/terms-of-service';
+
 export const FORGOT_PASSWORD = '/forgot-password';
 export const RESET_PASSWORD = '/reset-password';
 export const WELCOME = '/welcome';

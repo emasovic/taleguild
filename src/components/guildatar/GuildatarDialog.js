@@ -7,9 +7,10 @@ import * as Yup from 'yup';
 import {capitalize, getImageUrl} from 'lib/util';
 import {getGenders} from 'lib/api';
 
+import {DEFAULT_OP} from 'types/default';
+
 import {createOrUpdateGuildatar, selectGuildatarById} from 'redux/guildatars';
 import {selectAuthUser} from 'redux/auth';
-import {DEFAULT_OP} from 'types/default';
 
 import {useLoadItems} from 'hooks/getItems';
 

@@ -36,6 +36,9 @@ const ForgotPassword = lazy(() => import('views/login/ForgotPassword'));
 const ResetPassword = lazy(() => import('views/login/ResetPassword'));
 const ProviderLogin = lazy(() => import('views/login/ProviderLogin'));
 
+const TermsOfService = lazy(() => import('views/privacy-terms/TermsOfService'));
+const PrivacyPolicy = lazy(() => import('views/privacy-terms/PrivacyPolicy'));
+
 const NotificationsPage = lazy(() => import('components/notifications/NotificationsPage'));
 
 const Marketplace = lazy(() => import('views/marketplace/Marketplace'));
@@ -74,6 +77,8 @@ const Routes = () => (
 				<PrivateRoute path={routes.GUILDATARS} component={Guildatars} />
 				<PrivateRoute path={routes.GUILDATAR_PLAYGROUND} component={GuildatarPlayground} />
 				<PrivateRoute path={routes.NOTIFICATIONS} component={NotificationsPage} />
+				<Route path={routes.PRIVACY_POLICY} component={PrivacyPolicy} />
+				<Route path={routes.TERMS_OF_SERVICE} component={TermsOfService} />
 				<Route path="*" component={NotFound} />
 			</Switch>
 		</Suspense>
