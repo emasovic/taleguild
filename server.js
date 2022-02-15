@@ -116,6 +116,14 @@ app.get('/register', async (req, res) => {
 				return console.log(err);
 			}
 
+			data = data
+				.replace(/__TITLE__/g, 'Taleguild | Gamified Experience for Productive Writing')
+				.replace(
+					/__DESCRIPTION__/g,
+					'Taleguild is the place where writers publish their work, gain inspiration, feedback, and community, and is your best place to discover and connect with writers worldwide.'
+				)
+				.replace(/__IMAGE_URL__/g, DEFAULT_IMAGE_URL);
+
 			res.send(data);
 		});
 	}
