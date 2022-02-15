@@ -13,6 +13,7 @@ import {selectAuthUser} from 'redux/auth';
 
 import Loader from 'components/widgets/loader/Loader';
 import Link from 'components/widgets/link/Link';
+import MobileWrapper from 'components/widgets/mobile-wrapper/MobileWrapper';
 
 import NoItemsPlaceholder from 'views/dashboard/widgets/NoItemsPlaceholder';
 import Stories from 'views/stories/Stories';
@@ -53,7 +54,7 @@ export default function UserProfile() {
 	if (!user) return <Loader />;
 
 	return (
-		<div className={CLASS}>
+		<MobileWrapper className={CLASS}>
 			<UserProfileInfo user={user} className={CLASS} />
 			<Stories
 				criteria={{...DEFAULT_CRITERIA, user: user?.id}}
@@ -62,6 +63,6 @@ export default function UserProfile() {
 				displaySearch={!!stories?.length}
 				displayNav={!!stories?.length}
 			/>
-		</div>
+		</MobileWrapper>
 	);
 }
