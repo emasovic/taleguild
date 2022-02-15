@@ -15,9 +15,8 @@ const getIdFromSlug = slug => {
 
 const PORT = process.env.PORT || 5000;
 
-const DEFAULT_IMAGE_URL = `${env.PUBLIC_URL}/taleguild-share.png`;
 const DEFAULT_STORY_IMAGE_URL = `${env.PUBLIC_URL}/default-story-share.png`;
-const REFERRAL_IMAGE_URL = `${env.PUBLIC_URL}/referral-share.png`;
+const DEFAULT_IMAGE_URL = `${env.PUBLIC_URL}/referral-share.png`;
 
 const app = express();
 
@@ -142,7 +141,7 @@ app.get('/register', async (req, res) => {
 			data = data
 				.replace(/__TITLE__/g, 'Join Taleguild and build your writing habits')
 				.replace(/__DESCRIPTION__/g, `${name} invited you to join our guild`)
-				.replace(/__IMAGE_URL__/g, REFERRAL_IMAGE_URL);
+				.replace(/__IMAGE_URL__/g, DEFAULT_IMAGE_URL);
 
 			res.send(data);
 		});
