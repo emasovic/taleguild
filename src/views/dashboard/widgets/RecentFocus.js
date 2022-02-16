@@ -32,7 +32,7 @@ export default function RecentFocus() {
 	const totalActive = result.reduce((acc, val) => acc + val.active, 0);
 	const active = !error ? secondsToHoursMinutes(totalActive) : 0;
 
-	const title = !drafts.length && op[DEFAULT_OP.loading].success ? '--:--' : `${active} h`;
+	const title = !drafts.length ? '--:--' : `${active} h`;
 	const topStats = (
 		<>
 			<Typography variant={TYPOGRAPHY_VARIANTS.h3} font={FONTS.merri}>
@@ -50,7 +50,7 @@ export default function RecentFocus() {
 		<RecentStats
 			topStats={topStats}
 			bottomStats={bottomStats}
-			isLoading={isLoading}
+			isLoading={isLoading || !op[DEFAULT_OP.loading].success}
 			error={error}
 		/>
 	);

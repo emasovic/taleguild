@@ -10,3 +10,9 @@ export const DEFAULT_LIMIT = {
 	_start: 0,
 	_limit: 5,
 };
+
+export const DEFAULT_META_TAGS = {
+	title: 'Taleguild | Gamified Experience for Productive Writing',
+	description:
+		'Taleguild is a writing tool that helps you be motivated to write stories through a gamified experience. We help you build productive writing habits',
+};
