@@ -25,7 +25,7 @@ export default function Writter({
 
 	const dispatch = useDispatch();
 
-	const displayMobileNav = () => dispatch(toggleMobileNav());
+	const displayMobileNav = displayNav => dispatch(toggleMobileNav(displayNav));
 
 	const scrollToBottom = () => {
 		const domSelection = window.getSelection();
@@ -71,8 +71,8 @@ export default function Writter({
 				onChange={handleEditPage}
 				onKeyUp={onEndAt}
 				onKeyDown={handleKeyDown}
-				onFocus={displayMobileNav}
-				onBlur={displayMobileNav}
+				onFocus={() => displayMobileNav(false)}
+				onBlur={() => displayMobileNav(true)}
 			/>
 		</div>
 	);

@@ -20,7 +20,7 @@ import {deleteStoryPage} from 'redux/storyPages';
 import DropdownButton from 'components/widgets/button/DropdownButton';
 import FloatingInput from 'components/widgets/input/FloatingInput';
 import IconButton from 'components/widgets/button/IconButton';
-
+import VisibilityControl from 'components/widgets/visibility-control/VisibilityControl';
 import ConfirmModal from 'components/widgets/modals/Modal';
 import Typography from 'components/widgets/typography/Typography';
 
@@ -213,7 +213,9 @@ export default function Header({
 					</IconButton>
 				</div>
 			</div>
-			{disabledActions && <Typography color={TEXT_COLORS.tertiary}>Saving...</Typography>}
+			<VisibilityControl visible={disabledActions}>
+				<Typography color={TEXT_COLORS.tertiary}>Saving...</Typography>
+			</VisibilityControl>
 
 			{isDeleteStoryPageOpen && (
 				<ConfirmModal

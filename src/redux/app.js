@@ -25,7 +25,7 @@ export const applicationSlice = createSlice({
 			state.loading = false;
 		},
 		toggleMobileNav: (state, {payload}) => {
-			state.showMobileNav = !state.showMobileNav;
+			state.showMobileNav = payload;
 		},
 	},
 });

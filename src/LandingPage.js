@@ -132,7 +132,7 @@ export default function LandingPage() {
 				<div className={CLASS + '-focus-text'}>
 					<LandingItem
 						header="Improve productivity"
-						title="Focus on what matters"
+						title="Stay in focus while writing"
 						subtitle="Our minimalist design and productivity-based text editor allow you to stay focused solely on your words and work. Stay motivated while writing your stories and articles without distractions, and become master of your art."
 						link="Start writing"
 						src={archer}
