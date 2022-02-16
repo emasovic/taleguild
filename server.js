@@ -119,7 +119,7 @@ app.get('/register', async (req, res) => {
 				.replace(/__TITLE__/g, 'Taleguild | Gamified Experience for Productive Writing')
 				.replace(
 					/__DESCRIPTION__/g,
-					'Taleguild is the place where writers publish their work, gain inspiration, feedback, and community, and is your best place to discover and connect with writers worldwide.'
+					'Taleguild is a writing tool that helps you be motivated to write stories through a gamified experience. We help you build productive writing habits'
 				)
 				.replace(/__IMAGE_URL__/g, DEFAULT_IMAGE_URL);
 
@@ -161,7 +161,7 @@ app.get('/', function(req, res) {
 			.replace(/__TITLE__/g, 'Taleguild | Gamified Experience for Productive Writing')
 			.replace(
 				/__DESCRIPTION__/g,
-				'Taleguild is the place where writers publish their work, gain inspiration, feedback, and community, and is your best place to discover and connect with writers worldwide.'
+				'Taleguild is a writing tool that helps you be motivated to write stories through a gamified experience. We help you build productive writing habits'
 			)
 			.replace(/__IMAGE_URL__/g, DEFAULT_IMAGE_URL);
 
@@ -181,7 +181,7 @@ app.get('/*', function(req, res) {
 			.replace(/__TITLE__/g, 'Taleguild | Gamified Experience for Productive Writing')
 			.replace(
 				/__DESCRIPTION__/g,
-				'Taleguild is the place where writers publish their work, gain inspiration, feedback, and community, and is your best place to discover and connect with writers worldwide.'
+				'Taleguild is a writing tool that helps you be motivated to write stories through a gamified experience. We help you build productive writing habits'
 			)
 			.replace(/__IMAGE_URL__/g, DEFAULT_IMAGE_URL);
 

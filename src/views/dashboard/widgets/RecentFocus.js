@@ -3,10 +3,11 @@ import {useSelector} from 'react-redux';
 import {subDays} from 'date-fns';
 
 import {getActivity} from 'lib/api';
-import {isMobile, secondsToHoursMinutes, setTimeToDate} from 'lib/util';
+import {secondsToHoursMinutes, setTimeToDate} from 'lib/util';
 
 import {FONTS, TEXT_COLORS, TYPOGRAPHY_VARIANTS} from 'types/typography';
 import {ICONS} from 'types/icons';
+import {DEFAULT_OP} from 'types/default';
 
 import {selectAuthUser} from 'redux/auth';
 import {selectStories} from 'redux/draftStories';
@@ -21,6 +22,7 @@ import RecentStats from './RecentStats';
 export default function RecentFocus() {
 	const {data} = useSelector(selectAuthUser);
 	const drafts = useSelector(selectStories);
+	const {op} = useSelector(state => state.draftStories);
 	const [{data: result, isLoading, error}] = useLoadItems(getActivity, {
 		user: data?.id,
 		created_at_lte: setTimeToDate(0, 0, 0),
@@ -30,7 +32,7 @@ export default function RecentFocus() {
 	const totalActive = result.reduce((acc, val) => acc + val.active, 0);
 	const active = !error ? secondsToHoursMinutes(totalActive) : 0;
 
-	const title = !drafts.length && !isMobile ? '--:--' : `${active} h`;
+	const title = !drafts.length && op[DEFAULT_OP.loading].success ? '--:--' : `${active} h`;
 	const topStats = (
 		<>
 			<Typography variant={TYPOGRAPHY_VARIANTS.h3} font={FONTS.merri}>

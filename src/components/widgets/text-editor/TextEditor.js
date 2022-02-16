@@ -11,7 +11,7 @@ import Leaf from './widgets/Leaf';
 import './TextEditor.scss';
 
 const CLASS = 'st-TextEditor';
-export default function TextEditor({value, onChange, onKeyDown, onKeyUp}) {
+export default function TextEditor({value, onChange, onKeyDown, onKeyUp, onFocus, onBlur}) {
 	const renderElement = useCallback(props => <Element {...props} />, []);
 	const renderLeaf = useCallback(props => <Leaf {...props} />, []);
 	const editor = useMemo(() => withHistory(withReact(createEditor())), []);
@@ -22,6 +22,8 @@ export default function TextEditor({value, onChange, onKeyDown, onKeyUp}) {
 			<Editable
 				onKeyDown={onKeyDown}
 				onKeyUp={onKeyUp}
+				onFocus={onFocus}
+				onBlur={onBlur}
 				className={CLASS}
 				renderElement={renderElement}
 				renderLeaf={renderLeaf}
@@ -38,6 +40,8 @@ TextEditor.propTypes = {
 	onChange: PropTypes.func.isRequired,
 	onKeyDown: PropTypes.func.isRequired,
 	onKeyUp: PropTypes.func.isRequired,
+	onFocus: PropTypes.func.isRequired,
+	onBlur: PropTypes.func.isRequired,
 };
 
 TextEditor.defaultProps = {

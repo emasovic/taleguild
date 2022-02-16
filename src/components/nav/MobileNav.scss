@@ -39,22 +39,29 @@
 		padding: 0 36px;
 	}
 
+	&-item {
+		svg {
+			> path {
+				@include theme-aware('fill', 'G400');
+			}
+
+			&:nth-child(3) {
+				fill: #000;
+			}
+		}
+
+		&.active {
+			svg {
+				> path {
+					@include theme-aware('fill', 'T600');
+				}
+			}
+		}
+	}
+
 	.nav-item {
 		.nav-link {
 			padding: 0;
-			svg {
-				> path {
-					@include theme-aware('fill', 'G400');
-				}
-			}
-
-			&.active {
-				svg {
-					> path {
-						@include theme-aware('fill', 'T600');
-					}
-				}
-			}
 		}
 	}
 }

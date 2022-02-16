@@ -12,6 +12,8 @@
 	}
 
 	&-header {
+		margin-bottom: 20px;
+
 		.st-FloatingInput {
 			input {
 				border: none;
@@ -58,12 +60,6 @@
 		&-publish {
 			display: flex;
 			justify-content: space-between;
-			margin-bottom: 32px;
-
-			@media (max-width: $breakpoint-sm) {
-				flex-direction: column;
-				align-items: center;
-			}
 
 			&-actions {
 				display: flex;

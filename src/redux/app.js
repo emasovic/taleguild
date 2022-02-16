@@ -10,6 +10,7 @@ import {newToast} from './toast';
 export const applicationSlice = createSlice({
 	name: 'app',
 	initialState: {
+		showMobileNav: true,
 		initialized: null,
 		loading: null,
 	},
@@ -23,10 +24,13 @@ export const applicationSlice = createSlice({
 		loadingEnd: state => {
 			state.loading = false;
 		},
+		toggleMobileNav: (state, {payload}) => {
+			state.showMobileNav = !state.showMobileNav;
+		},
 	},
 });
 
-export const {loadingStart, loadingEnd, initialized} = applicationSlice.actions;
+export const {loadingStart, loadingEnd, initialized, toggleMobileNav} = applicationSlice.actions;
 
 export const initialize = () => dispatch => {
 	dispatch(loadingStart());

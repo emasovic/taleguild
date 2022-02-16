@@ -6,7 +6,7 @@ import {
 	goToUser,
 	USER_SETTINGS,
 	USER_STORIES_ARCHIVED,
-	// USER_STORIES_DRAFTS,
+	USER_STORIES_DRAFTS,
 	USER_STORIES_SAVED,
 } from 'lib/routes';
 
@@ -66,10 +66,10 @@ function MobileDrawer({isOpen, onClose}) {
 							<FaIcon icon={FA.bookmark} />
 							Saved stories
 						</NavLink>
-						{/* <NavLink tag={Link} onClick={onClose} to={USER_STORIES_DRAFTS}>
+						<NavLink tag={Link} onClick={onClose} to={USER_STORIES_DRAFTS}>
 							<FaIcon icon={FA.solid_align_left} />
 							Drafts
-						</NavLink> */}
+						</NavLink>
 						<NavLink tag={Link} onClick={onClose} to={USER_STORIES_ARCHIVED}>
 							<FaIcon icon={FA.solid_file_archive} />
 							Archived stories

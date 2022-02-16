@@ -2,8 +2,6 @@ import React from 'react';
 import {useSelector} from 'react-redux';
 import {format} from 'date-fns';
 
-import {isMobile} from 'lib/util';
-
 import {FONTS, FONT_WEIGHT, TEXT_COLORS, TYPOGRAPHY_VARIANTS} from 'types/typography';
 import {COLOR} from 'types/button';
 
@@ -61,7 +59,7 @@ export default function Dashboard() {
 			</div>
 			<div className={CLASS + '-content'}>
 				<RecentItems />
-				{!isMobile && <RecentWork />}
+				<RecentWork />
 				<RecentViews />
 			</div>
 		</MobileWrapper>

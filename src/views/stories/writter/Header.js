@@ -11,8 +11,7 @@ import {editStory} from 'lib/routes';
 
 import {COLOR} from 'types/button';
 import {STORY_PAGE_OP} from 'types/story_page';
-import {FONTS, TYPOGRAPHY_VARIANTS} from 'types/typography';
-import FA from 'types/font_awesome';
+import {FONTS, TEXT_COLORS, TYPOGRAPHY_VARIANTS} from 'types/typography';
 
 import {selectAuthUser} from 'redux/auth';
 import {createOrUpdateStory, deleteStory} from 'redux/story';
@@ -28,7 +27,6 @@ import Typography from 'components/widgets/typography/Typography';
 import StoryPagePicker from '../widgets/page-picker/StoryPagePicker';
 
 import PublishStoryDialog from './PublishStoryDialog';
-import PreviewStoryDialog from './PreviewStoryDialog';
 
 const validationSchema = object().shape({
 	title: string()
@@ -66,12 +64,10 @@ export default function Header({
 	const [isPublishStoryOpen, setIsPublishStoryOpen] = useState(false);
 	const [isDeleteStoryOpen, setIsDeleteStoryOpen] = useState(false);
 	const [isDeleteStoryPageOpen, setIsDeleteStoryPageOpen] = useState(false);
-	const [isPreviewStoryOpen, setIsPreviewStoryOpen] = useState(false);
 
 	const toggleDeleteStoryModal = () => setIsDeleteStoryOpen(prevState => !prevState);
 	const toggleDeleteStoryPageModal = () => setIsDeleteStoryPageOpen(prevState => !prevState);
 	const togglePublishStoryModal = () => setIsPublishStoryOpen(prevState => !prevState);
-	const togglePreviewStoryModal = () => setIsPreviewStoryOpen(prevState => !prevState);
 
 	const disabledActions = op[STORY_PAGE_OP.create].loading || op[STORY_PAGE_OP.update].loading;
 
@@ -184,13 +180,6 @@ export default function Header({
 						value={selectedPage}
 					/>
 					<div className={className + '-header-publish-actions-buttons'}>
-						<IconButton
-							icon={FA.solid_eye}
-							disabled={disabledActions}
-							outline
-							onClick={togglePreviewStoryModal}
-							color={COLOR.secondary}
-						/>
 						<DropdownButton outline={true}>
 							<DropdownItem
 								disabled={disabledActions}
@@ -211,7 +200,6 @@ export default function Header({
 								Delete story
 							</DropdownItem>
 						</DropdownButton>
-						{disabledActions && <span>Saving...</span>}
 					</div>
 				</div>
 
@@ -225,12 +213,15 @@ export default function Header({
 					</IconButton>
 				</div>
 			</div>
+			{disabledActions && <Typography color={TEXT_COLORS.tertiary}>Saving...</Typography>}
 
 			{isDeleteStoryPageOpen && (
 				<ConfirmModal
 					isOpen={isDeleteStoryPageOpen}
 					renderFooter
 					title="Delete"
+					cancelLabel="Cancel"
+					confirmLabel="Delete"
 					content={renderDetelePageContent()}
 					onClose={toggleDeleteStoryPageModal}
 					onSubmit={handlePageRemove}
@@ -242,22 +233,11 @@ export default function Header({
 					isOpen={isDeleteStoryOpen}
 					renderFooter
 					title="Delete"
+					cancelLabel="Cancel"
+					confirmLabel="Delete"
 					content={renderDeteleContent()}
 					onClose={toggleDeleteStoryModal}
 					onSubmit={handleRemoveStory}
-				/>
-			)}
-
-			{isPreviewStoryOpen && (
-				<PreviewStoryDialog
-					isOpen={isPreviewStoryOpen}
-					onClose={togglePreviewStoryModal}
-					onSubmit={() => {
-						togglePublishStoryModal();
-						togglePreviewStoryModal();
-					}}
-					className={className + '-header-previewModal'}
-					story={{...values, slug: story?.slug}}
 				/>
 			)}
 

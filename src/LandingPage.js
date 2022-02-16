@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {LOGIN, PRIVACY_POLICY, REGISTER, TERMS_OF_SERVICE} from 'lib/routes';
+import {PRIVACY_POLICY, REGISTER, TERMS_OF_SERVICE} from 'lib/routes';
 
-import {COLOR} from 'types/button';
 import {
 	FONTS,
 	FONT_WEIGHT,
@@ -122,10 +121,7 @@ export default function LandingPage() {
 				</Typography>
 				<div className={CLASS + '-header-actions'}>
 					<IconButton tag={Link} to={REGISTER}>
-						Join us now
-					</IconButton>
-					<IconButton tag={Link} to={LOGIN} color={COLOR.secondary}>
-						Sign in
+						Get started now
 					</IconButton>
 				</div>
 			</div>

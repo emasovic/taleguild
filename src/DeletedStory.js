@@ -3,6 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Link} from 'react-router-dom';
 
 import {DASHBOARD} from 'lib/routes';
+import {isMobile} from 'lib/util';
 
 import {COLOR} from 'types/button';
 import {FONTS, FONT_WEIGHT, TYPOGRAPHY_VARIANTS} from 'types/typography';
@@ -12,6 +13,7 @@ import {selectAuthUser} from 'redux/auth';
 
 import IconButton from 'components/widgets/button/IconButton';
 import Typography from 'components/widgets/typography/Typography';
+import MobileWrapper from 'components/widgets/mobile-wrapper/MobileWrapper';
 
 import {ReactComponent as Scroll} from 'images/scroll.svg';
 
@@ -27,7 +29,7 @@ export default function DeletedStory() {
 		dispatch(newStory({user: data && data.id, published_at: null}));
 	};
 	return (
-		<div className={CLASS}>
+		<MobileWrapper className={CLASS}>
 			<div className={CLASS + '-description'}>
 				<Typography
 					font={FONTS.merri}
@@ -49,9 +51,11 @@ export default function DeletedStory() {
 					<IconButton onClick={handleNewStory}>Create new story</IconButton>
 				</div>
 			</div>
-			<div className={CLASS + '-scroll'}>
-				<Scroll />
-			</div>
-		</div>
+			{!isMobile && (
+				<div className={CLASS + '-scroll'}>
+					<Scroll />
+				</div>
+			)}
+		</MobileWrapper>
 	);
 }

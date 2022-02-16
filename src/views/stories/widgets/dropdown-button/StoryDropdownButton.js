@@ -5,7 +5,6 @@ import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import {editStory} from 'lib/routes';
-import {isMobile} from 'lib/util';
 
 import {FONTS, TYPOGRAPHY_VARIANTS} from 'types/typography';
 
@@ -64,14 +63,12 @@ export default function StoryDropdownButton({id, selector, onDeleteStory, keepAr
 		</Typography>
 	);
 
-	if (!item) {
-		return null;
-	}
+	if (!item) return null;
 
 	const pageId = storypages?.length ? storypages[0].id : null;
 	const archiveTitle = archived_at ? 'Unarchive' : 'Archive';
 
-	const displayEdit = pageId && !isMobile && (archived_at || !published_at);
+	const displayEdit = pageId && (archived_at || !published_at);
 	const displayArchived = !!published_at;
 	return (
 		<div className={CLASS}>

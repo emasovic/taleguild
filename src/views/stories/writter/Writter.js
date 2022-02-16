@@ -7,6 +7,8 @@ import {DEFAULT_OP} from 'types/default';
 
 import TextEditor from 'components/widgets/text-editor/TextEditor';
 import Loader from 'components/widgets/loader/Loader';
+import {useDispatch} from 'react-redux';
+import {toggleMobileNav} from 'redux/app';
 
 export default function Writter({
 	className,
@@ -20,6 +22,10 @@ export default function Writter({
 	op,
 }) {
 	const editorRef = useRef(null);
+
+	const dispatch = useDispatch();
+
+	const displayMobileNav = () => dispatch(toggleMobileNav());
 
 	const scrollToBottom = () => {
 		const domSelection = window.getSelection();
@@ -65,6 +71,8 @@ export default function Writter({
 				onChange={handleEditPage}
 				onKeyUp={onEndAt}
 				onKeyDown={handleKeyDown}
+				onFocus={displayMobileNav}
+				onBlur={displayMobileNav}
 			/>
 		</div>
 	);
