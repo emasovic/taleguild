@@ -1,14 +1,14 @@
 import React, {useRef, useMemo} from 'react';
 import debounce from 'lodash.debounce';
 import PropTypes from 'prop-types';
+// import {useDispatch} from 'react-redux';
 
 import {STORY_PAGE_OP} from 'types/story_page';
 import {DEFAULT_OP} from 'types/default';
 
 import TextEditor from 'components/widgets/text-editor/TextEditor';
 import Loader from 'components/widgets/loader/Loader';
-import {useDispatch} from 'react-redux';
-import {toggleMobileNav} from 'redux/app';
+// import {toggleMobileNav} from 'redux/app';
 
 export default function Writter({
 	className,
@@ -23,9 +23,9 @@ export default function Writter({
 }) {
 	const editorRef = useRef(null);
 
-	const dispatch = useDispatch();
+	// const dispatch = useDispatch();
 
-	const displayMobileNav = displayNav => dispatch(toggleMobileNav(displayNav));
+	// const displayMobileNav = displayNav => dispatch(toggleMobileNav(displayNav));
 
 	const scrollToBottom = () => {
 		const domSelection = window.getSelection();
@@ -71,8 +71,8 @@ export default function Writter({
 				onChange={handleEditPage}
 				onKeyUp={onEndAt}
 				onKeyDown={handleKeyDown}
-				onFocus={() => displayMobileNav(false)}
-				onBlur={() => displayMobileNav(true)}
+				// onFocus={() => displayMobileNav(false)}
+				// onBlur={() => displayMobileNav(true)}
 			/>
 		</div>
 	);

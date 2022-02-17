@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import HoveringToolbar from './widgets/HoveringToolbar';
 import Element from './widgets/Element';
 import Leaf from './widgets/Leaf';
+// import Toolbar from './widgets/Toolbar';
 
 import './TextEditor.scss';
 
@@ -29,7 +30,7 @@ export default function TextEditor({value, onChange, onKeyDown, onKeyUp, onFocus
 				renderLeaf={renderLeaf}
 				placeholder="Write for 3 minutes and more to get coins and start focus mode…"
 				spellCheck
-				// autoFocus
+				autoFocus
 			/>
 		</Slate>
 	);
@@ -47,4 +48,6 @@ TextEditor.propTypes = {
 TextEditor.defaultProps = {
 	onChange: () => {},
 	onKeyDown: () => {},
+	onFocus: () => {},
+	onBlur: () => {},
 };
