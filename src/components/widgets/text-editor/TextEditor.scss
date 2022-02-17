@@ -14,9 +14,9 @@
 		left: -10000px;
 		margin-top: -8px;
 		opacity: 0;
-		@include theme-aware('box-shadow', 'card-shadow');
 		border-radius: 6px;
 		transition: opacity 0.3s;
+		@include theme-aware('box-shadow', 'card-shadow');
 		@include theme-aware('background-color', 'B100');
 
 		.st-IconButton {
@@ -39,6 +39,28 @@
 			&.active {
 				@include theme-aware('color', 'T800');
 				@include theme-aware('background-color', 'T200');
+			}
+		}
+	}
+
+	&-toolbar {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		position: fixed;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		z-index: 10;
+		width: 100%;
+		padding: 6px 12px;
+		@include theme-aware('background-color', 'B200');
+
+		&-formats {
+			.st-IconButton {
+				margin-right: 6px;
+				min-width: 40px;
+				border: none;
 			}
 		}
 	}

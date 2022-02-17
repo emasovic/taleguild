@@ -4,10 +4,9 @@ import {createEditor} from 'slate';
 import {withHistory} from 'slate-history';
 import PropTypes from 'prop-types';
 
-import HoveringToolbar from './widgets/HoveringToolbar';
 import Element from './widgets/Element';
 import Leaf from './widgets/Leaf';
-// import Toolbar from './widgets/Toolbar';
+import Toolbar from './widgets/Toolbar';
 
 import './TextEditor.scss';
 
@@ -19,7 +18,7 @@ export default function TextEditor({value, onChange, onKeyDown, onKeyUp, onFocus
 	editor.children = value;
 	return (
 		<Slate editor={editor} value={value} onChange={onChange}>
-			<HoveringToolbar className={CLASS} />
+			<Toolbar className={CLASS} value={value} />
 			<Editable
 				onKeyDown={onKeyDown}
 				onKeyUp={onKeyUp}

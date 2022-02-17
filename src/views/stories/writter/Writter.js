@@ -1,14 +1,14 @@
-import React, {useRef, useMemo} from 'react';
+import React, {useRef, useMemo, useEffect, useCallback} from 'react';
 import debounce from 'lodash.debounce';
 import PropTypes from 'prop-types';
-// import {useDispatch} from 'react-redux';
+import {useDispatch} from 'react-redux';
 
 import {STORY_PAGE_OP} from 'types/story_page';
 import {DEFAULT_OP} from 'types/default';
 
 import TextEditor from 'components/widgets/text-editor/TextEditor';
 import Loader from 'components/widgets/loader/Loader';
-// import {toggleMobileNav} from 'redux/app';
+import {toggleMobileNav} from 'redux/app';
 
 export default function Writter({
 	className,
@@ -21,11 +21,13 @@ export default function Writter({
 	archived,
 	op,
 }) {
+	const dispatch = useDispatch();
+
 	const editorRef = useRef(null);
 
-	// const dispatch = useDispatch();
-
-	// const displayMobileNav = displayNav => dispatch(toggleMobileNav(displayNav));
+	const displayMobileNav = useCallback(displayNav => dispatch(toggleMobileNav(displayNav)), [
+		dispatch,
+	]);
 
 	const scrollToBottom = () => {
 		const domSelection = window.getSelection();
@@ -62,6 +64,12 @@ export default function Writter({
 		shouldAutoSave && _onStoryPage(current.id, val);
 	};
 
+	useEffect(() => {
+		displayMobileNav(false);
+
+		return () => displayMobileNav(true);
+	}, [displayMobileNav]);
+
 	if (op[STORY_PAGE_OP.create].loading || op[DEFAULT_OP.loading].loading) return <Loader />;
 
 	return (
@@ -71,8 +79,6 @@ export default function Writter({
 				onChange={handleEditPage}
 				onKeyUp={onEndAt}
 				onKeyDown={handleKeyDown}
-				// onFocus={() => displayMobileNav(false)}
-				// onBlur={() => displayMobileNav(true)}
 			/>
 		</div>
 	);

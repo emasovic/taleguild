@@ -38,7 +38,7 @@ const isFormatActive = (editor, format) => {
 	return !!match;
 };
 
-export const FormatButton = ({format, icon}) => {
+export const FormatButton = ({format, icon, ...rest}) => {
 	const editor = useSlate();
 	return (
 		<IconButton
@@ -48,6 +48,7 @@ export const FormatButton = ({format, icon}) => {
 				toggleFormat(editor, format);
 			}}
 			icon={icon}
+			{...rest}
 		/>
 	);
 };
@@ -57,7 +58,7 @@ FormatButton.propTypes = {
 	icon: PropTypes.object,
 };
 
-export const BlockButton = ({format, icon}) => {
+export const BlockButton = ({format, icon, ...rest}) => {
 	const editor = useSlate();
 	return (
 		<IconButton
@@ -67,6 +68,7 @@ export const BlockButton = ({format, icon}) => {
 				toggleBlock(editor, format);
 			}}
 			icon={icon}
+			{...rest}
 		/>
 	);
 };
