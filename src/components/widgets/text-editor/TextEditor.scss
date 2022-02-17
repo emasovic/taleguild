@@ -53,17 +53,29 @@
 		left: 0;
 		z-index: 10;
 		width: 100%;
-		padding: 6px 12px;
-		max-width: $app-max-width;
+		padding: 6px 0;
+		max-width: $story-preview-width-large;
 		margin: 0 auto;
 		@include theme-aware('background-color', 'B200');
 
+		@media (max-width: $breakpoint-sm) {
+			padding: 6px 12px;
+		}
+
+		> div {
+			flex: 1;
+		}
+
 		&-formats {
 			.st-IconButton {
-				min-width: 40px;
 				border: none;
 				box-shadow: none;
 			}
+		}
+
+		&-counter {
+			justify-content: flex-end;
+			display: flex;
 		}
 	}
 

@@ -37,6 +37,14 @@
 
 		@media (max-width: $breakpoint-m) {
 			flex-direction: column;
+
+			.st-RecentItems {
+				order: 2;
+			}
+
+			.st-RecentViews {
+				order: 3;
+			}
 		}
 
 		> div {
