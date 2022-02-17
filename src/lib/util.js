@@ -69,6 +69,7 @@ export const serializeTextEditorValue = (nodes, sliceAt) => {
 	return text;
 };
 
+export const isDesktop = window.screen.width > 1166;
 export const isMobile = window.screen.width < 768;
 
 export const capitalize = string => {

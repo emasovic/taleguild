@@ -33,7 +33,7 @@ function Counter({value}) {
 	const chars = countChars(value);
 	return (
 		<Typography color={TEXT_COLORS.secondary}>
-			{words} words / {chars} characters
+			{words} words / {chars} char
 		</Typography>
 	);
 }

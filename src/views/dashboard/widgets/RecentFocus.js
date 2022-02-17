@@ -50,7 +50,7 @@ export default function RecentFocus() {
 		<RecentStats
 			topStats={topStats}
 			bottomStats={bottomStats}
-			isLoading={isLoading || !op[DEFAULT_OP.loading].success}
+			isLoading={isLoading || op[DEFAULT_OP.loading].loading}
 			error={error}
 		/>
 	);

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {isMobile} from 'lib/util';
+import {isDesktop} from 'lib/util';
 
 import DesktopNav from './DesktopNav';
 import MobileNav from './MobileNav';
@@ -10,7 +10,7 @@ export default function Nav() {
 	const {showMobileNav} = useSelector(state => state.app);
 	return (
 		<>
-			<DesktopNav isMobile={isMobile} /> {isMobile && showMobileNav && <MobileNav />}
+			<DesktopNav isMobile={!isDesktop} /> {!isDesktop && showMobileNav && <MobileNav />}
 		</>
 	);
 }
