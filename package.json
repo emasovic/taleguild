@@ -19,6 +19,7 @@
 		"connected-react-router": "^6.9.2",
 		"date-fns": "^2.25.0",
 		"formik": "^2.2.9",
+		"is-hotkey": "^0.2.0",
 		"knex": "^1.0.2",
 		"lodash.camelcase": "^4.3.0",
 		"lodash.debounce": "^4.0.8",

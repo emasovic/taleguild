@@ -8,13 +8,12 @@ import Typography from 'components/widgets/typography/Typography';
 const countWords = content => {
 	let count = 0;
 	content.forEach(value => {
-		let s = value['children'][0]['text'];
-		if (s.length !== 0 && s.match(/\b[-?(\w+)?]+\b/gi)) {
-			s = s.replace(/(^\s*)|(\s*$)/gi, '');
-			s = s.replace(/[ ]{2,}/gi, ' ');
-			s = s.replace(/\n /, '\n');
-			count += s.split(' ').length;
-		}
+		value.children.forEach(t => {
+			let text = t.text.replace(/(^\s*)|(\s*$)/gi, '');
+			text = text.replace(/[ ]{2,}/gi, ' ');
+			text = text.replace(/\n /, '\n');
+			count += text.split(' ').length;
+		});
 	});
 	return count;
 };
@@ -22,7 +21,9 @@ const countWords = content => {
 const countChars = content => {
 	let count = content.length > 1 ? content.length - 1 : 0;
 	content.forEach(value => {
-		count += value['children'][0]['text'].length;
+		value.children.forEach(t => {
+			count += t.text.length;
+		});
 	});
 	return count;
 };

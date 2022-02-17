@@ -54,6 +54,8 @@
 		z-index: 10;
 		width: 100%;
 		padding: 6px 12px;
+		max-width: $app-max-width;
+		margin: 0 auto;
 		@include theme-aware('background-color', 'B200');
 
 		&-formats {
