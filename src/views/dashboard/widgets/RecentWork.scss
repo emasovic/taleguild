@@ -7,6 +7,13 @@
 	cursor: pointer;
 	margin-top: 8px;
 
+	&-link {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		margin-top: 6px;
+	}
+
 	&-item {
 		display: flex;
 		flex-direction: column;

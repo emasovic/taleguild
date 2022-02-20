@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router-dom';
 
 import {goToWidget} from 'lib/routes';
 
@@ -18,6 +17,7 @@ import {WIDGETS} from 'views/community/Community';
 
 import Typography from 'components/widgets/typography/Typography';
 import LoadMore from 'components/widgets/loadmore/LoadMore';
+import Link, {UNDERLINE} from 'components/widgets/link/Link';
 
 import NoItemsPlaceholder from './NoItemsPlaceholder';
 
@@ -92,6 +92,7 @@ export default function RecentViews() {
 				{views.map(i => (
 					<RecentView key={i} id={i} />
 				))}
+				{!!total && <Link to={goToWidget(WIDGETS.explore)} underline={UNDERLINE.hover} className={CLASS + '-link'}>Read all</Link>}
 			</LoadMore>
 		</div>
 	);

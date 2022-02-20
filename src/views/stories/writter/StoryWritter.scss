@@ -12,6 +12,11 @@
 	}
 
 	&-header {
+		&-saving {
+			min-height: 24px;
+			margin: 8px 0;
+		}
+
 		.st-FloatingInput {
 			input {
 				border: none;
@@ -61,6 +66,7 @@
 
 			&-actions {
 				display: flex;
+				align-items: center;
 
 				@media (max-width: $breakpoint-sm) {
 					margin-bottom: 16px;

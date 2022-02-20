@@ -7,6 +7,12 @@
 	cursor: pointer;
 	margin-top: 8px;
 
+	&-link {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+	}
+
 	&-item {
 		display: flex;
 		align-items: center;

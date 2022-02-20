@@ -40,12 +40,11 @@ export default function RecentXp() {
 			{stats?.points}/{currentLevel?.max_points}
 		</Typography>
 	);
-
 	return (
 		<RecentStats
 			topStats={topStats}
 			bottomStats={bottomStats}
-			isLoading={isLoading}
+			isLoading={isLoading || !currentLevel}
 			error={error}
 		/>
 	);

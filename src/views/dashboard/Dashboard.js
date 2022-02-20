@@ -59,7 +59,7 @@ export default function Dashboard() {
 			</div>
 			<div className={CLASS + '-content'}>
 				<RecentItems />
-				<RecentWork />
+				<RecentWork displayLink={true}/>
 				<RecentViews />
 			</div>
 		</MobileWrapper>

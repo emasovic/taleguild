@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 
+import {MARKETPLACE} from 'lib/routes';
+
 import {FONT_WEIGHT, TEXT_COLORS, TEXT_TRASFORM} from 'types/typography';
 import {DEFAULT_OP} from 'types/default';
 import {ICONS} from 'types/icons';
@@ -17,6 +19,7 @@ import Typography from 'components/widgets/typography/Typography';
 import Icon from 'components/widgets/icon/Icon';
 import GuildatarDialog from 'components/guildatar/GuildatarDialog';
 import LoadMore from 'components/widgets/loadmore/LoadMore';
+import Link, {UNDERLINE} from 'components/widgets/link/Link';
 
 import NoItemsPlaceholder from './NoItemsPlaceholder';
 
@@ -108,7 +111,11 @@ export default function RecentItems() {
 				shouldLoad={false}
 			>
 				{!!total &&
-					marketplace.map(i => <RecentItem key={i} id={i} onClick={setSelectedItem} />)}
+				<>
+					{marketplace.map(i => <RecentItem key={i} id={i} onClick={setSelectedItem} />)}
+					<Link to={MARKETPLACE} underline={UNDERLINE.hover} className={CLASS + '-link'}>View all</Link>
+				</>
+				}
 			</LoadMore>
 			{isOpen && <GuildatarDialog isOpen={isOpen} onClose={() => setIsOpen(false)} />}
 			{selectedItem && (

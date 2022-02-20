@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import {getActivity} from 'lib/api';
 import {secondsToHoursMinutes, serializeTextEditorValue} from 'lib/util';
-import {editStory} from 'lib/routes';
+import {editStory, USER_STORIES_DRAFTS} from 'lib/routes';
 
 import {FONTS, FONT_WEIGHT, TEXT_COLORS, TYPOGRAPHY_VARIANTS} from 'types/typography';
 import {PUBLISH_STATES} from 'types/story';
@@ -78,7 +78,7 @@ RecentItem.propTypes = {
 	id: PropTypes.number.isRequired,
 };
 
-function RecentWork({shouldLoadMore, title, titleProps, placeholderProps}) {
+function RecentWork({shouldLoadMore, title, titleProps, placeholderProps, displayLink}) {
 	const dispatch = useDispatch();
 
 	const stories = useSelector(selectStoryIds);
@@ -131,9 +131,9 @@ function RecentWork({shouldLoadMore, title, titleProps, placeholderProps}) {
 				onLoadMore={() => handleLoadStories(DEFAULT_OP.load_more, stories.length)}
 				NoItemsComponent={NoItemsPlaceholder}
 				noItemsComponentProps={{
-					title: 'Create your first story',
+					title: 'Write your new story',
 					subtitle:
-						'Start writing your first story and collect coins and XP to upgrade your productivity level',
+						'Start writing your new story with our simple and clean text editor',
 					buttonText: 'Write your first story',
 					withBackground: true,
 					buttonProps: {
@@ -145,6 +145,7 @@ function RecentWork({shouldLoadMore, title, titleProps, placeholderProps}) {
 				{stories.map(i => (
 					<RecentItem key={i} id={i} />
 				))}
+				{displayLink && !!total && <Link to={USER_STORIES_DRAFTS} underline={UNDERLINE.hover} className={CLASS + '-link'}>View all</Link>}
 			</LoadMore>
 		</div>
 	);
@@ -155,12 +156,14 @@ RecentWork.propTypes = {
 	titleProps: PropTypes.object,
 	title: PropTypes.string,
 	placeholderProps: PropTypes.object,
+	displayLink: PropTypes.bool
 };
 
 RecentWork.defaultProps = {
 	title: 'Recent work',
 	titleProps: {},
 	placeholderProps: {},
+	displayLink: false,
 };
 
 export default RecentWork;

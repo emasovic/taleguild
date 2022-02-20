@@ -70,7 +70,7 @@ export default function Header({
 	const togglePublishStoryModal = () => setIsPublishStoryOpen(prevState => !prevState);
 
 	const disabledActions = op[STORY_PAGE_OP.create].loading || op[STORY_PAGE_OP.update].loading;
-
+	const savingText = disabledActions ? 'Saving...' : op[STORY_PAGE_OP.update].success ?  'Saved' : '';
 	const handleSubmit = ({
 		id,
 		title,
@@ -213,8 +213,9 @@ export default function Header({
 					</IconButton>
 				</div>
 			</div>
-			<VisibilityControl visible={disabledActions}>
-				<Typography color={TEXT_COLORS.tertiary}>Saving...</Typography>
+
+			<VisibilityControl visible className={className + '-header-saving'}>
+				<Typography color={TEXT_COLORS.tertiary} >{savingText}</Typography>
 			</VisibilityControl>
 
 			{isDeleteStoryPageOpen && (
