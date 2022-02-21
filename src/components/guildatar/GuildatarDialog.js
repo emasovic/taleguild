@@ -33,7 +33,7 @@ const validationSchema = Yup.object().shape({
 		.required('Required'),
 	description: Yup.string()
 		.min(2, 'Too Short!')
-		.max(250, 'Too Long!')
+		.max(1000, 'Too Long!')
 		.required('Required'),
 	gender: Yup.mixed().required('Required'),
 });
@@ -130,6 +130,7 @@ function GuildatarDialog({isOpen, onClose, id}) {
 					/>
 				)}
 				<TextArea
+					maxLength={1000}
 					className={CLASS + '-textarea'}
 					label="Description"
 					placeholder="Write something about guildatar..."

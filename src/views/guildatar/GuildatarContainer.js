@@ -188,6 +188,7 @@ export default function GuildatarContainer() {
 								Description
 							</Typography>
 							<ShowMore
+								numberOfCharacters={500}
 								className={CLASS + '-content-avatar-description-text'}
 								textProps={{
 									color: TEXT_COLORS.secondary,
