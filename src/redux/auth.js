@@ -197,8 +197,10 @@ export const providerLogin = (provider, token) => async dispatch => {
 	const res = await api.loginProvider(provider, token);
 
 	if (res.error) {
-		dispatch(opEnd({op, error: res.error}));
-		return dispatch(newToast({...Toast.error(res.error.detail || res.error)}));
+		return batchDispatch([
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error.detail || res.error)}),
+		]);
 	}
 	const {jwt, user} = res;
 	const {saved_stories, ...rest} = user;
