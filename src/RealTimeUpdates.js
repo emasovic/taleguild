@@ -16,6 +16,8 @@ function RealTimeUpdates() {
 			socket.on(data.id, data => {
 				dispatch(notificationsAddOne(data));
 			});
+
+			return () => socket.disconnect();
 		}
 	}, [dispatch, data]);
 
