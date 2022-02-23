@@ -13,8 +13,8 @@ function RealTimeUpdates() {
 
 	useEffect(() => {
 		if (data) {
-			socket.on(data.id, data => {
-				dispatch(notificationsAddOne(data));
+			socket.on(data.id, socketData => {
+				dispatch(notificationsAddOne(socketData));
 			});
 		}
 	}, [dispatch, data]);
