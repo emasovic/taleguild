@@ -43,7 +43,7 @@ export default function RecentXp() {
 		<RecentStats
 			topStats={topStats}
 			bottomStats={bottomStats}
-			isLoading={isLoading}
+			isLoading={isLoading || !currentLevel}
 			error={error}
 		/>
 	);

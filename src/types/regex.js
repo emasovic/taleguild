@@ -1,6 +1,6 @@
 export const usernameRegex = {
-	regex: /^(?![_.])(?!.*[_.]{2})[a-z0-9._]+(?<![_.])$/,
-	message: 'Valid formats of username: username, user_name, user.name, username123',
+	regex: /^(?![_.-])(?!.*[_.-]{2})[a-z0-9._-]+(?<![_.-])$/,
+	message: 'Valid formats of username: username, user_name, user.name, user-name, username123',
 };
 
 export const passwordRegex = {
