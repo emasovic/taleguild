@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import ReactGA from 'react-ga';
+import ReactGA from 'react-ga4';
 import {Route} from 'react-router-dom';
 
 export class GoogleAnalytics extends PureComponent {
@@ -49,7 +49,7 @@ export const RouteTracker = () => <Route component={GoogleAnalytics} />;
 export const init = (options = {}) => {
 	const isGAEnabled = !!process.env.REACT_APP_GA_TRACKING_ID;
 	if (isGAEnabled) {
-		ReactGA.initialize(process.env.REACT_APP_GA_TRACKING_ID);
+		ReactGA.initialize(process.env.REACT_APP_GA_TRACKING_ID, {debug: true});
 	}
 
 	return isGAEnabled;
