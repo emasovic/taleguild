@@ -3,6 +3,10 @@ import PropTypes from 'prop-types';
 import ReactGA from 'react-ga4';
 import {Route} from 'react-router-dom';
 
+const GA_EVENT = {
+	pageview: 'pageview',
+};
+
 export class GoogleAnalytics extends PureComponent {
 	componentDidMount() {
 		this.logPageChange(this.props.location.pathname, this.props.location.search);
@@ -28,7 +32,7 @@ export class GoogleAnalytics extends PureComponent {
 			location: `${location.origin}${page}`,
 			...this.props.options,
 		});
-		ReactGA.pageview(page);
+		ReactGA.send({hitType: GA_EVENT.pageview, page});
 	}
 
 	render() {
@@ -46,10 +50,10 @@ GoogleAnalytics.propTypes = {
 
 export const RouteTracker = () => <Route component={GoogleAnalytics} />;
 
-export const init = (options = {}) => {
+export const init = () => {
 	const isGAEnabled = !!process.env.REACT_APP_GA_TRACKING_ID;
 	if (isGAEnabled) {
-		ReactGA.initialize(process.env.REACT_APP_GA_TRACKING_ID, {debug: true});
+		ReactGA.initialize(process.env.REACT_APP_GA_TRACKING_ID);
 	}
 
 	return isGAEnabled;
