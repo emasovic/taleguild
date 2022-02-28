@@ -5,6 +5,7 @@ import {object, string} from 'yup';
 
 import {THEMES} from 'types/themes';
 import {DEFAULT_OP} from 'types/default';
+import {usernameRegex} from 'types/regex';
 
 import {selectAuthUser, updateUser} from 'redux/auth';
 
@@ -24,6 +25,7 @@ const validationSchema = object().shape({
 	username: string()
 		.min(2, 'Too Short!')
 		.max(50, 'Too Long!')
+		.matches(usernameRegex.regex, usernameRegex.message)
 		.required('Required'),
 	description: string()
 		.min(2, 'Too Short!')

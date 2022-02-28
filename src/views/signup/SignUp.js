@@ -8,6 +8,7 @@ import {useFormik} from 'formik';
 import {LOGIN, PRIVACY_POLICY, TERMS_OF_SERVICE} from 'lib/routes';
 
 import {FONTS, FONT_WEIGHT, TYPOGRAPHY_VARIANTS} from 'types/typography';
+import {passwordRegex, usernameRegex} from 'types/regex';
 import {COLOR, BRAND} from 'types/button';
 import {USER_OP} from 'types/user';
 import {DEFAULT_OP} from 'types/default';
@@ -30,13 +31,11 @@ const validationSchema = object().shape({
 	username: string()
 		.min(2, 'Too Short!')
 		.max(50, 'Too Long!')
+		.matches(usernameRegex.regex, usernameRegex.message)
 		.required('Required'),
 	password: string()
 		.required('Please Enter your password')
-		.matches(
-			/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-			'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character'
-		),
+		.matches(passwordRegex.regex, passwordRegex.message),
 	email: string()
 		.required('Required')
 		.email('Must be a valid email'),
