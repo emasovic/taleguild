@@ -11,7 +11,6 @@ import PrivateRoute from 'PrivateRoute';
 import PublicRoute from 'PublicRoute';
 
 import Loader from 'components/widgets/loader/Loader';
-import {init, RouteTracker} from 'GoggleAnalytics';
 
 const Dashboard = lazy(() => import('views/dashboard/Dashboard'));
 
@@ -53,7 +52,6 @@ const RegistrationSuccess = lazy(() => import('RegistrationSuccess'));
 const Routes = () => (
 	<ConnectedRouter history={history}>
 		<Suspense fallback={<Loader />}>
-			{init() && <RouteTracker />}
 			<Nav />
 			<Switch>
 				<PrivateRoute exact path={routes.DASHBOARD} component={Dashboard} />

@@ -28,6 +28,7 @@ import userActivity from './userActivity';
 import userItems from './userItems';
 import toast from './toast';
 import views from './views';
+import {gaMiddleware} from './tracking';
 
 const createRootReducer = history =>
 	combineReducers({
@@ -59,7 +60,10 @@ const createRootReducer = history =>
 
 const store = configureStore({
 	reducer: createRootReducer(history),
-	middleware: getDefaultMiddleware => getDefaultMiddleware().concat(routerMiddleware(history)),
+	middleware: getDefaultMiddleware =>
+		getDefaultMiddleware()
+			.concat(routerMiddleware(history))
+			.concat(gaMiddleware),
 });
 
 export default store;

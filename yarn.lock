@@ -1446,6 +1446,11 @@
   resolved "https://npm.xrview.io/@popperjs%2fcore/-/core-2.11.2.tgz#830beaec4b4091a9e9398ac50f865ddea52186b9"
   integrity sha512-92FRmppjjqz29VMJ2dn+xdyXZBrMlE42AV6Kq6BwjWV7CNUW1hs2FtxSNLQE+gJhaZ6AAmYuO9y8dshhcBl7vA==
 
+"@redux-beacon/google-analytics-gtag@^1.1.0":
+  version "1.1.0"
+  resolved "https://npm.xrview.io/@redux-beacon%2fgoogle-analytics-gtag/-/google-analytics-gtag-1.1.0.tgz#14b77bb6373d63cac27c1f542a54432cf573d78b"
+  integrity sha512-FtJ/Ddv3DQVCB/N/1NNJLiNcik9DTfNoB6kIS+BFRMWoPZ+eDXTNvczd0BYFcc3tq2GGy3vAKisPJGYCkejuqQ==
+
 "@reduxjs/toolkit@^1.6.2":
   version "1.7.1"
   resolved "https://npm.xrview.io/@reduxjs%2ftoolkit/-/toolkit-1.7.1.tgz#994962aeb7df3c77be343dd2ad1aa48221dbaa0c"
@@ -2522,6 +2527,11 @@ array-flatten@1.1.1:
   version "1.1.1"
   resolved "https://npm.xrview.io/array-flatten/-/array-flatten-1.1.1.tgz#9a5f699051b1e7073328f2a008968b64ea2955d2"
   integrity sha1-ml9pkFGx5wczKPKgCJaLZOopVdI=
+
+array-flatten@2.1.1:
+  version "2.1.1"
+  resolved "https://npm.xrview.io/array-flatten/-/array-flatten-2.1.1.tgz#426bb9da84090c1838d812c8150af20a8331e296"
+  integrity sha1-Qmu52oQJDBg42BLIFQryCoMx4pY=
 
 array-flatten@^2.1.0:
   version "2.1.2"
@@ -9587,11 +9597,6 @@ react-fast-compare@^3.0.1, react-fast-compare@^3.1.1:
   resolved "https://npm.xrview.io/react-fast-compare/-/react-fast-compare-3.2.0.tgz#641a9da81b6a6320f270e89724fb45a0b39e43bb"
   integrity sha512-rtGImPZ0YyLrscKI9xTpV8psd6I8VAtjKCzQDlzyDvqJA8XOW78TXYQwNRNd8g8JZnDu8q9Fu/1v4HPAVwVdHA==
 
-react-ga4@^1.4.1:
-  version "1.4.1"
-  resolved "https://npm.xrview.io/react-ga4/-/react-ga4-1.4.1.tgz#6ee2a2db115ed235b2f2092bc746b4eeeca9e206"
-  integrity sha512-ioBMEIxd4ePw4YtaloTUgqhQGqz5ebDdC4slEpLgy2sLx1LuZBC9iYCwDymTXzcntw6K1dHX183ulP32nNdG7w==
-
 react-helmet@^6.1.0:
   version "6.1.0"
   resolved "https://npm.xrview.io/react-helmet/-/react-helmet-6.1.0.tgz#a750d5165cb13cf213e44747502652e794468726"
@@ -9895,6 +9900,13 @@ redent@^3.0.0:
   dependencies:
     indent-string "^4.0.0"
     strip-indent "^3.0.0"
+
+redux-beacon@^2.1.0:
+  version "2.1.0"
+  resolved "https://npm.xrview.io/redux-beacon/-/redux-beacon-2.1.0.tgz#a88ab3c2861f10ebafa0e5e94b78ca3209b537b9"
+  integrity sha512-KMbopAM7YLnQdospn5ClG3o8c4uhYkLBDEWSmxNbvQb4MGAJJh3sbbPKoEB00qU5rTXbwKuaaqZlWdgrY1Twxw==
+  dependencies:
+    array-flatten "2.1.1"
 
 redux-thunk@^2.4.1:
   version "2.4.1"
