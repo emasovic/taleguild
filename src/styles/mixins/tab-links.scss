@@ -43,6 +43,7 @@
 
 	&.active {
 		@include theme-aware('color', 'G900');
-		@include theme-aware('background-color', 'B200');
+		// @include theme-aware('background-color', 'B200');
+		background-color: transparent;
 	}
 }

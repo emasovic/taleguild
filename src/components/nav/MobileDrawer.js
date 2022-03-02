@@ -21,6 +21,7 @@ import Typography from 'components/widgets/typography/Typography';
 import Link from 'components/widgets/link/Link';
 import FaIcon from 'components/widgets/fa-icon/FaIcon';
 import Backdrop from 'components/widgets/drawer/Backdrop';
+import ThemeSwitch from 'components/widgets/theme-switch/ThemeSwitch';
 
 import UserAvatar from 'views/user/UserAvatar';
 
@@ -55,6 +56,7 @@ function MobileDrawer({isOpen, onClose}) {
 					<Typography font={FONTS.lato} variant={TYPOGRAPHY_VARIANTS.action1}>
 						@{data?.username}
 					</Typography>
+					<ThemeSwitch className={CLASS + '-user-theme'} />
 				</div>
 				<div className={CLASS + '-items'}>
 					<div>
