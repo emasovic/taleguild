@@ -17,6 +17,7 @@ const getUserFields = state => {
 
 const eventsMap = {
 	[LOCATION_CHANGE]: trackPageView(({payload: {location}}, _, nextState) => ({
+		title: location.pathname + location.search,
 		fieldsObject: getUserFields(nextState),
 	})),
 };
