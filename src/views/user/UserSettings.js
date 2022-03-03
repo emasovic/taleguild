@@ -3,8 +3,8 @@ import {useSelector, useDispatch} from 'react-redux';
 import {useFormik} from 'formik';
 import {object, string} from 'yup';
 
-import {THEMES} from 'types/themes';
 import {DEFAULT_OP} from 'types/default';
+import {usernameRegex} from 'types/regex';
 
 import {selectAuthUser, updateUser} from 'redux/auth';
 
@@ -13,7 +13,6 @@ import FloatingInput from 'components/widgets/input/FloatingInput';
 import Uploader from 'components/widgets/uploader/Uploader';
 import Loader from 'components/widgets/loader/Loader';
 import TextArea from 'components/widgets/textarea/TextArea';
-import ThemePicker from 'components/widgets/pickers/theme/ThemePicker';
 import MobileWrapper from 'components/widgets/mobile-wrapper/MobileWrapper';
 
 import './UserSettings.scss';
@@ -24,6 +23,7 @@ const validationSchema = object().shape({
 	username: string()
 		.min(2, 'Too Short!')
 		.max(50, 'Too Long!')
+		.matches(usernameRegex.regex, usernameRegex.message)
 		.required('Required'),
 	description: string()
 		.min(2, 'Too Short!')
@@ -55,7 +55,7 @@ export default function UserSettings() {
 	};
 
 	const {
-		values: {avatar, displayName, username, email, description, theme},
+		values: {avatar, displayName, username, email, description},
 		errors,
 		dirty,
 		handleSubmit: formikSubmit,
@@ -72,7 +72,6 @@ export default function UserSettings() {
 			description: data?.description || '',
 			displayName: data?.display_name || '',
 			avatar: data?.avatar,
-			theme: localStorage.getItem('theme') || THEMES.light,
 		},
 		onSubmit: handleSubmit,
 	});
@@ -128,8 +127,6 @@ export default function UserSettings() {
 						invalid={!!errors.email}
 						errorMessage={errors.email}
 					/>
-
-					<ThemePicker value={theme} onChange={val => setFieldValue('theme', val)} />
 
 					<IconButton loading={op[DEFAULT_OP.update].loading} disabled={!dirty}>
 						Save changes

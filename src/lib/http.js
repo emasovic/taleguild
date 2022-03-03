@@ -57,11 +57,13 @@ export const request = opts => {
 			let err = {};
 			let response = res.response;
 			if (response?.data?.error) {
-				err.error = Array.isArray(response.data.message)
-					? response.data.message[0]?.messages[0]?.message
-					: typeof response.data.message === 'string'
-					? response.data.message
-					: response.data.error;
+				err.error =
+					Array.isArray(response.data.message) &&
+					response.data.message[0]?.messages[0]?.message
+						? response.data.message[0]?.messages[0]?.message
+						: typeof response.data.message === 'string'
+						? response.data.message
+						: response.data.error;
 			} else if (response) {
 				err.error = response.statusText;
 				err.status = response.status;

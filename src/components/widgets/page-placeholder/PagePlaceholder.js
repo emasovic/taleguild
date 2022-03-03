@@ -50,7 +50,7 @@ function PagePlaceholder({
 }
 
 PagePlaceholder.propTypes = {
-	IconComponent: PropTypes.object,
+	IconComponent: PropTypes.func,
 	iconComponentProps: PropTypes.object,
 	title: PropTypes.string.isRequired,
 	titleProps: PropTypes.object,

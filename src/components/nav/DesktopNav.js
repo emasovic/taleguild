@@ -33,6 +33,7 @@ import Notifications from 'components/notifications/Notifications';
 import Icon from 'components/widgets/icon/Icon';
 import Typography from 'components/widgets/typography/Typography';
 import Link, {UNDERLINE} from 'components/widgets/link/Link';
+import ThemeSwitch from 'components/widgets/theme-switch/ThemeSwitch';
 
 import UserAvatar from 'views/user/UserAvatar';
 
@@ -95,6 +96,8 @@ export default function DesktopNav({isMobile}) {
 
 				<Notifications isMobile={isMobile} />
 
+				{!isMobile && <ThemeSwitch />}
+
 				<DropdownButton toggleItem={<UserAvatar user={data} />} {...dropDownProps}>
 					<DropdownItem tag={Link} to={goToUser(data && data.username)}>
 						My profile
@@ -120,7 +123,9 @@ export default function DesktopNav({isMobile}) {
 					<DropdownItem onClick={() => dispatch(logOutUser())}>Logout</DropdownItem>
 				</DropdownButton>
 
-				<IconButton onClick={handleNewStory}>New story</IconButton>
+				<IconButton onClick={handleNewStory} className={CLASS + '-status-signedIn-new'}>
+					New story
+				</IconButton>
 			</NavItem>
 		);
 	};

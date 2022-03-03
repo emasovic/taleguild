@@ -59,10 +59,6 @@
 	&-status {
 		justify-content: flex-end;
 
-		.st-Notifications {
-			margin-right: 24px;
-		}
-
 		@media (max-width: $breakpoint-sm) {
 			order: 3;
 		}
@@ -85,9 +81,9 @@
 			display: flex;
 			align-items: center;
 
-			@media (max-width: $breakpoint-m) {
-				.st-IconButton {
-					display: none;
+			&-new {
+				@media (max-width: $breakpoint-m) {
+					display: none !important;
 				}
 			}
 
@@ -95,7 +91,7 @@
 				display: flex;
 				align-items: center;
 
-				margin-right: 24px;
+				margin-right: 16px;
 
 				.st-Icon {
 					margin: 8px;
@@ -103,7 +99,7 @@
 			}
 
 			.st-DropdownButton {
-				margin-right: 24px;
+				margin: 0 16px;
 
 				@media (max-width: $breakpoint-m) {
 					margin-right: 0;

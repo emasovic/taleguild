@@ -1,0 +1,14 @@
+.st-ThemeSwitch {
+	.st-IconButton {
+		box-shadow: none;
+		border: none;
+		background-color: transparent;
+		outline: none;
+
+		&:focus,
+		&:active:focus {
+			box-shadow: none;
+			background-color: transparent;
+		}
+	}
+}

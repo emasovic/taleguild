@@ -18,7 +18,6 @@ export default function RecentXp() {
 	const {stats} = useSelector(state => state.auth);
 	const [{data, error, isLoading}] = useLoadItems(getLevels, {
 		max_points_gte: stats?.points,
-		min_points_lte: stats?.points,
 	});
 
 	const currentLevel = data?.find(
