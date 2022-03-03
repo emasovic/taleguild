@@ -3,12 +3,13 @@
 		box-shadow: none;
 		border: none;
 		background-color: transparent;
-		outline: none;
+		width: auto;
 
 		&:focus,
 		&:active:focus {
 			box-shadow: none;
 			background-color: transparent;
+			outline: none;
 		}
 	}
 }
