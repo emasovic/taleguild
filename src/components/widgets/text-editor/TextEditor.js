@@ -1,38 +1,25 @@
 import React, {useCallback, useMemo} from 'react';
 import {Slate, Editable, withReact} from 'slate-react';
-import {createEditor, Editor} from 'slate';
+import {createEditor} from 'slate';
 import {withHistory} from 'slate-history';
-import isHotkey from 'is-hotkey';
+// import isHotkey from 'is-hotkey';
 import PropTypes from 'prop-types';
 
 import Element from './widgets/Element';
 import Leaf from './widgets/Leaf';
 import Toolbar from './widgets/Toolbar';
+// import { toggleFormat } from './widgets/Buttons';
 
 import './TextEditor.scss';
 
 const CLASS = 'st-TextEditor';
 
-const HOTKEYS = {
-	'mod+b': 'bold',
-	'mod+i': 'italic',
-	'mod+u': 'underline',
-};
+// const HOTKEYS = {
+// 	'mod+b': 'bold',
+// 	'mod+i': 'italic',
+// 	'mod+u': 'underline',
+// };
 
-const toggleMark = (editor, format) => {
-	const isActive = isMarkActive(editor, format);
-
-	if (isActive) {
-		Editor.removeMark(editor, format);
-	} else {
-		Editor.addMark(editor, format, true);
-	}
-};
-
-const isMarkActive = (editor, format) => {
-	const marks = Editor.marks(editor);
-	return marks ? marks[format] === true : false;
-};
 export default function TextEditor({value, onChange, onKeyDown, onKeyUp, onFocus, onBlur}) {
 	const renderElement = useCallback(props => <Element {...props} />, []);
 	const renderLeaf = useCallback(props => <Leaf {...props} />, []);
@@ -40,13 +27,13 @@ export default function TextEditor({value, onChange, onKeyDown, onKeyUp, onFocus
 	editor.children = value;
 
 	const handleKeyDown = e => {
-		for (const hotkey in HOTKEYS) {
-			if (isHotkey(hotkey, e)) {
-				e.preventDefault();
-				const mark = HOTKEYS[hotkey];
-				toggleMark(editor, mark);
-			}
-		}
+		// for (const hotkey in HOTKEYS) {
+		// 	if (isHotkey(hotkey, e)) {
+		// 		e.preventDefault();
+		// 		const mark = HOTKEYS[hotkey];
+		// 		toggleFormat(editor, mark);
+		// 	}
+		// }
 		onKeyDown && onKeyDown();
 	};
 	return (

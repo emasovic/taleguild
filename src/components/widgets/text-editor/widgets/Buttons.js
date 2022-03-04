@@ -13,7 +13,7 @@ const toggleBlock = (editor, format) => {
 	});
 };
 
-const toggleFormat = (editor, format) => {
+export const toggleFormat = (editor, format) => {
 	const isActive = isFormatActive(editor, format);
 	Transforms.setNodes(
 		editor,
