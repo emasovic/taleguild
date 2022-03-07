@@ -19,7 +19,7 @@ import 'types/font_awesome';
 
 import 'styles/index.scss';
 
-const theme = localStorage.getItem('theme') || THEMES.light;
+const theme = THEMES[localStorage.getItem('theme')] || THEMES.light;
 document.documentElement.classList.add(`theme-${theme}`);
 
 store.dispatch(getUser());

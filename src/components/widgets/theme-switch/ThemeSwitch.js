@@ -18,7 +18,7 @@ const THEME_ICON = {
 const CLASS = 'st-ThemeSwitch';
 
 export default function ThemeSwitch({className}) {
-	const [theme, setTheme] = useState(localStorage.getItem('theme') || THEMES.light);
+	const [theme, setTheme] = useState(THEMES[localStorage.getItem('theme')] || THEMES.light);
 
 	const changeTheme = () => {
 		const changedTeme = theme === THEMES.dark ? THEMES.light : THEMES.dark;
