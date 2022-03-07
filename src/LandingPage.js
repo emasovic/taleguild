@@ -87,7 +87,7 @@ LandingItem.propTypes = {
 };
 
 export default function LandingPage() {
-	const theme = localStorage.getItem('theme') || THEMES.light;
+	const theme = THEMES[localStorage.getItem('theme')] || THEMES.light;
 	const themeItems = THEME_ITEMS[theme];
 	return (
 		<MobileWrapper className={CLASS}>
