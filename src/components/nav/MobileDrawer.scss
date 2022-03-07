@@ -44,10 +44,10 @@
 
 		.fa-user,
 		.fa-align-left,
-		.fa-cog,
+		.fa-gear,
 		.fa-bookmark,
-		.fa-file-archive,
-		.fa-sign-out-alt {
+		.fa-file-zipper,
+		.fa-right-from-bracket {
 			margin-right: 16px;
 			@include theme-aware('color', 'T600');
 		}
