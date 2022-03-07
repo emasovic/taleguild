@@ -12,6 +12,8 @@ import {
 	TYPOGRAPHY_VARIANTS,
 } from 'types/typography';
 
+import {toIcon} from '../button/IconButton';
+
 import './Typography.scss';
 
 const CLASS = 'st-Typography';
@@ -71,6 +73,8 @@ function Typography({
 	cursor,
 	wrap,
 	disabled,
+	iconProps,
+	icon,
 	...rest
 }) {
 	const Component = component;
@@ -85,8 +89,14 @@ function Typography({
 		wrap && WRAP_CLASSES[wrap],
 		className
 	);
+
+	if (icon) {
+		icon = toIcon({icon, className: CLASS + '-icon', ...iconProps});
+	}
+
 	return (
 		<Component className={tClassName} {...rest}>
+			{icon}
 			{children}
 		</Component>
 	);
@@ -99,6 +109,7 @@ Typography.defaultProps = {
 	cursor: TEXT_CURSORS.default,
 	font: FONTS.lato,
 	wrap: TEXT_WRAP.break,
+	iconProps: {},
 };
 
 Typography.propTypes = {
@@ -113,6 +124,8 @@ Typography.propTypes = {
 	textTransform: PropTypes.string,
 	variant: PropTypes.string.isRequired,
 	wrap: PropTypes.string,
+	icon: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+	iconProps: PropTypes.object,
 };
 
 export default Typography;

@@ -1,59 +1,29 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import PropTypes from 'prop-types';
 
 import {MARKETPLACE} from 'lib/routes';
 
-import {FONT_WEIGHT, TEXT_COLORS, TEXT_TRASFORM} from 'types/typography';
+import {FONT_WEIGHT, TEXT_COLORS} from 'types/typography';
 import {DEFAULT_OP} from 'types/default';
-import {ICONS} from 'types/icons';
+
 import {COLOR} from 'types/button';
 
-import {loadMarketplace, selectMarketplaceById, selectMarketplaceIds} from 'redux/marketplace';
+import {loadMarketplace, selectMarketplaceIds} from 'redux/marketplace';
 import {countAllGuildatars} from 'redux/guildatars';
 import {selectAuthUser} from 'redux/auth';
 
 import MarketplaceDialog from 'components/marketplace/MarketplaceDialog';
-import ImageContainer from 'components/widgets/image/Image';
 import Typography from 'components/widgets/typography/Typography';
-import Icon from 'components/widgets/icon/Icon';
 import GuildatarDialog from 'components/guildatar/GuildatarDialog';
 import LoadMore from 'components/widgets/loadmore/LoadMore';
 import Link, {UNDERLINE} from 'components/widgets/link/Link';
+import MarketplaceItem from 'components/marketplace/MarketplaceItem';
 
 import NoItemsPlaceholder from './NoItemsPlaceholder';
 
 import './RecentItems.scss';
 
 const CLASS = 'st-RecentItems';
-
-const RecentItem = ({id, onClick}) => {
-	const {preview, price, name, category} = useSelector(state => selectMarketplaceById(state, id));
-	return (
-		<div className={CLASS + '-item'} onClick={() => onClick(id)}>
-			<ImageContainer image={preview} width={100} height={100} />
-			<div className={CLASS + '-item-data'}>
-				<Typography
-					color={TEXT_COLORS.tertiary}
-					textTransform={TEXT_TRASFORM.uppercase}
-					fontWeight={FONT_WEIGHT.semiBold}
-				>
-					{category?.display_name}
-				</Typography>
-				<Typography>{name}</Typography>
-
-				<Typography color={TEXT_COLORS.secondary} className={CLASS + '-item-data-price'}>
-					<Icon icon={ICONS.coin} size={20} /> &nbsp;&nbsp;{price} coins
-				</Typography>
-			</div>
-		</div>
-	);
-};
-
-RecentItem.propTypes = {
-	id: PropTypes.number.isRequired,
-	onClick: PropTypes.func.isRequired,
-};
 
 export default function RecentItems() {
 	const dispatch = useDispatch();
@@ -62,7 +32,7 @@ export default function RecentItems() {
 	const [isOpen, setIsOpen] = useState(false);
 
 	const marketplace = useSelector(selectMarketplaceIds);
-	const {data} = useSelector(selectAuthUser);
+	const {data, stats} = useSelector(selectAuthUser);
 	const {op} = useSelector(state => state.marketplace);
 	const {total, op: guildatarOp} = useSelector(state => state.guildatars);
 
@@ -110,12 +80,27 @@ export default function RecentItems() {
 				}}
 				shouldLoad={false}
 			>
-				{!!total &&
-				<>
-					{marketplace.map(i => <RecentItem key={i} id={i} onClick={setSelectedItem} />)}
-					<Link to={MARKETPLACE} underline={UNDERLINE.hover} className={CLASS + '-link'}>View all</Link>
-				</>
-				}
+				{!!total && (
+					<>
+						{marketplace.map(i => (
+							<MarketplaceItem
+								key={i}
+								id={i}
+								singleView
+								userStats={stats}
+								onClick={setSelectedItem}
+								className={CLASS + '-item'}
+							/>
+						))}
+						<Link
+							to={MARKETPLACE}
+							underline={UNDERLINE.hover}
+							className={CLASS + '-link'}
+						>
+							View all
+						</Link>
+					</>
+				)}
 			</LoadMore>
 			{isOpen && <GuildatarDialog isOpen={isOpen} onClose={() => setIsOpen(false)} />}
 			{selectedItem && (

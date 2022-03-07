@@ -13,7 +13,7 @@ import './IconButton.scss';
 
 const CLASS = 'st-IconButton';
 
-const toIcon = ({icon, spin, type = ICON_TYPES.fa, ...rest}) => {
+export const toIcon = ({icon, spin, type = ICON_TYPES.fa, ...rest}) => {
 	let output = <FontAwesomeIcon key={icon} icon={icon} spin={spin} {...rest} />;
 
 	if (type === ICON_TYPES.local) {

@@ -42,7 +42,7 @@ export default function Marketplace() {
 	const dispatch = useDispatch();
 
 	const items = useSelector(selectMarketplaceIds);
-	const {data} = useSelector(selectAuthUser);
+	const {data, stats} = useSelector(selectAuthUser);
 	const {op, total: marketplaceTotal} = useSelector(state => state.marketplace);
 	const {total, op: guildatarOp} = useSelector(state => state.guildatars);
 	const marketCategories = useSelector(selectCategories);
@@ -203,7 +203,12 @@ export default function Marketplace() {
 								}}
 							>
 								{items.map(i => (
-									<MarketplaceItem key={i} id={i} onClick={setSelectedItem} />
+									<MarketplaceItem
+										key={i}
+										id={i}
+										userStats={stats}
+										onClick={setSelectedItem}
+									/>
 								))}
 							</LoadMore>
 						</>

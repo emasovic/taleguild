@@ -1,6 +1,28 @@
 @import 'styles/variables.scss';
 @import 'styles/themes/mixins.scss';
 
+@mixin single-item {
+	flex-direction: row;
+	justify-content: flex-start;
+	width: 100%;
+	height: $market-item-height-small;
+	margin-right: 0;
+
+	.st-Image {
+		&-container {
+			width: $market-image-width-small !important;
+			height: $market-image-height-small !important;
+		}
+	}
+
+	.st-MarketplaceItem {
+		&-info {
+			align-items: flex-start;
+			margin-left: 24px;
+		}
+	}
+}
+
 .st-MarketplaceItem {
 	display: flex;
 	flex-direction: column;
@@ -18,11 +40,24 @@
 	@include theme-aware('border-color', 'B100');
 
 	@media (max-width: $breakpoint-sm) {
-		flex-direction: row;
-		justify-content: flex-start;
-		width: 100%;
-		height: $market-item-height-small;
-		margin-right: 0;
+		@include single-item;
+	}
+
+	&-single {
+		@include single-item;
+	}
+
+	&-required {
+		position: relative;
+		pointer-events: none;
+		cursor: default;
+		@include theme-aware('background-color', 'B200');
+
+		.st-Image {
+			&-container {
+				filter: grayscale(100%);
+			}
+		}
 	}
 
 	&:hover {
@@ -46,11 +81,6 @@
 			width: $market-image-width-large;
 			height: $market-image-height-large;
 			background-color: transparent;
-
-			@media (max-width: $breakpoint-sm) {
-				width: $market-image-width-small;
-				height: $market-image-height-small;
-			}
 		}
 	}
 
@@ -59,9 +89,8 @@
 		flex-direction: column;
 		align-items: center;
 
-		@media (max-width: $breakpoint-sm) {
-			align-items: flex-start;
-			margin-left: 24px;
+		&-category {
+			margin-bottom: 8px;
 		}
 
 		&-name {
@@ -74,12 +103,8 @@
 			margin-top: 12px;
 		}
 
-		.st-Typography {
-			&-color {
-				&__tertiary {
-					margin-bottom: 8px;
-				}
-			}
+		&-level {
+			margin-top: 12px;
 		}
 	}
 }

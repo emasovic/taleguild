@@ -4,7 +4,6 @@
 .st-RecentItems {
 	display: flex;
 	flex-direction: column;
-	cursor: pointer;
 	margin-top: 8px;
 
 	&-link {
@@ -13,42 +12,10 @@
 		justify-content: center;
 	}
 
-	&-item {
-		display: flex;
-		align-items: center;
-		padding: 12px;
-		border-radius: 6px;
-		margin-bottom: 8px;
-
-		.st-Image {
-			&-container {
-				width: $market-image-width-small;
-				height: $market-image-height-small;
-				background: none;
-			}
-		}
-
-		&-data {
-			display: flex;
-			flex-direction: column;
-			margin-left: 12px;
-
-			.st-Typography {
-				&-variant__action1 {
-					margin-top: 8px;
-				}
-			}
-
-			&-price {
-				display: flex;
-				margin-bottom: 8px;
-
-				.st-Icon {
-					width: auto;
-					height: auto;
-				}
-			}
-		}
+	.st-MarketplaceItem {
+		border: none;
+		box-shadow: none;
+		@include theme-aware('background-color', 'B200');
 
 		&:hover {
 			@include theme-aware('background-color', 'B100');
