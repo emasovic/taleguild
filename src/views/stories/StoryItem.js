@@ -43,7 +43,7 @@ function StoryItem({id, size, selector, keepArchived}) {
 		likes,
 		slug,
 		user: author,
-		created_at: createdDate,
+		published_at: publishedAt,
 		saved_by: savedBy,
 		views_count: viewsCount,
 		comments_count: commentsCount,
@@ -115,7 +115,7 @@ function StoryItem({id, size, selector, keepArchived}) {
 				<UserAvatar user={author} />
 				<div className={CLASS + '-author-info'}>
 					<Typography>{author?.display_name || author?.username}</Typography>
-					<FromNow date={createdDate} />
+					<FromNow date={publishedAt} />
 				</div>
 			</Link>
 			<div className={CLASS + '-description'}>{description}</div>
