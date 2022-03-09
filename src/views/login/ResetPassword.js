@@ -5,6 +5,7 @@ import {useFormik} from 'formik';
 
 import {USER_OP} from 'types/user';
 import {FONTS, FONT_WEIGHT, TYPOGRAPHY_VARIANTS} from 'types/typography';
+import {passwordRegex} from 'types/regex';
 
 import {resetPassword} from 'redux/auth';
 
@@ -21,10 +22,7 @@ const CLASS = 'st-Password';
 const validationSchema = object().shape({
 	password: string()
 		.required('Please Enter your password')
-		.matches(
-			/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-			'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character'
-		),
+		.matches(passwordRegex.regex, passwordRegex.message),
 	passwordConfirmation: string()
 		.oneOf([ref('password'), null], 'Passwords must match')
 		.required('Please repeat your password'),
@@ -66,6 +64,7 @@ export default function ResetPassword() {
 					type="password"
 					label="Password"
 					placeholder="Enter new password"
+					autoComplete="new-password"
 					invalid={!!errors.password}
 					errorMessage={errors.password}
 					wholeEvent
@@ -76,6 +75,7 @@ export default function ResetPassword() {
 					name="passwordConfirmation"
 					label="Repeat password"
 					placeholder="Repeat password"
+					autoComplete="new-password"
 					type="password"
 					invalid={!!errors.passwordConfirmation}
 					errorMessage={errors.passwordConfirmation}

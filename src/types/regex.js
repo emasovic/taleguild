@@ -4,7 +4,6 @@ export const usernameRegex = {
 };
 
 export const passwordRegex = {
-	regex: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-	message:
-		'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character',
+	regex: /^((?=\S*?[0-9]).{7,})\S$/,
+	message: 'Password must contain at least 8 characters, one number and without spaces',
 };
