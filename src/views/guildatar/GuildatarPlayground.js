@@ -28,10 +28,10 @@ export default function GuildatarPlayground() {
 				<DefaultPicker label="Set part" onChange={setPart} options={PARTS} value={part} />
 				<Uploader
 					previewOnly
+					withCropper={false}
 					onUploaded={image => handleImage(image)}
 					uploadlabel="Upload item"
 					onRemove={() => setImage(null)}
-					// files={image}
 				/>
 			</div>
 		</div>

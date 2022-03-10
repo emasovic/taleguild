@@ -7,6 +7,7 @@ import {DEFAULT_OP} from 'types/default';
 import {usernameRegex} from 'types/regex';
 
 import {selectAuthUser, updateUser} from 'redux/auth';
+import {selectApp} from 'redux/app';
 
 import IconButton from 'components/widgets/button/IconButton';
 import FloatingInput from 'components/widgets/input/FloatingInput';
@@ -14,6 +15,7 @@ import Uploader from 'components/widgets/uploader/Uploader';
 import Loader from 'components/widgets/loader/Loader';
 import TextArea from 'components/widgets/textarea/TextArea';
 import MobileWrapper from 'components/widgets/mobile-wrapper/MobileWrapper';
+import {CROP_SHAPE} from 'components/widgets/image-cropper/ImageCropper';
 
 import './UserSettings.scss';
 
@@ -38,6 +40,7 @@ const validationSchema = object().shape({
 
 export default function UserSettings() {
 	const {data, op} = useSelector(selectAuthUser);
+	const {cropActive} = useSelector(selectApp);
 	const dispatch = useDispatch();
 
 	const handleSubmit = val => {
@@ -85,6 +88,7 @@ export default function UserSettings() {
 					onUploaded={image => setFieldValue('avatar', image)}
 					files={avatar}
 					uploadlabel="Upload avatar"
+					cropShape={CROP_SHAPE.round}
 					onRemove={() => setFieldValue('avatar', null)}
 				/>
 				<div className={CLASS + '-form-info'}>
@@ -128,7 +132,10 @@ export default function UserSettings() {
 						errorMessage={errors.email}
 					/>
 
-					<IconButton loading={op[DEFAULT_OP.update].loading} disabled={!dirty}>
+					<IconButton
+						loading={op[DEFAULT_OP.update].loading}
+						disabled={!dirty || cropActive}
+					>
 						Save changes
 					</IconButton>
 				</div>

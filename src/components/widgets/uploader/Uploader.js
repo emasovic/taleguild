@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import propTypes from 'prop-types';
 import {useDropzone} from 'react-dropzone';
 import {useDispatch} from 'react-redux';
@@ -10,9 +10,12 @@ import {Toast} from 'types/toast';
 import {COLOR} from 'types/button';
 
 import {addToast} from 'redux/toast';
+import {toggleCrop} from 'redux/app';
 
 import Image from '../image/Image';
 import IconButton from '../button/IconButton';
+import ImageCropper from '../image-cropper/ImageCropper';
+import Typography from '../typography/Typography';
 
 import './Uploader.scss';
 
@@ -27,13 +30,18 @@ export default function Uploader({
 	maxSize,
 	files,
 	previewOnly,
+	withCropper,
+	cropShape,
 }) {
 	const dispatch = useDispatch();
+
 	const {getRootProps, getInputProps} = useDropzone({
 		multiple,
 		maxSize,
 		accept: acceptedTypes,
-		onDropAccepted: acceptedFiles => {
+		onDropAccepted: async acceptedFiles => {
+			if (withCropper) return handleUploadedFile(acceptedFiles[0]);
+
 			if (previewOnly) {
 				const files = acceptedFiles.map(file =>
 					Object.assign(file, {
@@ -42,9 +50,8 @@ export default function Uploader({
 				);
 				return onUploaded(multiple ? files : files[0]);
 			}
-			uploadMedia(acceptedFiles)
-				.then(files => onUploaded(multiple ? files : files[0]))
-				.catch(err => dispatch(addToast({...Toast.error(err)})));
+
+			await handleMediaUpload(acceptedFiles);
 		},
 		onDropRejected: () => {
 			dispatch(
@@ -58,11 +65,44 @@ export default function Uploader({
 		},
 	});
 
+	const [uploadedFile, setUploadedFile] = useState(null);
+
 	files = files ? (Array.isArray(files) ? files : [files]) : null;
+	const showPlaceholder = !files?.length && !uploadedFile;
+
+	const handleMediaUpload = async files => {
+		try {
+			const media = await uploadMedia(files);
+			onUploaded(multiple ? media : media[0]);
+			return true;
+		} catch (error) {
+			dispatch(addToast({...Toast.error(error)}));
+		}
+	};
+
+	const handleUploadedFile = async file => {
+		const url = await readFile(file);
+		setUploadedFile({url, type: file.type, name: file.name, path: file.path});
+		dispatch(toggleCrop(true));
+	};
+
+	const readFile = file => {
+		return new Promise(resolve => {
+			const reader = new FileReader();
+			reader.addEventListener('load', () => resolve(reader.result), false);
+			reader.readAsDataURL(file);
+		});
+	};
+
+	const handleCrop = async file => {
+		const isUploaded = await handleMediaUpload(file);
+		dispatch(toggleCrop(false));
+		isUploaded && setUploadedFile(null);
+	};
 
 	const thumbs = (
 		<div className={CLASS + '-thumbs'}>
-			{files && files.length
+			{files?.length && !uploadedFile
 				? files.map((file, index) => (
 						<div key={index} className={CLASS + '-thumbs-item'}>
 							<Image image={file} />
@@ -81,14 +121,25 @@ export default function Uploader({
 		<div className={CLASS}>
 			<div {...getRootProps({className: CLASS + '-dropzone'})}>
 				<input {...getInputProps()} />
-				{!files || !files.length ? (
+				{!!showPlaceholder && (
 					<>
-						<span>{uploadlabel}</span>
-						<span>Max file size {(maxSize / (1000 * 1000)).toFixed(0)} MB</span>
+						<Typography>{uploadlabel}</Typography>
+						<Typography>
+							Max file size {(maxSize / (1000 * 1000)).toFixed(0)} MB
+						</Typography>
 					</>
-				) : null}
+				)}
 			</div>
 			{thumbs}
+			{uploadedFile && (
+				<ImageCropper
+					imageSrc={uploadedFile.url}
+					imageType={uploadedFile.type}
+					imageName={uploadedFile.name}
+					cropShape={cropShape}
+					onCrop={handleCrop}
+				/>
+			)}
 		</div>
 	);
 }
@@ -103,6 +154,8 @@ Uploader.propTypes = {
 	buttonLabel: propTypes.string,
 	maxSize: propTypes.number,
 	multiple: propTypes.bool,
+	withCropper: propTypes.bool,
+	cropShape: propTypes.string,
 };
 
 Uploader.defaultProps = {
@@ -110,4 +163,5 @@ Uploader.defaultProps = {
 	uploadlabel: 'Upload content',
 	maxSize: 1000000,
 	multiple: false,
+	withCropper: true,
 };
