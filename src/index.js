@@ -13,7 +13,6 @@ import * as serviceWorker from './serviceWorker';
 
 import App from 'App';
 import Toasts from 'Toasts';
-import RealTimeUpdates from 'RealTimeUpdates';
 
 import 'types/font_awesome';
 
@@ -28,7 +27,6 @@ ReactDOM.render(
 		<Provider store={store}>
 			<App />
 			<Toasts />
-			<RealTimeUpdates />
 		</Provider>
 	</React.StrictMode>,
 	document.getElementById('root')

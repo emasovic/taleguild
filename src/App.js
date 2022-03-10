@@ -3,17 +3,20 @@ import {useSelector} from 'react-redux';
 
 import {DEFAULT_META_TAGS, DEFAULT_OP} from 'types/default';
 
+import {selectAuthUser} from 'redux/auth';
+
 import Loader from 'components/widgets/loader/Loader';
 import Helmet from 'components/widgets/helmet/Helmet';
 
 import ErrorPage from 'ErrorPage';
 
-import Routes from './Routes';
+import Routes from 'Routes';
+import RealTimeUpdates from 'RealTimeUpdates';
 
 import './App.scss';
 
 function App() {
-	const {op} = useSelector(state => state.auth);
+	const {op, data} = useSelector(selectAuthUser);
 
 	if (op[DEFAULT_OP.loading].loading) return <Loader />;
 
@@ -22,6 +25,7 @@ function App() {
 			<Helmet title={DEFAULT_META_TAGS.title} description={DEFAULT_META_TAGS.description} />
 
 			<Routes />
+			{data && <RealTimeUpdates />}
 		</ErrorPage>
 	);
 }

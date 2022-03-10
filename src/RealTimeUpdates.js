@@ -1,8 +1,7 @@
 import {PureComponent} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-
-import {socket} from 'config/web-sockets';
+import io from 'socket.io-client';
 
 import {selectAuthUser} from 'redux/auth';
 import {notificationsAddOne} from 'redux/notifications';
@@ -33,29 +32,28 @@ class RealTimeUpdates extends PureComponent {
 	};
 
 	initialized = false;
+	socket = null;
 
-	handleEmit = (connection, data) => socket.emit(connection, data);
+	handleEmit = (connection, data) => this.socket.emit(connection, data);
 
 	init = () => {
 		const {notificationsAddOne, data} = this.props;
-		socket.on(SOCKET_EVENTS.connect, () =>
-			this.handleEmit(SOCKET_EVENTS.userConnected, {username: data.username, id: data.id})
-		);
-		socket.on(SOCKET_EVENTS.notifications, socketData => {
+		this.socket = io(process.env.REACT_APP_API_URL);
+
+		this.handleEmit(SOCKET_EVENTS.userConnected, {username: data.username, id: data.id});
+
+		this.socket.on(SOCKET_EVENTS.notifications, socketData => {
 			notificationsAddOne(socketData);
 		});
 	};
 
 	exit = () => {
 		const {data} = this.props;
-		data &&
-			socket.on(SOCKET_EVENTS.disconnect, () =>
-				this.handleEmit(SOCKET_EVENTS.userDisconnected, {
-					username: data.username,
-					id: data.id,
-				})
-			);
-		socket.close();
+		this.handleEmit(SOCKET_EVENTS.userDisconnected, {
+			username: data.username,
+			id: data.id,
+		});
+		this.socket.close();
 	};
 
 	componentDidMount() {
@@ -75,7 +73,8 @@ class RealTimeUpdates extends PureComponent {
 	}
 
 	componentWillUnmount() {
-		this.exit();
+		const {data} = this.props;
+		data && this.exit();
 	}
 
 	render() {
