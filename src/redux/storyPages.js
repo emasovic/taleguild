@@ -91,6 +91,7 @@ export const createOrUpdateStoryPage = payload => async dispatch => {
 	const res = payload.id
 		? await api.updateStoryPage(payload)
 		: await api.createStoryPage(payload);
+
 	if (res.error) {
 		return batchDispatch([
 			opEnd({op, error: res.error}),
@@ -98,13 +99,12 @@ export const createOrUpdateStoryPage = payload => async dispatch => {
 		]);
 	}
 
-	const actions = [opEnd({op})];
+	const actions = [storyPageUpsert(res), opEnd({op})];
 
 	if (!payload.id) {
 		actions.push(push(editStory(payload.story, res.id)));
-
-		actions.unshift(storyPageUpsert(res));
 	}
+
 	return batchDispatch(actions);
 };
 
@@ -127,7 +127,8 @@ export const deleteStoryPage = (storyId, pageId) => async (dispatch, getState) =
 		storyPages: {ids},
 	} = getState();
 
-	const page = ids[ids.length - 1];
+	const pages = ids.filter(p => p !== Number(pageId));
+	const page = pages[pages.length - 1];
 
 	page && actions.push(push(editStory(storyId, page)));
 

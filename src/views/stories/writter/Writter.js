@@ -1,4 +1,4 @@
-import React, {useRef, useMemo, useEffect, useCallback} from 'react';
+import React, {useMemo, useEffect, useCallback} from 'react';
 import debounce from 'lodash.debounce';
 import PropTypes from 'prop-types';
 import {useDispatch} from 'react-redux';
@@ -6,24 +6,20 @@ import {useDispatch} from 'react-redux';
 import {STORY_PAGE_OP} from 'types/story_page';
 import {DEFAULT_OP} from 'types/default';
 
-import TextEditor from 'components/widgets/text-editor/TextEditor';
-import Loader from 'components/widgets/loader/Loader';
 import {toggleMobileNav} from 'redux/app';
 
-export default function Writter({
-	className,
-	onCurrentChange,
-	currentEditing,
-	onStoryPage,
-	onEndAt,
-	onStartAt,
-	published,
-	archived,
-	op,
-}) {
+import TextEditor from 'components/widgets/text-editor/TextEditor';
+import Loader from 'components/widgets/loader/Loader';
+
+import useFocus from './useFocus';
+export default function Writter({className, pages, pageId, onStoryPage, published, archived, op}) {
 	const dispatch = useDispatch();
 
-	const editorRef = useRef(null);
+	const [handleStartAt, handleEndAt] = useFocus();
+
+	const page = pages.find(p => p.id === Number(pageId));
+	const displayLoader =
+		op[STORY_PAGE_OP.create].loading || op[DEFAULT_OP.loading].loading || !page;
 
 	const displayMobileNav = useCallback(displayNav => dispatch(toggleMobileNav(displayNav)), [
 		dispatch,
@@ -46,7 +42,7 @@ export default function Writter({
 
 	const handleKeyDown = () => {
 		scrollToBottom();
-		onStartAt();
+		handleStartAt();
 	};
 
 	const _onStoryPage = useMemo(() => debounce((id, text) => onStoryPage(id, text), 3000), [
@@ -55,13 +51,8 @@ export default function Writter({
 
 	const handleEditPage = val => {
 		const shouldAutoSave = !published || archived;
-		const current = {
-			...currentEditing,
-			text: val,
-		};
 
-		onCurrentChange(current);
-		shouldAutoSave && _onStoryPage(current.id, val);
+		shouldAutoSave && _onStoryPage(page.id, val);
 	};
 
 	useEffect(() => {
@@ -70,14 +61,14 @@ export default function Writter({
 		return () => displayMobileNav(true);
 	}, [displayMobileNav]);
 
-	if (op[STORY_PAGE_OP.create].loading || op[DEFAULT_OP.loading].loading) return <Loader />;
+	if (displayLoader) return <Loader />;
 
 	return (
-		<div className={className + '-writter'} ref={editorRef}>
+		<div className={className + '-writter'}>
 			<TextEditor
-				value={currentEditing.text}
+				initialValue={page.text}
 				onChange={handleEditPage}
-				onKeyUp={onEndAt}
+				onKeyUp={handleEndAt}
 				onKeyDown={handleKeyDown}
 			/>
 		</div>
@@ -86,11 +77,9 @@ export default function Writter({
 
 Writter.propTypes = {
 	className: PropTypes.string,
-	onCurrentChange: PropTypes.func,
-	currentEditing: PropTypes.object,
+	pages: PropTypes.array.isRequired,
+	pageId: PropTypes.string.isRequired,
 	onStoryPage: PropTypes.func,
-	onEndAt: PropTypes.func,
-	onStartAt: PropTypes.func,
 	published: PropTypes.bool,
 	archived: PropTypes.bool,
 	op: PropTypes.object,

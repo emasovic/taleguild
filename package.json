@@ -43,7 +43,7 @@
 		"redux-beacon": "^2.1.0",
 		"slate": "^0.73.1",
 		"slate-history": "^0.66.0",
-		"slate-react": "^0.74.0",
+		"slate-react": "^0.74.2",
 		"socket.io-client": "4.0.0",
 		"source-map-explorer": "^2.4.2",
 		"web-vitals": "^2.1.4",

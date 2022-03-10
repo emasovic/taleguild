@@ -44,17 +44,7 @@ const validationSchema = object().shape({
 	language: mixed().required(`You didn't pick language.`),
 });
 
-export default function Header({
-	className,
-	pages,
-	op,
-	currentEditing,
-	selectedPage,
-	onStoryPage,
-	story,
-	pageId,
-	storyId,
-}) {
+export default function Header({className, pages, op, onStoryPage, story, pageId, storyId}) {
 	const dispatch = useDispatch();
 
 	const {data} = useSelector(selectAuthUser);
@@ -70,7 +60,13 @@ export default function Header({
 	const togglePublishStoryModal = () => setIsPublishStoryOpen(prevState => !prevState);
 
 	const disabledActions = op[STORY_PAGE_OP.create].loading || op[STORY_PAGE_OP.update].loading;
-	const savingText = disabledActions ? 'Saving...' : op[STORY_PAGE_OP.update].success ?  'Saved' : '';
+	const savingText = disabledActions
+		? 'Saving...'
+		: op[STORY_PAGE_OP.update].success
+		? 'Saved'
+		: '';
+	const selectedPage = pages.findIndex(item => item.id === Number(pageId));
+
 	const handleSubmit = ({
 		id,
 		title,
@@ -182,12 +178,6 @@ export default function Header({
 					<div className={className + '-header-publish-actions-buttons'}>
 						<DropdownButton outline={true}>
 							<DropdownItem
-								disabled={disabledActions}
-								onClick={() => onStoryPage(currentEditing.id, currentEditing.text)}
-							>
-								Update page
-							</DropdownItem>
-							<DropdownItem
 								disabled={disabledActions || pages.length === 1}
 								onClick={toggleDeleteStoryPageModal}
 							>
@@ -215,7 +205,7 @@ export default function Header({
 			</div>
 
 			<VisibilityControl visible className={className + '-header-saving'}>
-				<Typography color={TEXT_COLORS.tertiary} >{savingText}</Typography>
+				<Typography color={TEXT_COLORS.tertiary}>{savingText}</Typography>
 			</VisibilityControl>
 
 			{isDeleteStoryPageOpen && (
@@ -267,8 +257,6 @@ Header.propTypes = {
 	className: PropTypes.string.isRequired,
 	pages: PropTypes.array.isRequired,
 	op: PropTypes.object,
-	currentEditing: PropTypes.object.isRequired,
-	selectedPage: PropTypes.number.isRequired,
 	onStoryPage: PropTypes.func.isRequired,
 	pageId: PropTypes.string.isRequired,
 	storyId: PropTypes.string.isRequired,

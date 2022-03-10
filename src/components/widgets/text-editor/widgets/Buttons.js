@@ -1,6 +1,6 @@
 import React from 'react';
 import {useSlate} from 'slate-react';
-import {Editor, Transforms, Text} from 'slate';
+import {Editor, Transforms} from 'slate';
 import PropTypes from 'prop-types';
 
 import IconButton from 'components/widgets/button/IconButton';
@@ -15,11 +15,12 @@ const toggleBlock = (editor, format) => {
 
 export const toggleFormat = (editor, format) => {
 	const isActive = isFormatActive(editor, format);
-	Transforms.setNodes(
-		editor,
-		{[format]: isActive ? null : true},
-		{match: Text.isText, split: true}
-	);
+
+	if (isActive) {
+		Editor.removeMark(editor, format);
+	} else {
+		Editor.addMark(editor, format, true);
+	}
 };
 
 const isBlockActive = (editor, format) => {
@@ -31,11 +32,8 @@ const isBlockActive = (editor, format) => {
 };
 
 const isFormatActive = (editor, format) => {
-	const [match] = Editor.nodes(editor, {
-		match: n => n[format] === true,
-		mode: 'all',
-	});
-	return !!match;
+	const marks = Editor.marks(editor);
+	return marks ? marks[format] === true : false;
 };
 
 export const FormatButton = ({format, icon, ...rest}) => {

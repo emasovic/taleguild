@@ -1,43 +1,51 @@
-import React, {useCallback, useMemo} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import {Slate, Editable, withReact} from 'slate-react';
 import {createEditor} from 'slate';
 import {withHistory} from 'slate-history';
-// import isHotkey from 'is-hotkey';
+import isHotkey from 'is-hotkey';
 import PropTypes from 'prop-types';
 
 import Element from './widgets/Element';
 import Leaf from './widgets/Leaf';
 import Toolbar from './widgets/Toolbar';
-// import { toggleFormat } from './widgets/Buttons';
+import {toggleFormat} from './widgets/Buttons';
 
 import './TextEditor.scss';
 
 const CLASS = 'st-TextEditor';
 
-// const HOTKEYS = {
-// 	'mod+b': 'bold',
-// 	'mod+i': 'italic',
-// 	'mod+u': 'underline',
-// };
+const HOTKEYS = {
+	'mod+b': 'bold',
+	'mod+i': 'italic',
+	'mod+u': 'underline',
+};
 
-export default function TextEditor({value, onChange, onKeyDown, onKeyUp, onFocus, onBlur}) {
-	const renderElement = useCallback(props => <Element {...props} />, []);
+export default function TextEditor({initialValue, onChange, onKeyDown, onKeyUp, onFocus, onBlur}) {
+	const [value, setValue] = useState(initialValue);
+
 	const renderLeaf = useCallback(props => <Leaf {...props} />, []);
+
+	const renderElement = useCallback(props => <Element {...props} />, []);
+
 	const editor = useMemo(() => withHistory(withReact(createEditor())), []);
-	editor.children = value;
+
+	const handleChange = val => {
+		setValue(val);
+		onChange(val);
+	};
 
 	const handleKeyDown = e => {
-		// for (const hotkey in HOTKEYS) {
-		// 	if (isHotkey(hotkey, e)) {
-		// 		e.preventDefault();
-		// 		const mark = HOTKEYS[hotkey];
-		// 		toggleFormat(editor, mark);
-		// 	}
-		// }
+		for (const hotkey in HOTKEYS) {
+			if (isHotkey(hotkey, e)) {
+				e.preventDefault();
+				const mark = HOTKEYS[hotkey];
+				toggleFormat(editor, mark);
+			}
+		}
 		onKeyDown && onKeyDown();
 	};
 	return (
-		<Slate editor={editor} value={value} onChange={onChange}>
+		<Slate editor={editor} value={value} onChange={handleChange}>
 			<Toolbar className={CLASS} value={value} />
 			<Editable
 				onKeyDown={handleKeyDown}
@@ -56,7 +64,7 @@ export default function TextEditor({value, onChange, onKeyDown, onKeyUp, onFocus
 }
 
 TextEditor.propTypes = {
-	value: PropTypes.array,
+	initialValue: PropTypes.array.isRequired,
 	onChange: PropTypes.func.isRequired,
 	onKeyDown: PropTypes.func.isRequired,
 	onKeyUp: PropTypes.func.isRequired,
