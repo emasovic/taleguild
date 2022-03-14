@@ -1,18 +1,20 @@
 import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {CATEGORY_TYPES} from 'types/category';
 
 import {loadCategories} from 'redux/categories';
 import {loadLanguages} from 'redux/languages';
+import {selectApp} from 'redux/app';
 
 import CategoryPicker from 'components/widgets/pickers/category/CategoryPicker';
 import Uploader from 'components/widgets/uploader/Uploader';
 import LanguagePicker from 'components/widgets/pickers/language/LanguagePicker';
 import ConfirmModal from 'components/widgets/modals/Modal';
 import FloatingInput from 'components/widgets/input/FloatingInput';
+import {ASPECT_RATIO, OBJECT_FIT} from 'components/widgets/image-cropper/ImageCropper';
 
 export default function PublishStoryDialog({
 	isOpen,
@@ -25,6 +27,8 @@ export default function PublishStoryDialog({
 	errors,
 }) {
 	const dispatch = useDispatch();
+
+	const {cropActive} = useSelector(selectApp);
 
 	useEffect(() => {
 		dispatch(loadCategories({type: CATEGORY_TYPES.story}));
@@ -80,6 +84,8 @@ export default function PublishStoryDialog({
 					uploadlabel="Upload cover image"
 					onRemove={() => onFieldValue('image', null)}
 					files={values.image}
+					aspect={ASPECT_RATIO.rectangle}
+					objectFit={OBJECT_FIT.horizontalCover}
 				/>
 			</form>
 		);
@@ -91,6 +97,7 @@ export default function PublishStoryDialog({
 				isOpen={isOpen}
 				onClose={onClose}
 				onSubmit={onSubmit}
+				submitButtonProps={{disabled: cropActive}}
 				content={renderContent()}
 				title="Publishing"
 				renderFooter

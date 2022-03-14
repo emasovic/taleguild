@@ -11,6 +11,7 @@ export const applicationSlice = createSlice({
 	name: 'app',
 	initialState: {
 		showMobileNav: true,
+		cropActive: false,
 		initialized: null,
 		loading: null,
 	},
@@ -24,13 +25,22 @@ export const applicationSlice = createSlice({
 		loadingEnd: state => {
 			state.loading = false;
 		},
+		toggleCrop: (state, {payload}) => {
+			state.cropActive = payload;
+		},
 		toggleMobileNav: (state, {payload}) => {
 			state.showMobileNav = payload;
 		},
 	},
 });
 
-export const {loadingStart, loadingEnd, initialized, toggleMobileNav} = applicationSlice.actions;
+export const {
+	loadingStart,
+	loadingEnd,
+	initialized,
+	toggleCrop,
+	toggleMobileNav,
+} = applicationSlice.actions;
 
 export const initialize = () => dispatch => {
 	dispatch(loadingStart());
@@ -39,5 +49,7 @@ export const initialize = () => dispatch => {
 		.then(() => dispatch(loadingEnd()))
 		.catch(err => dispatch(newToast({...Toast.error(err)})));
 };
+
+export const selectApp = state => state.app;
 
 export default applicationSlice.reducer;

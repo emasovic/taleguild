@@ -52,6 +52,8 @@ import {
 	faUserNinja as solidUserNinja,
 	faUsers as solidUsers,
 	faLock as solidLock,
+	faCheck as solidCheck,
+	faXmark as solidXmark,
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -86,6 +88,8 @@ const FA = {
 	user: faUser,
 
 	//SOLID ICONS
+	solid_check: solidCheck,
+	solid_x_mark: solidXmark,
 	solid_lock: solidLock,
 	solid_users: solidUsers,
 	solid_th_large: solidThLarge,
