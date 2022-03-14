@@ -25,7 +25,7 @@ export default function RecentFocus() {
 	const {op} = useSelector(state => state.draftStories);
 	const [{data: result, isLoading, error}] = useLoadItems(getActivity, {
 		user: data?.id,
-		created_at_lte: setTimeToDate(0, 0, 0),
+		created_at_lte: setTimeToDate(23, 59, 59),
 		created_at_gte: subDays(new Date(setTimeToDate(23, 59, 59)), 7).toISOString(),
 	});
 
