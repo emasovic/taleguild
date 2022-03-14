@@ -32,6 +32,8 @@ export default function Uploader({
 	previewOnly,
 	withCropper,
 	cropShape,
+	aspect,
+	objectFit,
 }) {
 	const dispatch = useDispatch();
 
@@ -137,6 +139,8 @@ export default function Uploader({
 					imageType={uploadedFile.type}
 					imageName={uploadedFile.name}
 					cropShape={cropShape}
+					aspect={aspect}
+					objectFit={objectFit}
 					onCrop={handleCrop}
 				/>
 			)}
@@ -156,6 +160,8 @@ Uploader.propTypes = {
 	multiple: propTypes.bool,
 	withCropper: propTypes.bool,
 	cropShape: propTypes.string,
+	aspect: propTypes.number,
+	objectFit: propTypes.string,
 };
 
 Uploader.defaultProps = {

@@ -14,7 +14,7 @@ import Uploader from 'components/widgets/uploader/Uploader';
 import LanguagePicker from 'components/widgets/pickers/language/LanguagePicker';
 import ConfirmModal from 'components/widgets/modals/Modal';
 import FloatingInput from 'components/widgets/input/FloatingInput';
-import {ASPECT_RATIO} from 'components/widgets/image-cropper/ImageCropper';
+import {ASPECT_RATIO, OBJECT_FIT} from 'components/widgets/image-cropper/ImageCropper';
 
 export default function PublishStoryDialog({
 	isOpen,
@@ -84,7 +84,8 @@ export default function PublishStoryDialog({
 					uploadlabel="Upload cover image"
 					onRemove={() => onFieldValue('image', null)}
 					files={values.image}
-					cropShape={ASPECT_RATIO.rectangle}
+					aspect={ASPECT_RATIO.rectangle}
+					objectFit={OBJECT_FIT.horizontalCover}
 				/>
 			</form>
 		);

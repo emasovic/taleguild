@@ -3,18 +3,26 @@ import Cropper from 'react-easy-crop';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+import FA from 'types/font_awesome';
+import {COLOR} from 'types/button';
+
 import IconButton from '../button/IconButton';
 
 import {getCroppedImg} from './cropperUtils';
 
 import './ImageCropper.scss';
-import FA from 'types/font_awesome';
 
 const CLASS = 'st-ImageCropper';
 
 export const ASPECT_RATIO = {
 	square: 4 / 3,
 	rectangle: 16 / 9,
+};
+
+export const OBJECT_FIT = {
+	horizontalCover: 'horizontal-cover',
+	verticalCover: 'vertical-cover',
+	contain: 'contain',
 };
 
 export const CROP_SHAPE = {
@@ -24,7 +32,7 @@ export const CROP_SHAPE = {
 
 const CROP_SIZE = {
 	[CROP_SHAPE.round]: {width: 200, height: 200},
-	[CROP_SHAPE.rect]: {width: 200, height: 150},
+	[CROP_SHAPE.rect]: {width: 300, height: 200},
 };
 
 export default function ImageCropper({
@@ -34,6 +42,7 @@ export default function ImageCropper({
 	aspect,
 	cropShape,
 	onCrop,
+	objectFit,
 	className,
 }) {
 	const [crop, setCrop] = useState({x: 0, y: 0});
@@ -56,6 +65,7 @@ export default function ImageCropper({
 			);
 			onCrop(croppedImage);
 		} catch (e) {
+			// eslint-disable-next-line no-console
 			console.error('>>>>crop error', e);
 		}
 	}, [imageSrc, croppedAreaPixels, onCrop, imageType, imageName, rotation]);
@@ -74,14 +84,16 @@ export default function ImageCropper({
 				zoom={zoom}
 				aspect={aspect}
 				cropSize={CROP_SIZE[cropShape]}
+				objectFit={objectFit}
+				minZoom={0.5}
 				onCropChange={setCrop}
 				onRotationChange={setRotation}
 				onCropComplete={onCropComplete}
 				onZoomChange={setZoom}
 			/>
 			<div className={CLASS + '-actions'}>
-				<IconButton onClick={showCroppedImage} icon={FA.solid_clipboard_check} />
-				<IconButton onClick={onClose} icon={FA.solid_baby} />
+				<IconButton onClick={showCroppedImage} icon={FA.solid_check} />
+				<IconButton onClick={onClose} icon={FA.solid_x_mark} color={COLOR.secondary} />
 			</div>
 		</div>
 	);
@@ -90,6 +102,7 @@ export default function ImageCropper({
 ImageCropper.defaultProps = {
 	aspect: ASPECT_RATIO.square,
 	cropShape: CROP_SHAPE.rect,
+	objectFit: OBJECT_FIT.verticalCover,
 };
 
 ImageCropper.propTypes = {
@@ -97,6 +110,7 @@ ImageCropper.propTypes = {
 	cropShape: PropTypes.string,
 	imageName: PropTypes.string,
 	imageType: PropTypes.string,
+	objectFit: PropTypes.string,
 	imageSrc: PropTypes.string.isRequired,
 	onCrop: PropTypes.func.isRequired,
 	aspect: PropTypes.number,

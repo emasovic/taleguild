@@ -7,10 +7,12 @@
 	&-actions {
 		display: flex;
 		position: absolute;
+		bottom: 8px;
+		right: 8px;
 
 		.st-IconButton {
 			&:first-child {
-				margin-right: 16px;
+				margin-right: 8px;
 			}
 		}
 	}
