@@ -3,7 +3,7 @@ import {Route, Redirect} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 
-import {DASHBOARD} from 'lib/routes';
+import {DASHBOARD, NOTIFICATIONS} from 'lib/routes';
 
 import {selectAuthUser} from 'redux/auth';
 
@@ -29,7 +29,7 @@ const PublicRoute = ({component: Component, ...rest}) => {
 		<Route
 			{...rest}
 			render={props =>
-				!isAuthenticated ? <Redirect to={DASHBOARD} /> : <Component {...props} />
+				!isAuthenticated ? <Redirect to={NOTIFICATIONS} /> : <Component {...props} />
 			}
 		/>
 	);

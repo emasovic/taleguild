@@ -1,5 +1,5 @@
 import axios from 'axios';
-import queryString from 'query-string';
+import qs from 'qs';
 
 import {detectIE} from './util';
 
@@ -46,7 +46,7 @@ export const request = opts => {
 
 	opts.paramsSerializer = params => {
 		Object.keys(params).forEach(key => params[key] === null && delete params[key]);
-		return queryString.stringify(params);
+		return qs.stringify(params, {arrayFormat: 'comma'});
 	};
 
 	return axios(opts)

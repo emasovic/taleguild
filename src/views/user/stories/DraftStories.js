@@ -3,7 +3,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import propTypes from 'prop-types';
 
 import {STORY_COMPONENTS, PUBLISH_STATES} from 'types/story';
-import {DEFAULT_LIMIT} from 'types/default';
+import {DEFAULT_PAGINATION} from 'types/default';
 import {REDUX_STATE} from 'types/redux';
 
 import {selectStories, loadStories, deleteStory, selectDraftStory} from 'redux/draftStories';
@@ -29,12 +29,18 @@ export default function DraftStories({shouldLoadMore, Component, to}) {
 			shouldLoadMore={shouldLoadMore}
 			componentSelector={selectDraftStory}
 			criteria={{
-				...DEFAULT_LIMIT,
-				_publicationState: PUBLISH_STATES.preview,
-				published_at_null: true,
-				archived_at_null: true,
-				_sort: 'created_at:DESC',
-				user: userId,
+				pagination: DEFAULT_PAGINATION,
+				publicationState: PUBLISH_STATES.preview,
+				filters: {
+					published_at: {
+						$null: true,
+					},
+					archived_at: {
+						$null: true,
+					},
+					user: userId,
+				},
+				sort: ['createdAt:DESC'],
 			}}
 			reduxState={REDUX_STATE.draftStories}
 			selector={selectStories}

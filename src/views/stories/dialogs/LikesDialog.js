@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import {goToUser} from 'lib/routes';
 
-import {DEFAULT_LIMIT, DEFAULT_OP} from 'types/default';
+import {DEFAULT_PAGINATION, DEFAULT_OP} from 'types/default';
 
 import {loadLikes, selectLikes} from 'redux/likes';
 
@@ -51,17 +51,17 @@ function LikesDialog({isOpen, title, onClose, storyId, className}) {
 	};
 
 	const handleLoadLikes = useCallback(
-		(count, op, _start) => {
+		(op, _start) => {
 			storyId &&
 				dispatch(
 					loadLikes(
 						{
 							story: storyId,
 							_sort: 'created_at:DESC',
-							...DEFAULT_LIMIT,
+							...DEFAULT_PAGINATION,
 							_start,
 						},
-						count,
+
 						op
 					)
 				);

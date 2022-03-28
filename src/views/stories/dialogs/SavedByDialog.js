@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import {goToUser} from 'lib/routes';
 
-import {DEFAULT_LIMIT, DEFAULT_OP} from 'types/default';
+import {DEFAULT_PAGINATION, DEFAULT_OP} from 'types/default';
 
 import {loadSavedBy, selectSavedBy} from 'redux/savedBy';
 
@@ -59,7 +59,7 @@ function SavedByDialog({isOpen, title, onClose, storyId, className}) {
 						{
 							story: storyId,
 							_sort: 'created_at:DESC',
-							...DEFAULT_LIMIT,
+							...DEFAULT_PAGINATION,
 							_start,
 						},
 						op

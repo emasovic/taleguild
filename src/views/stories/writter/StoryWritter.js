@@ -46,7 +46,12 @@ export default function StoryWritter() {
 	);
 
 	useEffect(() => {
-		dispatch(loadStoryPages({story: storyId, _publicationState: PUBLISH_STATES.preview}));
+		dispatch(
+			loadStoryPages({
+				filters: {story: Number(storyId)},
+				publicationState: PUBLISH_STATES.preview,
+			})
+		);
 	}, [dispatch, storyId]);
 
 	useEffect(() => {

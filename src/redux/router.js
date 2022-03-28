@@ -1,13 +1,11 @@
-import queryString from 'query-string';
+import qs from 'qs';
 import {replace} from 'connected-react-router';
 
 export const navigateToQuery = (queryOb, resetParamsOnChange) => (dispatch, getState) => {
 	const {location} = getState().router;
-	const query = queryString.parse(location.search);
+	const query = qs.parse(location.search, {ignoreQueryPrefix: true});
 
-	const q = resetParamsOnChange
-		? queryString.stringify(queryOb)
-		: queryString.stringify({...query, ...queryOb});
+	const q = resetParamsOnChange ? qs.stringify(queryOb) : qs.stringify({...query, ...queryOb});
 
 	dispatch(replace({pathname: location.pathname, search: q}));
 };

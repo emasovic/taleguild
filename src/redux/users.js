@@ -11,7 +11,7 @@ import {DEFAULT_OP} from 'types/default';
 
 const usersAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
-	sortComparer: (a, b) => b.created_at.localeCompare(a.created_at),
+	sortComparer: (a, b) => b.createdAt.localeCompare(a.createdAt),
 });
 
 export const usersSlice = createSlice({

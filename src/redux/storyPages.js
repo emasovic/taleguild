@@ -12,7 +12,7 @@ import {batchDispatch, createOperations, endOperation, startOperation} from './h
 
 const storyPageAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
-	sortComparer: (a, b) => a.created_at.localeCompare(b.created_at),
+	sortComparer: (a, b) => a.createdAt.localeCompare(b.createdAt),
 });
 
 export const storyPageSlice = createSlice({
@@ -63,7 +63,10 @@ export const loadStoryPages = filter => async dispatch => {
 			newToast({...Toast.error(res.error)}),
 		]);
 	}
-	return batchDispatch([storyPagesReceieved(res), opEnd({op})]);
+
+	let {data} = res;
+
+	return batchDispatch([storyPagesReceieved(data), opEnd({op})]);
 };
 
 export const loadStoryPage = payload => async dispatch => {

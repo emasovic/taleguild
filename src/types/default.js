@@ -6,9 +6,9 @@ export const DEFAULT_OP = {
 	load_more: 'load_more',
 };
 
-export const DEFAULT_LIMIT = {
-	_start: 0,
-	_limit: 5,
+export const DEFAULT_PAGINATION = {
+	start: 0,
+	limit: 5,
 };
 
 export const DEFAULT_META_TAGS = {

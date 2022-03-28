@@ -16,7 +16,7 @@ import {batchDispatch, createOperations, endOperation, startOperation} from './h
 
 const guildatarsAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
-	sortComparer: (a, b) => a.created_at.localeCompare(b.created_at),
+	sortComparer: (a, b) => a.createdAt.localeCompare(b.createdAt),
 });
 
 export const guildatarsSlice = createSlice({
@@ -84,7 +84,7 @@ export const createOrUpdateGuildatar = payload => async dispatch => {
 	]);
 };
 
-export const loadGuildatars = (params, count, op = DEFAULT_OP.loading) => async dispatch => {
+export const loadGuildatars = (params, op = DEFAULT_OP.loading) => async dispatch => {
 	dispatch(opStart(op));
 	const res = await getGuildatars(params);
 	if (res.error) {
@@ -94,23 +94,19 @@ export const loadGuildatars = (params, count, op = DEFAULT_OP.loading) => async 
 		]);
 	}
 
-	if (count) {
-		const countParams = {...params, _start: undefined, _limit: undefined};
+	const {data, meta} = res;
 
-		const countRes = await countGuildatars(countParams);
-		if (countRes.error) {
-			return batchDispatch([
-				opEnd({op, error: countRes.error}),
-				newToast({...Toast.error(countRes.error)}),
-			]);
-		}
-		return batchDispatch([
-			gotPages({total: countRes, limit: params._limit}),
-			guildatarsReceieved(res),
-			opEnd({op}),
-		]);
-	}
-	return batchDispatch([guildatarsUpsertMany(res), opEnd({op})]);
+	const action = !params?.pagination?.start ? guildatarsReceieved : guildatarsUpsertMany;
+
+	return batchDispatch([
+		action(data),
+		gotPages({
+			total: meta.pagination.total,
+			totalNew: meta.pagination.totalNew,
+			limit: meta.pagination.limit,
+		}),
+		opEnd({op}),
+	]);
 };
 
 export const countAllGuildatars = (params, op = DEFAULT_OP.loading) => async dispatch => {

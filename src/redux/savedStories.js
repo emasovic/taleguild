@@ -11,7 +11,7 @@ import {batchDispatch, createOperations, endOperation, startOperation} from './h
 
 const savedStoriesAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
-	sortComparer: (a, b) => b.created_at.localeCompare(a.created_at),
+	sortComparer: (a, b) => b.createdAt.localeCompare(a.createdAt),
 });
 
 export const savedStorySlice = createSlice({
@@ -71,11 +71,18 @@ export const loadSavedStories = (params, op = STORY_OP.loading) => async dispatc
 			newToast({...Toast.error(res.error)}),
 		]);
 	}
-	const action = !params._start ? savedStoriesReceieved : savedStoryUpsertMany;
+
+	const {data, meta} = res;
+
+	const action = !params?.pagination?.start ? savedStoriesReceieved : savedStoryUpsertMany;
 
 	return batchDispatch([
-		action(res.data),
-		gotPages({total: res.total, limit: params._limit}),
+		action(data),
+		gotPages({
+			total: meta.pagination.total,
+			totalNew: meta.pagination.totalNew,
+			limit: meta.pagination.limit,
+		}),
 		opEnd({op}),
 	]);
 };

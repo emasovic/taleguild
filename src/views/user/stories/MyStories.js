@@ -22,7 +22,10 @@ export default function MyStories({Component, to}) {
 			componentSelector={selectStory}
 			criteria={{
 				...DEFAULT_CRITERIA,
-				user: userId,
+				filters: {
+					...DEFAULT_CRITERIA.filters,
+					user: userId,
+				},
 			}}
 			reduxState={REDUX_STATE.userStories}
 			selector={selectStories}

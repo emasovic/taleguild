@@ -12,7 +12,7 @@ import {batchDispatch, createOperations, endOperation, startOperation} from './h
 
 const userActivityAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
-	sortComparer: (a, b) => b.created_at.localeCompare(a.created_at),
+	sortComparer: (a, b) => b.createdAt.localeCompare(a.createdAt),
 });
 
 export const userActivitySlice = createSlice({
@@ -56,7 +56,7 @@ export const {
 	opEnd,
 } = userActivitySlice.actions;
 
-export const loadUserActivity = (params, count, op = DEFAULT_OP.loading) => async dispatch => {
+export const loadUserActivity = (params, op = DEFAULT_OP.loading) => async dispatch => {
 	dispatch(opStart(op));
 	const res = await api.getActivity(params);
 	if (res.error) {
@@ -66,24 +66,19 @@ export const loadUserActivity = (params, count, op = DEFAULT_OP.loading) => asyn
 		]);
 	}
 
-	if (count) {
-		const countParams = {...params, _start: undefined, _limit: undefined};
+	const {data, meta} = res;
 
-		const countRes = await api.countActivity(countParams);
-		if (countRes.error) {
-			return batchDispatch([
-				opEnd({op, error: countRes.error}),
-				newToast({...Toast.error(countRes.error)}),
-			]);
-		}
-		return batchDispatch([
-			userActivityReceieved(res),
-			gotPages({total: countRes, limit: params._limit}),
-			opEnd({op}),
-		]);
-	}
+	const action = !params?.pagination?.start ? userActivityReceieved : userActivityUpsertMany;
 
-	return batchDispatch([userActivityUpsertMany(res), opEnd({op})]);
+	return batchDispatch([
+		action(data),
+		gotPages({
+			total: meta.pagination.total,
+			totalNew: meta.pagination.totalNew,
+			limit: meta.pagination.limit,
+		}),
+		opEnd({op}),
+	]);
 };
 
 export const createUserActivity = payload => async (dispatch, getState) => {

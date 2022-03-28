@@ -57,7 +57,7 @@ export const {
 	followingRemoveOne,
 } = followingSlice.actions;
 
-export const loadFollowing = (params, count, op = DEFAULT_OP.loading) => async dispatch => {
+export const loadFollowing = (params, op = DEFAULT_OP.loading) => async dispatch => {
 	dispatch(opStart(op));
 	const res = await api.getFollowers(params);
 	if (res.error) {
@@ -66,24 +66,20 @@ export const loadFollowing = (params, count, op = DEFAULT_OP.loading) => async d
 			newToast({...Toast.error(res.error)}),
 		]);
 	}
-	if (count) {
-		const countParams = {...params, _start: undefined, _limit: undefined};
 
-		const countRes = await api.countFollowers(countParams);
-		if (countRes.error) {
-			return batchDispatch([
-				opEnd({op, error: countRes.error}),
-				newToast({...Toast.error(countRes.error)}),
-			]);
-		}
+	const {data, meta} = res;
 
-		return batchDispatch([
-			gotPages({total: countRes, limit: params._limit}),
-			followingReceieved(res),
-			opEnd({op}),
-		]);
-	}
-	return batchDispatch([followingUpsertMany(res), opEnd({op})]);
+	const action = !params?.pagination?.start ? followingReceieved : followingUpsertMany;
+
+	return batchDispatch([
+		action(data),
+		gotPages({
+			total: meta.pagination.total,
+			totalNew: meta.pagination.totalNew,
+			limit: meta.pagination.limit,
+		}),
+		opEnd({op}),
+	]);
 };
 
 export const createOrDeleteFollowing = ({follower, userId, followerId}, op) => async dispatch => {

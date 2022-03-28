@@ -1,6 +1,6 @@
 import {createSlice, createEntityAdapter} from '@reduxjs/toolkit';
 
-import {getViews, countViews, createViews} from '../lib/api';
+import {getViews, createViews} from '../lib/api';
 
 import {DEFAULT_OP} from 'types/default';
 import {Toast} from 'types/toast';
@@ -41,7 +41,7 @@ export const viewsSlice = createSlice({
 
 export const {opStart, opEnd, gotPages, viewsUpsertMany, viewsReceieved} = viewsSlice.actions;
 
-export const loadViews = (params, count, op = DEFAULT_OP.loading) => async dispatch => {
+export const loadViews = (params, op = DEFAULT_OP.loading) => async dispatch => {
 	dispatch(opStart(op));
 	const res = await getViews(params);
 	if (res.error) {
@@ -51,25 +51,19 @@ export const loadViews = (params, count, op = DEFAULT_OP.loading) => async dispa
 		]);
 	}
 
-	if (count) {
-		const countParams = {...params, _start: undefined, _limit: undefined};
+	const {data, meta} = res;
 
-		const countRes = await countViews(countParams);
-		if (countRes.error) {
-			return batchDispatch([
-				opEnd({op, error: countRes.error}),
-				newToast({...Toast.error(countRes.error)}),
-			]);
-		}
+	const action = !params?.pagination?.start ? viewsReceieved : viewsUpsertMany;
 
-		return batchDispatch([
-			viewsReceieved(res),
-			gotPages({total: countRes, limit: params._limit}),
-			opEnd({op}),
-		]);
-	}
-
-	return batchDispatch([viewsUpsertMany(res), opEnd({op})]);
+	return batchDispatch([
+		action(data),
+		gotPages({
+			total: meta.pagination.total,
+			totalNew: meta.pagination.totalNew,
+			limit: meta.pagination.limit,
+		}),
+		opEnd({op}),
+	]);
 };
 
 export const createOrUpdateViews = (id, userId) => async dispatch => {
@@ -81,6 +75,7 @@ export const createOrUpdateViews = (id, userId) => async dispatch => {
 		userAgent: navigator.userAgent,
 		userId,
 	});
+
 	if (res.error) {
 		return batchDispatch([
 			opEnd({op, error: res.error}),

@@ -59,11 +59,18 @@ export const loadSavedBy = (params, op = DEFAULT_OP.loading) => async dispatch =
 			newToast({...Toast.error(res.error)}),
 		]);
 	}
-	const action = !params._start ? savedByReceieved : savedByUpsertMany;
+
+	const {data, meta} = res;
+
+	const action = !params?.pagination?.start ? savedByReceieved : savedByUpsertMany;
 
 	return batchDispatch([
-		gotPages({total: res.total, limit: params._limit}),
-		action(res.data),
+		action(data),
+		gotPages({
+			total: meta.pagination.total,
+			totalNew: meta.pagination.totalNew,
+			limit: meta.pagination.limit,
+		}),
 		opEnd({op}),
 	]);
 };

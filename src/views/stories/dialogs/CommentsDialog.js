@@ -8,7 +8,7 @@ import {goToUser} from 'lib/routes';
 
 import FA from 'types/font_awesome';
 import {COLOR} from 'types/button';
-import {DEFAULT_LIMIT, DEFAULT_OP} from 'types/default';
+import {DEFAULT_PAGINATION, DEFAULT_OP} from 'types/default';
 
 import {loadComments, selectComments} from 'redux/comments';
 import {selectAuthUser} from 'redux/auth';
@@ -138,17 +138,17 @@ function CommentsDialog({isOpen, title, onClose, storyId, className}) {
 	};
 
 	const handleLoadComments = useCallback(
-		(count, op, _start) => {
+		(op, _start) => {
 			storyId &&
 				dispatch(
 					loadComments(
 						{
 							story: storyId,
 							_sort: 'created_at:ASC',
-							...DEFAULT_LIMIT,
+							...DEFAULT_PAGINATION,
 							_start,
 						},
-						count,
+
 						op
 					)
 				);

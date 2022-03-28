@@ -1,6 +1,6 @@
 import {createSlice, createEntityAdapter} from '@reduxjs/toolkit';
 
-import {createUserItem, getUserItems, countUserItems} from '../lib/api';
+import {createUserItem, getUserItems} from '../lib/api';
 
 import {DEFAULT_OP} from 'types/default';
 import {Toast} from 'types/toast';
@@ -73,7 +73,7 @@ export const purchaseUserItem = payload => async (dispatch, getState) => {
 	]);
 };
 
-export const loadUserItems = (params, count, op = DEFAULT_OP.loading) => async dispatch => {
+export const loadUserItems = (params, op = DEFAULT_OP.loading) => async dispatch => {
 	dispatch(opStart(op));
 	const res = await getUserItems(params);
 	if (res.error) {
@@ -83,25 +83,19 @@ export const loadUserItems = (params, count, op = DEFAULT_OP.loading) => async d
 		]);
 	}
 
-	if (count) {
-		const countParams = {...params, _start: undefined, _limit: undefined};
+	const {data, meta} = res;
 
-		const countRes = await countUserItems(countParams);
-		if (countRes.error) {
-			return batchDispatch([
-				opEnd({op, error: countRes.error}),
-				newToast({...Toast.error(countRes.error)}),
-			]);
-		}
+	const action = !params?.pagination?.start ? userItemsReceieved : userItemsUpsertMany;
 
-		return batchDispatch([
-			userItemsReceieved(res),
-			gotPages({total: countRes, limit: params._limit}),
-			opEnd({op}),
-		]);
-	}
-
-	return batchDispatch([userItemsUpsertMany(res), opEnd({op})]);
+	return batchDispatch([
+		action(data),
+		gotPages({
+			total: meta.pagination.total,
+			totalNew: meta.pagination.totalNew,
+			limit: meta.pagination.limit,
+		}),
+		opEnd({op}),
+	]);
 };
 
 //SELECTORS

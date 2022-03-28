@@ -6,7 +6,7 @@ import {useHistory} from 'react-router';
 
 import {NOTIFICATIONS} from 'lib/routes';
 
-import {DEFAULT_LIMIT, DEFAULT_OP} from 'types/default';
+import {DEFAULT_PAGINATION, DEFAULT_OP} from 'types/default';
 import {FONT_WEIGHT, TEXT_COLORS, TEXT_CURSORS, TEXT_TRASFORM} from 'types/typography';
 import {NOTIFICATION_ACTIONS} from 'types/notifications';
 import FA from 'types/font_awesome';
@@ -42,17 +42,20 @@ export default function Notifications({isPage, isMobile}) {
 	};
 
 	const handleLoadNotifications = useCallback(
-		(count, op, _start) =>
+		(op, start) =>
 			userId &&
 			dispatch(
 				loadNotifications(
 					{
-						receiver: userId,
-						_sort: 'created_at:DESC',
-						...DEFAULT_LIMIT,
-						_start,
+						filters: {
+							receiver: userId,
+						},
+						sort: ['createdAt:desc'],
+						pagination: {
+							...DEFAULT_PAGINATION,
+							start: DEFAULT_PAGINATION.start || start,
+						},
 					},
-					count,
 					op
 				)
 			),
@@ -62,7 +65,7 @@ export default function Notifications({isPage, isMobile}) {
 	const handleMarkAllAsRead = () =>
 		dispatch(updateNotifications({action: NOTIFICATION_ACTIONS.markAllRead}));
 
-	useEffect(() => handleLoadNotifications(true, undefined, 0), [handleLoadNotifications]);
+	useEffect(() => handleLoadNotifications(undefined, 0), [handleLoadNotifications]);
 
 	const header = (
 		<div className={CLASS + '-notifications'}>
@@ -86,7 +89,7 @@ export default function Notifications({isPage, isMobile}) {
 				<LoadMore
 					id="notificationPage"
 					onLoadMore={() =>
-						handleLoadNotifications(false, DEFAULT_OP.load_more, notificationIds.length)
+						handleLoadNotifications(DEFAULT_OP.load_more, notificationIds.length)
 					}
 					loading={op[DEFAULT_OP.loading].loading || op[DEFAULT_OP.load_more].loading}
 					showItems={op[DEFAULT_OP.loading].success}
@@ -137,11 +140,7 @@ export default function Notifications({isPage, isMobile}) {
 					<LoadMore
 						id="notifications"
 						onLoadMore={() =>
-							handleLoadNotifications(
-								false,
-								DEFAULT_OP.load_more,
-								notificationIds.length
-							)
+							handleLoadNotifications(DEFAULT_OP.load_more, notificationIds.length)
 						}
 						loading={op[DEFAULT_OP.loading].loading || op[DEFAULT_OP.load_more].loading}
 						showItems={op[DEFAULT_OP.loading].success}

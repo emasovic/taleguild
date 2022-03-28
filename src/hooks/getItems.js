@@ -17,7 +17,7 @@ export const useLoadItems = (loadFunction, defaultParams) => {
 				if (res.error) {
 					!unmounted && setError(res.error);
 				} else {
-					!unmounted && setData(res);
+					!unmounted && setData(res.data);
 				}
 			} catch (error) {
 				!unmounted && setError(error);

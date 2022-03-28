@@ -15,16 +15,18 @@ const CLASS = 'st-Image';
 function Image({src, image, alt, formats, size, thumb, thumbClassName, imageClassName, ...rest}) {
 	const [isLoaded, setIsLoaded] = React.useState(false);
 
+	const apiUrl = process.env.REACT_APP_API_URL.replace('/api', '');
+
 	if (formats && formats[size]) {
 		image = formats[size];
 	}
 
 	if (image) {
-		src = process.env.REACT_APP_API_URL + image.url;
+		src = apiUrl + image.url;
 	}
 
 	if (formats?.thumbnail || src) {
-		thumb = src || process.env.REACT_APP_API_URL + formats?.thumbnail?.url;
+		thumb = src || apiUrl + formats?.thumbnail?.url;
 	}
 
 	if (!src) {

@@ -2,7 +2,7 @@ import StoryThumb from 'views/stories/StoryThumb';
 import StoryItem from 'views/stories/StoryItem';
 import StoryListItem from 'views/stories/StoryListItem';
 
-import {DEFAULT_LIMIT} from './default';
+import {DEFAULT_PAGINATION} from './default';
 
 export const PUBLISH_STATES = {
 	live: 'live',
@@ -10,10 +10,14 @@ export const PUBLISH_STATES = {
 };
 
 export const DEFAULT_CRITERIA = {
-	...DEFAULT_LIMIT,
-	_sort: 'published_at:DESC',
-	_publicationState: PUBLISH_STATES.live,
-	archived_at_null: true,
+	pagination: DEFAULT_PAGINATION,
+	sort: ['publishedAt:desc'],
+	publicationState: PUBLISH_STATES.live,
+	filters: {
+		archived_at: {
+			$null: true,
+		},
+	},
 };
 
 export const DEFAULT_STORYPAGE_DATA = [{type: 'paragraph', children: [{text: ''}]}];

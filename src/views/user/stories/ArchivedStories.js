@@ -3,7 +3,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import propTypes from 'prop-types';
 
 import {STORY_COMPONENTS} from 'types/story';
-import {DEFAULT_LIMIT} from 'types/default';
+import {DEFAULT_PAGINATION} from 'types/default';
 import {REDUX_STATE} from 'types/redux';
 
 import {
@@ -29,10 +29,14 @@ export default function ArchivedStories({shouldLoadMore, Component, to}) {
 			shouldLoadMore={shouldLoadMore}
 			componentSelector={selectArchivedStory}
 			criteria={{
-				...DEFAULT_LIMIT,
-				_sort: 'published_at:DESC',
-				archived_at_null: false,
-				user: userId,
+				pagination: DEFAULT_PAGINATION,
+				filters: {
+					archived_at: {
+						$notNull: true,
+					},
+					user: userId,
+				},
+				sort: ['publishedAt:DESC'],
 			}}
 			reduxState={REDUX_STATE.archivedStories}
 			selector={selectArchivedStories}

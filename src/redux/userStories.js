@@ -10,7 +10,7 @@ import {batchDispatch, createOperations, endOperation, startOperation} from './h
 
 const userStoriesAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
-	sortComparer: (a, b) => b.published_at.localeCompare(a.published_at),
+	sortComparer: (a, b) => b.publishedAt.localeCompare(a.publishedAt),
 });
 
 export const myStorySlice = createSlice({
@@ -61,9 +61,15 @@ export const loadStories = params => async dispatch => {
 		]);
 	}
 
+	const {data, meta} = res;
+
 	return batchDispatch([
-		userStoriesReceieved(res.data),
-		gotPages({total: res.total, limit: params._limit}),
+		userStoriesReceieved(data),
+		gotPages({
+			total: meta.pagination.total,
+			totalNew: meta.pagination.totalNew,
+			limit: meta.pagination.limit,
+		}),
 		opEnd({op}),
 	]);
 };

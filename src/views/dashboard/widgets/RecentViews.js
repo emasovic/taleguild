@@ -49,17 +49,20 @@ export default function RecentViews() {
 	useEffect(() => {
 		userId &&
 			dispatch(
-				loadViews(
-					{
-						_start: 0,
-						_limit: 4,
-						_publicationState: PUBLISH_STATES.live,
-						story_null: false,
+				loadViews({
+					filters: {
 						user: userId,
-						_sort: 'created_at:DESC',
+						// story: {
+						// 	$null: true,
+						// },
 					},
-					true
-				)
+					pagination: {
+						start: 0,
+						limit: 4,
+					},
+					publicationState: PUBLISH_STATES.live,
+					sort: ['createdAt:DESC'],
+				})
 			);
 	}, [dispatch, userId]);
 
@@ -92,7 +95,15 @@ export default function RecentViews() {
 				{views.map(i => (
 					<RecentView key={i} id={i} />
 				))}
-				{!!total && <Link to={goToWidget(WIDGETS.explore)} underline={UNDERLINE.hover} className={CLASS + '-link'}>Read all</Link>}
+				{!!total && (
+					<Link
+						to={goToWidget(WIDGETS.explore)}
+						underline={UNDERLINE.hover}
+						className={CLASS + '-link'}
+					>
+						Read all
+					</Link>
+				)}
 			</LoadMore>
 		</div>
 	);

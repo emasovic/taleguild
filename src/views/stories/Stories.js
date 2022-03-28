@@ -46,13 +46,16 @@ const Stories = memo(
 			dispatch(navigateToQuery({_sort: sort + ':' + SORT_DIRECTION.desc}));
 
 		const handleLoadStories = useCallback(
-			(op, _start) =>
+			(op, start) =>
 				criteria &&
 				dispatch(
 					loadStories(
 						{
 							...criteria,
-							_start,
+							pagination: {
+								...criteria.pagination,
+								start,
+							},
 						},
 
 						op
@@ -135,9 +138,9 @@ const MemoizedStories = ({
 	NoItemsComponent,
 	noItemsComponentProps,
 }) => {
-	const query = useGetSearchParams();
+	const {language, categories} = useGetSearchParams();
 
-	const newCriteria = {...criteria, ...query};
+	const newCriteria = {...criteria, filters: {...criteria.filters, language, categories}};
 
 	const activeSort = newCriteria._sort
 		? newCriteria._sort.split(':')[0]

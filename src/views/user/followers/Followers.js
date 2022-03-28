@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import {goToUser} from 'lib/routes';
 
 import {COLOR} from 'types/button';
-import {DEFAULT_LIMIT, DEFAULT_OP} from 'types/default';
+import {DEFAULT_PAGINATION, DEFAULT_OP} from 'types/default';
 
 import {selectFollowers, loadFollowers, createOrDeleteFollower} from 'redux/followers';
 import {selectAuthUser} from 'redux/auth';
@@ -76,11 +76,11 @@ export default function Followers({id}) {
 	};
 
 	const handleLoadFollwers = useCallback(
-		(count, op, _start) => {
+		(op, _start) => {
 			dispatch(
 				loadFollowers(
-					{user: id, ...DEFAULT_LIMIT, _sort: 'created_at:DESC', _start},
-					count,
+					{user: id, ...DEFAULT_PAGINATION, _sort: 'created_at:DESC', _start},
+
 					op
 				)
 			);

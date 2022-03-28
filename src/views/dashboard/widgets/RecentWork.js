@@ -9,7 +9,7 @@ import {editStory, USER_STORIES_DRAFTS} from 'lib/routes';
 import {FONTS, FONT_WEIGHT, TEXT_COLORS, TYPOGRAPHY_VARIANTS} from 'types/typography';
 import {PUBLISH_STATES} from 'types/story';
 import {ICONS} from 'types/icons';
-import {DEFAULT_LIMIT, DEFAULT_OP} from 'types/default';
+import {DEFAULT_PAGINATION, DEFAULT_OP} from 'types/default';
 
 import {loadStories, selectDraftStory, selectStoryIds} from 'redux/draftStories';
 import {selectAuthUser} from 'redux/auth';
@@ -88,18 +88,26 @@ function RecentWork({shouldLoadMore, title, titleProps, placeholderProps, displa
 	const userId = data?.id;
 
 	const handleLoadStories = useCallback(
-		(op, _start) => {
+		(op, start) => {
 			userId &&
 				dispatch(
 					loadStories(
 						{
-							...DEFAULT_LIMIT,
-							_publicationState: PUBLISH_STATES.preview,
-							published_at_null: true,
-							archived_at_null: true,
-							user: userId,
-							_sort: 'created_at:DESC',
-							_start,
+							filters: {
+								published_at: {
+									$null: true,
+								},
+								archived_at: {
+									$null: true,
+								},
+								user: userId,
+							},
+							pagination: {
+								...DEFAULT_PAGINATION,
+								start,
+							},
+							publicationState: PUBLISH_STATES.preview,
+							sort: ['createdAt:DESC'],
 						},
 						op
 					)
@@ -132,8 +140,7 @@ function RecentWork({shouldLoadMore, title, titleProps, placeholderProps, displa
 				NoItemsComponent={NoItemsPlaceholder}
 				noItemsComponentProps={{
 					title: 'Write your new story',
-					subtitle:
-						'Start writing your new story with our simple and clean text editor',
+					subtitle: 'Start writing your new story with our simple and clean text editor',
 					buttonText: 'Write your first story',
 					withBackground: true,
 					buttonProps: {
@@ -145,7 +152,15 @@ function RecentWork({shouldLoadMore, title, titleProps, placeholderProps, displa
 				{stories.map(i => (
 					<RecentItem key={i} id={i} />
 				))}
-				{displayLink && !!total && <Link to={USER_STORIES_DRAFTS} underline={UNDERLINE.hover} className={CLASS + '-link'}>View all</Link>}
+				{displayLink && !!total && (
+					<Link
+						to={USER_STORIES_DRAFTS}
+						underline={UNDERLINE.hover}
+						className={CLASS + '-link'}
+					>
+						View all
+					</Link>
+				)}
 			</LoadMore>
 		</div>
 	);
@@ -156,7 +171,7 @@ RecentWork.propTypes = {
 	titleProps: PropTypes.object,
 	title: PropTypes.string,
 	placeholderProps: PropTypes.object,
-	displayLink: PropTypes.bool
+	displayLink: PropTypes.bool,
 };
 
 RecentWork.defaultProps = {

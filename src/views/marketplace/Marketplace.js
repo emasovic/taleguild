@@ -5,7 +5,7 @@ import {getGenders} from 'lib/api';
 
 import {FONTS, FONT_WEIGHT, TEXT_COLORS, TYPOGRAPHY_VARIANTS} from 'types/typography';
 import {GENDERS, PARTS} from 'types/guildatar';
-import {DEFAULT_LIMIT, DEFAULT_OP} from 'types/default';
+import {DEFAULT_PAGINATION, DEFAULT_OP} from 'types/default';
 import {CATEGORY_TYPES} from 'types/category';
 
 import {loadMarketplace, selectMarketplaceIds} from 'redux/marketplace';
@@ -74,20 +74,25 @@ export default function Marketplace() {
 	};
 
 	const handleLoadMarketplace = useCallback(
-		(count, op, _start) => {
+		(op, start) => {
 			selectedGender &&
 				dispatch(
 					loadMarketplace(
 						{
-							body_part,
-							category,
-							name_contains: name,
-							genders: selectedGender?.id,
-							_sort: 'created_at:DESC, id:ASC',
-							...DEFAULT_LIMIT,
-							_start,
+							filters: {
+								body_part,
+								category,
+								name: {
+									$contains: name,
+								},
+								genders: selectedGender?.id,
+							},
+							pagination: {
+								...DEFAULT_PAGINATION,
+								start,
+							},
+							sort: ['createdAt:DESC', 'id:ASC'],
 						},
-						count,
 						op
 					)
 				);
@@ -96,15 +101,15 @@ export default function Marketplace() {
 	);
 
 	useEffect(() => {
-		dispatch(loadCategories({type: CATEGORY_TYPES.market}));
+		dispatch(loadCategories({filters: {type: CATEGORY_TYPES.market}}));
 	}, [dispatch]);
 
 	useEffect(() => {
-		data && dispatch(countAllGuildatars({user: data.id}));
+		data && dispatch(countAllGuildatars({filters: {user: data.id}}));
 	}, [dispatch, data]);
 
 	useEffect(() => {
-		total && handleLoadMarketplace(true, undefined, 0);
+		total && handleLoadMarketplace(undefined, 0);
 	}, [dispatch, handleLoadMarketplace, total]);
 
 	return (
@@ -183,7 +188,7 @@ export default function Marketplace() {
 								placeholderClassName={CLASS + '-market-items-loadmore-placeholder'}
 								total={marketplaceTotal}
 								onLoadMore={() =>
-									handleLoadMarketplace(false, DEFAULT_OP.load_more, items.length)
+									handleLoadMarketplace(DEFAULT_OP.load_more, items.length)
 								}
 								shouldLoad={shouldLoad}
 								loading={

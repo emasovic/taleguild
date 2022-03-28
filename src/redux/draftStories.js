@@ -11,7 +11,7 @@ import {batchDispatch, createOperations, endOperation, startOperation} from './h
 
 const draftStoriesAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
-	sortComparer: (a, b) => b.created_at.localeCompare(a.created_at),
+	sortComparer: (a, b) => b.createdAt.localeCompare(a.createdAt),
 });
 
 export const draftSlice = createSlice({
@@ -20,7 +20,6 @@ export const draftSlice = createSlice({
 		op: createOperations(),
 		pages: null,
 		loading: null,
-
 		total: 0,
 	}),
 	reducers: {
@@ -73,11 +72,16 @@ export const loadStories = (params, op = STORY_OP.loading) => async dispatch => 
 		]);
 	}
 
-	const action = !params._start ? draftStoriesReceieved : draftStoryUpsertMany;
+	const {data, meta} = res;
+
+	const action = !params?.pagination?.start ? draftStoriesReceieved : draftStoryUpsertMany;
 
 	return batchDispatch([
-		action(res.data),
-		gotPages({total: res.total, limit: params._limit}),
+		action(data),
+		gotPages({
+			total: meta.pagination.total,
+			limit: meta.pagination.limit,
+		}),
 		opEnd({op}),
 	]);
 };

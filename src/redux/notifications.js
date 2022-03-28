@@ -11,7 +11,6 @@ import {batchDispatch, createOperations, endOperation, startOperation} from './h
 
 const notificationsAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
-	sortComparer: (a, b) => b.created_at.localeCompare(a.created_at),
 });
 
 export const notificationsSlice = createSlice({
@@ -86,7 +85,7 @@ export const {
 	opEnd,
 } = notificationsSlice.actions;
 
-export const loadNotifications = (params, count, op = DEFAULT_OP.loading) => async dispatch => {
+export const loadNotifications = (params, op = DEFAULT_OP.loading) => async dispatch => {
 	dispatch(opStart(op));
 	const res = await api.getNotifications(params);
 	if (res.error) {
@@ -96,24 +95,19 @@ export const loadNotifications = (params, count, op = DEFAULT_OP.loading) => asy
 		]);
 	}
 
-	if (count) {
-		const countParams = {...params, _start: undefined, _limit: undefined};
+	const {data, meta} = res;
 
-		const countRes = await api.countNotifications(countParams);
-		if (countRes.error) {
-			return batchDispatch([
-				opEnd({op, error: countRes.error}),
-				newToast({...Toast.error(countRes.error)}),
-			]);
-		}
+	const action = !params?.pagination?.start ? notificationsReceieved : notificationsUpsertMany;
 
-		return batchDispatch([
-			gotPages({total: countRes.total, totalNew: countRes.totalNew, limit: params._limit}),
-			notificationsReceieved(res),
-			opEnd({op}),
-		]);
-	}
-	return batchDispatch([notificationsUpsertMany(res), opEnd({op})]);
+	return batchDispatch([
+		action(data),
+		gotPages({
+			total: meta.pagination.total,
+			totalNew: meta.pagination.totalNew,
+			limit: meta.pagination.limit,
+		}),
+		opEnd({op}),
+	]);
 };
 
 export const updateNotification = payload => async dispatch => {

@@ -47,8 +47,8 @@ export default function StoryList({
 		!op[DEFAULT_OP.load_more].loading;
 
 	const handleLoadStories = useCallback(
-		(op, _start) => {
-			const newCriteria = {...criteria, _start};
+		(op, start) => {
+			const newCriteria = {...criteria, pagination: {...criteria.pagination, start}};
 
 			shouldTriggerLoad &&
 				!isEqual(previousCriteria, newCriteria) &&

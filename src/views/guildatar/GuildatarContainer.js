@@ -9,7 +9,7 @@ import {MARKETPLACE} from 'lib/routes';
 import {FONTS, FONT_WEIGHT, TEXT_COLORS, TEXT_CURSORS, TYPOGRAPHY_VARIANTS} from 'types/typography';
 import {COLOR} from 'types/button';
 import {PARTS} from 'types/guildatar';
-import {DEFAULT_LIMIT, DEFAULT_OP} from 'types/default';
+import {DEFAULT_PAGINATION, DEFAULT_OP} from 'types/default';
 import {useFormik} from 'formik';
 
 import {createOrUpdateGuildatar, loadGuildatar, selectGuildatarById} from 'redux/guildatars';
@@ -52,19 +52,26 @@ export default function GuildatarContainer() {
 	const toggleOpen = () => setIsOpen(prevState => !prevState);
 
 	const handleLoadUserItems = useCallback(
-		(count, op, _start) => {
+		(op, start) => {
 			dispatch(
 				loadUserItems(
 					{
-						user: user?.id,
-						'item.body_part': bodyPart || undefined,
-						'item.genders': gender?.id,
-						guildatar_null: true,
-						...DEFAULT_LIMIT,
-						_start,
-						_sort: 'created_at:DESC',
+						filters: {
+							user: user?.id,
+							item: {
+								body_part: bodyPart || undefined,
+								genders: gender?.id,
+							},
+							guildatar: {
+								// $null: true,
+							},
+						},
+						pagination: {
+							...DEFAULT_PAGINATION,
+							start,
+						},
+						sort: ['createdAt:DESC'],
 					},
-					count,
 					op
 				)
 			);
@@ -90,7 +97,7 @@ export default function GuildatarContainer() {
 	}, [id, dispatch]);
 
 	useEffect(() => {
-		user?.id && handleLoadUserItems(true, undefined, 0);
+		user?.id && handleLoadUserItems(undefined, 0);
 	}, [dispatch, user, handleLoadUserItems]);
 
 	const {values, dirty, handleSubmit: formikSubmit, handleReset, setFieldValue} = useFormik({
@@ -215,7 +222,7 @@ export default function GuildatarContainer() {
 							id="userItems"
 							total={totalItems}
 							onLoadMore={() =>
-								handleLoadUserItems(false, DEFAULT_OP.load_more, items.length)
+								handleLoadUserItems(DEFAULT_OP.load_more, items.length)
 							}
 							NoItemsComponent={PagePlaceholder}
 							noItemsComponentProps={{

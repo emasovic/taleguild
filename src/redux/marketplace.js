@@ -1,6 +1,6 @@
 import {createSlice, createEntityAdapter} from '@reduxjs/toolkit';
 
-import {getMarketplace, countMarketplace} from '../lib/api';
+import {getMarketplace} from '../lib/api';
 
 import {DEFAULT_OP} from 'types/default';
 import {Toast} from 'types/toast';
@@ -10,7 +10,7 @@ import {batchDispatch, createOperations, endOperation, startOperation} from './h
 
 const marketplaceAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
-	sortComparer: (a, b) => a.created_at.localeCompare(b.created_at),
+	sortComparer: (a, b) => a.createdAt.localeCompare(b.createdAt),
 });
 
 export const marketplaceSlice = createSlice({
@@ -48,7 +48,7 @@ export const {
 	marketplaceReceieved,
 } = marketplaceSlice.actions;
 
-export const loadMarketplace = (params, count, op = DEFAULT_OP.loading) => async dispatch => {
+export const loadMarketplace = (params, op = DEFAULT_OP.loading) => async dispatch => {
 	dispatch(opStart(op));
 	const res = await getMarketplace(params);
 	if (res.error) {
@@ -58,23 +58,19 @@ export const loadMarketplace = (params, count, op = DEFAULT_OP.loading) => async
 		]);
 	}
 
-	if (count) {
-		const countRes = await countMarketplace(params);
-		if (countRes.error) {
-			return batchDispatch([
-				opEnd({op, error: countRes.error}),
-				newToast({...Toast.error(countRes.error)}),
-			]);
-		}
+	const {data, meta} = res;
 
-		return batchDispatch([
-			dispatch(marketplaceReceieved(res)),
-			dispatch(gotPages({total: countRes, limit: params._limit})),
-			opEnd({op}),
-		]);
-	}
+	const action = !params?.pagination?.start ? marketplaceReceieved : marketplaceUpsertMany;
 
-	return batchDispatch([marketplaceUpsertMany(res), opEnd({op})]);
+	return batchDispatch([
+		action(data),
+		gotPages({
+			total: meta.pagination.total,
+			totalNew: meta.pagination.totalNew,
+			limit: meta.pagination.limit,
+		}),
+		opEnd({op}),
+	]);
 };
 
 //SELECTORS

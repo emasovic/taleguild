@@ -46,7 +46,9 @@ export const loadLanguages = params => async dispatch => {
 		]);
 	}
 
-	return batchDispatch([languagesReceieved(res), opEnd({op})]);
+	let {data} = res;
+
+	return batchDispatch([languagesReceieved(data), opEnd({op})]);
 };
 
 //SELECTORS

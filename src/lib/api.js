@@ -247,11 +247,11 @@ export const countUserPointsAndCoins = filter => {
 /******************      MARKETPLACE        ***********************/
 
 export const getMarketplace = filter => {
-	return http.get('marketplace', filter);
+	return http.get('marketplaces', filter);
 };
 
 export const countMarketplace = filter => {
-	return http.get('marketplace/count', filter);
+	return http.get('marketplaces/count', filter);
 };
 
 /******************      GUILDATARS        ***********************/

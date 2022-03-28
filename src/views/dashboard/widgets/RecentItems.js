@@ -38,7 +38,10 @@ export default function RecentItems() {
 
 	const userId = data?.id;
 
-	useEffect(() => userId && dispatch(countAllGuildatars({user: userId})), [userId, dispatch]);
+	useEffect(() => userId && dispatch(countAllGuildatars({filters: {user: userId}})), [
+		userId,
+		dispatch,
+	]);
 
 	useEffect(
 		() =>
@@ -46,9 +49,11 @@ export default function RecentItems() {
 			dispatch(
 				loadMarketplace(
 					{
-						_start: 0,
-						_limit: 4,
-						_sort: 'created_at:DESC',
+						pagination: {
+							start: 0,
+							limit: 4,
+						},
+						sort: ['createdAt:DESC'],
 					},
 					true
 				)

@@ -43,6 +43,8 @@ export default function Story() {
 
 	const [activePage, setActivePage] = useState(0);
 
+	console.log(id);
+
 	const scrollToStory = () => window.scrollTo(0, 0);
 
 	const handleActivePage = page => {
@@ -50,9 +52,9 @@ export default function Story() {
 		scrollToStory();
 	};
 
-	useEffect(() => {
-		dispatch(createOrUpdateViews(id, userId));
-	}, [dispatch, id, userId]);
+	// useEffect(() => {
+	// 	dispatch(createOrUpdateViews(id, userId));
+	// }, [dispatch, id, userId]);
 
 	useEffect(() => {
 		dispatch(loadStory(id));
@@ -73,11 +75,11 @@ export default function Story() {
 		);
 	}
 
-	if (!story.published_at && storyUser !== userId) {
+	if (!story.publishedAt && storyUser !== userId) {
 		return <NotFound />;
 	}
 
-	if (story.archived_at && storyUser !== userId) {
+	if (story.archivedAt && storyUser !== userId) {
 		return (
 			<PagePlaceholder
 				className={CLASS + '-placeholder'}
@@ -96,7 +98,7 @@ export default function Story() {
 		storypages && storypages.length
 			? orderBy(
 					storypages.map(item => ({...item, text: JSON.parse(item.text)})),
-					['created_at'],
+					['createdAt'],
 					['asc']
 			  )
 			: [];

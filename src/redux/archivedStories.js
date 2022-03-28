@@ -71,11 +71,17 @@ export const loadArchivedStories = (params, op = STORY_OP.loading) => async disp
 		]);
 	}
 
-	const action = !params._start ? archivedStoriesReceieved : archivedStoryUpsertMany;
+	const {data, meta} = res;
+
+	const action = !params?.pagination?.start ? archivedStoriesReceieved : archivedStoryUpsertMany;
 
 	return batchDispatch([
-		action(res.data),
-		gotPages({total: res.total, limit: params._limit}),
+		action(data),
+		gotPages({
+			total: meta.pagination.total,
+			totalNew: meta.pagination.totalNew,
+			limit: meta.pagination.limit,
+		}),
 		opEnd({op}),
 	]);
 };

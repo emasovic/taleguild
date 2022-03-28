@@ -39,7 +39,7 @@ export default function Community() {
 	};
 
 	useEffect(() => {
-		dispatch(loadCategories({type: CATEGORY_TYPES.story}));
+		dispatch(loadCategories({filters: {type: CATEGORY_TYPES.story}}));
 		dispatch(loadLanguages());
 	}, [dispatch]);
 	return (

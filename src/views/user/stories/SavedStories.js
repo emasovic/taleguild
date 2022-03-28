@@ -42,11 +42,13 @@ export default function SavedStories({shouldLoadMore, Component, to}) {
 			componentSelector={selectUserSavedStory}
 			criteria={{
 				...DEFAULT_CRITERIA,
-				archived_at_null: undefined,
-				_publicationState: undefined,
-				story_null: false,
-				_sort: 'created_at:DESC',
-				user: userId,
+				filters: {
+					...DEFAULT_CRITERIA.filters,
+					user: userId,
+					archived_at: undefined,
+				},
+				publicationState: undefined,
+				sort: ['createdAt:DESC'],
 			}}
 			NoItemsComponent={NoItemsPlaceholder}
 			noItemsComponentProps={{

@@ -192,11 +192,17 @@ export const loadStories = (params, op = STORY_OP.loading) => async (dispatch, g
 		]);
 	}
 
-	const action = !params._start ? storiesReceieved : storiesUpsertMany;
+	const {data, meta} = res;
+
+	const action = !params?.pagination?.start ? storiesReceieved : storiesUpsertMany;
 
 	return batchDispatch([
-		action(res.data),
-		gotPages({total: res.total, limit: params._limit}),
+		action(data),
+		gotPages({
+			total: meta.pagination.total,
+			totalNew: meta.pagination.totalNew,
+			limit: meta.pagination.limit,
+		}),
 		opEnd({op}),
 	]);
 };

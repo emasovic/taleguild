@@ -46,7 +46,9 @@ export const loadCategories = params => async dispatch => {
 		]);
 	}
 
-	return batchDispatch([categoriesReceieved(res), opEnd({op})]);
+	let {data} = res;
+
+	return batchDispatch([categoriesReceieved(data), opEnd({op})]);
 };
 
 //SELECTORS

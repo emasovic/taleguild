@@ -10,7 +10,7 @@ import {batchDispatch, createOperations, endOperation, startOperation} from './h
 
 const commentsAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
-	sortComparer: (a, b) => a.created_at.localeCompare(b.created_at),
+	sortComparer: (a, b) => a.createdAt.localeCompare(b.createdAt),
 });
 
 export const commentsSlice = createSlice({
@@ -56,7 +56,7 @@ export const {
 	opEnd,
 } = commentsSlice.actions;
 
-export const loadComments = (params, count, op = DEFAULT_OP.loading) => async dispatch => {
+export const loadComments = (params, op = DEFAULT_OP.loading) => async dispatch => {
 	dispatch(opStart(op));
 	const res = await api.getComments(params);
 	if (res.error) {
@@ -66,23 +66,19 @@ export const loadComments = (params, count, op = DEFAULT_OP.loading) => async di
 		]);
 	}
 
-	if (count) {
-		const countParams = {...params, _start: undefined, _limit: undefined};
+	const {data, meta} = res;
 
-		const countRes = await api.countComments(countParams);
-		if (countRes.error) {
-			return batchDispatch([
-				opEnd({op, error: countRes.error}),
-				newToast({...Toast.error(countRes.error)}),
-			]);
-		}
-		return batchDispatch([
-			commentsReceieved(res),
-			gotPages({total: countRes, limit: params._limit}),
-			opEnd({op}),
-		]);
-	}
-	return batchDispatch([commentsUpsertMany(res), opEnd({op})]);
+	const action = !params?.pagination?.start ? commentsReceieved : commentsUpsertMany;
+
+	return batchDispatch([
+		action(data),
+		gotPages({
+			total: meta.pagination.total,
+			totalNew: meta.pagination.totalNew,
+			limit: meta.pagination.limit,
+		}),
+		opEnd({op}),
+	]);
 };
 
 export const createOrDeleteComment = payload => async (dispatch, getState) => {
