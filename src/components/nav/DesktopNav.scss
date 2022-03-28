@@ -70,6 +70,11 @@
 			&-link {
 				font-weight: 600;
 				margin-right: 36px;
+
+				.fa-discord {
+					margin-right: 12px;
+					@include theme-aware('color', 'T800');
+				}
 			}
 
 			@media (max-width: $breakpoint-sm) {

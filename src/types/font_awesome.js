@@ -67,7 +67,15 @@ import {
 	faUser,
 } from '@fortawesome/free-regular-svg-icons';
 
-import {faFacebookF, faGoogle, faJediOrder} from '@fortawesome/free-brands-svg-icons';
+import {
+	faFacebookF,
+	faGoogle,
+	faDiscord,
+	faFacebook,
+	faInstagram,
+	faLinkedin,
+	faJediOrder,
+} from '@fortawesome/free-brands-svg-icons';
 
 import {library} from '@fortawesome/fontawesome-svg-core';
 
@@ -76,6 +84,10 @@ const FA = {
 	brand_facebook_f: faFacebookF,
 	brand_google: faGoogle,
 	brand_jedi: faJediOrder,
+	brand_discord: faDiscord,
+	brand_facebook: faFacebook,
+	brand_instagram: faInstagram,
+	brand_linkedin: faLinkedin,
 
 	//REGULAR ICONS
 	bell: faBell,

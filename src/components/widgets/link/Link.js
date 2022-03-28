@@ -36,7 +36,7 @@ Link.defaultProps = {
 };
 
 Link.propTypes = {
-	to: PropTypes.string.isRequired,
+	to: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
 	underline: PropTypes.string,
 	className: PropTypes.string,
 	children: PropTypes.node,
