@@ -53,11 +53,13 @@ export default function UserProfile() {
 
 	if (!user) return <Loader />;
 
+	DEFAULT_CRITERIA.filters.user = user?.id;
+
 	return (
 		<MobileWrapper className={CLASS}>
 			<UserProfileInfo user={user} className={CLASS} />
 			<Stories
-				criteria={{...DEFAULT_CRITERIA, user: user?.id}}
+				criteria={DEFAULT_CRITERIA}
 				NoItemsComponent={component}
 				noItemsComponentProps={componentProps}
 				displaySearch={!!stories?.length}

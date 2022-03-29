@@ -35,9 +35,7 @@ export default function Following({id}) {
 		return (
 			<LoadMore
 				className={CLASS + '-followers'}
-				onLoadMore={() =>
-					handleLoadFollowing(false, DEFAULT_OP.load_more, following.length)
-				}
+				onLoadMore={() => handleLoadFollowing(DEFAULT_OP.load_more, following.length)}
 				loading={op[DEFAULT_OP.loading].loading || op[DEFAULT_OP.load_more].loading}
 				showItems={op[DEFAULT_OP.loading].success}
 				shouldLoad={total > following.length}
@@ -79,11 +77,14 @@ export default function Following({id}) {
 	};
 
 	const handleLoadFollowing = useCallback(
-		(op, _start) => {
+		(op, start = 0) => {
 			dispatch(
 				loadFollowing(
-					{follower: id, ...DEFAULT_PAGINATION, _sort: 'created_at:DESC', _start},
-
+					{
+						filters: {follower: id},
+						pagination: {...DEFAULT_PAGINATION, start},
+						sort: ['createdAt:DESC'],
+					},
 					op
 				)
 			);
@@ -93,7 +94,7 @@ export default function Following({id}) {
 
 	useEffect(() => {
 		if (id) {
-			handleLoadFollowing(true, undefined, 0);
+			handleLoadFollowing();
 		}
 	}, [dispatch, id, handleLoadFollowing]);
 	const followersClasses = classNames(CLASS + '-info', !data && CLASS + ' disabled');

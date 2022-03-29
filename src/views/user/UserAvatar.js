@@ -13,9 +13,8 @@ import './UserAvatar.scss';
 const CLASS = 'st-UserAvatar';
 
 export default function UserAvatar({user, onClick}) {
-	if (!user) {
-		return null;
-	}
+	if (!user) return null;
+
 	const {avatar, username} = user;
 
 	return (

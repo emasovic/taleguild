@@ -63,7 +63,9 @@ export default function GuildatarContainer() {
 								genders: gender?.id,
 							},
 							guildatar: {
-								// $null: true,
+								id: {
+									$null: true,
+								},
 							},
 						},
 						pagination: {

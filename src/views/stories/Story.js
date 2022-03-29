@@ -43,7 +43,6 @@ export default function Story() {
 
 	const [activePage, setActivePage] = useState(0);
 
-	console.log(id);
 
 	const scrollToStory = () => window.scrollTo(0, 0);
 

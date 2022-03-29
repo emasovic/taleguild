@@ -35,7 +35,7 @@ export default function Followers({id}) {
 		return (
 			<LoadMore
 				className={CLASS + '-followers'}
-				onLoadMore={() => handleLoadFollwers(false, DEFAULT_OP.load_more, followers.length)}
+				onLoadMore={() => handleLoadFollwers(DEFAULT_OP.load_more, followers.length)}
 				loading={op[DEFAULT_OP.loading].loading || op[DEFAULT_OP.load_more].loading}
 				showItems={op[DEFAULT_OP.loading].success}
 				shouldLoad={total > followers.length}
@@ -76,11 +76,14 @@ export default function Followers({id}) {
 	};
 
 	const handleLoadFollwers = useCallback(
-		(op, _start) => {
+		(op, start) => {
 			dispatch(
 				loadFollowers(
-					{user: id, ...DEFAULT_PAGINATION, _sort: 'created_at:DESC', _start},
-
+					{
+						filters: {user: id},
+						pagination: {...DEFAULT_PAGINATION, start},
+						sort: ['createdAt:DESC'],
+					},
 					op
 				)
 			);
@@ -90,7 +93,7 @@ export default function Followers({id}) {
 
 	useEffect(() => {
 		if (id) {
-			handleLoadFollwers(true, undefined, 0);
+			handleLoadFollwers(undefined, 0);
 		}
 	}, [dispatch, id, handleLoadFollwers]);
 

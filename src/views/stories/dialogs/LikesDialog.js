@@ -23,7 +23,7 @@ function LikesDialog({isOpen, title, onClose, storyId, className}) {
 		return (
 			<LoadMore
 				className={className + '-likes'}
-				onLoadMore={() => handleLoadLikes(false, DEFAULT_OP.load_more, likes.length)}
+				onLoadMore={() => handleLoadLikes(DEFAULT_OP.load_more, likes.length)}
 				loading={op[DEFAULT_OP.loading].loading || op[DEFAULT_OP.load_more].loading}
 				showItems={op[DEFAULT_OP.loading].success}
 				shouldLoad={total > likes.length}
@@ -51,17 +51,18 @@ function LikesDialog({isOpen, title, onClose, storyId, className}) {
 	};
 
 	const handleLoadLikes = useCallback(
-		(op, _start) => {
+		(op, start = 0) => {
 			storyId &&
 				dispatch(
 					loadLikes(
 						{
-							story: storyId,
-							_sort: 'created_at:DESC',
-							...DEFAULT_PAGINATION,
-							_start,
+							filters: {story: storyId},
+							pagination: {
+								...DEFAULT_PAGINATION,
+								start,
+							},
+							sort: ['createdAt:DESC'],
 						},
-
 						op
 					)
 				);
@@ -69,7 +70,7 @@ function LikesDialog({isOpen, title, onClose, storyId, className}) {
 		[dispatch, storyId]
 	);
 
-	useEffect(() => handleLoadLikes(true, undefined, 0), [handleLoadLikes]);
+	useEffect(() => handleLoadLikes(), [handleLoadLikes]);
 	return (
 		<ConfirmModal
 			isOpen={isOpen}

@@ -21,10 +21,7 @@ const PrivateRoute = ({component: Component, ...rest}) => {
 		}
 	}, [user]);
 
-	if (isAuthenticated === null) {
-		return <Loader />;
-	}
-
+	if (isAuthenticated === null) return <Loader />;
 	return (
 		<Route
 			{...rest}

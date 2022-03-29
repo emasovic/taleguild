@@ -85,8 +85,8 @@ export default function Header({className, pages, op, onStoryPage, story, pageId
 			description,
 			categories: categories.length && categories.map(item => item.value),
 			language: language && language.value,
-			published_at: !published ? new Date() : undefined,
-			archived_at: null,
+			publishedAt: !published ? new Date() : undefined,
+			archivedAt: null,
 		};
 
 		handleCreateOrUpdateStory(payload);
@@ -111,7 +111,7 @@ export default function Header({className, pages, op, onStoryPage, story, pageId
 			categories: story?.categories.map(item => ({label: item.display_name, value: item.id})),
 			language: story?.language && {value: story?.language?.id, label: story?.language?.name},
 			image: story?.image,
-			published: story?.published_at,
+			published: story?.publishedAt,
 		},
 		onSubmit: handleSubmit,
 	});

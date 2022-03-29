@@ -58,9 +58,7 @@ function CommentsDialog({isOpen, title, onClose, storyId, className}) {
 		return (
 			<div className={className + '-comments'}>
 				<LoadMore
-					onLoadMore={() =>
-						handleLoadComments(false, DEFAULT_OP.load_more, comments.length)
-					}
+					onLoadMore={() => handleLoadComments(DEFAULT_OP.load_more, comments.length)}
 					loading={op[DEFAULT_OP.loading].loading || op[DEFAULT_OP.load_more].loading}
 					showItems={op[DEFAULT_OP.loading].success}
 					shouldLoad={total > comments.length}
@@ -83,7 +81,7 @@ function CommentsDialog({isOpen, title, onClose, storyId, className}) {
 								<div className={className + '-comments-posted-item-user'}>
 									<div className={className + '-comments-posted-item-user-info'}>
 										<span>{user.display_name || user.username}</span>
-										<FromNow date={item.created_at} />
+										<FromNow date={item.createdAt} />
 									</div>
 									<span>{item.comment}</span>
 									{data && user.id === data.id && (
@@ -138,17 +136,18 @@ function CommentsDialog({isOpen, title, onClose, storyId, className}) {
 	};
 
 	const handleLoadComments = useCallback(
-		(op, _start) => {
+		(op, start) => {
 			storyId &&
 				dispatch(
 					loadComments(
 						{
-							story: storyId,
-							_sort: 'created_at:ASC',
-							...DEFAULT_PAGINATION,
-							_start,
+							filters: {story: storyId},
+							sort: ['createdAt:ASC'],
+							pagination: {
+								...DEFAULT_PAGINATION,
+								start,
+							},
 						},
-
 						op
 					)
 				);
@@ -156,7 +155,7 @@ function CommentsDialog({isOpen, title, onClose, storyId, className}) {
 		[dispatch, storyId]
 	);
 
-	useEffect(() => handleLoadComments(true, undefined, 0), [handleLoadComments]);
+	useEffect(() => handleLoadComments(undefined, 0), [handleLoadComments]);
 
 	return (
 		<ConfirmModal

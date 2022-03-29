@@ -42,7 +42,7 @@ export default function Notifications({isPage, isMobile}) {
 	};
 
 	const handleLoadNotifications = useCallback(
-		(op, start) =>
+		(op, start = 0) =>
 			userId &&
 			dispatch(
 				loadNotifications(
@@ -65,7 +65,7 @@ export default function Notifications({isPage, isMobile}) {
 	const handleMarkAllAsRead = () =>
 		dispatch(updateNotifications({action: NOTIFICATION_ACTIONS.markAllRead}));
 
-	useEffect(() => handleLoadNotifications(undefined, 0), [handleLoadNotifications]);
+	useEffect(() => handleLoadNotifications(), [handleLoadNotifications]);
 
 	const header = (
 		<div className={CLASS + '-notifications'}>
