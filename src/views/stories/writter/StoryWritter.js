@@ -30,7 +30,7 @@ export default function StoryWritter() {
 	const story = useSelector(state => selectStory(state, storyId));
 	const {loading, op} = useSelector(state => state.storyPages);
 
-	const published = !!story?.published_at;
+	const published = !!story?.publishedAt;
 
 	const handleStoryPage = useCallback(
 		(id, text) => {

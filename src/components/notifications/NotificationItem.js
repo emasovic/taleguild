@@ -47,7 +47,7 @@ function NotificationItem({id, toggle}) {
 		!notification.read && dispatch(updateNotification({id, read: true}));
 	};
 
-	const {data, created_at, type, read} = notification;
+	const {data, createdAt, type, read} = notification;
 
 	const message = notification.message;
 	const sign = NOTIFICATION_TYPES.ITEM_BOUGHT === type ? '-' : '+';
@@ -62,7 +62,7 @@ function NotificationItem({id, toggle}) {
 		>
 			<Typography component="p">{message}</Typography>
 			<Typography component="p">
-				<FromNow date={created_at} />
+				<FromNow date={createdAt} />
 			</Typography>
 			<div className={CLASS + '-item-rewards'}>
 				{!!data?.points && (

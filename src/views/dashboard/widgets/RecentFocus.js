@@ -24,9 +24,13 @@ export default function RecentFocus() {
 	const drafts = useSelector(selectStories);
 	const {op} = useSelector(state => state.draftStories);
 	const [{data: result, isLoading, error}] = useLoadItems(getActivity, {
-		user: data?.id,
-		created_at_lte: setTimeToDate(23, 59, 59),
-		created_at_gte: subDays(new Date(setTimeToDate(23, 59, 59)), 7).toISOString(),
+		filters: {
+			user: data?.id,
+			createdAt: {
+				$lte: setTimeToDate(23, 59, 59),
+				$gte: subDays(new Date(setTimeToDate(23, 59, 59)), 7).toISOString(),
+			},
+		},
 	});
 
 	const totalActive = result.reduce((acc, val) => acc + val.active, 0);

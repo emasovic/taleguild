@@ -21,10 +21,14 @@ export default function RecentCoins() {
 	const {data} = useSelector(selectAuthUser);
 	const {stats} = useSelector(state => state.auth);
 	let [{data: result, error, isLoading}] = useLoadItems(getUserPointsAndCoins, {
-		user: data?.id,
-		type: VALUE_TYPE.increment,
-		created_at_gte: setTimeToDate(0, 0, 0),
-		created_at_lte: setTimeToDate(23, 59, 59),
+		filters: {
+			user: data?.id,
+			type: VALUE_TYPE.increment,
+			createdAt: {
+				$gte: setTimeToDate(0, 0, 0),
+				$lte: setTimeToDate(23, 59, 59),
+			},
+		},
 	});
 
 	result = result?.reduce((acc, val) => acc + val.coins, 0);

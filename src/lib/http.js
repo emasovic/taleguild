@@ -27,7 +27,7 @@ export const request = opts => {
 		throw new Error('url is required');
 	}
 
-	opts.baseURL = process.env.REACT_APP_API_URL;
+	opts.baseURL = process.env.REACT_APP_API_URL.concat('/api');
 	opts.method = opts.method || 'get';
 
 	const headers = opts.headers;

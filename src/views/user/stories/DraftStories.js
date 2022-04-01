@@ -32,7 +32,7 @@ export default function DraftStories({shouldLoadMore, Component, to}) {
 				pagination: DEFAULT_PAGINATION,
 				publicationState: PUBLISH_STATES.preview,
 				filters: {
-					published_at: {
+					publishedAt: {
 						$null: true,
 					},
 					archived_at: {

@@ -43,7 +43,7 @@ const Stories = memo(
 		const shouldLoad = total > stories.length;
 
 		const sortStories = sort =>
-			dispatch(navigateToQuery({_sort: sort + ':' + SORT_DIRECTION.desc}));
+			dispatch(navigateToQuery({sort: sort + ':' + SORT_DIRECTION.desc}));
 
 		const handleLoadStories = useCallback(
 			(op, start) =>
@@ -72,8 +72,8 @@ const Stories = memo(
 			<div className={CLASS}>
 				{displayNav && (
 					<Nav className={CLASS + '-header'}>
-						<NavItem href="#" onClick={() => sortStories(STORY_SORT.published_at)}>
-							<NavLink active={activeSort.includes(STORY_SORT.published_at)}>
+						<NavItem href="#" onClick={() => sortStories(STORY_SORT.publishedAt)}>
+							<NavLink active={activeSort.includes(STORY_SORT.publishedAt)}>
 								Recent stories
 							</NavLink>
 						</NavItem>
@@ -138,13 +138,15 @@ const MemoizedStories = ({
 	NoItemsComponent,
 	noItemsComponentProps,
 }) => {
-	const {language, categories} = useGetSearchParams();
+	const {language, categories, sort} = useGetSearchParams();
 
 	const newCriteria = {...criteria, filters: {...criteria.filters, language, categories}};
+	let activeSort = STORY_SORT.publishedAt;
 
-	const activeSort = newCriteria._sort
-		? newCriteria._sort.split(':')[0]
-		: STORY_SORT.published_at;
+	if (sort) {
+		newCriteria.sort = [sort];
+		activeSort = sort.split(':')[0];
+	}
 
 	delete newCriteria.fbclid;
 	delete newCriteria.ref;

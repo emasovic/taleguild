@@ -52,15 +52,19 @@ function SavedByDialog({isOpen, title, onClose, storyId, className}) {
 	};
 
 	const handleLoadSavedBy = useCallback(
-		(op, _start) => {
+		(op, start = 0) => {
 			storyId &&
 				dispatch(
 					loadSavedBy(
 						{
-							story: storyId,
-							_sort: 'created_at:DESC',
-							...DEFAULT_PAGINATION,
-							_start,
+							filters: {
+								story: storyId,
+							},
+							pagination: {
+								...DEFAULT_PAGINATION,
+								start,
+							},
+							sort: ['createdAt:DESC'],
 						},
 						op
 					)
@@ -69,7 +73,7 @@ function SavedByDialog({isOpen, title, onClose, storyId, className}) {
 		[dispatch, storyId]
 	);
 
-	useEffect(() => handleLoadSavedBy(undefined, 0), [handleLoadSavedBy]);
+	useEffect(() => handleLoadSavedBy(), [handleLoadSavedBy]);
 	return (
 		<ConfirmModal
 			isOpen={isOpen}

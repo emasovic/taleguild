@@ -43,7 +43,6 @@ export default function Story() {
 
 	const [activePage, setActivePage] = useState(0);
 
-
 	const scrollToStory = () => window.scrollTo(0, 0);
 
 	const handleActivePage = page => {
@@ -51,9 +50,9 @@ export default function Story() {
 		scrollToStory();
 	};
 
-	// useEffect(() => {
-	// 	dispatch(createOrUpdateViews(id, userId));
-	// }, [dispatch, id, userId]);
+	useEffect(() => {
+		dispatch(createOrUpdateViews(id, userId));
+	}, [dispatch, id, userId]);
 
 	useEffect(() => {
 		dispatch(loadStory(id));

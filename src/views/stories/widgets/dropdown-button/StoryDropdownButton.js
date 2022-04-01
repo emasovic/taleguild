@@ -28,7 +28,7 @@ export default function StoryDropdownButton({id, selector, onDeleteStory, keepAr
 
 	const item = useSelector(state => selector(state, id));
 
-	let {archived_at, published_at, title, story, storypages} = item || {};
+	let {archived_at, publishedAt, title, story, storypages} = item || {};
 
 	title = title || story?.title;
 
@@ -68,8 +68,8 @@ export default function StoryDropdownButton({id, selector, onDeleteStory, keepAr
 	const pageId = storypages?.length ? storypages[0].id : null;
 	const archiveTitle = archived_at ? 'Unarchive' : 'Archive';
 
-	const displayEdit = pageId && (archived_at || !published_at);
-	const displayArchived = !!published_at;
+	const displayEdit = pageId && (archived_at || !publishedAt);
+	const displayArchived = !!publishedAt;
 	return (
 		<div className={CLASS}>
 			<DropdownButton>

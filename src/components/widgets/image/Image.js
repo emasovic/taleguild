@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+import {getImageUrl} from 'lib/util';
+
 import useIntersectionObserver from 'hooks/intersection-observer';
 
 import Icon from '../icon/Icon';
@@ -15,18 +17,16 @@ const CLASS = 'st-Image';
 function Image({src, image, alt, formats, size, thumb, thumbClassName, imageClassName, ...rest}) {
 	const [isLoaded, setIsLoaded] = React.useState(false);
 
-	const apiUrl = process.env.REACT_APP_API_URL.replace('/api', '');
-
 	if (formats && formats[size]) {
 		image = formats[size];
 	}
 
 	if (image) {
-		src = apiUrl + image.url;
+		src = getImageUrl(image.url);
 	}
 
 	if (formats?.thumbnail || src) {
-		thumb = src || apiUrl + formats?.thumbnail?.url;
+		thumb = src || getImageUrl(formats?.thumbnail?.url);
 	}
 
 	if (!src) {

@@ -94,7 +94,7 @@ function RecentWork({shouldLoadMore, title, titleProps, placeholderProps, displa
 					loadStories(
 						{
 							filters: {
-								published_at: {
+								publishedAt: {
 									$null: true,
 								},
 								archived_at: {
@@ -144,7 +144,7 @@ function RecentWork({shouldLoadMore, title, titleProps, placeholderProps, displa
 					buttonText: 'Write your first story',
 					withBackground: true,
 					buttonProps: {
-						onClick: () => dispatch(newStory({user: userId, published_at: null})),
+						onClick: () => dispatch(newStory({user: userId, publishedAt: null})),
 					},
 					...placeholderProps,
 				}}

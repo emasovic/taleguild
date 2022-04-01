@@ -55,7 +55,7 @@ export default function DesktopNav({isMobile}) {
 	const [isOpen, setIsOpen] = useState(false);
 
 	const handleNewStory = () => {
-		dispatch(newStory({user: data && data.id, published_at: null}));
+		dispatch(newStory({user: data && data.id, publishedAt: null}));
 	};
 
 	const userLoggedOut = () => {

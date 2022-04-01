@@ -42,9 +42,9 @@ export const STORY_OP = {
 };
 
 export const STORY_SORT = {
-	published_at: 'published_at',
 	likes_count: 'likes_count',
-	created_at: 'created_at',
+	publishedAt: 'publishedAt',
+	createdAt: 'createdAt',
 };
 
 export const SORT_DIRECTION = {

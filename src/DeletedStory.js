@@ -26,7 +26,7 @@ export default function DeletedStory() {
 	const {data} = useSelector(selectAuthUser);
 
 	const handleNewStory = () => {
-		dispatch(newStory({user: data && data.id, published_at: null}));
+		dispatch(newStory({user: data && data.id, publishedAt: null}));
 	};
 	return (
 		<MobileWrapper className={CLASS}>

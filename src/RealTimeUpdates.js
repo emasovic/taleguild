@@ -38,7 +38,7 @@ class RealTimeUpdates extends PureComponent {
 
 	init = () => {
 		const {notificationsAddOne, data} = this.props;
-		this.socket = io('');
+		this.socket = io(process.env.REACT_APP_API_URL);
 
 		this.handleEmit(SOCKET_EVENTS.userConnected, {username: data.username, id: data.id});
 

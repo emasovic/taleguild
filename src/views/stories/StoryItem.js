@@ -43,7 +43,7 @@ function StoryItem({id, size, selector, keepArchived}) {
 		likes,
 		slug,
 		user: author,
-		published_at: publishedAt,
+		publishedAt,
 		saved_by: savedBy,
 		views_count: viewsCount,
 		comments_count: commentsCount,

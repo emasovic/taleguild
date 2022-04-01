@@ -81,8 +81,8 @@ export default function StoryList({
 					description={item.description}
 					key={item.id}
 					author={item?.story?.user || item.user}
-					createdDate={item.published_at}
-					archivedAt={item.archived_at}
+					createdDate={item.publishedAt}
+					archivedAt={item.archivedAt}
 					slug={item.slug}
 					storypages={item.storypages}
 					onDeleteStory={onDeleteStory}
