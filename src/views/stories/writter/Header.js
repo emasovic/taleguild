@@ -18,13 +18,14 @@ import {deleteStoryPage} from 'redux/storyPages';
 
 import DropdownButton from 'components/widgets/button/DropdownButton';
 import FloatingInput from 'components/widgets/input/FloatingInput';
-import VisibilityControl from 'components/widgets/visibility-control/VisibilityControl';
 import ConfirmModal from 'components/widgets/modals/Modal';
 import Typography from 'components/widgets/typography/Typography';
+import IconButton from 'components/widgets/button/IconButton';
 
 import StoryPagePicker from '../widgets/page-picker/StoryPagePicker';
 
 import PublishStoryDialog from './PublishStoryDialog';
+import FA from 'types/font_awesome';
 
 const validationSchema = object().shape({
 	title: string()
@@ -62,7 +63,7 @@ export default function Header({className, pages, op, onStoryPage, story, pageId
 	const savingText = disabledActions
 		? 'Saving...'
 		: op[STORY_PAGE_OP.update].success
-		? `Saved in ${savedIn} in ${data?.display_name || data?.username}`
+		? `Saved in ${savedIn}`
 		: '';
 	const selectedPage = pages.findIndex(item => item.id === Number(pageId));
 
@@ -177,12 +178,6 @@ export default function Header({className, pages, op, onStoryPage, story, pageId
 					<div className={className + '-header-publish-actions-buttons'}>
 						<DropdownButton outline={true}>
 							<DropdownItem
-								disabled={op[STORY_PAGE_OP.update].loading}
-								onClick={togglePublishStoryModal}
-							>
-								Publish
-							</DropdownItem>
-							<DropdownItem
 								disabled={disabledActions || pages.length === 1}
 								onClick={toggleDeleteStoryPageModal}
 							>
@@ -197,11 +192,24 @@ export default function Header({className, pages, op, onStoryPage, story, pageId
 						</DropdownButton>
 					</div>
 				</div>
+				<div>
+					<IconButton
+						tertiary
+						outline
+						disabled={op[STORY_PAGE_OP.update].loading}
+						onClick={togglePublishStoryModal}
+					>
+						Publish
+					</IconButton>
+				</div>
 			</div>
 
-			<VisibilityControl visible className={className + '-header-saving'}>
+			<div className={className + '-header-saving'}>
 				<Typography color={TEXT_COLORS.tertiary}>{savingText}</Typography>
-			</VisibilityControl>
+				<Typography color={TEXT_COLORS.tertiary} icon={FA.eye}>
+					Only vissible to you
+				</Typography>
+			</div>
 
 			{isDeleteStoryPageOpen && (
 				<ConfirmModal

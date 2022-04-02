@@ -65,6 +65,7 @@ import {
 	faClipboard,
 	faShareSquare,
 	faUser,
+	faEye,
 } from '@fortawesome/free-regular-svg-icons';
 
 import {
@@ -90,6 +91,7 @@ const FA = {
 	brand_linkedin: faLinkedin,
 
 	//REGULAR ICONS
+	eye: faEye,
 	bell: faBell,
 	comment: faComment,
 	heart: faHeart,
