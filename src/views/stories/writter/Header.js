@@ -11,6 +11,8 @@ import {editStory} from 'lib/routes';
 
 import {STORY_PAGE_OP} from 'types/story_page';
 import {FONTS, TEXT_COLORS, TYPOGRAPHY_VARIANTS} from 'types/typography';
+import FA from 'types/font_awesome';
+import {COLOR} from 'types/button';
 
 import {selectAuthUser} from 'redux/auth';
 import {createOrUpdateStory, deleteStory} from 'redux/story';
@@ -25,7 +27,6 @@ import IconButton from 'components/widgets/button/IconButton';
 import StoryPagePicker from '../widgets/page-picker/StoryPagePicker';
 
 import PublishStoryDialog from './PublishStoryDialog';
-import FA from 'types/font_awesome';
 
 const validationSchema = object().shape({
 	title: string()
@@ -194,8 +195,7 @@ export default function Header({className, pages, op, onStoryPage, story, pageId
 				</div>
 				<div>
 					<IconButton
-						tertiary
-						outline
+						color={COLOR.secondary}
 						disabled={op[STORY_PAGE_OP.update].loading}
 						onClick={togglePublishStoryModal}
 					>
