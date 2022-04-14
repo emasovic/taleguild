@@ -35,6 +35,7 @@ const Login = lazy(() => import('views/login/Login'));
 const ForgotPassword = lazy(() => import('views/login/ForgotPassword'));
 const ResetPassword = lazy(() => import('views/login/ResetPassword'));
 const ProviderLogin = lazy(() => import('views/login/ProviderLogin'));
+const ResendConfirmationEmail = lazy(() => import('views/login/ResendConfirmationEmail'));
 
 const TermsOfService = lazy(() => import('views/privacy-terms/TermsOfService'));
 const PrivacyPolicy = lazy(() => import('views/privacy-terms/PrivacyPolicy'));
@@ -69,6 +70,10 @@ const Routes = () => (
 				<PublicRoute path={routes.LOGIN} component={Login} />
 				<PublicRoute path={routes.FORGOT_PASSWORD} component={ForgotPassword} />
 				<PublicRoute path={routes.RESET_PASSWORD} component={ResetPassword} />
+				<PublicRoute
+					path={routes.RESEND_CONFIRMATION_EMAIL}
+					component={ResendConfirmationEmail}
+				/>
 				<Route path={routes.PROVIDER_LOGIN} component={ProviderLogin} />
 				<PublicRoute path={routes.WELCOME} component={Welcome} />
 				<PublicRoute path={routes.REGISTRATION_SUCCESS} component={RegistrationSuccess} />

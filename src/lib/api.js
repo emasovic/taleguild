@@ -22,6 +22,10 @@ export const resetPassword = payload => {
 	return http.post('auth/reset-password', null, payload);
 };
 
+export const resendConfirmationEmail = payload => {
+	return http.post('auth/send-email-confirmation', null, payload);
+};
+
 /******************      USER        ***********************/
 
 export const getUserInfo = token => {

@@ -1,12 +1,11 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
 
-import {LOGIN} from 'lib/routes';
+import {RESEND_CONFIRMATION_EMAIL} from 'lib/routes';
 
-import {FONTS, FONT_WEIGHT, TYPOGRAPHY_VARIANTS} from 'types/typography';
+import {FONTS, TYPOGRAPHY_VARIANTS} from 'types/typography';
 
-import IconButton from 'components/widgets/button/IconButton';
 import Typography from 'components/widgets/typography/Typography';
+import PagePlaceholder from 'components/widgets/page-placeholder/PagePlaceholder';
 
 import {ReactComponent as LogoEmailShiled} from 'images/logo-shield-mail.svg';
 
@@ -16,27 +15,20 @@ const CLASS = 'st-RegistrationSuccess';
 
 export default function RegistrationSuccess() {
 	return (
-		<div className={CLASS}>
-			<LogoEmailShiled />
-
-			<Typography
-				font={FONTS.merri}
-				variant={TYPOGRAPHY_VARIANTS.h1}
-				fontWeight={FONT_WEIGHT.bold}
-			>
-				Thank You For Your Registration
-			</Typography>
-			<Typography font={FONTS.lato} variant={TYPOGRAPHY_VARIANTS.action1}>
-				We have send you an confirmation email. Please confirm your email address to
-				activate your account.
-			</Typography>
-			<Typography font={FONTS.lato} variant={TYPOGRAPHY_VARIANTS.action1}>
-				If you don't see it, you may need to <b>check your spam or junk folder.</b>
-			</Typography>
-
-			<IconButton tag={Link} to={LOGIN}>
-				Go to Sign In
-			</IconButton>
-		</div>
+		<PagePlaceholder
+			className={CLASS}
+			IconComponent={LogoEmailShiled}
+			title="Thank You For Your Registration"
+			subtitle="We have send you an confirmation email. Please confirm your email address to
+				activate your account. If you don't see it, you may need to
+				check your spam or junk folder."
+			additional={
+				<Typography font={FONTS.lato} variant={TYPOGRAPHY_VARIANTS.action1}>
+					In case you didn't receive email you can always resend it
+				</Typography>
+			}
+			buttonLabel="Resend"
+			to={RESEND_CONFIRMATION_EMAIL}
+		/>
 	);
 }

@@ -2,7 +2,7 @@ import {createSlice} from '@reduxjs/toolkit';
 import {push} from 'connected-react-router';
 
 import * as api from 'lib/api';
-import {DASHBOARD, WELCOME} from 'lib/routes';
+import {DASHBOARD, REGISTRATION_SUCCESS, WELCOME} from 'lib/routes';
 
 import {Toast} from 'types/toast';
 import {USER_OP} from 'types/user';
@@ -92,12 +92,33 @@ export const registerUser = payload => async dispatch => {
 		]);
 	}
 
-	const {jwt, user} = res;
-	const {saved_stories, ...rest} = user;
+	batchDispatch([
+		newToast({
+			...Toast.success('Thank you for registring, check your email for confirmation link!'),
+		}),
+		opEnd({op}),
+		push(REGISTRATION_SUCCESS),
+	]);
+};
 
-	localStorage.setItem('token', res.jwt);
+export const resendConfirmationEmail = payload => async dispatch => {
+	const op = USER_OP.resend_confirmation_email;
+	dispatch(opStart(op));
+	const res = await api.resendConfirmationEmail(payload);
 
-	batchDispatch([gotData({jwt, ...rest}), opEnd({op}), push(DASHBOARD)]);
+	if (res.error) {
+		return batchDispatch([
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
+		]);
+	}
+
+	batchDispatch([
+		newToast({
+			...Toast.success('Check your email for confirmation link!'),
+		}),
+		opEnd({op}),
+	]);
 };
 
 export const logOutUser = () => dispatch => {
