@@ -7,7 +7,7 @@ import {useHistory} from 'react-router';
 import {mixed, object, string, array} from 'yup';
 import {useFormik} from 'formik';
 
-import {editStory} from 'lib/routes';
+import {DASHBOARD, editStory} from 'lib/routes';
 
 import {STORY_PAGE_OP} from 'types/story_page';
 import {FONTS, TEXT_COLORS, TYPOGRAPHY_VARIANTS} from 'types/typography';
@@ -27,6 +27,7 @@ import IconButton from 'components/widgets/button/IconButton';
 import StoryPagePicker from '../widgets/page-picker/StoryPagePicker';
 
 import PublishStoryDialog from './PublishStoryDialog';
+import Link from 'components/widgets/link/Link';
 
 const validationSchema = object().shape({
 	title: string()
@@ -179,6 +180,12 @@ export default function Header({className, pages, op, onStoryPage, story, pageId
 					<div className={className + '-header-publish-actions-buttons'}>
 						<DropdownButton outline={true}>
 							<DropdownItem
+								disabled={op[STORY_PAGE_OP.update].loading}
+								onClick={togglePublishStoryModal}
+							>
+								Publish
+							</DropdownItem>
+							<DropdownItem
 								disabled={disabledActions || pages.length === 1}
 								onClick={toggleDeleteStoryPageModal}
 							>
@@ -197,9 +204,10 @@ export default function Header({className, pages, op, onStoryPage, story, pageId
 					<IconButton
 						color={COLOR.secondary}
 						disabled={op[STORY_PAGE_OP.update].loading}
-						onClick={togglePublishStoryModal}
+						tag={Link}
+						to={DASHBOARD}
 					>
-						Publish
+						Save & Close
 					</IconButton>
 				</div>
 			</div>
