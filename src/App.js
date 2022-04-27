@@ -11,6 +11,7 @@ import Helmet from 'components/widgets/helmet/Helmet';
 import ErrorPage from 'ErrorPage';
 
 import Routes from 'Routes';
+import CookiesPopup from 'CookiesPopup';
 import RealTimeUpdates from 'RealTimeUpdates';
 
 import './App.scss';
@@ -26,6 +27,7 @@ function App() {
 
 			<Routes />
 			{data && <RealTimeUpdates />}
+			<CookiesPopup />
 		</ErrorPage>
 	);
 }
