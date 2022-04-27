@@ -207,7 +207,7 @@ export default function Header({className, pages, op, onStoryPage, story, pageId
 			<div className={className + '-header-saving'}>
 				<Typography color={TEXT_COLORS.tertiary}>{savingText}</Typography>
 				<Typography color={TEXT_COLORS.tertiary} icon={FA.eye}>
-					Only vissible to you
+					Only visible to you
 				</Typography>
 			</div>
 

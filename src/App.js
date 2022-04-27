@@ -18,6 +18,7 @@ import './App.scss';
 
 function App() {
 	const {op, data} = useSelector(selectAuthUser);
+	const isAccepted = localStorage.getItem('termsAccepted');
 
 	if (op[DEFAULT_OP.loading].loading) return <Loader />;
 
@@ -27,7 +28,7 @@ function App() {
 
 			<Routes />
 			{data && <RealTimeUpdates />}
-			<CookiesPopup />
+			{!isAccepted && <CookiesPopup />}
 		</ErrorPage>
 	);
 }
