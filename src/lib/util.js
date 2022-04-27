@@ -76,6 +76,9 @@ export const capitalize = string => {
 	return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
+export const createClassName = classes =>
+	classes.reduce((acc, val, index) => (index !== 0 ? acc.concat(`-${val}`) : val), '');
+
 export const isElementInViewport = el => {
 	if (!el) {
 		return false;

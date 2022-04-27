@@ -78,7 +78,7 @@ RecentItem.propTypes = {
 	id: PropTypes.number.isRequired,
 };
 
-function RecentWork({shouldLoadMore, title, titleProps, placeholderProps, displayLink}) {
+function RecentWork({shouldLoadMore, criteria, title, titleProps, placeholderProps, displayLink}) {
 	const dispatch = useDispatch();
 
 	const stories = useSelector(selectStoryIds);
@@ -100,12 +100,13 @@ function RecentWork({shouldLoadMore, title, titleProps, placeholderProps, displa
 							user: userId,
 							_sort: 'created_at:DESC',
 							_start,
+							...criteria,
 						},
 						op
 					)
 				);
 		},
-		[dispatch, userId]
+		[dispatch, userId, criteria]
 	);
 
 	useEffect(() => handleLoadStories(undefined, 0), [handleLoadStories]);
@@ -132,8 +133,7 @@ function RecentWork({shouldLoadMore, title, titleProps, placeholderProps, displa
 				NoItemsComponent={NoItemsPlaceholder}
 				noItemsComponentProps={{
 					title: 'Write your new story',
-					subtitle:
-						'Start writing your new story with our simple and clean text editor',
+					subtitle: 'Start writing your new story with our simple and clean text editor',
 					buttonText: 'Write your first story',
 					withBackground: true,
 					buttonProps: {
@@ -145,7 +145,15 @@ function RecentWork({shouldLoadMore, title, titleProps, placeholderProps, displa
 				{stories.map(i => (
 					<RecentItem key={i} id={i} />
 				))}
-				{displayLink && !!total && <Link to={USER_STORIES_DRAFTS} underline={UNDERLINE.hover} className={CLASS + '-link'}>View all</Link>}
+				{displayLink && !!total && (
+					<Link
+						to={USER_STORIES_DRAFTS}
+						underline={UNDERLINE.hover}
+						className={CLASS + '-link'}
+					>
+						View all
+					</Link>
+				)}
 			</LoadMore>
 		</div>
 	);
@@ -156,13 +164,15 @@ RecentWork.propTypes = {
 	titleProps: PropTypes.object,
 	title: PropTypes.string,
 	placeholderProps: PropTypes.object,
-	displayLink: PropTypes.bool
+	displayLink: PropTypes.bool,
+	criteria: PropTypes.object,
 };
 
 RecentWork.defaultProps = {
 	title: 'Recent work',
 	titleProps: {},
 	placeholderProps: {},
+	criteria: {},
 	displayLink: false,
 };
 

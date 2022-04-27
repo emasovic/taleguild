@@ -284,7 +284,7 @@ export const getGuildatar = id => {
 	return http.get('guildatars/' + id);
 };
 
-/******************      GUILDATARS        ***********************/
+/******************      GENDERS        ***********************/
 
 export const getGenders = filter => {
 	return http.get('genders', filter);
@@ -298,6 +298,28 @@ export const getLevels = filter => {
 
 export const countLevelsgetLevels = filter => {
 	return http.get('levels/count', filter);
+};
+
+/******************      PROJECTS        ***********************/
+
+export const getProjects = filter => {
+	return http.get('projects', filter);
+};
+
+export const createProject = payload => {
+	return http.post('projects', null, payload);
+};
+
+export const updateProject = payload => {
+	return http.put('projects/' + payload.id, null, payload);
+};
+
+export const deleteProject = id => {
+	return http.del('projects/' + id);
+};
+
+export const countProjects = filter => {
+	return http.get('projects/count', filter);
 };
 
 /******************      MEDIA        ***********************/

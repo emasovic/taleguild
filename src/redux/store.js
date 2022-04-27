@@ -19,6 +19,7 @@ import likes from './likes';
 import languages from './languages';
 import notifications from './notifications';
 import marketplace from './marketplace';
+import projects from './projects';
 import savedStories from './savedStories';
 import savedBy from './savedBy';
 import storyPages from './storyPages';
@@ -45,6 +46,7 @@ const createRootReducer = history =>
 		languages,
 		notifications,
 		marketplace,
+		projects,
 		stories,
 		savedBy,
 		storyPages,

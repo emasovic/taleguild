@@ -16,7 +16,7 @@ import {selectUserId} from 'redux/auth';
 
 import StoryList from './StoryList';
 
-export default function ArchivedStories({shouldLoadMore, Component, to}) {
+export default function ArchivedStories({shouldLoadMore, criteria, Component, to}) {
 	const dispatch = useDispatch();
 
 	const userId = useSelector(selectUserId);
@@ -33,6 +33,7 @@ export default function ArchivedStories({shouldLoadMore, Component, to}) {
 				_sort: 'published_at:DESC',
 				archived_at_null: false,
 				user: userId,
+				...criteria,
 			}}
 			reduxState={REDUX_STATE.archivedStories}
 			selector={selectArchivedStories}
@@ -48,10 +49,12 @@ export default function ArchivedStories({shouldLoadMore, Component, to}) {
 ArchivedStories.propTypes = {
 	shouldLoadMore: propTypes.bool,
 	Component: propTypes.any,
+	criteria: propTypes.object,
 	to: propTypes.string,
 };
 
 ArchivedStories.defaultProps = {
+	criteria: {},
 	shouldLoadMore: true,
 	Component: STORY_COMPONENTS.thumb,
 };
