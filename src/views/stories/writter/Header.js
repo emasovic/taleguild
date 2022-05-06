@@ -207,7 +207,7 @@ export default function Header({className, pages, op, onStoryPage, story, pageId
 						tag={Link}
 						to={DASHBOARD}
 					>
-						Save & Close
+						Save and Close
 					</IconButton>
 				</div>
 			</div>
