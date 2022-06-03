@@ -23,6 +23,7 @@ import {kFormatter} from 'lib/util';
 import {ICONS} from 'types/icons';
 import {TEXT_WRAP} from 'types/typography';
 import {COLOR} from 'types/button';
+import {SOCIAL_NETWORK_ICONS, SOCIAL_NETWORK_URLS} from 'types/socials';
 
 import {selectAuthUser, logOutUser} from 'redux/auth';
 import {newStory} from 'redux/story';
@@ -42,6 +43,7 @@ import {WIDGETS} from 'views/community/Community';
 import MobileDrawer from './MobileDrawer';
 
 import './DesktopNav.scss';
+import FaIcon from 'components/widgets/fa-icon/FaIcon';
 
 const CLASS = 'st-DesktopNav';
 export default function DesktopNav({isMobile}) {
@@ -61,6 +63,18 @@ export default function DesktopNav({isMobile}) {
 	const userLoggedOut = () => {
 		return (
 			<NavItem className={CLASS + '-status-signedOut'}>
+				{!isMobile && (
+					<Link
+						to={{pathname: SOCIAL_NETWORK_URLS.discord}}
+						underline={UNDERLINE.hover}
+						target="_blank"
+						className={CLASS + '-status-signedOut-link'}
+					>
+						<FaIcon icon={SOCIAL_NETWORK_ICONS.discord} />
+						Visit us on Discord
+					</Link>
+				)}
+
 				<Link
 					to={LOGIN}
 					underline={UNDERLINE.hover}
@@ -113,6 +127,9 @@ export default function DesktopNav({isMobile}) {
 					</DropdownItem>
 					<DropdownItem tag={Link} to={USER_SETTINGS}>
 						Account settings
+					</DropdownItem>
+					<DropdownItem href={SOCIAL_NETWORK_URLS.discord} target="_blank">
+						Visit us on Discord
 					</DropdownItem>
 					<DropdownItem
 						href="https://www.buymeacoffee.com/taleguildstory"

@@ -7,11 +7,12 @@ import {useHistory} from 'react-router';
 import {mixed, object, string, array} from 'yup';
 import {useFormik} from 'formik';
 
-import {editStory} from 'lib/routes';
+import {DASHBOARD, editStory} from 'lib/routes';
 
-import {COLOR} from 'types/button';
 import {STORY_PAGE_OP} from 'types/story_page';
 import {FONTS, TEXT_COLORS, TYPOGRAPHY_VARIANTS} from 'types/typography';
+import FA from 'types/font_awesome';
+import {COLOR} from 'types/button';
 
 import {selectAuthUser} from 'redux/auth';
 import {createOrUpdateStory, deleteStory} from 'redux/story';
@@ -19,14 +20,14 @@ import {deleteStoryPage} from 'redux/storyPages';
 
 import DropdownButton from 'components/widgets/button/DropdownButton';
 import FloatingInput from 'components/widgets/input/FloatingInput';
-import IconButton from 'components/widgets/button/IconButton';
-import VisibilityControl from 'components/widgets/visibility-control/VisibilityControl';
 import ConfirmModal from 'components/widgets/modals/Modal';
 import Typography from 'components/widgets/typography/Typography';
+import IconButton from 'components/widgets/button/IconButton';
 
 import StoryPagePicker from '../widgets/page-picker/StoryPagePicker';
 
 import PublishStoryDialog from './PublishStoryDialog';
+import Link from 'components/widgets/link/Link';
 
 const validationSchema = object().shape({
 	title: string()
@@ -60,10 +61,11 @@ export default function Header({className, pages, op, onStoryPage, story, pageId
 	const togglePublishStoryModal = () => setIsPublishStoryOpen(prevState => !prevState);
 
 	const disabledActions = op[STORY_PAGE_OP.create].loading || op[STORY_PAGE_OP.update].loading;
+	const savedIn = story?.archived_at ? 'Archived' : 'Drafts';
 	const savingText = disabledActions
 		? 'Saving...'
 		: op[STORY_PAGE_OP.update].success
-		? 'Saved'
+		? `Saved in ${savedIn}`
 		: '';
 	const selectedPage = pages.findIndex(item => item.id === Number(pageId));
 
@@ -178,6 +180,12 @@ export default function Header({className, pages, op, onStoryPage, story, pageId
 					<div className={className + '-header-publish-actions-buttons'}>
 						<DropdownButton outline={true}>
 							<DropdownItem
+								disabled={op[STORY_PAGE_OP.update].loading}
+								onClick={togglePublishStoryModal}
+							>
+								Publish
+							</DropdownItem>
+							<DropdownItem
 								disabled={disabledActions || pages.length === 1}
 								onClick={toggleDeleteStoryPageModal}
 							>
@@ -192,21 +200,24 @@ export default function Header({className, pages, op, onStoryPage, story, pageId
 						</DropdownButton>
 					</div>
 				</div>
-
 				<div>
 					<IconButton
 						color={COLOR.secondary}
 						disabled={op[STORY_PAGE_OP.update].loading}
-						onClick={togglePublishStoryModal}
+						tag={Link}
+						to={DASHBOARD}
 					>
-						Publish
+						Save and Close
 					</IconButton>
 				</div>
 			</div>
 
-			<VisibilityControl visible className={className + '-header-saving'}>
+			<div className={className + '-header-saving'}>
 				<Typography color={TEXT_COLORS.tertiary}>{savingText}</Typography>
-			</VisibilityControl>
+				<Typography color={TEXT_COLORS.tertiary} icon={FA.eye}>
+					Only visible to you
+				</Typography>
+			</div>
 
 			{isDeleteStoryPageOpen && (
 				<ConfirmModal

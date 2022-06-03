@@ -11,12 +11,14 @@ import Helmet from 'components/widgets/helmet/Helmet';
 import ErrorPage from 'ErrorPage';
 
 import Routes from 'Routes';
+import CookiesPopup from 'CookiesPopup';
 import RealTimeUpdates from 'RealTimeUpdates';
 
 import './App.scss';
 
 function App() {
 	const {op, data} = useSelector(selectAuthUser);
+	const isAccepted = localStorage.getItem('termsAccepted');
 
 	if (op[DEFAULT_OP.loading].loading) return <Loader />;
 
@@ -26,6 +28,7 @@ function App() {
 
 			<Routes />
 			{data && <RealTimeUpdates />}
+			{!isAccepted && <CookiesPopup />}
 		</ErrorPage>
 	);
 }

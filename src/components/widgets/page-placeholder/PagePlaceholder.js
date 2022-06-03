@@ -23,6 +23,7 @@ function PagePlaceholder({
 	buttonLabel,
 	className,
 	buttonProps,
+	additional,
 }) {
 	return (
 		<div className={classNames(CLASS, className)}>
@@ -39,6 +40,8 @@ function PagePlaceholder({
 			<Typography font={FONTS.lato} variant={TYPOGRAPHY_VARIANTS.action1} {...subtitleProps}>
 				{subtitle}
 			</Typography>
+
+			{additional && additional}
 
 			{buttonLabel && (
 				<IconButton tag={Link} to={to} {...buttonProps}>
@@ -60,6 +63,7 @@ PagePlaceholder.propTypes = {
 	to: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 	className: PropTypes.string,
 	buttonProps: PropTypes.object,
+	additional: PropTypes.node,
 };
 
 PagePlaceholder.defaultProps = {

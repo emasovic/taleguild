@@ -12,6 +12,7 @@ import {
 	TYPOGRAPHY_VARIANTS,
 } from 'types/typography';
 import {THEMES} from 'types/themes';
+import {SOCIAL_NETWORK_ICONS, SOCIAL_NETWORK_NAMES, SOCIAL_NETWORK_URLS} from 'types/socials';
 
 import Typography from 'components/widgets/typography/Typography';
 import IconButton from 'components/widgets/button/IconButton';
@@ -19,6 +20,7 @@ import Link, {UNDERLINE} from 'components/widgets/link/Link';
 import ImageContainer from 'components/widgets/image/Image';
 import MobileWrapper from 'components/widgets/mobile-wrapper/MobileWrapper';
 import PagePlaceholder from 'components/widgets/page-placeholder/PagePlaceholder';
+import FaIcon from 'components/widgets/fa-icon/FaIcon';
 
 import archer from 'images/archer-focus.png';
 import focusLight from 'images/focus-image-light.png';
@@ -181,6 +183,14 @@ export default function LandingPage() {
 					buttonProps={{className: CLASS + '-footer-action'}}
 					to={REGISTER}
 				/>
+
+				<div className={CLASS + '-footer-socials'}>
+					{Object.keys(SOCIAL_NETWORK_NAMES).map(i => (
+						<a key={i} target="_blank" rel="noreferrer" href={SOCIAL_NETWORK_URLS[i]}>
+							<FaIcon icon={SOCIAL_NETWORK_ICONS[i]} size="lg" />
+						</a>
+					))}
+				</div>
 
 				<Typography
 					component={TYPOGRAPHY_VARIANTS.h4}

@@ -221,12 +221,25 @@ $svg-max-width: 300px;
 		align-items: center;
 
 		&-placeholder {
-			margin: 100px 0;
+			margin: 100px 0 0;
 		}
 
 		&-heading {
 			@media (max-width: $breakpoint-m) {
 				font-size: 36px;
+			}
+		}
+
+		&-socials {
+			margin: 40px 0;
+
+			> a {
+				margin-right: 40px;
+				@include theme-aware('color', 'G700');
+
+				&:last-child {
+					margin-right: 0;
+				}
 			}
 		}
 
