@@ -36,7 +36,7 @@ function Guildatars() {
 
 	useEffect(() => {
 		if (data) {
-			dispatch(loadGuildatars({filters: {user: data.id}}, true));
+			dispatch(loadGuildatars({filters: {user: data.id}}));
 		}
 	}, [data, dispatch]);
 

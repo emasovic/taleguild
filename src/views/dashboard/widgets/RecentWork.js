@@ -32,10 +32,9 @@ const RecentItem = ({id}) => {
 	const {title, storypages} = useSelector(state => selectDraftStory(state, id));
 
 	let [{data}] = useLoadItems(getActivity, {
-		story: id,
-		_publicationState: PUBLISH_STATES.preview,
+		filters: {story: id},
 	});
-	const storypage = storypages[0];
+	const storypage = storypages?.[0];
 
 	data = data.reduce(
 		(acc, val) => ({
