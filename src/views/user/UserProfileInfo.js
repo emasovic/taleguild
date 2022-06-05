@@ -27,7 +27,7 @@ export default function UserProfileInfo({user, className}) {
 	const {display_name, username, description, id, followers} = user;
 
 	if (loggedUser) {
-		follower = followers?.find(item => item.follower === loggedUser.id);
+		follower = followers?.find(item => item?.follower?.id === loggedUser.id);
 	}
 
 	const handleFollow = () => {

@@ -36,11 +36,7 @@ export const usersSlice = createSlice({
 		},
 		[followersUpsertOne]: (state, {payload}) => {
 			if (payload?.user) {
-				state.entities[payload.user?.id].followers.push({
-					...payload,
-					follower: payload?.follower?.id,
-					user: payload?.user?.id,
-				});
+				state.entities[payload.user?.id].followers.push(payload);
 			}
 		},
 	},

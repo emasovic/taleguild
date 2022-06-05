@@ -50,11 +50,14 @@ export default function RecentViews() {
 		userId &&
 			dispatch(
 				loadViews({
+					populate: ['story', 'story.image'],
 					filters: {
 						user: userId,
-						// story: {
-						// 	$null: true,
-						// },
+						story: {
+							published_at: {
+								$notNull: true,
+							},
+						},
 					},
 					pagination: {
 						start: 0,

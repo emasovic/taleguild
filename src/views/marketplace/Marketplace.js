@@ -83,7 +83,7 @@ export default function Marketplace() {
 								body_part,
 								category,
 								name: {
-									$contains: name,
+									$containsi: name,
 								},
 								genders: selectedGender?.id,
 							},
