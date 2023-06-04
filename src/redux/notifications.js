@@ -11,6 +11,7 @@ import {batchDispatch, createOperations, endOperation, startOperation} from './h
 
 const notificationsAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
+	sortComparer: (a, b) => b.createdAt.localeCompare(a.createdAt),
 });
 
 export const notificationsSlice = createSlice({
