@@ -2,7 +2,7 @@ import {createSlice} from '@reduxjs/toolkit';
 import {push} from 'connected-react-router';
 
 import * as api from 'lib/api';
-import {DASHBOARD, REGISTRATION_SUCCESS, WELCOME} from 'lib/routes';
+import {DASHBOARD, WELCOME} from 'lib/routes';
 
 import {Toast} from 'types/toast';
 import {USER_OP} from 'types/user';
@@ -92,13 +92,26 @@ export const registerUser = payload => async dispatch => {
 		]);
 	}
 
-	batchDispatch([
+	const {jwt, user} = res;
+	const {saved_stories, ...rest} = user;
+
+	localStorage.setItem('token', res.jwt);
+
+	return batchDispatch([
 		newToast({
-			...Toast.success('Thank you for registring, check your email for confirmation link!'),
+			...Toast.success('Thank you for registring, welcome to Taleguild!'),
 		}),
+		gotData({jwt, ...rest}),
 		opEnd({op}),
-		push(REGISTRATION_SUCCESS),
 	]);
+
+	// batchDispatch([
+	// 	newToast({
+	// 		...Toast.success('Thank you for registring, check your email for confirmation link!'),
+	// 	}),
+	// 	opEnd({op}),
+	// 	push(REGISTRATION_SUCCESS),
+	// ]);
 };
 
 export const resendConfirmationEmail = payload => async dispatch => {
