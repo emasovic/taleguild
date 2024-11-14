@@ -1,27 +1,32 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
 
-import {USER_STORIES_SAVED} from 'lib/routes';
+import {USER_STORIES_ARCHIVED} from 'lib/routes';
 
-import {STORY_COMPONENTS} from 'types/story';
+import {TEXT_TRASFORM} from 'types/typography';
 
-import DraftStories from '../stories/DraftStories';
-import SavedStories from '../stories/SavedStories';
+import RecentWork from 'views/dashboard/widgets/RecentWork';
+import ArchivedStories from '../stories/ArchivedStories';
 
-import './DraftStoriesPage.scss';
-
-const CLASS = 'st-DraftStoriesPage';
+import StoriesPage from './StoriesPage';
 
 export default function DraftStoriesPage() {
 	return (
-		<div className={CLASS}>
-			<div className={CLASS + '-saved'}>
-				<SavedStories shouldLoadMore={false} Component={STORY_COMPONENTS.list} />
-				<Link to={USER_STORIES_SAVED}>View all</Link>
-			</div>
-			<DraftStories />
-
-			<div className={CLASS + '-holder'} />
-		</div>
+		<StoriesPage
+			MainComponent={RecentWork}
+			mainComponentProps={{
+				shouldLoadMore: true,
+				title: 'Drafts',
+				titleProps: {textTransform: TEXT_TRASFORM.uppercase},
+				placeholderProps: {
+					subtitle:
+						'Start writing your first story with our simple and clean text editor',
+					buttonText: 'Write story now',
+				},
+			}}
+			SideComponent={ArchivedStories}
+			sideComponentProps={{
+				to: USER_STORIES_ARCHIVED,
+			}}
+		/>
 	);
 }

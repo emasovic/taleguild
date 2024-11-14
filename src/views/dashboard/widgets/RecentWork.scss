@@ -1,0 +1,55 @@
+@import 'styles/variables.scss';
+@import 'styles/themes/mixins.scss';
+
+.st-RecentWork {
+	display: flex;
+	flex-direction: column;
+	cursor: pointer;
+	margin-top: 8px;
+
+	&-link {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		margin-top: 24px;
+	}
+
+	&-item {
+		display: flex;
+		flex-direction: column;
+		padding: 20px 24px;
+		border-radius: 6px;
+		box-shadow: $box-shadow-light;
+		margin-top: 16px;
+		@include theme-aware('background-color', 'B100');
+
+		.st-Typography {
+			&-variant {
+				&__h4 {
+					margin-bottom: 8px;
+
+					&:hover {
+						text-decoration: underline;
+					}
+				}
+
+				&__action1 {
+					word-break: break-word;
+					display: flex;
+				}
+			}
+		}
+
+		&-stats {
+			margin-top: 16px;
+			margin-right: 120px;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+
+			@media (max-width: $breakpoint-sm) {
+				margin-right: 76px;
+			}
+		}
+	}
+}

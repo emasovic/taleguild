@@ -1,17 +1,16 @@
-import React, {useEffect, useCallback, useState} from 'react';
-import {useDispatch, useSelector, shallowEqual} from 'react-redux';
+import React, {useEffect, useCallback} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {useParams} from 'react-router-dom';
 
 import {DEFAULT_STORYPAGE_DATA, PUBLISH_STATES} from 'types/story';
 
 import {
 	loadStoryPages,
-	deleteStoryPage,
 	createOrUpdateStoryPage,
 	selectStoryPages,
 	loadStoryPage,
-} from 'redux/story_pages';
-import {createOrUpdateStory, deleteStory, selectStory} from 'redux/story';
+} from 'redux/storyPages';
+import {selectStory} from 'redux/story';
 
 import Loader from 'components/widgets/loader/Loader';
 
@@ -26,25 +25,12 @@ export default function StoryWritter() {
 	const dispatch = useDispatch();
 	const {id: storyId, pageId} = useParams();
 
-	const {pages, story, op, loading} = useSelector(
-		state => ({
-			pages: selectStoryPages(state),
-			story: selectStory(state, storyId),
-			loading: state.story_pages.loading,
-			op: state.story_pages.op,
-		}),
-		shallowEqual
-	);
+	const pages = useSelector(selectStoryPages);
 
-	const [selectedPage, setSelectedPage] = useState(0);
-	const [current, handleCurrent] = useState(null);
+	const story = useSelector(state => selectStory(state, storyId));
+	const {loading, op} = useSelector(state => state.storyPages);
 
-	const handleCreateOrUpdateStory = useCallback(
-		(payload, shouldChange) => {
-			dispatch(createOrUpdateStory(payload, shouldChange));
-		},
-		[dispatch]
-	);
+	const published = !!story?.publishedAt;
 
 	const handleStoryPage = useCallback(
 		(id, text) => {
@@ -59,42 +45,24 @@ export default function StoryWritter() {
 		[dispatch, storyId]
 	);
 
-	const handleSelectedPage = useCallback(
-		id => {
-			dispatch(
-				loadStoryPage({
-					story: storyId,
-					id,
-				})
-			);
-		},
-		[dispatch, storyId]
-	);
-
-	const handleRemovePage = useCallback(() => {
-		dispatch(deleteStoryPage(storyId, pageId));
-	}, [pageId, dispatch, storyId]);
-
-	const handleRemoveStory = useCallback(() => {
-		dispatch(deleteStory(storyId));
+	useEffect(() => {
+		dispatch(
+			loadStoryPages({
+				filters: {story: Number(storyId)},
+				publicationState: PUBLISH_STATES.preview,
+			})
+		);
 	}, [dispatch, storyId]);
 
 	useEffect(() => {
-		dispatch(loadStoryPages({story: storyId, _publicationState: PUBLISH_STATES.preview}));
-	}, [dispatch, storyId]);
+		dispatch(
+			loadStoryPage({
+				id: pageId,
+			})
+		);
+	}, [dispatch, pageId]);
 
-	useEffect(() => {
-		if (pages && pages.length) {
-			let index = pages.findIndex(item => item.id === Number(pageId));
-			index = index < 0 ? 0 : index;
-			handleCurrent(pages[index]);
-			setSelectedPage(index);
-		}
-	}, [pages, pageId]);
-
-	if (!pages || loading) {
-		return <Loader />;
-	}
+	if (!pages || loading || !story) return <Loader />;
 
 	return (
 		<div className={CLASS}>
@@ -103,20 +71,17 @@ export default function StoryWritter() {
 				pages={pages}
 				op={op}
 				story={story}
-				currentEditing={current}
-				selectedPage={selectedPage}
-				onSelectedPage={handleSelectedPage}
-				onPageRemove={handleRemovePage}
 				onStoryPage={handleStoryPage}
-				onStoryRemove={handleRemoveStory}
-				onCreateOrUpdateStory={handleCreateOrUpdateStory}
+				storyId={storyId}
+				pageId={pageId}
 			/>
 
 			<Writter
 				className={CLASS}
-				currentEditing={current}
-				published={story?.published_at}
-				onCurrentChanged={handleCurrent}
+				pages={pages}
+				pageId={pageId}
+				published={published}
+				archived={!!story?.archived_at}
 				onStoryPage={handleStoryPage}
 				op={op}
 			/>

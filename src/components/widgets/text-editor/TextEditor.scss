@@ -3,45 +3,84 @@
 
 .st-TextEditor {
 	font-family: $font-merriweather;
-	@include theme-aware('caret-color', 'editor-caret-color');
-	@include theme-aware('color', 'viewer-color');
+	@include theme-aware('caret-color', 'G900');
+	@include theme-aware('color', 'G800');
 
 	&-menu {
-		padding: 5px;
+		padding: 8px 10px;
 		position: absolute;
 		z-index: 1;
 		top: -10000px;
 		left: -10000px;
-		margin-top: -6px;
+		margin-top: -8px;
 		opacity: 0;
-		box-shadow: $box-shadow-light;
-		border-radius: 4px;
-		transition: opacity 0.75s;
-		@include theme-aware('border', 'editor-toolbar-border');
-		@include theme-aware('background-color', 'editor-toolbar-background');
-
-		&:before {
-			content: '';
-			position: absolute;
-			width: 10px;
-			height: 10px;
-			bottom: -4px;
-			left: 76px;
-			transform: rotate(45deg);
-			@include theme-aware('background-color', 'editor-toolbar-background');
-		}
+		border-radius: 6px;
+		transition: opacity 0.3s;
+		@include theme-aware('box-shadow', 'card-shadow');
+		@include theme-aware('background-color', 'B100');
 
 		.st-IconButton {
-			background: transparent !important;
+			@include theme-aware('background-color', 'B100');
 			border: none !important;
 			box-shadow: none !important;
 			font-weight: normal;
-			@include theme-aware('color', 'editor-toolbar-color');
+			margin: 2px;
+			@include theme-aware('color', 'G900');
 
-			&:hover,
+			&:last-child {
+				margin-right: 0;
+			}
+
+			&:hover {
+				@include theme-aware('color', 'G900');
+				@include theme-aware('background-color', 'B300');
+			}
+
 			&.active {
-				color: $color-grey-black !important;
+				@include theme-aware('color', 'T800');
+				@include theme-aware('background-color', 'T200');
 			}
 		}
+	}
+
+	&-toolbar {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		position: fixed;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		z-index: 10;
+		width: 100%;
+		padding: 6px 0;
+		max-width: $story-preview-width-large;
+		margin: 0 auto;
+		@include theme-aware('background-color', 'B200');
+
+		@media (max-width: $breakpoint-sm) {
+			padding: 6px 12px;
+		}
+
+		> div {
+			flex: 1;
+		}
+
+		&-formats {
+			.st-IconButton {
+				margin-right: 2px;
+				border: none;
+				box-shadow: none;
+			}
+		}
+
+		&-counter {
+			justify-content: flex-end;
+			display: flex;
+		}
+	}
+
+	span::selection {
+		@include theme-aware('background-color', 'text-selection');
 	}
 }

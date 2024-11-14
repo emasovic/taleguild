@@ -4,30 +4,52 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import classnames from 'classnames';
 import {Button} from 'reactstrap';
 
-import FA from '../../../types/font_awesome';
+import FA from 'types/font_awesome';
+import {ICON_TYPES} from 'types/icons';
+
+import Icon from '../icon/Icon';
 
 import './IconButton.scss';
 
 const CLASS = 'st-IconButton';
 
-export const toFa = (icon, spin, ...rest) => {
-	return <FontAwesomeIcon key={icon} icon={icon} spin={spin} {...rest} />;
+export const toIcon = ({icon, spin, type = ICON_TYPES.fa, ...rest}) => {
+	let output = <FontAwesomeIcon key={icon} icon={icon} spin={spin} {...rest} />;
+
+	if (type === ICON_TYPES.local) {
+		output = <Icon icon={icon} {...rest} />;
+	}
+
+	return output;
 };
 
-const IconButton = ({icon, className, children, spin, loading, disabled, href, ...props}) => {
+const IconButton = ({
+	icon,
+	className,
+	children,
+	spin,
+	loading,
+	disabled,
+	tertiary,
+	iconType,
+	...props
+}) => {
 	if (loading) {
 		icon = FA.solid_cog;
 		disabled = spin = true;
 	}
 
 	if (icon) {
-		icon = toFa(icon, spin);
+		icon = toIcon({icon, spin, type: iconType});
 	}
+
+	const isLink = props.href || props.to;
 
 	className = classnames(
 		CLASS,
 		!children && CLASS + '-with-content',
-		href && CLASS + '-link',
+		isLink && CLASS + '-link',
+		tertiary && CLASS + '-tertiary',
 		className
 	);
 
@@ -37,7 +59,7 @@ const IconButton = ({icon, className, children, spin, loading, disabled, href, .
 	}
 
 	return (
-		<Button className={className} disabled={disabled || loading} href={href} {...props}>
+		<Button className={className} disabled={disabled || loading} {...props}>
 			{icon ? icon : null}
 			{children}
 		</Button>
@@ -45,7 +67,7 @@ const IconButton = ({icon, className, children, spin, loading, disabled, href, .
 };
 
 IconButton.propTypes = {
-	icon: PropTypes.object,
+	icon: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 	className: PropTypes.string,
 	spin: PropTypes.bool,
 	loading: PropTypes.bool,
@@ -53,7 +75,10 @@ IconButton.propTypes = {
 	active: PropTypes.bool,
 	onClick: PropTypes.func,
 	href: PropTypes.string,
+	to: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 	children: PropTypes.any,
+	tertiary: PropTypes.bool,
+	iconType: PropTypes.string,
 	type: PropTypes.oneOf(['button', 'reset', 'submit']),
 };
 

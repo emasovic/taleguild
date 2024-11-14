@@ -8,7 +8,7 @@
 
 	svg {
 		path {
-			@include theme-aware('fill', 'scroll-svg');
+			@include theme-aware('fill', 'G400');
 		}
 	}
 }

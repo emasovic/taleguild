@@ -1,6 +1,6 @@
 import React from 'react';
 import {useSlate} from 'slate-react';
-import {Editor, Transforms, Text} from 'slate';
+import {Editor, Transforms} from 'slate';
 import PropTypes from 'prop-types';
 
 import IconButton from 'components/widgets/button/IconButton';
@@ -13,13 +13,14 @@ const toggleBlock = (editor, format) => {
 	});
 };
 
-const toggleFormat = (editor, format) => {
+export const toggleFormat = (editor, format) => {
 	const isActive = isFormatActive(editor, format);
-	Transforms.setNodes(
-		editor,
-		{[format]: isActive ? null : true},
-		{match: Text.isText, split: true}
-	);
+
+	if (isActive) {
+		Editor.removeMark(editor, format);
+	} else {
+		Editor.addMark(editor, format, true);
+	}
 };
 
 const isBlockActive = (editor, format) => {
@@ -31,14 +32,11 @@ const isBlockActive = (editor, format) => {
 };
 
 const isFormatActive = (editor, format) => {
-	const [match] = Editor.nodes(editor, {
-		match: n => n[format] === true,
-		mode: 'all',
-	});
-	return !!match;
+	const marks = Editor.marks(editor);
+	return marks ? marks[format] === true : false;
 };
 
-export const FormatButton = ({format, icon}) => {
+export const FormatButton = ({format, icon, ...rest}) => {
 	const editor = useSlate();
 	return (
 		<IconButton
@@ -48,16 +46,17 @@ export const FormatButton = ({format, icon}) => {
 				toggleFormat(editor, format);
 			}}
 			icon={icon}
+			{...rest}
 		/>
 	);
 };
 
 FormatButton.propTypes = {
 	format: PropTypes.any,
-	icon: PropTypes.string,
+	icon: PropTypes.object,
 };
 
-export const BlockButton = ({format, icon}) => {
+export const BlockButton = ({format, icon, ...rest}) => {
 	const editor = useSlate();
 	return (
 		<IconButton
@@ -67,11 +66,12 @@ export const BlockButton = ({format, icon}) => {
 				toggleBlock(editor, format);
 			}}
 			icon={icon}
+			{...rest}
 		/>
 	);
 };
 
 BlockButton.propTypes = {
 	format: PropTypes.any,
-	icon: PropTypes.string,
+	icon: PropTypes.object,
 };

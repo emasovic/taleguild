@@ -45,10 +45,19 @@ import {
 	faClipboardCheck as solidClipboardCheck,
 	faShare as solidShare,
 	faAlignLeft as solidAlignLeft,
-	faSignOutAlt as solidSignOutAlt
+	faSignOutAlt as solidSignOutAlt,
+	faFileArchive as solidFileArchive,
+	faThLarge as solidThLarge,
+	faStore as solidStore,
+	faUserNinja as solidUserNinja,
+	faUsers as solidUsers,
+	faLock as solidLock,
+	faCheck as solidCheck,
+	faXmark as solidXmark,
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
+	faBell,
 	faHeart,
 	faComment,
 	faBookmark,
@@ -56,9 +65,18 @@ import {
 	faClipboard,
 	faShareSquare,
 	faUser,
+	faEye,
 } from '@fortawesome/free-regular-svg-icons';
 
-import {faFacebookF, faGoogle, faJediOrder} from '@fortawesome/free-brands-svg-icons';
+import {
+	faFacebookF,
+	faGoogle,
+	faDiscord,
+	faFacebook,
+	faInstagram,
+	faLinkedin,
+	faJediOrder,
+} from '@fortawesome/free-brands-svg-icons';
 
 import {library} from '@fortawesome/fontawesome-svg-core';
 
@@ -67,8 +85,14 @@ const FA = {
 	brand_facebook_f: faFacebookF,
 	brand_google: faGoogle,
 	brand_jedi: faJediOrder,
+	brand_discord: faDiscord,
+	brand_facebook: faFacebook,
+	brand_instagram: faInstagram,
+	brand_linkedin: faLinkedin,
 
 	//REGULAR ICONS
+	eye: faEye,
+	bell: faBell,
 	comment: faComment,
 	heart: faHeart,
 	bookmark: faBookmark,
@@ -78,6 +102,13 @@ const FA = {
 	user: faUser,
 
 	//SOLID ICONS
+	solid_check: solidCheck,
+	solid_x_mark: solidXmark,
+	solid_lock: solidLock,
+	solid_users: solidUsers,
+	solid_th_large: solidThLarge,
+	solid_store: solidStore,
+	solid_user_ninja: solidUserNinja,
 	solid_sign_out_alt: solidSignOutAlt,
 	solid_align_left: solidAlignLeft,
 	solid_box_open: solidBoxOpen,
@@ -117,6 +148,7 @@ const FA = {
 	solid_bookmark: solidBookmark,
 	solid_heart: solidHeart,
 	solid_archive: solidArchive,
+	solid_file_archive: solidFileArchive,
 	solid_trash: solidTrash,
 	solid_arrows_alt: solidArrowsAlt,
 	solid_pencil: solidPen,

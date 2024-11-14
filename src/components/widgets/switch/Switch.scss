@@ -1,0 +1,155 @@
+@import 'styles/variables.scss';
+@import 'styles/themes/mixins.scss';
+
+$toggle-transition: cubic-bezier(0, 1, 0.5, 1);
+$toggle-width: 140px;
+$toggle-height: 36px;
+$toggle-offset: 2px;
+$toggle-label-font-size: 14px;
+$toggle-switch-width: $toggle-width/2;
+
+.st-Switch {
+	position: relative;
+	min-width: $toggle-width;
+	padding: 0;
+
+	&-label {
+		height: $toggle-height;
+		flex: 0 0 $toggle-width;
+		border-radius: 50px;
+		cursor: pointer;
+
+		&:before {
+			border-radius: 50px;
+			width: 70px;
+			line-height: 36px;
+			padding: 0 12px;
+		}
+
+		&:after {
+			border-radius: 50px;
+			width: 70px;
+			line-height: 36px;
+		}
+	}
+
+	input[type='checkbox'] {
+		opacity: 0;
+		position: absolute;
+		top: 0;
+		left: 0;
+
+		&[disabled] ~ label {
+			pointer-events: none;
+			.st-Switch-label {
+				opacity: 0.4;
+			}
+		}
+
+		&:checked {
+			~ label {
+				.st-Switch-label {
+					&:before {
+						content: attr(data-checked);
+						left: 0;
+					}
+
+					&:after {
+						content: attr(data-unchecked);
+					}
+				}
+			}
+		}
+	}
+
+	label {
+		user-select: none;
+		position: relative;
+		display: flex;
+		align-items: center;
+		font-size: $toggle-label-font-size;
+		margin-bottom: 0;
+
+		.st-Switch-label {
+			position: relative;
+
+			&:before {
+				content: attr(data-unchecked);
+				position: absolute;
+				top: 0;
+				left: 70px;
+				text-align: center;
+				font-weight: bold;
+				@include theme-aware('color', 'G500');
+			}
+
+			&:after {
+				content: attr(data-checked);
+				position: absolute;
+				z-index: 1;
+				text-align: center;
+				font-weight: bold;
+				transform: translate3d(0, 0, 0);
+				@include theme-aware('background-color', 'T200');
+				@include theme-aware('color', 'T600');
+			}
+		}
+	}
+
+	input[type='checkbox'] {
+		&:checked {
+			~ label {
+				&:hover {
+					@include theme-aware('color', 'G500');
+				}
+
+				.st-Switch-label {
+					@include theme-aware('background-color', 'B100');
+					&:after {
+						@include theme-aware('color', 'T600');
+					}
+				}
+			}
+
+			&:focus,
+			&:hover {
+				~ label {
+					.st-Switch-label {
+						@include theme-aware('background-color', 'B100');
+						&:after {
+							@include theme-aware('color', 'T600');
+						}
+					}
+				}
+			}
+		}
+	}
+
+	label {
+		.st-Switch-label {
+			transition: background-color 0.3s $toggle-transition;
+
+			@include theme-aware('background-color', 'B100');
+
+			&:after {
+				transition: transform 0.3s $toggle-transition;
+			}
+		}
+	}
+
+	input[type='checkbox'] {
+		&:checked {
+			~ label {
+				.st-Switch-label {
+					&:after {
+						transform: translate3d(
+							$toggle-width - ($toggle-switch-width + $toggle-offset),
+							0,
+							0
+						);
+					}
+				}
+			}
+		}
+	}
+}

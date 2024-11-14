@@ -3,7 +3,10 @@ import {createSlice, createEntityAdapter} from '@reduxjs/toolkit';
 import * as api from '../lib/api';
 
 import {Toast} from 'types/toast';
+import {DEFAULT_OP} from 'types/default';
+
 import {newToast} from './toast';
+import {batchDispatch, createOperations, endOperation, startOperation} from './hepler';
 
 const languageAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
@@ -12,32 +15,40 @@ const languageAdapter = createEntityAdapter({
 
 export const languageSlice = createSlice({
 	name: 'languages',
-	initialState: languageAdapter.getInitialState({op: null, pages: null, loading: null}),
+	initialState: languageAdapter.getInitialState({
+		op: createOperations(),
+		pages: null,
+		loading: null,
+	}),
 	reducers: {
 		languagesReceieved: (state, action) => {
 			languageAdapter.setAll(state, action.payload);
-			state.loading = null;
 		},
-		loadingStart: state => {
-			state.loading = true;
+		opStart: (state, {payload}) => {
+			state.op[payload] = startOperation();
 		},
-		loadingEnd: state => {
-			state.loading = false;
+		opEnd: (state, {payload}) => {
+			state.op[payload.op] = endOperation(payload.error);
 		},
 	},
 });
 
-export const {loadingStart, loadingEnd, languagesReceieved} = languageSlice.actions;
+export const {opStart, opEnd, languagesReceieved} = languageSlice.actions;
 
 export const loadLanguages = params => async dispatch => {
-	dispatch(loadingStart());
+	const op = DEFAULT_OP.loading;
+	dispatch(opStart(op));
 	const res = await api.getLanguages(params);
 	if (res.error) {
-		dispatch(loadingEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
+		return batchDispatch([
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
+		]);
 	}
 
-	return dispatch(languagesReceieved(res));
+	let {data} = res;
+
+	return batchDispatch([languagesReceieved(data), opEnd({op})]);
 };
 
 //SELECTORS

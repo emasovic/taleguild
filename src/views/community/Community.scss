@@ -1,0 +1,78 @@
+@import 'styles/variables.scss';
+
+.st-Community {
+	display: flex;
+	flex-direction: column;
+
+	@media (max-width: $breakpoint-m) {
+		max-width: $story-preview-width-medium;
+		margin: 0 auto;
+	}
+
+	&-header {
+		margin-bottom: 48px;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+
+		@media (max-width: $breakpoint-m) {
+			max-width: $story-preview-width-medium;
+			flex-direction: column;
+			align-items: flex-start;
+			margin-bottom: 24px;
+		}
+
+		&-actions {
+			display: flex;
+
+			@media (max-width: $breakpoint-m) {
+				margin-top: 24px;
+			}
+
+			.st-IconButton {
+				&:first-child {
+					margin-right: 12px;
+				}
+			}
+		}
+	}
+
+	&-main {
+		display: flex;
+
+		@media (max-width: $breakpoint-m) {
+			justify-content: center;
+			flex-direction: column;
+		}
+
+		.st-Stories,
+		.st-StoryTabs,
+		.st-SideBar,
+		&-holder {
+			flex: 1 1;
+			position: sticky;
+			top: 80px;
+
+			@media (max-width: $breakpoint-m) {
+				position: relative;
+				top: 0;
+			}
+		}
+
+		&-holder {
+			@media (max-width: $breakpoint-m) {
+				&:last-child {
+					display: none;
+				}
+			}
+		}
+
+		.st-Stories {
+			margin: 0 36px;
+
+			@media (max-width: $breakpoint-m) {
+				margin: 0;
+			}
+		}
+	}
+}

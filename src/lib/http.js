@@ -1,5 +1,5 @@
 import axios from 'axios';
-import queryString from 'query-string';
+import qs from 'qs';
 
 import {detectIE} from './util';
 
@@ -27,7 +27,7 @@ export const request = opts => {
 		throw new Error('url is required');
 	}
 
-	opts.baseURL = process.env.REACT_APP_API_URL;
+	opts.baseURL = process.env.REACT_APP_API_URL.concat('/api');
 	opts.method = opts.method || 'get';
 
 	const headers = opts.headers;
@@ -46,7 +46,7 @@ export const request = opts => {
 
 	opts.paramsSerializer = params => {
 		Object.keys(params).forEach(key => params[key] === null && delete params[key]);
-		return queryString.stringify(params);
+		return qs.stringify(params, {arrayFormat: 'comma'});
 	};
 
 	return axios(opts)
@@ -54,18 +54,24 @@ export const request = opts => {
 			return res.data;
 		})
 		.catch(res => {
-			let err = null;
+			let err = {};
 			let response = res.response;
-			if (response && response.data && response.data.error) {
-				err = response.data.message;
+			if (response?.data?.error) {
+				err.error =
+					Array.isArray(response.data.message) &&
+					response.data.message[0]?.messages[0]?.message
+						? response.data.message[0]?.messages[0]?.message
+						: typeof response.data.message === 'string'
+						? response.data.message
+						: response.data.error;
 			} else if (response) {
-				err = new Error(response.statusText);
+				err.error = response.statusText;
 				err.status = response.status;
 			} else {
-				err = new Error(res.message || 'HTTP Error');
+				err.error = res.message || 'HTTP Error';
 				err.status = 0;
 			}
-			return {error: err};
+			return err;
 		});
 };
 

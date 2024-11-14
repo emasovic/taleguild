@@ -1,0 +1,114 @@
+@import 'styles/variables.scss';
+@import 'styles/themes/mixins.scss';
+
+.st-Marketplace {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+
+	&-nav {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-top: 32px;
+
+		&-actions {
+			display: flex;
+			align-items: center;
+
+			@media (max-width: $breakpoint-m) {
+				flex-direction: row-reverse;
+				width: 100%;
+			}
+
+			.st-FloatingInput {
+				margin-bottom: 0 !important;
+				margin-left: 24px;
+
+				@media (max-width: $breakpoint-m) {
+					width: 100%;
+					margin-left: 0;
+					margin-right: 12px;
+				}
+			}
+		}
+
+		.st-HorizontalList {
+			@media (max-width: $breakpoint-m) {
+				margin: 24px 0;
+				width: 100%;
+			}
+		}
+
+		@media (max-width: $breakpoint-m) {
+			flex-direction: column-reverse;
+		}
+	}
+
+	&-market {
+		display: flex;
+		margin-top: 24px;
+
+		@media (max-width: $breakpoint-m) {
+			flex-direction: column;
+			margin-top: 0;
+		}
+
+		&-categories {
+			flex-basis: 20%;
+
+			margin-right: 36px;
+			margin-bottom: 16px;
+
+			@media (max-width: $breakpoint-m) {
+				flex-basis: 100%;
+			}
+		}
+
+		&-items {
+			display: flex;
+			flex-direction: column;
+			flex-basis: 80%;
+			align-content: space-between;
+
+			&-loadmore {
+				display: flex;
+				flex-wrap: wrap;
+
+				@media (max-width: $breakpoint-m) {
+					justify-content: center;
+				}
+
+				&-nosearch {
+					svg {
+						> rect {
+							@include theme-aware('fill', 'B100');
+						}
+					}
+				}
+
+				&-placeholder {
+					width: $market-item-width-large;
+					margin: 0 16px 16px 0;
+
+					@media (max-width: $breakpoint-sm) {
+						height: unset;
+					}
+				}
+			}
+
+			&-title {
+				margin-bottom: 24px;
+			}
+
+			@media (max-width: $breakpoint-m) {
+				flex-basis: 100%;
+				width: 100%;
+
+				&-title {
+					display: none;
+				}
+			}
+		}
+	}
+}

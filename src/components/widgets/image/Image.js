@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
+
+import {getImageUrl} from 'lib/util';
 
 import useIntersectionObserver from 'hooks/intersection-observer';
 
@@ -11,19 +14,19 @@ import './Image.scss';
 
 const CLASS = 'st-Image';
 
-function Image({src, image, alt, formats, size, thumb, ...rest}) {
+function Image({src, image, alt, formats, size, thumb, thumbClassName, imageClassName, ...rest}) {
 	const [isLoaded, setIsLoaded] = React.useState(false);
 
 	if (formats && formats[size]) {
 		image = formats[size];
 	}
 
-	if (formats?.thumbnail) {
-		thumb = process.env.REACT_APP_API_URL + formats.thumbnail.url;
+	if (image) {
+		src = getImageUrl(image.url);
 	}
 
-	if (image) {
-		src = process.env.REACT_APP_API_URL + image.url;
+	if (formats?.thumbnail || src) {
+		thumb = src || getImageUrl(formats?.thumbnail?.url);
 	}
 
 	if (!src) {
@@ -34,10 +37,12 @@ function Image({src, image, alt, formats, size, thumb, ...rest}) {
 		);
 	}
 
+	const thumbClass = classNames(CLASS, `${CLASS}-thumb`, thumbClassName);
+	const imageClass = classNames(CLASS, `${CLASS}-full`, imageClassName);
 	return (
 		<>
 			<img
-				className={`${CLASS} ${CLASS}-thumb`}
+				className={thumbClass}
 				alt={alt}
 				src={thumb}
 				style={{visibility: isLoaded ? 'hidden' : 'visible'}}
@@ -46,7 +51,7 @@ function Image({src, image, alt, formats, size, thumb, ...rest}) {
 				onLoad={() => {
 					setIsLoaded(true);
 				}}
-				className={`${CLASS} ${CLASS}-full`}
+				className={imageClass}
 				style={{opacity: isLoaded ? 1 : 0}}
 				alt={alt}
 				src={src}
@@ -65,6 +70,8 @@ Image.propTypes = {
 	formats: PropTypes.object,
 	size: PropTypes.string,
 	thumb: PropTypes.string,
+	thumbClassName: PropTypes.string,
+	imageClassName: PropTypes.string,
 };
 
 Image.defaultProps = {
@@ -73,7 +80,7 @@ Image.defaultProps = {
 	thumb: logo,
 };
 
-const ImageContainer = props => {
+const ImageContainer = ({containerClassName, ...props}) => {
 	const ref = React.useRef();
 	const [isVisible, setIsVisible] = React.useState(false);
 
@@ -84,16 +91,31 @@ const ImageContainer = props => {
 				if (!isVisible) {
 					setIsVisible(true);
 				}
-				observerElement.unobserve(ref.current);
+				ref?.current && observerElement.unobserve(ref.current);
 			}
 		},
 	});
 
+	const className = classNames(CLASS + '-container', containerClassName);
 	return (
-		<div ref={ref} className={CLASS + '-container'}>
+		<div ref={ref} className={className}>
 			{isVisible && <Image {...props} />}
 		</div>
 	);
+};
+
+ImageContainer.propTypes = {
+	containerClassName: PropTypes.string,
+	image: PropTypes.object,
+	src: PropTypes.string,
+	width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+	height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+	alt: PropTypes.string,
+	formats: PropTypes.object,
+	size: PropTypes.string,
+	thumb: PropTypes.string,
+	thumbClassName: PropTypes.string,
+	imageClassName: PropTypes.string,
 };
 
 export default ImageContainer;

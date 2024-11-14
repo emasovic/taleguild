@@ -8,15 +8,11 @@
 		"mocha": true,
 		"jquery": true
 	},
-	"extends": [
-		"eslint:recommended",
-		"plugin:react/recommended",
-		"react-app",
-		"prettier"
-	],
-	"parser": "babel-eslint",
+	"extends": ["eslint:recommended", "plugin:react/recommended", "react-app", "prettier"],
+	"parser": "@babel/eslint-parser",
 	"parserOptions": {
-		"ecmaVersion": 2018,
+		"ecmaVersion": 8,
+		"requireConfigFile": false,
 		"ecmaFeatures": {
 			"jsx": true,
 			"modules": true,
@@ -25,17 +21,11 @@
 		},
 		"sourceType": "module"
 	},
-	"plugins": [
-		"import",
-		"flowtype",
-		"jsx-a11y",
-		"react",
-		"react-hooks"
-	],
+	"plugins": ["import", "flowtype", "jsx-a11y", "react", "react-hooks"],
 	"settings": {
 		"react": {
 			"pragma": "React",
-			"version": "16.5.0"
+			"version": "17.0.1"
 		}
 	},
 	"globals": {

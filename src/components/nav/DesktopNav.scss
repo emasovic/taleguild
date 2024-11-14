@@ -7,43 +7,28 @@
 	padding: 0 !important;
 	margin: 24px 0;
 	position: sticky !important;
-	z-index: 1;
+	z-index: 20;
 	top: 0;
-	@include theme-aware('background', 'body-background');
+	@include theme-aware('background', 'B200');
 
 	.st-Loader {
 		height: 100vh;
 	}
 
+	.container-fluid {
+		padding: 0;
+	}
+
 	@media (max-width: $breakpoint-m) {
 		display: flex;
-		// flex-direction: column;
 		padding: 5px 0;
 		flex-wrap: nowrap !important;
 		height: auto;
 	}
 
 	@media (max-width: $breakpoint-sm) {
-		max-width: $story-preview-width-small;
+		max-width: $story-preview-width-large;
 		margin: 0 auto;
-
-		&:before,
-		&:after {
-			content: '';
-			top: 0;
-			position: absolute;
-			width: 10px;
-			height: 100%;
-			@include theme-aware('background', 'body-background');
-		}
-
-		&:before {
-			left: -10px;
-		}
-
-		&:after {
-			right: -10px;
-		}
 	}
 
 	.st-StoryPicker {
@@ -64,20 +49,15 @@
 		}
 	}
 
+	&-logged-out {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
 	&-status {
 		justify-content: flex-end;
-
-		.st-IconButton {
-			margin-right: 12px;
-
-			&-link {
-				margin-right: 16px;
-			}
-
-			&:last-child {
-				margin-right: 0;
-			}
-		}
 
 		@media (max-width: $breakpoint-sm) {
 			order: 3;
@@ -86,6 +66,16 @@
 		&-signedOut {
 			display: flex;
 			align-items: center;
+
+			&-link {
+				font-weight: 600;
+				margin-right: 36px;
+
+				.fa-discord {
+					margin-right: 12px;
+					@include theme-aware('color', 'T800');
+				}
+			}
 
 			@media (max-width: $breakpoint-sm) {
 				padding: 10px 0;
@@ -96,19 +86,30 @@
 			display: flex;
 			align-items: center;
 
-			@media (max-width: $breakpoint-m) {
-				.st-IconButton-link {
+			&-new {
+				@media (max-width: $breakpoint-m) {
 					display: none !important;
 				}
 			}
 
-			@media (max-width: $breakpoint-sm) {
-				.st-IconButton {
-					display: none;
+			&-icons {
+				display: flex;
+				align-items: center;
+
+				margin-right: 16px;
+
+				.st-Icon {
+					margin: 8px;
 				}
 			}
 
 			.st-DropdownButton {
+				margin: 0 16px;
+
+				@media (max-width: $breakpoint-m) {
+					margin-right: 0;
+				}
+
 				> button {
 					padding: 0;
 					border-radius: 50%;
@@ -132,26 +133,35 @@
 		justify-content: flex-start;
 
 		@media (max-width: $breakpoint-sm) {
-			width: calc(100% - 98px);
 			justify-content: space-between;
 		}
 
 		.nav-item {
+			@media (max-width: $breakpoint-m) {
+				&:first-child {
+					display: block;
+				}
+
+				display: none;
+			}
+
+			&:first-child {
+				.nav-link {
+					padding: 0;
+				}
+			}
+
 			.nav-link {
 				font-size: 16px;
-				color: $color-grey-light;
+				@include theme-aware('color', 'G400');
 				text-decoration: none;
 				font-weight: bold;
 				padding: 8px 12px;
-				margin-right: 36px;
+				margin-right: 24px;
 				border-radius: 6px;
 
 				@media (max-width: $breakpoint-m) {
 					margin-right: 24px;
-
-					span {
-						display: none;
-					}
 				}
 
 				@media (max-width: $breakpoint-sm) {
@@ -160,11 +170,11 @@
 				}
 
 				&:hover {
-					@include theme-aware('background-color', 'sidebar-link-background-hover');
+					@include theme-aware('background-color', 'B100');
 				}
 
 				&.active {
-					color: $color-primary;
+					@include theme-aware('color', 'T600');
 				}
 
 				.fa {

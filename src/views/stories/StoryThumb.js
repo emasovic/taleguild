@@ -1,5 +1,5 @@
 import React from 'react';
-import {useHistory, Link} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 
 import propTypes from 'prop-types';
 
@@ -10,6 +10,7 @@ import {MEDIA_SIZE} from 'types/media';
 import Image from 'components/widgets/image/Image';
 import StoryDropdownButton from './widgets/dropdown-button/StoryDropdownButton';
 import FromNow from 'components/widgets/date-time/FromNow';
+import Link, {UNDERLINE} from 'components/widgets/link/Link';
 
 import UserAvatar from 'views/user/UserAvatar';
 
@@ -22,14 +23,12 @@ export default function StoryThumb({
 	image,
 	formats,
 	size,
-	// description,
 	title,
 	author,
 	createdDate,
-	favouriteId,
 	onDeleteStory,
-	storypages,
 	slug,
+	selector,
 }) {
 	const history = useHistory();
 
@@ -38,26 +37,28 @@ export default function StoryThumb({
 		history.push(goToUser(author && author.username));
 	};
 	title = title && title.length > 36 ? title.slice(0, 36) + '...' : title;
-	image = image ? image.formats.thumbnail : image;
+	image = image?.formats?.thumbnail || image;
 
 	return (
 		<div className={CLASS}>
-			<StoryDropdownButton
-				story={{id, favouriteId, title, storypages}}
-				onDeleteStory={onDeleteStory}
-			/>
-			<Link to={goToStory(slug)} className={CLASS}>
+			<StoryDropdownButton id={id} onDeleteStory={onDeleteStory} selector={selector} />
+			<Link
+				to={goToStory(slug)}
+				underline={UNDERLINE.none}
+				className={CLASS + '-link-wrapper'}
+			>
 				<div className={CLASS + '-cover'}>
 					<Image image={image} formats={formats} size={size} />
 				</div>
 				<div className={CLASS + '-details'}>
 					<div className={CLASS + '-details-description'}>
 						<span>{title}</span>
-						{/* <span>{description}</span> */}
 					</div>
 
 					<div className={CLASS + '-details-created'}>
-						<FromNow date={createdDate} />
+						<div>
+							<FromNow date={createdDate} />
+						</div>
 						{author && (
 							<div onClick={handleGoToUser}>
 								<UserAvatar user={author} />
@@ -75,14 +76,12 @@ StoryThumb.propTypes = {
 	image: propTypes.object,
 	formats: propTypes.object,
 	size: propTypes.string,
-	description: propTypes.string,
 	title: propTypes.string,
 	createdDate: propTypes.string,
 	author: propTypes.object,
-	storypages: propTypes.array,
-	favouriteId: propTypes.number,
 	onDeleteStory: propTypes.func,
 	slug: propTypes.string,
+	selector: propTypes.func,
 };
 
 StoryThumb.defaultProps = {

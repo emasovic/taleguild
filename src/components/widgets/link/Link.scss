@@ -1,0 +1,14 @@
+.st-Link {
+	&-underline {
+		&_hover {
+			text-decoration: none;
+			&:hover {
+				text-decoration: underline;
+			}
+		}
+
+		&_none {
+			text-decoration: none;
+		}
+	}
+}

@@ -1,0 +1,77 @@
+@import 'styles/variables.scss';
+
+.st-Guildatar {
+	position: relative;
+	width: 200px;
+	min-height: 230px;
+
+	&-character {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 202px;
+		height: 201px;
+
+		.st-Image {
+			&-container {
+				position: unset;
+				height: auto;
+			}
+		}
+
+		&-helmet,
+		&-head,
+		&-body,
+		&-right_weapon,
+		&-left_weapon {
+			position: absolute;
+		}
+
+		&-helmet {
+			z-index: 3;
+			width: 100px;
+			height: 150px;
+			top: 0;
+			left: 50px;
+
+			.st-Image {
+				&-container {
+					position: unset;
+					height: auto;
+				}
+			}
+		}
+
+		&-head {
+			z-index: 2;
+			width: 100px;
+			height: 100px;
+			top: 50px;
+			left: 50px;
+		}
+
+		&-body {
+			width: 202px;
+			height: 150px;
+			top: 50px;
+			left: 0;
+			z-index: 1;
+		}
+
+		&-left_weapon {
+			width: 100px;
+			height: 150px;
+			top: 50px;
+			left: 100px;
+			z-index: 4;
+		}
+
+		&-right_weapon {
+			width: 100px;
+			height: 150px;
+			top: 50px;
+			left: 0;
+			z-index: 4;
+		}
+	}
+}

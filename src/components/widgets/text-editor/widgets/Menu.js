@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'react';
+import PropTypes from 'prop-types';
 
 const Menu = React.forwardRef(({className, children, ...props}, ref) => (
 	<div className={className} ref={ref} {...props}>

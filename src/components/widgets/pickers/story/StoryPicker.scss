@@ -2,7 +2,7 @@
 @import 'styles/themes/mixins.scss';
 
 .st-StoryPicker {
-	min-width: 400px;
+	min-width: 480px;
 
 	@media (max-width: $breakpoint-m) {
 		min-width: 200px;
@@ -10,27 +10,33 @@
 
 	.st-StoryPicker__option {
 		display: flex;
-		padding: 10px 5px;
+		padding: 8px;
+		margin: 2px 8px;
 		background-color: transparent;
 		cursor: pointer !important;
+		border-radius: 6px;
+		max-width: 444px;
 
 		a {
 			display: flex;
 			width: 100%;
 			align-items: center;
+
+			&:hover {
+				text-decoration: none;
+			}
 		}
 
 		&:hover,
 		&:active {
-			@include theme-aware('background-color', 'default-picker-option-background-hover');
-			text-decoration: none;
+			@include theme-aware('background-color', 'B300');
 		}
 
 		span {
 			font-family: $font-merriweather;
 			font-weight: bold;
 			font-size: 14px;
-			@include theme-aware('color', 'story-list-title-color');
+			@include theme-aware('color', 'G500');
 		}
 
 		.st-Image {
@@ -52,39 +58,43 @@
 	.st-StoryPicker__control {
 		flex-direction: row-reverse;
 		cursor: initial;
-		@include theme-aware('background', 'story-item-background');
-		@include theme-aware('border', 'story-item-border');
+		border: 1px solid;
+		@include theme-aware('background', 'B100');
+		@include theme-aware('border-color', 'G100');
 
 		&--menu-is-open,
 		&--is-focused {
-			box-shadow: 0 0 0 1px $color-primary;
-			border-color: $color-primary;
+			box-shadow: $focus;
+			@include theme-aware('border-color', 'T600');
 		}
 
 		&:hover {
-			border-color: $color-primary;
+			@include theme-aware('border-color', 'T600');
 		}
 	}
 
 	&__menu {
-		@include theme-aware('background', 'story-item-background');
+		@include theme-aware('background', 'B100');
+		@include theme-aware('box-shadow', 'card-shadow');
 
 		&-notice {
 			&--no-options {
-				@include theme-aware('background', 'story-item-background');
+				@include theme-aware('background', 'B100');
 			}
 		}
 	}
 
 	&__input {
-		@include theme-aware('color', 'story-item-username-color');
+		@include theme-aware('color', 'G900');
 	}
 
 	&__single-value {
-		@include theme-aware('color', 'default-picker-item');
+		@include theme-aware('color', 'G900');
 	}
 
 	&__indicator {
+		@include theme-aware('color', 'G400');
+
 		&-separator {
 			display: none;
 		}
@@ -92,5 +102,9 @@
 
 	&__indicators {
 		flex-direction: row-reverse;
+	}
+
+	&__placeholder {
+		@include theme-aware('color', 'G400');
 	}
 }

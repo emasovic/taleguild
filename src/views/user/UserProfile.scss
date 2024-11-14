@@ -5,18 +5,20 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	max-width: $story-preview-width-medium;
+	width: 100%;
+	margin: 0 auto;
 
 	&-user {
-		width: 100%;
 		display: flex;
-		margin-bottom: 36px;
+		margin-bottom: 32px;
 		min-height: 150px;
-		max-width: $story-preview-width-medium;
 
 		@media (max-width: $breakpoint-sm) {
 			max-width: $story-preview-width-small;
 			flex-direction: column;
 			align-items: center;
+			margin-top: 36px;
 		}
 
 		.st-Loader {
@@ -30,23 +32,33 @@
 			&-description {
 				display: flex;
 				flex-direction: column;
-				margin-bottom: 16px;
+				margin-bottom: 12px;
 
 				@media (max-width: $breakpoint-sm) {
 					align-items: center;
+					margin-bottom: 24px;
+					text-align: center;
 				}
 
 				span {
 					font-family: $font-merriweather;
 					font-weight: bold;
 					font-size: 18px;
-					@include theme-aware('color', 'user-info-title');
+					@include theme-aware('color', 'G900');
 
 					&:last-child {
 						font-size: 14px;
 						font-weight: normal;
 						font-family: $font-lato;
-						@include theme-aware('color', 'user-info-description');
+						@include theme-aware('color', 'G500');
+
+						@media (max-width: $breakpoint-sm) {
+							margin-top: 6px;
+						}
+					}
+
+					@media (max-width: $breakpoint-sm) {
+						margin-top: 16px;
 					}
 				}
 			}
@@ -71,25 +83,35 @@
 					display: flex;
 					flex-direction: column;
 					align-items: left;
-					padding: 8px 12px;
+					padding: 8px 2px;
 
 					span {
 						font-weight: bold;
 						font-size: 18px;
-						@include theme-aware('color', 'user-info-title');
+						@include theme-aware('color', 'G900');
 
 						&:last-child {
 							font-size: 14px;
 							font-weight: normal;
 							font-family: $font-lato;
-							color: $color-grey-medium;
+							@include theme-aware('color', 'G500');
 						}
 					}
+				}
+
+				@media (max-width: $breakpoint-sm) {
+					align-items: center;
+					justify-content: space-between;
+					width: 300px;
 				}
 			}
 		}
 
 		.st-UserAvatar {
+			&:hover {
+				opacity: 1;
+			}
+
 			.st-Image-container,
 			.badge {
 				font-size: 36px;

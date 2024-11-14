@@ -1,4 +1,5 @@
-@import '../../../styles/variables.scss';
+@import 'styles/variables.scss';
+@import 'styles/themes/mixins.scss';
 
 .st-Loader {
 	display: flex;
@@ -27,7 +28,7 @@
 	}
 
 	> .fa {
-		color: $color-grey-lighter;
+		@include theme-aware('color', 'G400');
 		display: flex;
 		justify-content: center;
 		align-items: center;

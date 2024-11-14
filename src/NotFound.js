@@ -1,10 +1,13 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 
-import {HOME} from 'lib/routes';
+import {DASHBOARD} from 'lib/routes';
 
-import {TYPOGRAPHY_MERRI, TYPOGRAPHY_LATO} from 'types/typography';
+import {FONTS, FONT_WEIGHT, TYPOGRAPHY_VARIANTS} from 'types/typography';
 
 import IconButton from 'components/widgets/button/IconButton';
+import Typography from 'components/widgets/typography/Typography';
+import MobileWrapper from 'components/widgets/mobile-wrapper/MobileWrapper';
 
 import {ReactComponent as Trees} from 'images/trees.svg';
 
@@ -14,22 +17,30 @@ const CLASS = 'st-NotFound';
 
 export default function NotFound() {
 	return (
-		<div className={CLASS}>
+		<MobileWrapper className={CLASS}>
 			<div className={CLASS + '-trees'}>
 				<Trees />
 			</div>
 
 			<div className={CLASS + '-error'}>
 				<span>404</span>
-				<span className={TYPOGRAPHY_MERRI.heading_h1_black_bold}>You got lost in the woods.</span>
-				<span className={TYPOGRAPHY_LATO.placeholder_grey_medium}>
+				<Typography
+					font={FONTS.merri}
+					variant={TYPOGRAPHY_VARIANTS.h1}
+					fontWeight={FONT_WEIGHT.bold}
+				>
+					You got lost in the woods.
+				</Typography>
+				<Typography font={FONTS.lato} variant={TYPOGRAPHY_VARIANTS.action1}>
 					Don’t worry, our wizard will tell you path where you can find what you are
 					looking for.
-				</span>
+				</Typography>
 				<div className={CLASS + '-error-button'}>
-					<IconButton href={HOME}>Back to guild</IconButton>
+					<IconButton tag={Link} to={DASHBOARD}>
+						Back to guild
+					</IconButton>
 				</div>
 			</div>
-		</div>
+		</MobileWrapper>
 	);
 }

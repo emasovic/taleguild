@@ -1,7 +1,39 @@
+@import 'styles/variables.scss';
+@import 'styles//scrollbar.scss';
+@import 'styles/mixins/tab-links.scss';
+@import 'styles/themes/mixins.scss';
+
 .st-LoadMore {
-	&-pagination {
+	&-modal {
+		max-height: $story-preview-width-small;
+		height: 100%;
+		overflow-y: auto;
+		@include scrollbars(6px, 'G200', 'G100');
+
+		@media (max-width: $breakpoint-sm) {
+			max-height: 100%;
+		}
+	}
+
+	&-placeholder {
+		height: 20px;
+
+		@media (max-width: $breakpoint-sm) {
+			max-height: 60px;
+		}
+	}
+
+	&-loadmore {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	&-loader {
 		display: flex;
 		justify-content: center;
 		margin: 16px 0;
+		width: 100%;
 	}
 }

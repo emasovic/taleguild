@@ -1,44 +1,81 @@
-import React, {useLayoutEffect} from 'react';
+import React, {useCallback, useLayoutEffect} from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
+import useInView from 'hooks/useInView';
+
 import Loader from '../loader/Loader';
+import IconButton from '../button/IconButton';
+
+import './LoadMore.scss';
 
 const CLASS = 'st-LoadMore';
 
-export default function LoadMore({children, shouldLoad, onLoadMore, loading, className, id}) {
-	const isBottom = el => {
-		return el && el.getBoundingClientRect().bottom - 100 <= window.innerHeight;
-	};
+export default function LoadMore({
+	children,
+	shouldLoad,
+	onLoadMore,
+	loading,
+	className,
+	placeholderClassName,
+	NoItemsComponent,
+	total,
+	showItems,
+	noItemsComponentProps,
+	id,
+	isModal,
+}) {
+	const [ref, isVisible] = useInView();
 
-	const trackScrolling = () => {
-		const wrappedElement = document.getElementById(id);
+	const checkLoadMore = useCallback(
+		() => isVisible && shouldLoad && !loading && onLoadMore(),
 
-		if (isBottom(wrappedElement) && shouldLoad) {
-			onLoadMore();
-		}
-	};
+		[onLoadMore, shouldLoad, isVisible, loading]
+	);
 
 	useLayoutEffect(() => {
-		document.addEventListener('scroll', trackScrolling);
-		return () => {
-			document.removeEventListener('scroll', trackScrolling);
-		};
+		if (!isModal) {
+			document.addEventListener('scroll', checkLoadMore);
+			return () => {
+				document.removeEventListener('scroll', checkLoadMore);
+			};
+		}
 	});
 
-	const classNames = className ? classnames(CLASS, className) : CLASS;
+	const classNames = classnames(CLASS, isModal && `${CLASS}-modal`, className);
+	const placeholderClassNames = classnames(CLASS + '-placeholder', placeholderClassName);
+	const componentProps = {};
+
+	if (isModal) {
+		componentProps.onScroll = checkLoadMore;
+	}
 
 	return (
-		<div id={id} className={classNames}>
-			{children}
+		<div id={id} className={classNames} {...componentProps}>
+			{showItems && children}
 			{loading && (
-				<div className={CLASS + '-pagination'}>
+				<div className={CLASS + '-loader'}>
 					<Loader />
+				</div>
+			)}
+			{NoItemsComponent && !shouldLoad && !loading && !total && showItems && (
+				<NoItemsComponent {...noItemsComponentProps} />
+			)}
+			{!loading && shouldLoad && <div ref={ref} className={placeholderClassNames} />}
+			{shouldLoad && showItems && !loading && (
+				<div className={CLASS + '-loadmore'}>
+					<IconButton loading={loading} tertiary outline onClick={checkLoadMore}>
+						Load more
+					</IconButton>
 				</div>
 			)}
 		</div>
 	);
 }
+
+LoadMore.defaultProps = {
+	id: 'loadMore',
+};
 
 LoadMore.propTypes = {
 	children: PropTypes.any,
@@ -47,4 +84,10 @@ LoadMore.propTypes = {
 	loading: PropTypes.bool,
 	className: PropTypes.string,
 	id: PropTypes.string,
+	showItems: PropTypes.bool,
+	isModal: PropTypes.bool,
+	total: PropTypes.number.isRequired,
+	placeholderClassName: PropTypes.string,
+	NoItemsComponent: PropTypes.func,
+	noItemsComponentProps: PropTypes.object,
 };

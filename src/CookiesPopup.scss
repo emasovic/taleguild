@@ -1,0 +1,41 @@
+@import 'styles/variables.scss';
+@import 'styles/themes/mixins.scss';
+
+$popup-width-lg: 360px;
+$popup-width-sm: 320px;
+
+.st-CookiesPopup {
+	width: 100%;
+	position: fixed;
+	z-index: 9999;
+	bottom: 40px;
+	display: flex;
+
+	@media (max-width: $breakpoint-sm) {
+		left: 0;
+		bottom: 10px;
+		justify-content: center;
+		align-items: center;
+	}
+
+	&-wrapper {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		padding: 24px;
+		border-radius: 6px;
+		max-width: $popup-width-lg;
+		width: 100%;
+		@include theme-aware('background-color', 'T200');
+
+		@media (max-width: $breakpoint-sm) {
+			max-width: $popup-width-sm;
+		}
+
+		&-more {
+			margin-left: 4px;
+			margin-bottom: 16px;
+		}
+	}
+}

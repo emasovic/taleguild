@@ -1,48 +1,99 @@
 @import './variables.scss';
 @import './themes/mixins.scss';
 
-$primary: $color-primary;
-$secondary: $color-primary-light;
+$primary: $color-gold-48;
+$secondary: $color-red-58;
 
 @import '~bootstrap/scss/bootstrap.scss';
 
+.modal {
+	&-open {
+		padding-right: 0 !important;
+	}
+}
+
+.bg {
+	&-primary {
+		@include theme-aware('background-color', 'T400');
+	}
+}
+
 .form-control {
 	&:focus {
-		border-color: $color-primary;
+		@include theme-aware('border-color', 'T600');
 	}
 
 	&::placeholder {
-		color: $color-grey-light;
+		@include theme-aware('color', 'G400');
 		font-size: 14px;
+		line-height: 26px;
+	}
+
+	&::selection {
+		@include theme-aware('background-color', 'text-selection');
 	}
 }
 
 .btn {
 	font-weight: bold;
+	font-size: 16px;
 
 	&-primary {
-		color: $color-white;
+		@include theme-aware('background-color', 'T600');
+		@include theme-aware('color', 'B100');
 		border: none;
 
 		&:hover {
-			background-color: $color-primary-dark;
+			@include theme-aware('background-color', 'T700');
+			@include theme-aware('color', 'B100');
 		}
 
 		&:active:not(:disabled):not(.disabled):active {
-			box-shadow: none;
+			@include theme-aware('color', 'B100');
+		}
+
+		&:disabled {
+			@include theme-aware('background-color', 'B300');
+			@include theme-aware('color', 'G500');
+			@include theme-aware('box-shadow', 'no-shadow');
 		}
 	}
 
 	&-secondary {
 		border: none;
-		@include theme-aware('background-color', 'button-secondary-background');
-		@include theme-aware('color', 'button-secondary-color');
+		@include theme-aware('background-color', 'B100');
+		@include theme-aware('color', 'T600');
+		@include theme-aware('box-shadow', 'button-shadow');
 
 		&:hover,
 		&:active:not(:disabled):not(.disabled):active,
 		&:focus {
-			@include theme-aware('background-color', 'button-secondary-background-state');
-			@include theme-aware('color', 'button-secondary-color');
+			@include theme-aware('background-color', 'T100');
+			@include theme-aware('color', 'T600');
+		}
+
+		&:active:not(:disabled):not(.disabled):active {
+			box-shadow: none;
+			@include theme-aware('background-color', 'B100');
+		}
+
+		&:disabled {
+			@include theme-aware('background-color', 'B200');
+			@include theme-aware('color', 'G500');
+			@include theme-aware('box-shadow', 'no-shadow');
+		}
+	}
+
+	&-tertiary {
+		border: none;
+		@include theme-aware('background-color', 'T200');
+		@include theme-aware('color', 'T600');
+
+		&:hover,
+		&:active:not(:disabled):not(.disabled):active,
+		&:focus {
+			@include theme-aware('background-color', 'T300');
+			@include theme-aware('color', 'T600');
 		}
 
 		&:active:not(:disabled):not(.disabled):active {
@@ -51,11 +102,12 @@ $secondary: $color-primary-light;
 	}
 
 	&-success {
-		background-color: $color-secondary-green;
+		@include theme-aware('background-color', 'S48');
 
-		&:active:not(:disabled):not(.disabled):active, &:focus {
-			background-color: $color-secondary-green;
-			border-color: $color-secondary-green;
+		&:active:not(:disabled):not(.disabled):active,
+		&:focus {
+			@include theme-aware('background-color', 'S48');
+			@include theme-aware('border-color', 'S48');
 		}
 	}
 }

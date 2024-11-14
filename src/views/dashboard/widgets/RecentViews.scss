@@ -1,0 +1,15 @@
+@import 'styles/variables.scss';
+@import 'styles/themes/mixins.scss';
+
+.st-RecentViews {
+	display: flex;
+	flex-direction: column;
+	margin-top: 8px;
+
+	&-link {
+		margin-top: 24px;
+		width: 100%;
+		display: flex;
+		justify-content: center;
+	}
+}

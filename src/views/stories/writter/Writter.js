@@ -1,21 +1,29 @@
-import React, {useRef, useMemo} from 'react';
-import debounce from 'lodash/debounce';
+import React, {useMemo, useEffect, useCallback} from 'react';
+import debounce from 'lodash.debounce';
 import PropTypes from 'prop-types';
+import {useDispatch} from 'react-redux';
 
 import {STORY_PAGE_OP} from 'types/story_page';
+import {DEFAULT_OP} from 'types/default';
+
+import {toggleMobileNav} from 'redux/app';
 
 import TextEditor from 'components/widgets/text-editor/TextEditor';
 import Loader from 'components/widgets/loader/Loader';
 
-export default function Writter({
-	className,
-	onCurrentChanged,
-	currentEditing,
-	onStoryPage,
-	published,
-	op,
-}) {
-	const editorRef = useRef(null);
+import useFocus from './useFocus';
+export default function Writter({className, pages, pageId, onStoryPage, published, archived, op}) {
+	const dispatch = useDispatch();
+
+	const [handleStartAt, handleEndAt] = useFocus();
+
+	const page = pages.find(p => p.id === Number(pageId));
+	const displayLoader =
+		op[STORY_PAGE_OP.create].loading || op[DEFAULT_OP.loading].loading || !page;
+
+	const displayMobileNav = useCallback(displayNav => dispatch(toggleMobileNav(displayNav)), [
+		dispatch,
+	]);
 
 	const scrollToBottom = () => {
 		const domSelection = window.getSelection();
@@ -32,31 +40,36 @@ export default function Writter({
 		}
 	};
 
+	const handleKeyDown = () => {
+		scrollToBottom();
+		handleStartAt();
+	};
+
 	const _onStoryPage = useMemo(() => debounce((id, text) => onStoryPage(id, text), 3000), [
 		onStoryPage,
 	]);
 
 	const handleEditPage = val => {
-		const currnet = {
-			...currentEditing,
-			text: val,
-		};
+		const shouldAutoSave = !published || archived;
 
-		onCurrentChanged(currnet);
-		!published && _onStoryPage(currnet.id, val);
+		shouldAutoSave && _onStoryPage(page.id, val);
 	};
 
-	if (!currentEditing || op === STORY_PAGE_OP.create) {
-		return <Loader />;
-	}
+	useEffect(() => {
+		displayMobileNav(false);
+
+		return () => displayMobileNav(true);
+	}, [displayMobileNav]);
+
+	if (displayLoader) return <Loader />;
 
 	return (
-		<div className={className + '-writter'} ref={editorRef}>
+		<div className={className + '-writter'}>
 			<TextEditor
-				pageId={currentEditing.id}
-				value={currentEditing.text}
+				initialValue={page.text}
 				onChange={handleEditPage}
-				onKeyDown={scrollToBottom}
+				onKeyUp={handleEndAt}
+				onKeyDown={handleKeyDown}
 			/>
 		</div>
 	);
@@ -64,9 +77,10 @@ export default function Writter({
 
 Writter.propTypes = {
 	className: PropTypes.string,
-	onCurrentChanged: PropTypes.func,
-	currentEditing: PropTypes.object,
+	pages: PropTypes.array.isRequired,
+	pageId: PropTypes.string.isRequired,
 	onStoryPage: PropTypes.func,
 	published: PropTypes.bool,
-	op: PropTypes.string,
+	archived: PropTypes.bool,
+	op: PropTypes.object,
 };

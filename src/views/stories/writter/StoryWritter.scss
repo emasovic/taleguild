@@ -12,6 +12,14 @@
 	}
 
 	&-header {
+		&-saving {
+			min-height: 24px;
+			margin: 8px 0;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+
 		.st-FloatingInput {
 			input {
 				border: none;
@@ -20,27 +28,28 @@
 				box-shadow: none;
 				padding: 0;
 				font-family: $font-merriweather;
-				@include theme-aware('color', 'writter-title-color');
-				@include theme-aware('background-color', 'writter-title-background');
+				@include theme-aware('color', 'G900');
+				@include theme-aware('background-color', 'B200');
 
 				&::placeholder {
 					font-size: 24px;
+					@include theme-aware('color', 'G400');
 				}
 			}
 		}
 
 		.st-DropdownButton {
 			.btn {
-				color: $color-grey-light;
 				box-shadow: none;
-				@include theme-aware('background-color', 'story-pagepicker-background');
-				@include theme-aware('border', 'story-pagepicker-button-border');
+				border: 1px solid;
+				@include theme-aware('background-color', 'B100');
+				@include theme-aware('border-color', 'B100');
+				@include theme-aware('color', 'G400');
 
 				&:hover,
 				&:active:not(:disabled):not(.disabled):active {
-					@include theme-aware('background-color', 'story-pagepicker-background-hover');
-					@include theme-aware('border', 'story-pagepicker-button-border');
-					color: $color-grey-light;
+					@include theme-aware('background-color', 'B300');
+					@include theme-aware('border-color', 'B300');
 				}
 			}
 
@@ -48,7 +57,7 @@
 				&-item {
 					&:nth-child(3),
 					&:last-child {
-						color: $color-secondary-red;
+						@include theme-aware('color', 'R58');
 					}
 				}
 			}
@@ -57,15 +66,10 @@
 		&-publish {
 			display: flex;
 			justify-content: space-between;
-			margin-bottom: 20px;
-
-			@media (max-width: $breakpoint-sm) {
-				flex-direction: column;
-				align-items: center;
-			}
 
 			&-actions {
 				display: flex;
+				align-items: center;
 
 				@media (max-width: $breakpoint-sm) {
 					margin-bottom: 16px;
@@ -80,19 +84,18 @@
 
 				.st-IconButton {
 					&-with-content {
-						color: $color-grey-light;
 						box-shadow: none;
-						@include theme-aware('background-color', 'story-pagepicker-background');
-						@include theme-aware('border', 'story-pagepicker-button-border');
+						border: 1px solid;
+						@include theme-aware('background-color', 'B100');
+						@include theme-aware('border-color', 'B100');
+						@include theme-aware('color', 'G400');
 
 						&:hover,
 						&:active {
-							@include theme-aware(
-								'background-color',
-								'story-pagepicker-background-hover'
-							);
-							@include theme-aware('border', 'story-pagepicker-button-border');
-							color: $color-grey-light !important;
+							@include theme-aware('background-color', 'B300');
+							@include theme-aware('border-color', 'B300');
+
+							@include theme-aware('color', 'G400');
 						}
 					}
 				}
@@ -100,10 +103,11 @@
 				&-buttons {
 					display: flex;
 					align-items: center;
+					margin-top: -1px;
 
 					> span {
 						&:last-child {
-							color: $color-secondary-green;
+							@include theme-aware('color', 'G400');
 						}
 					}
 				}
@@ -132,6 +136,8 @@
 
 		&-publishModal {
 			.st-Uploader {
+				@include theme-aware('background-color', 'B200');
+
 				&-thumbs {
 					&-item {
 						.st-Image {
@@ -148,7 +154,7 @@
 
 	&-writter {
 		padding-bottom: 200px;
-		font-size: 18px;
+		font-size: 16px;
 		line-height: 28px;
 	}
 }

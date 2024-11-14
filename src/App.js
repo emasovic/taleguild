@@ -1,31 +1,34 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
 
-import Routes from './Routes';
+import {DEFAULT_META_TAGS, DEFAULT_OP} from 'types/default';
+
+import {selectAuthUser} from 'redux/auth';
 
 import Loader from 'components/widgets/loader/Loader';
 import Helmet from 'components/widgets/helmet/Helmet';
 
 import ErrorPage from 'ErrorPage';
 
+import Routes from 'Routes';
+import CookiesPopup from 'CookiesPopup';
+import RealTimeUpdates from 'RealTimeUpdates';
+
 import './App.scss';
 
-// const CLASS = 'st-App';
-
 function App() {
-	const loading = useSelector(state => state.application.loading);
+	const {op, data} = useSelector(selectAuthUser);
+	const isAccepted = localStorage.getItem('termsAccepted');
 
-	if (loading) {
-		return <Loader />;
-	}
+	if (op[DEFAULT_OP.loading].loading) return <Loader />;
 
 	return (
 		<ErrorPage>
-			<Helmet
-				title="Taleguild | Discover the Place with Top Writers"
-				description="Taleguild is the place where writers publish their work, gain inspiration, feedback, and community, and is your best place to discover and connect with writers worldwide."
-			/>
+			<Helmet title={DEFAULT_META_TAGS.title} description={DEFAULT_META_TAGS.description} />
+
 			<Routes />
+			{data && <RealTimeUpdates />}
+			{!isAccepted && <CookiesPopup />}
 		</ErrorPage>
 	);
 }

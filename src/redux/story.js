@@ -1,103 +1,112 @@
 import {createSlice, createEntityAdapter} from '@reduxjs/toolkit';
-import orderBy from 'lodash/orderBy';
+import {push} from 'connected-react-router';
 
 import * as api from '../lib/api';
 import {goToStory, editStory, DELETED_STORY} from '../lib/routes';
 
 import {Toast} from 'types/toast';
-import {DEFAULT_STORYPAGE_DATA, SORT_DIRECTION, STORY_OP, STORY_SORT} from 'types/story';
+import {STORY_OP} from 'types/story';
+import {DEFAULT_OP} from 'types/default';
+
 import {newToast} from './toast';
+import {savedStoryRemoved, savedStoryUpsert} from './savedStories';
+import {storyPagesReceieved} from './storyPages';
+import {archivedStoryRemoved, archivedStoryUpsert} from './archivedStories';
+import {likesRemoveOne, likesUpsertOne} from './likes';
+import {commentsRemoveOne, commentsUpsertOne} from './comments';
+import {batchDispatch, createOperations, endOperation, startOperation} from './hepler';
 
 const storyAdapter = createEntityAdapter({
 	selectId: entity => entity.id,
-	sortComparer: (a, b) => b.created_at.localeCompare(a.created_at),
 });
 
 export const storySlice = createSlice({
 	name: 'stories',
 	initialState: storyAdapter.getInitialState({
-		op: null,
+		op: createOperations(),
 		pages: null,
-		total: null,
-		loading: null,
+		total: 0,
 	}),
 	reducers: {
-		storiesReceieved: (state, action) => {
-			storyAdapter.setAll(state, action.payload);
-			state.loading = false;
-			state.op = null;
+		storiesReceieved: (state, {payload}) => {
+			storyAdapter.setAll(state, payload);
 		},
-		storiesUpsertMany: (state, action) => {
-			storyAdapter.upsertMany(state, action.payload);
-			state.loading = null;
-			state.op = null;
+		storiesUpsertMany: (state, {payload}) => {
+			storyAdapter.upsertMany(state, payload);
 		},
-		storyRemoved: (state, action) => {
-			storyAdapter.removeOne(state, action.payload);
-			state.op = null;
-			state.loading = null;
+		storyRemoved: (state, {payload}) => {
+			storyAdapter.removeOne(state, payload);
+			state.total -= 1;
 		},
 		storyUpsert: (state, action) => {
 			storyAdapter.upsertOne(state, action.payload);
-			state.op = null;
-			state.loading = null;
+			state.total += 1;
 		},
-		gotComment: (state, action) => {
-			const {storyId, ...rest} = action.payload;
-			state.entities[storyId].comments.push({...rest});
-			state.op = null;
+		gotPages: (state, {payload}) => {
+			state.pages = Math.ceil(payload.total / payload.limit);
+			state.total = payload.total;
 		},
-		removeComment: (state, action) => {
-			const {storyId, commentId} = action.payload;
-			state.entities[storyId] = {
-				...state.entities[storyId],
-				comments: state.entities[storyId].comments.filter(c => c.id !== commentId),
-			};
-			state.op = null;
+		opStart: (state, {payload}) => {
+			state.op[payload] = startOperation();
 		},
-		gotLike: (state, action) => {
-			const {storyId, ...rest} = action.payload;
-			state.entities[storyId].likes.push({...rest});
-			state.op = null;
+		opEnd: (state, {payload}) => {
+			state.op[payload.op] = endOperation(payload.error);
 		},
-		removeLike: (state, action) => {
-			const {storyId, likeId} = action.payload;
-			state.entities[storyId] = {
-				...state.entities[storyId],
-				likes: state.entities[storyId].likes.filter(l => l.id !== likeId),
-			};
-			state.op = null;
-		},
-		gotSaved: (state, action) => {
-			const {storyId, ...rest} = action.payload;
+	},
+	extraReducers: {
+		[savedStoryUpsert]: (state, {payload}) => {
+			const {storyId, ...rest} = payload;
 			state.entities[storyId].saved_by.push({...rest});
-			state.op = null;
+			state.entities[storyId].savedstories_count += 1;
 		},
-		removeSaved: (state, action) => {
-			const {storyId, savedId} = action.payload;
+		[savedStoryRemoved]: (state, {payload}) => {
+			const {storyId, savedId} = payload;
 			if (state.entities[storyId]) {
 				state.entities[storyId] = {
 					...state.entities[storyId],
 					saved_by: state.entities[storyId].saved_by.filter(s => s.id !== savedId),
 				};
+				state.entities[storyId].savedstories_count -= 1;
 			}
-			state.op = null;
 		},
-		gotPages: (state, action) => {
-			state.pages = Math.ceil(action.payload / 10);
-			state.total = action.payload;
+		[storyPagesReceieved]: (state, {payload}) => {
+			storyAdapter.upsertOne(state, payload?.[0]?.story);
 		},
-		opStart: (state, action) => {
-			state.op = action.payload;
+		[archivedStoryUpsert]: (state, {payload}) => {
+			const {keepArchived} = payload;
+
+			keepArchived
+				? storyAdapter.upsertOne(state, payload)
+				: storyAdapter.removeOne(state, payload.id);
 		},
-		opEnd: state => {
-			state.op = null;
+		[archivedStoryRemoved]: (state, {payload}) => {
+			payload.hasOwnProperty('user') && storyAdapter.upsertOne(state, payload);
 		},
-		loadingStart: state => {
-			state.loading = true;
+		[likesUpsertOne]: (state, {payload}) => {
+			const {storyId, ...rest} = payload;
+			state.entities[storyId].likes.push({...rest});
+			state.entities[storyId].likes_count += 1;
 		},
-		loadingEnd: state => {
-			state.loading = false;
+		[likesRemoveOne]: (state, {payload}) => {
+			const {storyId, id: likeId} = payload;
+			state.entities[storyId] = {
+				...state.entities[storyId],
+				likes: state.entities[storyId].likes.filter(l => l.id !== likeId),
+			};
+			state.entities[storyId].likes_count -= 1;
+		},
+		[commentsUpsertOne]: (state, {payload}) => {
+			const {storyId, ...rest} = payload;
+			state.entities[storyId].comments.push({...rest});
+			state.entities[storyId].comments_count += 1;
+		},
+		[commentsRemoveOne]: (state, {payload}) => {
+			const {storyId, id: commentId} = payload;
+			state.entities[storyId] = {
+				...state.entities[storyId],
+				comments: state.entities[storyId].comments.filter(c => c.id !== commentId),
+			};
+			state.entities[storyId].comments_count -= 1;
 		},
 	},
 });
@@ -111,159 +120,115 @@ export const {
 	storiesUpsertMany,
 	storyUpsert,
 	storyRemoved,
-	gotSaved,
 	gotPages,
-	gotComment,
-	gotLike,
-	removeSaved,
-	removeComment,
-	removeLike,
 } = storySlice.actions;
 
-export const newStory = payload => async (dispatch, getState, history) => {
-	dispatch(loadingStart());
+export const newStory = payload => async (dispatch, getState) => {
+	const op = DEFAULT_OP.create;
+	dispatch(opStart(op));
 
 	const res = await api.createStory(payload);
 	if (res.error) {
-		dispatch(loadingEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
+		return batchDispatch([
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
+		]);
 	}
 
-	const page = await api.createStoryPage({story: res.id, text: DEFAULT_STORYPAGE_DATA});
+	const page = res?.storypages?.[0];
 
-	if (page.error) {
-		dispatch(loadingEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
-	}
-	dispatch(storyUpsert(res));
-	return history.push(editStory(res.id, page.id));
+	batchDispatch([storyUpsert(res), opEnd({op}), push(editStory(res.id, page?.id))], dispatch);
 };
 
-export const createOrUpdateStory = (payload, shouldChange = true) => async (
-	dispatch,
-	getState,
-	history
-) => {
-	dispatch(loadingStart());
+export const createOrUpdateStory = (payload, shouldChange = true) => async (dispatch, getState) => {
+	const op = payload.id ? DEFAULT_OP.update : DEFAULT_OP.create;
+	dispatch(opStart(op));
 
 	const res = payload.id ? await api.updateStory(payload) : await api.createStory(payload);
 	if (res.error) {
-		dispatch(loadingEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
+		return batchDispatch([
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
+		]);
 	}
-	dispatch(storyUpsert(res));
-	const message = payload.id ? 'Successfully updated story.' : 'Successfully created story.';
-	if (shouldChange) {
-		history.push(goToStory(res.id));
-		dispatch(newToast({...Toast.success(message)}));
-	}
+
+	const actions = [storyUpsert(res), opEnd({op})];
+
+	shouldChange &&
+		actions.push(
+			push(goToStory(res.id)),
+			newToast({
+				...Toast.success(
+					'Your story has been successfully published in the Community and is now public.'
+				),
+			})
+		);
+
+	batchDispatch(actions, dispatch);
 };
 
-export const deleteStory = storyId => async (dispatch, getState, history) => {
-	dispatch(loadingStart());
+export const deleteStory = storyId => async (dispatch, getState) => {
+	const op = DEFAULT_OP.delete;
+	dispatch(opStart(op));
 
 	const res = await api.deleteStory(storyId);
 	if (res.error) {
-		dispatch(loadingEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
+		return batchDispatch([
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
+		]);
 	}
-	dispatch(storyRemoved(storyId));
-	dispatch(newToast({...Toast.success('Successfully deleted story.')}));
-	return history.push(DELETED_STORY);
+	batchDispatch([storyRemoved(storyId), opEnd({op}), push(DELETED_STORY)]);
 };
 
-export const loadStories = (params, count, op = STORY_OP.loading) => async (dispatch, getState) => {
+export const loadStories = (params, op = STORY_OP.loading) => async (dispatch, getState) => {
 	dispatch(opStart(op));
 	const res = await api.getStories(params);
+
 	if (res.error) {
-		dispatch(loadingEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
-	}
-	if (count) {
-		const countParams = {...params, _start: undefined, _limit: undefined};
-
-		const countRes = await api.countStories(countParams);
-		if (countRes.error) {
-			dispatch(opEnd());
-			return dispatch(newToast({...Toast.error(countRes.error)}));
-		}
-		dispatch(gotPages(countRes));
-
-		return dispatch(storiesReceieved(res));
+		return batchDispatch([
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
+		]);
 	}
 
-	return dispatch(storiesUpsertMany(res));
+	const {data, meta} = res;
+
+	const action = !params?.pagination?.start ? storiesReceieved : storiesUpsertMany;
+
+	return batchDispatch([
+		action(data),
+		gotPages({
+			total: meta.pagination.total,
+			totalNew: meta.pagination.totalNew,
+			limit: meta.pagination.limit,
+		}),
+		opEnd({op}),
+	]);
 };
 
 export const loadStory = id => async dispatch => {
-	dispatch(loadingStart());
+	const op = STORY_OP.loading;
+	dispatch(opStart(op));
 
 	const res = await api.getStory(id);
 
 	if (res.error) {
-		dispatch(loadingEnd());
-		dispatch(newToast({...Toast.error(res.error)}));
+		return batchDispatch([
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
+		]);
 	}
-	dispatch(storyUpsert(res));
-};
-
-export const createOrUpdateViews = (id, userId) => async dispatch => {
-	dispatch(opStart());
-
-	const res = await api.createOrUpdateViews({storyId: id, userAgent: navigator.userAgent, userId});
-	if (res.error) {
-		dispatch(opEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
-	}
-
-	// dispatch(removeComment({storyId: payload.story, commentId: payload.id}));
-	return dispatch(opEnd());
-};
-
-export const createOrDeleteComment = payload => async (dispatch, getState) => {
-	dispatch(opStart());
-
-	const res = payload.id ? await api.deleteComment(payload.id) : await api.createComment(payload);
-	if (res.error) {
-		dispatch(opEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
-	}
-	if (res.id) {
-		dispatch(gotComment({storyId: payload.story, ...res}));
-		return dispatch(newToast({...Toast.success('Successfully posted comment.')}));
-	}
-
-	dispatch(removeComment({storyId: payload.story, commentId: payload.id}));
-	return dispatch(newToast({...Toast.success('Successfully deleted comment.')}));
-};
-
-export const createOrDeleteLike = (like, userId, storyId) => async (dispatch, getState) => {
-	const res = like
-		? await api.deleteLike(like.id)
-		: await api.createLike({user: userId, story: storyId});
-
-	if (res.error) {
-		return dispatch(newToast({...Toast.error(res.error)}));
-	}
-
-	if (res.id && !like) {
-		return dispatch(gotLike({storyId, ...res}));
-	}
-
-	return dispatch(removeLike({storyId, likeId: like.id}));
+	return batchDispatch([storyUpsert(res), opEnd({op})]);
 };
 
 //SELECTORS
 
 const storySelector = storyAdapter.getSelectors(state => state.stories);
 
-export const selectStories = (state, sort = STORY_SORT.created_at) => {
-	let stories = storySelector.selectAll(state);
+export const selectStories = state => storySelector.selectAll(state);
 
-	stories = stories.length ? orderBy(stories, [sort], [SORT_DIRECTION.desc]) : stories;
-
-	return stories;
-};
+export const selectStoryIds = state => storySelector.selectIds(state);
 
 export const selectStory = (state, id) => storySelector.selectById(state, id);
 

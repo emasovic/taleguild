@@ -15,7 +15,7 @@ export default function TextViewer({value}) {
 	const renderElement = useCallback(props => <Element {...props} />, []);
 	const renderLeaf = useCallback(props => <Leaf {...props} />, []);
 	const editor = useMemo(() => withHistory(withReact(createEditor())), []);
-
+	editor.children = value;
 	return (
 		<Slate editor={editor} value={value} onChange={() => {}}>
 			<Editable

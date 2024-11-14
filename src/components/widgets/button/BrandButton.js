@@ -12,7 +12,7 @@ const BRAND_ICONS = {
 };
 
 export default function BrandButton({brand, ...rest}) {
-	const url = `${process.env.REACT_APP_API_URL}/connect/${brand}`;
+	const url = `${process.env.REACT_APP_API_URL}/api/connect/${brand}`;
 
 	return <IconButton {...rest} icon={BRAND_ICONS[brand]} href={url} />;
 }

@@ -2,9 +2,6 @@ import React from 'react';
 import Select, {components} from 'react-select';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import propTypes from 'prop-types';
-import {Link} from 'react-router-dom';
-
-import {editStory} from 'lib/routes';
 
 import {COLOR} from 'types/button';
 import FA from 'types/font_awesome';
@@ -20,19 +17,18 @@ export default function StoryPagePicker({onChange, value, pages, onNewPageClick,
 		const {data} = props;
 		if (data.custom) {
 			return (
-				<components.Option {...props}>
+				<components.Option className={CLASS + '-custom'} {...props}>
 					<IconButton color={COLOR.secondary} icon={FA.solid_plus} onClick={data.onClick}>
 						{data.label}
 					</IconButton>
 				</components.Option>
 			);
 		}
+
 		return (
-			<Link to={editStory(data.storyId, data.value)}>
-				<components.Option {...props}>
-					<span>{data.label}</span>
-				</components.Option>
-			</Link>
+			<components.Option {...props}>
+				<span>{data.label}</span>
+			</components.Option>
 		);
 	};
 
@@ -46,10 +42,10 @@ export default function StoryPagePicker({onChange, value, pages, onNewPageClick,
 
 	const options = pages.map((item, key) => ({
 		label: `Page ${key + 1}`,
-		storyId: item.story.id || item.story,
 		value: item.id,
 		index: key,
 	}));
+
 	options.push({label: 'New page', custom: true, onClick: onNewPageClick});
 	return (
 		<Select
@@ -70,7 +66,7 @@ StoryPagePicker.propTypes = {
 	onNewPageClick: propTypes.func,
 	value: propTypes.number,
 	pages: propTypes.array,
-	data: propTypes.object
+	data: propTypes.object,
 };
 
 StoryPagePicker.defaultProps = {

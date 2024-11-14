@@ -1,0 +1,156 @@
+@import 'styles/variables.scss';
+@import 'styles/themes/mixins.scss';
+
+.st-GuildatarContainer {
+	display: flex;
+	flex-direction: column;
+
+	&-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 32px;
+
+		@media (max-width: $breakpoint-m) {
+			flex-direction: column;
+		}
+
+		&-left-box {
+			display: flex;
+			justify-content: space-between;
+			max-width: $story-preview-width-medium;
+			width: 100%;
+			align-items: center;
+
+			@media (max-width: $breakpoint-m) {
+				margin-bottom: 16px;
+			}
+
+			&-title {
+				display: flex;
+				flex-direction: column;
+
+				@media (max-width: $breakpoint-m) {
+					width: 100%;
+				}
+			}
+
+			&-edit {
+				@media (max-width: $breakpoint-m) {
+					margin-bottom: 16px;
+				}
+			}
+		}
+
+		&-actions {
+			display: flex;
+
+			@media (max-width: $breakpoint-m) {
+				margin-bottom: 16px;
+			}
+
+			.btn {
+				&-secondary {
+					margin-right: 16px;
+				}
+			}
+		}
+	}
+
+	&-content {
+		display: flex;
+		width: 100%;
+
+		> div {
+			flex: 1;
+		}
+
+		@media (max-width: $breakpoint-m) {
+			flex-direction: column;
+			flex: unset;
+		}
+
+		&-avatar {
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
+			margin-right: 48px;
+			max-width: $story-preview-width-medium;
+			width: 100%;
+
+			@media (max-width: $breakpoint-m) {
+				margin-right: 0;
+			}
+
+			&-guildatar {
+				width: 100%;
+				height: 420px;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				border: 1px solid;
+				border-radius: 6px;
+				@include theme-aware('border-color', 'G100');
+
+				.st-Guildatar {
+					transform: scale(1.8);
+					margin-right: 50px;
+
+					@media (max-width: $breakpoint-sm) {
+						transform: scale(1.5);
+					}
+				}
+			}
+
+			&-description {
+				display: flex;
+				flex-direction: column;
+				margin: 36px 0;
+				max-width: $story-preview-width-medium;
+				width: 100%;
+
+				&-text {
+					border: 1px solid;
+					border-radius: 6px;
+					@include theme-aware('border-color', 'G100');
+					padding: 24px;
+
+					&-action {
+						margin-top: 24px;
+						text-align: center;
+					}
+				}
+			}
+		}
+
+		&-items {
+			display: flex;
+			flex-direction: column;
+
+			&-load_more {
+				display: flex;
+				flex-wrap: wrap;
+				margin-top: 12px;
+
+				@media (max-width: $breakpoint-m) {
+					justify-content: center;
+				}
+
+				&-placeholder {
+					width: $market-item-width-large;
+					margin: 0 16px 16px 0;
+
+					@media (max-width: $breakpoint-sm) {
+						height: unset;
+					}
+				}
+			}
+
+			&-loader {
+				@media (max-width: $breakpoint-sm) {
+					min-height: $market-item-height-large;
+				}
+			}
+		}
+	}
+}

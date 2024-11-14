@@ -9,28 +9,33 @@
 	padding: 36px;
 	margin: 0 auto;
 	border-radius: 6px;
-	@include theme-aware('box-shadow', 'modal-box-shadow');
+	border: 1px solid;
+	@include theme-aware('border-color', 'G100');
 
 	@media (max-width: $breakpoint-sm) {
-		width: $story-preview-width-small;
+		width: 100%;
+		height: calc(100% - 60px);
 	}
 
 	h4 {
-		font-family: $font-merriweather;
-		font-weight: 900;
-		font-size: 24px;
 		margin-bottom: 24px;
-		@include theme-aware('color', 'modal-title-color');
 	}
 
 	a {
 		font-size: 14px;
-		text-align: left;
 		font-weight: bold;
+		text-align: center;
+		margin-top: 16px;
+		@include theme-aware('color', 'T600');
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+		}
 	}
 
 	.st-IconButton {
-		margin: 15px 0;
+		margin-bottom: 16px;
 		min-height: 50px;
 
 		&-link {
@@ -40,13 +45,20 @@
 
 	&-divider {
 		text-align: center;
-		color: $color-grey-medium;
 		font-size: 14px;
+		@include theme-aware('color', 'G400');
 	}
 
 	&-terms {
 		display: flex;
-		justify-content: space-between;
-		margin: 12px 0;
+		justify-content: space-around;
+		margin-top: 16px;
+
+		a {
+			font-size: 14px;
+			font-weight: 400;
+			text-align: center;
+			@include theme-aware('color', 'G400');
+		}
 	}
 }

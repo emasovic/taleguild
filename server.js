@@ -15,8 +15,12 @@ const getIdFromSlug = slug => {
 
 const PORT = process.env.PORT || 5000;
 
-const DEFAULT_IMAGE_URL = `${env.PUBLIC_URL}/taleguild-share.png`;
 const DEFAULT_STORY_IMAGE_URL = `${env.PUBLIC_URL}/default-story-share.png`;
+const DEFAULT_IMAGE_URL = `${env.PUBLIC_URL}/referral-share.png`;
+
+const DEFAULT_TITLE = 'Taleguild | Gamified Experience for Productive Writing';
+const DEFAULT_DESCRIPTION =
+	'Taleguild is a writing tool that helps you be motivated to write stories through a gamified experience. We help you build productive writing habits';
 
 const app = express();
 
@@ -106,6 +110,48 @@ app.get('/user/:username', async (req, res) => {
 	}
 });
 
+app.get('/register', async (req, res) => {
+	const username = req.query.referral;
+
+	if (!username) {
+		fs.readFile(filePath, 'utf8', (err, data) => {
+			if (err) {
+				return console.log(err);
+			}
+
+			data = data
+				.replace(/__TITLE__/g, DEFAULT_TITLE)
+				.replace(/__DESCRIPTION__/g, DEFAULT_DESCRIPTION)
+				.replace(/__IMAGE_URL__/g, DEFAULT_IMAGE_URL);
+
+			res.send(data);
+		});
+	}
+
+	try {
+		let user = await new User({username}).fetch();
+		user = user.toJSON();
+
+		fs.readFile(filePath, 'utf8', (err, data) => {
+			if (err) {
+				return console.log(err);
+			}
+
+			const name = user.display_name || user.username;
+
+			data = data
+				.replace(/__TITLE__/g, 'Join Taleguild and build your writing habits')
+				.replace(/__DESCRIPTION__/g, `${name} invited you to join our guild`)
+				.replace(/__IMAGE_URL__/g, DEFAULT_IMAGE_URL);
+
+			res.send(data);
+		});
+	} catch (error) {
+		console.log(error);
+		res.sendFile(filePath);
+	}
+});
+
 app.get('/', function(req, res) {
 	fs.readFile(filePath, 'utf8', (err, data) => {
 		if (err) {
@@ -113,11 +159,8 @@ app.get('/', function(req, res) {
 		}
 
 		data = data
-			.replace(/__TITLE__/g, 'Taleguild | Discover the Place with Top Writers')
-			.replace(
-				/__DESCRIPTION__/g,
-				'Taleguild is the place where writers publish their work, gain inspiration, feedback, and community, and is your best place to discover and connect with writers worldwide.'
-			)
+			.replace(/__TITLE__/g, DEFAULT_TITLE)
+			.replace(/__DESCRIPTION__/g, DEFAULT_DESCRIPTION)
 			.replace(/__IMAGE_URL__/g, DEFAULT_IMAGE_URL);
 
 		res.send(data);
@@ -133,11 +176,8 @@ app.get('/*', function(req, res) {
 		}
 
 		data = data
-			.replace(/__TITLE__/g, 'Taleguild | Discover the Place with Top Writers')
-			.replace(
-				/__DESCRIPTION__/g,
-				'Taleguild is the place where writers publish their work, gain inspiration, feedback, and community, and is your best place to discover and connect with writers worldwide.'
-			)
+			.replace(/__TITLE__/g, DEFAULT_TITLE)
+			.replace(/__DESCRIPTION__/g, DEFAULT_DESCRIPTION)
 			.replace(/__IMAGE_URL__/g, DEFAULT_IMAGE_URL);
 
 		res.send(data);

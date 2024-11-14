@@ -7,38 +7,42 @@
 	border-radius: 6px;
 	margin: 8px 0;
 	height: 120px;
-	width: $story-preview-width-medium;
+	max-width: $story-preview-width-medium;
+	width: 100%;
 	cursor: pointer;
 	position: relative;
-	@include theme-aware('border', 'story-item-border');
-	@include theme-aware('background', 'story-item-background');
+	box-shadow: 2px 2px 12px rgba(35, 31, 26, 0.04);
+	@include theme-aware('background-color', 'B100');
 
 	.st-StoryDropdownButton {
 		position: absolute;
-		top: 5px;
-		right: 5px;
-		z-index: 1;
-	}
-
-	@media (max-width: $breakpoint-sm) {
-		width: $story-preview-width-small;
+		top: 4px;
+		right: 4px;
 	}
 
 	&:hover {
 		text-decoration: none;
-		box-shadow: $box-shadow-light;
-		transition: all 0.2s ease-in;
+	}
+
+	&-link-wrapper {
+		display: flex;
+		height: 100%;
+		width: 100%;
 	}
 
 	&-cover {
 		height: 100%;
 
-		.st-Image {
+		.st-Image-container {
 			width: 120px;
 			height: 100%;
 			object-fit: cover;
 			border-top-left-radius: 6px;
 			border-bottom-left-radius: 6px;
+
+			.st-Image-full {
+				object-fit: cover;
+			}
 
 			&-fallback {
 				width: 120px;
@@ -47,7 +51,6 @@
 					border-top-left-radius: 6px;
 					border-bottom-left-radius: 6px;
 				}
-				// border: none;
 			}
 		}
 	}
@@ -65,16 +68,20 @@
 			flex-direction: column;
 			word-break: break-word;
 			max-height: 100px;
-			// overflow: hidden;
 
 			> span {
-				@include theme-aware('color', 'story-item-created-color');
+				@include theme-aware('color', 'G400');
 
 				&:first-child {
 					font-family: $font-merriweather;
 					font-weight: bold;
 					font-size: 16px;
-					@include theme-aware('color', 'story-item-username-color');
+
+					@include theme-aware('color', 'G900');
+				}
+
+				&:hover {
+					text-decoration: underline;
 				}
 			}
 		}
@@ -84,9 +91,10 @@
 			justify-content: space-between;
 			align-items: flex-end;
 			margin-top: 6px;
+			width: 100%;
 
 			span {
-				color: $color-grey-medium;
+				@include theme-aware('color', 'G400');
 			}
 		}
 	}

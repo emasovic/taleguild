@@ -1,40 +1,20 @@
-import React, {useEffect, useState, useCallback} from 'react';
-import {useSelector, shallowEqual, useDispatch} from 'react-redux';
+import React, {useCallback} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
 import propTypes from 'prop-types';
 
-import {DEFAULT_CRITERIA, STORY_OP, STORY_COMPONENTS, PUBLISH_STATES} from 'types/story';
+import {STORY_COMPONENTS, PUBLISH_STATES} from 'types/story';
+import {DEFAULT_PAGINATION} from 'types/default';
+import {REDUX_STATE} from 'types/redux';
 
-import {selectStories, loadStories, deleteStory} from 'redux/draft_stories';
-import {selectUserId} from 'redux/user';
+import {selectStories, loadStories, deleteStory, selectDraftStory} from 'redux/draftStories';
+import {selectUserId} from 'redux/auth';
 
-import NoStories from 'views/stories/NoStories';
-import Loader from 'components/widgets/loader/Loader';
-import LoadMore from 'components/widgets/loadmore/LoadMore';
+import StoryList from './StoryList';
 
-import './DraftStories.scss';
-
-const CLASS = 'st-DraftStories';
-
-export default function DraftStories({shouldLoadMore, Component}) {
+export default function DraftStories({shouldLoadMore, Component, to}) {
 	const dispatch = useDispatch();
-	const {drafts, userId, pages, op} = useSelector(
-		state => ({
-			drafts: selectStories(state),
-			op: state.draft_stories.op,
-			pages: state.draft_stories.pages,
-			userId: selectUserId(state),
-		}),
-		shallowEqual
-	);
 
-	const [currentPage, setCurrentPage] = useState(1);
-	const [criteria, setCriteria] = useState();
-
-	const handleCount = useCallback(() => {
-		const storyCriteria = {...criteria, _start: currentPage * 10};
-		dispatch(loadStories(storyCriteria, false, STORY_OP.load_more));
-		setCurrentPage(currentPage + 1);
-	}, [dispatch, currentPage, criteria]);
+	const userId = useSelector(selectUserId);
 
 	const handleDeleteStory = useCallback(
 		storyId => {
@@ -43,63 +23,40 @@ export default function DraftStories({shouldLoadMore, Component}) {
 		[dispatch]
 	);
 
-	useEffect(() => {
-		if (userId) {
-			setCriteria({
-				...DEFAULT_CRITERIA,
-				_publicationState: PUBLISH_STATES.preview,
-				published_at_null: true,
-				user: userId,
-			});
-		}
-	}, [userId]);
-
-	useEffect(() => {
-		if (criteria) {
-			dispatch(loadStories(criteria, true));
-		}
-	}, [dispatch, criteria]);
-
-	const stories =
-		drafts && drafts.length ? (
-			drafts.map(item => {
-				return (
-					<Component
-						id={item.id}
-						image={item.image}
-						formats={item.image && item.image.formats}
-						title={item.title || 'Untitled'}
-						description={item.description}
-						key={item.id}
-						onDeleteStory={handleDeleteStory}
-						createdDate={item.published_at}
-						storypages={item.storypages}
-						slug={item.slug}
-						// author={item.user}
-					/>
-				);
-			})
-		) : (
-			<NoStories />
-		);
-
 	return (
-		<LoadMore
-			id="drafts"
-			onLoadMore={handleCount}
-			shouldLoad={pages > currentPage && shouldLoadMore}
-			loading={op === STORY_OP.load_more}
-			className={CLASS}
-		>
-			<span>Drafts</span>
-			{op === STORY_OP.loading ? <Loader /> : stories}
-		</LoadMore>
+		<StoryList
+			Component={Component}
+			shouldLoadMore={shouldLoadMore}
+			componentSelector={selectDraftStory}
+			criteria={{
+				pagination: DEFAULT_PAGINATION,
+				publicationState: PUBLISH_STATES.preview,
+				filters: {
+					publishedAt: {
+						$null: true,
+					},
+					archived_at: {
+						$null: true,
+					},
+					user: userId,
+				},
+				sort: ['createdAt:DESC'],
+			}}
+			reduxState={REDUX_STATE.draftStories}
+			selector={selectStories}
+			shouldTriggerLoad={!!userId}
+			title="Drafts"
+			onDeleteStory={handleDeleteStory}
+			loadItems={loadStories}
+			to={to}
+		/>
 	);
 }
 
 DraftStories.propTypes = {
 	shouldLoadMore: propTypes.bool,
 	Component: propTypes.any,
+	to: propTypes.string,
 };
 
 DraftStories.defaultProps = {

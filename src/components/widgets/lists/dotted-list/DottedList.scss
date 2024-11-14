@@ -1,0 +1,38 @@
+@import 'styles/variables.scss';
+@import 'styles/mixins/tab-links.scss';
+
+.st-DottedList {
+	display: flex;
+	flex-direction: column;
+
+	@media (max-width: $breakpoint-m) {
+		width: 100%;
+		max-width: $story-preview-width-medium;
+		margin: 12px auto;
+	}
+
+	&-tabs {
+		margin: 0 16px 8px;
+
+		@media (max-width: $breakpoint-m) {
+			margin: 0;
+		}
+
+		.nav-link {
+			@include tab-link;
+		}
+	}
+
+	> a {
+		&:last-child {
+			@include theme-aware('color', 'T600');
+			margin-top: 12px;
+			display: flex;
+			justify-content: center;
+
+			&:hover {
+				@include theme-aware('color', 'T600');
+			}
+		}
+	}
+}

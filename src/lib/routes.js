@@ -1,6 +1,9 @@
-export const HOME = '/';
+export const DASHBOARD = '/';
 
-export const FEED = '/feed';
+export const _COMMUNITY = '/community/';
+export const COMMUNITY = '/community/:widget?';
+
+export const goToWidget = widget => `/community/${widget}`;
 
 const STORY = '/story';
 const STORY_ID = STORY + '/:id';
@@ -15,20 +18,37 @@ export const editStory = (id, pageId) => STORY + `/${id}/write/${pageId}`;
 export const USER = '/user';
 export const USER_SETTINGS = USER + '/account/settings';
 export const USER_ID = USER + '/:username';
+export const USER_STORIES_ARCHIVED = USER + '/stories/archived';
 export const USER_STORIES_DRAFTS = USER + '/stories/drafts';
 export const USER_STORIES_SAVED = USER + '/stories/saved';
 
 export const goToUser = username => USER + `/${username}`;
 export const goToUserStories = username => USER + `/${username}/stories`;
 
+export const PRIVACY_POLICY = '/privacy-policy';
+export const TERMS_OF_SERVICE = '/terms-of-service';
+
 export const FORGOT_PASSWORD = '/forgot-password';
 export const RESET_PASSWORD = '/reset-password';
 export const WELCOME = '/welcome';
 export const REGISTRATION_SUCCESS = '/registration-success';
+export const RESEND_CONFIRMATION_EMAIL = '/resend-confirmation';
+
+export const NOTIFICATIONS = '/notifications';
 
 export const REGISTER = '/register';
 export const LOGIN = '/login';
+export const LANDING = '/landing';
 
 export const PROVIDER_LOGIN = '/connect/:provider';
 
 export const DELETED_STORY = '/deleted-story';
+
+export const GUILDATARS = '/guildatars';
+export const GUILDATAR = '/guildatar';
+export const GUILDATAR_ID = GUILDATAR + '/:id';
+export const GUILDATAR_PLAYGROUND = '/guildatar-playground';
+
+export const goToGuildatar = id => GUILDATAR + `/${id}`;
+
+export const MARKETPLACE = '/marketplace';

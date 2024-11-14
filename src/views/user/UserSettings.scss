@@ -1,40 +1,46 @@
-@import '../../styles/variables.scss';
+@import 'styles/variables.scss';
 
 .st-UserSettings {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	margin-bottom: 20px;
+	max-width: $story-preview-width-medium;
+	width: 100%;
+	margin: 0 auto;
 
-	.st-Uploader {
-		@media (max-width: $breakpoint-m) {
-			width: $story-preview-width-small;
-		}
+	@media (max-width: $breakpoint-m) {
+		padding-bottom: 120px;
+	}
 
-		&-thumbs {
-			display: flex;
-			justify-content: center;
+	&-form {
+		width: 100%;
 
-			.st-Image {
-				&-container,
-				&-fallback {
-					border-radius: 50%;
-					height: 200px;
-					width: 200px;
+		.st-Uploader {
+			margin-bottom: 24px;
+			width: 100%;
+
+			&-thumbs {
+				display: flex;
+				justify-content: center;
+
+				.st-Image {
+					&-container,
+					&-fallback,
+					&-full {
+						border-radius: 50%;
+						height: 200px;
+						width: 200px;
+					}
 				}
 			}
 		}
-	}
 
-	&-info {
-		min-width: 400px;
-
-		@media (max-width: $breakpoint-m) {
-			min-width: $story-preview-width-small;
-		}
-
-		.st-IconButton {
+		&-info {
 			width: 100%;
+
+			.st-IconButton {
+				width: 100%;
+			}
 		}
 	}
 }

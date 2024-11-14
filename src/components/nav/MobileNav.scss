@@ -6,12 +6,18 @@
 	right: 0;
 	bottom: 0;
 	left: 0;
-	z-index: 1030;
+	z-index: 10;
 	width: 100%;
-	justify-content: space-around;
-	padding: 6px;
+	justify-content: space-between;
+	align-items: center;
+	height: 60px;
+	@include theme-aware('background-color', 'B200');
+	@include theme-aware('box-shadow', 'card-shadow');
 
-	@include theme-aware('background', 'body-background');
+	@media (max-width: $breakpoint-sm) {
+		max-width: $story-preview-width-large;
+		margin: 0 auto;
+	}
 
 	.navbar {
 		width: 100%;
@@ -19,58 +25,43 @@
 		.nav-item {
 			flex: 1;
 
+			.st-IconButton {
+				width: 100%;
+			}
+
 			&:first-child {
 				margin-right: 12px;
 			}
 		}
 	}
 
-	&-user {
-		padding: 24px;
-		display: flex;
-		flex-direction: column;
-		border-bottom: 1px solid;
-
-		.st-UserAvatar {
-			margin-bottom: 12px;
-		}
-
-		.placeholder-18-black {
-			margin-bottom: 6px;
-		}
-
-		@include theme-aware('border-color', 'story-pagepicker-background-hover');
+	&.nav {
+		padding: 0 36px;
 	}
 
-	&-items {
-		display: flex;
-		justify-content: space-between;
-		flex-direction: column;
-		height: calc(100% - 162px);
-
-		.fa-user,
-		.fa-align-left,
-		.fa-cog,
-		.fa-bookmark,
-		.fa-sign-out-alt {
-			margin-right: 20px;
-			color: $color-primary;
-		}
-
-		.nav-link {
-			padding: 12px 22px;
-			border-bottom: 1px solid;
-			@include theme-aware('color', 'story-pagepicker-color');
-			@include theme-aware('border-color', 'story-pagepicker-background-hover');
+	&-item {
+		svg {
+			> path {
+				@include theme-aware('fill', 'G400');
+			}
 
 			&:nth-child(3) {
-				border-bottom: none;
+				fill: #000;
 			}
+		}
 
-			&:last-child {
-				border-top: 1px solid;
-				@include theme-aware('border-color', 'story-pagepicker-background-hover');
+		&.active {
+			svg {
+				> path {
+					@include theme-aware('fill', 'T600');
+				}
 			}
+		}
+	}
+
+	.nav-item {
+		.nav-link {
+			padding: 0;
 		}
 	}
 }

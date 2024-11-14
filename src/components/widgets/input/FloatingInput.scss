@@ -4,39 +4,97 @@
 .st-FloatingInput {
 	display: flex;
 	flex-flow: column;
+	justify-content: center;
 	min-height: 50px;
 
+	&-margin {
+		&__normal {
+			&.st-FloatingInput {
+				margin-bottom: 12px !important;
+			}
+		}
+
+		&__dense {
+			&.st-FloatingInput {
+				margin-bottom: 6px !important;
+			}
+		}
+
+		&__none {
+			&.st-FloatingInput {
+				margin-bottom: 0 !important;
+			}
+		}
+	}
+
 	label {
-		@include theme-aware('color', 'default-picker-label');
+		@include theme-aware('color', 'G600');
 		font-size: 14px;
 		margin-bottom: 4px;
 	}
 
+	.input-group {
+		border: 1px solid;
+		transition: 0.5s all;
+		border-radius: 4px;
+
+		@include theme-aware('border-color', 'G100');
+		&-text {
+			border: none;
+			padding-right: 2px;
+			@include theme-aware('background-color', 'B100');
+			@include theme-aware('color', 'G400');
+		}
+
+		input {
+			border: none;
+			box-shadow: none;
+		}
+
+		&:hover,
+		&:focus-within {
+			@include theme-aware('border-color', 'T600');
+			.input-group {
+				&-text {
+					@include theme-aware('color', 'T600');
+					@include theme-aware('border-color', 'T600');
+				}
+			}
+		}
+	}
+
 	textarea,
 	input {
-		@include theme-aware('background', 'story-item-background');
-		@include theme-aware('color', 'story-item-username-color');
-		@include theme-aware('border', 'story-item-border');
+		border: 1px solid;
+		@include theme-aware('background', 'B100');
+		@include theme-aware('color', 'G900');
+		@include theme-aware('border-color', 'G100');
 
 		&:hover,
 		&:focus {
-			border-color: $color-primary;
+			@include theme-aware('border-color', 'T600');
 		}
 
 		&.is-invalid {
-			border: 1px solid $color-secondary-red;
+			@include theme-aware('border-color', 'R58');
+		}
+
+		&::placeholder {
+			font-size: 14px;
+			@include theme-aware('color', 'G400');
 		}
 	}
 
 	.invalid-feedback {
-		color: $color-secondary-red;
+		@include theme-aware('color', 'R58');
 	}
 
 	textarea {
 		resize: none;
+		min-height: 40px;
 	}
 
 	input {
-		height: 36px;
+		height: 40px;
 	}
 }

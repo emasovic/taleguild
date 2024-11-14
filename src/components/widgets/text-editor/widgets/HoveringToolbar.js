@@ -46,7 +46,7 @@ export default function HoveringToolbar({className}) {
 				<FormatButton format="bold" icon={FA.solid_bold} />
 				<FormatButton format="italic" icon={FA.solid_italic} />
 				<FormatButton format="underline" icon={FA.solid_underline} />
-				<BlockButton format="heading-three" icon={FA.solid_heading} />
+				<BlockButton format="heading-four" icon={FA.solid_heading} />
 			</Menu>
 		</Portal>
 	);

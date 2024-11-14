@@ -2,16 +2,22 @@ import StoryThumb from 'views/stories/StoryThumb';
 import StoryItem from 'views/stories/StoryItem';
 import StoryListItem from 'views/stories/StoryListItem';
 
+import {DEFAULT_PAGINATION} from './default';
+
 export const PUBLISH_STATES = {
 	live: 'live',
 	preview: 'preview',
 };
 
 export const DEFAULT_CRITERIA = {
-	_start: 0,
-	_limit: 10,
-	_sort: 'published_at:DESC',
-	_publicationState: PUBLISH_STATES.live,
+	pagination: DEFAULT_PAGINATION,
+	sort: ['publishedAt:desc'],
+	publicationState: PUBLISH_STATES.live,
+	filters: {
+		archived_at: {
+			$null: true,
+		},
+	},
 };
 
 export const DEFAULT_STORYPAGE_DATA = [{type: 'paragraph', children: [{text: ''}]}];
@@ -36,9 +42,9 @@ export const STORY_OP = {
 };
 
 export const STORY_SORT = {
-	published_at: 'published_at',
 	likes_count: 'likes_count',
-	created_at: 'created_at',
+	publishedAt: 'publishedAt',
+	createdAt: 'createdAt',
 };
 
 export const SORT_DIRECTION = {

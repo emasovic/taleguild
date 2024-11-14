@@ -1,21 +1,50 @@
-@import '../../../styles/variables.scss';
+@import 'styles/variables.scss';
+@import 'styles/themes/mixins.scss';
 
 .st-Checkbox {
 	margin: 20px 0;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+
+	&-wrapper {
+		display: flex;
+	}
+
+	&-border {
+		padding: 8px;
+		border: 1px solid;
+		border-radius: 6px;
+		@include theme-aware('border-color', 'G200');
+	}
+
+	.invalid-feedback {
+		display: block;
+		@include theme-aware('color', 'R58');
+	}
+
+	.form-check-input {
+		border-radius: 2px;
+		margin-right: 8px;
+		margin-top: 0;
+		width: 20px;
+		height: 20px;
+		border: 1px solid;
+		padding: 0;
+		cursor: pointer;
+		@include theme-aware('background-color', 'B100');
+		@include theme-aware('border-color', 'T600');
+
+		&:checked {
+			@include theme-aware('background-color', 'T600');
+		}
+	}
 
 	label {
 		font-size: 14px;
-		font-weight: bold;
-		color: $color-grey-medium;
+		margin-bottom: 0;
+		font-weight: 400;
 		cursor: pointer;
-
-		&:before,
-		&:after {
-			border-radius: 2px;
-			top: 0;
-			width: 20px;
-			height: 20px;
-			border: 1px solid $color-primary;
-		}
+		@include theme-aware('color', 'G600');
 	}
 }

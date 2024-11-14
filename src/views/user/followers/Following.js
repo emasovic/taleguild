@@ -1,18 +1,21 @@
 import React, {useEffect, useState, useCallback} from 'react';
-import {useSelector, useDispatch, shallowEqual} from 'react-redux';
-import {Link} from 'react-router-dom';
+import {useSelector, useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import {goToUser} from 'lib/routes';
 
 import {COLOR} from 'types/button';
+import {DEFAULT_PAGINATION, DEFAULT_OP} from 'types/default';
 
 import {selectFollowing, loadFollowing, createOrDeleteFollowing} from 'redux/following';
-import {selectUser} from 'redux/user';
+import {selectAuthUser} from 'redux/auth';
 
 import ConfirmModal from 'components/widgets/modals/Modal';
-import LoadMoreModal from 'components/widgets/loadmore/LoadMoreModal';
+import LoadMore from 'components/widgets/loadmore/LoadMore';
 import IconButton from 'components/widgets/button/IconButton';
+import Link, {UNDERLINE} from 'components/widgets/link/Link';
+import Typography from 'components/widgets/typography/Typography';
 
 import UserAvatar from '../UserAvatar';
 
@@ -22,82 +25,84 @@ const CLASS = 'st-Followers';
 
 export default function Following({id}) {
 	const dispatch = useDispatch();
-	const {following, total, loading, user, pages} = useSelector(
-		state => ({
-			following: selectFollowing(state, id),
-			user: selectUser(state),
-			loading: state.following.loading,
-			pages: state.following.pages,
-			total: state.following.total,
-		}),
-		shallowEqual
-	);
-
-	const {data} = user;
+	const following = useSelector(selectFollowing);
+	const {data} = useSelector(selectAuthUser);
+	const {op, total} = useSelector(state => state.following);
 
 	const [isOpen, setIsOpen] = useState(false);
-	const [currentPage, setCurrentPage] = useState(1);
 
 	const renderContent = () => {
 		return (
-			<LoadMoreModal
+			<LoadMore
 				className={CLASS + '-followers'}
-				onLoadMore={handleCount}
-				loading={loading}
-				shouldLoad={pages > currentPage}
+				onLoadMore={() => handleLoadFollowing(DEFAULT_OP.load_more, following.length)}
+				loading={op[DEFAULT_OP.loading].loading || op[DEFAULT_OP.load_more].loading}
+				showItems={op[DEFAULT_OP.loading].success}
+				shouldLoad={total > following.length}
+				isModal
+				total={total}
+				NoItemsComponent={() => <Typography>No following</Typography>}
 				id="following"
 			>
-				{following.length ? (
-					following.map((item, key) => {
-						const {follower, user} = item;
+				{following.map((item, key) => {
+					const {follower, user} = item;
 
-						return (
-							<Link
-								to={goToUser(user.username)}
-								key={key}
-								className={CLASS + '-followers-item'}
-							>
-								<UserAvatar user={user} />
-								<span>{user.display_name || user.username}</span>
-								{data && data.id === follower.id && (
-									<IconButton
-										color={COLOR.secondary}
-										onClick={e => handleFollow(e, item)}
-									>
-										Unfollow
-									</IconButton>
-								)}
-							</Link>
-						);
-					})
-				) : (
-					<p>No following</p>
-				)}
-			</LoadMoreModal>
+					return (
+						<Link
+							underline={UNDERLINE.hover}
+							to={goToUser(user.username)}
+							key={key}
+							className={CLASS + '-followers-item'}
+						>
+							<UserAvatar user={user} />
+							<span>{user.display_name || user.username}</span>
+							{data && data.id === follower.id && (
+								<IconButton
+									color={COLOR.secondary}
+									onClick={e => handleFollow(e, item)}
+								>
+									Unfollow
+								</IconButton>
+							)}
+						</Link>
+					);
+				})}
+			</LoadMore>
 		);
 	};
 
 	const handleFollow = (e, follower) => {
 		e.preventDefault();
-		dispatch(createOrDeleteFollowing(follower, id, data && data.id));
+		dispatch(createOrDeleteFollowing({follower, userId: id, followerId: data.id}));
 	};
 
-	const handleCount = useCallback(() => {
-		dispatch(loadFollowing({follower: id, _start: currentPage * 10, _limit: 10}, false));
-		setCurrentPage(currentPage + 1);
-	}, [dispatch, currentPage, id]);
+	const handleLoadFollowing = useCallback(
+		(op, start = 0) => {
+			dispatch(
+				loadFollowing(
+					{
+						filters: {follower: id},
+						pagination: {...DEFAULT_PAGINATION, start},
+						sort: ['createdAt:DESC'],
+					},
+					op
+				)
+			);
+		},
+		[dispatch, id]
+	);
 
 	useEffect(() => {
 		if (id) {
-			dispatch(loadFollowing({follower: id, _start: 0, _limit: 10}, true));
+			handleLoadFollowing();
 		}
-	}, [dispatch, id]);
-
+	}, [dispatch, id, handleLoadFollowing]);
+	const followersClasses = classNames(CLASS + '-info', !data && CLASS + ' disabled');
 	return (
 		<div className={CLASS}>
-			<div className={CLASS + '-info'} onClick={() => setIsOpen(true)}>
-				<span>{total}</span>
-				<span>Following</span>
+			<div className={followersClasses} onClick={() => setIsOpen(true)}>
+				<Typography>{!op[DEFAULT_OP.loading].loading && total}</Typography>
+				<Typography>Following</Typography>
 			</div>
 
 			{isOpen && (

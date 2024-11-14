@@ -1,0 +1,64 @@
+@import 'styles/variables.scss';
+@import 'styles/themes/mixins.scss';
+
+.st-StoriesPage {
+	display: flex;
+
+	> div {
+		flex: 1 1;
+	}
+
+	.st-StoryList {
+		@media (max-width: $breakpoint-m) {
+			align-items: center;
+			margin-bottom: 56px;
+		}
+
+		.st-StoryThumb {
+			&-cover {
+				.st-Image {
+					&-fallback {
+						border-left: none;
+						border-top: none;
+						border-bottom: none;
+					}
+				}
+			}
+		}
+	}
+
+	@media (max-width: $breakpoint-m) {
+		&-side,
+		&-holder {
+			display: none;
+		}
+	}
+
+	&-side {
+		.st-StoryList {
+			margin-right: 16px;
+
+			> span {
+				font-weight: 600;
+				cursor: pointer;
+				font-size: 14px;
+				padding: 0 15px 0 0;
+				margin-bottom: 12px;
+				text-transform: capitalize;
+				@include theme-aware('color', 'G800');
+			}
+
+			.st-NoStories {
+				display: none;
+			}
+		}
+
+		> a {
+			&:last-child {
+				display: flex;
+				justify-content: center;
+				@include theme-aware('color', 'T600');
+			}
+		}
+	}
+}

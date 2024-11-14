@@ -1,0 +1,128 @@
+@import 'styles/variables.scss';
+@import 'styles/themes/mixins.scss';
+
+.st-Typography {
+	&-wrap {
+		&__break {
+			word-break: break-word;
+		}
+
+		&__normal {
+			word-break: normal;
+		}
+
+		&__ellipsis {
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+	}
+
+	&-font {
+		&__merriweather {
+			font-family: $font-merriweather;
+		}
+	}
+
+	&-weight {
+		&__bold {
+			font-weight: 900;
+		}
+
+		&__semi-bold {
+			font-weight: 600;
+		}
+
+		&__normal {
+			font-weight: normal;
+		}
+	}
+
+	&-color {
+		&__primary {
+			@include theme-aware('color', 'G900');
+
+			&_button {
+				@include theme-aware('color', 'T600');
+
+				&:hover {
+					text-decoration: underline;
+				}
+			}
+		}
+
+		&__secondary {
+			@include theme-aware('color', 'G600');
+		}
+
+		&__tertiary {
+			@include theme-aware('color', 'G400');
+		}
+	}
+
+	&-transform {
+		&__uppercase {
+			text-transform: uppercase;
+		}
+
+		&__lowercase {
+			text-transform: lowercase;
+		}
+
+		&__capitalize {
+			text-transform: capitalize;
+		}
+	}
+
+	&-cursor {
+		&__pointer {
+			cursor: pointer;
+		}
+
+		&__disabled {
+			pointer-events: none;
+			cursor: not-allowed;
+			@include theme-aware('color', 'G400');
+		}
+	}
+
+	&-variant {
+		&__h1 {
+			font-size: 32px;
+			line-height: 60px;
+
+			@media (max-width: $breakpoint-sm) {
+				font-size: 18px;
+				line-height: 48px;
+			}
+		}
+
+		&__h2 {
+			font-size: 24px;
+			line-height: 48px;
+
+			@media (max-width: $breakpoint-sm) {
+				font-size: 18px;
+				line-height: 24px;
+			}
+		}
+
+		&__h3 {
+			font-size: 22px;
+			line-height: 24px;
+		}
+
+		&__h4 {
+			font-size: 18px;
+			line-height: 24px;
+		}
+
+		&__action1 {
+			font-size: 14px;
+		}
+	}
+
+	&-icon {
+		margin-right: 8px;
+	}
+}

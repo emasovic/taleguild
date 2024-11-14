@@ -10,17 +10,17 @@
 	}
 
 	&::-webkit-scrollbar-thumb {
-		background: $foreground-color;
+		@include theme-aware('background-color', $foreground-color);
 		border-radius: 6px;
 	}
 
 	&::-webkit-scrollbar-track {
-		background: $background-color;
+		@include theme-aware('background-color', $background-color);
 	}
 
 	// For Internet Explorer
 	& {
-		scrollbar-face-color: $foreground-color;
-		scrollbar-track-color: $background-color;
+		@include theme-aware('scrollbar-face-color', $foreground-color);
+		@include theme-aware('scrollbar-track-color', $background-color);
 	}
 }

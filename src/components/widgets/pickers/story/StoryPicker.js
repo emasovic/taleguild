@@ -3,7 +3,7 @@ import {components} from 'react-select';
 import AsyncSelect from 'react-select/async';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
-import debounce from 'lodash/debounce';
+import debounce from 'lodash.debounce';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 import {getStories} from 'lib/api';

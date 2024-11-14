@@ -1,45 +1,69 @@
-import {configureStore, getDefaultMiddleware} from '@reduxjs/toolkit';
+import {configureStore} from '@reduxjs/toolkit';
+import {routerMiddleware} from 'connected-react-router';
+import {combineReducers} from 'redux';
+import {connectRouter} from 'connected-react-router';
 
 import history from 'lib/history';
 
-import user from './user';
-import users from './users';
+import app from './app';
+import auth from './auth';
 import stories from './story';
-import toast from './toast';
-import draft_stories from './draft_stories';
-import saved_stories from './saved_stories';
-import user_stories from './user_stories';
-import story_pages from './story_pages';
+import archivedStories from './archivedStories';
+import comments from './comments';
+import categories from './categories';
+import draftStories from './draftStories';
 import followers from './followers';
 import following from './following';
-import categories from './categories';
+import guildatars from './guildatars';
+import likes from './likes';
 import languages from './languages';
-import application from './application';
+import notifications from './notifications';
+import marketplace from './marketplace';
+import savedStories from './savedStories';
+import savedBy from './savedBy';
+import storyPages from './storyPages';
+import users from './users';
+import userStories from './userStories';
+import userActivity from './userActivity';
+import userItems from './userItems';
+import toast from './toast';
+import views from './views';
+import {gaMiddleware} from './tracking';
 
-const customizedMiddleware = getDefaultMiddleware({
-	thunk: {
-		extraArgument: history,
-	},
-	serializableCheck: false,
-});
-
-const store = configureStore({
-	reducer: {
-		application,
-		user,
-		users,
+const createRootReducer = history =>
+	combineReducers({
+		auth,
+		app,
+		archivedStories,
+		categories,
+		comments,
+		draftStories,
 		followers,
 		following,
-		stories,
-		draft_stories,
-		toast,
+		guildatars,
+		likes,
 		languages,
-		categories,
-		story_pages,
-		user_stories,
-		saved_stories,
-	},
-	middleware: customizedMiddleware,
+		notifications,
+		marketplace,
+		stories,
+		savedBy,
+		storyPages,
+		savedStories,
+		userActivity,
+		userItems,
+		userStories,
+		users,
+		views,
+		router: connectRouter(history),
+		toast,
+	});
+
+const store = configureStore({
+	reducer: createRootReducer(history),
+	middleware: getDefaultMiddleware =>
+		getDefaultMiddleware()
+			.concat(routerMiddleware(history))
+			.concat(gaMiddleware),
 });
 
 export default store;

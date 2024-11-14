@@ -7,23 +7,23 @@ import './Icon.scss';
 
 const CLASS = 'st-Icon';
 
-export default function Icon({icon}) {
+export default function Icon({icon, size}) {
 	const [iconSize, setIconSize] = useState(0);
 	const iconRef = useRef();
 
-	const setIconDimension = () => {
+	const setIconDimension = size => {
 		const {current} = iconRef;
 		const width = current && current.offsetWidth;
 		const height = current && current.offsetHeight;
-		const size = width >= height ? width / 10 : height / 10;
-		const iconSize = Math.ceil(size / 10) * 22;
+		const calculatedSize = width >= height ? width / 10 : height / 10;
+		const iconSize = size || Math.ceil(calculatedSize / 10) * 22;
 
 		setIconSize(iconSize);
 	};
 
 	useEffect(() => {
-		setIconDimension();
-	}, [icon]);
+		setIconDimension(size);
+	}, [icon, size]);
 
 	const Icon = ICON_COMPONENTS[icon];
 
@@ -36,6 +36,7 @@ export default function Icon({icon}) {
 
 Icon.propTypes = {
 	icon: propTypes.string,
+	size: propTypes.number,
 };
 
 Icon.defaultProps = {

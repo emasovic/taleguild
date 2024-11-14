@@ -22,6 +22,10 @@ export const resetPassword = payload => {
 	return http.post('auth/reset-password', null, payload);
 };
 
+export const resendConfirmationEmail = payload => {
+	return http.post('auth/send-email-confirmation', null, payload);
+};
+
 /******************      USER        ***********************/
 
 export const getUserInfo = token => {
@@ -122,8 +126,16 @@ export const getLanguages = filter => {
 
 /******************      COMMENTS        ***********************/
 
+export const getComments = filter => {
+	return http.get('comments', filter);
+};
+
 export const createComment = payload => {
 	return http.post('comments', null, payload);
+};
+
+export const countComments = filter => {
+	return http.get('comments/count', filter);
 };
 
 export const deleteComment = id => {
@@ -132,20 +144,35 @@ export const deleteComment = id => {
 
 /******************      LIKES        ***********************/
 
+export const getLikes = filter => {
+	return http.get('likes', filter);
+};
+
 export const createLike = payload => {
 	return http.post('likes', null, payload);
 };
 
-export const deleteLike = (id) => {
+export const countLikes = filter => {
+	return http.get('likes/count', filter);
+};
+
+export const deleteLike = id => {
 	return http.del('likes/' + id);
 };
 
 /******************      VIEWS        ***********************/
 
-export const createOrUpdateViews = payload => {
-	return http.post('views', null, payload);
+export const getViews = filter => {
+	return http.get('views', filter);
 };
 
+export const countViews = filter => {
+	return http.get('views/count', filter);
+};
+
+export const createViews = payload => {
+	return http.post('views', null, payload);
+};
 
 /******************      FOLLOWERS        ***********************/
 
@@ -163,6 +190,114 @@ export const createFollower = payload => {
 
 export const deleteFollower = id => {
 	return http.del('followers/' + id);
+};
+
+/******************      NOTIFICATIONS        ***********************/
+
+export const getNotifications = filter => {
+	return http.get('notifications', filter);
+};
+
+export const countNotifications = filter => {
+	return http.get('notifications/count', filter);
+};
+
+export const updateNotifications = payload => {
+	return http.put('/notifications', null, payload);
+};
+
+export const updateNotification = payload => {
+	return http.put('/notifications/' + payload.id, null, payload);
+};
+
+/******************      USER ACTIVITY        ***********************/
+
+export const getActivity = filter => {
+	return http.get('user-activities', filter);
+};
+
+export const countActivity = filter => {
+	return http.get('user-activities/count', filter);
+};
+
+export const createActivity = payload => {
+	return http.post('user-activities', null, payload);
+};
+
+/******************      USER ITEMS        ***********************/
+
+export const createUserItem = payload => {
+	return http.post('user-items', null, payload);
+};
+
+export const getUserItems = filter => {
+	return http.get('user-items', filter);
+};
+
+export const countUserItems = filter => {
+	return http.get('user-items/count', filter);
+};
+
+/******************      USER POINTS-COINS        ***********************/
+
+export const getUserPointsAndCoins = filter => {
+	return http.get('user-points-coins', filter);
+};
+
+export const countUserPointsAndCoins = filter => {
+	return http.get('user-points-coins/count', filter);
+};
+
+/******************      MARKETPLACE        ***********************/
+
+export const getMarketplace = filter => {
+	return http.get('marketplaces', filter);
+};
+
+export const countMarketplace = filter => {
+	return http.get('marketplaces/count', filter);
+};
+
+/******************      GUILDATARS        ***********************/
+
+export const createGuildatar = payload => {
+	return http.post('guildatars', null, payload);
+};
+
+export const updateGuildatar = payload => {
+	return http.put('guildatars/' + payload.id, null, payload);
+};
+
+export const deleteGuildatar = id => {
+	return http.del('guildatars/' + id);
+};
+
+export const getGuildatars = filter => {
+	return http.get('guildatars', filter);
+};
+
+export const countGuildatars = filter => {
+	return http.get('guildatars/count', filter);
+};
+
+export const getGuildatar = id => {
+	return http.get('guildatars/' + id);
+};
+
+/******************      GUILDATARS        ***********************/
+
+export const getGenders = filter => {
+	return http.get('genders', filter);
+};
+
+/******************      LEVELS        ***********************/
+
+export const getLevels = filter => {
+	return http.get('levels', filter);
+};
+
+export const countLevelsgetLevels = filter => {
+	return http.get('levels/count', filter);
 };
 
 /******************      MEDIA        ***********************/

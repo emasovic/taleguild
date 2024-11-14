@@ -1,0 +1,110 @@
+@import 'styles/variables.scss';
+@import 'styles/themes/mixins.scss';
+
+@mixin single-item {
+	flex-direction: row;
+	justify-content: flex-start;
+	width: 100%;
+	height: $market-item-height-small;
+	margin-right: 0;
+
+	.st-Image {
+		&-container {
+			width: $market-image-width-small !important;
+			height: $market-image-height-small !important;
+		}
+	}
+
+	.st-MarketplaceItem {
+		&-info {
+			align-items: flex-start;
+			margin-left: 24px;
+		}
+	}
+}
+
+.st-MarketplaceItem {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: $market-item-width-large;
+	height: $market-item-height-large;
+	box-shadow: $box-shadow-default;
+	margin: 0 16px 16px 0;
+	border: 1px solid;
+	border-radius: 6px;
+	padding: 16px;
+	align-self: flex-start;
+	@include theme-aware('background-color', 'B100');
+	@include theme-aware('border-color', 'B100');
+
+	@media (max-width: $breakpoint-sm) {
+		@include single-item;
+	}
+
+	&-single {
+		@include single-item;
+	}
+
+	&-required {
+		position: relative;
+		pointer-events: none;
+		cursor: default;
+		@include theme-aware('background-color', 'B200');
+
+		.st-Image {
+			&-container {
+				filter: grayscale(100%);
+			}
+		}
+	}
+
+	&:hover {
+		cursor: pointer;
+		@include theme-aware('border-color', 'T600');
+	}
+
+	&.active {
+		border: 1px solid;
+		@include theme-aware('background-color', 'B200');
+		@include theme-aware('border-color', 'G100');
+		box-shadow: none;
+
+		&:hover {
+			cursor: initial;
+		}
+	}
+
+	.st-Image {
+		&-container {
+			width: $market-image-width-large;
+			height: $market-image-height-large;
+			background-color: transparent;
+		}
+	}
+
+	&-info {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+
+		&-category {
+			margin-bottom: 8px;
+		}
+
+		&-name {
+			max-width: $market-item-width-small;
+		}
+
+		&-price {
+			display: flex;
+			align-items: center;
+			margin-top: 12px;
+		}
+
+		&-level {
+			margin-top: 12px;
+		}
+	}
+}

@@ -8,7 +8,7 @@
 	min-height: 50px;
 
 	label {
-		@include theme-aware('color', 'story-item-stats-color');
+		@include theme-aware('color', 'G600');
 		font-size: 14px;
 		margin-bottom: 4px;
 	}
@@ -18,24 +18,25 @@
 
 		&:hover,
 		&--is-focused {
-			background-color: $color-primary-light;
+			@include theme-aware('background-color', 'B300');
 		}
 	}
 
 	.st-CategoryPicker__control {
 		height: 36px;
 		cursor: pointer;
-		@include theme-aware('background', 'story-item-background');
-		@include theme-aware('border', 'story-item-border');
+		border: 1px solid;
+		@include theme-aware('background-color', 'B100');
+		@include theme-aware('border-color', 'G100');
 
 		&--menu-is-open,
 		&--is-focused {
-			box-shadow: 0 0 0 1px $color-primary;
-			border-color: $color-primary;
+			box-shadow: $focus;
+			@include theme-aware('border-color', 'T600');
 		}
 
 		&:hover {
-			border-color: $color-primary;
+			@include theme-aware('border-color', 'T600');
 		}
 	}
 }

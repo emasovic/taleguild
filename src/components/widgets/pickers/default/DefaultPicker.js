@@ -36,7 +36,7 @@ export default function DefaultPicker({
 DefaultPicker.propTypes = {
 	onChange: propTypes.func,
 	invalid: propTypes.bool,
-	value: propTypes.object,
+	value: propTypes.oneOfType([propTypes.object, propTypes.array]),
 	options: propTypes.array,
 	errorMessage: propTypes.string,
 	label: propTypes.string,

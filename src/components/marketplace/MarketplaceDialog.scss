@@ -1,0 +1,48 @@
+@import 'styles/variables.scss';
+@import 'styles/themes/mixins.scss';
+
+.st-MarketplaceDialog {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 36px;
+
+	.st-Guildatar {
+		width: 200px;
+		min-height: 230px;
+	}
+
+	&-category {
+		margin: 8px 0;
+		font-size: 12px;
+	}
+
+	&-dialog {
+		.modal {
+			&-footer {
+				justify-content: space-between;
+				align-items: center;
+				text-align: center;
+
+				div {
+					display: flex;
+
+					svg {
+						vertical-align: bottom;
+					}
+				}
+
+				@media (max-width: $breakpoint-sm) {
+					justify-content: center;
+					.st-IconButton {
+						width: 136px;
+					}
+					.btn-secondary {
+						margin-left: 0;
+					}
+				}
+			}
+		}
+	}
+}

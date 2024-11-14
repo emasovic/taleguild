@@ -3,14 +3,14 @@ import {Route, Redirect} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 
-import {HOME} from 'lib/routes';
+import {LANDING} from 'lib/routes';
 
-import {selectUser} from 'redux/user';
+import {selectAuthUser} from 'redux/auth';
 
 import Loader from 'components/widgets/loader/Loader';
 
 const PrivateRoute = ({component: Component, ...rest}) => {
-	const user = useSelector(selectUser);
+	const user = useSelector(selectAuthUser);
 	const [isAuthenticated, setIsAuthenticated] = useState(null);
 	useEffect(() => {
 		let token = localStorage.getItem('token');
@@ -21,14 +21,13 @@ const PrivateRoute = ({component: Component, ...rest}) => {
 		}
 	}, [user]);
 
-	if (isAuthenticated === null) {
-		return <Loader />;
-	}
-
+	if (isAuthenticated === null) return <Loader />;
 	return (
 		<Route
 			{...rest}
-			render={props => (!isAuthenticated ? <Redirect to={HOME} /> : <Component {...props} />)}
+			render={props =>
+				!isAuthenticated ? <Redirect to={LANDING} /> : <Component {...props} />
+			}
 		/>
 	);
 };

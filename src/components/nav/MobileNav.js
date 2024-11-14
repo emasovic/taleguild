@@ -1,30 +1,18 @@
-import React, {useState} from 'react';
-import {Nav, NavItem, NavLink, Navbar} from 'reactstrap';
-import {useLocation} from 'react-router-dom';
+import React from 'react';
+import {Nav, NavItem, NavLink} from 'reactstrap';
+import {Link, useLocation} from 'react-router-dom';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {
-	FEED,
-	goToUser,
-	HOME,
-	LOGIN,
-	REGISTER,
-	USER_SETTINGS,
-	USER_STORIES_DRAFTS,
-	USER_STORIES_SAVED,
-} from 'lib/routes';
+import {DASHBOARD, goToWidget, GUILDATAR, GUILDATARS, MARKETPLACE, _COMMUNITY} from 'lib/routes';
 
 import FA from 'types/font_awesome';
-import {TYPOGRAPHY_LATO, TYPOGRAPHY_MERRI} from 'types/typography';
-import {COLOR} from 'types/button';
 
-import {logOutUser, selectUser} from 'redux/user';
+import {selectAuthUser} from 'redux/auth';
+import {newStory} from 'redux/story';
 
-import UserAvatar from 'views/user/UserAvatar';
+import {WIDGETS} from 'views/community/Community';
 
-import Backdrop from 'components/widgets/drawer/Backdrop';
-import SideDrawer from 'components/widgets/drawer/SideDrawer';
 import IconButton from 'components/widgets/button/IconButton';
 
 import './MobileNav.scss';
@@ -35,94 +23,60 @@ export default function MobileNav() {
 	const location = useLocation();
 	const dispatch = useDispatch();
 
-	const user = useSelector(selectUser);
+	const {data} = useSelector(selectAuthUser);
 
-	const [isOpen, setIsOpen] = useState(false);
-	const {data} = user;
-
-	const toggleDrawer = () => setIsOpen(prevState => !prevState);
-
-	const renderDrawer = () => {
-		const displayName = data?.display_name || data?.username;
-		return (
-			<SideDrawer isOpen={isOpen}>
-				<div className={CLASS + '-user'}>
-					<UserAvatar user={data} />
-					<span className={TYPOGRAPHY_MERRI.placeholder_18_black}>{displayName}</span>
-					<span className={TYPOGRAPHY_LATO.placeholder_grey_medium}>
-						@{data?.username}
-					</span>
-				</div>
-				<div className={CLASS + '-items'}>
-					<div>
-						<NavLink href={goToUser(data && data.username)}>
-							<FontAwesomeIcon icon={FA.user} />
-							My profile
-						</NavLink>
-						<NavLink href={USER_STORIES_DRAFTS}>
-							<FontAwesomeIcon icon={FA.solid_align_left} />
-							Drafts
-						</NavLink>
-						<NavLink href={USER_STORIES_SAVED}>
-							<FontAwesomeIcon icon={FA.bookmark} />
-							Saved stories
-						</NavLink>
-						<NavLink href={USER_SETTINGS}>
-							<FontAwesomeIcon icon={FA.solid_cog} />
-							Account settings
-						</NavLink>
-					</div>
-					<div>
-						<NavLink onClick={() => dispatch(logOutUser())}>
-							<FontAwesomeIcon icon={FA.solid_sign_out_alt} />
-							Logout
-						</NavLink>
-					</div>
-				</div>
-			</SideDrawer>
-		);
+	const handleNewStory = () => {
+		dispatch(newStory({user: data && data.id, publishedAt: null}));
 	};
 
 	return (
-		<>
+		data && (
 			<Nav className={CLASS}>
-				{data ? (
-					<>
-						<NavItem>
-							<NavLink href={FEED} active={location.pathname === FEED}>
-								<FontAwesomeIcon size="lg" icon={FA.solid_home} />
-							</NavLink>
-						</NavItem>
+				<NavItem>
+					<NavLink
+						tag={Link}
+						to={DASHBOARD}
+						active={location.pathname === DASHBOARD}
+						className={CLASS + '-item'}
+					>
+						<FontAwesomeIcon size="lg" icon={FA.solid_th_large} />
+					</NavLink>
+				</NavItem>
 
-						<NavItem>
-							<NavLink href={HOME} active={location.pathname === HOME}>
-								<FontAwesomeIcon size="lg" icon={FA.compass} />
-							</NavLink>
-						</NavItem>
-						<NavItem>
-							<UserAvatar user={data} onClick={toggleDrawer} />
-						</NavItem>
-					</>
-				) : (
-					<Navbar>
-						<NavItem>
-							<IconButton color={COLOR.secondary} href={LOGIN}>
-								Sign in
-							</IconButton>
-						</NavItem>
-
-						<NavItem>
-							<IconButton href={REGISTER}>Sign up</IconButton>
-						</NavItem>
-					</Navbar>
-				)}
+				<NavItem>
+					<NavLink
+						tag={Link}
+						to={MARKETPLACE}
+						active={location.pathname === MARKETPLACE}
+						className={CLASS + '-item'}
+					>
+						<FontAwesomeIcon size="lg" icon={FA.solid_store} />
+					</NavLink>
+				</NavItem>
+				<NavItem>
+					<NavLink tag={IconButton} onClick={handleNewStory} icon={FA.solid_plus} />
+				</NavItem>
+				<NavItem>
+					<NavLink
+						tag={Link}
+						to={GUILDATARS}
+						active={location.pathname.includes(GUILDATAR)}
+						className={CLASS + '-item'}
+					>
+						<FontAwesomeIcon size="lg" icon={FA.solid_user_ninja} />
+					</NavLink>
+				</NavItem>
+				<NavItem>
+					<NavLink
+						tag={Link}
+						to={goToWidget(WIDGETS.explore)}
+						active={location.pathname.includes(_COMMUNITY)}
+						className={CLASS + '-item'}
+					>
+						<FontAwesomeIcon size="lg" icon={FA.solid_users} />
+					</NavLink>
+				</NavItem>
 			</Nav>
-			{data && (
-				<>
-					{isOpen && <Backdrop onClick={toggleDrawer} />}
-					{renderDrawer()}
-				</>
-			)}
-		</>
+		)
 	);
 }

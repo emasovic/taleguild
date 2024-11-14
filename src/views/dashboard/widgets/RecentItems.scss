@@ -1,0 +1,24 @@
+@import 'styles/variables.scss';
+@import 'styles/themes/mixins.scss';
+
+.st-RecentItems {
+	display: flex;
+	flex-direction: column;
+	margin-top: 8px;
+
+	&-link {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+	}
+
+	.st-MarketplaceItem {
+		border: none;
+		box-shadow: none;
+		@include theme-aware('background-color', 'B200');
+
+		&:hover {
+			@include theme-aware('background-color', 'B100');
+		}
+	}
+}

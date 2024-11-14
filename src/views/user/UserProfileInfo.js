@@ -1,11 +1,12 @@
 import React from 'react';
-import {useDispatch, useSelector, shallowEqual} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 
 import {COLOR} from 'types/button';
+import {DEFAULT_OP} from 'types/default';
 
-import {selectUser as selectLoggedUser} from 'redux/user';
-import {selectFollowers, createOrDeleteFollower} from 'redux/followers';
+import {selectAuthUser} from 'redux/auth';
+import {createOrDeleteFollower} from 'redux/followers';
 
 import IconButton from 'components/widgets/button/IconButton';
 import Helmet from 'components/widgets/helmet/Helmet';
@@ -18,29 +19,19 @@ import UserAvatar from './UserAvatar';
 export default function UserProfileInfo({user, className}) {
 	const dispatch = useDispatch();
 
-	const {total, followers, followersLoading, loggedUser} = useSelector(state => {
-		const loggedUser = selectLoggedUser(state);
-		return {
-			followers: selectFollowers(state, user?.id),
-			loggedUser: loggedUser?.data,
-			followersLoading: state.followers.loading,
-			total: state.stories.total,
-		};
-	}, shallowEqual);
+	const {op, total} = useSelector(state => state.stories);
+	const {data: loggedUser} = useSelector(selectAuthUser);
 
 	let follower = null;
 
-	const {display_name, username, description, id} = user;
+	const {display_name, username, description, id, followers} = user;
 
 	if (loggedUser) {
-		follower =
-			followers &&
-			followers.length &&
-			followers.find(item => item.follower.id === loggedUser.id);
+		follower = followers?.find(item => item?.follower?.id === loggedUser.id);
 	}
 
 	const handleFollow = () => {
-		dispatch(createOrDeleteFollower(follower, id, loggedUser?.id));
+		dispatch(createOrDeleteFollower({follower, userId: id, followerId: loggedUser?.id}));
 	};
 
 	const label = follower ? 'Unfollow' : 'Follow';
@@ -50,18 +41,15 @@ export default function UserProfileInfo({user, className}) {
 		<>
 			<div className={className + '-user-info-stats'}>
 				<div className={className + '-user-info-stats-stories'}>
-					<span>{total}</span>
+					<span>{!op[DEFAULT_OP.loading].loading && total}</span>
 					<span>Stories</span>
 				</div>
+
 				<Followers id={id} />
 				<FollowedBy id={id} />
 			</div>
 			{loggedUser && Number(id) !== loggedUser.id && (
-				<IconButton
-					color={COLOR.secondary}
-					disabled={followersLoading}
-					onClick={handleFollow}
-				>
+				<IconButton color={COLOR.secondary} onClick={handleFollow}>
 					{label}
 				</IconButton>
 			)}

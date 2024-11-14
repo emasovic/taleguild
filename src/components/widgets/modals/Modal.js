@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {Modal, ModalBody, ModalHeader, ModalFooter} from 'reactstrap';
 import classnames from 'classnames';
 
+import FA from 'types/font_awesome';
 import {COLOR} from 'types/button';
 
 import IconButton from '../button/IconButton';
@@ -13,14 +14,18 @@ const CLASS = 'st-Modal';
 
 export default function ConfirmModal({
 	onSubmit,
+	submitButtonProps,
 	onClose,
 	title,
 	content,
 	renderFooter,
+	additionalFooterInfo,
 	cancelLabel,
 	confirmLabel,
 	className,
 	isOpen,
+	scrollable,
+	fullscreen,
 }) {
 	const handleConfirm = () => {
 		onSubmit && onSubmit();
@@ -35,7 +40,20 @@ export default function ConfirmModal({
 			return null;
 		}
 
-		return <ModalHeader toggle={handleCancel}>{title}</ModalHeader>;
+		return (
+			<ModalHeader
+				close={
+					<IconButton
+						icon={FA.solid_times}
+						color={COLOR.secondary}
+						onClick={handleCancel}
+					/>
+				}
+				toggle={handleCancel}
+			>
+				{title}
+			</ModalHeader>
+		);
 	};
 
 	const renderModalBody = () => {
@@ -47,12 +65,18 @@ export default function ConfirmModal({
 	};
 
 	const renderModalFooter = () => {
+		const Wrapper = additionalFooterInfo ? 'div' : Fragment;
 		return (
 			<ModalFooter>
-				<IconButton color={COLOR.secondary} onClick={handleCancel}>
-					{cancelLabel}
-				</IconButton>
-				<IconButton onClick={handleConfirm}>{confirmLabel}</IconButton>
+				{additionalFooterInfo}
+				<Wrapper>
+					<IconButton color={COLOR.secondary} onClick={handleCancel}>
+						{cancelLabel}
+					</IconButton>
+					<IconButton onClick={handleConfirm} {...submitButtonProps}>
+						{confirmLabel}
+					</IconButton>
+				</Wrapper>
 			</ModalFooter>
 		);
 	};
@@ -65,6 +89,8 @@ export default function ConfirmModal({
 			toggle={handleCancel}
 			isOpen={isOpen}
 			modalClassName={classNames}
+			scrollable={scrollable}
+			fullscreen={fullscreen}
 		>
 			{renderModalHeader()}
 			{renderModalBody()}
@@ -76,6 +102,7 @@ export default function ConfirmModal({
 ConfirmModal.propTypes = {
 	title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
 	content: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+	additionalFooterInfo: PropTypes.element,
 	className: PropTypes.string,
 	onSubmit: PropTypes.func,
 	onClose: PropTypes.func,
@@ -83,11 +110,17 @@ ConfirmModal.propTypes = {
 	cancelLabel: PropTypes.string,
 	renderFooter: PropTypes.bool,
 	isOpen: PropTypes.bool,
+	submitButtonProps: PropTypes.object,
+	scrollable: PropTypes.bool,
+	fullscreen: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 };
 
 ConfirmModal.defaultProps = {
 	confirmLabel: 'Yes',
 	cancelLabel: 'No',
 	className: '',
+	fullscreen: 'sm',
 	renderFooter: true,
+	scrollable: false,
+	submitButtonProps: {},
 };

@@ -1,107 +1,118 @@
-import {createSlice, createSelector} from '@reduxjs/toolkit';
+import {createSlice, createEntityAdapter} from '@reduxjs/toolkit';
 
 import * as api from '../lib/api';
 
 import {Toast} from 'types/toast';
+import {DEFAULT_OP} from 'types/default';
+
 import {newToast} from './toast';
-import {gotDataHelper} from './hepler';
+import {batchDispatch, createOperations, endOperation, startOperation} from './hepler';
+
+const followingAdapter = createEntityAdapter({
+	selectId: entity => entity.id,
+});
 
 export const followingSlice = createSlice({
 	name: 'following',
-	initialState: {
-		data: null,
-		error: null,
-		loading: false,
+	initialState: followingAdapter.getInitialState({
+		op: createOperations(),
 		pages: null,
-	},
+		total: 0,
+	}),
 	reducers: {
-		gotData: (state, action) => {
-			const {data, key, invalidate, gotNew} = action.payload;
-			state.data = gotDataHelper(state.data, data, invalidate, key);
-			state.loading = false;
-
-			if (gotNew) {
-				state.total += 1;
-			}
+		followingReceieved: (state, action) => {
+			followingAdapter.setAll(state, action.payload);
 		},
-		removeFollower: (state, action) => {
-			const {userId, followerId} = action.payload;
-
-			delete state.data[userId][followerId];
+		followingUpsertMany: (state, action) => {
+			followingAdapter.upsertMany(state, action.payload);
+		},
+		followingUpsertOne: (state, {payload}) => {
+			followingAdapter.upsertOne(state, payload);
+			state.total += 1;
+		},
+		followingRemoveOne: (state, {payload}) => {
+			followingAdapter.removeOne(state, payload);
 			state.total -= 1;
-			state.loading = false;
 		},
-		gotPages: (state, action) => {
-			state.pages = Math.ceil(action.payload / 10);
-			state.total = action.payload;
+		gotPages: (state, {payload}) => {
+			state.pages = Math.ceil(payload.total / payload.limit);
+			state.total = payload.total;
 		},
-		loadingStart: state => {
-			state.loading = true;
+		opStart: (state, {payload}) => {
+			state.op[payload] = startOperation();
 		},
-		loadingEnd: state => {
-			state.loading = false;
+		opEnd: (state, {payload}) => {
+			state.op[payload.op] = endOperation(payload.error);
 		},
 	},
 });
 
-export const {loadingStart, loadingEnd, gotData, gotPages, removeFollower} = followingSlice.actions;
+export const {
+	opStart,
+	opEnd,
+	gotPages,
+	followingReceieved,
+	followingUpsertMany,
+	followingUpsertOne,
+	followingRemoveOne,
+} = followingSlice.actions;
 
-export const loadFollowing = (params, count, invalidate) => async dispatch => {
-	dispatch(loadingStart());
+export const loadFollowing = (params, op = DEFAULT_OP.loading) => async dispatch => {
+	dispatch(opStart(op));
 	const res = await api.getFollowers(params);
 	if (res.error) {
-		dispatch(loadingEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
-	}
-	if (count) {
-		const countParams = {...params, _start: undefined, _limit: undefined};
-
-		const res = await api.countFollowers(countParams);
-		if (res.error) {
-			dispatch(loadingEnd());
-			return dispatch(newToast({...Toast.error(res.error)}));
-		}
-		dispatch(gotPages(res));
+		return batchDispatch([
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
+		]);
 	}
 
-	return dispatch(gotData({data: res, key: params.follower}));
+	const {data, meta} = res;
+
+	const action = !params?.pagination?.start ? followingReceieved : followingUpsertMany;
+
+	return batchDispatch([
+		action(data),
+		gotPages({
+			total: meta.pagination.total,
+			totalNew: meta.pagination.totalNew,
+			limit: meta.pagination.limit,
+		}),
+		opEnd({op}),
+	]);
 };
 
-export const loadFollower = params => async dispatch => {
-	dispatch(loadingStart());
-	const res = await api.getFollowers(params);
-	if (res.error) {
-		dispatch(loadingEnd());
-		return dispatch(newToast({...Toast.error(res.error)}));
-	}
-	return dispatch(gotData({data: res}));
-};
-
-export const createOrDeleteFollowing = (follower, userId, followerId) => async (
-	dispatch,
-	getState
-) => {
+export const createOrDeleteFollowing = ({follower, userId, followerId}, op) => async dispatch => {
+	op = op || follower?.id ? DEFAULT_OP.delete : DEFAULT_OP.create;
+	dispatch(opStart(op));
 	const res = follower
 		? await api.deleteFollower(follower.id)
 		: await api.createFollower({user: userId, follower: followerId});
 
 	if (res.error) {
-		return dispatch(newToast({...Toast.error(res.error)}));
+		return batchDispatch([
+			opEnd({op, error: res.error}),
+			newToast({...Toast.error(res.error)}),
+		]);
 	}
+
+	const actions = [opEnd({op})];
 
 	if (res.id) {
-		return dispatch(gotData({data: res, key: userId}));
+		actions.unshift(followingUpsertOne(res));
+	} else {
+		actions.unshift(followingRemoveOne(follower.id));
 	}
 
-	return dispatch(removeFollower({userId, followerId: follower.id}));
+	return batchDispatch(actions);
 };
 
 //SELECTORS
 
-const following = (state, id) => (state.following.data ? state.following.data[id] : null);
+const followingSelector = followingAdapter.getSelectors(state => state.following);
 
-export const selectFollowing = createSelector([following], res =>
-	res ? Object.values(res).map(item => item) : null
-);
+export const selectFollowing = state => followingSelector.selectAll(state);
+export const selectFollowingIds = state => followingSelector.selectIds(state);
+export const selectFollowingById = (state, id) => followingSelector.selectById(state, id);
 
 export default followingSlice.reducer;
